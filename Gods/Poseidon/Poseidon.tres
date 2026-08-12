@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://cm8yl3o5q6xa"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_p4k3m"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_n5l4j"]
+[ext_resource type="Resource" uid="uid://co2i5oquvlv7g" path="res://Gods/Poseidon/trident_strike.tres" id="3_a"]
+[ext_resource type="Resource" uid="uid://5pa5a16f441v" path="res://Gods/Poseidon/ride_the_wave.tres" id="4_b"]
+[ext_resource type="Resource" uid="uid://dc0kpm7nyu684" path="res://Gods/Poseidon/kraken_embrace.tres" id="5_c"]
+[ext_resource type="Resource" uid="uid://bkifvdv30onb5" path="res://Gods/Poseidon/calm.tres" id="6_d"]
+[ext_resource type="Resource" uid="uid://bwwxdhh7crol" path="res://Gods/Poseidon/storm.tres" id="7_e"]
+
+[resource]
+script = ExtResource("2_n5l4j")
+unit_name = "Посейдон"
+sprite_path = "res://Gods/Poseidon/Poseidon.png"
+face_sprite = "res://Gods/Poseidon/Poseidon_Face.png"
+battle_sprite_scale_percent = 103.0
+max_hp = 120
+initiative = 8
+is_enemy = false
+special_effect_type = "poseidon_buff_heal"
+active_abilities = Array[ExtResource("1_p4k3m")]([ExtResource("3_a"), ExtResource("4_b"), ExtResource("5_c"), ExtResource("6_d"), ExtResource("7_e")])
+metadata/_custom_type_script = "uid://briall6wwu3rx"

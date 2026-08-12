@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Танец клинков"
+description = "0.8 урона по 2 целям. При крите — 20% периодического урона на 2 хода."
+damage_modifier = 0.8
+majesty_gain = 0
+ability_marker = "gladiator_blade_dance"
+target_type = "Enemy"
+extra_targets_count = 1
+usable_from_positions = Array[bool]([true, true, true, false])
+targetable_positions = Array[bool]([true, true, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

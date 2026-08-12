@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://doa0m4p6r7bc"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_s2h1v"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_t3i2w"]
+[ext_resource type="Resource" uid="uid://thdkywrkqad6" path="res://Gods/Shiva/shiva_ab1.tres" id="3_a"]
+[ext_resource type="Resource" uid="uid://cr5gcwaucwuyd" path="res://Gods/Shiva/shiva_ab2.tres" id="4_b"]
+[ext_resource type="Resource" uid="uid://c6wpkcbxkdyck" path="res://Gods/Shiva/shiva_ab3.tres" id="5_c"]
+[ext_resource type="Resource" uid="uid://boc1ubsuo1tad" path="res://Gods/Shiva/shiva_ab4.tres" id="6_d"]
+[ext_resource type="Resource" uid="uid://c3plcqqia2vs6" path="res://Gods/Shiva/shiva_ab5.tres" id="7_e"]
+
+[resource]
+script = ExtResource("2_t3i2w")
+unit_name = "Шива"
+sprite_path = "res://Gods/Shiva/Shiva.png"
+face_sprite = "res://Gods/Shiva/Shiva_Face.png"
+battle_sprite_scale_percent = 110.0
+max_hp = 90
+initiative = 10
+is_enemy = false
+special_effect_type = "shiva_random_luck"
+active_abilities = Array[ExtResource("1_s2h1v")]([ExtResource("3_a"), ExtResource("4_b"), ExtResource("5_c"), ExtResource("6_d"), ExtResource("7_e")])
+metadata/_custom_type_script = "uid://briall6wwu3rx"

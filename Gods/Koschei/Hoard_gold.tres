@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://kchgold0001"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_hg"]
+
+[resource]
+script = ExtResource("1_hg")
+icon_path = "uid://cw07js0wjxwp2"
+name = "Чахнуть над златом"
+damage_modifier = 0.0
+target_type = "Self"
+effect_types = Array[String](["self_dispel_debuffs"])
+ability_marker = "koschei_hoard_gold"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

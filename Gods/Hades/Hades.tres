@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://hadgod000001"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Resource" uid="uid://haddtou0001" path="res://Gods/Hades/Death_touch.tres" id="2_dt"]
+[ext_resource type="Resource" uid="uid://hadash20001" path="res://Gods/Hades/Ash_to_ash.tres" id="3_aa"]
+[ext_resource type="Resource" uid="uid://hadchns0001" path="res://Gods/Hades/Underworld_chains.tres" id="4_ch"]
+[ext_resource type="Resource" uid="uid://hadslct0001" path="res://Gods/Hades/Soul_catcher.tres" id="5_sc"]
+[ext_resource type="Resource" uid="uid://hadtotr0001" path="res://Gods/Hades/To_tartarus.tres" id="6_tt"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="7_cr"]
+
+[resource]
+script = ExtResource("7_cr")
+unit_name = "Аид"
+sprite_path = "res://Gods/Hades/Hades.png"
+face_sprite = "res://Gods/Hades/Hades_Face.png"
+battle_sprite_scale_percent = 111.0
+max_hp = 110
+initiative = 9
+accuracy = 95
+is_enemy = false
+special_effect_type = "hades_kill_fantasy"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_dt"), ExtResource("3_aa"), ExtResource("4_ch"), ExtResource("5_sc")])
+ultimate_ability = ExtResource("6_tt")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

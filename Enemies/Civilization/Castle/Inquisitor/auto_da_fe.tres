@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Аутодафе"
+description = "Накладывает на цель метку: периодический урон (40% от урона) на 3 хода. Марка держится 2 раунда."
+damage_modifier = 0.0
+majesty_gain = 0
+target_type = "Enemy"
+ability_marker = "inquisitor_auto_da_fe"
+usable_from_positions = Array[bool]([true, true, true, true])
+targetable_positions = Array[bool]([true, true, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

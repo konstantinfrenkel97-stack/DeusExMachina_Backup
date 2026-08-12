@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://c85kvbn6b7s1i"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+icon_path = "uid://bvwfxvxreasjp"
+name = "Кукла вуду"
+description = "Метка на противника и стоящего за ним. 2 хода: копирование дебаффов и половины урона"
+damage_modifier = 0.0
+usable_from_positions = Array[bool]([false, true, true, false])
+targetable_positions = Array[bool]([true, true, true, false])
+mark_type_int = 2
+mark_effect_type = "voodoo_mark"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

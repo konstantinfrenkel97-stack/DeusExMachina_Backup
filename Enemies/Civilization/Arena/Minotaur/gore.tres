@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Боднуть"
+description = "0.8 урона. Себя вперёд на 2, цель назад на 1. Цель: -2 инициативы и -20 точности на 2 хода."
+damage_modifier = 0.8
+majesty_gain = 0
+ability_marker = "minotaur_gore"
+target_type = "Enemy"
+effect_types = Array[String](["self_push_forward", "push_back", "target_debuff_initiative", "target_debuff_accuracy"])
+effect_values = Dictionary[String, int]({
+"self_push_forward": 2,
+"push_back": 1,
+"target_debuff_initiative": 2,
+"target_debuff_accuracy": 20
+})
+effect_durations = Dictionary[String, int]({
+"self_push_forward": 0,
+"push_back": 0,
+"target_debuff_initiative": 2,
+"target_debuff_accuracy": 2
+})
+usable_from_positions = Array[bool]([false, false, true, true])
+targetable_positions = Array[bool]([true, true, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

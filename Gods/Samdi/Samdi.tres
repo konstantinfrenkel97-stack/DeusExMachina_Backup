@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://dt1jqjwb7cxkx"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_qe8aw"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_ip6br"]
+[ext_resource type="Resource" uid="uid://djb8n100jgg2i" path="res://Gods/Samdi/samdi_ab1.tres" id="3_a"]
+[ext_resource type="Resource" uid="uid://drvx7u0p1trty" path="res://Gods/Samdi/samdi_ab2.tres" id="4_b"]
+[ext_resource type="Resource" uid="uid://c1tu2p50kh7op" path="res://Gods/Samdi/samdi_ab3.tres" id="5_c"]
+[ext_resource type="Resource" uid="uid://cjgnub32yctsa" path="res://Gods/Samdi/samdi_ab4.tres" id="6_d"]
+[ext_resource type="Resource" uid="uid://c85kvbn6b7s1i" path="res://Gods/Samdi/samdi_ab5.tres" id="7_e"]
+
+[resource]
+script = ExtResource("2_ip6br")
+unit_name = "Самди"
+sprite_path = "res://Gods/Samdi/Samdi.png"
+face_sprite = "res://Gods/Samdi/Samdi_Face.png"
+initiative = 8
+is_enemy = false
+special_effect_type = "samdi_extend_debuffs"
+active_abilities = Array[ExtResource("1_qe8aw")]([ExtResource("3_a"), ExtResource("4_b"), ExtResource("5_c"), ExtResource("6_d")])
+ultimate_ability = ExtResource("7_e")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

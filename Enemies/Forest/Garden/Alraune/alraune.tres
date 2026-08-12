@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://2gqdawr65cpl"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://mjkbamg01jp0" path="res://Enemy_logic/alraune_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Alraune/entangle.tres" id="4_en"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Alraune/life_drain.tres" id="5_ld"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Альрауне"
+sprite_path = "res://Enemies/Forest/Garden/Alraune/Alraune.png"
+face_sprite = "res://Enemies/Forest/Garden/Alraune/Alraune_face.png"
+battle_sprite_scale_percent = 113.0
+max_hp = 130
+damage = 22
+armor = 12
+initiative = 2
+accuracy = 80
+evasion = 5
+special_effect_type = "alraune_regen"
+is_large = true
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_en"), ExtResource("5_ld")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

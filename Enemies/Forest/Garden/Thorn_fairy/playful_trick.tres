@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Игривый трюк"
+description = "0,8 урона. Себя вперёд на 1. Цель теряет 50 точности на 1 ход."
+damage_modifier = 0.8
+majesty_gain = 0
+target_type = "Enemy"
+effect_types = Array[String](["self_pull_forward", "target_debuff_accuracy"])
+effect_values = {"self_pull_forward": 1, "target_debuff_accuracy": 50}
+effect_durations = {"self_pull_forward": 1, "target_debuff_accuracy": 1}
+usable_from_positions = Array[bool]([false, false, true, true])
+targetable_positions = Array[bool]([true, false, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

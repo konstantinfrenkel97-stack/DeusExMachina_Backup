@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="MissionChoice" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="1_mc"]
+
+[resource]
+script = ExtResource("1_mc")
+choice_text = "Поговорить"
+effects = "Шаблон: +10 доверения, бой пропущен."
+launch_battle = false

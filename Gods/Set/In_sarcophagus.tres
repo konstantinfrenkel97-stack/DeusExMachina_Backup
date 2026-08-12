@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://setsarc0001"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_sc"]
+
+[resource]
+script = ExtResource("1_sc")
+icon_path = "uid://g3yo7wn66kkw"
+name = "В саркофаг"
+damage_modifier = 0.0
+majesty_gain = 10
+target_type = "Ally"
+usable_from_positions = Array[bool]([false, true, true, false])
+ability_marker = "set_sarcophagus"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

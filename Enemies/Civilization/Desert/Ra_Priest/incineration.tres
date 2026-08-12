@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Испепеление"
+description = "1.4 урона. Применяется только если может опустить цель ниже 50% HP."
+damage_modifier = 1.4
+majesty_gain = 0
+ability_marker = "ra_incineration"
+usable_from_positions = Array[bool]([true, true, true, true])
+targetable_positions = Array[bool]([true, true, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

@@ -1,0 +1,105 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://dcj4yo5lx7r0p"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_tauo5"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_7u1lp"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_wichl"]
+
+[sub_resource type="Resource" id="Resource_rx4rl"]
+script = ExtResource("1_tauo5")
+speaker_name = "Лена"
+text = "Природа плюс природа. "
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_3xhjv"]
+script = ExtResource("1_tauo5")
+speaker_name = "Лена"
+text = "Вариантов много, но когда я думаю об этом, они ведь довольно похожи."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_wsd3d"]
+script = ExtResource("1_tauo5")
+speaker_name = "Дуна"
+text = "Ох, где это я?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_a61n1"]
+script = ExtResource("1_tauo5")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_wwds8"]
+script = ExtResource("1_tauo5")
+speaker_name = "Лена"
+text = "Дуна! Ирландская богиня природы."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_hfanq"]
+script = ExtResource("1_tauo5")
+speaker_name = "Дуна"
+text = "Все верно, дитя. Но я не узнаю это место."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_cygqu"]
+script = ExtResource("1_tauo5")
+speaker_name = "Лена"
+text = "Да я призвала вас на план фантазии. Меня пытается уничтожить орда монстров и…
+"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_lfefp"]
+script = ExtResource("1_tauo5")
+speaker_name = "Дуна"
+text = "Ох, какой кошмар! Не волнуйся, дитя, я обо всем позабочусь."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_xpkvi"]
+script = ExtResource("1_tauo5")
+speaker_name = "Дуна"
+text = "Вы, правда?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_iehpi"]
+script = ExtResource("1_tauo5")
+speaker_name = "Дуна"
+text = "Конечно. Не могу же я оставить тебя на растерзание.
+"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_m3q5g"]
+script = ExtResource("1_tauo5")
+speaker_name = "Дуна"
+text = "Тебе, наверное было так страшно."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_kqjpj"]
+script = ExtResource("1_tauo5")
+speaker_name = "Лена"
+text = "Не знаю почему, но ваше присутствие очень успокаивает."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_1wyrm"]
+script = ExtResource("1_tauo5")
+speaker_name = "Лена"
+text = "Я, кажется, сейчас заплачу."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_f1sgl"]
+script = ExtResource("1_tauo5")
+speaker_name = "Дуна"
+text = "Ну ну, иди ко мне. Все будет хорошо."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_8lu3i"]
+script = ExtResource("1_tauo5")
+text = "..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_kgiv1"]
+script = ExtResource("1_tauo5")
+speaker_name = "Лена"
+text = "Почему вы полуголая?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_wichl")
+lines = Array[ExtResource("1_tauo5")]([SubResource("Resource_rx4rl"), SubResource("Resource_3xhjv"), SubResource("Resource_wsd3d"), SubResource("Resource_a61n1"), SubResource("Resource_wwds8"), SubResource("Resource_hfanq"), SubResource("Resource_cygqu"), SubResource("Resource_lfefp"), SubResource("Resource_xpkvi"), SubResource("Resource_iehpi"), SubResource("Resource_m3q5g"), SubResource("Resource_kqjpj"), SubResource("Resource_1wyrm"), SubResource("Resource_f1sgl"), SubResource("Resource_8lu3i"), SubResource("Resource_kgiv1")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

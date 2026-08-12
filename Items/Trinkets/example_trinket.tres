@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ItemResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Items/item_resource.gd" id="1_ir"]
+
+[resource]
+script = ExtResource("1_ir")
+item_name = "Слеза Химеры"
+item_type = 2
+rarity = 3
+icon = null
+description = "Камень, исцеляющий хозяина при каждом ударе."
+bonus_max_hp = 0
+bonus_damage = 0
+bonus_armor = 0
+bonus_initiative = 5
+bonus_accuracy = 10
+bonus_evasion = 5
+bonus_crit_chance = 0.0
+bonus_majesty = 10
+effect = "lifesteal"

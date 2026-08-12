@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Обезьяньи трюки"
+description = "0,7 урона. Цель теряет все баффы, стойки сбиваются."
+damage_modifier = 0.7
+majesty_gain = 0
+target_type = "Enemy"
+ability_marker = "saru_tricks"
+usable_from_positions = Array[bool]([true, true, false, false])
+targetable_positions = Array[bool]([true, true, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

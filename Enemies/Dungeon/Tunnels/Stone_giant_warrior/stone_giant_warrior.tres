@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://0d6w42nkatf0"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Resource" uid="uid://yp2lllc1oj4w" path="res://Enemies/Dungeon/Tunnels/Stone_giant_warrior/pillar_strike.tres" id="2_ygxcl"]
+[ext_resource type="Resource" uid="uid://b4sqwvfjpf2y1" path="res://Enemies/Dungeon/Tunnels/Stone_giant_warrior/fall_the_ceiling.tres" id="3_c6s8v"]
+[ext_resource type="Resource" uid="uid://dgk871qnfu07f" path="res://Enemies/Dungeon/Tunnels/Stone_giant_warrior/power_from_earth.tres" id="4_tgb27"]
+[ext_resource type="Script" uid="uid://c0rde34ib67t0" path="res://Enemy_logic/stone_giant_warrior_logic.gd" id="5_ai"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Каменный великан воин"
+sprite_path = "res://Enemies/Dungeon/Tunnels/Stone_giant_warrior/Stone_Giant_warrior.png"
+face_sprite = "res://Enemies/Dungeon/Tunnels/Stone_giant_warrior/Stone_Giant_warrior_Face.png"
+damage = 16
+armor = 12
+accuracy = 85
+evasion = 5
+special_effect_type = "giant_armor_pierce"
+is_large = true
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_ygxcl"), ExtResource("3_c6s8v"), ExtResource("4_tgb27")])
+ai_script = ExtResource("5_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

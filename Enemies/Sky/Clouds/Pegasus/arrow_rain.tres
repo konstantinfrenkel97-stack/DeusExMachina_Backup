@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Дождь стрел"
+description = "Стойка: назад 1. В начале следующего раунда наносит 0,8 урона всем врагам."
+majesty_gain = 0
+target_type = "Self"
+is_stance = true
+stance_effect_type = "pegasus_arrow_rain"
+stance_duration_type = "UntilNextTurn"
+effect_types = Array[String](["self_push_back"])
+effect_values = {"self_push_back": 1}
+usable_from_positions = Array[bool]([true, true, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

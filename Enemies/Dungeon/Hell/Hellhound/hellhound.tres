@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://cdkp8u3tg21uk"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://cm377qsbtits3" path="res://Enemy_logic/hellhound_logic.gd" id="2_ai"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Hellhound/dash.tres" id="3_a1"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Hellhound/teeth.tres" id="4_a2"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Hellhound/no_fear.tres" id="5_a3"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="6_cr"]
+
+[resource]
+script = ExtResource("6_cr")
+unit_name = "Адская гончая"
+sprite_path = "res://Enemies/Dungeon/Hell/Hellhound/Hellhound.png"
+face_sprite = "res://Enemies/Dungeon/Hell/Hellhound/Hellhound_face.png"
+battle_sprite_scale_percent = 92.0
+max_hp = 80
+damage = 14
+initiative = 9
+special_effect_type = "hellhound_missing_hp_damage"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("3_a1"), ExtResource("4_a2"), ExtResource("5_a3")])
+ai_script = ExtResource("2_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

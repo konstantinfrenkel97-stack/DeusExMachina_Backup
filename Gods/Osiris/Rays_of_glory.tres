@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://dh1r45strewjg"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_rg"]
+
+[resource]
+script = ExtResource("1_rg")
+icon_path = "uid://cy8myu15wln56"
+name = "Лучи славы"
+description = "Марка союзника (2 хода). Осирис получает 15 величия, а союзник под маркой — +10 уклонения на 2 хода."
+damage_modifier = 0.0
+majesty_gain = 15
+target_type = "Position"
+mark_type_int = 2
+mark_target_team = "ally"
+mark_effect_type = "ally_buff_evasion"
+mark_effect_value = 10
+mark_effect_duration = 2
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

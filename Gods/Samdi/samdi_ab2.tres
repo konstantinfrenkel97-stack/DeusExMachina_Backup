@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://drvx7u0p1trty"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+icon_path = "uid://k7i1wuxxpldr"
+name = "Танцуй!"
+description = "Цель теряет 20 уклонения и 20 точности на 2 хода"
+damage_modifier = 0.2
+effect_types = Array[String](["target_debuff_evasion", "target_debuff_accuracy"])
+effect_values = Dictionary[String, int]({
+"target_debuff_accuracy": -20,
+"target_debuff_evasion": -20
+})
+effect_durations = Dictionary[String, int]({
+"target_debuff_accuracy": 2,
+"target_debuff_evasion": 2
+})
+usable_from_positions = Array[bool]([false, false, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

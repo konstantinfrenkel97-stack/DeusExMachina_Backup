@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3 uid="uid://bj2gbrvfyb23j"]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="1_msr"]
+
+[sub_resource type="Resource" id="Choice_1"]
+
+[sub_resource type="Resource" id="Choice_2"]
+
+[resource]
+script = ExtResource("1_msr")
+scene_title = "Засада в пустыне"
+body_text = "Из-за дюн выходят двое: налётчик-драугр и забинтованная мумия. Они явно не настроены дружелюбно.
+
+Что будешь делать?"
+choices = [SubResource("Choice_1"), SubResource("Choice_2")]

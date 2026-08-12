@@ -1,0 +1,88 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://b8dbdudqxk47p"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_1yku3"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_tau1c"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_wi428"]
+
+[sub_resource type="Resource" id="Resource_jaff4"]
+script = ExtResource("1_1yku3")
+speaker_name = "Лена"
+text = " Власть и смерть. Аид. Логично."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_34nth"]
+script = ExtResource("1_1yku3")
+speaker_name = "Аид"
+text = "Не понимаю, о чем ты, но действительно логично."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_vjgdq"]
+script = ExtResource("1_1yku3")
+speaker_name = "Лена"
+text = "Прошу меня простить за беспокойство, но не могли бы вы помочь мне с ордой чудовищ, она хочет меня убить."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_t41rc"]
+script = ExtResource("1_1yku3")
+speaker_name = "Аид"
+text = "Слушай, я бы с радостью помог, правда. Но я должен следить за миром мертвых, мне жаль."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_tr5sa"]
+script = ExtResource("1_1yku3")
+speaker_name = "Лена"
+text = "Но… Я уже призвала вас. И я не знаю, как бы вы могли вернуться туда."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_hsxlr"]
+script = ExtResource("1_1yku3")
+speaker_name = "Аид"
+text = "Так. Правильно ли я понимаю..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_t8jvs"]
+script = ExtResource("1_1yku3")
+speaker_name = "Аид"
+text = "Меня оторвали от моих обязанностей, и единственный способ мне вернуться к ним - одолеть орду монстров?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_x6lv6"]
+script = ExtResource("1_1yku3")
+speaker_name = "Лена"
+text = "Извините.... Да."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_gl4rg"]
+script = ExtResource("1_1yku3")
+speaker_name = "Аид"
+text = "Ясно. Веди."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_wj1jq"]
+script = ExtResource("1_1yku3")
+speaker_name = "Лена"
+text = "Вы не злитесь?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_i8n34"]
+script = ExtResource("1_1yku3")
+speaker_name = "Аид"
+text = "Слушай, у меня есть работа, которая должна быть сделана. И я делаю то, что позволит ее выполнять. Эмоции тут неуместны."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_gs187"]
+script = ExtResource("1_1yku3")
+speaker_name = "Лена"
+text = "Звучит как-то... грустно."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_w5j2d"]
+script = ExtResource("1_1yku3")
+speaker_name = "Аид"
+text = "Как я и сказал, эмоции тут неуместны."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_wi428")
+lines = Array[ExtResource("1_1yku3")]([SubResource("Resource_jaff4"), SubResource("Resource_34nth"), SubResource("Resource_vjgdq"), SubResource("Resource_t41rc"), SubResource("Resource_tr5sa"), SubResource("Resource_hsxlr"), SubResource("Resource_t8jvs"), SubResource("Resource_x6lv6"), SubResource("Resource_gl4rg"), SubResource("Resource_wj1jq"), SubResource("Resource_i8n34"), SubResource("Resource_gs187"), SubResource("Resource_w5j2d"), null, null, null, null])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

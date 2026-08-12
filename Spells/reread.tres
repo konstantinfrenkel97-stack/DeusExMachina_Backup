@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="SpellResource" format=3]
+
+[ext_resource type="Script" uid="uid://bxf7k2m4p9nz" path="res://spell_resource.gd" id="1_sp_reread"]
+
+[resource]
+script = ExtResource("1_sp_reread")
+icon_path = "res://Icons/spells/Reread.png"
+spell_name = "Перечитать"
+description = "Начинает битву заново в тех же условиях, в которых она начиналась."
+fantasy_cost = 50
+target_type = "Self"
+effect_types = Array[String](["restart_battle"])
+effect_values = Dictionary[String, int]({
+"restart_battle": 1
+})
+effect_durations = Dictionary[String, int]({
+"restart_battle": 1
+})
+metadata/_custom_type_script = "uid://bxf7k2m4p9nz"

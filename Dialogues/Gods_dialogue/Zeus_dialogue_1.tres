@@ -1,0 +1,1044 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3]
+
+[ext_resource type="Script" path="res://Dialogues/dialogue_line.gd" id="1_line"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_resource.gd" id="3_dialogue"]
+
+[sub_resource type="Resource" id="Resource_zeus_line_2"]
+script = ExtResource("1_line")
+line_id = "intro_1"
+speaker_name = "Зевс"
+text = "(Ты обнаруживаешь бога лежащим на золотом диване. Его обслуживают две стройные девушки в легких белых платьях. Одна массирует плечи, вторая подносит вино. При твоем появлении Зевс делает взмах рукой, и девушки удаляются.)"
+next_line_id = "intro_2"
+
+[sub_resource type="Resource" id="Resource_zeus_line_3"]
+script = ExtResource("1_line")
+line_id = "intro_2"
+speaker_name = "Зевс"
+text = "Приветствую, дева, зачем пришла?"
+next_line_id = "Zeus_choices_1"
+
+[sub_resource type="Resource" id="Resource_zeus_choice_4"]
+script = ExtResource("2_choice")
+choice_id = "open_door"
+choice_text = "Открыть дверь"
+next_line_id = "open_door_1"
+
+[sub_resource type="Resource" id="Resource_zeus_choice_5"]
+script = ExtResource("2_choice")
+choice_id = "opinion"
+choice_text = "Отношение к богам"
+next_line_id = "opinion_start"
+
+[sub_resource type="Resource" id="Resource_zeus_choice_6"]
+script = ExtResource("2_choice")
+choice_id = "new_world"
+choice_text = "Новый мир"
+next_line_id = "new_world_1"
+
+[sub_resource type="Resource" id="Resource_zeus_choice_7"]
+script = ExtResource("2_choice")
+choice_id = "help"
+choice_text = "Твоя помощь"
+next_line_id = "help_1"
+
+[sub_resource type="Resource" id="Resource_zeus_choice_8"]
+script = ExtResource("2_choice")
+choice_id = "chosen_world"
+choice_text = "Выбранный мир"
+next_line_id = "chosen_world_1"
+
+[sub_resource type="Resource" id="Resource_zeus_line_9"]
+script = ExtResource("1_line")
+line_id = "Zeus_choices_1"
+choices = Array[ExtResource("2_choice")]([SubResource("Resource_zeus_choice_4"), SubResource("Resource_zeus_choice_5"), SubResource("Resource_zeus_choice_6"), SubResource("Resource_zeus_choice_7"), SubResource("Resource_zeus_choice_8")])
+
+[sub_resource type="Resource" id="Resource_zeus_line_10"]
+script = ExtResource("1_line")
+line_id = "open_door_1"
+speaker_name = "Лена"
+text = "О могущественный Зевс. Прошу о вашей помощи с открытием одной из этих дверей. Без мощи бога никак не обойтись."
+next_line_id = "open_door_2"
+
+[sub_resource type="Resource" id="Resource_zeus_line_11"]
+script = ExtResource("1_line")
+line_id = "open_door_2"
+speaker_name = "Зевс"
+text = "О-хо-хо-хо! Воистину умелый язык."
+next_line_id = "open_door_3"
+
+[sub_resource type="Resource" id="Resource_zeus_line_12"]
+script = ExtResource("1_line")
+line_id = "open_door_3"
+speaker_name = "Зевс"
+text = "Ну-ка посмотрим."
+next_line_id = "open_door_4"
+
+[sub_resource type="Resource" id="Resource_zeus_line_13"]
+script = ExtResource("1_line")
+line_id = "open_door_4"
+speaker_name = "Зевс"
+text = "Ага! Сюда идем."
+next_line_id = "open_door_5"
+
+[sub_resource type="Resource" id="Resource_zeus_line_14"]
+script = ExtResource("1_line")
+line_id = "open_door_5"
+speaker_name = "Лена"
+text = "Мир гор? Ну, вы повелитель Олимпа. Логично."
+next_line_id = "open_door_6"
+
+[sub_resource type="Resource" id="Resource_zeus_line_15"]
+script = ExtResource("1_line")
+line_id = "open_door_6"
+speaker_name = "Зевс"
+text = "И не только это. Я чувствую титанов, моих злейших врагов."
+next_line_id = "open_door_7"
+
+[sub_resource type="Resource" id="Resource_zeus_line_16"]
+script = ExtResource("1_line")
+line_id = "open_door_7"
+speaker_name = "Зевс"
+text = "И кое-кого еще…"
+next_line_id = "open_door_8"
+
+[sub_resource type="Resource" id="Resource_zeus_line_17"]
+script = ExtResource("1_line")
+line_id = "open_door_8"
+speaker_name = "Лена"
+text = "Кого же?"
+next_line_id = "open_door_9"
+
+[sub_resource type="Resource" id="Resource_zeus_line_18"]
+script = ExtResource("1_line")
+line_id = "open_door_9"
+speaker_name = "Зевс"
+text = "Узнаем, когда встретим. Я могу и ошибаться."
+next_line_id = "open_door_10"
+
+[sub_resource type="Resource" id="Resource_zeus_line_19"]
+script = ExtResource("1_line")
+line_id = "open_door_10"
+speaker_name = "Лена"
+text = "Хорошо, как скажете."
+next_line_id = "open_door_11"
+
+[sub_resource type="Resource" id="Resource_zeus_line_20"]
+script = ExtResource("1_line")
+line_id = "open_door_11"
+speaker_name = "Зевс"
+text = "Эх, давно не текла молния по мышцам."
+next_line_id = "open_door_12"
+
+[sub_resource type="Resource" id="Resource_zeus_line_21"]
+script = ExtResource("1_line")
+line_id = "open_door_12"
+speaker_name = "Зевс"
+text = "Я в предвкушении."
+next_line_id = "Zeus_choices_1"
+
+[sub_resource type="Resource" id="Resource_zeus_line_22"]
+script = ExtResource("1_line")
+line_id = "opinion_start"
+speaker_name = "Лена"
+text = "А как вы относитесь к…"
+next_line_id = "opinion_choices"
+
+[sub_resource type="Resource" id="Resource_zeus_choice_23"]
+script = ExtResource("2_choice")
+choice_id = "poseidon"
+choice_text = "Посейдону"
+next_line_id = "opinion_poseidon_1"
+
+[sub_resource type="Resource" id="Resource_zeus_choice_24"]
+script = ExtResource("2_choice")
+choice_id = "hades"
+choice_text = "Аиду"
+next_line_id = "opinion_hades_1"
+
+[sub_resource type="Resource" id="Resource_zeus_line_25"]
+script = ExtResource("1_line")
+line_id = "opinion_choices"
+choices = Array[ExtResource("2_choice")]([SubResource("Resource_zeus_choice_23"), SubResource("Resource_zeus_choice_24")])
+
+[sub_resource type="Resource" id="Resource_zeus_line_26"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_1"
+speaker_name = "Лена"
+text = "…Посейдону."
+next_line_id = "opinion_poseidon_2"
+
+[sub_resource type="Resource" id="Resource_zeus_line_27"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_2"
+speaker_name = "Зевс"
+text = "Братишка мой."
+next_line_id = "opinion_poseidon_3"
+
+[sub_resource type="Resource" id="Resource_zeus_line_28"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_3"
+speaker_name = "Зевс"
+text = "Люблю и уважаю."
+next_line_id = "opinion_poseidon_4"
+
+[sub_resource type="Resource" id="Resource_zeus_line_29"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_4"
+speaker_name = "Зевс"
+text = "Мечется бедолага, себя ищет."
+next_line_id = "opinion_poseidon_5"
+
+[sub_resource type="Resource" id="Resource_zeus_line_30"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_5"
+speaker_name = "Зевс"
+text = "Но ему на пользу. Пусть поймет, чего от жизни хочет."
+next_line_id = "opinion_poseidon_6"
+
+[sub_resource type="Resource" id="Resource_zeus_line_31"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_6"
+speaker_name = "Лена"
+text = "Вы поддерживаете его?"
+next_line_id = "opinion_poseidon_7"
+
+[sub_resource type="Resource" id="Resource_zeus_line_32"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_7"
+speaker_name = "Зевс"
+text = "Конечно. У всех есть свое место в мире. Пусть найдет свое."
+next_line_id = "opinion_poseidon_8"
+
+[sub_resource type="Resource" id="Resource_zeus_line_33"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_8"
+speaker_name = "Лена"
+text = "А ваше место?"
+next_line_id = "opinion_poseidon_9"
+
+[sub_resource type="Resource" id="Resource_zeus_line_34"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_9"
+speaker_name = "Зевс"
+text = "Быть повелителем Олимпа, конечно."
+next_line_id = "opinion_poseidon_10"
+
+[sub_resource type="Resource" id="Resource_zeus_line_35"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_10"
+speaker_name = "Лена"
+text = "А что это значит?"
+next_line_id = "opinion_poseidon_11"
+
+[sub_resource type="Resource" id="Resource_zeus_line_36"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_11"
+speaker_name = "Зевс"
+text = "В смысле?"
+next_line_id = "opinion_poseidon_12"
+
+[sub_resource type="Resource" id="Resource_zeus_line_37"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_12"
+speaker_name = "Лена"
+text = "Ну, что для вас лично значит “быть повелителем Олимпа”?"
+next_line_id = "opinion_poseidon_13"
+
+[sub_resource type="Resource" id="Resource_zeus_line_38"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_13"
+speaker_name = "Зевс"
+text = "Ох, ну и вопросы у тебя, девонька."
+next_line_id = "opinion_poseidon_14"
+
+[sub_resource type="Resource" id="Resource_zeus_line_39"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_14"
+speaker_name = "Зевс"
+text = "Метать молнии, вершить справедливость, наслаждаться жизнью."
+next_line_id = "opinion_poseidon_15"
+
+[sub_resource type="Resource" id="Resource_zeus_line_40"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_15"
+speaker_name = "Лена"
+text = "Кажется, к последней части вы подошли особенно ответственно."
+next_line_id = "opinion_poseidon_16"
+
+[sub_resource type="Resource" id="Resource_zeus_line_41"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_16"
+speaker_name = "Зевс"
+text = "Да, а что?"
+next_line_id = "opinion_poseidon_17"
+
+[sub_resource type="Resource" id="Resource_zeus_line_42"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_17"
+speaker_name = "Зевс"
+text = "Это важнейшая часть жизни верховного божества."
+next_line_id = "opinion_poseidon_18"
+
+[sub_resource type="Resource" id="Resource_zeus_line_43"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_18"
+speaker_name = "Зевс"
+text = "Жена, конечно, ругается…"
+next_line_id = "opinion_poseidon_19"
+
+[sub_resource type="Resource" id="Resource_zeus_line_44"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_19"
+speaker_name = "Лена"
+text = "Ах да, вы же еще и женаты."
+next_line_id = "opinion_poseidon_20"
+
+[sub_resource type="Resource" id="Resource_zeus_line_45"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_20"
+speaker_name = "Зевс"
+text = "Но слушай, такова жизнь."
+next_line_id = "opinion_poseidon_21"
+
+[sub_resource type="Resource" id="Resource_zeus_line_46"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_21"
+speaker_name = "Зевс"
+text = "Быть главным богом непросто. Нужно находить способы расслабиться."
+next_line_id = "opinion_poseidon_22"
+
+[sub_resource type="Resource" id="Resource_zeus_line_47"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_22"
+speaker_name = "Зевс"
+text = "Выпустить пар."
+next_line_id = "opinion_poseidon_23"
+
+[sub_resource type="Resource" id="Resource_zeus_line_48"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_23"
+speaker_name = "Зевс"
+text = "Либо я могу сойти с ума от напряжения и усталости."
+next_line_id = "opinion_poseidon_24"
+
+[sub_resource type="Resource" id="Resource_zeus_line_49"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_24"
+speaker_name = "Зевс"
+text = "Либо приму ту данность, что лучше всего мне в компании хорошеньких девушек."
+next_line_id = "opinion_poseidon_25"
+
+[sub_resource type="Resource" id="Resource_zeus_line_50"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_25"
+speaker_name = "Лена"
+text = "Да, но ваша жена."
+next_line_id = "opinion_poseidon_26"
+
+[sub_resource type="Resource" id="Resource_zeus_line_51"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_26"
+speaker_name = "Зевс"
+text = "А куда она денется? Думаю, и сама все понимает."
+next_line_id = "opinion_poseidon_27"
+
+[sub_resource type="Resource" id="Resource_zeus_line_52"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_27"
+speaker_name = "Лена"
+text = "Я ей не завидую."
+next_line_id = "opinion_poseidon_28"
+
+[sub_resource type="Resource" id="Resource_zeus_line_53"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_28"
+speaker_name = "Зевс"
+text = "Быть женой владыки небес вообще непросто."
+next_line_id = "opinion_poseidon_29"
+
+[sub_resource type="Resource" id="Resource_zeus_line_54"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_29"
+speaker_name = "Зевс"
+text = "Но поверь, я делаю что могу, чтобы ей было чуточку легче."
+next_line_id = "opinion_poseidon_30"
+
+[sub_resource type="Resource" id="Resource_zeus_line_55"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_30"
+speaker_name = "Лена"
+text = "Хочется верить."
+next_line_id = "Zeus_choices_1"
+
+[sub_resource type="Resource" id="Resource_zeus_line_56"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_1"
+speaker_name = "Лена"
+text = "…Аиду."
+next_line_id = "opinion_hades_2"
+
+[sub_resource type="Resource" id="Resource_zeus_line_57"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_2"
+speaker_name = "Зевс"
+text = "Аид, охх."
+next_line_id = "opinion_hades_3"
+
+[sub_resource type="Resource" id="Resource_zeus_line_58"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_3"
+speaker_name = "Зевс"
+text = "Проблемный парень."
+next_line_id = "opinion_hades_4"
+
+[sub_resource type="Resource" id="Resource_zeus_line_59"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_4"
+speaker_name = "Зевс"
+text = "Совсем не понимает здорового отношения к работе."
+next_line_id = "opinion_hades_5"
+
+[sub_resource type="Resource" id="Resource_zeus_line_60"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_5"
+speaker_name = "Лена"
+text = "Мне показалось, что он перегружается…"
+next_line_id = "opinion_hades_6"
+
+[sub_resource type="Resource" id="Resource_zeus_line_61"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_6"
+speaker_name = "Зевс"
+text = "А я о чем?"
+next_line_id = "opinion_hades_7"
+
+[sub_resource type="Resource" id="Resource_zeus_line_62"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_7"
+speaker_name = "Зевс"
+text = "Говорю я ему как-то: “Братишка, ты, мол, себя совсем в могилу сведешь”."
+next_line_id = "opinion_hades_8"
+
+[sub_resource type="Resource" id="Resource_zeus_line_63"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_8"
+speaker_name = "Зевс"
+text = "Ха!"
+next_line_id = "opinion_hades_9"
+
+[sub_resource type="Resource" id="Resource_zeus_line_64"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_9"
+speaker_name = "Лена"
+text = "Да, смешно."
+next_line_id = "opinion_hades_10"
+
+[sub_resource type="Resource" id="Resource_zeus_line_65"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_10"
+speaker_name = "Зевс"
+text = "“Вон”, — говорю, — “Персефона ходит бесхозная. Хватай за талию да тащи в свою пещеру.”"
+next_line_id = "opinion_hades_11"
+
+[sub_resource type="Resource" id="Resource_zeus_line_66"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_11"
+speaker_name = "Лена"
+text = "Так это была ваша идея?"
+next_line_id = "opinion_hades_12"
+
+[sub_resource type="Resource" id="Resource_zeus_line_67"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_12"
+speaker_name = "Зевс"
+text = "Ну не его же. А он дурак, в пещеру-то оттащил."
+next_line_id = "opinion_hades_13"
+
+[sub_resource type="Resource" id="Resource_zeus_line_68"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_13"
+speaker_name = "Зевс"
+text = "Так мало того, что пальцем ее там не тронул, так еще и в жены взял."
+next_line_id = "opinion_hades_14"
+
+[sub_resource type="Resource" id="Resource_zeus_line_69"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_14"
+speaker_name = "Зевс"
+text = "И теперь она у него как вторая работа."
+next_line_id = "opinion_hades_15"
+
+[sub_resource type="Resource" id="Resource_zeus_line_70"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_15"
+speaker_name = "Зевс"
+text = "Главная сама с ним даже не разговаривает, не то что там ну тыры-пыры."
+next_line_id = "opinion_hades_16"
+
+[sub_resource type="Resource" id="Resource_zeus_line_71"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_16"
+speaker_name = "Лена"
+text = "“Тыры-пыры”, мдаа. Для бога у вас лексикон, конечно…"
+next_line_id = "opinion_hades_17"
+
+[sub_resource type="Resource" id="Resource_zeus_line_72"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_17"
+speaker_name = "Зевс"
+text = "Переживаю за бедолагу."
+next_line_id = "opinion_hades_18"
+
+[sub_resource type="Resource" id="Resource_zeus_line_73"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_18"
+speaker_name = "Лена"
+text = "Да. Я мало его знаю."
+next_line_id = "opinion_hades_19"
+
+[sub_resource type="Resource" id="Resource_zeus_line_74"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_19"
+speaker_name = "Лена"
+text = "Но тоже переживаю."
+next_line_id = "opinion_hades_20"
+
+[sub_resource type="Resource" id="Resource_zeus_line_75"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_20"
+speaker_name = "Зевс"
+text = "А ну так может ты это…"
+next_line_id = "opinion_hades_21"
+
+[sub_resource type="Resource" id="Resource_zeus_line_76"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_21"
+speaker_name = "Зевс"
+text = "Поможешь ему расслабиться?"
+next_line_id = "opinion_hades_22"
+
+[sub_resource type="Resource" id="Resource_zeus_line_77"]
+script = ExtResource("1_line")
+line_id = "opinion_hades_22"
+speaker_name = "Лена"
+text = "ДА КАК ВЫ МОЖЕТЕ ПРЕДЛАГАТЬ ТАКОЕ!"
+next_line_id = "Zeus_choices_1"
+
+[sub_resource type="Resource" id="Resource_zeus_line_78"]
+script = ExtResource("1_line")
+line_id = "new_world_1"
+speaker_name = "Лена"
+text = "Откуда взялись эти девушки?"
+next_line_id = "new_world_2"
+
+[sub_resource type="Resource" id="Resource_zeus_line_79"]
+script = ExtResource("1_line")
+line_id = "new_world_2"
+speaker_name = "Зевс"
+text = "Служанки-то?"
+next_line_id = "new_world_3"
+
+[sub_resource type="Resource" id="Resource_zeus_line_80"]
+script = ExtResource("1_line")
+line_id = "new_world_3"
+speaker_name = "Зевс"
+text = "Не знаю, изначально тут были."
+next_line_id = "new_world_4"
+
+[sub_resource type="Resource" id="Resource_zeus_line_81"]
+script = ExtResource("1_line")
+line_id = "new_world_4"
+speaker_name = "Лена"
+text = "Вы их не создавали?"
+next_line_id = "new_world_5"
+
+[sub_resource type="Resource" id="Resource_zeus_line_82"]
+script = ExtResource("1_line")
+line_id = "new_world_5"
+speaker_name = "Зевс"
+text = "Ты чего, девонька? Как я тебе служанок-то живых создам?"
+next_line_id = "new_world_6"
+
+[sub_resource type="Resource" id="Resource_zeus_line_83"]
+script = ExtResource("1_line")
+line_id = "new_world_6"
+speaker_name = "Лена"
+text = "Но если не вы… Тогда я?"
+next_line_id = "new_world_7"
+
+[sub_resource type="Resource" id="Resource_zeus_line_84"]
+script = ExtResource("1_line")
+line_id = "new_world_7"
+speaker_name = "Зевс"
+text = "А ты можешь?"
+next_line_id = "new_world_8"
+
+[sub_resource type="Resource" id="Resource_zeus_line_85"]
+script = ExtResource("1_line")
+line_id = "new_world_8"
+speaker_name = "Лена"
+text = "Не уверена. Но, видимо, смогла."
+next_line_id = "new_world_9"
+
+[sub_resource type="Resource" id="Resource_zeus_line_86"]
+script = ExtResource("1_line")
+line_id = "new_world_9"
+speaker_name = "Лена"
+text = "Откуда-то же они взялись."
+next_line_id = "new_world_10"
+
+[sub_resource type="Resource" id="Resource_zeus_line_87"]
+script = ExtResource("1_line")
+line_id = "new_world_10"
+speaker_name = "Зевс"
+text = "А можешь еще пару создать?"
+next_line_id = "new_world_11"
+
+[sub_resource type="Resource" id="Resource_zeus_line_88"]
+script = ExtResource("1_line")
+line_id = "new_world_11"
+speaker_name = "Зевс"
+text = "Одна чтобы рыжая, с большими голубыми глазами и красными губами."
+next_line_id = "new_world_12"
+
+[sub_resource type="Resource" id="Resource_zeus_line_89"]
+script = ExtResource("1_line")
+line_id = "new_world_12"
+speaker_name = "Зевс"
+text = "А вторая…"
+next_line_id = "new_world_13"
+
+[sub_resource type="Resource" id="Resource_zeus_line_90"]
+script = ExtResource("1_line")
+line_id = "new_world_13"
+speaker_name = "Лена"
+text = "Нет, не могу."
+next_line_id = "Zeus_choices_1"
+
+[sub_resource type="Resource" id="Resource_zeus_line_91"]
+script = ExtResource("1_line")
+line_id = "help_1"
+speaker_name = "Лена"
+text = "Вы весьма могущественный бог."
+next_line_id = "help_2"
+
+[sub_resource type="Resource" id="Resource_zeus_line_92"]
+script = ExtResource("1_line")
+line_id = "help_2"
+speaker_name = "Зевс"
+text = "Весьма."
+next_line_id = "help_3"
+
+[sub_resource type="Resource" id="Resource_zeus_line_93"]
+script = ExtResource("1_line")
+line_id = "help_3"
+speaker_name = "Лена"
+text = "Большое спасибо, что помогаете мне."
+next_line_id = "help_4"
+
+[sub_resource type="Resource" id="Resource_zeus_line_94"]
+script = ExtResource("1_line")
+line_id = "help_4"
+speaker_name = "Зевс"
+text = "Да не за что, мне это ничего не стоит."
+next_line_id = "help_5"
+
+[sub_resource type="Resource" id="Resource_zeus_line_95"]
+script = ExtResource("1_line")
+line_id = "help_5"
+speaker_name = "Лена"
+text = "Неправда, вы подвергаете себя серьезной опасности."
+next_line_id = "help_6"
+
+[sub_resource type="Resource" id="Resource_zeus_line_96"]
+script = ExtResource("1_line")
+line_id = "help_6"
+speaker_name = "Зевс"
+text = "Опасность — шмапасность."
+next_line_id = "help_7"
+
+[sub_resource type="Resource" id="Resource_zeus_line_97"]
+script = ExtResource("1_line")
+line_id = "help_7"
+speaker_name = "Лена"
+text = "Все еще поражаюсь вашим выражениям."
+next_line_id = "help_8"
+
+[sub_resource type="Resource" id="Resource_zeus_line_98"]
+script = ExtResource("1_line")
+line_id = "help_8"
+speaker_name = "Зевс"
+text = "Если сомневаешься — не делай, если делаешь — не сомневайся."
+next_line_id = "help_9"
+
+[sub_resource type="Resource" id="Resource_zeus_line_99"]
+script = ExtResource("1_line")
+line_id = "help_9"
+speaker_name = "Зевс"
+text = "Я решил, что выручу тебя. Значит, выручу."
+next_line_id = "help_10"
+
+[sub_resource type="Resource" id="Resource_zeus_line_100"]
+script = ExtResource("1_line")
+line_id = "help_10"
+speaker_name = "Лена"
+text = "Неужели вам этого достаточно?"
+next_line_id = "help_11"
+
+[sub_resource type="Resource" id="Resource_zeus_line_101"]
+script = ExtResource("1_line")
+line_id = "help_11"
+speaker_name = "Зевс"
+text = "В смысле?"
+next_line_id = "help_12"
+
+[sub_resource type="Resource" id="Resource_zeus_line_102"]
+script = ExtResource("1_line")
+line_id = "help_12"
+speaker_name = "Лена"
+text = "Ну, у вас есть какие-то цели, наверное. Свой интерес."
+next_line_id = "help_13"
+
+[sub_resource type="Resource" id="Resource_zeus_line_103"]
+script = ExtResource("1_line")
+line_id = "help_13"
+speaker_name = "Зевс"
+text = "Цели? Моя цель — быть тем, кем я сейчас являюсь. И жить так, как я уже живу."
+next_line_id = "help_14"
+
+[sub_resource type="Resource" id="Resource_zeus_line_104"]
+script = ExtResource("1_line")
+line_id = "help_14"
+speaker_name = "Зевс"
+text = "Вот и все."
+next_line_id = "help_15"
+
+[sub_resource type="Resource" id="Resource_zeus_line_105"]
+script = ExtResource("1_line")
+line_id = "help_15"
+speaker_name = "Лена"
+text = "А на будущее? Стать кем-то большим?"
+next_line_id = "help_16"
+
+[sub_resource type="Resource" id="Resource_zeus_line_106"]
+script = ExtResource("1_line")
+line_id = "help_16"
+speaker_name = "Зевс"
+text = "А зачем? Чего мне не хватает?"
+next_line_id = "help_17"
+
+[sub_resource type="Resource" id="Resource_zeus_line_107"]
+script = ExtResource("1_line")
+line_id = "help_17"
+speaker_name = "Зевс"
+text = "Слышала про парня такого, Икара?"
+next_line_id = "help_18"
+
+[sub_resource type="Resource" id="Resource_zeus_line_108"]
+script = ExtResource("1_line")
+line_id = "help_18"
+speaker_name = "Лена"
+text = "Припоминаю."
+next_line_id = "help_19"
+
+[sub_resource type="Resource" id="Resource_zeus_line_109"]
+script = ExtResource("1_line")
+line_id = "help_19"
+speaker_name = "Зевс"
+text = "Они с отцом изобрели крылья из воска и отправились в полет."
+next_line_id = "help_20"
+
+[sub_resource type="Resource" id="Resource_zeus_line_110"]
+script = ExtResource("1_line")
+line_id = "help_20"
+speaker_name = "Зевс"
+text = "Только Икару мало было, и он прямо на солнце полетел."
+next_line_id = "help_21"
+
+[sub_resource type="Resource" id="Resource_zeus_line_111"]
+script = ExtResource("1_line")
+line_id = "help_21"
+speaker_name = "Зевс"
+text = "Крылья сгорели, он упал в море и утонул."
+next_line_id = "help_22"
+
+[sub_resource type="Resource" id="Resource_zeus_line_112"]
+script = ExtResource("1_line")
+line_id = "help_22"
+speaker_name = "Зевс"
+text = "А я все видел."
+next_line_id = "help_23"
+
+[sub_resource type="Resource" id="Resource_zeus_line_113"]
+script = ExtResource("1_line")
+line_id = "help_23"
+speaker_name = "Лена"
+text = "Да, печальная история."
+next_line_id = "help_24"
+
+[sub_resource type="Resource" id="Resource_zeus_line_114"]
+script = ExtResource("1_line")
+line_id = "help_24"
+speaker_name = "Зевс"
+text = "Главное не то, какую цель ты себе ставишь. Главное — когда решаешь, что получил достаточно."
+next_line_id = "help_25"
+
+[sub_resource type="Resource" id="Resource_zeus_line_115"]
+script = ExtResource("1_line")
+line_id = "help_25"
+speaker_name = "Зевс"
+text = "А иначе долетишь до солнца и спалишь крылья."
+next_line_id = "help_26"
+
+[sub_resource type="Resource" id="Resource_zeus_line_116"]
+script = ExtResource("1_line")
+line_id = "help_26"
+speaker_name = "Зевс"
+text = "Послушай опытного человека."
+next_line_id = "help_27"
+
+[sub_resource type="Resource" id="Resource_zeus_line_117"]
+script = ExtResource("1_line")
+line_id = "help_27"
+speaker_name = "Лена"
+text = "Вау! Это мудро."
+next_line_id = "help_28"
+
+[sub_resource type="Resource" id="Resource_zeus_line_118"]
+script = ExtResource("1_line")
+line_id = "help_28"
+speaker_name = "Лена"
+text = "От вас не ожидала."
+next_line_id = "help_29"
+
+[sub_resource type="Resource" id="Resource_zeus_line_119"]
+script = ExtResource("1_line")
+line_id = "help_29"
+speaker_name = "Зевс"
+text = "В смысле не ожидала? Я древнейший из богов!"
+next_line_id = "help_30"
+
+[sub_resource type="Resource" id="Resource_zeus_line_120"]
+script = ExtResource("1_line")
+line_id = "help_30"
+speaker_name = "Зевс"
+text = "Я вообще полон мудрости."
+next_line_id = "help_31"
+
+[sub_resource type="Resource" id="Resource_zeus_line_121"]
+script = ExtResource("1_line")
+line_id = "help_31"
+speaker_name = "Лена"
+text = "Да… Видимо, все-таки да."
+next_line_id = "Zeus_choices_1"
+
+[sub_resource type="Resource" id="Resource_zeus_line_122"]
+script = ExtResource("1_line")
+line_id = "chosen_world_1"
+speaker_name = "Лена"
+text = "Тот, кого вы хотите найти в этом мире…"
+next_line_id = "chosen_world_2"
+
+[sub_resource type="Resource" id="Resource_zeus_line_123"]
+script = ExtResource("1_line")
+line_id = "chosen_world_2"
+speaker_name = "Зевс"
+text = "…"
+next_line_id = "chosen_world_3"
+
+[sub_resource type="Resource" id="Resource_zeus_line_124"]
+script = ExtResource("1_line")
+line_id = "chosen_world_3"
+speaker_name = "Лена"
+text = "…это Кронос?"
+next_line_id = "chosen_world_4"
+
+[sub_resource type="Resource" id="Resource_zeus_line_125"]
+script = ExtResource("1_line")
+line_id = "chosen_world_4"
+speaker_name = "Зевс"
+text = "Да. Мой отец."
+next_line_id = "chosen_world_5"
+
+[sub_resource type="Resource" id="Resource_zeus_line_126"]
+script = ExtResource("1_line")
+line_id = "chosen_world_5"
+speaker_name = "Лена"
+text = "Я знаю историю, он хотел убить вас."
+next_line_id = "chosen_world_6"
+
+[sub_resource type="Resource" id="Resource_zeus_line_127"]
+script = ExtResource("1_line")
+line_id = "chosen_world_6"
+speaker_name = "Зевс"
+text = "Не просто хотел. Он двух братьев моих убил."
+next_line_id = "chosen_world_7"
+
+[sub_resource type="Resource" id="Resource_zeus_line_128"]
+script = ExtResource("1_line")
+line_id = "chosen_world_7"
+speaker_name = "Зевс"
+text = "Чудом удалось спасти."
+next_line_id = "chosen_world_8"
+
+[sub_resource type="Resource" id="Resource_zeus_line_129"]
+script = ExtResource("1_line")
+line_id = "chosen_world_8"
+speaker_name = "Лена"
+text = "И вы хотите ему отомстить? Ведь вы однажды уже убили его."
+next_line_id = "chosen_world_9"
+
+[sub_resource type="Resource" id="Resource_zeus_line_130"]
+script = ExtResource("1_line")
+line_id = "chosen_world_9"
+speaker_name = "Зевс"
+text = "Отомстить? Нет."
+next_line_id = "chosen_world_10"
+
+[sub_resource type="Resource" id="Resource_zeus_line_131"]
+script = ExtResource("1_line")
+line_id = "chosen_world_10"
+speaker_name = "Зевс"
+text = "Все гораздо сложнее."
+next_line_id = "chosen_world_11"
+
+[sub_resource type="Resource" id="Resource_zeus_line_132"]
+script = ExtResource("1_line")
+line_id = "chosen_world_11"
+speaker_name = "Зевс"
+text = "Месть ничего не приносит."
+next_line_id = "chosen_world_12"
+
+[sub_resource type="Resource" id="Resource_zeus_line_133"]
+script = ExtResource("1_line")
+line_id = "chosen_world_12"
+speaker_name = "Зевс"
+text = "Даже не успокаивает сердце."
+next_line_id = "chosen_world_13"
+
+[sub_resource type="Resource" id="Resource_zeus_line_134"]
+script = ExtResource("1_line")
+line_id = "chosen_world_13"
+speaker_name = "Лена"
+text = "Что тогда?"
+next_line_id = "chosen_world_14"
+
+[sub_resource type="Resource" id="Resource_zeus_line_135"]
+script = ExtResource("1_line")
+line_id = "chosen_world_14"
+speaker_name = "Зевс"
+text = "Что? Подойди-ка."
+next_line_id = "chosen_world_15"
+
+[sub_resource type="Resource" id="Resource_zeus_line_136"]
+script = ExtResource("1_line")
+line_id = "chosen_world_15"
+speaker_name = "Лена"
+text = "Эм."
+next_line_id = "chosen_world_16"
+
+[sub_resource type="Resource" id="Resource_zeus_line_137"]
+script = ExtResource("1_line")
+line_id = "chosen_world_16"
+speaker_name = "Зевс"
+text = "Да подойди, не укушу."
+next_line_id = "chosen_world_17"
+
+[sub_resource type="Resource" id="Resource_zeus_line_138"]
+script = ExtResource("1_line")
+line_id = "chosen_world_17"
+speaker_name = "Зевс"
+text = "(Когда ты подходишь, он берет твою руку и прикладывает к виску. Ты чувствуешь частое взволнованное биение в сосудах.)"
+next_line_id = "chosen_world_18"
+
+[sub_resource type="Resource" id="Resource_zeus_line_139"]
+script = ExtResource("1_line")
+line_id = "chosen_world_18"
+speaker_name = "Лена"
+text = "Это…"
+next_line_id = "chosen_world_19"
+
+[sub_resource type="Resource" id="Resource_zeus_line_140"]
+script = ExtResource("1_line")
+line_id = "chosen_world_19"
+speaker_name = "Зевс"
+text = "Страх."
+next_line_id = "chosen_world_20"
+
+[sub_resource type="Resource" id="Resource_zeus_line_141"]
+script = ExtResource("1_line")
+line_id = "chosen_world_20"
+speaker_name = "Зевс"
+text = "Я помню его зево. Помню, как там исчезали мои братья."
+next_line_id = "chosen_world_21"
+
+[sub_resource type="Resource" id="Resource_zeus_line_142"]
+script = ExtResource("1_line")
+line_id = "chosen_world_21"
+speaker_name = "Зевс"
+text = "Как я засыпал и видел во сне, как открывается земная твердь и превращается в пасть моего отца."
+next_line_id = "chosen_world_22"
+
+[sub_resource type="Resource" id="Resource_zeus_line_143"]
+script = ExtResource("1_line")
+line_id = "chosen_world_22"
+speaker_name = "Зевс"
+text = "И я падаю и падаю."
+next_line_id = "chosen_world_23"
+
+[sub_resource type="Resource" id="Resource_zeus_line_144"]
+script = ExtResource("1_line")
+line_id = "chosen_world_23"
+speaker_name = "Зевс"
+text = "Месть, нет. Тут другое."
+next_line_id = "chosen_world_24"
+
+[sub_resource type="Resource" id="Resource_zeus_line_145"]
+script = ExtResource("1_line")
+line_id = "chosen_world_24"
+speaker_name = "Зевс"
+text = "Я не могу жить, пока знаю, что он жив."
+next_line_id = "chosen_world_25"
+
+[sub_resource type="Resource" id="Resource_zeus_line_146"]
+script = ExtResource("1_line")
+line_id = "chosen_world_25"
+speaker_name = "Зевс"
+text = "А я знаю."
+next_line_id = "chosen_world_26"
+
+[sub_resource type="Resource" id="Resource_zeus_line_147"]
+script = ExtResource("1_line")
+line_id = "chosen_world_26"
+speaker_name = "Зевс"
+text = "У меня просто нет выбора."
+next_line_id = "chosen_world_27"
+
+[sub_resource type="Resource" id="Resource_zeus_line_148"]
+script = ExtResource("1_line")
+line_id = "chosen_world_27"
+speaker_name = "Лена"
+text = "Мне очень жаль. Если я могу чем-то помочь…"
+next_line_id = "chosen_world_28"
+
+[sub_resource type="Resource" id="Resource_zeus_line_149"]
+script = ExtResource("1_line")
+line_id = "chosen_world_28"
+speaker_name = "Зевс"
+text = "Я бы пошутил про пару способов. Но знаешь."
+next_line_id = "chosen_world_29"
+
+[sub_resource type="Resource" id="Resource_zeus_line_150"]
+script = ExtResource("1_line")
+line_id = "chosen_world_29"
+speaker_name = "Зевс"
+text = "Не можешь."
+next_line_id = "Zeus_choices_1"
+
+[resource]
+script = ExtResource("3_dialogue")
+dialogue_id = "zeus_dialogue_1"
+dialogue_name = ""
+start_line_id = "intro_1"
+lines = Array[ExtResource("1_line")]([SubResource("Resource_zeus_line_2"), SubResource("Resource_zeus_line_3"), SubResource("Resource_zeus_line_9"), SubResource("Resource_zeus_line_10"), SubResource("Resource_zeus_line_11"), SubResource("Resource_zeus_line_12"), SubResource("Resource_zeus_line_13"), SubResource("Resource_zeus_line_14"), SubResource("Resource_zeus_line_15"), SubResource("Resource_zeus_line_16"), SubResource("Resource_zeus_line_17"), SubResource("Resource_zeus_line_18"), SubResource("Resource_zeus_line_19"), SubResource("Resource_zeus_line_20"), SubResource("Resource_zeus_line_21"), SubResource("Resource_zeus_line_22"), SubResource("Resource_zeus_line_25"), SubResource("Resource_zeus_line_26"), SubResource("Resource_zeus_line_27"), SubResource("Resource_zeus_line_28"), SubResource("Resource_zeus_line_29"), SubResource("Resource_zeus_line_30"), SubResource("Resource_zeus_line_31"), SubResource("Resource_zeus_line_32"), SubResource("Resource_zeus_line_33"), SubResource("Resource_zeus_line_34"), SubResource("Resource_zeus_line_35"), SubResource("Resource_zeus_line_36"), SubResource("Resource_zeus_line_37"), SubResource("Resource_zeus_line_38"), SubResource("Resource_zeus_line_39"), SubResource("Resource_zeus_line_40"), SubResource("Resource_zeus_line_41"), SubResource("Resource_zeus_line_42"), SubResource("Resource_zeus_line_43"), SubResource("Resource_zeus_line_44"), SubResource("Resource_zeus_line_45"), SubResource("Resource_zeus_line_46"), SubResource("Resource_zeus_line_47"), SubResource("Resource_zeus_line_48"), SubResource("Resource_zeus_line_49"), SubResource("Resource_zeus_line_50"), SubResource("Resource_zeus_line_51"), SubResource("Resource_zeus_line_52"), SubResource("Resource_zeus_line_53"), SubResource("Resource_zeus_line_54"), SubResource("Resource_zeus_line_55"), SubResource("Resource_zeus_line_56"), SubResource("Resource_zeus_line_57"), SubResource("Resource_zeus_line_58"), SubResource("Resource_zeus_line_59"), SubResource("Resource_zeus_line_60"), SubResource("Resource_zeus_line_61"), SubResource("Resource_zeus_line_62"), SubResource("Resource_zeus_line_63"), SubResource("Resource_zeus_line_64"), SubResource("Resource_zeus_line_65"), SubResource("Resource_zeus_line_66"), SubResource("Resource_zeus_line_67"), SubResource("Resource_zeus_line_68"), SubResource("Resource_zeus_line_69"), SubResource("Resource_zeus_line_70"), SubResource("Resource_zeus_line_71"), SubResource("Resource_zeus_line_72"), SubResource("Resource_zeus_line_73"), SubResource("Resource_zeus_line_74"), SubResource("Resource_zeus_line_75"), SubResource("Resource_zeus_line_76"), SubResource("Resource_zeus_line_77"), SubResource("Resource_zeus_line_78"), SubResource("Resource_zeus_line_79"), SubResource("Resource_zeus_line_80"), SubResource("Resource_zeus_line_81"), SubResource("Resource_zeus_line_82"), SubResource("Resource_zeus_line_83"), SubResource("Resource_zeus_line_84"), SubResource("Resource_zeus_line_85"), SubResource("Resource_zeus_line_86"), SubResource("Resource_zeus_line_87"), SubResource("Resource_zeus_line_88"), SubResource("Resource_zeus_line_89"), SubResource("Resource_zeus_line_90"), SubResource("Resource_zeus_line_91"), SubResource("Resource_zeus_line_92"), SubResource("Resource_zeus_line_93"), SubResource("Resource_zeus_line_94"), SubResource("Resource_zeus_line_95"), SubResource("Resource_zeus_line_96"), SubResource("Resource_zeus_line_97"), SubResource("Resource_zeus_line_98"), SubResource("Resource_zeus_line_99"), SubResource("Resource_zeus_line_100"), SubResource("Resource_zeus_line_101"), SubResource("Resource_zeus_line_102"), SubResource("Resource_zeus_line_103"), SubResource("Resource_zeus_line_104"), SubResource("Resource_zeus_line_105"), SubResource("Resource_zeus_line_106"), SubResource("Resource_zeus_line_107"), SubResource("Resource_zeus_line_108"), SubResource("Resource_zeus_line_109"), SubResource("Resource_zeus_line_110"), SubResource("Resource_zeus_line_111"), SubResource("Resource_zeus_line_112"), SubResource("Resource_zeus_line_113"), SubResource("Resource_zeus_line_114"), SubResource("Resource_zeus_line_115"), SubResource("Resource_zeus_line_116"), SubResource("Resource_zeus_line_117"), SubResource("Resource_zeus_line_118"), SubResource("Resource_zeus_line_119"), SubResource("Resource_zeus_line_120"), SubResource("Resource_zeus_line_121"), SubResource("Resource_zeus_line_122"), SubResource("Resource_zeus_line_123"), SubResource("Resource_zeus_line_124"), SubResource("Resource_zeus_line_125"), SubResource("Resource_zeus_line_126"), SubResource("Resource_zeus_line_127"), SubResource("Resource_zeus_line_128"), SubResource("Resource_zeus_line_129"), SubResource("Resource_zeus_line_130"), SubResource("Resource_zeus_line_131"), SubResource("Resource_zeus_line_132"), SubResource("Resource_zeus_line_133"), SubResource("Resource_zeus_line_134"), SubResource("Resource_zeus_line_135"), SubResource("Resource_zeus_line_136"), SubResource("Resource_zeus_line_137"), SubResource("Resource_zeus_line_138"), SubResource("Resource_zeus_line_139"), SubResource("Resource_zeus_line_140"), SubResource("Resource_zeus_line_141"), SubResource("Resource_zeus_line_142"), SubResource("Resource_zeus_line_143"), SubResource("Resource_zeus_line_144"), SubResource("Resource_zeus_line_145"), SubResource("Resource_zeus_line_146"), SubResource("Resource_zeus_line_147"), SubResource("Resource_zeus_line_148"), SubResource("Resource_zeus_line_149"), SubResource("Resource_zeus_line_150")])

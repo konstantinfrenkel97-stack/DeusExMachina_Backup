@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MissionResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_resource.gd" id="mission_script"]
+[ext_resource type="Resource" path="res://Scenes/HelheimScenes/descent_to_helheim.tres" id="scene_descent"]
+[ext_resource type="Resource" path="res://Scenes/HelheimScenes/helheim_respite.tres" id="scene_respite"]
+[ext_resource type="Resource" path="res://Scenes/HelheimScenes/helheim_patrol_1.tres" id="scene_patrol"]
+[ext_resource type="Resource" path="res://Scenes/HelheimScenes/helheim_treasure_chest.tres" id="scene_chest"]
+[ext_resource type="Resource" path="res://Scenes/HelheimScenes/floating_drakkar.tres" id="scene_drakkar"]
+
+[resource]
+script = ExtResource("mission_script")
+mission_name = "Добро пожаловать в Хельхейм"
+scenes = [ExtResource("scene_descent"), ExtResource("scene_respite"), ExtResource("scene_patrol"), ExtResource("scene_chest"), ExtResource("scene_drakkar")]
+location = 0

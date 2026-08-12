@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Симфония боли"
+description = "Все союзники получают +3 атаки и +3 удачи за каждый дебафф на команде противников."
+damage_modifier = 0.0
+majesty_gain = 0
+target_type = "All_Allies"
+ability_marker = "tormentor_symphony"
+usable_from_positions = Array[bool]([true, true, true, true])
+targetable_positions = Array[bool]([true, true, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

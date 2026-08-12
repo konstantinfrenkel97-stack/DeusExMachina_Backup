@@ -1,0 +1,100 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://q6ve72327831"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_icr5k"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_ed1ei"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_rmn3w"]
+
+[sub_resource type="Resource" id="Resource_jjos8"]
+script = ExtResource("1_icr5k")
+speaker_name = "Лена"
+text = "Давайте вот сюда.
+"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_n1djq"]
+script = ExtResource("1_icr5k")
+speaker_name = "Лена"
+text = "Только, прошу осторожней. Многие из этих книг - раритеты"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_1cfcq"]
+script = ExtResource("1_icr5k")
+speaker_name = "Лена"
+text = "ОСТОРОЖНО!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_3fa0j"]
+script = ExtResource("1_icr5k")
+text = "Буууууум!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_k4oqr"]
+script = ExtResource("1_icr5k")
+speaker_name = "Лена"
+text = "Да вы, блин, серьезно?!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_5tdk2"]
+script = ExtResource("1_icr5k")
+speaker_name = "Лена"
+text = "Просто тащите его дальше, я тут сама разберусь"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_0lul8"]
+script = ExtResource("1_icr5k")
+speaker_name = "Лена"
+text = "О боги..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_g6as8"]
+script = ExtResource("1_icr5k")
+text = "*Шурх шурх шурх*"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_gm8si"]
+script = ExtResource("1_icr5k")
+speaker_name = "Лена"
+text = "А это что? "
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_h4mhf"]
+script = ExtResource("1_icr5k")
+speaker_name = "Лена"
+text = "Когда тебя принесли? Я не помню такой книги. И эти узоры..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_iv505"]
+script = ExtResource("1_icr5k")
+speaker_name = "Лена"
+text = "Как на моем ключе! Странно..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ra0bb"]
+script = ExtResource("1_icr5k")
+speaker_name = "Лена"
+text = "Не открывается, но я не вижу замка. Только скважина прямо посреди обложки."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_sfqof"]
+script = ExtResource("1_icr5k")
+speaker_name = "Лена"
+text = "Что если...."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_oqnoy"]
+script = ExtResource("1_icr5k")
+text = "............."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_63jlt"]
+script = ExtResource("1_icr5k")
+speaker_name = "..."
+text = "Свобода..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_rmn3w")
+dialogue_id = "first_dialogue"
+dialogue_name = "Первый диалог"
+lines = Array[ExtResource("1_icr5k")]([SubResource("Resource_jjos8"), SubResource("Resource_n1djq"), SubResource("Resource_1cfcq"), SubResource("Resource_3fa0j"), SubResource("Resource_k4oqr"), SubResource("Resource_5tdk2"), SubResource("Resource_0lul8"), SubResource("Resource_g6as8"), SubResource("Resource_gm8si"), SubResource("Resource_h4mhf"), SubResource("Resource_iv505"), SubResource("Resource_ra0bb"), SubResource("Resource_sfqof"), SubResource("Resource_oqnoy"), SubResource("Resource_63jlt")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

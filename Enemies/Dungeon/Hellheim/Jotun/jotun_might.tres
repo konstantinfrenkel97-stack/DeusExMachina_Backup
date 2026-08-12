@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://bl7f63kqbuphx"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_jm"]
+
+[resource]
+script = ExtResource("1_jm")
+name = "Мощь Йотуна"
+damage_modifier = 1.0
+majesty_gain = 0
+effect_types = Array[String](["self_fog_accuracy"])
+effect_values = Dictionary[String, int]({
+"self_fog_accuracy": 20
+})
+effect_durations = Dictionary[String, int]({
+"self_fog_accuracy": 1
+})
+usable_from_positions = Array[bool]([true, true, false, false])
+targetable_positions = Array[bool]([true, true, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

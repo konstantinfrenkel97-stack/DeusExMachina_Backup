@@ -1,0 +1,150 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Tunnels/Dwarf_shield/dwarf_shield.tres" id="enemy_shield"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Tunnels/Dwarf_smith/dwarf_smith.tres" id="enemy_smith"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Tunnels/Stone_giant_warrior/stone_giant_warrior.tres" id="enemy_giant_warrior"]
+[ext_resource type="Resource" path="res://Gods/Thor/thor.tres" id="thor"]
+[ext_resource type="Resource" path="res://Essence/essence_strength.tres" id="essence_strength"]
+
+[sub_resource type="Resource" id="form_armwrestling"]
+script = ExtResource("formation_script")
+formation_name = "Армрестлинг: Щит-Великан воин-Кузнец"
+pos1 = ExtResource("enemy_shield")
+pos2 = ExtResource("enemy_giant_warrior")
+pos3 = ExtResource("enemy_smith")
+pos4 = null
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="buff_enemy_init_zero"]
+script = ExtResource("buff_script")
+stat = 6
+value = -999
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_enemy_init_zero"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_enemy_init_zero")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="mod_dwarf1_hp85"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+hp_percent = 85
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="mod_dwarf3_hp85"]
+script = ExtResource("unit_modifier_script")
+target_position = 3
+hp_percent = 85
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="mod_giant_hp70"]
+script = ExtResource("unit_modifier_script")
+target_position = 2
+hp_percent = 70
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_ambush"]
+script = ExtResource("battle_script")
+formation = SubResource("form_armwrestling")
+location_id = "tunnels"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_enemy_init_zero")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_wait"]
+script = ExtResource("battle_script")
+formation = SubResource("form_armwrestling")
+location_id = "tunnels"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_dwarf1_hp85"), SubResource("mod_dwarf3_hp85")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_thor_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_armwrestling")
+location_id = "tunnels"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_giant_hp70")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_normal"]
+script = ExtResource("battle_script")
+formation = SubResource("form_armwrestling")
+location_id = "tunnels"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="reward_strength"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_strength")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_ambush"]
+script = ExtResource("outcome_script")
+result_text = "Соревнующиеся встречают недовольными воплями ваше нападение и порицают столь бесчестный поступок. Эффект сцены: в первый ход инициатива противников снижена до минимума; герои должны потерять 15 величия."
+battle = SubResource("battle_ambush")
+hero_majesty_delta = -15
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_wait"]
+script = ExtResource("outcome_script")
+result_text = "Вы дожидаетесь окончания состязания. Вся троица кивает вам в уважении за то, что вы почтили их соревнование. Эффект сцены: герои должны получить 15 величия; дворфы начинают бой с уменьшенным текущим здоровьем."
+battle = SubResource("battle_wait")
+hero_majesty_delta = 15
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_thor_fail"]
+script = ExtResource("outcome_script")
+result_text = "Тор чувствует, как рука выворачивается из плеча. Великан оказался слишком силен и с наглой ухмылкой вбивает руку бога в черный металл наковальни. После того как он отпускает Тора, противники встают в боевую стойку. Эффект сцены: Тор должен потерять 30% текущего здоровья."
+battle = SubResource("battle_normal")
+target_god = ExtResource("thor")
+target_current_hp_percent_delta = -30
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_thor_success"]
+script = ExtResource("outcome_script")
+result_text = "Вены на лбу великана надуваются, ноздри раздуваются от напряжения, когда он видит, как Тор загибает его огромную руку. С громким треском серая конечность великана ударяется о поверхность наковальни, а побагровевшая рука свисает с края. Вы получаете эссенцию силы."
+battle = SubResource("battle_thor_success")
+rewards = [SubResource("reward_strength")]
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="check_attack"]
+script = ExtResource("stat_check_script")
+stat = 0
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="choice_ambush"]
+script = ExtResource("choice_script")
+choice_text = "Напасть, пока они отвлечены"
+outcome = SubResource("out_ambush")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_wait"]
+script = ExtResource("choice_script")
+choice_text = "Дождаться окончания состязания"
+outcome = SubResource("out_wait")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_thor"]
+script = ExtResource("choice_script")
+choice_text = "Бросить вызов великану"
+required_god = ExtResource("thor")
+stat_check = SubResource("check_attack")
+success_outcome = SubResource("out_thor_success")
+failure_outcome = SubResource("out_thor_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Армрестлинг"
+body_text = "До вас доносятся звуки кряхтения, пыхтения и тяжелого дыхания. За поворотом вы видите великана, который, опираясь локтем на наковальню, соревнуется в армрестлинге с парой дворфов. Пот заливает их макушки, но похоже великан наслаждается своим превосходством.\n\n«Ха! Жалкие кроты! И это вся сила подгорного народа?»"
+choices = [SubResource("choice_ambush"), SubResource("choice_wait"), SubResource("choice_thor")]

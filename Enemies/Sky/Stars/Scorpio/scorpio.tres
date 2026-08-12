@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://d0o4013v5dl6e"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://dltanht143u0m" path="res://Enemy_logic/scorpio_logic.gd" id="3_ai"]
+[ext_resource type="Resource" uid="uid://bpsting001" path="res://Enemies/Sky/Stars/Scorpio/poison_sting.tres" id="4_ps"]
+[ext_resource type="Resource" uid="uid://bclaws001" path="res://Enemies/Sky/Stars/Scorpio/sharp_claws.tres" id="5_sc"]
+[ext_resource type="Resource" uid="uid://bcruel001" path="res://Enemies/Sky/Stars/Scorpio/cruelty.tres" id="6_cr"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Скорпион"
+sprite_path = "res://Enemies/Sky/Stars/Scorpio/Scorpio.png"
+face_sprite = "res://Enemies/Sky/Stars/Scorpio/Scorpio_face.png"
+battle_sprite_scale_percent = 98.0
+damage = 28
+armor = 12
+accuracy = 80
+evasion = 5
+special_effect_type = "scorpio_debuff_damage"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_ps"), ExtResource("5_sc"), ExtResource("6_cr")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

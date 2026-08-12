@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="1_msr"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="2_mc"]
+
+[sub_resource type="Resource" id="Choice_1" script=ExtResource("2_mc")]
+choice_text = "Напасть"
+effects = "Шаблон: начинается бой с незнакомцем."
+launch_battle = true
+battle_setup_path = "res://battle_setup.tscn"
+
+[sub_resource type="Resource" id="Choice_2" script=ExtResource("2_mc")]
+choice_text = "Поговорить"
+effects = "Шаблон: +10 доверия, бой пропущен."
+launch_battle = false
+
+[resource]
+script = ExtResource("1_msr")
+scene_title = "Первая встреча"
+body_text = "На тропе стоит незнакомец. Он замечает тебя и кладёт руку на рукоять меча.\n\nЧто будешь делать?"
+choices = [SubResource("Choice_1"), SubResource("Choice_2")]

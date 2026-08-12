@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://cvk8e7oo3xpr0"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+icon_path = "uid://0tp35ub5ky52"
+name = "Растительный яд"
+description = "При нанесении урона накладывает периодический урон 20% на 4 хода. Эффект длится 3 хода"
+damage_modifier = 0.0
+target_type = "Ally"
+usable_from_positions = Array[bool]([false, true, true, false])
+ability_marker = "duna_plant_poison"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

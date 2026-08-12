@@ -1,0 +1,65 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://7acvnbsr8h8"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_n17v1"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_301t0"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_ow3i6"]
+
+[sub_resource type="Resource" id="Resource_tks5a"]
+script = ExtResource("1_n17v1")
+speaker_name = "Миф"
+text = "Слушай, помнишь я как-то говорил что запер всех этих веселых друзей в пятнадцати мирах?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_gyby7"]
+script = ExtResource("1_n17v1")
+speaker_name = "Лена"
+text = "То что пять минут назад? Помню."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_lj07o"]
+script = ExtResource("1_n17v1")
+speaker_name = "Миф"
+text = "Так вот, они за этими дверями. Но я не могу их открыть."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_xcskw"]
+script = ExtResource("1_n17v1")
+speaker_name = "Лена"
+text = "Ты, блин, шутишь?
+И что делать?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_nuuo0"]
+script = ExtResource("1_n17v1")
+speaker_name = "Миф"
+text = "Эй! Посмотрел бы я на тебя, как ты вселенную орагнизуешь!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_n0tag"]
+script = ExtResource("1_n17v1")
+speaker_name = "Миф"
+text = "Я их открыть не могу, и изнутри они их тоже не откроют."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_w46dx"]
+script = ExtResource("1_n17v1")
+speaker_name = "Лена"
+text = "Но кто-то может открыть эти чертовы двери?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_pqegw"]
+script = ExtResource("1_n17v1")
+speaker_name = "Миф"
+text = "Ну, я думаю бог мог бы. Удобно что у тебя как раз есть банда, ага?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_0xqnd"]
+script = ExtResource("1_n17v1")
+speaker_name = "Лена"
+text = "Ага. Ну ладно, попробую попросить кого-то из них."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_301t0")
+lines = Array[ExtResource("1_n17v1")]([SubResource("Resource_tks5a"), SubResource("Resource_gyby7"), SubResource("Resource_lj07o"), SubResource("Resource_xcskw"), SubResource("Resource_nuuo0"), SubResource("Resource_n0tag"), SubResource("Resource_w46dx"), SubResource("Resource_pqegw"), SubResource("Resource_0xqnd")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

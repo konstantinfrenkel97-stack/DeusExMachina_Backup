@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="EssenceResource" format=3 uid="uid://dkjfjueiqpofu"]
+
+[ext_resource type="Script" uid="uid://sf5jie3ou0ta" path="res://essence_resource.gd" id="1_e"]
+[ext_resource type="Texture2D" uid="uid://dxrq3m2lors1g" path="res://Essence/Essence of Nature.png" id="1_l22ro"]
+
+[resource]
+script = ExtResource("1_e")
+name = "Эссенция природы"
+icon = ExtResource("1_l22ro")
+amount = 2

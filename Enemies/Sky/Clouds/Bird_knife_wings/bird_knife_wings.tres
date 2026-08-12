@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://cn6i0cqqap54y"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://ci7y4ao2olaq3" path="res://Enemy_logic/bird_knife_wings_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Clouds/Bird_knife_wings/sharp_wings.tres" id="4_a1"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Clouds/Bird_knife_wings/throw_feathers.tres" id="5_a2"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Стимфолийская птица"
+sprite_path = "res://Enemies/Sky/Clouds/Bird_knife_wings/Птица крылья ножи.png"
+face_sprite = "res://Enemies/Sky/Clouds/Bird_knife_wings/Птица крылья ножи_Face.png"
+battle_sprite_scale_percent = 130.0
+max_hp = 45
+damage = 12
+armor = 0
+initiative = 8
+evasion = 25
+crit_chance = 0.1
+special_effect_type = "bird_death_damage"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

@@ -1,0 +1,154 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://iyy7o4u4c8ak"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_f115g"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_c2ykg"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_ot70m"]
+
+[sub_resource type="Resource" id="Resource_pquee"]
+script = ExtResource("1_f115g")
+speaker_name = "Лена"
+text = "О! Один из трех олимпийских братьев. Бог морей Посейдон."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_g67cm"]
+script = ExtResource("1_f115g")
+speaker_name = "Посейдон"
+text = "Прибыл и к вашим услугам!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ow0jq"]
+script = ExtResource("1_f115g")
+speaker_name = "Посейдон"
+text = "Где мы и что делаем?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_vgat6"]
+script = ExtResource("1_f115g")
+speaker_name = "Лена"
+text = "Видите ли, мы в мире фантазии, и я призвала вас чтобы помочь мне в неравной битве против орды чудовищ."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_p1wdd"]
+script = ExtResource("1_f115g")
+speaker_name = "Посейдон"
+text = "Орды чудовищ? Ну ладно, показывай дорогу."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_dxedl"]
+script = ExtResource("1_f115g")
+speaker_name = "Лена"
+text = "Вы просто так мне поможете?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_xd813"]
+script = ExtResource("1_f115g")
+speaker_name = "Посейдон"
+text = "Ну, ты не хочешь?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_00rca"]
+script = ExtResource("1_f115g")
+speaker_name = "Лена"
+text = "Хочу! Большое вам спасибо!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_51kkg"]
+script = ExtResource("1_f115g")
+speaker_name = "Лена"
+text = "Просто вы так легко согласились"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_uju6p"]
+script = ExtResource("1_f115g")
+speaker_name = "Посейдон"
+text = "Ну... Ты же в беде."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_j4boa"]
+script = ExtResource("1_f115g")
+speaker_name = "Посейдон"
+text = "Что я тебя, просто так оставлю?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_kch1f"]
+script = ExtResource("1_f115g")
+speaker_name = "Посейдон"
+text = "Мне кажется все логично. Не то чтобы у меня здесь были какие-то другие дела."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_f8npy"]
+script = ExtResource("1_f115g")
+speaker_name = "Лена"
+text = "Это... да... Вы очень благородны."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_i06e8"]
+script = ExtResource("1_f115g")
+speaker_name = "Посейдон"
+text = "Эм? Наверное... Спасибо."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_8apen"]
+script = ExtResource("1_f115g")
+speaker_name = "Посейдон"
+text = "Я не особо тебя понимаю, если честно."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_f7082"]
+script = ExtResource("1_f115g")
+speaker_name = "Лена"
+text = "Да, я просто не привыкла. К людям как вы. Хотя вы бог."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_cfica"]
+script = ExtResource("1_f115g")
+speaker_name = "Посейдон"
+text = "Ну, я и сам не всегда был таким человеком."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_gnftx"]
+script = ExtResource("1_f115g")
+speaker_name = "Посейдон"
+text = "Всю юность просто катался на волнах, разгонял штормы."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_uk4s2"]
+script = ExtResource("1_f115g")
+speaker_name = "Посейдон"
+text = "В один момент просто задал себе вопрос - зачем я вообще это делаю."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_iwhox"]
+script = ExtResource("1_f115g")
+speaker_name = "Посейдон"
+text = "Так что вот. Пытаюсь делать то в чем есть смысл."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_eur8t"]
+script = ExtResource("1_f115g")
+speaker_name = "Лена"
+text = "Я думаю все пытаются, но у вас это как-то просто звучит."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_hhr8x"]
+script = ExtResource("1_f115g")
+speaker_name = "Посейдон"
+text = "Так а в чем сложность?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_v0d68"]
+script = ExtResource("1_f115g")
+speaker_name = "Посейдон"
+text = "Ладно, заболтались мы."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_wv4xd"]
+script = ExtResource("1_f115g")
+speaker_name = "Посейдон"
+text = "Пойдем, разберемся с твоей ситуацией."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_c2ykg")
+lines = Array[ExtResource("1_f115g")]([SubResource("Resource_pquee"), SubResource("Resource_g67cm"), SubResource("Resource_ow0jq"), SubResource("Resource_vgat6"), SubResource("Resource_p1wdd"), SubResource("Resource_dxedl"), SubResource("Resource_xd813"), SubResource("Resource_00rca"), SubResource("Resource_51kkg"), SubResource("Resource_uju6p"), SubResource("Resource_j4boa"), SubResource("Resource_kch1f"), SubResource("Resource_f8npy"), SubResource("Resource_i06e8"), SubResource("Resource_8apen"), SubResource("Resource_f7082"), SubResource("Resource_cfica"), SubResource("Resource_gnftx"), SubResource("Resource_uk4s2"), SubResource("Resource_iwhox"), SubResource("Resource_eur8t"), SubResource("Resource_hhr8x"), SubResource("Resource_v0d68"), SubResource("Resource_wv4xd")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

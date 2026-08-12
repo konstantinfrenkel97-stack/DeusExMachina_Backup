@@ -1,0 +1,827 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3]
+
+[ext_resource type="Script" path="res://Dialogues/dialogue_line.gd" id="1_line"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_resource.gd" id="3_dialogue"]
+
+[sub_resource type="Resource" id="Resource_poseidon_line_2"]
+script = ExtResource("1_line")
+line_id = "intro_1"
+speaker_name = "Посейдон"
+text = "(В комнате его не оказалось. Тебе пришлось побегать чтобы найти его, осматривающим помещения замка.)"
+next_line_id = "intro_2"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_3"]
+script = ExtResource("1_line")
+line_id = "intro_2"
+speaker_name = "Лена"
+text = "Блин, ну наконец-то я тебя нашла."
+next_line_id = "intro_3"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_4"]
+script = ExtResource("1_line")
+line_id = "intro_3"
+speaker_name = "Посейдон"
+text = "Привет. А чего хотела?"
+next_line_id = "Poseidon_choices_1"
+
+[sub_resource type="Resource" id="Resource_poseidon_choice_5"]
+script = ExtResource("2_choice")
+choice_id = "open_door"
+choice_text = "Открыть дверь"
+next_line_id = "open_door_1"
+
+[sub_resource type="Resource" id="Resource_poseidon_choice_6"]
+script = ExtResource("2_choice")
+choice_id = "opinion"
+choice_text = "Мнение о богах"
+next_line_id = "opinion_1"
+
+[sub_resource type="Resource" id="Resource_poseidon_choice_7"]
+script = ExtResource("2_choice")
+choice_id = "new_world"
+choice_text = "Новый мир"
+next_line_id = "new_world_1"
+
+[sub_resource type="Resource" id="Resource_poseidon_choice_8"]
+script = ExtResource("2_choice")
+choice_id = "help"
+choice_text = "Твоя помощь"
+next_line_id = "help_1"
+
+[sub_resource type="Resource" id="Resource_poseidon_choice_9"]
+script = ExtResource("2_choice")
+choice_id = "chosen_world"
+choice_text = "Выбранный мир"
+next_line_id = "chosen_world_1"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_10"]
+script = ExtResource("1_line")
+line_id = "Poseidon_choices_1"
+choices = Array[ExtResource("2_choice")]([SubResource("Resource_poseidon_choice_5"), SubResource("Resource_poseidon_choice_6"), SubResource("Resource_poseidon_choice_7"), SubResource("Resource_poseidon_choice_8"), SubResource("Resource_poseidon_choice_9")])
+
+[sub_resource type="Resource" id="Resource_poseidon_line_11"]
+script = ExtResource("1_line")
+line_id = "open_door_1"
+speaker_name = "Лена"
+text = "Да слушай, тут есть ряд дверей, которые открыть может только бог. Мог бы ты помочь с этим."
+next_line_id = "open_door_2"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_12"]
+script = ExtResource("1_line")
+line_id = "open_door_2"
+speaker_name = "Посейдон"
+text = "А, да не вопрос."
+next_line_id = "open_door_3"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_13"]
+script = ExtResource("1_line")
+line_id = "open_door_3"
+speaker_name = "Посейдон"
+text = "О, вот эту и открою."
+next_line_id = "open_door_4"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_14"]
+script = ExtResource("1_line")
+line_id = "open_door_4"
+speaker_name = "Лена"
+text = "Хех, морская дверь. Как и ожидалось."
+next_line_id = "open_door_5"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_15"]
+script = ExtResource("1_line")
+line_id = "open_door_5"
+speaker_name = "Посейдон"
+text = "Ничего не могу сказать, люблю я море."
+next_line_id = "open_door_6"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_16"]
+script = ExtResource("1_line")
+line_id = "open_door_6"
+speaker_name = "Лена"
+text = "Могу понять."
+next_line_id = "open_door_7"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_17"]
+script = ExtResource("1_line")
+line_id = "open_door_7"
+speaker_name = "Лена"
+text = "Но ты не думал попробовать что-то иное?"
+next_line_id = "open_door_8"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_18"]
+script = ExtResource("1_line")
+line_id = "open_door_8"
+speaker_name = "Посейдон"
+text = "Что-то иное?"
+next_line_id = "open_door_9"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_19"]
+script = ExtResource("1_line")
+line_id = "open_door_9"
+speaker_name = "Посейдон"
+text = "Наверное можно…"
+next_line_id = "open_door_10"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_20"]
+script = ExtResource("1_line")
+line_id = "open_door_10"
+speaker_name = "Лена"
+text = "Не хочешь?"
+next_line_id = "open_door_11"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_21"]
+script = ExtResource("1_line")
+line_id = "open_door_11"
+speaker_name = "Посейдон"
+text = "Не понимаю зачем."
+next_line_id = "open_door_12"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_22"]
+script = ExtResource("1_line")
+line_id = "open_door_12"
+speaker_name = "Посейдон"
+text = "Я принадлежу морю."
+next_line_id = "open_door_13"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_23"]
+script = ExtResource("1_line")
+line_id = "open_door_13"
+speaker_name = "Посейдон"
+text = "Как Зевс небу, а Аид подземному миру."
+next_line_id = "open_door_14"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_24"]
+script = ExtResource("1_line")
+line_id = "open_door_14"
+speaker_name = "Посейдон"
+text = "Не то, чтобы я не любил сушу."
+next_line_id = "open_door_15"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_25"]
+script = ExtResource("1_line")
+line_id = "open_door_15"
+speaker_name = "Посейдон"
+text = "Просто это не то."
+next_line_id = "open_door_16"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_26"]
+script = ExtResource("1_line")
+line_id = "open_door_16"
+speaker_name = "Лена"
+text = "Понимаю."
+next_line_id = "Poseidon_choices_1"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_27"]
+script = ExtResource("1_line")
+line_id = "opinion_1"
+speaker_name = "Лена"
+text = "Слушай, а что ты думаешь о…"
+next_line_id = "opinion_choices"
+
+[sub_resource type="Resource" id="Resource_poseidon_choice_28"]
+script = ExtResource("2_choice")
+choice_id = "opinion_зевсе"
+choice_text = "Зевсе"
+next_line_id = "opinion_зевсе_1"
+
+[sub_resource type="Resource" id="Resource_poseidon_choice_29"]
+script = ExtResource("2_choice")
+choice_id = "opinion_аиде"
+choice_text = "Аиде"
+next_line_id = "opinion_аиде_1"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_30"]
+script = ExtResource("1_line")
+line_id = "opinion_choices"
+choices = Array[ExtResource("2_choice")]([SubResource("Resource_poseidon_choice_28"), SubResource("Resource_poseidon_choice_29")])
+
+[sub_resource type="Resource" id="Resource_poseidon_line_31"]
+script = ExtResource("1_line")
+line_id = "opinion_зевсе_1"
+speaker_name = "Лена"
+text = "…Зевсе."
+next_line_id = "opinion_зевсе_2"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_32"]
+script = ExtResource("1_line")
+line_id = "opinion_зевсе_2"
+speaker_name = "Посейдон"
+text = "О, мой старший брат. Я очень его уважаю."
+next_line_id = "opinion_зевсе_3"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_33"]
+script = ExtResource("1_line")
+line_id = "opinion_зевсе_3"
+speaker_name = "Лена"
+text = "Так."
+next_line_id = "opinion_зевсе_4"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_34"]
+script = ExtResource("1_line")
+line_id = "opinion_зевсе_4"
+speaker_name = "Посейдон"
+text = "И за многое ему благодарен."
+next_line_id = "opinion_зевсе_5"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_35"]
+script = ExtResource("1_line")
+line_id = "opinion_зевсе_5"
+speaker_name = "Лена"
+text = "Ага."
+next_line_id = "opinion_зевсе_6"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_36"]
+script = ExtResource("1_line")
+line_id = "opinion_зевсе_6"
+speaker_name = "Посейдон"
+text = "Почему ты так на меня смотришь."
+next_line_id = "opinion_зевсе_7"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_37"]
+script = ExtResource("1_line")
+line_id = "opinion_зевсе_7"
+speaker_name = "Лена"
+text = "Ты как будто что-то не договариваешь."
+next_line_id = "opinion_зевсе_8"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_38"]
+script = ExtResource("1_line")
+line_id = "opinion_зевсе_8"
+speaker_name = "Посейдон"
+text = "Ну слушай…"
+next_line_id = "opinion_зевсе_9"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_39"]
+script = ExtResource("1_line")
+line_id = "opinion_зевсе_9"
+speaker_name = "Лена"
+text = "…"
+next_line_id = "opinion_зевсе_10"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_40"]
+script = ExtResource("1_line")
+line_id = "opinion_зевсе_10"
+speaker_name = "Посейдон"
+text = "Просто, он хороший. Правда. Но я его не совсем понимаю."
+next_line_id = "opinion_зевсе_11"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_41"]
+script = ExtResource("1_line")
+line_id = "opinion_зевсе_11"
+speaker_name = "Посейдон"
+text = "Точнее понимаю, даже слишком хорошо. Я же тоже был таким же."
+next_line_id = "opinion_зевсе_12"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_42"]
+script = ExtResource("1_line")
+line_id = "opinion_зевсе_12"
+speaker_name = "Посейдон"
+text = "Буйным свободным. Ни о чем не думал, не искал ответов."
+next_line_id = "opinion_зевсе_13"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_43"]
+script = ExtResource("1_line")
+line_id = "opinion_зевсе_13"
+speaker_name = "Посейдон"
+text = "А потом понял, что не могу таким быть."
+next_line_id = "opinion_зевсе_14"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_44"]
+script = ExtResource("1_line")
+line_id = "opinion_зевсе_14"
+speaker_name = "Посейдон"
+text = "А он – нет. Он хочет таким и оставаться."
+next_line_id = "opinion_зевсе_15"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_45"]
+script = ExtResource("1_line")
+line_id = "opinion_зевсе_15"
+speaker_name = "Посейдон"
+text = "И этого я как раз не понимаю."
+next_line_id = "opinion_зевсе_16"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_46"]
+script = ExtResource("1_line")
+line_id = "opinion_зевсе_16"
+speaker_name = "Лена"
+text = "Спасибо, что поделился."
+next_line_id = "opinion_зевсе_17"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_47"]
+script = ExtResource("1_line")
+line_id = "opinion_зевсе_17"
+speaker_name = "Лена"
+text = "И прости, что надавила."
+next_line_id = "opinion_зевсе_18"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_48"]
+script = ExtResource("1_line")
+line_id = "opinion_зевсе_18"
+speaker_name = "Посейдон"
+text = "Да ладно, чего уж там."
+next_line_id = "opinion_зевсе_19"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_49"]
+script = ExtResource("1_line")
+line_id = "opinion_зевсе_19"
+speaker_name = "Посейдон"
+text = "Сам давно хотел кому-то об этом сказать."
+next_line_id = "Poseidon_choices_1"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_50"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_1"
+speaker_name = "Лена"
+text = "…Аиде."
+next_line_id = "opinion_аиде_2"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_51"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_2"
+speaker_name = "Посейдон"
+text = "О, Аид. Он отличный человек."
+next_line_id = "opinion_аиде_3"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_52"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_3"
+speaker_name = "Посейдон"
+text = "Непростой. Может показаться мрачным."
+next_line_id = "opinion_аиде_4"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_53"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_4"
+speaker_name = "Посейдон"
+text = "Он очень ответственный. Я его безмерно уважаю."
+next_line_id = "opinion_аиде_5"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_54"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_5"
+speaker_name = "Лена"
+text = "Весьма лестная характеристика."
+next_line_id = "opinion_аиде_6"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_55"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_6"
+speaker_name = "Посейдон"
+text = "О да, его все любят на Олимпе."
+next_line_id = "opinion_аиде_7"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_56"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_7"
+speaker_name = "Посейдон"
+text = "Только вот…"
+next_line_id = "opinion_аиде_8"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_57"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_8"
+speaker_name = "Лена"
+text = "М?"
+next_line_id = "opinion_аиде_9"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_58"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_9"
+speaker_name = "Посейдон"
+text = "Тебе не кажется, что он страдает?"
+next_line_id = "opinion_аиде_10"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_59"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_10"
+speaker_name = "Лена"
+text = "Ну… Да, кажется."
+next_line_id = "opinion_аиде_11"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_60"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_11"
+speaker_name = "Посейдон"
+text = "Вот и мне."
+next_line_id = "opinion_аиде_12"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_61"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_12"
+speaker_name = "Посейдон"
+text = "И я все думал что-то для него сделать."
+next_line_id = "opinion_аиде_13"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_62"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_13"
+speaker_name = "Посейдон"
+text = "Как-то помочь. А-то у него порой вид совсем замученный."
+next_line_id = "opinion_аиде_14"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_63"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_14"
+speaker_name = "Посейдон"
+text = "Но он всегда отказывается. Говорит, что проблем никаких нет."
+next_line_id = "opinion_аиде_15"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_64"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_15"
+speaker_name = "Лена"
+text = "Мне точно не кажется, что у него все хорошо."
+next_line_id = "opinion_аиде_16"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_65"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_16"
+speaker_name = "Посейдон"
+text = "Да, но он не хочет, чтобы я помогал."
+next_line_id = "opinion_аиде_17"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_66"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_17"
+speaker_name = "Посейдон"
+text = "А я вижу, что ему плохо."
+next_line_id = "opinion_аиде_18"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_67"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_18"
+speaker_name = "Посейдон"
+text = "И не знаю, что делать."
+next_line_id = "opinion_аиде_19"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_68"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_19"
+speaker_name = "Лена"
+text = "Это… Тяжело видеть, когда страдает другой человек."
+next_line_id = "opinion_аиде_20"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_69"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_20"
+speaker_name = "Посейдон"
+text = "Тяжело."
+next_line_id = "opinion_аиде_21"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_70"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_21"
+speaker_name = "Лена"
+text = "Наверное, вы можете только дать ему знать, что вы о нем беспокоитесь."
+next_line_id = "opinion_аиде_22"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_71"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_22"
+speaker_name = "Лена"
+text = "Многим это помогает."
+next_line_id = "opinion_аиде_23"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_72"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_23"
+speaker_name = "Посейдон"
+text = "Наверное. Но кажется этого недостаточно."
+next_line_id = "opinion_аиде_24"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_73"]
+script = ExtResource("1_line")
+line_id = "opinion_аиде_24"
+speaker_name = "Посейдон"
+text = "Я не знаю."
+next_line_id = "Poseidon_choices_1"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_74"]
+script = ExtResource("1_line")
+line_id = "new_world_1"
+speaker_name = "Лена"
+text = "Как тебе в этом замке?"
+next_line_id = "new_world_2"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_75"]
+script = ExtResource("1_line")
+line_id = "new_world_2"
+speaker_name = "Посейдон"
+text = "Очень милый замок. Мне нравится."
+next_line_id = "new_world_3"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_76"]
+script = ExtResource("1_line")
+line_id = "new_world_3"
+speaker_name = "Посейдон"
+text = "Я люблю синий цвет."
+next_line_id = "new_world_4"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_77"]
+script = ExtResource("1_line")
+line_id = "new_world_4"
+speaker_name = "Лена"
+text = "Хех, спасибо. Я не особо думала над обстановкой."
+next_line_id = "new_world_5"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_78"]
+script = ExtResource("1_line")
+line_id = "new_world_5"
+speaker_name = "Лена"
+text = "Он как-то на лету собрался."
+next_line_id = "new_world_6"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_79"]
+script = ExtResource("1_line")
+line_id = "new_world_6"
+speaker_name = "Лена"
+text = "А в целом, этот мир. Новая обстановка."
+next_line_id = "new_world_7"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_80"]
+script = ExtResource("1_line")
+line_id = "new_world_7"
+speaker_name = "Посейдон"
+text = "Ну слушай, это интересно."
+next_line_id = "new_world_8"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_81"]
+script = ExtResource("1_line")
+line_id = "new_world_8"
+speaker_name = "Посейдон"
+text = "Я на глубине разное видел, поэтому не так легко удивляюсь."
+next_line_id = "new_world_9"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_82"]
+script = ExtResource("1_line")
+line_id = "new_world_9"
+speaker_name = "Посейдон"
+text = "Но это что-то за гранью. Как будто привычные законы тут не работают."
+next_line_id = "new_world_10"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_83"]
+script = ExtResource("1_line")
+line_id = "new_world_10"
+speaker_name = "Лена"
+text = "Законы? Интересно что вы о них заговорили."
+next_line_id = "new_world_11"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_84"]
+script = ExtResource("1_line")
+line_id = "new_world_11"
+speaker_name = "Посейдон"
+text = "Конечно. Море целиком состоит из законов, и они куда строже чем на суше."
+next_line_id = "new_world_12"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_85"]
+script = ExtResource("1_line")
+line_id = "new_world_12"
+speaker_name = "Посейдон"
+text = "Судью можно подкупить или разжалобить."
+next_line_id = "new_world_13"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_86"]
+script = ExtResource("1_line")
+line_id = "new_world_13"
+speaker_name = "Посейдон"
+text = "Но водная твердь непоколебима."
+next_line_id = "new_world_14"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_87"]
+script = ExtResource("1_line")
+line_id = "new_world_14"
+speaker_name = "Лена"
+text = "Водная твердь, звучит как оксюморон."
+next_line_id = "new_world_15"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_88"]
+script = ExtResource("1_line")
+line_id = "new_world_15"
+speaker_name = "Посейдон"
+text = "Как что?"
+next_line_id = "new_world_16"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_89"]
+script = ExtResource("1_line")
+line_id = "new_world_16"
+speaker_name = "Лена"
+text = "Не обращайте внимания. У вас интересные мысли."
+next_line_id = "Poseidon_choices_1"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_90"]
+script = ExtResource("1_line")
+line_id = "help_1"
+speaker_name = "Лена"
+text = "Вы так быстро бросились мне на помощь."
+next_line_id = "help_2"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_91"]
+script = ExtResource("1_line")
+line_id = "help_2"
+speaker_name = "Посейдон"
+text = "Ты снова этот разговор начать хочешь?"
+next_line_id = "help_3"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_92"]
+script = ExtResource("1_line")
+line_id = "help_3"
+speaker_name = "Посейдон"
+text = "Что я тебе помогать не должен."
+next_line_id = "help_4"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_93"]
+script = ExtResource("1_line")
+line_id = "help_4"
+speaker_name = "Лена"
+text = "Вовсе я такого не говорила. Просто вы странно все упрощаете."
+next_line_id = "help_5"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_94"]
+script = ExtResource("1_line")
+line_id = "help_5"
+speaker_name = "Посейдон"
+text = "Мне кажется, как раз ты усложняешь."
+next_line_id = "help_6"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_95"]
+script = ExtResource("1_line")
+line_id = "help_6"
+speaker_name = "Посейдон"
+text = "Я могу сделать мир немного лучше. Почему этого не делать."
+next_line_id = "help_7"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_96"]
+script = ExtResource("1_line")
+line_id = "help_7"
+speaker_name = "Лена"
+text = "Мы как-то разгорячились."
+next_line_id = "help_8"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_97"]
+script = ExtResource("1_line")
+line_id = "help_8"
+speaker_name = "Лена"
+text = "Нет, просто. Вы же тратите свое время и силы."
+next_line_id = "help_9"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_98"]
+script = ExtResource("1_line")
+line_id = "help_9"
+speaker_name = "Лена"
+text = "Вдруг, вы сейчас могли бы применять их как-то более эффективно."
+next_line_id = "help_10"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_99"]
+script = ExtResource("1_line")
+line_id = "help_10"
+speaker_name = "Лена"
+text = "И улучшать мир больше чем просто помогая мне."
+next_line_id = "help_11"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_100"]
+script = ExtResource("1_line")
+line_id = "help_11"
+speaker_name = "Посейдон"
+text = "Рассуждения твои меня смущают."
+next_line_id = "help_12"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_101"]
+script = ExtResource("1_line")
+line_id = "help_12"
+speaker_name = "Посейдон"
+text = "Как я могу знать, что есть вариант лучше?"
+next_line_id = "help_13"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_102"]
+script = ExtResource("1_line")
+line_id = "help_13"
+speaker_name = "Посейдон"
+text = "Я же не могу весь день просто сидеть, и думать, как поступить максимально хорошо."
+next_line_id = "help_14"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_103"]
+script = ExtResource("1_line")
+line_id = "help_14"
+speaker_name = "Лена"
+text = "Хех, а многие именно так и делают. Я в том числе."
+next_line_id = "help_15"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_104"]
+script = ExtResource("1_line")
+line_id = "help_15"
+speaker_name = "Посейдон"
+text = "Ну и как? Помогает это делать мир лучше самым эффективным способом?"
+next_line_id = "help_16"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_105"]
+script = ExtResource("1_line")
+line_id = "help_16"
+speaker_name = "Лена"
+text = "Да нет, чаще просто ни к чему не приходишь, и ничего не делаешь."
+next_line_id = "help_17"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_106"]
+script = ExtResource("1_line")
+line_id = "help_17"
+speaker_name = "Посейдон"
+text = "Ну вот и я о том говорю."
+next_line_id = "Poseidon_choices_1"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_107"]
+script = ExtResource("1_line")
+line_id = "chosen_world_1"
+speaker_name = "Лена"
+text = "Как вам здешнее море?"
+next_line_id = "chosen_world_2"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_108"]
+script = ExtResource("1_line")
+line_id = "chosen_world_2"
+speaker_name = "Посейдон"
+text = "Удивительное. Совсем не похоже на то, к чему я привык."
+next_line_id = "chosen_world_3"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_109"]
+script = ExtResource("1_line")
+line_id = "chosen_world_3"
+speaker_name = "Лена"
+text = "Правда? А мне казалось глубоководье довольно однообразно."
+next_line_id = "chosen_world_4"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_110"]
+script = ExtResource("1_line")
+line_id = "chosen_world_4"
+speaker_name = "Посейдон"
+text = "Да ты что! Моря совсем разные. Растения, камни, рыбы."
+next_line_id = "chosen_world_5"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_111"]
+script = ExtResource("1_line")
+line_id = "chosen_world_5"
+speaker_name = "Посейдон"
+text = "Тут даже вода течет по-другому. Я аж не сразу привык."
+next_line_id = "chosen_world_6"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_112"]
+script = ExtResource("1_line")
+line_id = "chosen_world_6"
+speaker_name = "Лена"
+text = "Правда? Мне показалось вы мнгновенно сориентировались."
+next_line_id = "chosen_world_7"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_113"]
+script = ExtResource("1_line")
+line_id = "chosen_world_7"
+speaker_name = "Посейдон"
+text = "Э нет, тут прочувствовать надо."
+next_line_id = "chosen_world_8"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_114"]
+script = ExtResource("1_line")
+line_id = "chosen_world_8"
+speaker_name = "Посейдон"
+text = "Море – дама капризная. И нужно уметь читать ее настроение."
+next_line_id = "chosen_world_9"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_115"]
+script = ExtResource("1_line")
+line_id = "chosen_world_9"
+speaker_name = "Посейдон"
+text = "Когда ловить волну, а когда замереть в ожидании."
+next_line_id = "chosen_world_10"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_116"]
+script = ExtResource("1_line")
+line_id = "chosen_world_10"
+speaker_name = "Посейдон"
+text = "Тут мелочи важны."
+next_line_id = "chosen_world_11"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_117"]
+script = ExtResource("1_line")
+line_id = "chosen_world_11"
+speaker_name = "Лена"
+text = "Вы и правда очень любите море."
+next_line_id = "chosen_world_12"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_118"]
+script = ExtResource("1_line")
+line_id = "chosen_world_12"
+speaker_name = "Посейдон"
+text = "А то! Как его не любить?"
+next_line_id = "chosen_world_13"
+
+[sub_resource type="Resource" id="Resource_poseidon_line_119"]
+script = ExtResource("1_line")
+line_id = "chosen_world_13"
+speaker_name = "Лена"
+text = "Когда вы так говорите, я и сама не понимаю как его можно не любить."
+next_line_id = "Poseidon_choices_1"
+
+[resource]
+script = ExtResource("3_dialogue")
+dialogue_id = "poseidon_dialogue_1"
+dialogue_name = ""
+start_line_id = "intro_1"
+lines = Array[ExtResource("1_line")]([SubResource("Resource_poseidon_line_2"), SubResource("Resource_poseidon_line_3"), SubResource("Resource_poseidon_line_4"), SubResource("Resource_poseidon_line_10"), SubResource("Resource_poseidon_line_11"), SubResource("Resource_poseidon_line_12"), SubResource("Resource_poseidon_line_13"), SubResource("Resource_poseidon_line_14"), SubResource("Resource_poseidon_line_15"), SubResource("Resource_poseidon_line_16"), SubResource("Resource_poseidon_line_17"), SubResource("Resource_poseidon_line_18"), SubResource("Resource_poseidon_line_19"), SubResource("Resource_poseidon_line_20"), SubResource("Resource_poseidon_line_21"), SubResource("Resource_poseidon_line_22"), SubResource("Resource_poseidon_line_23"), SubResource("Resource_poseidon_line_24"), SubResource("Resource_poseidon_line_25"), SubResource("Resource_poseidon_line_26"), SubResource("Resource_poseidon_line_27"), SubResource("Resource_poseidon_line_30"), SubResource("Resource_poseidon_line_31"), SubResource("Resource_poseidon_line_32"), SubResource("Resource_poseidon_line_33"), SubResource("Resource_poseidon_line_34"), SubResource("Resource_poseidon_line_35"), SubResource("Resource_poseidon_line_36"), SubResource("Resource_poseidon_line_37"), SubResource("Resource_poseidon_line_38"), SubResource("Resource_poseidon_line_39"), SubResource("Resource_poseidon_line_40"), SubResource("Resource_poseidon_line_41"), SubResource("Resource_poseidon_line_42"), SubResource("Resource_poseidon_line_43"), SubResource("Resource_poseidon_line_44"), SubResource("Resource_poseidon_line_45"), SubResource("Resource_poseidon_line_46"), SubResource("Resource_poseidon_line_47"), SubResource("Resource_poseidon_line_48"), SubResource("Resource_poseidon_line_49"), SubResource("Resource_poseidon_line_50"), SubResource("Resource_poseidon_line_51"), SubResource("Resource_poseidon_line_52"), SubResource("Resource_poseidon_line_53"), SubResource("Resource_poseidon_line_54"), SubResource("Resource_poseidon_line_55"), SubResource("Resource_poseidon_line_56"), SubResource("Resource_poseidon_line_57"), SubResource("Resource_poseidon_line_58"), SubResource("Resource_poseidon_line_59"), SubResource("Resource_poseidon_line_60"), SubResource("Resource_poseidon_line_61"), SubResource("Resource_poseidon_line_62"), SubResource("Resource_poseidon_line_63"), SubResource("Resource_poseidon_line_64"), SubResource("Resource_poseidon_line_65"), SubResource("Resource_poseidon_line_66"), SubResource("Resource_poseidon_line_67"), SubResource("Resource_poseidon_line_68"), SubResource("Resource_poseidon_line_69"), SubResource("Resource_poseidon_line_70"), SubResource("Resource_poseidon_line_71"), SubResource("Resource_poseidon_line_72"), SubResource("Resource_poseidon_line_73"), SubResource("Resource_poseidon_line_74"), SubResource("Resource_poseidon_line_75"), SubResource("Resource_poseidon_line_76"), SubResource("Resource_poseidon_line_77"), SubResource("Resource_poseidon_line_78"), SubResource("Resource_poseidon_line_79"), SubResource("Resource_poseidon_line_80"), SubResource("Resource_poseidon_line_81"), SubResource("Resource_poseidon_line_82"), SubResource("Resource_poseidon_line_83"), SubResource("Resource_poseidon_line_84"), SubResource("Resource_poseidon_line_85"), SubResource("Resource_poseidon_line_86"), SubResource("Resource_poseidon_line_87"), SubResource("Resource_poseidon_line_88"), SubResource("Resource_poseidon_line_89"), SubResource("Resource_poseidon_line_90"), SubResource("Resource_poseidon_line_91"), SubResource("Resource_poseidon_line_92"), SubResource("Resource_poseidon_line_93"), SubResource("Resource_poseidon_line_94"), SubResource("Resource_poseidon_line_95"), SubResource("Resource_poseidon_line_96"), SubResource("Resource_poseidon_line_97"), SubResource("Resource_poseidon_line_98"), SubResource("Resource_poseidon_line_99"), SubResource("Resource_poseidon_line_100"), SubResource("Resource_poseidon_line_101"), SubResource("Resource_poseidon_line_102"), SubResource("Resource_poseidon_line_103"), SubResource("Resource_poseidon_line_104"), SubResource("Resource_poseidon_line_105"), SubResource("Resource_poseidon_line_106"), SubResource("Resource_poseidon_line_107"), SubResource("Resource_poseidon_line_108"), SubResource("Resource_poseidon_line_109"), SubResource("Resource_poseidon_line_110"), SubResource("Resource_poseidon_line_111"), SubResource("Resource_poseidon_line_112"), SubResource("Resource_poseidon_line_113"), SubResource("Resource_poseidon_line_114"), SubResource("Resource_poseidon_line_115"), SubResource("Resource_poseidon_line_116"), SubResource("Resource_poseidon_line_117"), SubResource("Resource_poseidon_line_118"), SubResource("Resource_poseidon_line_119")])

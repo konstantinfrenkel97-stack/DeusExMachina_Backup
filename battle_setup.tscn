@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://ciog7oxrrukth"]
+
+[ext_resource type="Script" uid="uid://i7eutxalnaht" path="res://battle_setup.gd" id="1_u0pom"]
+
+[node name="BattleSetup" type="Control" unique_id=938359004]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_u0pom")

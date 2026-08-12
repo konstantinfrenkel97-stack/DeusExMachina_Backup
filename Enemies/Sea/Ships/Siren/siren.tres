@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://bi35ew5jlwnqb"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://c5m2j20xdrxlo" path="res://Enemy_logic/siren_logic.gd" id="3_ai"]
+[ext_resource type="Resource" uid="uid://sirngntcl001" path="res://Enemies/Sea/Ships/Siren/gentle_call.tres" id="4_gc"]
+[ext_resource type="Resource" uid="uid://sirntndrs001" path="res://Enemies/Sea/Ships/Siren/tender_song.tres" id="5_ts"]
+[ext_resource type="Resource" uid="uid://sirntbtm0001" path="res://Enemies/Sea/Ships/Siren/to_the_bottom.tres" id="6_tb"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Сирена"
+sprite_path = "res://Enemies/Sea/Ships/Siren/Сирена_nobg.png"
+face_sprite = "res://Enemies/Sea/Ships/Siren/Сирена_Face.png"
+battle_sprite_scale_percent = 101.0
+max_hp = 70
+initiative = 6
+evasion = 20
+special_effect_type = "siren_ally_evasion"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_gc"), ExtResource("5_ts"), ExtResource("6_tb")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

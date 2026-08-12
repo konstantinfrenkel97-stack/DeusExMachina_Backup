@@ -1,0 +1,208 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://y2vyy1u6uaft"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_00guh"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_4g7j6"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_tmhle"]
+
+[sub_resource type="Resource" id="Resource_smmrj"]
+script = ExtResource("1_00guh")
+speaker_name = "Миф"
+text = "Ну вот и я! 
+Рад видеть что у тебя все хорошо."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_de5tl"]
+script = ExtResource("1_00guh")
+speaker_name = "Миф"
+text = "Как я и рассчитывал."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_gms3i"]
+script = ExtResource("1_00guh")
+speaker_name = "Миф"
+text = "Эй! Где вся моя эссенция?!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_mmbyd"]
+script = ExtResource("1_00guh")
+speaker_name = "Лена"
+text = "А нечего было меня бросать одну!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ihhtc"]
+script = ExtResource("1_00guh")
+speaker_name = "Лена"
+text = "Ты говорил что решишь проблему глобально.
+"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_1w7c0"]
+script = ExtResource("1_00guh")
+speaker_name = "Миф"
+text = "Говорил, и проблема решена.
+Восхищение принимается."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_1kxfw"]
+script = ExtResource("1_00guh")
+speaker_name = "Лена"
+text = "То есть эти твари больше сюда не ворвутся?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_4pld4"]
+script = ExtResource("1_00guh")
+speaker_name = "Миф"
+text = "Пха! Конечно прорвутся."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_epmp5"]
+script = ExtResource("1_00guh")
+speaker_name = "Лена"
+text = "Эм...
+Прорвутся, но....?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_wnc3n"]
+script = ExtResource("1_00guh")
+speaker_name = "Миф"
+text = "...но не прямо сейчас!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_0gi5y"]
+script = ExtResource("1_00guh")
+speaker_name = "Лена"
+text = "Это ты называешь \"решить проблему\"?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_8bsj5"]
+script = ExtResource("1_00guh")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_a6woe"]
+script = ExtResource("1_00guh")
+speaker_name = "Миф"
+text = "Ты много критикуешь, и мало восхищаешься!
+А я, между прочим, придумал как вернуть тебя в твой мир!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_yakcf"]
+script = ExtResource("1_00guh")
+speaker_name = "Лена"
+text = "Я!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_gmuiq"]
+script = ExtResource("1_00guh")
+speaker_name = "Лена"
+text = "Ладно, извини пожалуйста."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_krjok"]
+script = ExtResource("1_00guh")
+speaker_name = "Лена"
+text = "Я правда благодарна за то что ты делаешь...
+"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_4bd5j"]
+script = ExtResource("1_00guh")
+speaker_name = "Лена"
+text = "Что можешь..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_lui73"]
+script = ExtResource("1_00guh")
+speaker_name = "Миф"
+text = "Принято!
+Так вот слушай."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_2ur6v"]
+script = ExtResource("1_00guh")
+speaker_name = "Миф"
+text = "Мне удалось концетрировать всю эту цветную шоблу, и разделить на пятнадцать миров, плюс минус стабильных."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_wke8l"]
+script = ExtResource("1_00guh")
+speaker_name = "Миф"
+text = "Прямо вырваться оттуда они не могут, но буду просачиваться, так что если ничего не сделать, рано или поздно нас с тобой убьют.
+
+Следишь за мыслью?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_xwuxp"]
+script = ExtResource("1_00guh")
+speaker_name = "Лена"
+text = "Да.
+Нет.
+Наверное?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_afxtj"]
+script = ExtResource("1_00guh")
+speaker_name = "Миф"
+text = "Так вот, чтобы отправить тебя обратно в материальную реальность, мне нужно собрать осколки своей силы, а они..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_l5cmy"]
+script = ExtResource("1_00guh")
+speaker_name = "Лена"
+text = "Разбросаны по этим пятнадцати мирам?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_fsu1d"]
+script = ExtResource("1_00guh")
+speaker_name = "Миф"
+text = "Бинго! Я придал им форму страничек, для поэтичости."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_t88vg"]
+script = ExtResource("1_00guh")
+speaker_name = "Лена"
+text = "Для поэтичности...?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_af7xv"]
+script = ExtResource("1_00guh")
+speaker_name = "Миф"
+text = "Так что все что тебе нужно, это пройтись по всем мирам кишащим порождениями моей фантазии, и собрать страницы, и тогда ты попадешь домой."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_8yri7"]
+script = ExtResource("1_00guh")
+speaker_name = "Лена"
+text = "\"Пройтись\"?
+И как ты себе это представляешь? Меня порвут на флаг британский!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_6qook"]
+script = ExtResource("1_00guh")
+speaker_name = "Миф"
+text = "Ну ты же научилась призывать себе бойцов. Вот и воспоьзуйся их талантами для нашего общего блага."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_hglkd"]
+script = ExtResource("1_00guh")
+speaker_name = "Лена"
+text = "Это все как-то...
+Неужели нет другого способа?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_fx0yv"]
+script = ExtResource("1_00guh")
+speaker_name = "Миф"
+text = "Нет.
+Если, конечно, у тебя нет идей получше."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_quig6"]
+script = ExtResource("1_00guh")
+speaker_name = "Лена"
+text = "Ладно, я попробую. Блин."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_tmhle")
+lines = Array[ExtResource("1_00guh")]([SubResource("Resource_smmrj"), SubResource("Resource_de5tl"), SubResource("Resource_gms3i"), SubResource("Resource_mmbyd"), SubResource("Resource_ihhtc"), SubResource("Resource_1w7c0"), SubResource("Resource_1kxfw"), SubResource("Resource_4pld4"), SubResource("Resource_epmp5"), SubResource("Resource_wnc3n"), SubResource("Resource_0gi5y"), SubResource("Resource_8bsj5"), SubResource("Resource_a6woe"), SubResource("Resource_yakcf"), SubResource("Resource_gmuiq"), SubResource("Resource_krjok"), SubResource("Resource_4bd5j"), SubResource("Resource_lui73"), SubResource("Resource_2ur6v"), SubResource("Resource_wke8l"), SubResource("Resource_xwuxp"), SubResource("Resource_afxtj"), SubResource("Resource_l5cmy"), SubResource("Resource_fsu1d"), SubResource("Resource_t88vg"), SubResource("Resource_af7xv"), SubResource("Resource_8yri7"), SubResource("Resource_6qook"), SubResource("Resource_hglkd"), SubResource("Resource_fx0yv"), SubResource("Resource_quig6")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

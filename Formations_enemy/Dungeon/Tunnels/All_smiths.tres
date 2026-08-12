@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="FormationResource" format=3 uid="uid://c3m76sd5ftub2"]
+
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="1_1aiqk"]
+[ext_resource type="Resource" uid="uid://b3jkkyw5dvodp" path="res://Enemies/Dungeon/Tunnels/Dwarf_smith/dwarf_smith.tres" id="1_2rrfn"]
+
+[resource]
+script = ExtResource("1_1aiqk")
+pos1 = ExtResource("1_2rrfn")
+pos2 = ExtResource("1_2rrfn")
+pos3 = ExtResource("1_2rrfn")
+pos4 = ExtResource("1_2rrfn")
+metadata/_custom_type_script = "uid://c50het7soanc1"

@@ -1,0 +1,827 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3]
+
+[ext_resource type="Script" path="res://Dialogues/dialogue_line.gd" id="1_line"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_resource.gd" id="3_dialogue"]
+
+[sub_resource type="Resource" id="Resource_odin_line_2"]
+script = ExtResource("1_line")
+line_id = "intro_1"
+speaker_name = "Один"
+text = "(Когда ты входишь в его комнату, он стоит и смотрит в окно, сложив руки за спиной. За окном переменчивый мир плана фантазий)"
+next_line_id = "intro_2"
+
+[sub_resource type="Resource" id="Resource_odin_line_3"]
+script = ExtResource("1_line")
+line_id = "intro_2"
+speaker_name = "Лена"
+text = "Кхм. Вы не против поговорить?"
+next_line_id = "intro_3"
+
+[sub_resource type="Resource" id="Resource_odin_line_4"]
+script = ExtResource("1_line")
+line_id = "intro_3"
+speaker_name = "Один"
+text = "А? Да-да, конечно."
+next_line_id = "intro_4"
+
+[sub_resource type="Resource" id="Resource_odin_line_5"]
+script = ExtResource("1_line")
+line_id = "intro_4"
+speaker_name = "Один"
+text = "Что там у тебя?"
+next_line_id = "Odin_choices_1"
+
+[sub_resource type="Resource" id="Resource_odin_choice_6"]
+script = ExtResource("2_choice")
+choice_id = "open_door"
+choice_text = "Открыть дверь"
+next_line_id = "open_door_1"
+
+[sub_resource type="Resource" id="Resource_odin_choice_7"]
+script = ExtResource("2_choice")
+choice_id = "opinion"
+choice_text = "Мнение о богах"
+next_line_id = "opinion_1"
+
+[sub_resource type="Resource" id="Resource_odin_choice_8"]
+script = ExtResource("2_choice")
+choice_id = "new_world"
+choice_text = "Новый мир"
+next_line_id = "new_world_1"
+
+[sub_resource type="Resource" id="Resource_odin_choice_9"]
+script = ExtResource("2_choice")
+choice_id = "help"
+choice_text = "Твоя помощь"
+next_line_id = "help_1"
+
+[sub_resource type="Resource" id="Resource_odin_choice_10"]
+script = ExtResource("2_choice")
+choice_id = "chosen_world"
+choice_text = "Выбранный мир"
+next_line_id = "chosen_world_1"
+
+[sub_resource type="Resource" id="Resource_odin_line_11"]
+script = ExtResource("1_line")
+line_id = "Odin_choices_1"
+choices = Array[ExtResource("2_choice")]([SubResource("Resource_odin_choice_6"), SubResource("Resource_odin_choice_7"), SubResource("Resource_odin_choice_8"), SubResource("Resource_odin_choice_9"), SubResource("Resource_odin_choice_10")])
+
+[sub_resource type="Resource" id="Resource_odin_line_12"]
+script = ExtResource("1_line")
+line_id = "open_door_1"
+speaker_name = "Лена"
+text = "Послушайте, мне нужно чтобы вы открыли одну из этих дверей. Только бог может."
+next_line_id = "open_door_2"
+
+[sub_resource type="Resource" id="Resource_odin_line_13"]
+script = ExtResource("1_line")
+line_id = "open_door_2"
+speaker_name = "Один"
+text = "Открыть дверь, хм."
+next_line_id = "open_door_3"
+
+[sub_resource type="Resource" id="Resource_odin_line_14"]
+script = ExtResource("1_line")
+line_id = "open_door_3"
+speaker_name = "Один"
+text = "На этой звезды нарисованы, что за ней?"
+next_line_id = "open_door_4"
+
+[sub_resource type="Resource" id="Resource_odin_line_15"]
+script = ExtResource("1_line")
+line_id = "open_door_4"
+speaker_name = "Лена"
+text = "Ну, эмм… Не знаю."
+next_line_id = "open_door_5"
+
+[sub_resource type="Resource" id="Resource_odin_line_16"]
+script = ExtResource("1_line")
+line_id = "open_door_5"
+speaker_name = "Лена"
+text = "Реально не знаю. Небосклон?"
+next_line_id = "open_door_6"
+
+[sub_resource type="Resource" id="Resource_odin_line_17"]
+script = ExtResource("1_line")
+line_id = "open_door_6"
+speaker_name = "Один"
+text = "И как мы туда попадем, после того как я открою?"
+next_line_id = "open_door_7"
+
+[sub_resource type="Resource" id="Resource_odin_line_18"]
+script = ExtResource("1_line")
+line_id = "open_door_7"
+speaker_name = "Один"
+text = "Прям среди звезд будем?"
+next_line_id = "open_door_8"
+
+[sub_resource type="Resource" id="Resource_odin_line_19"]
+script = ExtResource("1_line")
+line_id = "open_door_8"
+speaker_name = "Лена"
+text = "Я, честно, даже не могу предположить."
+next_line_id = "open_door_9"
+
+[sub_resource type="Resource" id="Resource_odin_line_20"]
+script = ExtResource("1_line")
+line_id = "open_door_9"
+speaker_name = "Лена"
+text = "Может какую-то другую откроете."
+next_line_id = "open_door_10"
+
+[sub_resource type="Resource" id="Resource_odin_line_21"]
+script = ExtResource("1_line")
+line_id = "open_door_10"
+speaker_name = "Один"
+text = "Думаешь из оставшихся богов кто-то выберет звезды?"
+next_line_id = "open_door_11"
+
+[sub_resource type="Resource" id="Resource_odin_line_22"]
+script = ExtResource("1_line")
+line_id = "open_door_11"
+speaker_name = "Лена"
+text = "Думаю нет…"
+next_line_id = "open_door_12"
+
+[sub_resource type="Resource" id="Resource_odin_line_23"]
+script = ExtResource("1_line")
+line_id = "open_door_12"
+speaker_name = "Один"
+text = "Хорошо, значит открываем звезды."
+next_line_id = "open_door_13"
+
+[sub_resource type="Resource" id="Resource_odin_line_24"]
+script = ExtResource("1_line")
+line_id = "open_door_13"
+speaker_name = "Лена"
+text = "А вам самим не хочется открыть что-то другое."
+next_line_id = "open_door_14"
+
+[sub_resource type="Resource" id="Resource_odin_line_25"]
+script = ExtResource("1_line")
+line_id = "open_door_14"
+speaker_name = "Один"
+text = "Хех, пусть дети резвятся в своих мирах фантазий."
+next_line_id = "open_door_15"
+
+[sub_resource type="Resource" id="Resource_odin_line_26"]
+script = ExtResource("1_line")
+line_id = "open_door_15"
+speaker_name = "Один"
+text = "А я открою то, что не открыл бы другой."
+next_line_id = "open_door_16"
+
+[sub_resource type="Resource" id="Resource_odin_line_27"]
+script = ExtResource("1_line")
+line_id = "open_door_16"
+speaker_name = "Лена"
+text = "Звучит ответственно."
+next_line_id = "Odin_choices_1"
+
+[sub_resource type="Resource" id="Resource_odin_line_28"]
+script = ExtResource("1_line")
+line_id = "opinion_1"
+speaker_name = "Лена"
+text = "Хотела узнать ваше мнение насчет…"
+next_line_id = "opinion_choices"
+
+[sub_resource type="Resource" id="Resource_odin_choice_29"]
+script = ExtResource("2_choice")
+choice_id = "opinion_тора"
+choice_text = "Тора"
+next_line_id = "opinion_тора_1"
+
+[sub_resource type="Resource" id="Resource_odin_choice_30"]
+script = ExtResource("2_choice")
+choice_id = "opinion_loki"
+choice_text = "Локи"
+next_line_id = "opinion_loki_1"
+
+[sub_resource type="Resource" id="Resource_odin_line_31"]
+script = ExtResource("1_line")
+line_id = "opinion_choices"
+choices = Array[ExtResource("2_choice")]([SubResource("Resource_odin_choice_29"), SubResource("Resource_odin_choice_30")])
+
+[sub_resource type="Resource" id="Resource_odin_line_32"]
+script = ExtResource("1_line")
+line_id = "opinion_тора_1"
+speaker_name = "Лена"
+text = "…Тора."
+next_line_id = "opinion_тора_2"
+
+[sub_resource type="Resource" id="Resource_odin_line_33"]
+script = ExtResource("1_line")
+line_id = "opinion_тора_2"
+speaker_name = "Один"
+text = "Тор. Сильный воин и верный сын, на него можно положиться."
+next_line_id = "opinion_тора_3"
+
+[sub_resource type="Resource" id="Resource_odin_line_34"]
+script = ExtResource("1_line")
+line_id = "opinion_тора_3"
+speaker_name = "Лена"
+text = "Это точно."
+next_line_id = "opinion_тора_4"
+
+[sub_resource type="Resource" id="Resource_odin_line_35"]
+script = ExtResource("1_line")
+line_id = "opinion_тора_4"
+speaker_name = "Один"
+text = "Единственное, меня смущает его простота."
+next_line_id = "opinion_тора_5"
+
+[sub_resource type="Resource" id="Resource_odin_line_36"]
+script = ExtResource("1_line")
+line_id = "opinion_тора_5"
+speaker_name = "Лена"
+text = "М?"
+next_line_id = "opinion_тора_6"
+
+[sub_resource type="Resource" id="Resource_odin_line_37"]
+script = ExtResource("1_line")
+line_id = "opinion_тора_6"
+speaker_name = "Один"
+text = "Он не пытается понять."
+next_line_id = "opinion_тора_7"
+
+[sub_resource type="Resource" id="Resource_odin_line_38"]
+script = ExtResource("1_line")
+line_id = "opinion_тора_7"
+speaker_name = "Один"
+text = "Конечно, он всегда был таким. В этом его сила, в том числе."
+next_line_id = "opinion_тора_8"
+
+[sub_resource type="Resource" id="Resource_odin_line_39"]
+script = ExtResource("1_line")
+line_id = "opinion_тора_8"
+speaker_name = "Один"
+text = "Он не сомневается, верит в свои силы и своих друзей. Это похвально."
+next_line_id = "opinion_тора_9"
+
+[sub_resource type="Resource" id="Resource_odin_line_40"]
+script = ExtResource("1_line")
+line_id = "opinion_тора_9"
+speaker_name = "Один"
+text = "Но он не пытается вырасти."
+next_line_id = "opinion_тора_10"
+
+[sub_resource type="Resource" id="Resource_odin_line_41"]
+script = ExtResource("1_line")
+line_id = "opinion_тора_10"
+speaker_name = "Один"
+text = "Точнее пытается, но только в том, в чем он и так хорош. Физической силе и боевом мастерстве."
+next_line_id = "opinion_тора_11"
+
+[sub_resource type="Resource" id="Resource_odin_line_42"]
+script = ExtResource("1_line")
+line_id = "opinion_тора_11"
+speaker_name = "Один"
+text = "Хочет стать сильнее и постоянно ищет вызовы."
+next_line_id = "opinion_тора_12"
+
+[sub_resource type="Resource" id="Resource_odin_line_43"]
+script = ExtResource("1_line")
+line_id = "opinion_тора_12"
+speaker_name = "Один"
+text = "Но на самом деле, эти вызовы для него просты и удобны."
+next_line_id = "opinion_тора_13"
+
+[sub_resource type="Resource" id="Resource_odin_line_44"]
+script = ExtResource("1_line")
+line_id = "opinion_тора_13"
+speaker_name = "Один"
+text = "Он не пытается превзойти себя в чем-то по-настоящему для себя сложном."
+next_line_id = "opinion_тора_14"
+
+[sub_resource type="Resource" id="Resource_odin_line_45"]
+script = ExtResource("1_line")
+line_id = "opinion_тора_14"
+speaker_name = "Один"
+text = "В этом его самообман."
+next_line_id = "opinion_тора_15"
+
+[sub_resource type="Resource" id="Resource_odin_line_46"]
+script = ExtResource("1_line")
+line_id = "opinion_тора_15"
+speaker_name = "Один"
+text = "И я думаю он боится почувствовать себя слабым в том, что не умеет."
+next_line_id = "opinion_тора_16"
+
+[sub_resource type="Resource" id="Resource_odin_line_47"]
+script = ExtResource("1_line")
+line_id = "opinion_тора_16"
+speaker_name = "Один"
+text = "Слишком привык жить с мыслью что он сильный воин на которого все полагаются."
+next_line_id = "opinion_тора_17"
+
+[sub_resource type="Resource" id="Resource_odin_line_48"]
+script = ExtResource("1_line")
+line_id = "opinion_тора_17"
+speaker_name = "Лена"
+text = "Это, довольно глубокий анализ. И длинны."
+next_line_id = "opinion_тора_18"
+
+[sub_resource type="Resource" id="Resource_odin_line_49"]
+script = ExtResource("1_line")
+line_id = "opinion_тора_18"
+speaker_name = "Один"
+text = "Прошу меня простить, я часто увлекаюсь, когда погружаюсь в свои мысли."
+next_line_id = "opinion_тора_19"
+
+[sub_resource type="Resource" id="Resource_odin_line_50"]
+script = ExtResource("1_line")
+line_id = "opinion_тора_19"
+speaker_name = "Один"
+text = "Ты что-то еще хотела узнать?"
+next_line_id = "Odin_choices_1"
+
+[sub_resource type="Resource" id="Resource_odin_line_51"]
+script = ExtResource("1_line")
+line_id = "opinion_loki_1"
+speaker_name = "Лена"
+text = "…Локи"
+next_line_id = "opinion_loki_2"
+
+[sub_resource type="Resource" id="Resource_odin_line_52"]
+script = ExtResource("1_line")
+line_id = "opinion_loki_2"
+speaker_name = "Один"
+text = "Локи. О Локи!"
+next_line_id = "opinion_loki_3"
+
+[sub_resource type="Resource" id="Resource_odin_line_53"]
+script = ExtResource("1_line")
+line_id = "opinion_loki_3"
+speaker_name = "Один"
+text = "Задача, которую я так и не смог решить."
+next_line_id = "opinion_loki_4"
+
+[sub_resource type="Resource" id="Resource_odin_line_54"]
+script = ExtResource("1_line")
+line_id = "opinion_loki_4"
+speaker_name = "Один"
+text = "Он уничтожил все над чем я работал. Всех нас, а за одно и себя."
+next_line_id = "opinion_loki_5"
+
+[sub_resource type="Resource" id="Resource_odin_line_55"]
+script = ExtResource("1_line")
+line_id = "opinion_loki_5"
+speaker_name = "Один"
+text = "Где я так ошибся?"
+next_line_id = "opinion_loki_6"
+
+[sub_resource type="Resource" id="Resource_odin_line_56"]
+script = ExtResource("1_line")
+line_id = "opinion_loki_6"
+speaker_name = "Лена"
+text = "Мне очень жаль."
+next_line_id = "opinion_loki_7"
+
+[sub_resource type="Resource" id="Resource_odin_line_57"]
+script = ExtResource("1_line")
+line_id = "opinion_loki_7"
+speaker_name = "Один"
+text = "Жаль-то жаль, но я правда не понимаю."
+next_line_id = "opinion_loki_8"
+
+[sub_resource type="Resource" id="Resource_odin_line_58"]
+script = ExtResource("1_line")
+line_id = "opinion_loki_8"
+speaker_name = "Один"
+text = "Я пробовал с ним по-разному, и мне казалось, что наконец мне удалось в нем разобраться."
+next_line_id = "opinion_loki_9"
+
+[sub_resource type="Resource" id="Resource_odin_line_59"]
+script = ExtResource("1_line")
+line_id = "opinion_loki_9"
+speaker_name = "Один"
+text = "А потом он снова ускользал, а я терялся в догадках."
+next_line_id = "opinion_loki_10"
+
+[sub_resource type="Resource" id="Resource_odin_line_60"]
+script = ExtResource("1_line")
+line_id = "opinion_loki_10"
+speaker_name = "Лена"
+text = "Вы, скорее грустите, чем злитесь."
+next_line_id = "opinion_loki_11"
+
+[sub_resource type="Resource" id="Resource_odin_line_61"]
+script = ExtResource("1_line")
+line_id = "opinion_loki_11"
+speaker_name = "Один"
+text = "Да. Он был мне как сын."
+next_line_id = "opinion_loki_12"
+
+[sub_resource type="Resource" id="Resource_odin_line_62"]
+script = ExtResource("1_line")
+line_id = "opinion_loki_12"
+speaker_name = "Один"
+text = "И, хотя сначала ты злишься на своих детей."
+next_line_id = "opinion_loki_13"
+
+[sub_resource type="Resource" id="Resource_odin_line_63"]
+script = ExtResource("1_line")
+line_id = "opinion_loki_13"
+speaker_name = "Один"
+text = "Потом просто думаешь о том, где ты ошибся."
+next_line_id = "opinion_loki_14"
+
+[sub_resource type="Resource" id="Resource_odin_line_64"]
+script = ExtResource("1_line")
+line_id = "opinion_loki_14"
+speaker_name = "Один"
+text = "И как они, видимо, были несчастны все это время."
+next_line_id = "opinion_loki_15"
+
+[sub_resource type="Resource" id="Resource_odin_line_65"]
+script = ExtResource("1_line")
+line_id = "opinion_loki_15"
+speaker_name = "Один"
+text = "Я хотел быть для него семьей."
+next_line_id = "opinion_loki_16"
+
+[sub_resource type="Resource" id="Resource_odin_line_66"]
+script = ExtResource("1_line")
+line_id = "opinion_loki_16"
+speaker_name = "Один"
+text = "Видимо так и не стал."
+next_line_id = "opinion_loki_17"
+
+[sub_resource type="Resource" id="Resource_odin_line_67"]
+script = ExtResource("1_line")
+line_id = "opinion_loki_17"
+speaker_name = "Лена"
+text = "…"
+next_line_id = "Odin_choices_1"
+
+[sub_resource type="Resource" id="Resource_odin_line_68"]
+script = ExtResource("1_line")
+line_id = "new_world_1"
+speaker_name = "Лена"
+text = "Что вы можете сказать об этом плане, куда я вас призвала."
+next_line_id = "new_world_2"
+
+[sub_resource type="Resource" id="Resource_odin_line_69"]
+script = ExtResource("1_line")
+line_id = "new_world_2"
+speaker_name = "Один"
+text = "Тут что-то очень древнее."
+next_line_id = "new_world_3"
+
+[sub_resource type="Resource" id="Resource_odin_line_70"]
+script = ExtResource("1_line")
+line_id = "new_world_3"
+speaker_name = "Один"
+text = "Древнее чем я."
+next_line_id = "new_world_4"
+
+[sub_resource type="Resource" id="Resource_odin_line_71"]
+script = ExtResource("1_line")
+line_id = "new_world_4"
+speaker_name = "Один"
+text = "Возможно древнее чем Имир."
+next_line_id = "new_world_5"
+
+[sub_resource type="Resource" id="Resource_odin_line_72"]
+script = ExtResource("1_line")
+line_id = "new_world_5"
+speaker_name = "Один"
+text = "Но как это возможно?"
+next_line_id = "new_world_6"
+
+[sub_resource type="Resource" id="Resource_odin_line_73"]
+script = ExtResource("1_line")
+line_id = "new_world_6"
+speaker_name = "Лена"
+text = "Я не понимаю."
+next_line_id = "new_world_7"
+
+[sub_resource type="Resource" id="Resource_odin_line_74"]
+script = ExtResource("1_line")
+line_id = "new_world_7"
+speaker_name = "Один"
+text = "Я тоже не понимаю."
+next_line_id = "new_world_8"
+
+[sub_resource type="Resource" id="Resource_odin_line_75"]
+script = ExtResource("1_line")
+line_id = "new_world_8"
+speaker_name = "Один"
+text = "Я будто смотрю в самое начало времен."
+next_line_id = "new_world_9"
+
+[sub_resource type="Resource" id="Resource_odin_line_76"]
+script = ExtResource("1_line")
+line_id = "new_world_9"
+speaker_name = "Один"
+text = "Будто моим глазам открывается из чего состоит мир."
+next_line_id = "new_world_10"
+
+[sub_resource type="Resource" id="Resource_odin_line_77"]
+script = ExtResource("1_line")
+line_id = "new_world_10"
+speaker_name = "Один"
+text = "Будто мне пытаются сказать что-то очень важное."
+next_line_id = "new_world_11"
+
+[sub_resource type="Resource" id="Resource_odin_line_78"]
+script = ExtResource("1_line")
+line_id = "new_world_11"
+speaker_name = "Один"
+text = "А я просто не понимаю языка."
+next_line_id = "new_world_12"
+
+[sub_resource type="Resource" id="Resource_odin_line_79"]
+script = ExtResource("1_line")
+line_id = "new_world_12"
+speaker_name = "Один"
+text = "И я вот я пытаюсь разгадать."
+next_line_id = "new_world_13"
+
+[sub_resource type="Resource" id="Resource_odin_line_80"]
+script = ExtResource("1_line")
+line_id = "new_world_13"
+speaker_name = "Один"
+text = "Хотя бы частичку тех механизмов, которые вижу перед собой."
+next_line_id = "new_world_14"
+
+[sub_resource type="Resource" id="Resource_odin_line_81"]
+script = ExtResource("1_line")
+line_id = "new_world_14"
+speaker_name = "Лена"
+text = "Вы любите порассуждать."
+next_line_id = "new_world_15"
+
+[sub_resource type="Resource" id="Resource_odin_line_82"]
+script = ExtResource("1_line")
+line_id = "new_world_15"
+speaker_name = "Один"
+text = "Ну, не даром же я отдал свой глаз."
+next_line_id = "Odin_choices_1"
+
+[sub_resource type="Resource" id="Resource_odin_line_83"]
+script = ExtResource("1_line")
+line_id = "help_1"
+speaker_name = "Лена"
+text = "Я не совсем поняла ваши причины, почему вы согласились мне помогать."
+next_line_id = "help_2"
+
+[sub_resource type="Resource" id="Resource_odin_line_84"]
+script = ExtResource("1_line")
+line_id = "help_2"
+speaker_name = "Один"
+text = "Потому что это лучшее что я могу сделать."
+next_line_id = "help_3"
+
+[sub_resource type="Resource" id="Resource_odin_line_85"]
+script = ExtResource("1_line")
+line_id = "help_3"
+speaker_name = "Один"
+text = "Я в новом мире, ничего о нем не знаю."
+next_line_id = "help_4"
+
+[sub_resource type="Resource" id="Resource_odin_line_86"]
+script = ExtResource("1_line")
+line_id = "help_4"
+speaker_name = "Один"
+text = "Ты – моя единственная опора. И хочется верить, что союзник."
+next_line_id = "help_5"
+
+[sub_resource type="Resource" id="Resource_odin_line_87"]
+script = ExtResource("1_line")
+line_id = "help_5"
+speaker_name = "Лена"
+text = "Конечно! Мы на одной стороне."
+next_line_id = "help_6"
+
+[sub_resource type="Resource" id="Resource_odin_line_88"]
+script = ExtResource("1_line")
+line_id = "help_6"
+speaker_name = "Один"
+text = "С возрастом доверие становится непозволительной роскошью, надеюсь вы не обижаетесь."
+next_line_id = "help_7"
+
+[sub_resource type="Resource" id="Resource_odin_line_89"]
+script = ExtResource("1_line")
+line_id = "help_7"
+speaker_name = "Один"
+text = "И есть еще кое-что."
+next_line_id = "help_8"
+
+[sub_resource type="Resource" id="Resource_odin_line_90"]
+script = ExtResource("1_line")
+line_id = "help_8"
+speaker_name = "Лена"
+text = "А?"
+next_line_id = "help_9"
+
+[sub_resource type="Resource" id="Resource_odin_line_91"]
+script = ExtResource("1_line")
+line_id = "help_9"
+speaker_name = "Один"
+text = "Я был тем правителем, чье руководство привело к концу света."
+next_line_id = "help_10"
+
+[sub_resource type="Resource" id="Resource_odin_line_92"]
+script = ExtResource("1_line")
+line_id = "help_10"
+speaker_name = "Один"
+text = "Оборачиваясь назад, я не понимаю, где так ошибся."
+next_line_id = "help_11"
+
+[sub_resource type="Resource" id="Resource_odin_line_93"]
+script = ExtResource("1_line")
+line_id = "help_11"
+speaker_name = "Один"
+text = "Можно ли было предотвратить Рагнарек."
+next_line_id = "help_12"
+
+[sub_resource type="Resource" id="Resource_odin_line_94"]
+script = ExtResource("1_line")
+line_id = "help_12"
+speaker_name = "Один"
+text = "И тут попадаю в совершенно новый мир."
+next_line_id = "help_13"
+
+[sub_resource type="Resource" id="Resource_odin_line_95"]
+script = ExtResource("1_line")
+line_id = "help_13"
+speaker_name = "Один"
+text = "Один раз я уже привел мир к погибели."
+next_line_id = "help_14"
+
+[sub_resource type="Resource" id="Resource_odin_line_96"]
+script = ExtResource("1_line")
+line_id = "help_14"
+speaker_name = "Один"
+text = "Сейчас мой шанс понять почему. И сделать все по-новому."
+next_line_id = "help_15"
+
+[sub_resource type="Resource" id="Resource_odin_line_97"]
+script = ExtResource("1_line")
+line_id = "help_15"
+speaker_name = "Лена"
+text = "Вы думаете, что сражение с мифическими чудовищами, даст вам ответ."
+next_line_id = "help_16"
+
+[sub_resource type="Resource" id="Resource_odin_line_98"]
+script = ExtResource("1_line")
+line_id = "help_16"
+speaker_name = "Один"
+text = "Не только оно, но в том числе."
+next_line_id = "help_17"
+
+[sub_resource type="Resource" id="Resource_odin_line_99"]
+script = ExtResource("1_line")
+line_id = "help_17"
+speaker_name = "Один"
+text = "Знаешь ли, если я рассуждаю, это не значит, что ничего не делаю."
+next_line_id = "help_18"
+
+[sub_resource type="Resource" id="Resource_odin_line_100"]
+script = ExtResource("1_line")
+line_id = "help_18"
+speaker_name = "Один"
+text = "То же работа, и очень важная."
+next_line_id = "help_19"
+
+[sub_resource type="Resource" id="Resource_odin_line_101"]
+script = ExtResource("1_line")
+line_id = "help_19"
+speaker_name = "Лена"
+text = "Вас интересно слушать."
+next_line_id = "help_20"
+
+[sub_resource type="Resource" id="Resource_odin_line_102"]
+script = ExtResource("1_line")
+line_id = "help_20"
+speaker_name = "Один"
+text = "Надеюсь еще интереснее обдумывать мои слова."
+next_line_id = "help_21"
+
+[sub_resource type="Resource" id="Resource_odin_line_103"]
+script = ExtResource("1_line")
+line_id = "help_21"
+speaker_name = "Лена"
+text = "Поверьте, я занята этим прямо сейчас."
+next_line_id = "Odin_choices_1"
+
+[sub_resource type="Resource" id="Resource_odin_line_104"]
+script = ExtResource("1_line")
+line_id = "chosen_world_1"
+speaker_name = "Лена"
+text = "Как вам звезды?"
+next_line_id = "chosen_world_2"
+
+[sub_resource type="Resource" id="Resource_odin_line_105"]
+script = ExtResource("1_line")
+line_id = "chosen_world_2"
+speaker_name = "Один"
+text = "Крайне любопытно."
+next_line_id = "chosen_world_3"
+
+[sub_resource type="Resource" id="Resource_odin_line_106"]
+script = ExtResource("1_line")
+line_id = "chosen_world_3"
+speaker_name = "Один"
+text = "Не знаю, чего ожидал, но я точно получил."
+next_line_id = "chosen_world_4"
+
+[sub_resource type="Resource" id="Resource_odin_line_107"]
+script = ExtResource("1_line")
+line_id = "chosen_world_4"
+speaker_name = "Один"
+text = "Что-то."
+next_line_id = "chosen_world_5"
+
+[sub_resource type="Resource" id="Resource_odin_line_108"]
+script = ExtResource("1_line")
+line_id = "chosen_world_5"
+speaker_name = "Лена"
+text = "Мне кажется из всех миров, где я бывала здесь – звездный самый странный."
+next_line_id = "chosen_world_6"
+
+[sub_resource type="Resource" id="Resource_odin_line_109"]
+script = ExtResource("1_line")
+line_id = "chosen_world_6"
+speaker_name = "Один"
+text = "Не могу не согласиться."
+next_line_id = "chosen_world_7"
+
+[sub_resource type="Resource" id="Resource_odin_line_110"]
+script = ExtResource("1_line")
+line_id = "chosen_world_7"
+speaker_name = "Один"
+text = "Он весьма… абстрактный."
+next_line_id = "chosen_world_8"
+
+[sub_resource type="Resource" id="Resource_odin_line_111"]
+script = ExtResource("1_line")
+line_id = "chosen_world_8"
+speaker_name = "Один"
+text = "Как-будто вообще по другой логике построен."
+next_line_id = "chosen_world_9"
+
+[sub_resource type="Resource" id="Resource_odin_line_112"]
+script = ExtResource("1_line")
+line_id = "chosen_world_9"
+speaker_name = "Лена"
+text = "Да-да."
+next_line_id = "chosen_world_10"
+
+[sub_resource type="Resource" id="Resource_odin_line_113"]
+script = ExtResource("1_line")
+line_id = "chosen_world_10"
+speaker_name = "Один"
+text = "Почему эти существа так выглядят?"
+next_line_id = "chosen_world_11"
+
+[sub_resource type="Resource" id="Resource_odin_line_114"]
+script = ExtResource("1_line")
+line_id = "chosen_world_11"
+speaker_name = "Лена"
+text = "В смысле?"
+next_line_id = "chosen_world_12"
+
+[sub_resource type="Resource" id="Resource_odin_line_115"]
+script = ExtResource("1_line")
+line_id = "chosen_world_12"
+speaker_name = "Один"
+text = "Ну вот эти фигуры с головой барана, например."
+next_line_id = "chosen_world_13"
+
+[sub_resource type="Resource" id="Resource_odin_line_116"]
+script = ExtResource("1_line")
+line_id = "chosen_world_13"
+speaker_name = "Лена"
+text = "А, ну так это Овен."
+next_line_id = "chosen_world_14"
+
+[sub_resource type="Resource" id="Resource_odin_line_117"]
+script = ExtResource("1_line")
+line_id = "chosen_world_14"
+speaker_name = "Один"
+text = "Мне это ни о чем не говорит."
+next_line_id = "chosen_world_15"
+
+[sub_resource type="Resource" id="Resource_odin_line_118"]
+script = ExtResource("1_line")
+line_id = "chosen_world_15"
+speaker_name = "Лена"
+text = "А, точно!"
+next_line_id = "chosen_world_16"
+
+[sub_resource type="Resource" id="Resource_odin_line_119"]
+script = ExtResource("1_line")
+line_id = "chosen_world_16"
+speaker_name = "Лена"
+text = "Хорошо смотрите, есть двенадцать знаков зодиака, хотя последнее время их стало тринадцать…"
+next_line_id = "Odin_choices_1"
+
+[resource]
+script = ExtResource("3_dialogue")
+dialogue_id = "odin_dialogue_1"
+dialogue_name = ""
+start_line_id = "intro_1"
+lines = Array[ExtResource("1_line")]([SubResource("Resource_odin_line_2"), SubResource("Resource_odin_line_3"), SubResource("Resource_odin_line_4"), SubResource("Resource_odin_line_5"), SubResource("Resource_odin_line_11"), SubResource("Resource_odin_line_12"), SubResource("Resource_odin_line_13"), SubResource("Resource_odin_line_14"), SubResource("Resource_odin_line_15"), SubResource("Resource_odin_line_16"), SubResource("Resource_odin_line_17"), SubResource("Resource_odin_line_18"), SubResource("Resource_odin_line_19"), SubResource("Resource_odin_line_20"), SubResource("Resource_odin_line_21"), SubResource("Resource_odin_line_22"), SubResource("Resource_odin_line_23"), SubResource("Resource_odin_line_24"), SubResource("Resource_odin_line_25"), SubResource("Resource_odin_line_26"), SubResource("Resource_odin_line_27"), SubResource("Resource_odin_line_28"), SubResource("Resource_odin_line_31"), SubResource("Resource_odin_line_32"), SubResource("Resource_odin_line_33"), SubResource("Resource_odin_line_34"), SubResource("Resource_odin_line_35"), SubResource("Resource_odin_line_36"), SubResource("Resource_odin_line_37"), SubResource("Resource_odin_line_38"), SubResource("Resource_odin_line_39"), SubResource("Resource_odin_line_40"), SubResource("Resource_odin_line_41"), SubResource("Resource_odin_line_42"), SubResource("Resource_odin_line_43"), SubResource("Resource_odin_line_44"), SubResource("Resource_odin_line_45"), SubResource("Resource_odin_line_46"), SubResource("Resource_odin_line_47"), SubResource("Resource_odin_line_48"), SubResource("Resource_odin_line_49"), SubResource("Resource_odin_line_50"), SubResource("Resource_odin_line_51"), SubResource("Resource_odin_line_52"), SubResource("Resource_odin_line_53"), SubResource("Resource_odin_line_54"), SubResource("Resource_odin_line_55"), SubResource("Resource_odin_line_56"), SubResource("Resource_odin_line_57"), SubResource("Resource_odin_line_58"), SubResource("Resource_odin_line_59"), SubResource("Resource_odin_line_60"), SubResource("Resource_odin_line_61"), SubResource("Resource_odin_line_62"), SubResource("Resource_odin_line_63"), SubResource("Resource_odin_line_64"), SubResource("Resource_odin_line_65"), SubResource("Resource_odin_line_66"), SubResource("Resource_odin_line_67"), SubResource("Resource_odin_line_68"), SubResource("Resource_odin_line_69"), SubResource("Resource_odin_line_70"), SubResource("Resource_odin_line_71"), SubResource("Resource_odin_line_72"), SubResource("Resource_odin_line_73"), SubResource("Resource_odin_line_74"), SubResource("Resource_odin_line_75"), SubResource("Resource_odin_line_76"), SubResource("Resource_odin_line_77"), SubResource("Resource_odin_line_78"), SubResource("Resource_odin_line_79"), SubResource("Resource_odin_line_80"), SubResource("Resource_odin_line_81"), SubResource("Resource_odin_line_82"), SubResource("Resource_odin_line_83"), SubResource("Resource_odin_line_84"), SubResource("Resource_odin_line_85"), SubResource("Resource_odin_line_86"), SubResource("Resource_odin_line_87"), SubResource("Resource_odin_line_88"), SubResource("Resource_odin_line_89"), SubResource("Resource_odin_line_90"), SubResource("Resource_odin_line_91"), SubResource("Resource_odin_line_92"), SubResource("Resource_odin_line_93"), SubResource("Resource_odin_line_94"), SubResource("Resource_odin_line_95"), SubResource("Resource_odin_line_96"), SubResource("Resource_odin_line_97"), SubResource("Resource_odin_line_98"), SubResource("Resource_odin_line_99"), SubResource("Resource_odin_line_100"), SubResource("Resource_odin_line_101"), SubResource("Resource_odin_line_102"), SubResource("Resource_odin_line_103"), SubResource("Resource_odin_line_104"), SubResource("Resource_odin_line_105"), SubResource("Resource_odin_line_106"), SubResource("Resource_odin_line_107"), SubResource("Resource_odin_line_108"), SubResource("Resource_odin_line_109"), SubResource("Resource_odin_line_110"), SubResource("Resource_odin_line_111"), SubResource("Resource_odin_line_112"), SubResource("Resource_odin_line_113"), SubResource("Resource_odin_line_114"), SubResource("Resource_odin_line_115"), SubResource("Resource_odin_line_116"), SubResource("Resource_odin_line_117"), SubResource("Resource_odin_line_118"), SubResource("Resource_odin_line_119")])

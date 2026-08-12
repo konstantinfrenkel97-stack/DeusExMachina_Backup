@@ -1,0 +1,145 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Tunnels/Dwarf_shield/dwarf_shield.tres" id="enemy_shield"]
+[ext_resource type="Resource" path="res://Gods/Thor/thor.tres" id="thor"]
+
+[sub_resource type="Resource" id="form_shields"]
+script = ExtResource("formation_script")
+formation_name = "Боевые учения: Щит-Щит-Щит-Щит"
+pos1 = ExtResource("enemy_shield")
+pos2 = ExtResource("enemy_shield")
+pos3 = ExtResource("enemy_shield")
+pos4 = ExtResource("enemy_shield")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="buff_armor_minus20"]
+script = ExtResource("buff_script")
+stat = 4
+value = -20
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="buff_armor_plus20"]
+script = ExtResource("buff_script")
+stat = 4
+value = 20
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_armor_minus20"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_armor_minus20")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="mod_armor_plus20"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_armor_plus20")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_vulnerable"]
+script = ExtResource("battle_script")
+formation = SubResource("form_shields")
+location_id = "tunnels"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_armor_minus20")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_fortified"]
+script = ExtResource("battle_script")
+formation = SubResource("form_shields")
+location_id = "tunnels"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_armor_plus20")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="buff_thor_damage_minus15"]
+script = ExtResource("buff_script")
+stat = 0
+value = -15
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_attack_success"]
+script = ExtResource("outcome_script")
+result_text = "Стена щитов ломается под вашим напором. Дворфы рассеяны и уязвимы."
+battle = SubResource("battle_vulnerable")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_attack_fail"]
+script = ExtResource("outcome_script")
+result_text = "Монолит из дворфийских щитов недвижим, несмотря на ваши потуги. Пробиться через эту стену будет не так просто."
+battle = SubResource("battle_fortified")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_feint_success"]
+script = ExtResource("outcome_script")
+result_text = "Дворфы пускаются в погоню, ломая строй. К их удивлению вы разворачиваетесь и обрушиваетесь на ошалелого противника как ураган."
+battle = SubResource("battle_vulnerable")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_feint_fail"]
+script = ExtResource("outcome_script")
+result_text = "Солдаты не попадаются на вашу уловку. Под их насмешками вы возвращаетесь и принимаете бой против стены щитов. Эффект сцены: герои должны потерять 10 величия."
+battle = SubResource("battle_fortified")
+hero_majesty_delta = -10
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_thor_success"]
+script = ExtResource("outcome_script")
+result_text = "Завороженные солдаты слушают мудрые нравоучения Тора. Какое-то время вы обучаете их известным вам командам. В конце они формируют две шеренги, и вы триумфально проходите дальше."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_thor_fail"]
+script = ExtResource("outcome_script")
+result_text = "Тор показывает дворфам приемы, дает советы и указывает на ошибки, пока не появляется одышка, а на лице не выступает пот. Но солдаты лишь поднимают на смех запыхавшегося бога и снова встают в боевое построение. Эффект сцены: Тор должен потерять 15 атаки на 1 ход."
+battle = SubResource("battle_fortified")
+target_god = ExtResource("thor")
+target_buffs = Array[ExtResource("buff_script")]([SubResource("buff_thor_damage_minus15")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="check_attack"]
+script = ExtResource("stat_check_script")
+stat = 0
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="check_initiative"]
+script = ExtResource("stat_check_script")
+stat = 1
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="choice_break"]
+script = ExtResource("choice_script")
+choice_text = "Прорваться сквозь построение"
+stat_check = SubResource("check_attack")
+success_outcome = SubResource("out_attack_success")
+failure_outcome = SubResource("out_attack_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_feint"]
+script = ExtResource("choice_script")
+choice_text = "Притвориться, что убегаете"
+stat_check = SubResource("check_initiative")
+success_outcome = SubResource("out_feint_success")
+failure_outcome = SubResource("out_feint_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_thor"]
+script = ExtResource("choice_script")
+choice_text = "Сказать, что они делают все неправильно"
+required_god = ExtResource("thor")
+stat_check = SubResource("check_attack")
+success_outcome = SubResource("out_thor_success")
+failure_outcome = SubResource("out_thor_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Боевые учения"
+body_text = "Вы слышите звуки ритмичных ударов металла о камень и резкие команды. Перед вами дворфийские боевые учения. Стройные ряды солдат в тяжелых латах отрабатывают шаги, замахи и стойки. При виде вас раздается резкая команда, и солдаты как один поворачиваются к вам, выставив щиты."
+choices = [SubResource("choice_break"), SubResource("choice_feint"), SubResource("choice_thor")]

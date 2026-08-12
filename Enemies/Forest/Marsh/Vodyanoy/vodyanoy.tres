@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://dwx27l1dtt5j7"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://d2ivdth5ivlih" path="res://Enemy_logic/vodyanoy_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Vodyanoy/bolotnoe_tsarstvo.tres" id="4_bt"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Vodyanoy/vnutri_menya_voditsa.tres" id="5_vm"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Vodyanoy/dary_vodyanogo.tres" id="6_dv"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Водяной"
+sprite_path = "res://Enemies/Forest/Marsh/Vodyanoy/Vodyanoy.png"
+face_sprite = "res://Enemies/Forest/Marsh/Vodyanoy/Voidanoy_Face.png"
+max_hp = 120
+damage = 25
+armor = 12
+initiative = 5
+accuracy = 75
+special_effect_type = "vodyanoy_location_stun"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_bt"), ExtResource("5_vm"), ExtResource("6_dv")])
+ai_script = ExtResource("3_ai")

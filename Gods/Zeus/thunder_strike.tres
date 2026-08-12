@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://j33daammllgy"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_lqg64"]
+
+[resource]
+script = ExtResource("1_lqg64")
+icon_path = "uid://bae3ssadxcsd2"
+name = "Удар молнии"
+damage_modifier = 1.2
+never_miss = true
+usable_from_positions = Array[bool]([false, false, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

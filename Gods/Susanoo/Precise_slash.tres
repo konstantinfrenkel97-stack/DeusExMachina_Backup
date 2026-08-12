@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://dau2aiuep7lce"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_hlr72"]
+
+[resource]
+script = ExtResource("1_hlr72")
+icon_path = "uid://4n2f3wbm6ocu"
+name = "Расчитанный удар"
+damage_modifier = 0.0
+majesty_gain = 15
+effect_types = Array[String](["self_push_back"])
+effect_values = Dictionary[String, int]({
+"self_push_back": 1
+})
+usable_from_positions = Array[bool]([true, true, false, false])
+targetable_positions = Array[bool]([true, true, true, false])
+ability_marker = "susanoo_calculated_strike"
+mark_type_int = 1
+mark_damage_percent = 40.0
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3]
+
+[ext_resource type="Script" path="res://Items/item_resource.gd" id="item_script"]
+
+[resource]
+script = ExtResource("item_script")
+item_name = "Цветок кикиморы"
+item_type = 2
+rarity = 3
+icon = null
+description = "Артефакт из сцены Топи. Заготовка для дальнейшей настройки."
+bonus_max_hp = 0
+bonus_damage = 0
+bonus_armor = 0
+bonus_initiative = 0
+bonus_accuracy = 0
+bonus_evasion = 0
+bonus_crit_chance = 0.0
+bonus_majesty = 0
+effect = ""
+metadata/_custom_type_script = ExtResource("item_script")

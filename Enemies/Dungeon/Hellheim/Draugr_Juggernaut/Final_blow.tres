@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://m0te0eukiry5"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_8h28o"]
+
+[resource]
+script = ExtResource("1_8h28o")
+name = "Добивающий удар"
+damage_modifier = 2.0
+majesty_gain = 0
+usable_from_positions = Array[bool]([true, true, false, false])
+targetable_positions = Array[bool]([true, true, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

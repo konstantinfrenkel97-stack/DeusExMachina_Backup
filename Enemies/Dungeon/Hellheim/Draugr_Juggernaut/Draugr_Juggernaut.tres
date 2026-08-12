@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://dp5jiorrrac21"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_231lm"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_6pq76"]
+[ext_resource type="Script" uid="uid://dk7xn4m2rp8sv" path="res://Enemy_logic/draugr_juggernaut_logic.gd" id="3_ai"]
+[ext_resource type="Resource" uid="uid://c33griwtx48lh" path="res://Enemies/Dungeon/Hellheim/Draugr_Juggernaut/shredding_cut.tres" id="4_cut"]
+[ext_resource type="Resource" uid="uid://m0te0eukiry5" path="res://Enemies/Dungeon/Hellheim/Draugr_Juggernaut/Final_blow.tres" id="5_fb"]
+[ext_resource type="Resource" uid="uid://dydnuw3wc64y2" path="res://Enemies/Dungeon/Hellheim/Draugr_Juggernaut/unstoppable_advance.tres" id="6_ua"]
+
+[resource]
+script = ExtResource("2_6pq76")
+unit_name = "Драугр джаггернаут"
+sprite_path = "res://Enemies/Dungeon/Hellheim/Draugr_Juggernaut/Драугр Джагернаут.png"
+face_sprite = "res://Enemies/Dungeon/Hellheim/Draugr_Juggernaut/Драугр Джагернаут_Face.png"
+damage = 40
+armor = 35
+initiative = 2
+accuracy = 75
+evasion = 5
+crit_chance = 0.15
+special_effect_type = "draugr_juggernaut"
+active_abilities = Array[ExtResource("1_231lm")]([ExtResource("4_cut"), ExtResource("5_fb"), ExtResource("6_ua")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

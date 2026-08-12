@@ -1,0 +1,772 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3]
+
+[ext_resource type="Script" path="res://Dialogues/dialogue_line.gd" id="1_line"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_resource.gd" id="3_dialogue"]
+
+[sub_resource type="Resource" id="Resource_set_line_2"]
+script = ExtResource("1_line")
+line_id = "intro_1"
+speaker_name = "Сет"
+text = "(Сет разлегся поперек своего парящего трона, в одной руке кисть винограда. При твоем появлении, он вскакивает в сидячее положение, и швырнув гроздь на пол подлетает к тебе)"
+next_line_id = "intro_2"
+
+[sub_resource type="Resource" id="Resource_set_line_3"]
+script = ExtResource("1_line")
+line_id = "intro_2"
+speaker_name = "Сет"
+text = "Опа, вот и ты! Давай развлекай меня, здесь слишком тихо."
+next_line_id = "Set_choices_1"
+
+[sub_resource type="Resource" id="Resource_set_choice_4"]
+script = ExtResource("2_choice")
+choice_id = "open_door"
+choice_text = "Открыть дверь"
+next_line_id = "open_door_1"
+
+[sub_resource type="Resource" id="Resource_set_choice_5"]
+script = ExtResource("2_choice")
+choice_id = "opinion"
+choice_text = "Мнение о богах"
+next_line_id = "opinion_1"
+
+[sub_resource type="Resource" id="Resource_set_choice_6"]
+script = ExtResource("2_choice")
+choice_id = "new_world"
+choice_text = "Новый мир"
+next_line_id = "new_world_1"
+
+[sub_resource type="Resource" id="Resource_set_choice_7"]
+script = ExtResource("2_choice")
+choice_id = "help"
+choice_text = "Твоя помощь"
+next_line_id = "help_1"
+
+[sub_resource type="Resource" id="Resource_set_choice_8"]
+script = ExtResource("2_choice")
+choice_id = "chosen_world"
+choice_text = "Выбранный мир"
+next_line_id = "chosen_world_1"
+
+[sub_resource type="Resource" id="Resource_set_line_9"]
+script = ExtResource("1_line")
+line_id = "Set_choices_1"
+choices = Array[ExtResource("2_choice")]([SubResource("Resource_set_choice_4"), SubResource("Resource_set_choice_5"), SubResource("Resource_set_choice_6"), SubResource("Resource_set_choice_7"), SubResource("Resource_set_choice_8")])
+
+[sub_resource type="Resource" id="Resource_set_line_10"]
+script = ExtResource("1_line")
+line_id = "open_door_1"
+speaker_name = "Лена"
+text = "Ох, ну ладно. Есть несколько дверей и мне нужно чтобы ты открыл хотя бы одну из них. Сможешь?"
+next_line_id = "open_door_2"
+
+[sub_resource type="Resource" id="Resource_set_line_11"]
+script = ExtResource("1_line")
+line_id = "open_door_2"
+speaker_name = "Сет"
+text = "Пха, кого ты по твоему на понт берешь?"
+next_line_id = "open_door_3"
+
+[sub_resource type="Resource" id="Resource_set_line_12"]
+script = ExtResource("1_line")
+line_id = "open_door_3"
+speaker_name = "Сет"
+text = "Так-так-так, что у нас тут."
+next_line_id = "open_door_4"
+
+[sub_resource type="Resource" id="Resource_set_line_13"]
+script = ExtResource("1_line")
+line_id = "open_door_4"
+speaker_name = "Сет"
+text = "Хе-хе, вот эту выбираю."
+next_line_id = "open_door_5"
+
+[sub_resource type="Resource" id="Resource_set_line_14"]
+script = ExtResource("1_line")
+line_id = "open_door_5"
+speaker_name = "Лена"
+text = "Арена? Место где почти не будет уловок, а только прямой бой. Не ожидала."
+next_line_id = "open_door_6"
+
+[sub_resource type="Resource" id="Resource_set_line_15"]
+script = ExtResource("1_line")
+line_id = "open_door_6"
+speaker_name = "Сет"
+text = "Не ожидала, потому что не понимаешь ничего."
+next_line_id = "open_door_7"
+
+[sub_resource type="Resource" id="Resource_set_line_16"]
+script = ExtResource("1_line")
+line_id = "open_door_7"
+speaker_name = "Лена"
+text = "Ага. Ладно, хорошего дня."
+next_line_id = "open_door_8"
+
+[sub_resource type="Resource" id="Resource_set_line_17"]
+script = ExtResource("1_line")
+line_id = "open_door_8"
+speaker_name = "Сет"
+text = "Стой, ты не попросишь разъяснений."
+next_line_id = "open_door_9"
+
+[sub_resource type="Resource" id="Resource_set_line_18"]
+script = ExtResource("1_line")
+line_id = "open_door_9"
+speaker_name = "Лена"
+text = "Не-а."
+next_line_id = "open_door_10"
+
+[sub_resource type="Resource" id="Resource_set_line_19"]
+script = ExtResource("1_line")
+line_id = "open_door_10"
+speaker_name = "Сет"
+text = "Ну хорошо, слушай."
+next_line_id = "open_door_11"
+
+[sub_resource type="Resource" id="Resource_set_line_20"]
+script = ExtResource("1_line")
+line_id = "open_door_11"
+speaker_name = "Сет"
+text = "Суть в том, что нарушать правила весело только против тех, кто честен. А это место просто смердит честностью."
+next_line_id = "open_door_12"
+
+[sub_resource type="Resource" id="Resource_set_line_21"]
+script = ExtResource("1_line")
+line_id = "open_door_12"
+speaker_name = "Лена"
+text = "Ага…"
+next_line_id = "open_door_13"
+
+[sub_resource type="Resource" id="Resource_set_line_22"]
+script = ExtResource("1_line")
+line_id = "open_door_13"
+speaker_name = "Сет"
+text = "Обмануть жулика тоже весело, у них такое лицо сразу «не могу поверить, что кто-то переиграл меня в моей же игре»."
+next_line_id = "open_door_14"
+
+[sub_resource type="Resource" id="Resource_set_line_23"]
+script = ExtResource("1_line")
+line_id = "open_door_14"
+speaker_name = "Сет"
+text = "Но обмануть доверчивого, и видеть в его глазах, что он до сих пор не может поверить, что в так вообще может произойти."
+next_line_id = "open_door_15"
+
+[sub_resource type="Resource" id="Resource_set_line_24"]
+script = ExtResource("1_line")
+line_id = "open_door_15"
+speaker_name = "Сет"
+text = "Эту зараждающуюся ненависть к миру."
+next_line_id = "open_door_16"
+
+[sub_resource type="Resource" id="Resource_set_line_25"]
+script = ExtResource("1_line")
+line_id = "open_door_16"
+speaker_name = "Сет"
+text = "Ради этих взглядов стоит жить."
+next_line_id = "open_door_17"
+
+[sub_resource type="Resource" id="Resource_set_line_26"]
+script = ExtResource("1_line")
+line_id = "open_door_17"
+speaker_name = "Лена"
+text = "Не понимаю, что тут веселого."
+next_line_id = "open_door_18"
+
+[sub_resource type="Resource" id="Resource_set_line_27"]
+script = ExtResource("1_line")
+line_id = "open_door_18"
+speaker_name = "Сет"
+text = "Веселье невозможно понять, его можно только почувствовать."
+next_line_id = "Set_choices_1"
+
+[sub_resource type="Resource" id="Resource_set_line_28"]
+script = ExtResource("1_line")
+line_id = "opinion_1"
+speaker_name = "Лена"
+text = "Как ты относишься к…"
+next_line_id = "opinion_choices"
+
+[sub_resource type="Resource" id="Resource_set_choice_29"]
+script = ExtResource("2_choice")
+choice_id = "opinion_osiris"
+choice_text = "Осирису"
+next_line_id = "opinion_osiris_1"
+
+[sub_resource type="Resource" id="Resource_set_line_30"]
+script = ExtResource("1_line")
+line_id = "opinion_choices"
+choices = Array[ExtResource("2_choice")]([SubResource("Resource_set_choice_29")])
+
+[sub_resource type="Resource" id="Resource_set_line_31"]
+script = ExtResource("1_line")
+line_id = "opinion_osiris_1"
+speaker_name = "Лена"
+text = "…Осирису?"
+next_line_id = "opinion_osiris_2"
+
+[sub_resource type="Resource" id="Resource_set_line_32"]
+script = ExtResource("1_line")
+line_id = "opinion_osiris_2"
+speaker_name = "Сет"
+text = "Ах, братец."
+next_line_id = "opinion_osiris_3"
+
+[sub_resource type="Resource" id="Resource_set_line_33"]
+script = ExtResource("1_line")
+line_id = "opinion_osiris_3"
+speaker_name = "Сет"
+text = "Я убил его, разорвал на части и занял трон."
+next_line_id = "opinion_osiris_4"
+
+[sub_resource type="Resource" id="Resource_set_line_34"]
+script = ExtResource("1_line")
+line_id = "opinion_osiris_4"
+speaker_name = "Сет"
+text = "Это было весело. Но не долго, потом пришлось править."
+next_line_id = "opinion_osiris_5"
+
+[sub_resource type="Resource" id="Resource_set_line_35"]
+script = ExtResource("1_line")
+line_id = "opinion_osiris_5"
+speaker_name = "Лена"
+text = "Тебе точно было весело убивать его?"
+next_line_id = "opinion_osiris_6"
+
+[sub_resource type="Resource" id="Resource_set_line_36"]
+script = ExtResource("1_line")
+line_id = "opinion_osiris_6"
+speaker_name = "Сет"
+text = "Да, а почему ты спрашиваешь?"
+next_line_id = "opinion_osiris_7"
+
+[sub_resource type="Resource" id="Resource_set_line_37"]
+script = ExtResource("1_line")
+line_id = "opinion_osiris_7"
+speaker_name = "Лена"
+text = "Ты уклонился от ответа."
+next_line_id = "opinion_osiris_8"
+
+[sub_resource type="Resource" id="Resource_set_line_38"]
+script = ExtResource("1_line")
+line_id = "opinion_osiris_8"
+speaker_name = "Сет"
+text = "А какой был вопрос, еще раз?"
+next_line_id = "opinion_osiris_9"
+
+[sub_resource type="Resource" id="Resource_set_line_39"]
+script = ExtResource("1_line")
+line_id = "opinion_osiris_9"
+speaker_name = "Лена"
+text = "Как ты к нему относишься?"
+next_line_id = "opinion_osiris_10"
+
+[sub_resource type="Resource" id="Resource_set_line_40"]
+script = ExtResource("1_line")
+line_id = "opinion_osiris_10"
+speaker_name = "Сет"
+text = "Как отношусь? Как отношусь."
+next_line_id = "opinion_osiris_11"
+
+[sub_resource type="Resource" id="Resource_set_line_41"]
+script = ExtResource("1_line")
+line_id = "opinion_osiris_11"
+speaker_name = "Сет"
+text = "Он упрямый, тупоголовый и неинтересный."
+next_line_id = "opinion_osiris_12"
+
+[sub_resource type="Resource" id="Resource_set_line_42"]
+script = ExtResource("1_line")
+line_id = "opinion_osiris_12"
+speaker_name = "Сет"
+text = "Заслужил чтобы его разорвали на части. Но даже в этом остался скучным."
+next_line_id = "opinion_osiris_13"
+
+[sub_resource type="Resource" id="Resource_set_line_43"]
+script = ExtResource("1_line")
+line_id = "opinion_osiris_13"
+speaker_name = "Лена"
+text = "Ага. И все?"
+next_line_id = "opinion_osiris_14"
+
+[sub_resource type="Resource" id="Resource_set_line_44"]
+script = ExtResource("1_line")
+line_id = "opinion_osiris_14"
+speaker_name = "Сет"
+text = "И все. Что еще тебе нужно?"
+next_line_id = "opinion_osiris_15"
+
+[sub_resource type="Resource" id="Resource_set_line_45"]
+script = ExtResource("1_line")
+line_id = "opinion_osiris_15"
+speaker_name = "Лена"
+text = "Да нет, просто интересуюсь."
+next_line_id = "opinion_osiris_16"
+
+[sub_resource type="Resource" id="Resource_set_line_46"]
+script = ExtResource("1_line")
+line_id = "opinion_osiris_16"
+speaker_name = "Сет"
+text = "Тоже мне, давай не досаждай своими глупыми вопросами."
+next_line_id = "Set_choices_1"
+
+[sub_resource type="Resource" id="Resource_set_line_47"]
+script = ExtResource("1_line")
+line_id = "new_world_1"
+speaker_name = "Лена"
+text = "Ну и как тебе в новом мире."
+next_line_id = "new_world_2"
+
+[sub_resource type="Resource" id="Resource_set_line_48"]
+script = ExtResource("1_line")
+line_id = "new_world_2"
+speaker_name = "Сет"
+text = "Шикарно."
+next_line_id = "new_world_3"
+
+[sub_resource type="Resource" id="Resource_set_line_49"]
+script = ExtResource("1_line")
+line_id = "new_world_3"
+speaker_name = "Сет"
+text = "Но и не очень."
+next_line_id = "new_world_4"
+
+[sub_resource type="Resource" id="Resource_set_line_50"]
+script = ExtResource("1_line")
+line_id = "new_world_4"
+speaker_name = "Лена"
+text = "М?"
+next_line_id = "new_world_5"
+
+[sub_resource type="Resource" id="Resource_set_line_51"]
+script = ExtResource("1_line")
+line_id = "new_world_5"
+speaker_name = "Сет"
+text = "Я могу все ломать, убивать кого угодно и ничего мне за это не будет."
+next_line_id = "new_world_6"
+
+[sub_resource type="Resource" id="Resource_set_line_52"]
+script = ExtResource("1_line")
+line_id = "new_world_6"
+speaker_name = "Сет"
+text = "Но как будто чего-то не хватает."
+next_line_id = "new_world_7"
+
+[sub_resource type="Resource" id="Resource_set_line_53"]
+script = ExtResource("1_line")
+line_id = "new_world_7"
+speaker_name = "Лена"
+text = "Я даже не знаю, хочу ли я знать чего."
+next_line_id = "new_world_8"
+
+[sub_resource type="Resource" id="Resource_set_line_54"]
+script = ExtResource("1_line")
+line_id = "new_world_8"
+speaker_name = "Сет"
+text = "Каких-то последствий, потенциального наказания."
+next_line_id = "new_world_9"
+
+[sub_resource type="Resource" id="Resource_set_line_55"]
+script = ExtResource("1_line")
+line_id = "new_world_9"
+speaker_name = "Сет"
+text = "Что толку разбить драгоценную вазу, если об этом никто не узнает, и всем будет безразлично?"
+next_line_id = "new_world_10"
+
+[sub_resource type="Resource" id="Resource_set_line_56"]
+script = ExtResource("1_line")
+line_id = "new_world_10"
+speaker_name = "Сет"
+text = "Нужно разбить то, что кому-то дорого. Чтобы кого-то это разозлило."
+next_line_id = "new_world_11"
+
+[sub_resource type="Resource" id="Resource_set_line_57"]
+script = ExtResource("1_line")
+line_id = "new_world_11"
+speaker_name = "Сет"
+text = "А иначе, в чем смысл?"
+next_line_id = "new_world_12"
+
+[sub_resource type="Resource" id="Resource_set_line_58"]
+script = ExtResource("1_line")
+line_id = "new_world_12"
+speaker_name = "Лена"
+text = "Ага, значит если твои действия кого-то расстроили, в этом есть смысл?"
+next_line_id = "new_world_13"
+
+[sub_resource type="Resource" id="Resource_set_line_59"]
+script = ExtResource("1_line")
+line_id = "new_world_13"
+speaker_name = "Сет"
+text = "А тебе не очевидно?"
+next_line_id = "new_world_14"
+
+[sub_resource type="Resource" id="Resource_set_line_60"]
+script = ExtResource("1_line")
+line_id = "new_world_14"
+speaker_name = "Лена"
+text = "Нет."
+next_line_id = "new_world_15"
+
+[sub_resource type="Resource" id="Resource_set_line_61"]
+script = ExtResource("1_line")
+line_id = "new_world_15"
+speaker_name = "Сет"
+text = "Скучная ты."
+next_line_id = "new_world_16"
+
+[sub_resource type="Resource" id="Resource_set_line_62"]
+script = ExtResource("1_line")
+line_id = "new_world_16"
+speaker_name = "Сет"
+text = "Что это за ключ у тебя?"
+next_line_id = "new_world_17"
+
+[sub_resource type="Resource" id="Resource_set_line_63"]
+script = ExtResource("1_line")
+line_id = "new_world_17"
+speaker_name = "Лена"
+text = "Даже не смотри на него!"
+next_line_id = "Set_choices_1"
+
+[sub_resource type="Resource" id="Resource_set_line_64"]
+script = ExtResource("1_line")
+line_id = "help_1"
+speaker_name = "Лена"
+text = "Я говорила, что мне не нужна твоя помощь."
+next_line_id = "help_2"
+
+[sub_resource type="Resource" id="Resource_set_line_65"]
+script = ExtResource("1_line")
+line_id = "help_2"
+speaker_name = "Сет"
+text = "И я сказал, что в твоей власти отказаться, и тогда я буду делать что хочу."
+next_line_id = "help_3"
+
+[sub_resource type="Resource" id="Resource_set_line_66"]
+script = ExtResource("1_line")
+line_id = "help_3"
+speaker_name = "Лена"
+text = "Ты угрожал мне, чтобы я приняла твою помощь."
+next_line_id = "help_4"
+
+[sub_resource type="Resource" id="Resource_set_line_67"]
+script = ExtResource("1_line")
+line_id = "help_4"
+speaker_name = "Сет"
+text = "Думай как хочешь."
+next_line_id = "help_5"
+
+[sub_resource type="Resource" id="Resource_set_line_68"]
+script = ExtResource("1_line")
+line_id = "help_5"
+speaker_name = "Лена"
+text = "Если тебе все равно на мои желания, почему ты решил помогать мне?"
+next_line_id = "help_6"
+
+[sub_resource type="Resource" id="Resource_set_line_69"]
+script = ExtResource("1_line")
+line_id = "help_6"
+speaker_name = "Лена"
+text = "Почему просто не начал все крушить?"
+next_line_id = "help_7"
+
+[sub_resource type="Resource" id="Resource_set_line_70"]
+script = ExtResource("1_line")
+line_id = "help_7"
+speaker_name = "Сет"
+text = "Надеюсь ты не ведешь к тому, что я в тайне хороший человек."
+next_line_id = "help_8"
+
+[sub_resource type="Resource" id="Resource_set_line_71"]
+script = ExtResource("1_line")
+line_id = "help_8"
+speaker_name = "Сет"
+text = "Все просто – я не люблю совершать бессмысленных действий."
+next_line_id = "help_9"
+
+[sub_resource type="Resource" id="Resource_set_line_72"]
+script = ExtResource("1_line")
+line_id = "help_9"
+speaker_name = "Лена"
+text = "Не любишь? Ты убил брата для развлечения."
+next_line_id = "help_10"
+
+[sub_resource type="Resource" id="Resource_set_line_73"]
+script = ExtResource("1_line")
+line_id = "help_10"
+speaker_name = "Сет"
+text = "Для развлечения, но не бессмысленно."
+next_line_id = "help_11"
+
+[sub_resource type="Resource" id="Resource_set_line_74"]
+script = ExtResource("1_line")
+line_id = "help_11"
+speaker_name = "Сет"
+text = "Я могу просто стоять и кидать камень вверх, но это бессмысленно. Таким не развлечешься."
+next_line_id = "help_12"
+
+[sub_resource type="Resource" id="Resource_set_line_75"]
+script = ExtResource("1_line")
+line_id = "help_12"
+speaker_name = "Сет"
+text = "Вот ты хочешь спастись из этого мира, и прикладываешь к этому все силы. В этом есть смысл."
+next_line_id = "help_13"
+
+[sub_resource type="Resource" id="Resource_set_line_76"]
+script = ExtResource("1_line")
+line_id = "help_13"
+speaker_name = "Лена"
+text = "…"
+next_line_id = "help_14"
+
+[sub_resource type="Resource" id="Resource_set_line_77"]
+script = ExtResource("1_line")
+line_id = "help_14"
+speaker_name = "Сет"
+text = "Если в момент, когда ты будешь в шаге от освобождения, я оторву тебе голову – в этом будет смысл. И"
+next_line_id = "help_15"
+
+[sub_resource type="Resource" id="Resource_set_line_78"]
+script = ExtResource("1_line")
+line_id = "help_15"
+speaker_name = "Сет"
+text = "И меня это как следует развлечет."
+next_line_id = "help_16"
+
+[sub_resource type="Resource" id="Resource_set_line_79"]
+script = ExtResource("1_line")
+line_id = "help_16"
+speaker_name = "Лена"
+text = "И ты правда готов оторвать мне голову?"
+next_line_id = "help_17"
+
+[sub_resource type="Resource" id="Resource_set_line_80"]
+script = ExtResource("1_line")
+line_id = "help_17"
+speaker_name = "Сет"
+text = "А ты сомневаешься?"
+next_line_id = "help_18"
+
+[sub_resource type="Resource" id="Resource_set_line_81"]
+script = ExtResource("1_line")
+line_id = "help_18"
+speaker_name = "Лена"
+text = "Не знаю, посмотрим."
+next_line_id = "Set_choices_1"
+
+[sub_resource type="Resource" id="Resource_set_line_82"]
+script = ExtResource("1_line")
+line_id = "chosen_world_1"
+speaker_name = "Лена"
+text = "Итак Арена. Как тебе?"
+next_line_id = "chosen_world_2"
+
+[sub_resource type="Resource" id="Resource_set_line_83"]
+script = ExtResource("1_line")
+line_id = "chosen_world_2"
+speaker_name = "Сет"
+text = "Неплохо. Публика меня ненавидит."
+next_line_id = "chosen_world_3"
+
+[sub_resource type="Resource" id="Resource_set_line_84"]
+script = ExtResource("1_line")
+line_id = "chosen_world_3"
+speaker_name = "Лена"
+text = "И тебе это, конечно, нравится."
+next_line_id = "chosen_world_4"
+
+[sub_resource type="Resource" id="Resource_set_line_85"]
+script = ExtResource("1_line")
+line_id = "chosen_world_4"
+speaker_name = "Сет"
+text = "Еще бы!"
+next_line_id = "chosen_world_5"
+
+[sub_resource type="Resource" id="Resource_set_line_86"]
+script = ExtResource("1_line")
+line_id = "chosen_world_5"
+speaker_name = "Лена"
+text = "Не понимаю твою логику."
+next_line_id = "chosen_world_6"
+
+[sub_resource type="Resource" id="Resource_set_line_87"]
+script = ExtResource("1_line")
+line_id = "chosen_world_6"
+speaker_name = "Сет"
+text = "Слишком пытаешься все понять."
+next_line_id = "chosen_world_7"
+
+[sub_resource type="Resource" id="Resource_set_line_88"]
+script = ExtResource("1_line")
+line_id = "chosen_world_7"
+speaker_name = "Сет"
+text = "Пытаешься думать. А надо жить."
+next_line_id = "chosen_world_8"
+
+[sub_resource type="Resource" id="Resource_set_line_89"]
+script = ExtResource("1_line")
+line_id = "chosen_world_8"
+speaker_name = "Сет"
+text = "Наслаждаться моментом."
+next_line_id = "chosen_world_9"
+
+[sub_resource type="Resource" id="Resource_set_line_90"]
+script = ExtResource("1_line")
+line_id = "chosen_world_9"
+speaker_name = "Лена"
+text = "Мне кажется этот разговор идет в никуда."
+next_line_id = "chosen_world_10"
+
+[sub_resource type="Resource" id="Resource_set_line_91"]
+script = ExtResource("1_line")
+line_id = "chosen_world_10"
+speaker_name = "Сет"
+text = "Зачем же завела его."
+next_line_id = "chosen_world_11"
+
+[sub_resource type="Resource" id="Resource_set_line_92"]
+script = ExtResource("1_line")
+line_id = "chosen_world_11"
+speaker_name = "Лена"
+text = "Да просто."
+next_line_id = "chosen_world_12"
+
+[sub_resource type="Resource" id="Resource_set_line_93"]
+script = ExtResource("1_line")
+line_id = "chosen_world_12"
+speaker_name = "Лена"
+text = "На этой Арене люди, прошедшие долгий путь, покрытые шрамами."
+next_line_id = "chosen_world_13"
+
+[sub_resource type="Resource" id="Resource_set_line_94"]
+script = ExtResource("1_line")
+line_id = "chosen_world_13"
+speaker_name = "Лена"
+text = "И ты получаешь удовольствие втаптывая их труды в песок, не давая возможности проявить себя."
+next_line_id = "chosen_world_14"
+
+[sub_resource type="Resource" id="Resource_set_line_95"]
+script = ExtResource("1_line")
+line_id = "chosen_world_14"
+speaker_name = "Сет"
+text = "Где это я им возможности не даю? Я же выхожу на поле."
+next_line_id = "chosen_world_15"
+
+[sub_resource type="Resource" id="Resource_set_line_96"]
+script = ExtResource("1_line")
+line_id = "chosen_world_15"
+speaker_name = "Лена"
+text = "Но ты жульничаешь."
+next_line_id = "chosen_world_16"
+
+[sub_resource type="Resource" id="Resource_set_line_97"]
+script = ExtResource("1_line")
+line_id = "chosen_world_16"
+speaker_name = "Сет"
+text = "И что?"
+next_line_id = "chosen_world_17"
+
+[sub_resource type="Resource" id="Resource_set_line_98"]
+script = ExtResource("1_line")
+line_id = "chosen_world_17"
+speaker_name = "Сет"
+text = "Милая моя, жульничество является частью любой игры."
+next_line_id = "chosen_world_18"
+
+[sub_resource type="Resource" id="Resource_set_line_99"]
+script = ExtResource("1_line")
+line_id = "chosen_world_18"
+speaker_name = "Сет"
+text = "Это часть правил."
+next_line_id = "chosen_world_19"
+
+[sub_resource type="Resource" id="Resource_set_line_100"]
+script = ExtResource("1_line")
+line_id = "chosen_world_19"
+speaker_name = "Лена"
+text = "То, что ты говоришь, по умолчанию противоречиво."
+next_line_id = "chosen_world_20"
+
+[sub_resource type="Resource" id="Resource_set_line_101"]
+script = ExtResource("1_line")
+line_id = "chosen_world_20"
+speaker_name = "Сет"
+text = "Хехе, вовсе нет."
+next_line_id = "chosen_world_21"
+
+[sub_resource type="Resource" id="Resource_set_line_102"]
+script = ExtResource("1_line")
+line_id = "chosen_world_21"
+speaker_name = "Сет"
+text = "Просто есть глупцы, которые считают, что правила — это то, что написано на папирусе."
+next_line_id = "chosen_world_22"
+
+[sub_resource type="Resource" id="Resource_set_line_103"]
+script = ExtResource("1_line")
+line_id = "chosen_world_22"
+speaker_name = "Сет"
+text = "Ставят все свои надежды на эти хлипкие чернильные завитушки."
+next_line_id = "chosen_world_23"
+
+[sub_resource type="Resource" id="Resource_set_line_104"]
+script = ExtResource("1_line")
+line_id = "chosen_world_23"
+speaker_name = "Сет"
+text = "А это обман, настоящие правила написаны на небе, на земле и человеческом сердце."
+next_line_id = "chosen_world_24"
+
+[sub_resource type="Resource" id="Resource_set_line_105"]
+script = ExtResource("1_line")
+line_id = "chosen_world_24"
+speaker_name = "Сет"
+text = "Те правила, по которым игра, действительно работает."
+next_line_id = "chosen_world_25"
+
+[sub_resource type="Resource" id="Resource_set_line_106"]
+script = ExtResource("1_line")
+line_id = "chosen_world_25"
+speaker_name = "Лена"
+text = "И у тебя есть святая миссия – открыть людям глаза на прелесть беззакония?"
+next_line_id = "chosen_world_26"
+
+[sub_resource type="Resource" id="Resource_set_line_107"]
+script = ExtResource("1_line")
+line_id = "chosen_world_26"
+speaker_name = "Сет"
+text = "О нет-нет. Я просто живу по правилам. Я как раз и живу по правилам."
+next_line_id = "chosen_world_27"
+
+[sub_resource type="Resource" id="Resource_set_line_108"]
+script = ExtResource("1_line")
+line_id = "chosen_world_27"
+speaker_name = "Сет"
+text = "И получаю удовольствие от жизни."
+next_line_id = "chosen_world_28"
+
+[sub_resource type="Resource" id="Resource_set_line_109"]
+script = ExtResource("1_line")
+line_id = "chosen_world_28"
+speaker_name = "Сет"
+text = "А вы, со своей благородной шайкой, можете и дальше трясти своими книгами законов, говоря, что мир должен работать так, как тут написано."
+next_line_id = "chosen_world_29"
+
+[sub_resource type="Resource" id="Resource_set_line_110"]
+script = ExtResource("1_line")
+line_id = "chosen_world_29"
+speaker_name = "Лена"
+text = "Ты знаешь, по крайней мере в твоих словах, сейчас, есть хоть какой-то смысл."
+next_line_id = "chosen_world_30"
+
+[sub_resource type="Resource" id="Resource_set_line_111"]
+script = ExtResource("1_line")
+line_id = "chosen_world_30"
+speaker_name = "Сет"
+text = "Ха! Всегда был."
+next_line_id = "Set_choices_1"
+
+[resource]
+script = ExtResource("3_dialogue")
+dialogue_id = "set_dialogue_1"
+dialogue_name = ""
+start_line_id = "intro_1"
+lines = Array[ExtResource("1_line")]([SubResource("Resource_set_line_2"), SubResource("Resource_set_line_3"), SubResource("Resource_set_line_9"), SubResource("Resource_set_line_10"), SubResource("Resource_set_line_11"), SubResource("Resource_set_line_12"), SubResource("Resource_set_line_13"), SubResource("Resource_set_line_14"), SubResource("Resource_set_line_15"), SubResource("Resource_set_line_16"), SubResource("Resource_set_line_17"), SubResource("Resource_set_line_18"), SubResource("Resource_set_line_19"), SubResource("Resource_set_line_20"), SubResource("Resource_set_line_21"), SubResource("Resource_set_line_22"), SubResource("Resource_set_line_23"), SubResource("Resource_set_line_24"), SubResource("Resource_set_line_25"), SubResource("Resource_set_line_26"), SubResource("Resource_set_line_27"), SubResource("Resource_set_line_28"), SubResource("Resource_set_line_30"), SubResource("Resource_set_line_31"), SubResource("Resource_set_line_32"), SubResource("Resource_set_line_33"), SubResource("Resource_set_line_34"), SubResource("Resource_set_line_35"), SubResource("Resource_set_line_36"), SubResource("Resource_set_line_37"), SubResource("Resource_set_line_38"), SubResource("Resource_set_line_39"), SubResource("Resource_set_line_40"), SubResource("Resource_set_line_41"), SubResource("Resource_set_line_42"), SubResource("Resource_set_line_43"), SubResource("Resource_set_line_44"), SubResource("Resource_set_line_45"), SubResource("Resource_set_line_46"), SubResource("Resource_set_line_47"), SubResource("Resource_set_line_48"), SubResource("Resource_set_line_49"), SubResource("Resource_set_line_50"), SubResource("Resource_set_line_51"), SubResource("Resource_set_line_52"), SubResource("Resource_set_line_53"), SubResource("Resource_set_line_54"), SubResource("Resource_set_line_55"), SubResource("Resource_set_line_56"), SubResource("Resource_set_line_57"), SubResource("Resource_set_line_58"), SubResource("Resource_set_line_59"), SubResource("Resource_set_line_60"), SubResource("Resource_set_line_61"), SubResource("Resource_set_line_62"), SubResource("Resource_set_line_63"), SubResource("Resource_set_line_64"), SubResource("Resource_set_line_65"), SubResource("Resource_set_line_66"), SubResource("Resource_set_line_67"), SubResource("Resource_set_line_68"), SubResource("Resource_set_line_69"), SubResource("Resource_set_line_70"), SubResource("Resource_set_line_71"), SubResource("Resource_set_line_72"), SubResource("Resource_set_line_73"), SubResource("Resource_set_line_74"), SubResource("Resource_set_line_75"), SubResource("Resource_set_line_76"), SubResource("Resource_set_line_77"), SubResource("Resource_set_line_78"), SubResource("Resource_set_line_79"), SubResource("Resource_set_line_80"), SubResource("Resource_set_line_81"), SubResource("Resource_set_line_82"), SubResource("Resource_set_line_83"), SubResource("Resource_set_line_84"), SubResource("Resource_set_line_85"), SubResource("Resource_set_line_86"), SubResource("Resource_set_line_87"), SubResource("Resource_set_line_88"), SubResource("Resource_set_line_89"), SubResource("Resource_set_line_90"), SubResource("Resource_set_line_91"), SubResource("Resource_set_line_92"), SubResource("Resource_set_line_93"), SubResource("Resource_set_line_94"), SubResource("Resource_set_line_95"), SubResource("Resource_set_line_96"), SubResource("Resource_set_line_97"), SubResource("Resource_set_line_98"), SubResource("Resource_set_line_99"), SubResource("Resource_set_line_100"), SubResource("Resource_set_line_101"), SubResource("Resource_set_line_102"), SubResource("Resource_set_line_103"), SubResource("Resource_set_line_104"), SubResource("Resource_set_line_105"), SubResource("Resource_set_line_106"), SubResource("Resource_set_line_107"), SubResource("Resource_set_line_108"), SubResource("Resource_set_line_109"), SubResource("Resource_set_line_110"), SubResource("Resource_set_line_111")])

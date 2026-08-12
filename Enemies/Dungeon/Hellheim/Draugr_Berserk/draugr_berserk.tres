@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://c0q5dvj3e8f6w"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://bvopa70s5paiv" path="res://Enemy_logic/draugr_berserk_logic.gd" id="3_ai"]
+[ext_resource type="Resource" uid="uid://bx7km2n4pq1wj" path="res://Enemies/Dungeon/Hellheim/Draugr_Berserk/mad_rush.tres" id="4_mr"]
+[ext_resource type="Resource" uid="uid://cf8rp3t5ms2xk" path="res://Enemies/Dungeon/Hellheim/Draugr_Berserk/furious_crush.tres" id="5_fc"]
+[ext_resource type="Resource" uid="uid://dbawh6u7nt3yl" path="res://Enemies/Dungeon/Hellheim/Draugr_Berserk/blind_fury.tres" id="6_bf"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Драугр берсерк"
+sprite_path = "res://Enemies/Dungeon/Hellheim/Draugr_Berserk/Драугр Берсерк.png"
+face_sprite = "res://Enemies/Dungeon/Hellheim/Draugr_Berserk/Драугр Берсерк_Face.png"
+max_hp = 80
+damage = 35
+armor = 10
+initiative = 5
+accuracy = 80
+crit_chance = 0.15
+special_effect_type = "draugr_berserker"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_mr"), ExtResource("5_fc"), ExtResource("6_bf")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

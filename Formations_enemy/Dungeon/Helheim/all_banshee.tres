@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FormationResource" format=3 uid="uid://bnjeki4yel1n4"]
+
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="1_d5cai"]
+[ext_resource type="Resource" uid="uid://djml03da18pxx" path="res://Enemies/Dungeon/Hellheim/Banshee/banshee.tres" id="1_nswva"]
+
+[resource]
+script = ExtResource("1_d5cai")
+formation_name = "Все_банши"
+pos1 = ExtResource("1_nswva")
+pos2 = ExtResource("1_nswva")
+pos3 = ExtResource("1_nswva")
+pos4 = ExtResource("1_nswva")
+metadata/_custom_type_script = "uid://c50het7soanc1"

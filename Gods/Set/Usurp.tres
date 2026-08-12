@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://setusur0001"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_us"]
+
+[resource]
+script = ExtResource("1_us")
+icon_path = "uid://bbr5cwp2ahjw1"
+name = "Узурпировать"
+description = "Выберите другого живого союзника. Сет заменяет свою ультимативную способность на ульту выбранного союзника. После применения скопированной ульты снова получает «Узурпировать»."
+damage_modifier = 0.0
+majesty_gain = 0
+majesty_cost = 20
+target_type = "Ally"
+ability_marker = "set_usurp"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

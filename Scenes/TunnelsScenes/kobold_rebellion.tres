@@ -1,0 +1,123 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Tunnels/Dwarf_shield/dwarf_shield.tres" id="enemy_shield"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Tunnels/Dwarf_smith/dwarf_smith.tres" id="enemy_smith"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Tunnels/Kobold/kobold.tres" id="enemy_kobold"]
+[ext_resource type="Resource" path="res://Essence/essence_power.tres" id="essence_power"]
+[ext_resource type="Resource" path="res://Items/Weapons/Unique/kobold_pickaxe.tres" id="item_pickaxe"]
+
+[sub_resource type="Resource" id="form_kobolds"]
+script = ExtResource("formation_script")
+formation_name = "Восстание кобольдов: Кобольд-Кобольд-Кобольд-Кобольд"
+pos1 = ExtResource("enemy_kobold")
+pos2 = ExtResource("enemy_kobold")
+pos3 = ExtResource("enemy_kobold")
+pos4 = ExtResource("enemy_kobold")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="form_guards"]
+script = ExtResource("formation_script")
+formation_name = "Охрана: Щит-Щит-Кузнец-Кузнец"
+pos1 = ExtResource("enemy_shield")
+pos2 = ExtResource("enemy_shield")
+pos3 = ExtResource("enemy_smith")
+pos4 = ExtResource("enemy_smith")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="form_mixed"]
+script = ExtResource("formation_script")
+formation_name = "Остатки драки: Кобольд-Кобольд-Щит-Кузнец"
+pos1 = ExtResource("enemy_kobold")
+pos2 = ExtResource("enemy_kobold")
+pos3 = ExtResource("enemy_shield")
+pos4 = ExtResource("enemy_smith")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="mod_hp50"]
+script = ExtResource("unit_modifier_script")
+hp_percent = 50
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_help_kobolds"]
+script = ExtResource("battle_script")
+formation = SubResource("form_guards")
+location_id = "tunnels"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_help_dwarves"]
+script = ExtResource("battle_script")
+formation = SubResource("form_kobolds")
+location_id = "tunnels"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_wait"]
+script = ExtResource("battle_script")
+formation = SubResource("form_mixed")
+location_id = "tunnels"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_hp50")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="reward_pickaxe"]
+script = ExtResource("reward_script")
+kind = 0
+resource = ExtResource("item_pickaxe")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="reward_power"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_power")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_help_kobolds"]
+script = ExtResource("outcome_script")
+result_text = "Вы выступаете на стороне угнетенных и бросаетесь на охранников. Один из кобольдов смотрит на вас снизу вверх, и вы видите в его больших желтых глазах благодарность. Он протягивает вам свое оружие."
+battle = SubResource("battle_help_kobolds")
+rewards = [SubResource("reward_pickaxe")]
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_help_dwarves"]
+script = ExtResource("outcome_script")
+result_text = "Вы нападаете на восставших. Дворфы кое-как формируют построение, и один из них благодарно вам кивает.\n\n«Покажем им, кто тут власть!» — кричит конвоир, и бой разгорается с новой силой. Вы получаете эссенцию власти."
+battle = SubResource("battle_help_dwarves")
+rewards = [SubResource("reward_power")]
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_wait"]
+script = ExtResource("outcome_script")
+result_text = "Льется кровь с обеих сторон, пока наконец один из кобольдов замечает вас и громко оповещает дерущихся. Перед лицом новой угрозы остатки охраны и повстанцев встают вместе, чтобы встретить новую угрозу."
+battle = SubResource("battle_wait")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_help_kobolds"]
+script = ExtResource("choice_script")
+choice_text = "Помочь кобольдам"
+outcome = SubResource("out_help_kobolds")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_help_dwarves"]
+script = ExtResource("choice_script")
+choice_text = "Помочь дворфам"
+outcome = SubResource("out_help_dwarves")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_wait"]
+script = ExtResource("choice_script")
+choice_text = "Дать им избить друг друга"
+outcome = SubResource("out_wait")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Восстание кобольдов"
+body_text = "Вы слышите нескладную и неритмичную песню, которую напевает хор сиплых писклявых голосов. За углом вас встречает процессия кобольдов, несущих тяжелые камни. Один из дворфийских конвоиров пинает кобольда и орет, чтобы те заткнулись. На какое-то время наступает тишина, когда вдруг обиженный кобольд встает и бросается на обидчика. Другие кобольды мгновенно хватают кирки и набрасываются на своих охранников."
+choices = [SubResource("choice_help_kobolds"), SubResource("choice_help_dwarves"), SubResource("choice_wait")]

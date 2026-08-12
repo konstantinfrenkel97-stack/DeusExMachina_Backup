@@ -1,0 +1,95 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://dv0vjqnncylnc"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_vb0of"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_qrbyf"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_vyiey"]
+
+[sub_resource type="Resource" id="Resource_og7b7"]
+script = ExtResource("1_vb0of")
+speaker_name = "Лена"
+text = "Ого! Это Тор!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_k4cbo"]
+script = ExtResource("1_vb0of")
+speaker_name = "Лена"
+text = "Скандинавский бог грома и сильнейший воин Асгарда!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ji6qt"]
+script = ExtResource("1_vb0of")
+speaker_name = "Тор"
+text = "Убийца великанов и винных погребов!
+Да, это я!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_hfqtg"]
+script = ExtResource("1_vb0of")
+speaker_name = "Тор"
+text = "Погоди, а где я?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_bcyqe"]
+script = ExtResource("1_vb0of")
+speaker_name = "Лена"
+text = "Это сложно объяснить..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_wloj2"]
+script = ExtResource("1_vb0of")
+speaker_name = "Лена"
+text = "Я призвала тебя в мир фантазий, потому что меня пытается убить орда чудовищ и мне нужна помощь могучего воина."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_8qnnm"]
+script = ExtResource("1_vb0of")
+speaker_name = "Тор"
+text = "Это... было довольно просто объяснить."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_dp77q"]
+script = ExtResource("1_vb0of")
+speaker_name = "Тор"
+text = "Хорошо, я в деле!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_wlukg"]
+script = ExtResource("1_vb0of")
+speaker_name = "Лена"
+text = "Правда? Даже не нужно уговаривать?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_167ol"]
+script = ExtResource("1_vb0of")
+speaker_name = "Тор"
+text = "Ты сказала уже все что нужно."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_fqpl5"]
+script = ExtResource("1_vb0of")
+speaker_name = "Тор"
+text = "Сражаться с чудовищами - это то ради чего я живу."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_tcxmh"]
+script = ExtResource("1_vb0of")
+speaker_name = "Тор"
+text = "И чем сложнее вызов, тем интереснее."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_usr3m"]
+script = ExtResource("1_vb0of")
+speaker_name = "Тор"
+text = "Так что давай, показывай кому тут нужно дать по организму."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_5ghgp"]
+script = ExtResource("1_vb0of")
+speaker_name = "Лена"
+text = "Мы с вами сработаемся."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_vyiey")
+lines = Array[ExtResource("1_vb0of")]([SubResource("Resource_og7b7"), SubResource("Resource_k4cbo"), SubResource("Resource_ji6qt"), SubResource("Resource_hfqtg"), SubResource("Resource_bcyqe"), SubResource("Resource_wloj2"), SubResource("Resource_8qnnm"), SubResource("Resource_dp77q"), SubResource("Resource_wlukg"), SubResource("Resource_167ol"), SubResource("Resource_fqpl5"), SubResource("Resource_tcxmh"), SubResource("Resource_usr3m"), SubResource("Resource_5ghgp")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

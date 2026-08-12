@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="EssenceResource" format=3 uid="uid://c7eum4hnhdry3"]
+
+[ext_resource type="Texture2D" uid="uid://n4ccl6ou3nmj" path="res://Essence/Essence of Chaos.png" id="1_10wxy"]
+[ext_resource type="Script" uid="uid://sf5jie3ou0ta" path="res://essence_resource.gd" id="2_c82sx"]
+
+[resource]
+script = ExtResource("2_c82sx")
+name = "Эссенция хаоса"
+icon = ExtResource("1_10wxy")
+amount = 2

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="FormationResource" format=3 uid="uid://bsqmpss0xfsoo"]
+
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="1_jacj0"]
+[ext_resource type="Resource" uid="uid://dp5jiorrrac21" path="res://Enemies/Dungeon/Hellheim/Draugr_Juggernaut/Draugr_Juggernaut.tres" id="1_py13v"]
+[ext_resource type="Resource" uid="uid://djml03da18pxx" path="res://Enemies/Dungeon/Hellheim/Banshee/banshee.tres" id="2_ceqij"]
+[ext_resource type="Resource" uid="uid://24uwmv5i3use" path="res://Enemies/Dungeon/Hellheim/Draugr_raider/Draugr_raider.tres" id="3_1ld4h"]
+
+[resource]
+script = ExtResource("1_jacj0")
+formation_name = "Джагер_банши_рейдер"
+pos1 = ExtResource("1_py13v")
+pos2 = ExtResource("2_ceqij")
+pos3 = ExtResource("3_1ld4h")
+metadata/_custom_type_script = "uid://c50het7soanc1"

@@ -1,0 +1,160 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hellheim/Indigo/indigo.tres" id="enemy_indigo"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Resource" path="res://Gods/Loki/Loki.tres" id="loki"]
+
+[sub_resource type="Resource" id="form_indigo"]
+script = ExtResource("formation_script")
+formation_name = "Паранойя: Индиго-Индиго-Индиго"
+pos1 = ExtResource("enemy_indigo")
+pos2 = ExtResource("enemy_indigo")
+pos3 = ExtResource("enemy_indigo")
+pos4 = null
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="buff_accuracy_plus15"]
+script = ExtResource("buff_script")
+stat = 2
+value = 15
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="buff_hero_luck_minus10"]
+script = ExtResource("buff_script")
+stat = 1
+value = -10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_hero_accuracy_plus15"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_accuracy_plus15")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="buff_armor_minus10"]
+script = ExtResource("buff_script")
+stat = 4
+value = -10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_hero_armor_minus10"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_armor_minus10")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="buff_evasion_minus30"]
+script = ExtResource("buff_script")
+stat = 3
+value = -30
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_enemy_evasion_minus30"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_evasion_minus30")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_prepare"]
+script = ExtResource("battle_script")
+formation = SubResource("form_indigo")
+location_id = "helheim"
+hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_hero_accuracy_plus15")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_armor_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_indigo")
+location_id = "helheim"
+hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_hero_armor_minus10")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_hunt_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_indigo")
+location_id = "helheim"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_enemy_evasion_minus30")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_normal"]
+script = ExtResource("battle_script")
+formation = SubResource("form_indigo")
+location_id = "helheim"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_prepare"]
+script = ExtResource("outcome_script")
+result_text = "Паранойя или нет, вы встаете спина к спине. Туман сгущается и наконец из мглы выползают костлявые фигуры. Кривые когти рассекают туман. Группа виндиго, убедившись что их раскрыли выходит на вас в открытую."
+battle = SubResource("battle_prepare")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_speed_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы ускоряетесь, идете все быстрее и наконец переходите на бег. Вы спотыкаетесь и падаете, цепляетесь за сучки и обдираете кожу. Наконец, окончательно сбившись с дыхания вы останавливаетесь, готовые принять то что грядет… Но ничего не приходит. Так вы и стоите и ждете, но никто не приходит. Наконец вы продолжаете путь, чувствуя себя полными идиотами. Похоже это место дурно на вас влияет. Эффект сцены: на следующий бой должен быть штраф -10 удачи."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_speed_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы ускоряетесь, идете все быстрее и наконец переходите на бег. Вы спотыкаетесь и падаете, цепляетесь за сучки и обдираете кожу. Наконец, окончательно сбившись с дыхания вы останавливаетесь, готовые принять то что грядет… Медленно и с ленцой из тумана выползают когтистые фигуры, вы будто слышите их приглушенный смех. Глядя в холодные глаза индиго вы понимаете, что они знали что вам не сбежать, и наслаждались погоней даже больше чем грядущей расправой."
+battle = SubResource("battle_armor_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_hunt_success"]
+script = ExtResource("outcome_script")
+result_text = "Локи останавливается и шепотом указывает другим богам следовать за собой. Бесшумно двигаясь он мелькает среди камней, вы едва успеваете за ним. Постепенно он опускается на четвереньки опираясь на кончики пальцев, поворачивая голову на сигналы которые он один мог уловить. Наконец он жестом подзывает вас. На плато чистом от тумана вы видите группу виндиго, растеряно водящими своими вытянутыми мордами. Без предупреждения Локи бросается вперед, вы следуете за ним. Эффект сцены: первый раунд точно не должен быть туманным."
+battle = SubResource("battle_hunt_success")
+skip_helheim_fog_first_round = true
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_hunt_fail"]
+script = ExtResource("outcome_script")
+result_text = "Локи останавливается и шепотом указывает другим богам следовать за собой. Бесшумно двигаясь он мелькает среди камней, вы едва успеваете за ним. Постепенно он опускается на четвереньки опираясь на кончики пальцев, поворачивая голову на сигналы которые он один мог уловить. Вскоре вы встречаете ваших преследователей. Они ползут на вас сквозь туман перебирая палкообразными конечностями. Уже не рассчитывающие застать врасплох. Вы готовитесь к бою."
+battle = SubResource("battle_normal")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_prepare"]
+script = ExtResource("choice_script")
+choice_text = "Приготовиться к бою"
+outcome = SubResource("out_prepare")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_initiative"]
+script = ExtResource("stat_check_script")
+stat = 1
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="choice_speed"]
+script = ExtResource("choice_script")
+choice_text = "Попытаться ускориться"
+stat_check = SubResource("check_initiative")
+success_outcome = SubResource("out_speed_success")
+failure_outcome = SubResource("out_speed_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("stat_check_script")
+stat = 4
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="choice_loki_hunt"]
+script = ExtResource("choice_script")
+choice_text = "Охотиться на охотника"
+required_god = ExtResource("loki")
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_hunt_success")
+failure_outcome = SubResource("out_hunt_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Паранойя"
+body_text = "Привычный вам туман Хельхейма сегодня кажется особенно холодным. Передвигаясь по скалам вы чувствуете будто кто-то смотрит вам в спину."
+choices = [SubResource("choice_prepare"), SubResource("choice_speed"), SubResource("choice_loki_hunt")]

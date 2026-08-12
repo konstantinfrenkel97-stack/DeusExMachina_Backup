@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Армагеддон"
+description = "Стойка: в начале следующего раунда наносит 0.8 урона ВСЕМ остальным юнитам (союзникам и врагам)."
+majesty_gain = 0
+target_type = "Self"
+is_stance = true
+stance_effect_type = "wizard_armageddon"
+stance_duration_type = "UntilNextTurn"
+usable_from_positions = Array[bool]([true, true, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

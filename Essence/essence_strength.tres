@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="EssenceResource" format=3 uid="uid://lqbl08dy4pg1"]
+
+[ext_resource type="Texture2D" uid="uid://bfkblaod818ra" path="res://Essence/Essence of strength.png" id="1_c53pk"]
+[ext_resource type="Script" uid="uid://sf5jie3ou0ta" path="res://essence_resource.gd" id="1_e"]
+
+[resource]
+script = ExtResource("1_e")
+name = "Эссенция силы"
+icon = ExtResource("1_c53pk")
+amount = 2

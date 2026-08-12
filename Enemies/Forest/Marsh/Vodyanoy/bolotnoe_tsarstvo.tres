@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Болотное царство"
+description = "Марка висит 2 хода. Копирует эффект локации на отмеченную цель. Нельзя выбрать позицию 1."
+damage_modifier = 0.0
+majesty_gain = 0
+target_type = "Enemy"
+mark_type_int = 2
+mark_target_team = "enemy"
+mark_position = 0
+mark_duration = 2
+mark_effect_type = "copy_location_effect"
+mark_effect_value = 0
+mark_effect_duration = 2
+ability_marker = "bolotnoe_tsarstvo"
+effect_types = Array[String]([])
+usable_from_positions = Array[bool]([true, true, true, true])
+targetable_positions = Array[bool]([false, true, true, true])

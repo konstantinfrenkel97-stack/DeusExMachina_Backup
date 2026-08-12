@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://cx4t08ppr7df0"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+icon_path = "uid://bb0er227xc4dn"
+name = "Отец богов"
+description = "Все союзники получают +1 инициативу и +10 брони на 2 хода."
+damage_modifier = 0.0
+target_type = "All_Allies"
+usable_from_positions = Array[bool]([false, true, true, false])
+ability_marker = "odin_father_of_gods"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://0yc3hhqpnqjg"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_deo4c"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_kb7e8"]
+[ext_resource type="Script" uid="uid://b8rdmkfx76q66" path="res://Enemy_logic/boulder_logic.gd" id="3_ai"]
+
+[resource]
+script = ExtResource("2_kb7e8")
+unit_name = "Валун"
+max_hp = 40
+damage = 0
+armor = 10
+initiative = 1
+accuracy = 0
+evasion = 0
+crit_chance = 0.0
+special_effect_type = "boulder_provocation"
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

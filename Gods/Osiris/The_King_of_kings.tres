@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://cb8y21uwfuonv"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_s4dxo"]
+
+[resource]
+script = ExtResource("1_s4dxo")
+icon_path = "uid://bjj2cyr6mjphj"
+name = "Король королей"
+damage_modifier = 0.0
+majesty_gain = 0
+majesty_cost = 80
+target_type = "All_Allies"
+effect_types = Array[String](["all_allies_dispel_debuffs", "regeneration"])
+effect_values = Dictionary[String, int]({
+"regeneration": 5
+})
+effect_durations = Dictionary[String, int]({
+"regeneration": 3
+})
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

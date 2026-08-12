@@ -1,0 +1,221 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://bmtkwd167mi3"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_prdbx"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_o1vpj"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="3_p0xoe"]
+
+[sub_resource type="Resource" id="Resource_8vg3r"]
+script = ExtResource("1_prdbx")
+speaker_name = "Голос"
+text = "..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_prdbx"]
+script = ExtResource("1_prdbx")
+speaker_name = "Голос"
+text = "Наконец-то..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_o1vpj"]
+script = ExtResource("1_prdbx")
+speaker_name = "Монстры"
+text = "Арррргхххх!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_p0xoe"]
+script = ExtResource("1_prdbx")
+speaker_name = "Монстры"
+text = "Арррргхххх!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_6xqnf"]
+script = ExtResource("1_prdbx")
+speaker_name = "Монстры"
+text = "Арррргхххх!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_0i2c0"]
+script = ExtResource("1_prdbx")
+speaker_name = "Лена"
+text = "Что? Что происходит?! "
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_4esa3"]
+script = ExtResource("1_prdbx")
+speaker_name = "Лена"
+text = "Кьяаааааа! Уйдите от меня!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_k718k"]
+script = ExtResource("1_prdbx")
+speaker_name = "Голос"
+text = "Да!
+Да! Да! Да!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_vbp7o"]
+script = ExtResource("1_prdbx")
+speaker_name = "Голос"
+text = "ДА!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_0yuhh"]
+script = ExtResource("1_prdbx")
+speaker_name = "Лена"
+text = "........"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_neq4r"]
+script = ExtResource("1_prdbx")
+speaker_name = "Голос"
+text = "Как же долго!
+КАК ДОЛГО!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_qw75i"]
+script = ExtResource("1_prdbx")
+speaker_name = "Голос"
+text = "Я свободен! СВОБОДЕН!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_v4feq"]
+script = ExtResource("1_prdbx")
+speaker_name = "Лена"
+text = "Эй! Ты слышишь меня?
+На помощь!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_b8fq7"]
+script = ExtResource("1_prdbx")
+speaker_name = "Голос"
+text = "Надо полагать, ты та кто меня освободила."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_t2x5r"]
+script = ExtResource("1_prdbx")
+speaker_name = "Голос"
+text = "Не волнуйся, эти существа тебя не тронут. Они полностью под моим контролем."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_6fhlo"]
+script = ExtResource("1_prdbx")
+speaker_name = "Монстры"
+text = "Гррррр..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_bpkmx"]
+script = ExtResource("1_prdbx")
+speaker_name = "Голос"
+text = "Под-контролем!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_j3a7q"]
+script = ExtResource("1_prdbx")
+speaker_name = "Монстры"
+text = "Агарааааргххх!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_nx5du"]
+script = ExtResource("1_prdbx")
+speaker_name = "Голос"
+text = "Стоп, что?
+Что происходит?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_v8cfw"]
+script = ExtResource("1_prdbx")
+speaker_name = "Монстры"
+text = "АААААААААААААРГХХХХ!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ingkl"]
+script = ExtResource("1_prdbx")
+speaker_name = "Лена"
+text = "ИИИИИИИИИИИИИИИИ!
+Сделай что-нибудь!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_dg2ej"]
+script = ExtResource("1_prdbx")
+speaker_name = "Голос"
+text = "Да чтоб вас, всех! Мои силы!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_uxfda"]
+script = ExtResource("1_prdbx")
+speaker_name = "Голос"
+text = "Ублюдки! Мрази! *?№;%*!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_cku1d"]
+script = ExtResource("1_prdbx")
+speaker_name = "Лена"
+text = "Ты можешь ЧТО-НИБУДЬ сделать?!
+Нас сейчас обоих сожрут!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_km0yr"]
+script = ExtResource("1_prdbx")
+speaker_name = "Голос"
+text = "Да нет, похоже я, как раз, полностью бессилен."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_micgg"]
+script = ExtResource("1_prdbx")
+speaker_name = "Лена"
+text = "Но тогда..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_8akr5"]
+script = ExtResource("1_prdbx")
+speaker_name = "Голос"
+text = "Но ты можешь нас спасти! Быстро, используй воображение!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_3gsm8"]
+script = ExtResource("1_prdbx")
+speaker_name = "Лена"
+text = "Ты совсем рехнулся?!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_dex7v"]
+script = ExtResource("1_prdbx")
+speaker_name = "Голос"
+text = "Нет, я серьезно. Это как раз то, что может нас спасти сейчас. Представь что вокруг тебя что-то безопасное."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_w6dr6"]
+script = ExtResource("1_prdbx")
+speaker_name = "Голос"
+text = "Клянусь тебе, это сработает."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_01y1e"]
+script = ExtResource("1_prdbx")
+speaker_name = "Лена"
+text = "Безопасное, типо крепости?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_fryth"]
+script = ExtResource("1_prdbx")
+speaker_name = "Голос"
+text = "Сойдет. Только быстрее!
+Нас реально сейчас на куски разорвут!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_c22sk"]
+script = ExtResource("1_prdbx")
+speaker_name = "Лена"
+text = "Ох, черт. Ну погнали!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_jiuc2"]
+script = ExtResource("1_prdbx")
+speaker_name = "Лена"
+text = "Пожалуйста, пожалуйста, пожалуйста...."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("3_p0xoe")
+lines = Array[ExtResource("1_prdbx")]([SubResource("Resource_8vg3r"), SubResource("Resource_prdbx"), SubResource("Resource_o1vpj"), SubResource("Resource_p0xoe"), SubResource("Resource_6xqnf"), SubResource("Resource_0i2c0"), SubResource("Resource_4esa3"), SubResource("Resource_k718k"), SubResource("Resource_vbp7o"), SubResource("Resource_0yuhh"), SubResource("Resource_neq4r"), SubResource("Resource_qw75i"), SubResource("Resource_v4feq"), SubResource("Resource_b8fq7"), SubResource("Resource_t2x5r"), SubResource("Resource_6fhlo"), SubResource("Resource_bpkmx"), SubResource("Resource_j3a7q"), SubResource("Resource_nx5du"), SubResource("Resource_v8cfw"), SubResource("Resource_ingkl"), SubResource("Resource_dg2ej"), SubResource("Resource_uxfda"), SubResource("Resource_cku1d"), SubResource("Resource_km0yr"), SubResource("Resource_micgg"), SubResource("Resource_8akr5"), SubResource("Resource_3gsm8"), SubResource("Resource_dex7v"), SubResource("Resource_w6dr6"), SubResource("Resource_01y1e"), SubResource("Resource_fryth"), SubResource("Resource_c22sk"), SubResource("Resource_jiuc2")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

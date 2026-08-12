@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://lokigod00001"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Resource" uid="uid://lokics0001" path="res://Gods/Loki/Cheap_shot.tres" id="2_cs"]
+[ext_resource type="Resource" uid="uid://lokidnc0001" path="res://Gods/Loki/Trickster_dance.tres" id="3_td"]
+[ext_resource type="Resource" uid="uid://lokirpl0001" path="res://Gods/Loki/Replay.tres" id="4_rp"]
+[ext_resource type="Resource" uid="uid://lokimst0001" path="res://Gods/Loki/Mistletoe_arrow.tres" id="5_ma"]
+[ext_resource type="Resource" uid="uid://lokirgn0001" path="res://Gods/Loki/Ragnarok.tres" id="6_rg"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="7_cr"]
+
+[resource]
+script = ExtResource("7_cr")
+unit_name = "Локи"
+sprite_path = "res://Gods/Loki/Loki_3.png"
+face_sprite = "res://Gods/Loki/Loki_Face.png"
+battle_sprite_scale_percent = 88.0
+max_hp = 90
+initiative = 12
+crit_chance = 0.1
+is_enemy = false
+special_effect_type = "loki_crit_stun"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_cs"), ExtResource("3_td"), ExtResource("4_rp"), ExtResource("5_ma")])
+ultimate_ability = ExtResource("6_rg")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

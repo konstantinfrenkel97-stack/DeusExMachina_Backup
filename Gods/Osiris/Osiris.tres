@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://cae4kytj7onnx"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_bij4t"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_3tih1"]
+[ext_resource type="Resource" uid="uid://bkjn1is03ucu8" path="res://Gods/Osiris/Golden_khopesh.tres" id="2_j6juu"]
+[ext_resource type="Resource" uid="uid://mjt0wgkvavgn" path="res://Gods/Osiris/Scorching_light.tres" id="3_w2uu1"]
+[ext_resource type="Resource" uid="uid://r5merae0tnqh" path="res://Gods/Osiris/royal_order.tres" id="4_w2uu1"]
+[ext_resource type="Resource" uid="uid://cb8y21uwfuonv" path="res://Gods/Osiris/The_King_of_kings.tres" id="5_8bsk8"]
+[ext_resource type="Resource" uid="uid://dh1r45strewjg" path="res://Gods/Osiris/Rays_of_glory.tres" id="6_rg"]
+
+[resource]
+script = ExtResource("2_3tih1")
+unit_name = "Осирис"
+sprite_path = "res://Gods/Osiris/Osiris.png"
+face_sprite = "res://Gods/Osiris/Osiris_Face.png"
+battle_sprite_scale_percent = 105.0
+campaign_dialogue_path = "res://Dialogues/Gods_dialogue/Osiris_dialogue_1.tres"
+max_hp = 80
+is_enemy = false
+special_effect_type = "osiris_majesty_aura"
+active_abilities = Array[ExtResource("1_bij4t")]([ExtResource("2_j6juu"), ExtResource("3_w2uu1"), ExtResource("4_w2uu1"), ExtResource("6_rg")])
+ultimate_ability = ExtResource("5_8bsk8")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

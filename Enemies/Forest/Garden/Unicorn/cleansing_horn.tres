@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Очищающий рог"
+description = "1,0 урона +15%% за каждый дебафф на цели. Снимает с цели все дебаффы."
+damage_modifier = 1.0
+majesty_gain = 0
+ability_marker = "unicorn_cleansing_horn"
+target_type = "Enemy"
+effect_types = Array[String](["dispel_debuffs"])
+effect_values = {"dispel_debuffs": 1}
+effect_durations = {"dispel_debuffs": 1}
+usable_from_positions = Array[bool]([true, true, true, false])
+targetable_positions = Array[bool]([true, true, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FormationResource" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="1_fr"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hellheim/Draugr_raider/Draugr_raider.tres" id="2_raider"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Desert/Mummy/Mummy.tres" id="3_mummy"]
+
+[resource]
+script = ExtResource("1_fr")
+formation_name = "Засада в пустыне"
+pos1 = ExtResource("2_raider")
+pos2 = ExtResource("3_mummy")
+pos3 = null
+pos4 = null

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://c4nn0nfire01"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_fr"]
+
+[resource]
+script = ExtResource("1_fr")
+name = "Пли"
+majesty_gain = 0
+extra_targets_count = 2
+effect_types = Array[String](["push_back"])
+effect_values = Dictionary[String, int]({
+"push_back": 1
+})
+effect_durations = Dictionary[String, int]({
+"push_back": 0
+})
+targetable_positions = Array[bool]([true, true, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

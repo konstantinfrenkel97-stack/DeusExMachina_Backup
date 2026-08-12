@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Засада"
+description = "Стойка: наносит 150% урона следующему врагу, совершившему действие."
+damage_modifier = 0.0
+majesty_gain = 0
+target_type = "Self"
+is_stance = true
+stance_effect_type = "oboroten_ambush"
+stance_duration_type = "UntilNextTurn"
+effect_types = Array[String]([])
+usable_from_positions = Array[bool]([false, false, true, true])
+targetable_positions = Array[bool]([false, false, false, false])

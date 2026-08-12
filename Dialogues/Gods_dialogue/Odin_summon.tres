@@ -1,0 +1,112 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://387x1523ewel"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_dltmg"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_7ket6"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_xtoqu"]
+
+[sub_resource type="Resource" id="Resource_17vvy"]
+script = ExtResource("1_dltmg")
+speaker_name = "Лена"
+text = "Ох, это Один! Почему-то я чувствую прилив уверенности."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_bfs0a"]
+script = ExtResource("1_dltmg")
+speaker_name = "Лена"
+text = "Отец и глава скандинавских богов. Король Асгарда испивший мед поэзии."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_0cigm"]
+script = ExtResource("1_dltmg")
+speaker_name = "Один"
+text = "Что за странный мир. Он похож на многие где я бывал, но что-то в нем есть… Чего я нигде больше не видел."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_7ee35"]
+script = ExtResource("1_dltmg")
+speaker_name = "Лена"
+text = "Здравствуйте, меня зовут Лена."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_fnd05"]
+script = ExtResource("1_dltmg")
+speaker_name = "Один"
+text = "Приветствую, девушка, я Один."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_b20hy"]
+script = ExtResource("1_dltmg")
+speaker_name = "Один"
+text = "Куда это вы меня призвали?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_n15ky"]
+script = ExtResource("1_dltmg")
+speaker_name = "Лена"
+text = "Это план фантазий, место где живет все вымышленное. Видите ли, меня пытаются убить местные обитатели, и мне нужна помощь."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ntqoc"]
+script = ExtResource("1_dltmg")
+speaker_name = "Один"
+text = "Хм, понятно понятно."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_a8cs4"]
+script = ExtResource("1_dltmg")
+speaker_name = "Один"
+text = "Последнее что я помню, это Рагнарек. Великая битва и… Конец мира?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_a50r8"]
+script = ExtResource("1_dltmg")
+speaker_name = "Один"
+text = "Тебе не известно... что тогда произошло?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_en7dq"]
+script = ExtResource("1_dltmg")
+speaker_name = "Лена"
+text = " Я… Да. Боюсь мир действительно был уничтожен тогда. И новый возник из пепла."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_mvafa"]
+script = ExtResource("1_dltmg")
+speaker_name = "Один"
+text = "Новый возник из пепла... вот как."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_rudkh"]
+script = ExtResource("1_dltmg")
+speaker_name = "Один"
+text = "Так значит мое время прошло… Но теперь я здесь."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_4pmag"]
+script = ExtResource("1_dltmg")
+speaker_name = "Лена"
+text = "..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_xuewo"]
+script = ExtResource("1_dltmg")
+speaker_name = "Один"
+text = "Ты просила о помощи, и я помогу тебе, конечно."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_58677"]
+script = ExtResource("1_dltmg")
+speaker_name = "Один"
+text = "Но мне нужно о многом подумать."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_elrab"]
+script = ExtResource("1_dltmg")
+speaker_name = "Лена"
+text = "Конечно, и спасибо вам."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_7ket6")
+lines = Array[ExtResource("1_dltmg")]([SubResource("Resource_17vvy"), SubResource("Resource_bfs0a"), SubResource("Resource_0cigm"), SubResource("Resource_7ee35"), SubResource("Resource_fnd05"), SubResource("Resource_b20hy"), SubResource("Resource_n15ky"), SubResource("Resource_ntqoc"), SubResource("Resource_a8cs4"), SubResource("Resource_a50r8"), SubResource("Resource_en7dq"), SubResource("Resource_mvafa"), SubResource("Resource_rudkh"), SubResource("Resource_4pmag"), SubResource("Resource_xuewo"), SubResource("Resource_58677"), SubResource("Resource_elrab")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

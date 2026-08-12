@@ -1,0 +1,820 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3]
+
+[ext_resource type="Script" path="res://Dialogues/dialogue_line.gd" id="1_line"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_resource.gd" id="3_dialogue"]
+
+[sub_resource type="Resource" id="Resource_duna_line_2"]
+script = ExtResource("1_line")
+line_id = "intro_1"
+speaker_name = "Дуна"
+text = "(Комната Дуны – это вовсе не комната. Ты выходишь на открытое поле, с высокой травой. Справа от тебя подлесок. В траве, на коленях сидит сама богиня, на руках у нее белый заяц. При твоем появлении она его отпускает)"
+next_line_id = "intro_2"
+
+[sub_resource type="Resource" id="Resource_duna_line_3"]
+script = ExtResource("1_line")
+line_id = "intro_2"
+speaker_name = "Дуна"
+text = "Здравствуй."
+next_line_id = "intro_3"
+
+[sub_resource type="Resource" id="Resource_duna_line_4"]
+script = ExtResource("1_line")
+line_id = "intro_3"
+speaker_name = "Лена"
+text = "Здравствуйте."
+next_line_id = "intro_4"
+
+[sub_resource type="Resource" id="Resource_duna_line_5"]
+script = ExtResource("1_line")
+line_id = "intro_4"
+speaker_name = "Лена"
+text = "Хотела вас спросить кое о чем."
+next_line_id = "Duna_choices_1"
+
+[sub_resource type="Resource" id="Resource_duna_choice_6"]
+script = ExtResource("2_choice")
+choice_id = "open_door"
+choice_text = "Открыть дверь"
+next_line_id = "open_door_1"
+
+[sub_resource type="Resource" id="Resource_duna_choice_7"]
+script = ExtResource("2_choice")
+choice_id = "opinion"
+choice_text = "Мнение о богах"
+next_line_id = "opinion_1"
+
+[sub_resource type="Resource" id="Resource_duna_choice_8"]
+script = ExtResource("2_choice")
+choice_id = "new_world"
+choice_text = "Новый мир"
+next_line_id = "new_world_1"
+
+[sub_resource type="Resource" id="Resource_duna_choice_9"]
+script = ExtResource("2_choice")
+choice_id = "help"
+choice_text = "Твоя помощь"
+next_line_id = "help_1"
+
+[sub_resource type="Resource" id="Resource_duna_choice_10"]
+script = ExtResource("2_choice")
+choice_id = "chosen_world"
+choice_text = "Выбранный мир"
+next_line_id = "chosen_world_1"
+
+[sub_resource type="Resource" id="Resource_duna_line_11"]
+script = ExtResource("1_line")
+line_id = "Duna_choices_1"
+choices = Array[ExtResource("2_choice")]([SubResource("Resource_duna_choice_6"), SubResource("Resource_duna_choice_7"), SubResource("Resource_duna_choice_8"), SubResource("Resource_duna_choice_9"), SubResource("Resource_duna_choice_10")])
+
+[sub_resource type="Resource" id="Resource_duna_line_12"]
+script = ExtResource("1_line")
+line_id = "open_door_1"
+speaker_name = "Лена"
+text = "Послушайте, тут есть несколько волшебный дверей, и без божественной помощи мне их не открыть."
+next_line_id = "open_door_2"
+
+[sub_resource type="Resource" id="Resource_duna_line_13"]
+script = ExtResource("1_line")
+line_id = "open_door_2"
+speaker_name = "Дуна"
+text = "Ох, ну конечно, подожди немного."
+next_line_id = "open_door_3"
+
+[sub_resource type="Resource" id="Resource_duna_line_14"]
+script = ExtResource("1_line")
+line_id = "open_door_3"
+speaker_name = "Дуна"
+text = "Вот, открыла."
+next_line_id = "open_door_4"
+
+[sub_resource type="Resource" id="Resource_duna_line_15"]
+script = ExtResource("1_line")
+line_id = "open_door_4"
+speaker_name = "Лена"
+text = "Ох, дверь в цветущий сад."
+next_line_id = "open_door_5"
+
+[sub_resource type="Resource" id="Resource_duna_line_16"]
+script = ExtResource("1_line")
+line_id = "open_door_5"
+speaker_name = "Лена"
+text = "Что и ожидалось."
+next_line_id = "open_door_6"
+
+[sub_resource type="Resource" id="Resource_duna_line_17"]
+script = ExtResource("1_line")
+line_id = "open_door_6"
+speaker_name = "Дуна"
+text = "Я хорошо знакома с фейским народом. Озорные, но милые создания."
+next_line_id = "open_door_7"
+
+[sub_resource type="Resource" id="Resource_duna_line_18"]
+script = ExtResource("1_line")
+line_id = "open_door_7"
+speaker_name = "Дуна"
+text = "К тому же там красиво, и природа."
+next_line_id = "open_door_8"
+
+[sub_resource type="Resource" id="Resource_duna_line_19"]
+script = ExtResource("1_line")
+line_id = "open_door_8"
+speaker_name = "Лена"
+text = "Вам не нравится быть в помещениях."
+next_line_id = "open_door_9"
+
+[sub_resource type="Resource" id="Resource_duna_line_20"]
+script = ExtResource("1_line")
+line_id = "open_door_9"
+speaker_name = "Дуна"
+text = "Нет что ты!"
+next_line_id = "open_door_10"
+
+[sub_resource type="Resource" id="Resource_duna_line_21"]
+script = ExtResource("1_line")
+line_id = "open_door_10"
+speaker_name = "Дуна"
+text = "Просто камни такие жесткие."
+next_line_id = "open_door_11"
+
+[sub_resource type="Resource" id="Resource_duna_line_22"]
+script = ExtResource("1_line")
+line_id = "open_door_11"
+speaker_name = "Дуна"
+text = "И оно все какое-то неестественное."
+next_line_id = "open_door_12"
+
+[sub_resource type="Resource" id="Resource_duna_line_23"]
+script = ExtResource("1_line")
+line_id = "open_door_12"
+speaker_name = "Лена"
+text = "Ну, то есть, вам не нравится."
+next_line_id = "open_door_13"
+
+[sub_resource type="Resource" id="Resource_duna_line_24"]
+script = ExtResource("1_line")
+line_id = "open_door_13"
+speaker_name = "Дуна"
+text = "Ну… Да."
+next_line_id = "open_door_14"
+
+[sub_resource type="Resource" id="Resource_duna_line_25"]
+script = ExtResource("1_line")
+line_id = "open_door_14"
+speaker_name = "Дуна"
+text = "Просто ты так старалась создать этот замок."
+next_line_id = "open_door_15"
+
+[sub_resource type="Resource" id="Resource_duna_line_26"]
+script = ExtResource("1_line")
+line_id = "open_door_15"
+speaker_name = "Лена"
+text = "Да ничего, страшного."
+next_line_id = "open_door_16"
+
+[sub_resource type="Resource" id="Resource_duna_line_27"]
+script = ExtResource("1_line")
+line_id = "open_door_16"
+speaker_name = "Лена"
+text = "Я все понимаю, вы же богиня природы."
+next_line_id = "open_door_17"
+
+[sub_resource type="Resource" id="Resource_duna_line_28"]
+script = ExtResource("1_line")
+line_id = "open_door_17"
+speaker_name = "Дуна"
+text = "Я могу сказать, по крайней мере, что твой замок это одно из самых красивых зданий"
+next_line_id = "open_door_18"
+
+[sub_resource type="Resource" id="Resource_duna_line_29"]
+script = ExtResource("1_line")
+line_id = "open_door_18"
+speaker_name = "Дуна"
+text = "Насколько они могут быть красивыми."
+next_line_id = "open_door_19"
+
+[sub_resource type="Resource" id="Resource_duna_line_30"]
+script = ExtResource("1_line")
+line_id = "open_door_19"
+speaker_name = "Лена"
+text = "Хех, спасибо вам."
+next_line_id = "Duna_choices_1"
+
+[sub_resource type="Resource" id="Resource_duna_line_31"]
+script = ExtResource("1_line")
+line_id = "opinion_1"
+speaker_name = "Лена"
+text = "А что вы думаете о…"
+next_line_id = "opinion_choices"
+
+[sub_resource type="Resource" id="Resource_duna_choice_32"]
+script = ExtResource("2_choice")
+choice_id = "opinion_morgan"
+choice_text = "Моргане"
+next_line_id = "opinion_morgan_1"
+
+[sub_resource type="Resource" id="Resource_duna_choice_33"]
+script = ExtResource("2_choice")
+choice_id = "opinion_koschei"
+choice_text = "Кощей"
+next_line_id = "opinion_koschei_1"
+
+[sub_resource type="Resource" id="Resource_duna_line_34"]
+script = ExtResource("1_line")
+line_id = "opinion_choices"
+choices = Array[ExtResource("2_choice")]([SubResource("Resource_duna_choice_32"), SubResource("Resource_duna_choice_33")])
+
+[sub_resource type="Resource" id="Resource_duna_line_35"]
+script = ExtResource("1_line")
+line_id = "opinion_morgan_1"
+speaker_name = "Лена"
+text = "…Моргане"
+next_line_id = "opinion_morgan_2"
+
+[sub_resource type="Resource" id="Resource_duna_line_36"]
+script = ExtResource("1_line")
+line_id = "opinion_morgan_2"
+speaker_name = "Дуна"
+text = "Ох, Моргана."
+next_line_id = "opinion_morgan_3"
+
+[sub_resource type="Resource" id="Resource_duna_line_37"]
+script = ExtResource("1_line")
+line_id = "opinion_morgan_3"
+speaker_name = "Дуна"
+text = "Она как обиженное, потерянное дитя."
+next_line_id = "opinion_morgan_4"
+
+[sub_resource type="Resource" id="Resource_duna_line_38"]
+script = ExtResource("1_line")
+line_id = "opinion_morgan_4"
+speaker_name = "Дуна"
+text = "И я пытаюсь ее как-то утешить, но она только еще больше обижается."
+next_line_id = "opinion_morgan_5"
+
+[sub_resource type="Resource" id="Resource_duna_line_39"]
+script = ExtResource("1_line")
+line_id = "opinion_morgan_5"
+speaker_name = "Лена"
+text = "Да, не думаю, что вы сможете поладить."
+next_line_id = "opinion_morgan_6"
+
+[sub_resource type="Resource" id="Resource_duna_line_40"]
+script = ExtResource("1_line")
+line_id = "opinion_morgan_6"
+speaker_name = "Дуна"
+text = "Я не теряю надежды."
+next_line_id = "opinion_morgan_7"
+
+[sub_resource type="Resource" id="Resource_duna_line_41"]
+script = ExtResource("1_line")
+line_id = "opinion_morgan_7"
+speaker_name = "Дуна"
+text = "Даже если ей это не приятно, я продолжаю тайком приглядывать за ней."
+next_line_id = "opinion_morgan_8"
+
+[sub_resource type="Resource" id="Resource_duna_line_42"]
+script = ExtResource("1_line")
+line_id = "opinion_morgan_8"
+speaker_name = "Дуна"
+text = "Ничего не могу с собой поделать, такая уж я."
+next_line_id = "opinion_morgan_9"
+
+[sub_resource type="Resource" id="Resource_duna_line_43"]
+script = ExtResource("1_line")
+line_id = "opinion_morgan_9"
+speaker_name = "Лена"
+text = "Вы и за мной тайком присматриваете?"
+next_line_id = "opinion_morgan_10"
+
+[sub_resource type="Resource" id="Resource_duna_line_44"]
+script = ExtResource("1_line")
+line_id = "opinion_morgan_10"
+speaker_name = "Дуна"
+text = "Ну а как же."
+next_line_id = "opinion_morgan_11"
+
+[sub_resource type="Resource" id="Resource_duna_line_45"]
+script = ExtResource("1_line")
+line_id = "opinion_morgan_11"
+speaker_name = "Лена"
+text = "Я… Спасибо большое."
+next_line_id = "opinion_morgan_12"
+
+[sub_resource type="Resource" id="Resource_duna_line_46"]
+script = ExtResource("1_line")
+line_id = "opinion_morgan_12"
+speaker_name = "Дуна"
+text = "(Мягко улыбается.)"
+next_line_id = "Duna_choices_1"
+
+[sub_resource type="Resource" id="Resource_duna_line_47"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_1"
+speaker_name = "Лена"
+text = "…Кощее."
+next_line_id = "opinion_koschei_2"
+
+[sub_resource type="Resource" id="Resource_duna_line_48"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_2"
+speaker_name = "Дуна"
+text = "Ох, он."
+next_line_id = "opinion_koschei_3"
+
+[sub_resource type="Resource" id="Resource_duna_line_49"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_3"
+speaker_name = "Лена"
+text = "Он вам не нравится?"
+next_line_id = "opinion_koschei_4"
+
+[sub_resource type="Resource" id="Resource_duna_line_50"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_4"
+speaker_name = "Дуна"
+text = "Нет, что ты."
+next_line_id = "opinion_koschei_5"
+
+[sub_resource type="Resource" id="Resource_duna_line_51"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_5"
+speaker_name = "Дуна"
+text = "В нем есть… хорошее."
+next_line_id = "opinion_koschei_6"
+
+[sub_resource type="Resource" id="Resource_duna_line_52"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_6"
+speaker_name = "Дуна"
+text = "Просто, наверное, я не могу его понять."
+next_line_id = "opinion_koschei_7"
+
+[sub_resource type="Resource" id="Resource_duna_line_53"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_7"
+speaker_name = "Лена"
+text = "Полагаю, для богини природы странна его тяга к бессмертию."
+next_line_id = "opinion_koschei_8"
+
+[sub_resource type="Resource" id="Resource_duna_line_54"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_8"
+speaker_name = "Дуна"
+text = "Это тоже. Я стараюст помогать и поддерживать жизнь во всех существах."
+next_line_id = "opinion_koschei_9"
+
+[sub_resource type="Resource" id="Resource_duna_line_55"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_9"
+speaker_name = "Дуна"
+text = "Но принимаю смерть, как необходимость."
+next_line_id = "opinion_koschei_10"
+
+[sub_resource type="Resource" id="Resource_duna_line_56"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_10"
+speaker_name = "Дуна"
+text = "Я стараюсь оттянуть смерть для каждого кто жив, но не отменить полностью."
+next_line_id = "opinion_koschei_11"
+
+[sub_resource type="Resource" id="Resource_duna_line_57"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_11"
+speaker_name = "Дуна"
+text = "Он как будто не понимает этого. Баланса, гармонии."
+next_line_id = "opinion_koschei_12"
+
+[sub_resource type="Resource" id="Resource_duna_line_58"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_12"
+speaker_name = "Дуна"
+text = "Он очень дисгармоничен."
+next_line_id = "opinion_koschei_13"
+
+[sub_resource type="Resource" id="Resource_duna_line_59"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_13"
+speaker_name = "Лена"
+text = "Наверное я понимаю вас, он странноват."
+next_line_id = "opinion_koschei_14"
+
+[sub_resource type="Resource" id="Resource_duna_line_60"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_14"
+speaker_name = "Дуна"
+text = "Только не говори ему что я так сказала. Он может обидеться."
+next_line_id = "opinion_koschei_15"
+
+[sub_resource type="Resource" id="Resource_duna_line_61"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_15"
+speaker_name = "Лена"
+text = "Ваш секрет – мой секрет. Спасибо что поделились."
+next_line_id = "opinion_koschei_16"
+
+[sub_resource type="Resource" id="Resource_duna_line_62"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_16"
+speaker_name = "Дуна"
+text = "И опять же, я не говорю, что он плохой."
+next_line_id = "opinion_koschei_17"
+
+[sub_resource type="Resource" id="Resource_duna_line_63"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_17"
+speaker_name = "Дуна"
+text = "Просто тяжело найти с ним общий язык."
+next_line_id = "Duna_choices_1"
+
+[sub_resource type="Resource" id="Resource_duna_line_64"]
+script = ExtResource("1_line")
+line_id = "new_world_1"
+speaker_name = "Лена"
+text = "У вас тут необычно."
+next_line_id = "new_world_2"
+
+[sub_resource type="Resource" id="Resource_duna_line_65"]
+script = ExtResource("1_line")
+line_id = "new_world_2"
+speaker_name = "Лена"
+text = "Хотела спросить, как вы адаптировались к новым обстоятельствам."
+next_line_id = "new_world_3"
+
+[sub_resource type="Resource" id="Resource_duna_line_66"]
+script = ExtResource("1_line")
+line_id = "new_world_3"
+speaker_name = "Лена"
+text = "Но вижу, что лучше, чем все."
+next_line_id = "new_world_4"
+
+[sub_resource type="Resource" id="Resource_duna_line_67"]
+script = ExtResource("1_line")
+line_id = "new_world_4"
+speaker_name = "Дуна"
+text = "Полагаю так. Я сама удивилась, когда за дверьми оказалось целое поле."
+next_line_id = "new_world_5"
+
+[sub_resource type="Resource" id="Resource_duna_line_68"]
+script = ExtResource("1_line")
+line_id = "new_world_5"
+speaker_name = "Дуна"
+text = "Но полагаю это логично. Ты выходишь за дверь и оказываешься на природе."
+next_line_id = "new_world_6"
+
+[sub_resource type="Resource" id="Resource_duna_line_69"]
+script = ExtResource("1_line")
+line_id = "new_world_6"
+speaker_name = "Лена"
+text = "Эм, ну не всегда."
+next_line_id = "new_world_7"
+
+[sub_resource type="Resource" id="Resource_duna_line_70"]
+script = ExtResource("1_line")
+line_id = "new_world_7"
+speaker_name = "Дуна"
+text = "Я, кстати, пробовала дойти до края этого поля, но так и не нашла. Оно просто уходит дальше за горизонт."
+next_line_id = "new_world_8"
+
+[sub_resource type="Resource" id="Resource_duna_line_71"]
+script = ExtResource("1_line")
+line_id = "new_world_8"
+speaker_name = "Дуна"
+text = "С лесом то же самое."
+next_line_id = "new_world_9"
+
+[sub_resource type="Resource" id="Resource_duna_line_72"]
+script = ExtResource("1_line")
+line_id = "new_world_9"
+speaker_name = "Лена"
+text = "Любопытно."
+next_line_id = "new_world_10"
+
+[sub_resource type="Resource" id="Resource_duna_line_73"]
+script = ExtResource("1_line")
+line_id = "new_world_10"
+speaker_name = "Дуна"
+text = "Да, но я рада что тут и звери водятся."
+next_line_id = "new_world_11"
+
+[sub_resource type="Resource" id="Resource_duna_line_74"]
+script = ExtResource("1_line")
+line_id = "new_world_11"
+speaker_name = "Дуна"
+text = "Мне и с растениями не одиноко, но с животными все же веселее."
+next_line_id = "new_world_12"
+
+[sub_resource type="Resource" id="Resource_duna_line_75"]
+script = ExtResource("1_line")
+line_id = "new_world_12"
+speaker_name = "Лена"
+text = "Вам не скучно с растениями?"
+next_line_id = "new_world_13"
+
+[sub_resource type="Resource" id="Resource_duna_line_76"]
+script = ExtResource("1_line")
+line_id = "new_world_13"
+speaker_name = "Дуна"
+text = "Конечно, что в них скучного?"
+next_line_id = "new_world_14"
+
+[sub_resource type="Resource" id="Resource_duna_line_77"]
+script = ExtResource("1_line")
+line_id = "new_world_14"
+speaker_name = "Дуна"
+text = "Точнее, да, их рассказы обычно однообразны."
+next_line_id = "new_world_15"
+
+[sub_resource type="Resource" id="Resource_duna_line_78"]
+script = ExtResource("1_line")
+line_id = "new_world_15"
+speaker_name = "Дуна"
+text = "Все же, в жизни куста мало что происходит."
+next_line_id = "new_world_16"
+
+[sub_resource type="Resource" id="Resource_duna_line_79"]
+script = ExtResource("1_line")
+line_id = "new_world_16"
+speaker_name = "Дуна"
+text = "Но у каждого своя личность, и в каждом что-то можно найти."
+next_line_id = "new_world_17"
+
+[sub_resource type="Resource" id="Resource_duna_line_80"]
+script = ExtResource("1_line")
+line_id = "new_world_17"
+speaker_name = "Лена"
+text = "Разговор с растениями и животными. У вас удивительные способности."
+next_line_id = "new_world_18"
+
+[sub_resource type="Resource" id="Resource_duna_line_81"]
+script = ExtResource("1_line")
+line_id = "new_world_18"
+speaker_name = "Дуна"
+text = "Что ты, это место теперь просто кишит удивительными людьми."
+next_line_id = "new_world_19"
+
+[sub_resource type="Resource" id="Resource_duna_line_82"]
+script = ExtResource("1_line")
+line_id = "new_world_19"
+speaker_name = "Дуна"
+text = "И то, что они вытворяют куда более невероятно."
+next_line_id = "new_world_20"
+
+[sub_resource type="Resource" id="Resource_duna_line_83"]
+script = ExtResource("1_line")
+line_id = "new_world_20"
+speaker_name = "Лена"
+text = "Но по-своему, самая невероятная здесь вы."
+next_line_id = "new_world_21"
+
+[sub_resource type="Resource" id="Resource_duna_line_84"]
+script = ExtResource("1_line")
+line_id = "new_world_21"
+speaker_name = "Дуна"
+text = "Хаха, и что бы это значило?"
+next_line_id = "new_world_22"
+
+[sub_resource type="Resource" id="Resource_duna_line_85"]
+script = ExtResource("1_line")
+line_id = "new_world_22"
+speaker_name = "Лена"
+text = "Да так, мысли вслух."
+next_line_id = "Duna_choices_1"
+
+[sub_resource type="Resource" id="Resource_duna_line_86"]
+script = ExtResource("1_line")
+line_id = "help_1"
+speaker_name = "Лена"
+text = "Вас не затрудняет помогать мне?"
+next_line_id = "help_2"
+
+[sub_resource type="Resource" id="Resource_duna_line_87"]
+script = ExtResource("1_line")
+line_id = "help_2"
+speaker_name = "Дуна"
+text = "Нет, а что?"
+next_line_id = "help_3"
+
+[sub_resource type="Resource" id="Resource_duna_line_88"]
+script = ExtResource("1_line")
+line_id = "help_3"
+speaker_name = "Лена"
+text = "Просто вы сразу же согласились."
+next_line_id = "help_4"
+
+[sub_resource type="Resource" id="Resource_duna_line_89"]
+script = ExtResource("1_line")
+line_id = "help_4"
+speaker_name = "Лена"
+text = "Как-будто для вас не существовало другого выбора."
+next_line_id = "help_5"
+
+[sub_resource type="Resource" id="Resource_duna_line_90"]
+script = ExtResource("1_line")
+line_id = "help_5"
+speaker_name = "Дуна"
+text = "Ну."
+next_line_id = "help_6"
+
+[sub_resource type="Resource" id="Resource_duna_line_91"]
+script = ExtResource("1_line")
+line_id = "help_6"
+speaker_name = "Дуна"
+text = "Когда я вижу потерянного ребенка, я не могу не помочь ему."
+next_line_id = "help_7"
+
+[sub_resource type="Resource" id="Resource_duna_line_92"]
+script = ExtResource("1_line")
+line_id = "help_7"
+speaker_name = "Дуна"
+text = "Наверное для меня действительно не существует другого выбора."
+next_line_id = "help_8"
+
+[sub_resource type="Resource" id="Resource_duna_line_93"]
+script = ExtResource("1_line")
+line_id = "help_8"
+speaker_name = "Лена"
+text = "Думаю я понимаю вас."
+next_line_id = "help_9"
+
+[sub_resource type="Resource" id="Resource_duna_line_94"]
+script = ExtResource("1_line")
+line_id = "help_9"
+speaker_name = "Дуна"
+text = "Да и мне это не в тягость, а даже нравится. Помогать, заботиться."
+next_line_id = "help_10"
+
+[sub_resource type="Resource" id="Resource_duna_line_95"]
+script = ExtResource("1_line")
+line_id = "help_10"
+speaker_name = "Лена"
+text = "А могу я попросить вас об одной мелочи."
+next_line_id = "help_11"
+
+[sub_resource type="Resource" id="Resource_duna_line_96"]
+script = ExtResource("1_line")
+line_id = "help_11"
+speaker_name = "Дуна"
+text = "А? Да, конечно."
+next_line_id = "help_12"
+
+[sub_resource type="Resource" id="Resource_duna_line_97"]
+script = ExtResource("1_line")
+line_id = "help_12"
+speaker_name = "Лена"
+text = "Можете наклонить голову, приложить ладонь к щеке и мягко сказать «Ара-ара»?"
+next_line_id = "help_13"
+
+[sub_resource type="Resource" id="Resource_duna_line_98"]
+script = ExtResource("1_line")
+line_id = "help_13"
+speaker_name = "Дуна"
+text = "Эм, это какое-то заклинание? Вот так?"
+next_line_id = "help_14"
+
+[sub_resource type="Resource" id="Resource_duna_line_99"]
+script = ExtResource("1_line")
+line_id = "help_14"
+speaker_name = "Лена"
+text = "К другой щеке. Это заклинание для поднятия духа."
+next_line_id = "help_15"
+
+[sub_resource type="Resource" id="Resource_duna_line_100"]
+script = ExtResource("1_line")
+line_id = "help_15"
+speaker_name = "Лена"
+text = "Вот так, и низким мягким голосом – «Ара-ара»."
+next_line_id = "help_16"
+
+[sub_resource type="Resource" id="Resource_duna_line_101"]
+script = ExtResource("1_line")
+line_id = "help_16"
+speaker_name = "Дуна"
+text = "Ара-ара…"
+next_line_id = "help_17"
+
+[sub_resource type="Resource" id="Resource_duna_line_102"]
+script = ExtResource("1_line")
+line_id = "help_17"
+speaker_name = "Лена"
+text = "Уххххх!"
+next_line_id = "help_18"
+
+[sub_resource type="Resource" id="Resource_duna_line_103"]
+script = ExtResource("1_line")
+line_id = "help_18"
+speaker_name = "Лена"
+text = "Мой дух заряжен!"
+next_line_id = "help_19"
+
+[sub_resource type="Resource" id="Resource_duna_line_104"]
+script = ExtResource("1_line")
+line_id = "help_19"
+speaker_name = "Дуна"
+text = "Засмущала… Но я рада что тебя это воодушевляет."
+next_line_id = "Duna_choices_1"
+
+[sub_resource type="Resource" id="Resource_duna_line_105"]
+script = ExtResource("1_line")
+line_id = "chosen_world_1"
+speaker_name = "Лена"
+text = "Вы казались удивленной, там за дверью в саду."
+next_line_id = "chosen_world_2"
+
+[sub_resource type="Resource" id="Resource_duna_line_106"]
+script = ExtResource("1_line")
+line_id = "chosen_world_2"
+speaker_name = "Дуна"
+text = "Да, ощущение было странное."
+next_line_id = "chosen_world_3"
+
+[sub_resource type="Resource" id="Resource_duna_line_107"]
+script = ExtResource("1_line")
+line_id = "chosen_world_3"
+speaker_name = "Дуна"
+text = "Феи, конечно, озорники, но такая агрессия."
+next_line_id = "chosen_world_4"
+
+[sub_resource type="Resource" id="Resource_duna_line_108"]
+script = ExtResource("1_line")
+line_id = "chosen_world_4"
+speaker_name = "Дуна"
+text = "Что-то не так с этим местом."
+next_line_id = "chosen_world_5"
+
+[sub_resource type="Resource" id="Resource_duna_line_109"]
+script = ExtResource("1_line")
+line_id = "chosen_world_5"
+speaker_name = "Дуна"
+text = "Я чувствую какой-то яд."
+next_line_id = "chosen_world_6"
+
+[sub_resource type="Resource" id="Resource_duna_line_110"]
+script = ExtResource("1_line")
+line_id = "chosen_world_6"
+speaker_name = "Лена"
+text = "Яд? Вы считаете, что какое-то зло отравляет эти земли."
+next_line_id = "chosen_world_7"
+
+[sub_resource type="Resource" id="Resource_duna_line_111"]
+script = ExtResource("1_line")
+line_id = "chosen_world_7"
+speaker_name = "Дуна"
+text = "Да, но мне нужно побольше расспросить местных обитателей."
+next_line_id = "chosen_world_8"
+
+[sub_resource type="Resource" id="Resource_duna_line_112"]
+script = ExtResource("1_line")
+line_id = "chosen_world_8"
+speaker_name = "Дуна"
+text = "А желательно, королевскую чету Титанию и Оберона."
+next_line_id = "chosen_world_9"
+
+[sub_resource type="Resource" id="Resource_duna_line_113"]
+script = ExtResource("1_line")
+line_id = "chosen_world_9"
+speaker_name = "Дуна"
+text = "Они должны знать."
+next_line_id = "chosen_world_10"
+
+[sub_resource type="Resource" id="Resource_duna_line_114"]
+script = ExtResource("1_line")
+line_id = "chosen_world_10"
+speaker_name = "Лена"
+text = "Должна сказать, я не ощущаю того зла, которое, видимо ощущаете вы."
+next_line_id = "chosen_world_11"
+
+[sub_resource type="Resource" id="Resource_duna_line_115"]
+script = ExtResource("1_line")
+line_id = "chosen_world_11"
+speaker_name = "Дуна"
+text = "Ах, дитя. Я замечаю малейшие изменения в настроении у тех, о ком забочусь."
+next_line_id = "chosen_world_12"
+
+[sub_resource type="Resource" id="Resource_duna_line_116"]
+script = ExtResource("1_line")
+line_id = "chosen_world_12"
+speaker_name = "Дуна"
+text = "Это самая важная моя способность."
+next_line_id = "chosen_world_13"
+
+[sub_resource type="Resource" id="Resource_duna_line_117"]
+script = ExtResource("1_line")
+line_id = "chosen_world_13"
+speaker_name = "Лена"
+text = "Да. Простите, я не должна была сомневаться в ваших суждениях."
+next_line_id = "chosen_world_14"
+
+[sub_resource type="Resource" id="Resource_duna_line_118"]
+script = ExtResource("1_line")
+line_id = "chosen_world_14"
+speaker_name = "Дуна"
+text = "Да что ты, дитя. Все хорошо."
+next_line_id = "Duna_choices_1"
+
+[resource]
+script = ExtResource("3_dialogue")
+dialogue_id = "duna_dialogue_1"
+dialogue_name = ""
+start_line_id = "intro_1"
+lines = Array[ExtResource("1_line")]([SubResource("Resource_duna_line_2"), SubResource("Resource_duna_line_3"), SubResource("Resource_duna_line_4"), SubResource("Resource_duna_line_5"), SubResource("Resource_duna_line_11"), SubResource("Resource_duna_line_12"), SubResource("Resource_duna_line_13"), SubResource("Resource_duna_line_14"), SubResource("Resource_duna_line_15"), SubResource("Resource_duna_line_16"), SubResource("Resource_duna_line_17"), SubResource("Resource_duna_line_18"), SubResource("Resource_duna_line_19"), SubResource("Resource_duna_line_20"), SubResource("Resource_duna_line_21"), SubResource("Resource_duna_line_22"), SubResource("Resource_duna_line_23"), SubResource("Resource_duna_line_24"), SubResource("Resource_duna_line_25"), SubResource("Resource_duna_line_26"), SubResource("Resource_duna_line_27"), SubResource("Resource_duna_line_28"), SubResource("Resource_duna_line_29"), SubResource("Resource_duna_line_30"), SubResource("Resource_duna_line_31"), SubResource("Resource_duna_line_34"), SubResource("Resource_duna_line_35"), SubResource("Resource_duna_line_36"), SubResource("Resource_duna_line_37"), SubResource("Resource_duna_line_38"), SubResource("Resource_duna_line_39"), SubResource("Resource_duna_line_40"), SubResource("Resource_duna_line_41"), SubResource("Resource_duna_line_42"), SubResource("Resource_duna_line_43"), SubResource("Resource_duna_line_44"), SubResource("Resource_duna_line_45"), SubResource("Resource_duna_line_46"), SubResource("Resource_duna_line_47"), SubResource("Resource_duna_line_48"), SubResource("Resource_duna_line_49"), SubResource("Resource_duna_line_50"), SubResource("Resource_duna_line_51"), SubResource("Resource_duna_line_52"), SubResource("Resource_duna_line_53"), SubResource("Resource_duna_line_54"), SubResource("Resource_duna_line_55"), SubResource("Resource_duna_line_56"), SubResource("Resource_duna_line_57"), SubResource("Resource_duna_line_58"), SubResource("Resource_duna_line_59"), SubResource("Resource_duna_line_60"), SubResource("Resource_duna_line_61"), SubResource("Resource_duna_line_62"), SubResource("Resource_duna_line_63"), SubResource("Resource_duna_line_64"), SubResource("Resource_duna_line_65"), SubResource("Resource_duna_line_66"), SubResource("Resource_duna_line_67"), SubResource("Resource_duna_line_68"), SubResource("Resource_duna_line_69"), SubResource("Resource_duna_line_70"), SubResource("Resource_duna_line_71"), SubResource("Resource_duna_line_72"), SubResource("Resource_duna_line_73"), SubResource("Resource_duna_line_74"), SubResource("Resource_duna_line_75"), SubResource("Resource_duna_line_76"), SubResource("Resource_duna_line_77"), SubResource("Resource_duna_line_78"), SubResource("Resource_duna_line_79"), SubResource("Resource_duna_line_80"), SubResource("Resource_duna_line_81"), SubResource("Resource_duna_line_82"), SubResource("Resource_duna_line_83"), SubResource("Resource_duna_line_84"), SubResource("Resource_duna_line_85"), SubResource("Resource_duna_line_86"), SubResource("Resource_duna_line_87"), SubResource("Resource_duna_line_88"), SubResource("Resource_duna_line_89"), SubResource("Resource_duna_line_90"), SubResource("Resource_duna_line_91"), SubResource("Resource_duna_line_92"), SubResource("Resource_duna_line_93"), SubResource("Resource_duna_line_94"), SubResource("Resource_duna_line_95"), SubResource("Resource_duna_line_96"), SubResource("Resource_duna_line_97"), SubResource("Resource_duna_line_98"), SubResource("Resource_duna_line_99"), SubResource("Resource_duna_line_100"), SubResource("Resource_duna_line_101"), SubResource("Resource_duna_line_102"), SubResource("Resource_duna_line_103"), SubResource("Resource_duna_line_104"), SubResource("Resource_duna_line_105"), SubResource("Resource_duna_line_106"), SubResource("Resource_duna_line_107"), SubResource("Resource_duna_line_108"), SubResource("Resource_duna_line_109"), SubResource("Resource_duna_line_110"), SubResource("Resource_duna_line_111"), SubResource("Resource_duna_line_112"), SubResource("Resource_duna_line_113"), SubResource("Resource_duna_line_114"), SubResource("Resource_duna_line_115"), SubResource("Resource_duna_line_116"), SubResource("Resource_duna_line_117"), SubResource("Resource_duna_line_118")])

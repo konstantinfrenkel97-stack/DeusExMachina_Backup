@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://dykl6nvkstvlk"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_td305"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_b0vrm"]
+[ext_resource type="Script" uid="uid://1keyb5y3wjki" path="res://Enemy_logic/silver_valkyrie_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Clouds/Silver Valkerie/sunset_arrow.tres" id="4_a1"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Clouds/Silver Valkerie/moon_ray.tres" id="5_a2"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Clouds/Silver Valkerie/warrior_of_night.tres" id="6_a3"]
+
+[resource]
+script = ExtResource("2_b0vrm")
+unit_name = "Серебрянная валькирия"
+sprite_path = "res://Enemies/Sky/Clouds/Silver Valkerie/Серебрянная валькирия.png"
+face_sprite = "res://Enemies/Sky/Clouds/Silver Valkerie/Серебрянная валькирия_Face.png"
+battle_sprite_scale_percent = 130.0
+max_hp = 55
+damage = 12
+armor = 3
+initiative = 7
+accuracy = 95
+evasion = 20
+crit_chance = 0.15
+special_effect_type = "silver_valkyrie"
+active_abilities = Array[ExtResource("1_td305")]([ExtResource("4_a1"), ExtResource("5_a2"), ExtResource("6_a3")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

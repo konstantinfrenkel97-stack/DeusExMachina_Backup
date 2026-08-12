@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://eo0an5q7s8de"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_e4t1s"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_f5u2r"]
+[ext_resource type="Resource" uid="uid://settear0001" path="res://Gods/Set/Tear_apart.tres" id="3_ta"]
+[ext_resource type="Resource" uid="uid://setsarc0001" path="res://Gods/Set/In_sarcophagus.tres" id="4_sc"]
+[ext_resource type="Resource" uid="uid://setsndw0001" path="res://Gods/Set/Sandstorm.tres" id="5_sw"]
+[ext_resource type="Resource" uid="uid://settrkg0001" path="res://Gods/Set/True_king.tres" id="6_tk"]
+[ext_resource type="Resource" uid="uid://setusur0001" path="res://Gods/Set/Usurp.tres" id="7_us"]
+
+[resource]
+script = ExtResource("2_f5u2r")
+unit_name = "Сет"
+sprite_path = "res://Gods/Set/Set.png"
+face_sprite = "res://Gods/Set/Set_Face.png"
+battle_sprite_scale_percent = 93.0
+initiative = 10
+is_enemy = false
+special_effect_type = "set_kill_majesty"
+active_abilities = Array[ExtResource("1_e4t1s")]([ExtResource("3_ta"), ExtResource("4_sc"), ExtResource("5_sw"), ExtResource("6_tk")])
+ultimate_ability = ExtResource("7_us")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

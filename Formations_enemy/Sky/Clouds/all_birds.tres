@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="FormationResource" format=3 uid="uid://5y1y358g1g00"]
+
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="1_7sdvi"]
+[ext_resource type="Resource" uid="uid://cn6i0cqqap54y" path="res://Enemies/Sky/Clouds/Bird_knife_wings/bird_knife_wings.tres" id="1_pd0iv"]
+
+[resource]
+script = ExtResource("1_7sdvi")
+pos1 = ExtResource("1_pd0iv")
+pos2 = ExtResource("1_pd0iv")
+pos3 = ExtResource("1_pd0iv")
+pos4 = ExtResource("1_pd0iv")
+metadata/_custom_type_script = "uid://c50het7soanc1"

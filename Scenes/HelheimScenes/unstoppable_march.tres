@@ -1,0 +1,101 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hellheim/Draugr_Juggernaut/Draugr_Juggernaut.tres" id="enemy_juggernaut"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hellheim/Draugr_raider/Draugr_raider.tres" id="enemy_raider"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+
+[sub_resource type="Resource" id="form_march"]
+script = ExtResource("formation_script")
+formation_name = "Неостановимый марш: Джаггернаут-Джаггернаут-Рейдер-Рейдер"
+pos1 = ExtResource("enemy_juggernaut")
+pos2 = ExtResource("enemy_juggernaut")
+pos3 = ExtResource("enemy_raider")
+pos4 = ExtResource("enemy_raider")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="mod_enemy_hp70"]
+script = ExtResource("unit_modifier_script")
+hp_percent = 70
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="buff_armor_plus10"]
+script = ExtResource("buff_script")
+stat = 4
+value = 10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_hero_armor_plus10"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_armor_plus10")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_collapse_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_march")
+location_id = "helheim"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_enemy_hp70")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_normal"]
+script = ExtResource("battle_script")
+formation = SubResource("form_march")
+location_id = "helheim"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_high_ground"]
+script = ExtResource("battle_script")
+formation = SubResource("form_march")
+location_id = "helheim"
+hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_hero_armor_plus10")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_collapse_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы обрушиваете лавину камней на колонну нежити. Однако вскоре из камней встают тяжело вооруженные солдаты в рогатых шлемах. Вы обрушиваете на них еще и еще валуны, но ломаясь, падая и вставая снова они поднимаются и оказываются на одном уровне с вами."
+battle = SubResource("battle_collapse_success")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_collapse_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы обрушиваете лавину камней на колонну нежити. Однако большого успеха не добились. Камни либо останавливались на полпути, либо попадали куда-то туда, либо ударив в грудь закованного в доспехи рыцаря смерти, останавливались, а тот продолжал путь будто ничего и не заметив. Вскоре нежить добралась до вас."
+battle = SubResource("battle_normal")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_high_ground"]
+script = ExtResource("outcome_script")
+result_text = "Вы решаете не полагаться на удачу и просто обустраиваете защищенную позицию на вершине холма. Когда драугры добираются до вас, вы готовы принять бой на своих позициях."
+battle = SubResource("battle_high_ground")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("stat_check_script")
+stat = 4
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="choice_collapse"]
+script = ExtResource("choice_script")
+choice_text = "Устроить обвал"
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_collapse_success")
+failure_outcome = SubResource("out_collapse_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_high_ground"]
+script = ExtResource("choice_script")
+choice_text = "Занять позицию на высоте"
+outcome = SubResource("out_high_ground")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Неостановимый марш"
+body_text = "Вам повезло, поднявшись на каменистый холм, вы видите в низине отряд нежити. Позиция выгодна для вас, вы можете осыпать противников булыжниками пока они пытаются до вас добраться. Редкая возможность."
+choices = [SubResource("choice_collapse"), SubResource("choice_high_ground")]

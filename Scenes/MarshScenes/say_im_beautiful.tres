@@ -1,0 +1,116 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"][ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Kikimora/kikimora.tres" id="kikimora"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Utoplennitsa/utoplennitsa.tres" id="utoplennitsa"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Vodyanoy/vodyanoy.tres" id="vodyanoy"]
+[ext_resource type="Resource" path="res://Gods/Koschei/Koschei.tres" id="koschei"]
+[ext_resource type="Resource" path="res://Items/Trinkets/Unique/kikimora_flower.tres" id="flower"]
+
+[sub_resource type="Resource" id="form_kikimora"]
+script = ExtResource("formation_script")
+formation_name = "Кикимора: Кикимора-Утопленница-Утопленница-Водяной"
+pos1 = ExtResource("kikimora")
+pos2 = ExtResource("utoplennitsa")
+pos3 = ExtResource("utoplennitsa")
+pos4 = ExtResource("vodyanoy")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="buff_kikimora_attack"]
+script = ExtResource("buff_script")
+stat = 0
+value = 7
+duration = 2
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_kikimora_reject"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+hp_percent = 97
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_kikimora_attack")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_reject"]
+script = ExtResource("battle_script")
+formation = SubResource("form_kikimora")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_kikimora_reject")])
+location_id = "swamp"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_kiss_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_kikimora")
+location_id = "swamp"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="reward_flower"]
+script = ExtResource("reward_script")
+kind = 0
+resource = ExtResource("flower")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_reject"]
+script = ExtResource("outcome_script")
+result_text = "Вариант 1 – Ни один из богов не выражает желания близости с кикиморой. Какое-то время она смотрит на вас желтыми глазами. Она наклоняет голову, а потом задирает на верх. Из горла вырывается скрипучий визг. Вы вынуждены зажать уши. Из воды начали подниматься твари.\n«Убью! Я убью вас! Лжецы! Убью! Убью!»"
+battle = SubResource("battle_reject")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_kiss_success"]
+script = ExtResource("outcome_script")
+result_text = "Вариант 2 (успех) – Немного помявшись, один из богов выходит вперед. Кикимора подходит к нему глядя снизу-вверх. Никто не понимает, что и почему происходит.\nБог прикладывается губами к губам кикиморы. Кислый вкус обжигает язык, а губы начинают чесаться и гореть. Кикимора берет щеки в шипастые руки. Бог старается не реагировать, чувствуя, как что-то теплое стекает с обожжённых губ.\nНаконец существо отстраняется. Она смотрит вниз, на свои ступни.\n«Красивая. Я правда красивая. Жди!»\nОна исчезает в болотной траве, и какое-то время ее нет. Вскоре она появляется снова, и подходит к целовавшему бога. В руках у нее блестящий, бледно розовый цветок лотоса. Не поднимая головы, она передает ее богу, держа обеими руками.\n«Красивая… Правда красивая…»"
+rewards = [SubResource("reward_flower")]
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_kiss_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вариант 2 (провал) - – Немного помявшись, один из богов выходит вперед. Кикимора подходит к нему глядя снизу-вверх. Никто не понимает, что и почему происходит.\nБог прикладывается губами к губам кикиморы. Кислый вкус обжигает язык, а губы начинают чесаться и гореть. Чувство становится невыносимым. Бог отпрыгивает от монстра, со рта у него стекает кровь.\nКикимора секунду смотрит на него широко раскрыв желтые глаза. А после, ее крик разлетается по болоту. Нечисть стягивается к вам."
+battle = SubResource("battle_kiss_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_koschei"]
+script = ExtResource("outcome_script")
+result_text = "Вариант 3 – Кощей выходит вперед, выставив вперед грудь. Издав короткий вскрик – кикимора плюхается на четвереньки и опускает голову, погрузив лоб в болотную воду.\n«Так-то! Знай свое место!»\nКощей театрально взмахивает плащом. С мокрого края разлетаются капли.\nГруппа возобновляет движение, оставив коленопреклоненное существо позади. В шаге Кощея появляется дополнительная уверенность."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="check_health"]
+script = ExtResource("stat_check_script")
+stat = 6
+stat_label = "Здоровье"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="choice_reject"]
+script = ExtResource("choice_script")
+choice_text = "Отвергнуть кикимору"
+outcome = SubResource("out_reject")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_kiss"]
+script = ExtResource("choice_script")
+choice_text = "Поцеловать кикимору"
+stat_check = SubResource("check_health")
+success_outcome = SubResource("out_kiss_success")
+failure_outcome = SubResource("out_kiss_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_koschei"]
+script = ExtResource("choice_script")
+choice_text = "Преклонись, тварь!"
+required_god = ExtResource("koschei")
+outcome = SubResource("out_koschei")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Скажи, что я красивая"
+body_text = "Поверхность болота движется. Поначалу вам кажется, что это наваждение, но скоро игнорировать факт становится невозможно. Жижа заворачивается в водоворот вокруг вас. Вскоре вы замечаете длинный острый предмет, торчащий из воды. Он движется как плавник акулы, рисуя круги вокруг вас. Боги покрепче сжимают оружие.\nНаконец из жижи поднимается человеческий силуэт сгорбленной женщины. Острый длинный предмет оказывается ее носом.\n«Ки-ки-ки, что за милашки забрались в мои владения?». Ее голос звучит как скрип старой двери. В улыбке она оголяет желто-зеленые зубы.\n«Эй-эй? Я же красивая, да? Да? Да?»\nВ сомнениях боги переглядываются между собой, после чего отвечают кикиморе согласным кивком.\n«Красивая? Да-да! Красивая! Очень красивая!»\nОна начинает приплясывать, разбрызгивая грязную воду.\n«Эй-эй! А поцелуйте меня! Ки-ки-ки! Поцелуйчик! Да? Да?»\nОна выгибается вперед и идет к вам."
+choices = [SubResource("choice_reject"), SubResource("choice_kiss"), SubResource("choice_koschei")]
+metadata/_custom_type_script = ExtResource("scene_script")

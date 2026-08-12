@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Волна скоробеев"
+description = "0.6 урона, отталкивает цель на 2, 10% периодического урона на 2 хода."
+damage_modifier = 0.6
+majesty_gain = 0
+ability_marker = "anubis_scarab_wave"
+usable_from_positions = Array[bool]([false, true, true, true])
+targetable_positions = Array[bool]([true, true, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

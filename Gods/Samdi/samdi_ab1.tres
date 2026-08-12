@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://djb8n100jgg2i"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+icon_path = "uid://bo05cjrh10ruo"
+name = "Выпей со смертью"
+description = "Я и цель получаем 0.5 периодического урона на 2 хода"
+usable_from_positions = Array[bool]([false, true, true, true])
+ability_marker = "samdi_drink_with_death"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

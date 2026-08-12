@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://da8wnyb5qfral"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://dqa2vn53okvdh" path="res://Enemy_logic/unicorn_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Unicorn/cleansing_horn.tres" id="4_ch"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Unicorn/unicorn_blood.tres" id="5_ub"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Unicorn/graceful_posture.tres" id="6_gp"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Единорог"
+sprite_path = "res://Enemies/Forest/Garden/Unicorn/Unicorn.png"
+face_sprite = "res://Enemies/Forest/Garden/Unicorn/Unicorn_face.png"
+battle_sprite_scale_percent = 113.0
+max_hp = 90
+damage = 24
+armor = 10
+initiative = 5
+evasion = 15
+crit_chance = 0.1
+special_effect_type = "unicorn_counter_accuracy"
+is_large = true
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_ch"), ExtResource("5_ub"), ExtResource("6_gp")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

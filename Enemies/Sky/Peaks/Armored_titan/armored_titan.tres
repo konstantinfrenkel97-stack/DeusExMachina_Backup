@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://c1plsqfthvya4"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Peaks/Armored_titan/titan_heavy_hit.tres" id="2_hh"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Peaks/Armored_titan/titan_shoulder_push.tres" id="3_sp"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Peaks/Armored_titan/titan_indestructible.tres" id="4_in"]
+[ext_resource type="Script" uid="uid://cvr4saooojag6" path="res://Enemy_logic/armored_titan_logic.gd" id="5_ai"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="6_cr"]
+
+[resource]
+script = ExtResource("6_cr")
+unit_name = "Бронированный титан"
+sprite_path = "res://Enemies/Sky/Peaks/Armored_titan/Armored_titan.png"
+face_sprite = "res://Enemies/Sky/Peaks/Armored_titan/Armored_titan_face.png"
+battle_sprite_scale_percent = 180.0
+max_hp = 120
+armor = 30
+initiative = 4
+accuracy = 80
+evasion = 5
+special_effect_type = "titan_armor_double"
+is_large = true
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_hh"), ExtResource("3_sp"), ExtResource("4_in")])
+ai_script = ExtResource("5_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

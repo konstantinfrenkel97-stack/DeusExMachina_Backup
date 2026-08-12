@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://q76mrn2lsl0b"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_qqo2x"]
+
+[resource]
+script = ExtResource("1_qqo2x")
+name = "Взгляд циклопа"
+damage_modifier = 0.2
+majesty_gain = 0
+effect_types = Array[String](["self_buff_accuracy", "target_debuff_accuracy"])
+effect_values = Dictionary[String, int]({
+"self_buff_accuracy": 20,
+"target_debuff_accuracy": 20
+})
+effect_durations = Dictionary[String, int]({
+"self_buff_accuracy": 3,
+"target_debuff_accuracy": 3
+})
+metadata/_custom_type_script = "uid://bthajoj5kgfln"
+metadata/accuracy = false

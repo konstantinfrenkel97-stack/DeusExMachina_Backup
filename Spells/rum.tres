@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="SpellResource" format=3]
+
+[ext_resource type="Script" uid="uid://bxf7k2m4p9nz" path="res://spell_resource.gd" id="1_sp_rum"]
+
+[resource]
+script = ExtResource("1_sp_rum")
+icon_path = "res://Icons/spells/Rum.png"
+spell_name = "Ром"
+description = "Даёт -20 точности, но +20 удачи. Можно применить на союзника или врага."
+fantasy_cost = 0
+required_location_id = "ships"
+target_type = "Any"
+effect_types = Array[String](["target_debuff_accuracy", "target_buff_crit"])
+effect_values = Dictionary[String, int]({
+"target_debuff_accuracy": 20,
+"target_buff_crit": 20
+})
+effect_durations = Dictionary[String, int]({
+"target_debuff_accuracy": 1,
+"target_buff_crit": 1
+})
+metadata/_custom_type_script = "uid://bxf7k2m4p9nz"

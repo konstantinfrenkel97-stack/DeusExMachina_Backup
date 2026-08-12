@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://ssaprc00001"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ap"]
+
+[resource]
+script = ExtResource("1_ap")
+icon_path = "uid://cklhqdnim8df5"
+name = "Точный удар"
+damage_modifier = 0.7
+majesty_gain = 10
+damage_type = "Pure"
+usable_from_positions = Array[bool]([false, true, true, false])
+targetable_positions = Array[bool]([true, true, false, false])
+ability_marker = "susanoo_armor_pierce"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

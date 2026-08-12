@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Стрела заката"
+description = "1,5 урона. Цель теряет 20 точности на 2 хода."
+damage_modifier = 1.5
+majesty_gain = 0
+target_type = "Enemy"
+effect_types = Array[String](["target_debuff_accuracy"])
+effect_values = {"target_debuff_accuracy": 20}
+effect_durations = {"target_debuff_accuracy": 2}
+usable_from_positions = Array[bool]([false, false, true, true])
+targetable_positions = Array[bool]([false, false, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

@@ -1,0 +1,918 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3]
+
+[ext_resource type="Script" path="res://Dialogues/dialogue_line.gd" id="1_line"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_resource.gd" id="3_dialogue"]
+
+[sub_resource type="Resource" id="Resource_morgan_line_2"]
+script = ExtResource("1_line")
+line_id = "intro_1"
+speaker_name = "Моргана"
+text = "(В ее комнате темно, вдоль стен стоят книжные полки, на полу и столах написаны магические формулы. Она сидит в кресле и читает книгу, не обращая на тебя внимания.)"
+next_line_id = "intro_2"
+
+[sub_resource type="Resource" id="Resource_morgan_line_3"]
+script = ExtResource("1_line")
+line_id = "intro_2"
+speaker_name = "Лена"
+text = "Кхм-кхм!"
+next_line_id = "intro_3"
+
+[sub_resource type="Resource" id="Resource_morgan_line_4"]
+script = ExtResource("1_line")
+line_id = "intro_3"
+speaker_name = "Моргана"
+text = "(Она молча поднимает глаза.)"
+next_line_id = "Morgan_choices_1"
+
+[sub_resource type="Resource" id="Resource_morgan_choice_5"]
+script = ExtResource("2_choice")
+choice_id = "open_door"
+choice_text = "Открыть дверь"
+next_line_id = "open_door_1"
+
+[sub_resource type="Resource" id="Resource_morgan_choice_6"]
+script = ExtResource("2_choice")
+choice_id = "opinion"
+choice_text = "Отношение к богам"
+next_line_id = "opinion_1"
+
+[sub_resource type="Resource" id="Resource_morgan_choice_7"]
+script = ExtResource("2_choice")
+choice_id = "new_world"
+choice_text = "Новый мир"
+next_line_id = "new_world_1"
+
+[sub_resource type="Resource" id="Resource_morgan_choice_8"]
+script = ExtResource("2_choice")
+choice_id = "help"
+choice_text = "Твоя помощь"
+next_line_id = "help_1"
+
+[sub_resource type="Resource" id="Resource_morgan_choice_9"]
+script = ExtResource("2_choice")
+choice_id = "chosen_world"
+choice_text = "Выбранный мир"
+next_line_id = "chosen_world_1"
+
+[sub_resource type="Resource" id="Resource_morgan_line_10"]
+script = ExtResource("1_line")
+line_id = "Morgan_choices_1"
+choices = Array[ExtResource("2_choice")]([SubResource("Resource_morgan_choice_5"), SubResource("Resource_morgan_choice_6"), SubResource("Resource_morgan_choice_7"), SubResource("Resource_morgan_choice_8"), SubResource("Resource_morgan_choice_9")])
+
+[sub_resource type="Resource" id="Resource_morgan_line_11"]
+script = ExtResource("1_line")
+line_id = "open_door_1"
+speaker_name = "Лена"
+text = "Не хочу тебя беспокоить, но тут есть несколько дверей, и мне нужно чтобы ты одну из них открыла."
+next_line_id = "open_door_2"
+
+[sub_resource type="Resource" id="Resource_morgan_line_12"]
+script = ExtResource("1_line")
+line_id = "open_door_2"
+speaker_name = "Лена"
+text = "Если тебя, конечно, не затруднит."
+next_line_id = "open_door_3"
+
+[sub_resource type="Resource" id="Resource_morgan_line_13"]
+script = ExtResource("1_line")
+line_id = "open_door_3"
+speaker_name = "Моргана"
+text = "…"
+next_line_id = "open_door_4"
+
+[sub_resource type="Resource" id="Resource_morgan_line_14"]
+script = ExtResource("1_line")
+line_id = "open_door_4"
+speaker_name = "Моргана"
+text = "Хорошо, открыла."
+next_line_id = "open_door_5"
+
+[sub_resource type="Resource" id="Resource_morgan_line_15"]
+script = ExtResource("1_line")
+line_id = "open_door_5"
+speaker_name = "Лена"
+text = "Европейское средневековье?"
+next_line_id = "open_door_6"
+
+[sub_resource type="Resource" id="Resource_morgan_line_16"]
+script = ExtResource("1_line")
+line_id = "open_door_6"
+speaker_name = "Моргана"
+text = "…"
+next_line_id = "open_door_7"
+
+[sub_resource type="Resource" id="Resource_morgan_line_17"]
+script = ExtResource("1_line")
+line_id = "open_door_7"
+speaker_name = "Лена"
+text = "Полагаю, это подходящее место для тебя, привычное."
+next_line_id = "open_door_8"
+
+[sub_resource type="Resource" id="Resource_morgan_line_18"]
+script = ExtResource("1_line")
+line_id = "open_door_8"
+speaker_name = "Моргана"
+text = "Считай как хочешь."
+next_line_id = "open_door_9"
+
+[sub_resource type="Resource" id="Resource_morgan_line_19"]
+script = ExtResource("1_line")
+line_id = "open_door_9"
+speaker_name = "Лена"
+text = "Ты не хочешь прокомментировать свой выбор."
+next_line_id = "open_door_10"
+
+[sub_resource type="Resource" id="Resource_morgan_line_20"]
+script = ExtResource("1_line")
+line_id = "open_door_10"
+speaker_name = "Моргана"
+text = "Не вижу почему должна."
+next_line_id = "open_door_11"
+
+[sub_resource type="Resource" id="Resource_morgan_line_21"]
+script = ExtResource("1_line")
+line_id = "open_door_11"
+speaker_name = "Лена"
+text = "Большинству нравится рассказывать о том, почему они выбрали такую дверь."
+next_line_id = "open_door_12"
+
+[sub_resource type="Resource" id="Resource_morgan_line_22"]
+script = ExtResource("1_line")
+line_id = "open_door_12"
+speaker_name = "Моргана"
+text = "Получается я в меньшинстве."
+next_line_id = "open_door_13"
+
+[sub_resource type="Resource" id="Resource_morgan_line_23"]
+script = ExtResource("1_line")
+line_id = "open_door_13"
+speaker_name = "Моргана"
+text = "Что-то еще?"
+next_line_id = "Morgan_choices_1"
+
+[sub_resource type="Resource" id="Resource_morgan_line_24"]
+script = ExtResource("1_line")
+line_id = "opinion_1"
+speaker_name = "Лена"
+text = "Слушай, а как тебе…"
+next_line_id = "opinion_choices"
+
+[sub_resource type="Resource" id="Resource_morgan_choice_25"]
+script = ExtResource("2_choice")
+choice_id = "opinion_koschei"
+choice_text = "Кощей"
+next_line_id = "opinion_koschei_1"
+
+[sub_resource type="Resource" id="Resource_morgan_choice_26"]
+script = ExtResource("2_choice")
+choice_id = "opinion_duna"
+choice_text = "Дуна"
+next_line_id = "opinion_duna_1"
+
+[sub_resource type="Resource" id="Resource_morgan_line_27"]
+script = ExtResource("1_line")
+line_id = "opinion_choices"
+choices = Array[ExtResource("2_choice")]([SubResource("Resource_morgan_choice_25"), SubResource("Resource_morgan_choice_26")])
+
+[sub_resource type="Resource" id="Resource_morgan_line_28"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_1"
+speaker_name = "Лена"
+text = "…Кощей."
+next_line_id = "opinion_koschei_2"
+
+[sub_resource type="Resource" id="Resource_morgan_line_29"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_2"
+speaker_name = "Моргана"
+text = "Хмм, Кощей."
+next_line_id = "opinion_koschei_3"
+
+[sub_resource type="Resource" id="Resource_morgan_line_30"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_3"
+speaker_name = "Моргана"
+text = "Интересный случай. Я пока не смогла разобраться как он достиг своего бессмертия."
+next_line_id = "opinion_koschei_4"
+
+[sub_resource type="Resource" id="Resource_morgan_line_31"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_4"
+speaker_name = "Моргана"
+text = "А сам он не говорит."
+next_line_id = "opinion_koschei_5"
+
+[sub_resource type="Resource" id="Resource_morgan_line_32"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_5"
+speaker_name = "Моргана"
+text = "Но это вопрос времени. Я допытаюсь."
+next_line_id = "opinion_koschei_6"
+
+[sub_resource type="Resource" id="Resource_morgan_line_33"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_6"
+speaker_name = "Лена"
+text = "Тебе интересно бессмертие?"
+next_line_id = "opinion_koschei_7"
+
+[sub_resource type="Resource" id="Resource_morgan_line_34"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_7"
+speaker_name = "Моргана"
+text = "Нет, не особо."
+next_line_id = "opinion_koschei_8"
+
+[sub_resource type="Resource" id="Resource_morgan_line_35"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_8"
+speaker_name = "Лена"
+text = "Что тогда?"
+next_line_id = "opinion_koschei_9"
+
+[sub_resource type="Resource" id="Resource_morgan_line_36"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_9"
+speaker_name = "Моргана"
+text = "А почему я должна отчитываться?"
+next_line_id = "opinion_koschei_10"
+
+[sub_resource type="Resource" id="Resource_morgan_line_37"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_10"
+speaker_name = "Лена"
+text = "Не хочешь, не надо. Сама угадаю."
+next_line_id = "opinion_koschei_11"
+
+[sub_resource type="Resource" id="Resource_morgan_line_38"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_11"
+speaker_name = "Лена"
+text = "Я думаю так."
+next_line_id = "opinion_koschei_12"
+
+[sub_resource type="Resource" id="Resource_morgan_line_39"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_12"
+speaker_name = "Лена"
+text = "Тебя интересует не само бессмертие, а метод его получения."
+next_line_id = "opinion_koschei_13"
+
+[sub_resource type="Resource" id="Resource_morgan_line_40"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_13"
+speaker_name = "Лена"
+text = "Ты хочешь понять незнакомый тебе механизм."
+next_line_id = "opinion_koschei_14"
+
+[sub_resource type="Resource" id="Resource_morgan_line_41"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_14"
+speaker_name = "Лена"
+text = "А результат для тебя вторичен."
+next_line_id = "opinion_koschei_15"
+
+[sub_resource type="Resource" id="Resource_morgan_line_42"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_15"
+speaker_name = "Моргана"
+text = "Хм…"
+next_line_id = "opinion_koschei_16"
+
+[sub_resource type="Resource" id="Resource_morgan_line_43"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_16"
+speaker_name = "Лена"
+text = "Ну что?"
+next_line_id = "opinion_koschei_17"
+
+[sub_resource type="Resource" id="Resource_morgan_line_44"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_17"
+speaker_name = "Моргана"
+text = "Ты умнее чем кажешься."
+next_line_id = "opinion_koschei_18"
+
+[sub_resource type="Resource" id="Resource_morgan_line_45"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_18"
+speaker_name = "Лена"
+text = "Это комплимент такой."
+next_line_id = "opinion_koschei_19"
+
+[sub_resource type="Resource" id="Resource_morgan_line_46"]
+script = ExtResource("1_line")
+line_id = "opinion_koschei_19"
+speaker_name = "Моргана"
+text = "Считай как хочешь."
+next_line_id = "Morgan_choices_1"
+
+[sub_resource type="Resource" id="Resource_morgan_line_47"]
+script = ExtResource("1_line")
+line_id = "opinion_duna_1"
+speaker_name = "Лена"
+text = "…Дуна."
+next_line_id = "opinion_duna_2"
+
+[sub_resource type="Resource" id="Resource_morgan_line_48"]
+script = ExtResource("1_line")
+line_id = "opinion_duna_2"
+speaker_name = "Моргана"
+text = "Раздражает."
+next_line_id = "opinion_duna_3"
+
+[sub_resource type="Resource" id="Resource_morgan_line_49"]
+script = ExtResource("1_line")
+line_id = "opinion_duna_3"
+speaker_name = "Лена"
+text = "Не думала, что она может кого-то раздражать."
+next_line_id = "opinion_duna_4"
+
+[sub_resource type="Resource" id="Resource_morgan_line_50"]
+script = ExtResource("1_line")
+line_id = "opinion_duna_4"
+speaker_name = "Моргана"
+text = "Значит ты настолько же плохо понимаешь мир."
+next_line_id = "opinion_duna_5"
+
+[sub_resource type="Resource" id="Resource_morgan_line_51"]
+script = ExtResource("1_line")
+line_id = "opinion_duna_5"
+speaker_name = "Лена"
+text = "Ага, а ты, значит такой знаток мирового устройства."
+next_line_id = "opinion_duna_6"
+
+[sub_resource type="Resource" id="Resource_morgan_line_52"]
+script = ExtResource("1_line")
+line_id = "opinion_duna_6"
+speaker_name = "Моргана"
+text = "Нет, не знаток."
+next_line_id = "opinion_duna_7"
+
+[sub_resource type="Resource" id="Resource_morgan_line_53"]
+script = ExtResource("1_line")
+line_id = "opinion_duna_7"
+speaker_name = "Моргана"
+text = "Но и не веду себя как пятилетний ребенок, который считает, что все вокруг хорошо и все добрые, просто потому что не приходилось сталкиваться с реальностью."
+next_line_id = "opinion_duna_8"
+
+[sub_resource type="Resource" id="Resource_morgan_line_54"]
+script = ExtResource("1_line")
+line_id = "opinion_duna_8"
+speaker_name = "Лена"
+text = "Сомневаюсь, что Дуна так считает."
+next_line_id = "opinion_duna_9"
+
+[sub_resource type="Resource" id="Resource_morgan_line_55"]
+script = ExtResource("1_line")
+line_id = "opinion_duna_9"
+speaker_name = "Моргана"
+text = "В конце концов считает. Она может использовать более сложные слова и конструкции."
+next_line_id = "opinion_duna_10"
+
+[sub_resource type="Resource" id="Resource_morgan_line_56"]
+script = ExtResource("1_line")
+line_id = "opinion_duna_10"
+speaker_name = "Моргана"
+text = "Но итог один – она считает, что мир фундаментально добр."
+next_line_id = "opinion_duna_11"
+
+[sub_resource type="Resource" id="Resource_morgan_line_57"]
+script = ExtResource("1_line")
+line_id = "opinion_duna_11"
+speaker_name = "Моргана"
+text = "А это простительно только детям и безумцам."
+next_line_id = "opinion_duna_12"
+
+[sub_resource type="Resource" id="Resource_morgan_line_58"]
+script = ExtResource("1_line")
+line_id = "opinion_duna_12"
+speaker_name = "Лена"
+text = "А как ты относишься к миру?"
+next_line_id = "opinion_duna_13"
+
+[sub_resource type="Resource" id="Resource_morgan_line_59"]
+script = ExtResource("1_line")
+line_id = "opinion_duna_13"
+speaker_name = "Моргана"
+text = "Хватит вопросов. Я, итак, слишком много сказала."
+next_line_id = "Morgan_choices_1"
+
+[sub_resource type="Resource" id="Resource_morgan_line_60"]
+script = ExtResource("1_line")
+line_id = "new_world_1"
+speaker_name = "Лена"
+text = "Как тебе этот мир? Тебе было интересно."
+next_line_id = "new_world_2"
+
+[sub_resource type="Resource" id="Resource_morgan_line_61"]
+script = ExtResource("1_line")
+line_id = "new_world_2"
+speaker_name = "Моргана"
+text = "Невероятен, и очень красив."
+next_line_id = "new_world_3"
+
+[sub_resource type="Resource" id="Resource_morgan_line_62"]
+script = ExtResource("1_line")
+line_id = "new_world_3"
+speaker_name = "Лена"
+text = "Не ожидала услышать от тебя такую хвалебную оценку чего-либо."
+next_line_id = "new_world_4"
+
+[sub_resource type="Resource" id="Resource_morgan_line_63"]
+script = ExtResource("1_line")
+line_id = "new_world_4"
+speaker_name = "Лена"
+text = "Как и слово «красив»."
+next_line_id = "new_world_5"
+
+[sub_resource type="Resource" id="Resource_morgan_line_64"]
+script = ExtResource("1_line")
+line_id = "new_world_5"
+speaker_name = "Моргана"
+text = "Вы просто сводите красоту к телесной привлекательности, и всему последующему. Я нет."
+next_line_id = "new_world_6"
+
+[sub_resource type="Resource" id="Resource_morgan_line_65"]
+script = ExtResource("1_line")
+line_id = "new_world_6"
+speaker_name = "Лена"
+text = "А что тогда красота?"
+next_line_id = "new_world_7"
+
+[sub_resource type="Resource" id="Resource_morgan_line_66"]
+script = ExtResource("1_line")
+line_id = "new_world_7"
+speaker_name = "Моргана"
+text = "Четкость, структура, баланс. Математика."
+next_line_id = "new_world_8"
+
+[sub_resource type="Resource" id="Resource_morgan_line_67"]
+script = ExtResource("1_line")
+line_id = "new_world_8"
+speaker_name = "Моргана"
+text = "То, как построен этот мир. То, как в нем организованы потоки магии."
+next_line_id = "new_world_9"
+
+[sub_resource type="Resource" id="Resource_morgan_line_68"]
+script = ExtResource("1_line")
+line_id = "new_world_9"
+speaker_name = "Моргана"
+text = "Будто я всю жизнь накапливала знания, а сейчас столкнулась с кем-то кто их изначально открыл."
+next_line_id = "new_world_10"
+
+[sub_resource type="Resource" id="Resource_morgan_line_69"]
+script = ExtResource("1_line")
+line_id = "new_world_10"
+speaker_name = "Моргана"
+text = "Разум, выходящий за рамки моего воображения. Я не ожидала что когда-либо обрету такое счастье."
+next_line_id = "new_world_11"
+
+[sub_resource type="Resource" id="Resource_morgan_line_70"]
+script = ExtResource("1_line")
+line_id = "new_world_11"
+speaker_name = "Лена"
+text = "Ты не выглядишь особо счастливой."
+next_line_id = "new_world_12"
+
+[sub_resource type="Resource" id="Resource_morgan_line_71"]
+script = ExtResource("1_line")
+line_id = "new_world_12"
+speaker_name = "Моргана"
+text = "Потому что не улыбаюсь как идиотка."
+next_line_id = "Morgan_choices_1"
+
+[sub_resource type="Resource" id="Resource_morgan_line_72"]
+script = ExtResource("1_line")
+line_id = "help_1"
+speaker_name = "Лена"
+text = "Ты обещала помочь, в обмен на знания."
+next_line_id = "help_2"
+
+[sub_resource type="Resource" id="Resource_morgan_line_73"]
+script = ExtResource("1_line")
+line_id = "help_2"
+speaker_name = "Моргана"
+text = "Да. Неужели ты решила выполнить свою часть обязательств?"
+next_line_id = "help_3"
+
+[sub_resource type="Resource" id="Resource_morgan_line_74"]
+script = ExtResource("1_line")
+line_id = "help_3"
+speaker_name = "Лена"
+text = "Это так странно."
+next_line_id = "help_4"
+
+[sub_resource type="Resource" id="Resource_morgan_line_75"]
+script = ExtResource("1_line")
+line_id = "help_4"
+speaker_name = "Моргана"
+text = "Да. Люди, как правило, ограничиваются тем, что находят повод не выполнять обещанного."
+next_line_id = "help_5"
+
+[sub_resource type="Resource" id="Resource_morgan_line_76"]
+script = ExtResource("1_line")
+line_id = "help_5"
+speaker_name = "Лена"
+text = "Ну…"
+next_line_id = "help_6"
+
+[sub_resource type="Resource" id="Resource_morgan_line_77"]
+script = ExtResource("1_line")
+line_id = "help_6"
+speaker_name = "Моргана"
+text = "Поправка, еще находят причину считать себя, при этом, благородными героями."
+next_line_id = "help_7"
+
+[sub_resource type="Resource" id="Resource_morgan_line_78"]
+script = ExtResource("1_line")
+line_id = "help_7"
+speaker_name = "Лена"
+text = "Ну, наверное."
+next_line_id = "help_8"
+
+[sub_resource type="Resource" id="Resource_morgan_line_79"]
+script = ExtResource("1_line")
+line_id = "help_8"
+speaker_name = "Моргана"
+text = "Мы отклонились от темы."
+next_line_id = "help_9"
+
+[sub_resource type="Resource" id="Resource_morgan_line_80"]
+script = ExtResource("1_line")
+line_id = "help_9"
+speaker_name = "Моргана"
+text = "Что тебе известно про этот замок, например."
+next_line_id = "help_10"
+
+[sub_resource type="Resource" id="Resource_morgan_line_81"]
+script = ExtResource("1_line")
+line_id = "help_10"
+speaker_name = "Лена"
+text = "Замок? Я сама не знаю, как создала его, мне сказали представить что-то безопасное, и он просто появился."
+next_line_id = "help_11"
+
+[sub_resource type="Resource" id="Resource_morgan_line_82"]
+script = ExtResource("1_line")
+line_id = "help_11"
+speaker_name = "Моргана"
+text = "Подожди, этот замок создала ты?"
+next_line_id = "help_12"
+
+[sub_resource type="Resource" id="Resource_morgan_line_83"]
+script = ExtResource("1_line")
+line_id = "help_12"
+speaker_name = "Лена"
+text = "Эм, да…"
+next_line_id = "help_13"
+
+[sub_resource type="Resource" id="Resource_morgan_line_84"]
+script = ExtResource("1_line")
+line_id = "help_13"
+speaker_name = "Лена"
+text = "Это странно?"
+next_line_id = "help_14"
+
+[sub_resource type="Resource" id="Resource_morgan_line_85"]
+script = ExtResource("1_line")
+line_id = "help_14"
+speaker_name = "Моргана"
+text = "Конечно."
+next_line_id = "help_15"
+
+[sub_resource type="Resource" id="Resource_morgan_line_86"]
+script = ExtResource("1_line")
+line_id = "help_15"
+speaker_name = "Моргана"
+text = "Ты архитектор?"
+next_line_id = "help_16"
+
+[sub_resource type="Resource" id="Resource_morgan_line_87"]
+script = ExtResource("1_line")
+line_id = "help_16"
+speaker_name = "Лена"
+text = "Нет, в этом я практически не разбираюсь."
+next_line_id = "help_17"
+
+[sub_resource type="Resource" id="Resource_morgan_line_88"]
+script = ExtResource("1_line")
+line_id = "help_17"
+speaker_name = "Моргана"
+text = "Ты знала, что призовешь меня, когда создавала?"
+next_line_id = "help_18"
+
+[sub_resource type="Resource" id="Resource_morgan_line_89"]
+script = ExtResource("1_line")
+line_id = "help_18"
+speaker_name = "Лена"
+text = "Точно нет."
+next_line_id = "help_19"
+
+[sub_resource type="Resource" id="Resource_morgan_line_90"]
+script = ExtResource("1_line")
+line_id = "help_19"
+speaker_name = "Моргана"
+text = "Тогда как ты сделала планировку?"
+next_line_id = "help_20"
+
+[sub_resource type="Resource" id="Resource_morgan_line_91"]
+script = ExtResource("1_line")
+line_id = "help_20"
+speaker_name = "Моргана"
+text = "И почему у всех богов, включая меня, комнаты идеально подходят для жизни."
+next_line_id = "help_21"
+
+[sub_resource type="Resource" id="Resource_morgan_line_92"]
+script = ExtResource("1_line")
+line_id = "help_21"
+speaker_name = "Лена"
+text = "А я, ведь, не думала об этом."
+next_line_id = "help_22"
+
+[sub_resource type="Resource" id="Resource_morgan_line_93"]
+script = ExtResource("1_line")
+line_id = "help_22"
+speaker_name = "Моргана"
+text = "Как работает твоя сила воплощения?"
+next_line_id = "help_23"
+
+[sub_resource type="Resource" id="Resource_morgan_line_94"]
+script = ExtResource("1_line")
+line_id = "help_23"
+speaker_name = "Моргана"
+text = "Почему я не могу ей воспользоваться? Почему я не могу призвать божество?"
+next_line_id = "help_24"
+
+[sub_resource type="Resource" id="Resource_morgan_line_95"]
+script = ExtResource("1_line")
+line_id = "help_24"
+speaker_name = "Лена"
+text = "Это важные вопросы. Но я не могу ответить с ходу."
+next_line_id = "help_25"
+
+[sub_resource type="Resource" id="Resource_morgan_line_96"]
+script = ExtResource("1_line")
+line_id = "help_25"
+speaker_name = "Лена"
+text = "Мне нужно подумать. И поспрашивать."
+next_line_id = "help_26"
+
+[sub_resource type="Resource" id="Resource_morgan_line_97"]
+script = ExtResource("1_line")
+line_id = "help_26"
+speaker_name = "Моргана"
+text = "Хорошо, надеюсь услышать твои выводы."
+next_line_id = "help_27"
+
+[sub_resource type="Resource" id="Resource_morgan_line_98"]
+script = ExtResource("1_line")
+line_id = "help_27"
+speaker_name = "Лена"
+text = "Постараюсь поисследовать."
+next_line_id = "help_28"
+
+[sub_resource type="Resource" id="Resource_morgan_line_99"]
+script = ExtResource("1_line")
+line_id = "help_28"
+speaker_name = "Моргана"
+text = "Спасибо."
+next_line_id = "help_29"
+
+[sub_resource type="Resource" id="Resource_morgan_line_100"]
+script = ExtResource("1_line")
+line_id = "help_29"
+speaker_name = "Лена"
+text = "А?"
+next_line_id = "help_30"
+
+[sub_resource type="Resource" id="Resource_morgan_line_101"]
+script = ExtResource("1_line")
+line_id = "help_30"
+speaker_name = "Моргана"
+text = "Почему ты удивлена?"
+next_line_id = "help_31"
+
+[sub_resource type="Resource" id="Resource_morgan_line_102"]
+script = ExtResource("1_line")
+line_id = "help_31"
+speaker_name = "Лена"
+text = "Ну, ты сказала «спасибо»."
+next_line_id = "help_32"
+
+[sub_resource type="Resource" id="Resource_morgan_line_103"]
+script = ExtResource("1_line")
+line_id = "help_32"
+speaker_name = "Моргана"
+text = "И это удивляет, потому что…?"
+next_line_id = "help_33"
+
+[sub_resource type="Resource" id="Resource_morgan_line_104"]
+script = ExtResource("1_line")
+line_id = "help_33"
+speaker_name = "Лена"
+text = "Не думала, что ты умеешь."
+next_line_id = "help_34"
+
+[sub_resource type="Resource" id="Resource_morgan_line_105"]
+script = ExtResource("1_line")
+line_id = "help_34"
+speaker_name = "Моргана"
+text = "Ясно. Иди уже."
+next_line_id = "Morgan_choices_1"
+
+[sub_resource type="Resource" id="Resource_morgan_line_106"]
+script = ExtResource("1_line")
+line_id = "chosen_world_1"
+speaker_name = "Лена"
+text = "Я продолжаю думать о той двери что ты выбрала."
+next_line_id = "chosen_world_2"
+
+[sub_resource type="Resource" id="Resource_morgan_line_107"]
+script = ExtResource("1_line")
+line_id = "chosen_world_2"
+speaker_name = "Моргана"
+text = "…"
+next_line_id = "chosen_world_3"
+
+[sub_resource type="Resource" id="Resource_morgan_line_108"]
+script = ExtResource("1_line")
+line_id = "chosen_world_3"
+speaker_name = "Лена"
+text = "Не похоже, что тебе нравится это место."
+next_line_id = "chosen_world_4"
+
+[sub_resource type="Resource" id="Resource_morgan_line_109"]
+script = ExtResource("1_line")
+line_id = "chosen_world_4"
+speaker_name = "Моргана"
+text = "Нет, не нравится."
+next_line_id = "chosen_world_5"
+
+[sub_resource type="Resource" id="Resource_morgan_line_110"]
+script = ExtResource("1_line")
+line_id = "chosen_world_5"
+speaker_name = "Лена"
+text = "И ты все равно решила отправиться именно в замки."
+next_line_id = "chosen_world_6"
+
+[sub_resource type="Resource" id="Resource_morgan_line_111"]
+script = ExtResource("1_line")
+line_id = "chosen_world_6"
+speaker_name = "Моргана"
+text = "Решила."
+next_line_id = "chosen_world_7"
+
+[sub_resource type="Resource" id="Resource_morgan_line_112"]
+script = ExtResource("1_line")
+line_id = "chosen_world_7"
+speaker_name = "Лена"
+text = "Почему?"
+next_line_id = "chosen_world_8"
+
+[sub_resource type="Resource" id="Resource_morgan_line_113"]
+script = ExtResource("1_line")
+line_id = "chosen_world_8"
+speaker_name = "Моргана"
+text = "…"
+next_line_id = "chosen_world_9"
+
+[sub_resource type="Resource" id="Resource_morgan_line_114"]
+script = ExtResource("1_line")
+line_id = "chosen_world_9"
+speaker_name = "Лена"
+text = "Ты еще менее разговорчива, чем обычно."
+next_line_id = "chosen_world_10"
+
+[sub_resource type="Resource" id="Resource_morgan_line_115"]
+script = ExtResource("1_line")
+line_id = "chosen_world_10"
+speaker_name = "Моргана"
+text = "…"
+next_line_id = "chosen_world_11"
+
+[sub_resource type="Resource" id="Resource_morgan_line_116"]
+script = ExtResource("1_line")
+line_id = "chosen_world_11"
+speaker_name = "Лена"
+text = "Ты ненавидишь меня?"
+next_line_id = "chosen_world_12"
+
+[sub_resource type="Resource" id="Resource_morgan_line_117"]
+script = ExtResource("1_line")
+line_id = "chosen_world_12"
+speaker_name = "Моргана"
+text = "Откуда такой вывод?"
+next_line_id = "chosen_world_13"
+
+[sub_resource type="Resource" id="Resource_morgan_line_118"]
+script = ExtResource("1_line")
+line_id = "chosen_world_13"
+speaker_name = "Лена"
+text = "Ты всегда грубая и неприветливая, и не отвечаешь на мои вопросы."
+next_line_id = "chosen_world_14"
+
+[sub_resource type="Resource" id="Resource_morgan_line_119"]
+script = ExtResource("1_line")
+line_id = "chosen_world_14"
+speaker_name = "Моргана"
+text = "…"
+next_line_id = "chosen_world_15"
+
+[sub_resource type="Resource" id="Resource_morgan_line_120"]
+script = ExtResource("1_line")
+line_id = "chosen_world_15"
+speaker_name = "Моргана"
+text = "Я не отвечаю на вопросы, если не хочу отвечать."
+next_line_id = "chosen_world_16"
+
+[sub_resource type="Resource" id="Resource_morgan_line_121"]
+script = ExtResource("1_line")
+line_id = "chosen_world_16"
+speaker_name = "Моргана"
+text = "У меня нет цели тебя обидеть, и я тебя не ненавижу."
+next_line_id = "chosen_world_17"
+
+[sub_resource type="Resource" id="Resource_morgan_line_122"]
+script = ExtResource("1_line")
+line_id = "chosen_world_17"
+speaker_name = "Моргана"
+text = "Я говорю, что думаю, и не сбираюсь вести себя по-другому."
+next_line_id = "chosen_world_18"
+
+[sub_resource type="Resource" id="Resource_morgan_line_123"]
+script = ExtResource("1_line")
+line_id = "chosen_world_18"
+speaker_name = "Моргана"
+text = "Не думаю, что ты призвала меня, чтобы я была твоей подружкой."
+next_line_id = "chosen_world_19"
+
+[sub_resource type="Resource" id="Resource_morgan_line_124"]
+script = ExtResource("1_line")
+line_id = "chosen_world_19"
+speaker_name = "Лена"
+text = "Да, спасибо за прямоту."
+next_line_id = "chosen_world_20"
+
+[sub_resource type="Resource" id="Resource_morgan_line_125"]
+script = ExtResource("1_line")
+line_id = "chosen_world_20"
+speaker_name = "Лена"
+text = "Я правда ценю то, что ты говоришь правду, хотя порой это обидно."
+next_line_id = "chosen_world_21"
+
+[sub_resource type="Resource" id="Resource_morgan_line_126"]
+script = ExtResource("1_line")
+line_id = "chosen_world_21"
+speaker_name = "Лена"
+text = "И рада что ты меня не ненавидишь."
+next_line_id = "chosen_world_22"
+
+[sub_resource type="Resource" id="Resource_morgan_line_127"]
+script = ExtResource("1_line")
+line_id = "chosen_world_22"
+speaker_name = "Моргана"
+text = "…"
+next_line_id = "chosen_world_23"
+
+[sub_resource type="Resource" id="Resource_morgan_line_128"]
+script = ExtResource("1_line")
+line_id = "chosen_world_23"
+speaker_name = "Моргана"
+text = "За этой дверью тот, кого я давно хочу убить."
+next_line_id = "chosen_world_24"
+
+[sub_resource type="Resource" id="Resource_morgan_line_129"]
+script = ExtResource("1_line")
+line_id = "chosen_world_24"
+speaker_name = "Лена"
+text = "А?!"
+next_line_id = "chosen_world_25"
+
+[sub_resource type="Resource" id="Resource_morgan_line_130"]
+script = ExtResource("1_line")
+line_id = "chosen_world_25"
+speaker_name = "Лена"
+text = "Неужели, ваш брат? Король Артур?"
+next_line_id = "chosen_world_26"
+
+[sub_resource type="Resource" id="Resource_morgan_line_131"]
+script = ExtResource("1_line")
+line_id = "chosen_world_26"
+speaker_name = "Моргана"
+text = "…"
+next_line_id = "chosen_world_27"
+
+[sub_resource type="Resource" id="Resource_morgan_line_132"]
+script = ExtResource("1_line")
+line_id = "chosen_world_27"
+speaker_name = "Лена"
+text = "Ладно, не лезу."
+next_line_id = "Morgan_choices_1"
+
+[resource]
+script = ExtResource("3_dialogue")
+dialogue_id = "morgan_dialogue_1"
+dialogue_name = ""
+start_line_id = "intro_1"
+lines = Array[ExtResource("1_line")]([SubResource("Resource_morgan_line_2"), SubResource("Resource_morgan_line_3"), SubResource("Resource_morgan_line_4"), SubResource("Resource_morgan_line_10"), SubResource("Resource_morgan_line_11"), SubResource("Resource_morgan_line_12"), SubResource("Resource_morgan_line_13"), SubResource("Resource_morgan_line_14"), SubResource("Resource_morgan_line_15"), SubResource("Resource_morgan_line_16"), SubResource("Resource_morgan_line_17"), SubResource("Resource_morgan_line_18"), SubResource("Resource_morgan_line_19"), SubResource("Resource_morgan_line_20"), SubResource("Resource_morgan_line_21"), SubResource("Resource_morgan_line_22"), SubResource("Resource_morgan_line_23"), SubResource("Resource_morgan_line_24"), SubResource("Resource_morgan_line_27"), SubResource("Resource_morgan_line_28"), SubResource("Resource_morgan_line_29"), SubResource("Resource_morgan_line_30"), SubResource("Resource_morgan_line_31"), SubResource("Resource_morgan_line_32"), SubResource("Resource_morgan_line_33"), SubResource("Resource_morgan_line_34"), SubResource("Resource_morgan_line_35"), SubResource("Resource_morgan_line_36"), SubResource("Resource_morgan_line_37"), SubResource("Resource_morgan_line_38"), SubResource("Resource_morgan_line_39"), SubResource("Resource_morgan_line_40"), SubResource("Resource_morgan_line_41"), SubResource("Resource_morgan_line_42"), SubResource("Resource_morgan_line_43"), SubResource("Resource_morgan_line_44"), SubResource("Resource_morgan_line_45"), SubResource("Resource_morgan_line_46"), SubResource("Resource_morgan_line_47"), SubResource("Resource_morgan_line_48"), SubResource("Resource_morgan_line_49"), SubResource("Resource_morgan_line_50"), SubResource("Resource_morgan_line_51"), SubResource("Resource_morgan_line_52"), SubResource("Resource_morgan_line_53"), SubResource("Resource_morgan_line_54"), SubResource("Resource_morgan_line_55"), SubResource("Resource_morgan_line_56"), SubResource("Resource_morgan_line_57"), SubResource("Resource_morgan_line_58"), SubResource("Resource_morgan_line_59"), SubResource("Resource_morgan_line_60"), SubResource("Resource_morgan_line_61"), SubResource("Resource_morgan_line_62"), SubResource("Resource_morgan_line_63"), SubResource("Resource_morgan_line_64"), SubResource("Resource_morgan_line_65"), SubResource("Resource_morgan_line_66"), SubResource("Resource_morgan_line_67"), SubResource("Resource_morgan_line_68"), SubResource("Resource_morgan_line_69"), SubResource("Resource_morgan_line_70"), SubResource("Resource_morgan_line_71"), SubResource("Resource_morgan_line_72"), SubResource("Resource_morgan_line_73"), SubResource("Resource_morgan_line_74"), SubResource("Resource_morgan_line_75"), SubResource("Resource_morgan_line_76"), SubResource("Resource_morgan_line_77"), SubResource("Resource_morgan_line_78"), SubResource("Resource_morgan_line_79"), SubResource("Resource_morgan_line_80"), SubResource("Resource_morgan_line_81"), SubResource("Resource_morgan_line_82"), SubResource("Resource_morgan_line_83"), SubResource("Resource_morgan_line_84"), SubResource("Resource_morgan_line_85"), SubResource("Resource_morgan_line_86"), SubResource("Resource_morgan_line_87"), SubResource("Resource_morgan_line_88"), SubResource("Resource_morgan_line_89"), SubResource("Resource_morgan_line_90"), SubResource("Resource_morgan_line_91"), SubResource("Resource_morgan_line_92"), SubResource("Resource_morgan_line_93"), SubResource("Resource_morgan_line_94"), SubResource("Resource_morgan_line_95"), SubResource("Resource_morgan_line_96"), SubResource("Resource_morgan_line_97"), SubResource("Resource_morgan_line_98"), SubResource("Resource_morgan_line_99"), SubResource("Resource_morgan_line_100"), SubResource("Resource_morgan_line_101"), SubResource("Resource_morgan_line_102"), SubResource("Resource_morgan_line_103"), SubResource("Resource_morgan_line_104"), SubResource("Resource_morgan_line_105"), SubResource("Resource_morgan_line_106"), SubResource("Resource_morgan_line_107"), SubResource("Resource_morgan_line_108"), SubResource("Resource_morgan_line_109"), SubResource("Resource_morgan_line_110"), SubResource("Resource_morgan_line_111"), SubResource("Resource_morgan_line_112"), SubResource("Resource_morgan_line_113"), SubResource("Resource_morgan_line_114"), SubResource("Resource_morgan_line_115"), SubResource("Resource_morgan_line_116"), SubResource("Resource_morgan_line_117"), SubResource("Resource_morgan_line_118"), SubResource("Resource_morgan_line_119"), SubResource("Resource_morgan_line_120"), SubResource("Resource_morgan_line_121"), SubResource("Resource_morgan_line_122"), SubResource("Resource_morgan_line_123"), SubResource("Resource_morgan_line_124"), SubResource("Resource_morgan_line_125"), SubResource("Resource_morgan_line_126"), SubResource("Resource_morgan_line_127"), SubResource("Resource_morgan_line_128"), SubResource("Resource_morgan_line_129"), SubResource("Resource_morgan_line_130"), SubResource("Resource_morgan_line_131"), SubResource("Resource_morgan_line_132")])

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Смертельный удар"
+description = "Стойка: в начале следующего хода атакует случайного врага, нанося 60% его текущего здоровья."
+majesty_gain = 0
+target_type = "Self"
+is_stance = true
+stance_effect_type = "jester_deadly_strike"
+stance_duration_type = "UntilNextTurn"
+usable_from_positions = Array[bool]([true, true, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

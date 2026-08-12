@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://ks338o1m3bii"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Змеиный укус"
+description = "0.3 урона. Цель получает периодический урон (30) на 4 хода."
+damage_modifier = 0.3
+majesty_gain = 0
+effect_types = Array[String](["periodic_damage"])
+effect_values = Dictionary[String, int]({
+"periodic_damage": 30
+})
+effect_durations = Dictionary[String, int]({
+"periodic_damage": 4
+})
+ability_marker = "medusa_snake_bite"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

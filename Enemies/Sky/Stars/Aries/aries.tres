@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://40b6waufe2gm"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://3emkrepjaqeg" path="res://Enemy_logic/aries_logic.gd" id="3_ai"]
+[ext_resource type="Resource" uid="uid://bhorn001" path="res://Enemies/Sky/Stars/Aries/horn.tres" id="4_hrn"]
+[ext_resource type="Resource" uid="uid://bbounce001" path="res://Enemies/Sky/Stars/Aries/bounce.tres" id="5_bnc"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Овен"
+sprite_path = "res://Enemies/Sky/Stars/Aries/Aries.png"
+face_sprite = "res://Enemies/Sky/Stars/Aries/Aries_face.png"
+battle_sprite_scale_percent = 99.0
+max_hp = 90
+damage = 30
+armor = 15
+initiative = 4
+accuracy = 80
+evasion = 5
+special_effect_type = "aries_path_buffs"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_hrn"), ExtResource("5_bnc")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

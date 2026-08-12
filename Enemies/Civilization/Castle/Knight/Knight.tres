@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://c81o031u75q0w"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_ch"]
+[ext_resource type="Script" uid="uid://42mcwsnwbfci" path="res://Enemy_logic/knight_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Castle/Knight/banish_evil.tres" id="4_a1"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Castle/Knight/brave_strike.tres" id="5_a2"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Castle/Knight/magic_supremacy.tres" id="6_a3"]
+
+[resource]
+script = ExtResource("2_ch")
+unit_name = "Рыцарь"
+sprite_path = "res://Enemies/Civilization/Castle/Knight/Knight.png"
+face_sprite = "res://Enemies/Civilization/Castle/Knight/knight_face.png"
+battle_sprite_scale_percent = 65.0
+max_hp = 80
+damage = 14
+armor = 10
+accuracy = 80
+evasion = 5
+special_effect_type = "knight_spell_cost_increase"
+is_large = true
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2"), ExtResource("6_a3")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

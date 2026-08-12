@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://cqbllml8sgdv"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+icon_path = "uid://22vcwtmxf4wj"
+name = "Торжество жизни"
+description = "Восстанови полное здоровье. Дай 10 урона, 10 удачи и 10 брони до конца боя"
+damage_modifier = 0.0
+target_type = "Ally"
+ability_marker = "duna_life_celebration"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

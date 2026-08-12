@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://qp8ggijmc6dj"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://b03owr512142c" path="res://Enemy_logic/thorn_fairy_logic.gd" id="3_ai"]
+[ext_resource type="Resource" uid="uid://bv526w6m567pb" path="res://Enemies/Forest/Garden/Thorn_fairy/thorn_bush.tres" id="4_tb"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Thorn_fairy/itching_powder.tres" id="5_ip"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Thorn_fairy/playful_trick.tres" id="6_pt"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Фея шипов"
+sprite_path = "res://Enemies/Forest/Garden/Thorn_fairy/thorn_fairy.png"
+face_sprite = "res://Enemies/Forest/Garden/Thorn_fairy/Thorn_fairy_face.png"
+battle_sprite_scale_percent = 90.0
+max_hp = 65
+damage = 18
+armor = 8
+initiative = 5
+accuracy = 85
+evasion = 20
+crit_chance = 0.1
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_tb"), ExtResource("5_ip"), ExtResource("6_pt")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

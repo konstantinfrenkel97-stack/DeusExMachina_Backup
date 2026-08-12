@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FormationResource" format=3 uid="uid://b172a156dqrea"]
+
+[ext_resource type="Resource" uid="uid://cbt463m8wasn5" path="res://Enemies/Dungeon/Tunnels/Dwarf_shield/dwarf_shield.tres" id="1_3dtt4"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="1_v6ipv"]
+
+[resource]
+script = ExtResource("1_v6ipv")
+formation_name = "Все щиты"
+pos1 = ExtResource("1_3dtt4")
+pos2 = ExtResource("1_3dtt4")
+pos3 = ExtResource("1_3dtt4")
+pos4 = ExtResource("1_3dtt4")
+metadata/_custom_type_script = "uid://c50het7soanc1"

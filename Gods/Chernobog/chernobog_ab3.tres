@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://b4muk03kncl1h"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+icon_path = "uid://bupq1ke8e5k5"
+name = "Я и есть боль"
+description = "Теряет 7% здоровья. Плюс 1 цель. 0.2 периодического урона на 3 хода"
+damage_modifier = 0.7
+usable_from_positions = Array[bool]([true, true, true, false])
+targetable_positions = Array[bool]([true, true, true, false])
+ability_marker = "chernobog_i_am_pain"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

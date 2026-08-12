@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FormationResource" format=3 uid="uid://d4kk30qqpt2w7"]
+
+[ext_resource type="Resource" uid="uid://dglwthfn1sv1d" path="res://Enemies/Sky/Clouds/Golden Valkerie/Golden_Valkerie.tres" id="1_getsb"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="1_p0qu6"]
+[ext_resource type="Resource" uid="uid://dykl6nvkstvlk" path="res://Enemies/Sky/Clouds/Silver Valkerie/Silver_Valkerie.tres" id="2_jd1cm"]
+
+[resource]
+script = ExtResource("1_p0qu6")
+pos1 = ExtResource("1_getsb")
+pos2 = ExtResource("1_getsb")
+pos3 = ExtResource("2_jd1cm")
+pos4 = ExtResource("2_jd1cm")
+metadata/_custom_type_script = "uid://c50het7soanc1"

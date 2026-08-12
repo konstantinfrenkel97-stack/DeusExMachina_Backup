@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://cjy1ex2b3l2na"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_yaow6"]
+
+[resource]
+script = ExtResource("1_yaow6")
+name = "Калечащий удар"
+damage_modifier = 0.7
+majesty_gain = 0
+effect_types = Array[String](["enemy_debuff_initiative"])
+effect_values = Dictionary[String, int]({
+"enemy_debuff_initiative": 2
+})
+usable_from_positions = Array[bool]([false, true, false, false])
+targetable_positions = Array[bool]([true, true, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

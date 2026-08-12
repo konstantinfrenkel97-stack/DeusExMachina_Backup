@@ -1,0 +1,175 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://demhr4g5r53nu"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_hoaf0"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_u6y37"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_wc7dg"]
+
+[sub_resource type="Resource" id="Resource_57spd"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Лена"
+text = "Ох, вы…"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_4omsb"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Кощей"
+text = "Кощей Бессмертный!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ik5rf"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Лена"
+text = "..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_3ndhy"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Кощей"
+text = "Кощей Бессмертный!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ckbvr"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Лена"
+text = "..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_fqlmg"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Кощей"
+text = "Почему ты выглядишь разочарованной?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_t5x0f"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Лена"
+text = " Ах! Простите задумалась. "
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_32jkn"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Лена"
+text = "Просто я ждала... бога."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_h1uk4"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Кощей"
+text = "А я что ли не бог?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_v1w1d"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Лена"
+text = "Ну... нет."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_1cuxt"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Кощей"
+text = "Ладно, не бог. "
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_63hsi"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Кощей"
+text = "Но я тоже крут!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_cjqdt"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Кощей"
+text = "Я Кощей Бессмертный! Секрет моей смерти неведом! Сколько царевен я похитил на своем веку! В каких славных битвах участвовал! Вся Русь знает мое имя!
+"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_51y4d"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Лена"
+text = "Да, но..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_qrc1w"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Лена"
+text = "Даже дети знают про яйцо в утке, утка в зайце…"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_8q3au"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Кощей"
+text = "ЭЙ! Не так громко!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_x64n6"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Лена"
+text = "Похищать царевен не такое уж достижение. А в битвах вас как правило побеждают. Так что…
+"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_oxi5c"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Кощей"
+text = "Ладно ладно, тоже мне. Молодежь пошла, никакого уважения к живой легенде!
+"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_1wmwj"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Лена"
+text = "Прошу прощения, я правда не хотела вас оскорбить. Мне на самом деле нужна ваша помощь."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_nkxhs"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Лена"
+text = "Меня хочет убить орда чудовищ, и мне нужен защитник. "
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_pp863"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Кощей"
+text = "Ах вот как ты запела! "
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_uosx3"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Кощей"
+text = "И что, признаешь меня легендарным, если я помогу тебе?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_1grw2"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Лена"
+text = "Если честно, даже если откажетесь. "
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_u88xh"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Лена"
+text = "Я была удивлена, но на самом деле я правда считаю вас легендарным воителем"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_vgdyn"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Лена"
+text = "То что я встретила вас - уже огромная честь. Даже если вы не станете мне помогать."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_1ngpb"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Кощей"
+text = "Ой, ну не начинай тоже. Засмущала."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_207iu"]
+script = ExtResource("1_hoaf0")
+speaker_name = "Кощей"
+text = "Показывай, кто тут тебя обижает."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_u6y37")
+lines = Array[ExtResource("1_hoaf0")]([SubResource("Resource_57spd"), SubResource("Resource_4omsb"), SubResource("Resource_ik5rf"), SubResource("Resource_3ndhy"), SubResource("Resource_ckbvr"), SubResource("Resource_fqlmg"), SubResource("Resource_t5x0f"), SubResource("Resource_32jkn"), SubResource("Resource_h1uk4"), SubResource("Resource_v1w1d"), SubResource("Resource_1cuxt"), SubResource("Resource_63hsi"), SubResource("Resource_cjqdt"), SubResource("Resource_51y4d"), SubResource("Resource_qrc1w"), SubResource("Resource_8q3au"), SubResource("Resource_x64n6"), SubResource("Resource_oxi5c"), SubResource("Resource_1wmwj"), SubResource("Resource_nkxhs"), SubResource("Resource_pp863"), SubResource("Resource_uosx3"), SubResource("Resource_1grw2"), SubResource("Resource_u88xh"), SubResource("Resource_vgdyn"), SubResource("Resource_1ngpb"), SubResource("Resource_207iu")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

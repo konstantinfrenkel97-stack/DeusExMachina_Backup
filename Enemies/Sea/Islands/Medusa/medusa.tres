@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://bj8nr7dtuml44"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://dladyh4w5ivdl" path="res://Enemy_logic/medusa_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Islands/Medusa/cursed_gaze.tres" id="4_a1"]
+[ext_resource type="Resource" uid="uid://ks338o1m3bii" path="res://Enemies/Sea/Islands/Medusa/snake_bite.tres" id="5_a2"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Медуза"
+sprite_path = "res://Enemies/Sea/Islands/Medusa/Медуза.png"
+face_sprite = "res://Enemies/Sea/Islands/Medusa/Медуза_Face.png"
+battle_sprite_scale_percent = 111.0
+max_hp = 60
+damage = 10
+armor = 15
+initiative = 4
+accuracy = 75
+evasion = 20
+special_effect_type = "medusa_stun_heal"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

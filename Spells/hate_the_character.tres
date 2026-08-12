@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="SpellResource" format=3]
+
+[ext_resource type="Script" uid="uid://bxf7k2m4p9nz" path="res://spell_resource.gd" id="1_sp_hate_character"]
+
+[resource]
+script = ExtResource("1_sp_hate_character")
+icon_path = "res://Icons/spells/Hate_the_character.png"
+spell_name = "Захейтить персонажа"
+description = "Выбранный противник теряет 15 брони на 1 ход."
+fantasy_cost = 20
+target_type = "Enemy"
+effect_types = Array[String](["target_debuff_armor"])
+effect_values = Dictionary[String, int]({
+"target_debuff_armor": 15
+})
+effect_durations = Dictionary[String, int]({
+"target_debuff_armor": 1
+})
+metadata/_custom_type_script = "uid://bxf7k2m4p9nz"

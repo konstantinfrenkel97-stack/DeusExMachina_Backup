@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://dry8bc3p36sv2"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://dsduu2ohsl3nc" path="res://Enemy_logic/kappa_warrior_logic.gd" id="3_ai"]
+[ext_resource type="Resource" uid="uid://bj8qiaeyyvgxn" path="res://Enemies/Sea/Islands/Cappa_warrior/Spear_strike.tres" id="4_a1"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Islands/Cappa_warrior/Ancient_poison.tres" id="5_a2"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Islands/Cappa_warrior/Slow_movement.tres" id="6_a3"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Воин каппа"
+sprite_path = "res://Enemies/Sea/Islands/Cappa_warrior/Каппа воин.png"
+face_sprite = "res://Enemies/Sea/Islands/Cappa_warrior/Каппа Воин_Face.png"
+damage = 15
+armor = 60
+initiative = 2
+accuracy = 85
+special_effect_type = "kappa_warrior"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2"), ExtResource("6_a3")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

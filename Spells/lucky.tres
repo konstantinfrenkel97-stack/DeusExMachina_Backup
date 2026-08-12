@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="SpellResource" format=3]
+
+[ext_resource type="Script" uid="uid://bxf7k2m4p9nz" path="res://spell_resource.gd" id="1_sp_lucky"]
+
+[resource]
+script = ExtResource("1_sp_lucky")
+icon_path = "res://Icons/spells/LUUUUUUCKYYYYY.png"
+spell_name = "УДАААААЧАААА"
+description = "Выбранный союзник получает 10 удачи на 1 ход."
+fantasy_cost = 15
+target_type = "Ally"
+effect_types = Array[String](["target_buff_crit"])
+effect_values = Dictionary[String, int]({
+"target_buff_crit": 10
+})
+effect_durations = Dictionary[String, int]({
+"target_buff_crit": 1
+})
+metadata/_custom_type_script = "uid://bxf7k2m4p9nz"

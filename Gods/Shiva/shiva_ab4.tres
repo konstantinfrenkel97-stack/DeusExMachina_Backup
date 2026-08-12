@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://boc1ubsuo1tad"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+icon_path = "uid://dly15hwklw73"
+name = "Карма"
+description = "Противник получает 50% урона нанесённого мне и копирует мои дебаффы"
+damage_modifier = 0.0
+target_type = "Self"
+is_stance = true
+stance_effect_type = "shiva_karma"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

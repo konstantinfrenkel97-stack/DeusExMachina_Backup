@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://cbt463m8wasn5"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Resource" uid="uid://cmda3qmsykjko" path="res://Enemies/Dungeon/Tunnels/Dwarf_shield/shields_up.tres" id="2_ngdtc"]
+[ext_resource type="Resource" uid="uid://c70tew2klfu4g" path="res://Enemies/Dungeon/Tunnels/Dwarf_shield/Hammer_hit.tres" id="3_rr5oy"]
+[ext_resource type="Script" uid="uid://dkydttiuadkwg" path="res://Enemy_logic/dwarf_shield_logic.gd" id="4_ai"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Гном щитовик"
+sprite_path = "res://Enemies/Dungeon/Tunnels/Dwarf_shield/Dwarf_Shield.png"
+face_sprite = "res://Enemies/Dungeon/Tunnels/Dwarf_shield/Dwarf_Shiled_Face.png"
+battle_sprite_scale_percent = 98.0
+max_hp = 50
+damage = 8
+armor = 10
+initiative = 4
+accuracy = 85
+evasion = 5
+special_effect_type = "dwarf_shield_back_protect"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_ngdtc"), ExtResource("3_rr5oy")])
+ai_script = ExtResource("4_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

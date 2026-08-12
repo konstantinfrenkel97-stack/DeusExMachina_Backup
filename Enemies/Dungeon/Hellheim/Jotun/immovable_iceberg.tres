@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://t7bfxsljpxm6"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ia"]
+
+[resource]
+script = ExtResource("1_ia")
+name = "Недвижим словно айсберг"
+damage_modifier = 0.0
+majesty_gain = 0
+target_type = "Self"
+effect_types = Array[String](["self_provocation_mark", "self_buff_armor"])
+effect_values = Dictionary[String, int]({
+"self_provocation_mark": 1,
+"self_buff_armor": 10
+})
+effect_durations = Dictionary[String, int]({
+"self_provocation_mark": 3,
+"self_buff_armor": 3
+})
+usable_from_positions = Array[bool]([true, true, true, true])
+targetable_positions = Array[bool]([true, true, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FormationResource" format=3 uid="uid://c44v32jph3ucc"]
+
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="1_8h11n"]
+[ext_resource type="Resource" uid="uid://24uwmv5i3use" path="res://Enemies/Dungeon/Hellheim/Draugr_raider/Draugr_raider.tres" id="1_njrms"]
+
+[resource]
+script = ExtResource("1_8h11n")
+formation_name = "Все_Рейдеры"
+pos1 = ExtResource("1_njrms")
+pos2 = ExtResource("1_njrms")
+pos3 = ExtResource("1_njrms")
+pos4 = ExtResource("1_njrms")
+metadata/_custom_type_script = "uid://c50het7soanc1"

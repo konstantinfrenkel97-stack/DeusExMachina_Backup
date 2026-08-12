@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Ущипнуть"
+description = "0.6 урона. Цель отталкивается назад на 1."
+damage_modifier = 0.6
+majesty_gain = 0
+ability_marker = "crab_pinch"
+target_type = "Enemy"
+effect_types = Array[String](["push_back"])
+effect_values = Dictionary[String, int]({
+"push_back": 1
+})
+effect_durations = Dictionary[String, int]({
+"push_back": 0
+})
+usable_from_positions = Array[bool]([true, true, false, false])
+targetable_positions = Array[bool]([true, true, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

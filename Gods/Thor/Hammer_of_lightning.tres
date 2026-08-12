@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" path="res://ability_resource.gd" id="1_hlight"]
+
+[resource]
+script = ExtResource("1_hlight")
+icon_path = "uid://cpvsqimhl2oef"
+name = "Hammer_of_lightning"
+description = "На 2 хода после способностей по противнику все враги получают чистый урон 5% от урона Тора и имеют 10% шанс оглушения."
+damage_modifier = 0.0
+majesty_gain = 0
+majesty_cost = 20
+target_type = "Self"
+effect_types = Array[String](["self_thor_hammer_of_lightning"])
+effect_values = Dictionary[String, int]({"self_thor_hammer_of_lightning": 1})
+effect_durations = Dictionary[String, int]({"self_thor_hammer_of_lightning": 3})
+usable_from_positions = Array[bool]([true, true, true, false])
+targetable_positions = Array[bool]([true, true, true, true])
+ability_marker = "thor_hammer_of_lightning"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

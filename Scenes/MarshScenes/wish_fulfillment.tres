@@ -1,0 +1,126 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"][ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Vodyanoy/vodyanoy.tres" id="vodyanoy"]
+[ext_resource type="Resource" path="res://Gods/Koschei/Koschei.tres" id="koschei"]
+[ext_resource type="Resource" path="res://Essence/thoughts.tres" id="thoughts"]
+
+[sub_resource type="Resource" id="form_vodyanoy"]
+script = ExtResource("formation_script")
+formation_name = "Исполнение желания: Водяной на 4 позиции"
+pos4 = ExtResource("vodyanoy")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="buff_vodyanoy_attack"]
+script = ExtResource("buff_script")
+stat = 0
+value = 30
+duration = 3
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_vodyanoy_attack"]
+script = ExtResource("unit_modifier_script")
+target_position = 4
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_vodyanoy_attack")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_vodyanoy"]
+script = ExtResource("battle_script")
+formation = SubResource("form_vodyanoy")
+location_id = "swamp"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_wish_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_vodyanoy")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_vodyanoy_attack")])
+location_id = "swamp"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="reward_thoughts"]
+script = ExtResource("reward_script")
+kind = 3
+resource = ExtResource("thoughts")
+amount = 500
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_release_success"]
+script = ExtResource("outcome_script")
+result_text = "Вариант 1 (успех) – Вы обнажаете оружие, и угрожающе надвигаетесь на водяного. Он бросает на вас хмурый взгляд исподлобья и вздохнув делает жест рукой. Вода вздымается и на кочки выбрасывает юношу.\n«Ха! Я желал, чтобы меня пощадили, и вот я жив! Ха! Водяные и правда выполняют желания! Ха! ХА! ХАХАХАХАХАХАХАХ!»\nЗаливаясь истерическим смехом, он убегает далеко в темноту. Вы провожаете человека взглядом. Водяной тоже. Вы думаете об одном и том же. Если человек доберется до поселений, он еще сильнее распространит легенду. С другой стороны, вы спасли жизнь.\nВодяной переводит взгляд на вас. В его глазах вы читаете, что живыми он вас не отпустит."
+battle = SubResource("battle_vodyanoy")
+hero_majesty_delta = 1
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_release_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вариант 1 (провал) - Вы обнажаете оружие, и угрожающе надвигаетесь на водяного. Он бросает на вас хмурый взгляд исподлобья и презрительно задирает губу. Один из богов бросается в воду, в попытках спасти утопающего, но его тело уже затянуло глубоко на дно. Между тем, вас уже окружают."
+battle = SubResource("battle_vodyanoy")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_wish_success"]
+script = ExtResource("outcome_script")
+result_text = "Вариант 2 (Успех) – «Да вы оборзели!»\nВодяной скалит зубы.\n«Ну? Что у вас за желание?»\nБоги в сомнениях переглядываются. Никто не ожидал что просьба сработает.\nС громким вздохом водяной ныряет на дно, и вскоре из-под воды в вас летит какой-то ящик.\n«Вот вам коробка инструментов, и убирайтесь с глаз моих!»\nВы забираете инструменты. Не понятно для чего, но нет сомнений – для чего-то да пригодятся.\n«И никому ни слова, что это я его дал!»"
+rewards = [SubResource("reward_thoughts")]
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_wish_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вариант 2 (Провал) «Что ты сейчас сказал?»\nВодяной смотрит не мигая. Его подбородок начинает мелко дрожать.\n«Что ты сейчас сказал?»\nВы видите, как его грудь начинает расширяться от тяжелого дыхания.\n«ЧТО ТЫ СЕЙЧАС МНЕ СКАЗАЛ?!!!!!»"
+battle = SubResource("battle_wish_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_koschei"]
+script = ExtResource("outcome_script")
+result_text = "Вариант 3 – Водяной смотрит со страхом, и какой-то растерянностью. Наконец выползает на кулаках на кочки. Когда он оказывается вне воды, вы видите, что у него вместо ног – рыбий хвост.\n«Величайший владыка нечисти, сударь Кощей Бессмертный, у меня нет колен»\nКощей задумчиво смотрит на того сверху вниз, оперевшись на посох.\n«Ну… Встань на локти».\nУдивленно моргнув, водяной опускается на локти, и смотрит снизу-вверх. Никто из присутствующих ничего не говорит.\n«Эм… Ну, будем считать, что приклонился.»\nВодяной сполз обратно в воду, и Кощей прошествовал мимо широким шагом.\n«Вот так-то! Чествуй своих правителей!»\n«Чествую, господин Кощей…» - смущенно пробормотал водяной."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="check_attack"]
+script = ExtResource("stat_check_script")
+stat = 0
+stat_label = "Атака"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+stat_label = "Удача"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="choice_release"]
+script = ExtResource("choice_script")
+choice_text = "Отпусти его!"
+stat_check = SubResource("check_attack")
+success_outcome = SubResource("out_release_success")
+failure_outcome = SubResource("out_release_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_wish"]
+script = ExtResource("choice_script")
+choice_text = "Исполни мое желание!"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_wish_success")
+failure_outcome = SubResource("out_wish_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_koschei"]
+script = ExtResource("choice_script")
+choice_text = "Преклонись, тварь!"
+required_god = ExtResource("koschei")
+outcome = SubResource("out_koschei")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Исполнение желания"
+body_text = "«Водянооооооой! Я знаю, что ты здеееееесь!» - крик нарушает жуткую тишину болота. Вы оборачиваетесь на звук и видите юношу с факелом. Он оглядываясь пробирается через камышь.\n«Я знаю, что ты исполняешь желааанияяааааа! Исполни моеееее!» - он замечает вас и ускоряет шаг.\n«Эй вы не видели водяного? Он должен…» - из воды вырываются лозы и обвив юношу как щупальца тащат вглубь. На его месте появляется чешуйчатый силуэт, который хмуро смотрит на вас.\n«Один мой соплеменник, по доброте, исполнил желание одного придурка. Теперь вот покоя нет.»\nТень пробегает по его желтым глазам.\n«Вам чего надо?»"
+choices = [SubResource("choice_release"), SubResource("choice_wish"), SubResource("choice_koschei")]
+metadata/_custom_type_script = ExtResource("scene_script")

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://ch7cub7v24y6j"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://6fkuabnqbf6w" path="res://Enemy_logic/aquarius_logic.gd" id="3_ai"]
+[ext_resource type="Resource" uid="uid://baqua001" path="res://Enemies/Sky/Stars/Aquarius/endless_flow.tres" id="4_ef"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Водолей"
+sprite_path = "res://Enemies/Sky/Stars/Aquarius/Aquarius.png"
+face_sprite = "res://Enemies/Sky/Stars/Aquarius/Aquarius_face.png"
+max_hp = 65
+damage = 22
+armor = 8
+initiative = 5
+accuracy = 85
+evasion = 12
+special_effect_type = "aquarius_no_move_attack"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_ef")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

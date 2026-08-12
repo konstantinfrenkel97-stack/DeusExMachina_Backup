@@ -1,0 +1,18 @@
+Campaign hover contour verification
+Marked image: F:\down\Marked_locations.png
+Campaign script: D:\dOCS\test\Campaign\campaign_screen.gd
+Image size: 1681x936
+Rooms: 7
+- Бесконечная библиотека: 1422 points
+- Колодец памяти: 1306 points
+- Алтарь восхваления: 1364 points
+- Ворота: 1780 points
+- Сад творения: 1352 points
+- Залы декораций: 1280 points
+- Весы переосмысления: 1414 points
+Red pixels detected: 76684
+Edge pixels checked: 37139
+Average edge distance to red: 11.74px
+Max edge distance to red: 106.07px
+Edge pixels farther than 24px: 3354
+PASS: False

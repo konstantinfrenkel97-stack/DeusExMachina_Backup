@@ -1,0 +1,118 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://btuyk36f5thqr"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_gtl85"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_4q28w"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_e3wt8"]
+
+[sub_resource type="Resource" id="Resource_3jmbg"]
+script = ExtResource("1_gtl85")
+speaker_name = "Лена"
+text = "Шива! Индуистский бог разрушения!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_23xaj"]
+script = ExtResource("1_gtl85")
+speaker_name = "Лена"
+text = "Намасте!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_vbn2h"]
+script = ExtResource("1_gtl85")
+speaker_name = "Шива"
+text = "Намасте, девушка. Не подскажешь, куда меня занесло?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_1lgmm"]
+script = ExtResource("1_gtl85")
+speaker_name = "Лена"
+text = "Да, это план фантазий. Я призвала вас сюда, потому что меня осаждает орда монстров."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ib377"]
+script = ExtResource("1_gtl85")
+speaker_name = "Лена"
+text = "Прошу, помогите мне."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_58nk3"]
+script = ExtResource("1_gtl85")
+speaker_name = "Шива"
+text = "О как. Ну хорошо, ладно."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ljxlo"]
+script = ExtResource("1_gtl85")
+speaker_name = "Лена"
+text = "Вы так легко согласились?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ms8b1"]
+script = ExtResource("1_gtl85")
+speaker_name = "Шива"
+text = "Ну а что? Ты же меня уже призвала."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_bbqtd"]
+script = ExtResource("1_gtl85")
+speaker_name = "Шива"
+text = "Значит сейчас мое место здесь."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_stb1d"]
+script = ExtResource("1_gtl85")
+speaker_name = "Шива"
+text = "Вы… легко ко всему относитесь."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_4mw60"]
+script = ExtResource("1_gtl85")
+speaker_name = "Шива"
+text = "Да нет, это остальные слишком усложняют"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ywyyq"]
+script = ExtResource("1_gtl85")
+speaker_name = "Шива"
+text = "Контроль – иллюзия. Нами управляют потоки куда крупнее нас самих. И нам не дано понять их смысл."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_spsxg"]
+script = ExtResource("1_gtl85")
+speaker_name = "Шива"
+text = "Ты либо следуешь им, либо сопротивляешься, страдаешь, и потом все равно оказываешь подхвачен их водами."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_grsyd"]
+script = ExtResource("1_gtl85")
+speaker_name = "Шива"
+text = "Девушка с таинственными силами призвала меня в какой-то чудаковатый мир сражаться с монстрами? Значит я буду сражаться с монстрами."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_lg1n6"]
+script = ExtResource("1_gtl85")
+speaker_name = "Лена"
+text = "Вам наверное легко живется."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_wtj3y"]
+script = ExtResource("1_gtl85")
+speaker_name = "Лена"
+text = " Да нет, не сказал бы..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_12r1q"]
+script = ExtResource("1_gtl85")
+speaker_name = "Лена"
+text = "Так или иначе. Я рада вашей компании."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_dqxyy"]
+script = ExtResource("1_gtl85")
+speaker_name = "Шива"
+text = "Хах, ну что ж, взаимно."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_e3wt8")
+lines = Array[ExtResource("1_gtl85")]([SubResource("Resource_3jmbg"), SubResource("Resource_23xaj"), SubResource("Resource_vbn2h"), SubResource("Resource_1lgmm"), SubResource("Resource_ib377"), SubResource("Resource_58nk3"), SubResource("Resource_ljxlo"), SubResource("Resource_ms8b1"), SubResource("Resource_bbqtd"), SubResource("Resource_stb1d"), SubResource("Resource_4mw60"), SubResource("Resource_ywyyq"), SubResource("Resource_spsxg"), SubResource("Resource_grsyd"), SubResource("Resource_lg1n6"), SubResource("Resource_wtj3y"), SubResource("Resource_12r1q"), SubResource("Resource_dqxyy")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

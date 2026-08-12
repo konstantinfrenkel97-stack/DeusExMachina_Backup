@@ -1,0 +1,695 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3]
+
+[ext_resource type="Script" path="res://Dialogues/dialogue_line.gd" id="1_q2cd5"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_choice.gd" id="2_jhc6r"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_resource.gd" id="3_3awsx"]
+
+[sub_resource type="Resource" id="Resource_saamu"]
+script = ExtResource("1_q2cd5")
+line_id = "intro_1"
+speaker_name = "Осирис"
+text = "(комната Осириса представляет собой залу невероятных размеров. Куда больше чем могла бы поместиться в твоем замке. В дальнем конце на колоссальном золотом троне восседает сам Осирис)"
+next_line_id = "intro_2"
+
+[sub_resource type="Resource" id="Resource_q8f8q"]
+script = ExtResource("1_q2cd5")
+line_id = "intro_2"
+speaker_name = "Лена"
+text = "(Он что, просто весь день на троне сидит?)"
+next_line_id = "intro_3"
+
+[sub_resource type="Resource" id="Resource_v7and"]
+script = ExtResource("1_q2cd5")
+line_id = "intro_3"
+speaker_name = "Осирис"
+text = "Явилась, дева?"
+next_line_id = "intro_4"
+
+[sub_resource type="Resource" id="Resource_ph06d"]
+script = ExtResource("1_q2cd5")
+line_id = "intro_4"
+speaker_name = "Осирис"
+text = "Можешь обратиться своим вопросом."
+next_line_id = "intro_5"
+
+[sub_resource type="Resource" id="Resource_w7xkg"]
+script = ExtResource("1_q2cd5")
+line_id = "intro_5"
+speaker_name = "Лена"
+text = "Эм... Да, благодарю."
+next_line_id = "Osiris_choices_1"
+
+[sub_resource type="Resource" id="Resource_i182q"]
+script = ExtResource("2_jhc6r")
+choice_id = "open_door"
+choice_text = "Открыть дверь"
+next_line_id = "open_door_1"
+
+[sub_resource type="Resource" id="Resource_fjepl"]
+script = ExtResource("2_jhc6r")
+choice_id = "opinion"
+choice_text = "Мнение о богах"
+next_line_id = "opinion_1"
+
+[sub_resource type="Resource" id="Resource_306vl"]
+script = ExtResource("2_jhc6r")
+choice_id = "new_world"
+choice_text = "Новый мир"
+next_line_id = "new_world_1"
+
+[sub_resource type="Resource" id="Resource_g0gqv"]
+script = ExtResource("2_jhc6r")
+choice_id = "help"
+choice_text = "Ваша помощь"
+next_line_id = "help_1"
+
+[sub_resource type="Resource" id="Resource_f6ms1"]
+script = ExtResource("2_jhc6r")
+choice_id = "chosen_world"
+choice_text = "Выбранный мир"
+next_line_id = "chosen_world_1"
+
+[sub_resource type="Resource" id="Resource_7gdbg"]
+script = ExtResource("1_q2cd5")
+line_id = "Osiris_choices_1"
+choices = Array[ExtResource("2_jhc6r")]([SubResource("Resource_i182q"), SubResource("Resource_fjepl"), SubResource("Resource_306vl"), SubResource("Resource_g0gqv"), SubResource("Resource_f6ms1")])
+
+[sub_resource type="Resource" id="Resource_p7d2k"]
+script = ExtResource("1_q2cd5")
+line_id = "open_door_1"
+speaker_name = "Лена"
+text = "Послушайте, тут есть ряд дверей, которые нужно открыть. И никак не обойтись без вашей бесконечной божественной мощи."
+next_line_id = "open_door_2"
+
+[sub_resource type="Resource" id="Resource_n0lch"]
+script = ExtResource("1_q2cd5")
+line_id = "open_door_2"
+speaker_name = "Осирис"
+text = "Хмммм, ну ка дай окину взором."
+next_line_id = "open_door_3"
+
+[sub_resource type="Resource" id="Resource_rwgtm"]
+script = ExtResource("1_q2cd5")
+line_id = "open_door_3"
+speaker_name = "Осирис"
+text = "Идеально, открываю вот эту."
+next_line_id = "open_door_4"
+
+[sub_resource type="Resource" id="Resource_rd8lk"]
+script = ExtResource("1_q2cd5")
+line_id = "open_door_4"
+speaker_name = "Лена"
+text = "Пустынная дверь. Как я и ожидала."
+next_line_id = "open_door_5"
+
+[sub_resource type="Resource" id="Resource_mj3xg"]
+script = ExtResource("1_q2cd5")
+line_id = "open_door_5"
+speaker_name = "Осирис"
+text = "Как властителю бескрайних земель египетских, мне соответствует только одно место."
+next_line_id = "open_door_6"
+
+[sub_resource type="Resource" id="Resource_p4c4l"]
+script = ExtResource("1_q2cd5")
+line_id = "open_door_6"
+speaker_name = "Лена"
+text = "А у вас нет, желания посмотреть на что-то новое? Отличное от ваших владений."
+next_line_id = "open_door_7"
+
+[sub_resource type="Resource" id="Resource_mxe2j"]
+script = ExtResource("1_q2cd5")
+line_id = "open_door_7"
+speaker_name = "Осирис"
+text = "Есть. Но мои желания непомерно малы, поравнению с моим долгом."
+next_line_id = "open_door_8"
+
+[sub_resource type="Resource" id="Resource_1lew1"]
+script = ExtResource("1_q2cd5")
+line_id = "open_door_8"
+speaker_name = "Осирис"
+text = "А долг царя - быть вместе со своим народом."
+next_line_id = "open_door_9"
+
+[sub_resource type="Resource" id="Resource_es5gi"]
+script = ExtResource("1_q2cd5")
+line_id = "open_door_9"
+speaker_name = "Лена"
+text = "Это даже вызывает уважение."
+next_line_id = "open_door_10"
+
+[sub_resource type="Resource" id="Resource_moa46"]
+script = ExtResource("1_q2cd5")
+line_id = "open_door_10"
+speaker_name = "Осирис"
+text = "Ты хотела сказать благоговение."
+next_line_id = "open_door_11"
+
+[sub_resource type="Resource" id="Resource_mqede"]
+script = ExtResource("1_q2cd5")
+line_id = "open_door_11"
+speaker_name = "Лена"
+text = "Да, точно. Благоговение."
+next_line_id = "Osiris_choices_1"
+
+[sub_resource type="Resource" id="Resource_x7utc"]
+script = ExtResource("2_jhc6r")
+choice_id = "set"
+choice_text = "Сете"
+next_line_id = "set_1"
+
+[sub_resource type="Resource" id="Resource_hoixb"]
+script = ExtResource("1_q2cd5")
+line_id = "opinion_start"
+choices = Array[ExtResource("2_jhc6r")]([SubResource("Resource_x7utc")])
+
+[sub_resource type="Resource" id="Resource_63n5v"]
+script = ExtResource("1_q2cd5")
+line_id = "set_1"
+speaker_name = "Лена"
+text = "... Сете."
+next_line_id = "set_2"
+
+[sub_resource type="Resource" id="Resource_rtw0h"]
+script = ExtResource("1_q2cd5")
+line_id = "set_2"
+speaker_name = "Осирис"
+text = "О Сет!"
+next_line_id = "set_3"
+
+[sub_resource type="Resource" id="Resource_6oi6m"]
+script = ExtResource("1_q2cd5")
+line_id = "set_3"
+speaker_name = "Осирис"
+text = "Засуха и боль. Полынь и кавыль. Мираж в глазах измученного путника."
+next_line_id = "set_4"
+
+[sub_resource type="Resource" id="Resource_7nmhq"]
+script = ExtResource("1_q2cd5")
+line_id = "set_4"
+speaker_name = "Лена"
+text = "Ого..."
+next_line_id = "set_5"
+
+[sub_resource type="Resource" id="Resource_2xy5i"]
+script = ExtResource("1_q2cd5")
+line_id = "set_5"
+speaker_name = "Осирис"
+text = "Желал бы я знать, отчего он таков. Неужто сама природа заложила столько пустой ненависти и злобы в одно тело?"
+next_line_id = "set_6"
+
+[sub_resource type="Resource" id="Resource_uddyk"]
+script = ExtResource("1_q2cd5")
+line_id = "set_6"
+speaker_name = "Лена"
+text = "Это хороший вопрос."
+next_line_id = "set_7"
+
+[sub_resource type="Resource" id="Resource_h40h8"]
+script = ExtResource("1_q2cd5")
+line_id = "set_7"
+speaker_name = "Осирис"
+text = "До самого конца я верил, что в нем есть что-то благое."
+next_line_id = "set_8"
+
+[sub_resource type="Resource" id="Resource_pa4le"]
+script = ExtResource("1_q2cd5")
+line_id = "set_8"
+speaker_name = "Осирис"
+text = "Что я просто не понимаю собственного брата."
+next_line_id = "set_9"
+
+[sub_resource type="Resource" id="Resource_v3n2h"]
+script = ExtResource("1_q2cd5")
+line_id = "set_9"
+speaker_name = "Осирис"
+text = "Но есть в нем что-то, до чего я мог бы дотянуться."
+next_line_id = "set_10"
+
+[sub_resource type="Resource" id="Resource_k436w"]
+script = ExtResource("1_q2cd5")
+line_id = "set_10"
+speaker_name = "Осирис"
+text = "..."
+next_line_id = "set_11"
+
+[sub_resource type="Resource" id="Resource_0rjls"]
+script = ExtResource("1_q2cd5")
+line_id = "set_11"
+speaker_name = "Лена"
+text = "Поэтому вы легли в саркофаг, когда он предложил вам."
+next_line_id = "set_12"
+
+[sub_resource type="Resource" id="Resource_cqytq"]
+script = ExtResource("1_q2cd5")
+line_id = "set_12"
+speaker_name = "Осирис"
+text = "Да, я хотел ему верить. Очень хотел."
+next_line_id = "set_13"
+
+[sub_resource type="Resource" id="Resource_xrw2m"]
+script = ExtResource("1_q2cd5")
+line_id = "set_13"
+speaker_name = "Осирис"
+text = "Но он смеясь разорвал мое тело на части и разбросал по земле."
+next_line_id = "set_14"
+
+[sub_resource type="Resource" id="Resource_ypcsn"]
+script = ExtResource("1_q2cd5")
+line_id = "set_14"
+speaker_name = "Осирис"
+text = "Остатком своего божественного сознания я наблюдал бессильный."
+next_line_id = "set_15"
+
+[sub_resource type="Resource" id="Resource_buw3v"]
+script = ExtResource("1_q2cd5")
+line_id = "set_15"
+speaker_name = "Лена"
+text = "Мне ужасно жаль."
+next_line_id = "set_16"
+
+[sub_resource type="Resource" id="Resource_o3ces"]
+script = ExtResource("1_q2cd5")
+line_id = "set_16"
+speaker_name = "Осирис"
+text = "Я допустил ошибку. И извлек урок."
+next_line_id = "set_17"
+
+[sub_resource type="Resource" id="Resource_konea"]
+script = ExtResource("1_q2cd5")
+line_id = "set_17"
+speaker_name = "Осирис"
+text = "Больше я не допущу власти узурпатора."
+next_line_id = "set_18"
+
+[sub_resource type="Resource" id="Resource_3qgwh"]
+script = ExtResource("1_q2cd5")
+line_id = "set_18"
+speaker_name = "Осирис"
+text = "Больше я никем не буду предан."
+next_line_id = "Osiris_choices_1"
+
+[sub_resource type="Resource" id="Resource_pcylv"]
+script = ExtResource("1_q2cd5")
+line_id = "new_world_1"
+speaker_name = "Лена"
+text = "Как вам живётся в новом мире?"
+next_line_id = "new_world_2"
+
+[sub_resource type="Resource" id="Resource_ueh1m"]
+script = ExtResource("1_q2cd5")
+line_id = "new_world_2"
+speaker_name = "Лена"
+text = "Кажется вы смогли привести жилье к своим стандартам."
+next_line_id = "new_world_3"
+
+[sub_resource type="Resource" id="Resource_bn3po"]
+script = ExtResource("1_q2cd5")
+line_id = "new_world_3"
+speaker_name = "Осирис"
+text = "То ли глаза тебя обманывают дева, то ли не видала ты истинного величия."
+next_line_id = "new_world_4"
+
+[sub_resource type="Resource" id="Resource_g8gyb"]
+script = ExtResource("1_q2cd5")
+line_id = "new_world_4"
+speaker_name = "Осирис"
+text = "То развеж зала?"
+next_line_id = "new_world_5"
+
+[sub_resource type="Resource" id="Resource_tlyft"]
+script = ExtResource("1_q2cd5")
+line_id = "new_world_5"
+speaker_name = "Осирис"
+text = "Так, покои для размышлений."
+next_line_id = "new_world_6"
+
+[sub_resource type="Resource" id="Resource_irf16"]
+script = ExtResource("1_q2cd5")
+line_id = "new_world_6"
+speaker_name = "Лена"
+text = "Странно, я думала что в этом пространстве все возможно."
+next_line_id = "new_world_7"
+
+[sub_resource type="Resource" id="Resource_l1vgx"]
+script = ExtResource("1_q2cd5")
+line_id = "new_world_7"
+speaker_name = "Лена"
+text = "Я постараюсь решить проблему, чтобы вы получили более... Величественное помещение."
+next_line_id = "new_world_8"
+
+[sub_resource type="Resource" id="Resource_18db8"]
+script = ExtResource("1_q2cd5")
+line_id = "new_world_8"
+speaker_name = "Осирис"
+text = "Ох дева, оставь."
+next_line_id = "new_world_9"
+
+[sub_resource type="Resource" id="Resource_6pw5m"]
+script = ExtResource("1_q2cd5")
+line_id = "new_world_9"
+speaker_name = "Лена"
+text = "Но вы сказали."
+next_line_id = "new_world_10"
+
+[sub_resource type="Resource" id="Resource_tbwhg"]
+script = ExtResource("1_q2cd5")
+line_id = "new_world_10"
+speaker_name = "Осирис"
+text = "Хоть я и вечный царь бескрайних земель египетских. Но сейчас я не правлю."
+next_line_id = "new_world_11"
+
+[sub_resource type="Resource" id="Resource_m6k2i"]
+script = ExtResource("1_q2cd5")
+line_id = "new_world_11"
+speaker_name = "Осирис"
+text = "Думаю некоторая скромность даже уместна."
+next_line_id = "new_world_12"
+
+[sub_resource type="Resource" id="Resource_7jehs"]
+script = ExtResource("1_q2cd5")
+line_id = "new_world_12"
+speaker_name = "Лена"
+text = "Скромность... Да."
+next_line_id = "new_world_13"
+
+[sub_resource type="Resource" id="Resource_y5akp"]
+script = ExtResource("1_q2cd5")
+line_id = "new_world_13"
+speaker_name = "Осирис"
+text = "Скромность, к твоему сведению - высшая из добродетелей."
+next_line_id = "new_world_14"
+
+[sub_resource type="Resource" id="Resource_c43nq"]
+script = ExtResource("1_q2cd5")
+line_id = "new_world_14"
+speaker_name = "Лена"
+text = "Я учту это."
+next_line_id = "Osiris_choices_1"
+
+[sub_resource type="Resource" id="Resource_2tygj"]
+script = ExtResource("1_q2cd5")
+line_id = "help_1"
+speaker_name = "Лена"
+text = "Я хотела еще раз отблагодарить вас, за то что помогаете мне."
+next_line_id = "help_2"
+
+[sub_resource type="Resource" id="Resource_22b32"]
+script = ExtResource("1_q2cd5")
+line_id = "help_2"
+speaker_name = "Осирис"
+text = "Твоя благодарность принята, просительница."
+next_line_id = "help_3"
+
+[sub_resource type="Resource" id="Resource_m8ssc"]
+script = ExtResource("1_q2cd5")
+line_id = "help_3"
+speaker_name = "Лена"
+text = "Эм, да."
+next_line_id = "help_4"
+
+[sub_resource type="Resource" id="Resource_hboov"]
+script = ExtResource("1_q2cd5")
+line_id = "help_4"
+speaker_name = "Лена"
+text = "Вы говорили об искуплении за ваши ошибки."
+next_line_id = "help_5"
+
+[sub_resource type="Resource" id="Resource_fb3q1"]
+script = ExtResource("1_q2cd5")
+line_id = "help_5"
+speaker_name = "Осирис"
+text = "Да, но не подумай что помощь тебе как-то искупит вес моих грехов."
+next_line_id = "help_6"
+
+[sub_resource type="Resource" id="Resource_tug3k"]
+script = ExtResource("1_q2cd5")
+line_id = "help_6"
+speaker_name = "Лена"
+text = "Я не смела думать."
+next_line_id = "help_7"
+
+[sub_resource type="Resource" id="Resource_syxmb"]
+script = ExtResource("1_q2cd5")
+line_id = "help_7"
+speaker_name = "Осирис"
+text = "Я хочу лишь совершить достаточно благих деяний, для себя и своего народа."
+next_line_id = "help_8"
+
+[sub_resource type="Resource" id="Resource_6el6l"]
+script = ExtResource("1_q2cd5")
+line_id = "help_8"
+speaker_name = "Осирис"
+text = "Чтобы снова знать, что я заслуживаю считать себя истинным царем."
+next_line_id = "help_9"
+
+[sub_resource type="Resource" id="Resource_hruq4"]
+script = ExtResource("1_q2cd5")
+line_id = "help_9"
+speaker_name = "Лена"
+text = "А сейчас вы не заслуживаете?"
+next_line_id = "help_10"
+
+[sub_resource type="Resource" id="Resource_lbvlj"]
+script = ExtResource("1_q2cd5")
+line_id = "help_10"
+speaker_name = "Осирис"
+text = "Заслуживаю, конечно."
+next_line_id = "help_11"
+
+[sub_resource type="Resource" id="Resource_3py4a"]
+script = ExtResource("1_q2cd5")
+line_id = "help_11"
+speaker_name = "Осирис"
+text = "Просто... это сложно объяснить."
+next_line_id = "help_12"
+
+[sub_resource type="Resource" id="Resource_0av0a"]
+script = ExtResource("1_q2cd5")
+line_id = "help_12"
+speaker_name = "Осирис"
+text = "Тому кто не правит так как я."
+next_line_id = "help_13"
+
+[sub_resource type="Resource" id="Resource_hr5uh"]
+script = ExtResource("1_q2cd5")
+line_id = "help_13"
+speaker_name = "Осирис"
+text = "Я должен знать что правлю по праву. Это мой долг."
+next_line_id = "help_14"
+
+[sub_resource type="Resource" id="Resource_jikp1"]
+script = ExtResource("1_q2cd5")
+line_id = "help_14"
+speaker_name = "Осирис"
+text = "Я не могу сомневаться."
+next_line_id = "help_15"
+
+[sub_resource type="Resource" id="Resource_fo5ax"]
+script = ExtResource("1_q2cd5")
+line_id = "help_15"
+speaker_name = "Лена"
+text = "Я не думала так об этом."
+next_line_id = "help_16"
+
+[sub_resource type="Resource" id="Resource_xvit0"]
+script = ExtResource("1_q2cd5")
+line_id = "help_16"
+speaker_name = "Осирис"
+text = "Впрочем, достаточно о моем долге."
+next_line_id = "Osiris_choices_1"
+
+[sub_resource type="Resource" id="Resource_h0qjp"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_1"
+speaker_name = "Лена"
+text = "Насчёт того мира что вы выбрали."
+next_line_id = "chosen_world_2"
+
+[sub_resource type="Resource" id="Resource_6ontp"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_2"
+speaker_name = "Лена"
+text = "Пустыни."
+next_line_id = "chosen_world_3"
+
+[sub_resource type="Resource" id="Resource_xidmo"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_3"
+speaker_name = "Осирис"
+text = "Мой дом."
+next_line_id = "chosen_world_4"
+
+[sub_resource type="Resource" id="Resource_xu46e"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_4"
+speaker_name = "Осирис"
+text = "Но знаешь, я будто вижу его впервые."
+next_line_id = "chosen_world_5"
+
+[sub_resource type="Resource" id="Resource_cexs6"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_5"
+speaker_name = "Осирис"
+text = "Все такое знакомое, но будто совершенно новое."
+next_line_id = "chosen_world_6"
+
+[sub_resource type="Resource" id="Resource_m3qem"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_6"
+speaker_name = "Лена"
+text = "Думаю я понимаю о чем вы."
+next_line_id = "chosen_world_7"
+
+[sub_resource type="Resource" id="Resource_1ex0t"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_7"
+speaker_name = "Лена"
+text = "Вы привыкли смотреть на свои владения с высоты трона."
+next_line_id = "chosen_world_8"
+
+[sub_resource type="Resource" id="Resource_6c0e0"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_8"
+speaker_name = "Лена"
+text = "А теперь, вы ходите по земле и видите тех людей, кем повелевали все это время."
+next_line_id = "chosen_world_9"
+
+[sub_resource type="Resource" id="Resource_wcrln"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_9"
+speaker_name = "Лена"
+text = "И как они живут."
+next_line_id = "chosen_world_10"
+
+[sub_resource type="Resource" id="Resource_mqcjq"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_10"
+speaker_name = "Осирис"
+text = "Да."
+next_line_id = "chosen_world_11"
+
+[sub_resource type="Resource" id="Resource_i2b54"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_11"
+speaker_name = "Осирис"
+text = "Я знал о них, и их бедах. Мне докладывали."
+next_line_id = "chosen_world_12"
+
+[sub_resource type="Resource" id="Resource_m7h7d"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_12"
+speaker_name = "Осирис"
+text = "Но увидеть своими глазами. Совсем другое."
+next_line_id = "chosen_world_13"
+
+[sub_resource type="Resource" id="Resource_d165i"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_13"
+speaker_name = "Осирис"
+text = "Я отправлял их на войны и на стройки дворцов."
+next_line_id = "chosen_world_14"
+
+[sub_resource type="Resource" id="Resource_mpcbd"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_14"
+speaker_name = "Осирис"
+text = "Но никогда не видел их лиц. Не пробовал их еды, не слышал речи."
+next_line_id = "chosen_world_15"
+
+[sub_resource type="Resource" id="Resource_6txrl"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_15"
+speaker_name = "Осирис"
+text = "Кем я правил все это время?"
+next_line_id = "chosen_world_16"
+
+[sub_resource type="Resource" id="Resource_anxis"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_16"
+speaker_name = "Осирис"
+text = "Принимал ли я мудрые решения? Помогал ли своему народу?"
+next_line_id = "chosen_world_17"
+
+[sub_resource type="Resource" id="Resource_b7q8p"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_17"
+speaker_name = "Лена"
+text = "Я думаю это хорошо, что вы сомневаетесь."
+next_line_id = "chosen_world_18"
+
+[sub_resource type="Resource" id="Resource_toedy"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_18"
+speaker_name = "Осирис"
+text = "Уж не знаю, цари не должны сомневаться. Я чувствую себя слабым."
+next_line_id = "chosen_world_19"
+
+[sub_resource type="Resource" id="Resource_4iell"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_19"
+speaker_name = "Осирис"
+text = "Я боюсь, вдруг мои поведения были несправедливы."
+next_line_id = "chosen_world_20"
+
+[sub_resource type="Resource" id="Resource_k2loh"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_20"
+speaker_name = "Осирис"
+text = "А я был точно уверен что делаю благое дело."
+next_line_id = "chosen_world_21"
+
+[sub_resource type="Resource" id="Resource_lsj08"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_21"
+speaker_name = "Лена"
+text = "Пусть сейчас вам плохо, я уверена, что эти мысли помогут вам стать лучшим руководителем."
+next_line_id = "chosen_world_22"
+
+[sub_resource type="Resource" id="Resource_ticvo"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_22"
+speaker_name = "Осирис"
+text = "Ох, ты так считаешь?"
+next_line_id = "chosen_world_23"
+
+[sub_resource type="Resource" id="Resource_lb4fi"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_23"
+speaker_name = "Лена"
+text = "Я уверена."
+next_line_id = "chosen_world_24"
+
+[sub_resource type="Resource" id="Resource_vnqpc"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_24"
+speaker_name = "Осирис"
+text = "Кхм, заболтались мы."
+next_line_id = "chosen_world_25"
+
+[sub_resource type="Resource" id="Resource_g6osf"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_25"
+speaker_name = "Осирис"
+text = "Меня ждут дела, и полагаю тебя тоже."
+next_line_id = "chosen_world_26"
+
+[sub_resource type="Resource" id="Resource_o11tg"]
+script = ExtResource("1_q2cd5")
+line_id = "chosen_world_26"
+speaker_name = "Лена"
+text = "(Какие у него тут могут быть дела?)"
+next_line_id = "Osiris_choices_1"
+
+[sub_resource type="Resource" id="Resource_q2cd5"]
+script = ExtResource("1_q2cd5")
+line_id = "opinion_1"
+speaker_name = "Лена"
+text = "А что вы думаете о..."
+next_line_id = "opinion_start"
+
+[resource]
+script = ExtResource("3_3awsx")
+dialogue_id = "osiris_dialogue_1"
+dialogue_name = ""
+start_line_id = "intro_1"
+lines = Array[ExtResource("1_q2cd5")]([SubResource("Resource_saamu"), SubResource("Resource_q8f8q"), SubResource("Resource_v7and"), SubResource("Resource_ph06d"), SubResource("Resource_w7xkg"), SubResource("Resource_7gdbg"), SubResource("Resource_p7d2k"), SubResource("Resource_n0lch"), SubResource("Resource_rwgtm"), SubResource("Resource_rd8lk"), SubResource("Resource_mj3xg"), SubResource("Resource_p4c4l"), SubResource("Resource_mxe2j"), SubResource("Resource_1lew1"), SubResource("Resource_es5gi"), SubResource("Resource_moa46"), SubResource("Resource_mqede"), SubResource("Resource_hoixb"), SubResource("Resource_63n5v"), SubResource("Resource_rtw0h"), SubResource("Resource_6oi6m"), SubResource("Resource_7nmhq"), SubResource("Resource_2xy5i"), SubResource("Resource_uddyk"), SubResource("Resource_h40h8"), SubResource("Resource_pa4le"), SubResource("Resource_v3n2h"), SubResource("Resource_k436w"), SubResource("Resource_0rjls"), SubResource("Resource_cqytq"), SubResource("Resource_xrw2m"), SubResource("Resource_ypcsn"), SubResource("Resource_buw3v"), SubResource("Resource_o3ces"), SubResource("Resource_konea"), SubResource("Resource_3qgwh"), SubResource("Resource_pcylv"), SubResource("Resource_ueh1m"), SubResource("Resource_bn3po"), SubResource("Resource_g8gyb"), SubResource("Resource_tlyft"), SubResource("Resource_irf16"), SubResource("Resource_l1vgx"), SubResource("Resource_18db8"), SubResource("Resource_6pw5m"), SubResource("Resource_tbwhg"), SubResource("Resource_m6k2i"), SubResource("Resource_7jehs"), SubResource("Resource_y5akp"), SubResource("Resource_c43nq"), SubResource("Resource_2tygj"), SubResource("Resource_22b32"), SubResource("Resource_m8ssc"), SubResource("Resource_hboov"), SubResource("Resource_fb3q1"), SubResource("Resource_tug3k"), SubResource("Resource_syxmb"), SubResource("Resource_6el6l"), SubResource("Resource_hruq4"), SubResource("Resource_lbvlj"), SubResource("Resource_3py4a"), SubResource("Resource_0av0a"), SubResource("Resource_hr5uh"), SubResource("Resource_jikp1"), SubResource("Resource_fo5ax"), SubResource("Resource_xvit0"), SubResource("Resource_h0qjp"), SubResource("Resource_6ontp"), SubResource("Resource_xidmo"), SubResource("Resource_xu46e"), SubResource("Resource_cexs6"), SubResource("Resource_m3qem"), SubResource("Resource_1ex0t"), SubResource("Resource_6c0e0"), SubResource("Resource_wcrln"), SubResource("Resource_mqcjq"), SubResource("Resource_i2b54"), SubResource("Resource_m7h7d"), SubResource("Resource_d165i"), SubResource("Resource_mpcbd"), SubResource("Resource_6txrl"), SubResource("Resource_anxis"), SubResource("Resource_b7q8p"), SubResource("Resource_toedy"), SubResource("Resource_4iell"), SubResource("Resource_k2loh"), SubResource("Resource_lsj08"), SubResource("Resource_ticvo"), SubResource("Resource_lb4fi"), SubResource("Resource_vnqpc"), SubResource("Resource_g6osf"), SubResource("Resource_o11tg"), SubResource("Resource_q2cd5")])

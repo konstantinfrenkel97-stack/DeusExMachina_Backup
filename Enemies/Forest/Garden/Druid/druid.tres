@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://lddtcgoqcve6"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://fxb3t374okj3" path="res://Enemy_logic/druid_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Druid/hide_in_grass.tres" id="4_hg"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Druid/stimulate_growth.tres" id="5_sg"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Druid/natures_wrath.tres" id="6_nw"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Друид"
+sprite_path = "res://Enemies/Forest/Garden/Druid/Druid.png"
+face_sprite = "res://Enemies/Forest/Garden/Druid/Druid_face.png"
+battle_sprite_scale_percent = 88.0
+max_hp = 70
+damage = 16
+armor = 8
+initiative = 4
+accuracy = 85
+evasion = 15
+special_effect_type = "druid_regen_aura"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_hg"), ExtResource("5_sg"), ExtResource("6_nw")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

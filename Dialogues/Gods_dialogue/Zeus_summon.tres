@@ -1,0 +1,106 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://cqlmn82glahj6"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_db22y"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_nu0ox"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_t8d77"]
+
+[sub_resource type="Resource" id="Resource_wu2ib"]
+script = ExtResource("1_db22y")
+speaker_name = "Лена"
+text = "О, Зевс! Могущественный бог молний и властитель Олимпа!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_swmp2"]
+script = ExtResource("1_db22y")
+speaker_name = "Лена"
+text = "Отец и повелитель греческих богов!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_18fmh"]
+script = ExtResource("1_db22y")
+speaker_name = "Зевс"
+text = "Учтивый язык, юная дева. Нравится то что видишь?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_hiea6"]
+script = ExtResource("1_db22y")
+speaker_name = "Лена"
+text = "Эм, я… что?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_8o33e"]
+script = ExtResource("1_db22y")
+speaker_name = "Зевс"
+text = "Не смущайся. Перед тобой Зевс Громовержец, но не стоит бояться. "
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ue3ci"]
+script = ExtResource("1_db22y")
+speaker_name = "Зевс"
+text = "Я нагоняю страх только на врагов. А со своими на короткой ноге."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_lncij"]
+script = ExtResource("1_db22y")
+speaker_name = "Лена"
+text = "А. Вы немного, подавляете…"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_3yxjl"]
+script = ExtResource("1_db22y")
+speaker_name = "Зевс"
+text = "О-хо-хо-хо!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_1qpdk"]
+script = ExtResource("1_db22y")
+speaker_name = "Зевс"
+text = "Прекрасные девы часто теряются в моем присутствии."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_p7g3u"]
+script = ExtResource("1_db22y")
+speaker_name = "Зевс"
+text = "Не переживай, это нормально"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_wfbrx"]
+script = ExtResource("1_db22y")
+speaker_name = "Лена"
+text = "А… Хорошо, спасибо. А, вы мне не поможете? Меня хочет убить орда мифических тварей."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_6v0tp"]
+script = ExtResource("1_db22y")
+speaker_name = "Зевс"
+text = " Ха-ха-ха-ха-ха, да раз плюнуть."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_rgk4a"]
+script = ExtResource("1_db22y")
+speaker_name = "Зевс"
+text = "Вспомню молодость, это же было мое главное развлечение."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_46v80"]
+script = ExtResource("1_db22y")
+speaker_name = "Лена"
+text = "Все таки, на вас можно положиться."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_6tlce"]
+script = ExtResource("1_db22y")
+speaker_name = "Зевс"
+text = "Да, к слову, как ты относишься к бычкам?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_m8elc"]
+script = ExtResource("1_db22y")
+speaker_name = "Лена"
+text = "........"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_t8d77")
+lines = Array[ExtResource("1_db22y")]([SubResource("Resource_wu2ib"), SubResource("Resource_swmp2"), SubResource("Resource_18fmh"), SubResource("Resource_hiea6"), SubResource("Resource_8o33e"), SubResource("Resource_ue3ci"), SubResource("Resource_lncij"), SubResource("Resource_3yxjl"), SubResource("Resource_1qpdk"), SubResource("Resource_p7g3u"), SubResource("Resource_wfbrx"), SubResource("Resource_6v0tp"), SubResource("Resource_rgk4a"), SubResource("Resource_46v80"), SubResource("Resource_6tlce"), SubResource("Resource_m8elc")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Мой бой не окончен"
+description = "Стойка: в начале след. хода восстанавливает щит смерти, если он утрачен. Иначе — 20 периодического урона на 2 хода."
+damage_modifier = 0.0
+majesty_gain = 0
+target_type = "Self"
+is_stance = true
+stance_duration_type = "UntilNextTurn"
+stance_effect_type = "immortal_my_battle_not_over"
+usable_from_positions = Array[bool]([false, false, true, true])
+targetable_positions = Array[bool]([true, true, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

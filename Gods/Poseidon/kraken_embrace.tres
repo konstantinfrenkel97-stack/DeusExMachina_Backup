@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://dc0kpm7nyu684"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+icon_path = "uid://d0pc1jdx7e25u"
+name = "Объятия кракена"
+description = "Оглушить противника. Дать -3 инициативы на 2 хода."
+damage_modifier = 0.0
+effect_types = Array[String](["stun", "target_debuff_initiative"])
+effect_values = Dictionary[String, int]({
+"stun": 1,
+"target_debuff_initiative": -3
+})
+effect_durations = Dictionary[String, int]({
+"stun": 1,
+"target_debuff_initiative": 2
+})
+usable_from_positions = Array[bool]([false, true, true, false])
+targetable_positions = Array[bool]([true, false, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

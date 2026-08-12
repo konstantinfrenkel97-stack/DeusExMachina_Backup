@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://ci0opui7chb1l"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://cb7y7otdh5h5o" path="res://Enemy_logic/satyr_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Satyr/charming_song.tres" id="4_cs"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Сатир"
+sprite_path = "res://Enemies/Forest/Garden/Satyr/Satyr.png"
+face_sprite = "res://Enemies/Forest/Garden/Satyr/Satyr_face.png"
+battle_sprite_scale_percent = 75.0
+max_hp = 75
+damage = 18
+armor = 8
+initiative = 4
+accuracy = 85
+evasion = 15
+special_effect_type = "satyr_redirect"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_cs")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

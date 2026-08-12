@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://doo4ivqi7530k"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://o06fd50etx3s" path="res://Enemy_logic/captain_logic.gd" id="3_ai"]
+[ext_resource type="Resource" uid="uid://cptnhook0001" path="res://Enemies/Sea/Ships/Captain/hook_strike.tres" id="4_hs"]
+[ext_resource type="Resource" uid="uid://cptnmotiv001" path="res://Enemies/Sea/Ships/Captain/motivation.tres" id="5_mt"]
+[ext_resource type="Resource" uid="uid://cptnprrot001" path="res://Enemies/Sea/Ships/Captain/parrot_torture.tres" id="6_pt"]
+[ext_resource type="Resource" uid="uid://cptndrnks001" path="res://Enemies/Sea/Ships/Captain/drunk_shot.tres" id="7_ds"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Капитан"
+sprite_path = "res://Enemies/Sea/Ships/Captain/Капитан_nobg.png"
+face_sprite = "res://Enemies/Sea/Ships/Captain/Капитан_Face.png"
+battle_sprite_scale_percent = 101.0
+max_hp = 90
+damage = 25
+armor = 10
+initiative = 5
+accuracy = 85
+crit_chance = 0.1
+special_effect_type = "captain_ally_initiative"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_hs"), ExtResource("5_mt"), ExtResource("6_pt"), ExtResource("7_ds")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

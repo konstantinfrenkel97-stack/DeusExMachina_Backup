@@ -1,0 +1,140 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://cv5krgv8gjavq"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_fa7bq"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_88v7i"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="3_2mglb"]
+
+[sub_resource type="Resource" id="Resource_xs1t7"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Лена"
+text = "Ух ты! Вы Моргана? Легендарная колдунья и сестра короля Артура?
+"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_q7y22"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Моргана"
+text = " Кто ты такая и как призвала меня сюда? Я не узнаю эту магию.
+"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ve51u"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Лена"
+text = "(она проигнорировала вопрос?)"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_bx075"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Лена"
+text = " Я Лена. И я сама не до конца понимаю, как это все работает. Но мне нужна помощь, меня хочет убить армия монстров.
+"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_8khoj"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Моргана"
+text = "Отказано."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_qh45q"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Лена"
+text = "Что? Но почему?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_uo7cm"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Моргана"
+text = "Ты призвала меня не спросив согласия и просишь рисковать собой для своего блага. Не вижу ни одной причины соглашаться."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_f0dus"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Лена"
+text = "Но если вы мне не поможете…"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_hyhxa"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Моргана"
+text = "Кто научил тебя этой магии? Покажи мне как осуществляешь призыв."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_kndjv"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Лена"
+text = "Ха, отказываюсь!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_0bf6b"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Моргана"
+text = " Хм?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_aa27w"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Лена"
+text = "Вы правы, я не должна была призывать вас сюда и просить о безвозмездной помощи."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_s0cso"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Лена"
+text = "Это не просто некрасиво по отношению к вам. А конкретно неправильно и несправедливо.
+"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_8mhb7"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Лена"
+text = "Но моя жизнь под угрозой. Как и ваша, кстати."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_rcner"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Лена"
+text = "Поэтому помогите мне, и тогда я раскрою вам все что знаю об этом месте."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_bandu"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Лена"
+text = "И еще раз извините, что призвала не спросив."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_16vee"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Моргана"
+text = "…"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_bjhhu"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Лена"
+text = "…"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ijlt3"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Моргана"
+text = "Хорошо, договорились."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_3h8gi"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Лена"
+text = "Правда?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_6ohs3"]
+script = ExtResource("1_fa7bq")
+speaker_name = "Моргана"
+text = "И да, я та самая Моргана."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("3_2mglb")
+lines = Array[ExtResource("1_fa7bq")]([SubResource("Resource_xs1t7"), SubResource("Resource_q7y22"), SubResource("Resource_ve51u"), SubResource("Resource_bx075"), SubResource("Resource_8khoj"), SubResource("Resource_qh45q"), SubResource("Resource_uo7cm"), SubResource("Resource_f0dus"), SubResource("Resource_hyhxa"), SubResource("Resource_kndjv"), SubResource("Resource_0bf6b"), SubResource("Resource_aa27w"), SubResource("Resource_s0cso"), SubResource("Resource_8mhb7"), SubResource("Resource_rcner"), SubResource("Resource_bandu"), SubResource("Resource_16vee"), SubResource("Resource_bjhhu"), SubResource("Resource_ijlt3"), SubResource("Resource_3h8gi"), SubResource("Resource_6ohs3")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

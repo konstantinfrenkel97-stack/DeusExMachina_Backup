@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="SpellResource" format=3 uid="uid://cgy8m3p5r7xc"]
+
+[ext_resource type="Script" uid="uid://bxf7k2m4p9nz" path="res://spell_resource.gd" id="1_sp01"]
+
+[resource]
+script = ExtResource("1_sp01")
+icon_path = "res://Icons/spells/Speed_up.png"
+spell_name = "Ускориться"
+description = "Передвинуть союзника на 1 позицию вперёд"
+fantasy_cost = 5
+target_type = "Ally"
+effect_types = Array[String](["pull_forward"])
+effect_values = Dictionary[String, int]({
+"pull_forward": 1
+})
+metadata/_custom_type_script = "uid://bxf7k2m4p9nz"

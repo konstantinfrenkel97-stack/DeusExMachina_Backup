@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Ядовитый кинжал"
+description = "0.8 урона. Цель получает периодический урон (20% от урона) на 5 ходов."
+damage_modifier = 0.8
+majesty_gain = 0
+target_type = "Enemy"
+ability_marker = "jester_poison_dagger"
+usable_from_positions = Array[bool]([true, true, true, true])
+targetable_positions = Array[bool]([true, true, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

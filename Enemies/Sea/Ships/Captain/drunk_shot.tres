@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://cptndrnks001"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ds"]
+
+[resource]
+script = ExtResource("1_ds")
+name = "Пьяный выстрел"
+damage_modifier = 1.5
+majesty_gain = 0
+effect_types = Array[String](["self_debuff_accuracy", "self_buff_crit"])
+effect_values = Dictionary[String, int]({
+"self_debuff_accuracy": 10,
+"self_buff_crit": 15
+})
+effect_durations = Dictionary[String, int]({
+"self_debuff_accuracy": 1,
+"self_buff_crit": 1
+})
+usable_from_positions = Array[bool]([true, true, true, true])
+targetable_positions = Array[bool]([true, true, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://thdkywrkqad6"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+icon_path = "uid://clkgl64u4vg8q"
+name = "Шквал кулаков"
+description = "Наносит урон 3 случайным противникам"
+damage_modifier = 0.6
+usable_from_positions = Array[bool]([true, true, false, false])
+targetable_positions = Array[bool]([true, true, true, false])
+ability_marker = "shiva_fist_flurry"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FormationResource" format=3 uid="uid://bf72yak1jv2ox"]
+
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="1_cxvc3"]
+[ext_resource type="Resource" uid="uid://c0q5dvj3e8f6w" path="res://Enemies/Dungeon/Hellheim/Draugr_Berserk/draugr_berserk.tres" id="1_yk6f2"]
+
+[resource]
+script = ExtResource("1_cxvc3")
+formation_name = "Одинокий_Берсерк"
+pos1 = ExtResource("1_yk6f2")
+metadata/_custom_type_script = "uid://c50het7soanc1"

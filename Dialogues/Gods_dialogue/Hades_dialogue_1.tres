@@ -1,0 +1,1009 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3]
+
+[ext_resource type="Script" path="res://Dialogues/dialogue_line.gd" id="1_line"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_resource.gd" id="3_dialogue"]
+
+[sub_resource type="Resource" id="Resource_hades_line_2"]
+script = ExtResource("1_line")
+line_id = "intro_1"
+speaker_name = "Аид"
+text = "(Комната Аида удивительно тесная и мрачная. В ней только стол, стул и кровать. Он сидит согнувшись над столом и что-то пишет. При твоем появлении убирает бумагу и быстро протирает пальцами переносицу.)"
+next_line_id = "intro_2"
+
+[sub_resource type="Resource" id="Resource_hades_line_3"]
+script = ExtResource("1_line")
+line_id = "intro_2"
+speaker_name = "Аид"
+text = "Здравствуй. Ты что-то хотела?"
+next_line_id = "Hades_choices_1"
+
+[sub_resource type="Resource" id="Resource_hades_choice_4"]
+script = ExtResource("2_choice")
+choice_id = "open_door"
+choice_text = "Открыть дверь"
+next_line_id = "open_door_1"
+
+[sub_resource type="Resource" id="Resource_hades_choice_5"]
+script = ExtResource("2_choice")
+choice_id = "opinion"
+choice_text = "Отношение к богам"
+next_line_id = "opinion_start"
+
+[sub_resource type="Resource" id="Resource_hades_choice_6"]
+script = ExtResource("2_choice")
+choice_id = "new_world"
+choice_text = "Новый мир"
+next_line_id = "new_world_1"
+
+[sub_resource type="Resource" id="Resource_hades_choice_7"]
+script = ExtResource("2_choice")
+choice_id = "help"
+choice_text = "Твоя помощь"
+next_line_id = "help_1"
+
+[sub_resource type="Resource" id="Resource_hades_choice_8"]
+script = ExtResource("2_choice")
+choice_id = "chosen_world"
+choice_text = "Выбранный мир"
+next_line_id = "chosen_world_1"
+
+[sub_resource type="Resource" id="Resource_hades_line_9"]
+script = ExtResource("1_line")
+line_id = "Hades_choices_1"
+choices = Array[ExtResource("2_choice")]([SubResource("Resource_hades_choice_4"), SubResource("Resource_hades_choice_5"), SubResource("Resource_hades_choice_6"), SubResource("Resource_hades_choice_7"), SubResource("Resource_hades_choice_8")])
+
+[sub_resource type="Resource" id="Resource_hades_line_10"]
+script = ExtResource("1_line")
+line_id = "open_door_1"
+speaker_name = "Лена"
+text = "Могли бы вы открыть одну из этих дверей. Это невозможно сделать без божественной силы."
+next_line_id = "open_door_2"
+
+[sub_resource type="Resource" id="Resource_hades_line_11"]
+script = ExtResource("1_line")
+line_id = "open_door_2"
+speaker_name = "Аид"
+text = "Которую тебе открыть?"
+next_line_id = "open_door_3"
+
+[sub_resource type="Resource" id="Resource_hades_line_12"]
+script = ExtResource("1_line")
+line_id = "open_door_3"
+speaker_name = "Лена"
+text = "Да, все равно. Какая вам больше нравится."
+next_line_id = "open_door_4"
+
+[sub_resource type="Resource" id="Resource_hades_line_13"]
+script = ExtResource("1_line")
+line_id = "open_door_4"
+speaker_name = "Аид"
+text = "Нравится?"
+next_line_id = "open_door_5"
+
+[sub_resource type="Resource" id="Resource_hades_line_14"]
+script = ExtResource("1_line")
+line_id = "open_door_5"
+speaker_name = "Лена"
+text = "Ну, я не знаю. Какая вам ближе?"
+next_line_id = "open_door_6"
+
+[sub_resource type="Resource" id="Resource_hades_line_15"]
+script = ExtResource("1_line")
+line_id = "open_door_6"
+speaker_name = "Аид"
+text = "Какая мне ближе."
+next_line_id = "open_door_7"
+
+[sub_resource type="Resource" id="Resource_hades_line_16"]
+script = ExtResource("1_line")
+line_id = "open_door_7"
+speaker_name = "Аид"
+text = "Я руководитель подземного мира. Вот тут что-то похожее."
+next_line_id = "open_door_8"
+
+[sub_resource type="Resource" id="Resource_hades_line_17"]
+script = ExtResource("1_line")
+line_id = "open_door_8"
+speaker_name = "Лена"
+text = "Подождите, это же ворота в ад!"
+next_line_id = "open_door_9"
+
+[sub_resource type="Resource" id="Resource_hades_line_18"]
+script = ExtResource("1_line")
+line_id = "open_door_9"
+speaker_name = "Аид"
+text = "Да."
+next_line_id = "open_door_10"
+
+[sub_resource type="Resource" id="Resource_hades_line_19"]
+script = ExtResource("1_line")
+line_id = "open_door_10"
+speaker_name = "Лена"
+text = "Там точно ничего хорошего…"
+next_line_id = "open_door_11"
+
+[sub_resource type="Resource" id="Resource_hades_line_20"]
+script = ExtResource("1_line")
+line_id = "open_door_11"
+speaker_name = "Аид"
+text = "Ты попросила, я открыл."
+next_line_id = "open_door_12"
+
+[sub_resource type="Resource" id="Resource_hades_line_21"]
+script = ExtResource("1_line")
+line_id = "open_door_12"
+speaker_name = "Лена"
+text = "Да нет, спасибо."
+next_line_id = "open_door_13"
+
+[sub_resource type="Resource" id="Resource_hades_line_22"]
+script = ExtResource("1_line")
+line_id = "open_door_13"
+speaker_name = "Лена"
+text = "Просто что-то мне подсказывает, что это худшая из дверей."
+next_line_id = "open_door_14"
+
+[sub_resource type="Resource" id="Resource_hades_line_23"]
+script = ExtResource("1_line")
+line_id = "open_door_14"
+speaker_name = "Аид"
+text = "Нет никакой разницы. Тебе же нужно все открыть."
+next_line_id = "open_door_15"
+
+[sub_resource type="Resource" id="Resource_hades_line_24"]
+script = ExtResource("1_line")
+line_id = "open_door_15"
+speaker_name = "Аид"
+text = "Пусть уж лучше ее открою я."
+next_line_id = "open_door_16"
+
+[sub_resource type="Resource" id="Resource_hades_line_25"]
+script = ExtResource("1_line")
+line_id = "open_door_16"
+speaker_name = "Аид"
+text = "Мне-то все равно."
+next_line_id = "open_door_17"
+
+[sub_resource type="Resource" id="Resource_hades_line_26"]
+script = ExtResource("1_line")
+line_id = "open_door_17"
+speaker_name = "Лена"
+text = "Здраво рассуждаете."
+next_line_id = "open_door_18"
+
+[sub_resource type="Resource" id="Resource_hades_line_27"]
+script = ExtResource("1_line")
+line_id = "open_door_18"
+speaker_name = "Лена"
+text = "Но я волнуюсь."
+next_line_id = "Hades_choices_1"
+
+[sub_resource type="Resource" id="Resource_hades_line_28"]
+script = ExtResource("1_line")
+line_id = "opinion_start"
+speaker_name = "Лена"
+text = "Слушайте, а как вы относитесь к…"
+next_line_id = "opinion_choices"
+
+[sub_resource type="Resource" id="Resource_hades_choice_29"]
+script = ExtResource("2_choice")
+choice_id = "zeus"
+choice_text = "Зевсу"
+next_line_id = "opinion_zeus_1"
+
+[sub_resource type="Resource" id="Resource_hades_choice_30"]
+script = ExtResource("2_choice")
+choice_id = "poseidon"
+choice_text = "Посейдону"
+next_line_id = "opinion_poseidon_1"
+
+[sub_resource type="Resource" id="Resource_hades_line_31"]
+script = ExtResource("1_line")
+line_id = "opinion_choices"
+choices = Array[ExtResource("2_choice")]([SubResource("Resource_hades_choice_29"), SubResource("Resource_hades_choice_30")])
+
+[sub_resource type="Resource" id="Resource_hades_line_32"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_1"
+speaker_name = "Лена"
+text = "…Зевсу."
+next_line_id = "opinion_zeus_2"
+
+[sub_resource type="Resource" id="Resource_hades_line_33"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_2"
+speaker_name = "Аид"
+text = "Он мой старший брат и мой правитель."
+next_line_id = "opinion_zeus_3"
+
+[sub_resource type="Resource" id="Resource_hades_line_34"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_3"
+speaker_name = "Аид"
+text = "Еще он спас меня во младенчестве."
+next_line_id = "opinion_zeus_4"
+
+[sub_resource type="Resource" id="Resource_hades_line_35"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_4"
+speaker_name = "Лена"
+text = "Так как вы к нему относитесь?"
+next_line_id = "opinion_zeus_5"
+
+[sub_resource type="Resource" id="Resource_hades_line_36"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_5"
+speaker_name = "Аид"
+text = "Я же сказал, он мой правитель и брат."
+next_line_id = "opinion_zeus_6"
+
+[sub_resource type="Resource" id="Resource_hades_line_37"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_6"
+speaker_name = "Лена"
+text = "Да, но что вы к нему чувствуете?"
+next_line_id = "opinion_zeus_7"
+
+[sub_resource type="Resource" id="Resource_hades_line_38"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_7"
+speaker_name = "Аид"
+text = "…"
+next_line_id = "opinion_zeus_8"
+
+[sub_resource type="Resource" id="Resource_hades_line_39"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_8"
+speaker_name = "Лена"
+text = "Эмоции."
+next_line_id = "opinion_zeus_9"
+
+[sub_resource type="Resource" id="Resource_hades_line_40"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_9"
+speaker_name = "Аид"
+text = "Я не понимаю смысл этого вопроса."
+next_line_id = "opinion_zeus_10"
+
+[sub_resource type="Resource" id="Resource_hades_line_41"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_10"
+speaker_name = "Аид"
+text = "Какая разница, что я чувствую?"
+next_line_id = "opinion_zeus_11"
+
+[sub_resource type="Resource" id="Resource_hades_line_42"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_11"
+speaker_name = "Лена"
+text = "Ну, я просто хотела узнать."
+next_line_id = "opinion_zeus_12"
+
+[sub_resource type="Resource" id="Resource_hades_line_43"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_12"
+speaker_name = "Аид"
+text = "Не знаю. Я его уважаю."
+next_line_id = "opinion_zeus_13"
+
+[sub_resource type="Resource" id="Resource_hades_line_44"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_13"
+speaker_name = "Лена"
+text = "Хорошо."
+next_line_id = "opinion_zeus_14"
+
+[sub_resource type="Resource" id="Resource_hades_line_45"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_14"
+speaker_name = "Аид"
+text = "Ну что еще?"
+next_line_id = "opinion_zeus_15"
+
+[sub_resource type="Resource" id="Resource_hades_line_46"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_15"
+speaker_name = "Лена"
+text = "Как вам его образ жизни?"
+next_line_id = "opinion_zeus_16"
+
+[sub_resource type="Resource" id="Resource_hades_line_47"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_16"
+speaker_name = "Аид"
+text = "Не близок."
+next_line_id = "opinion_zeus_17"
+
+[sub_resource type="Resource" id="Resource_hades_line_48"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_17"
+speaker_name = "Аид"
+text = "Он утверждает, что это очень эффективно — увиваться за юбками."
+next_line_id = "opinion_zeus_18"
+
+[sub_resource type="Resource" id="Resource_hades_line_49"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_18"
+speaker_name = "Аид"
+text = "Я попробовал, ничего хорошего не вышло."
+next_line_id = "opinion_zeus_19"
+
+[sub_resource type="Resource" id="Resource_hades_line_50"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_19"
+speaker_name = "Лена"
+text = "Может, вам просто с девушкой не повезло."
+next_line_id = "opinion_zeus_20"
+
+[sub_resource type="Resource" id="Resource_hades_line_51"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_20"
+speaker_name = "Аид"
+text = "Может, не повезло, а может, повезло."
+next_line_id = "opinion_zeus_21"
+
+[sub_resource type="Resource" id="Resource_hades_line_52"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_21"
+speaker_name = "Аид"
+text = "Я не знаю."
+next_line_id = "opinion_zeus_22"
+
+[sub_resource type="Resource" id="Resource_hades_line_53"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_22"
+speaker_name = "Аид"
+text = "Да и глупость все это. Только время и силы тратит."
+next_line_id = "opinion_zeus_23"
+
+[sub_resource type="Resource" id="Resource_hades_line_54"]
+script = ExtResource("1_line")
+line_id = "opinion_zeus_23"
+speaker_name = "Аид"
+text = "Лучше уж продолжу делать как умею."
+next_line_id = "Hades_choices_1"
+
+[sub_resource type="Resource" id="Resource_hades_line_55"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_1"
+speaker_name = "Лена"
+text = "…Посейдону."
+next_line_id = "opinion_poseidon_2"
+
+[sub_resource type="Resource" id="Resource_hades_line_56"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_2"
+speaker_name = "Аид"
+text = "Посейдону."
+next_line_id = "opinion_poseidon_3"
+
+[sub_resource type="Resource" id="Resource_hades_line_57"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_3"
+speaker_name = "Аид"
+text = "Не понимаю, как ему удается так работать?"
+next_line_id = "opinion_poseidon_4"
+
+[sub_resource type="Resource" id="Resource_hades_line_58"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_4"
+speaker_name = "Лена"
+text = "Как?"
+next_line_id = "opinion_poseidon_5"
+
+[sub_resource type="Resource" id="Resource_hades_line_59"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_5"
+speaker_name = "Аид"
+text = "Ну."
+next_line_id = "opinion_poseidon_6"
+
+[sub_resource type="Resource" id="Resource_hades_line_60"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_6"
+speaker_name = "Аид"
+text = "Как…"
+next_line_id = "opinion_poseidon_7"
+
+[sub_resource type="Resource" id="Resource_hades_line_61"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_7"
+speaker_name = "Аид"
+text = "Ему как будто нравится работать."
+next_line_id = "opinion_poseidon_8"
+
+[sub_resource type="Resource" id="Resource_hades_line_62"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_8"
+speaker_name = "Лена"
+text = "А вам нет?"
+next_line_id = "opinion_poseidon_9"
+
+[sub_resource type="Resource" id="Resource_hades_line_63"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_9"
+speaker_name = "Аид"
+text = "Не могу сказать, что не нравится. Но не могу сказать, что нравится."
+next_line_id = "opinion_poseidon_10"
+
+[sub_resource type="Resource" id="Resource_hades_line_64"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_10"
+speaker_name = "Лена"
+text = "У Посейдона действительно глаза горят."
+next_line_id = "opinion_poseidon_11"
+
+[sub_resource type="Resource" id="Resource_hades_line_65"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_11"
+speaker_name = "Аид"
+text = "Да."
+next_line_id = "opinion_poseidon_12"
+
+[sub_resource type="Resource" id="Resource_hades_line_66"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_12"
+speaker_name = "Аид"
+text = "И от этого он очень эффективен. Во всем, что делает."
+next_line_id = "opinion_poseidon_13"
+
+[sub_resource type="Resource" id="Resource_hades_line_67"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_13"
+speaker_name = "Аид"
+text = "Я пытался узнать механизм, но ничего внятного он мне не говорит."
+next_line_id = "opinion_poseidon_14"
+
+[sub_resource type="Resource" id="Resource_hades_line_68"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_14"
+speaker_name = "Аид"
+text = "Мне кажется, что и сам не понимает."
+next_line_id = "opinion_poseidon_15"
+
+[sub_resource type="Resource" id="Resource_hades_line_69"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_15"
+speaker_name = "Лена"
+text = "Почему для вас так важна эффективность?"
+next_line_id = "opinion_poseidon_16"
+
+[sub_resource type="Resource" id="Resource_hades_line_70"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_16"
+speaker_name = "Аид"
+text = "Потому что мне доверили работу, и я должен сделать ее максимально лучшим образом."
+next_line_id = "opinion_poseidon_17"
+
+[sub_resource type="Resource" id="Resource_hades_line_71"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_17"
+speaker_name = "Аид"
+text = "Какая еще нужна причина?"
+next_line_id = "opinion_poseidon_18"
+
+[sub_resource type="Resource" id="Resource_hades_line_72"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_18"
+speaker_name = "Лена"
+text = "Ну, не знаю. Что-то важное для вас."
+next_line_id = "opinion_poseidon_19"
+
+[sub_resource type="Resource" id="Resource_hades_line_73"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_19"
+speaker_name = "Аид"
+text = "Для меня важно хорошо выполнять мои обязанности."
+next_line_id = "opinion_poseidon_20"
+
+[sub_resource type="Resource" id="Resource_hades_line_74"]
+script = ExtResource("1_line")
+line_id = "opinion_poseidon_20"
+speaker_name = "Лена"
+text = "Да, но… Наверное, я сама не понимаю, что хочу спросить."
+next_line_id = "Hades_choices_1"
+
+[sub_resource type="Resource" id="Resource_hades_line_75"]
+script = ExtResource("1_line")
+line_id = "new_world_1"
+speaker_name = "Лена"
+text = "Как вам здесь?"
+next_line_id = "new_world_2"
+
+[sub_resource type="Resource" id="Resource_hades_line_76"]
+script = ExtResource("1_line")
+line_id = "new_world_2"
+speaker_name = "Аид"
+text = "Нормально, удобно. Спасибо."
+next_line_id = "new_world_3"
+
+[sub_resource type="Resource" id="Resource_hades_line_77"]
+script = ExtResource("1_line")
+line_id = "new_world_3"
+speaker_name = "Лена"
+text = "Да нет, я в смысле в этом мире."
+next_line_id = "new_world_4"
+
+[sub_resource type="Resource" id="Resource_hades_line_78"]
+script = ExtResource("1_line")
+line_id = "new_world_4"
+speaker_name = "Лена"
+text = "На плане фантазий."
+next_line_id = "new_world_5"
+
+[sub_resource type="Resource" id="Resource_hades_line_79"]
+script = ExtResource("1_line")
+line_id = "new_world_5"
+speaker_name = "Аид"
+text = "Не знаю, я не думал об этом."
+next_line_id = "new_world_6"
+
+[sub_resource type="Resource" id="Resource_hades_line_80"]
+script = ExtResource("1_line")
+line_id = "new_world_6"
+speaker_name = "Лена"
+text = "Может, подумаете сейчас?"
+next_line_id = "new_world_7"
+
+[sub_resource type="Resource" id="Resource_hades_line_81"]
+script = ExtResource("1_line")
+line_id = "new_world_7"
+speaker_name = "Аид"
+text = "Какой-то бессмысленный разговор."
+next_line_id = "new_world_8"
+
+[sub_resource type="Resource" id="Resource_hades_line_82"]
+script = ExtResource("1_line")
+line_id = "new_world_8"
+speaker_name = "Аид"
+text = "Какая разница?"
+next_line_id = "new_world_9"
+
+[sub_resource type="Resource" id="Resource_hades_line_83"]
+script = ExtResource("1_line")
+line_id = "new_world_9"
+speaker_name = "Лена"
+text = "Ну, мне интересно."
+next_line_id = "new_world_10"
+
+[sub_resource type="Resource" id="Resource_hades_line_84"]
+script = ExtResource("1_line")
+line_id = "new_world_10"
+speaker_name = "Аид"
+text = "Ну… Нормально."
+next_line_id = "new_world_11"
+
+[sub_resource type="Resource" id="Resource_hades_line_85"]
+script = ExtResource("1_line")
+line_id = "new_world_11"
+speaker_name = "Аид"
+text = "Что ты хочешь услышать?"
+next_line_id = "new_world_12"
+
+[sub_resource type="Resource" id="Resource_hades_line_86"]
+script = ExtResource("1_line")
+line_id = "new_world_12"
+speaker_name = "Аид"
+text = "Я работаю. Жизни прямо сейчас ничего не угрожает."
+next_line_id = "new_world_13"
+
+[sub_resource type="Resource" id="Resource_hades_line_87"]
+script = ExtResource("1_line")
+line_id = "new_world_13"
+speaker_name = "Лена"
+text = "Да, но что вы чувствуете в связи с этой ситуацией?"
+next_line_id = "new_world_14"
+
+[sub_resource type="Resource" id="Resource_hades_line_88"]
+script = ExtResource("1_line")
+line_id = "new_world_14"
+speaker_name = "Аид"
+text = "Что чувствую, что чувствую?"
+next_line_id = "new_world_15"
+
+[sub_resource type="Resource" id="Resource_hades_line_89"]
+script = ExtResource("1_line")
+line_id = "new_world_15"
+speaker_name = "Аид"
+text = "А как мне узнать, что я чувствую?"
+next_line_id = "new_world_16"
+
+[sub_resource type="Resource" id="Resource_hades_line_90"]
+script = ExtResource("1_line")
+line_id = "new_world_16"
+speaker_name = "Лена"
+text = "Ну, обычно это очевидно."
+next_line_id = "new_world_17"
+
+[sub_resource type="Resource" id="Resource_hades_line_91"]
+script = ExtResource("1_line")
+line_id = "new_world_17"
+speaker_name = "Аид"
+text = "Наверное. Но я не понимаю, как вы это делаете."
+next_line_id = "new_world_18"
+
+[sub_resource type="Resource" id="Resource_hades_line_92"]
+script = ExtResource("1_line")
+line_id = "new_world_18"
+speaker_name = "Лена"
+text = "Хм. Ну вот что вы чувствуете сейчас в своем теле?"
+next_line_id = "new_world_19"
+
+[sub_resource type="Resource" id="Resource_hades_line_93"]
+script = ExtResource("1_line")
+line_id = "new_world_19"
+speaker_name = "Аид"
+text = "Это какой-то очень странный вопрос."
+next_line_id = "new_world_20"
+
+[sub_resource type="Resource" id="Resource_hades_line_94"]
+script = ExtResource("1_line")
+line_id = "new_world_20"
+speaker_name = "Аид"
+text = "Чего ты вообще ко мне пристала?"
+next_line_id = "new_world_21"
+
+[sub_resource type="Resource" id="Resource_hades_line_95"]
+script = ExtResource("1_line")
+line_id = "new_world_21"
+speaker_name = "Лена"
+text = "Ах, простите, я, наверное, переборщила."
+next_line_id = "new_world_22"
+
+[sub_resource type="Resource" id="Resource_hades_line_96"]
+script = ExtResource("1_line")
+line_id = "new_world_22"
+speaker_name = "Лена"
+text = "Давайте вернемся к этому разговору в другой раз."
+next_line_id = "new_world_23"
+
+[sub_resource type="Resource" id="Resource_hades_line_97"]
+script = ExtResource("1_line")
+line_id = "new_world_23"
+speaker_name = "Аид"
+text = "Я бы предпочел не возвращаться."
+next_line_id = "new_world_24"
+
+[sub_resource type="Resource" id="Resource_hades_line_98"]
+script = ExtResource("1_line")
+line_id = "new_world_24"
+speaker_name = "Лена"
+text = "Посмотрим."
+next_line_id = "Hades_choices_1"
+
+[sub_resource type="Resource" id="Resource_hades_line_99"]
+script = ExtResource("1_line")
+line_id = "help_1"
+speaker_name = "Лена"
+text = "Ваша помощь неоценима."
+next_line_id = "help_2"
+
+[sub_resource type="Resource" id="Resource_hades_line_100"]
+script = ExtResource("1_line")
+line_id = "help_2"
+speaker_name = "Аид"
+text = "Рад слышать."
+next_line_id = "help_3"
+
+[sub_resource type="Resource" id="Resource_hades_line_101"]
+script = ExtResource("1_line")
+line_id = "help_3"
+speaker_name = "Лена"
+text = "Вы не против, если я задам вопрос?"
+next_line_id = "help_4"
+
+[sub_resource type="Resource" id="Resource_hades_line_102"]
+script = ExtResource("1_line")
+line_id = "help_4"
+speaker_name = "Аид"
+text = "Не думаю, что тебя остановит, если я буду против."
+next_line_id = "help_5"
+
+[sub_resource type="Resource" id="Resource_hades_line_103"]
+script = ExtResource("1_line")
+line_id = "help_5"
+speaker_name = "Лена"
+text = "Эм, ладно."
+next_line_id = "help_6"
+
+[sub_resource type="Resource" id="Resource_hades_line_104"]
+script = ExtResource("1_line")
+line_id = "help_6"
+speaker_name = "Лена"
+text = "Что с шлемом?"
+next_line_id = "help_7"
+
+[sub_resource type="Resource" id="Resource_hades_line_105"]
+script = ExtResource("1_line")
+line_id = "help_7"
+speaker_name = "Аид"
+text = "Что с ним? Вот он."
+next_line_id = "help_8"
+
+[sub_resource type="Resource" id="Resource_hades_line_106"]
+script = ExtResource("1_line")
+line_id = "help_8"
+speaker_name = "Лена"
+text = "Почему вы его не носите?"
+next_line_id = "help_9"
+
+[sub_resource type="Resource" id="Resource_hades_line_107"]
+script = ExtResource("1_line")
+line_id = "help_9"
+speaker_name = "Аид"
+text = "Ношу, он всегда со мной."
+next_line_id = "help_10"
+
+[sub_resource type="Resource" id="Resource_hades_line_108"]
+script = ExtResource("1_line")
+line_id = "help_10"
+speaker_name = "Лена"
+text = "Но не надеваете."
+next_line_id = "help_11"
+
+[sub_resource type="Resource" id="Resource_hades_line_109"]
+script = ExtResource("1_line")
+line_id = "help_11"
+speaker_name = "Аид"
+text = "Нет. От него ужасно шея болит."
+next_line_id = "help_12"
+
+[sub_resource type="Resource" id="Resource_hades_line_110"]
+script = ExtResource("1_line")
+line_id = "help_12"
+speaker_name = "Лена"
+text = "Вот как? А зачем вы его носите с собой?"
+next_line_id = "help_13"
+
+[sub_resource type="Resource" id="Resource_hades_line_111"]
+script = ExtResource("1_line")
+line_id = "help_13"
+speaker_name = "Аид"
+text = "Это символ. Нам с братьями достались дары, благодаря которым мы смогли закончить войну с титанами."
+next_line_id = "help_14"
+
+[sub_resource type="Resource" id="Resource_hades_line_112"]
+script = ExtResource("1_line")
+line_id = "help_14"
+speaker_name = "Аид"
+text = "Молния Зевса, трезубец Посейдона и шлем Аида."
+next_line_id = "help_15"
+
+[sub_resource type="Resource" id="Resource_hades_line_113"]
+script = ExtResource("1_line")
+line_id = "help_15"
+speaker_name = "Аид"
+text = "Я этот шлем никогда в бою не использовал, и он мне ничем не помогал."
+next_line_id = "help_16"
+
+[sub_resource type="Resource" id="Resource_hades_line_114"]
+script = ExtResource("1_line")
+line_id = "help_16"
+speaker_name = "Лена"
+text = "Но вы продолжаете его носить."
+next_line_id = "help_17"
+
+[sub_resource type="Resource" id="Resource_hades_line_115"]
+script = ExtResource("1_line")
+line_id = "help_17"
+speaker_name = "Аид"
+text = "Потому что это подарок и символ."
+next_line_id = "help_18"
+
+[sub_resource type="Resource" id="Resource_hades_line_116"]
+script = ExtResource("1_line")
+line_id = "help_18"
+speaker_name = "Лена"
+text = "Хотя он вам не удобен."
+next_line_id = "help_19"
+
+[sub_resource type="Resource" id="Resource_hades_line_117"]
+script = ExtResource("1_line")
+line_id = "help_19"
+speaker_name = "Аид"
+text = "Это мой долг."
+next_line_id = "Hades_choices_1"
+
+[sub_resource type="Resource" id="Resource_hades_line_118"]
+script = ExtResource("1_line")
+line_id = "chosen_world_1"
+speaker_name = "Лена"
+text = "Ну и как вам Ад?"
+next_line_id = "chosen_world_2"
+
+[sub_resource type="Resource" id="Resource_hades_line_119"]
+script = ExtResource("1_line")
+line_id = "chosen_world_2"
+speaker_name = "Аид"
+text = "Интересно."
+next_line_id = "chosen_world_3"
+
+[sub_resource type="Resource" id="Resource_hades_line_120"]
+script = ExtResource("1_line")
+line_id = "chosen_world_3"
+speaker_name = "Аид"
+text = "Красочно, но неэффективно."
+next_line_id = "chosen_world_4"
+
+[sub_resource type="Resource" id="Resource_hades_line_121"]
+script = ExtResource("1_line")
+line_id = "chosen_world_4"
+speaker_name = "Аид"
+text = "Большая часть огня прогорает впустую."
+next_line_id = "chosen_world_5"
+
+[sub_resource type="Resource" id="Resource_hades_line_122"]
+script = ExtResource("1_line")
+line_id = "chosen_world_5"
+speaker_name = "Аид"
+text = "В нем никто не горит."
+next_line_id = "chosen_world_6"
+
+[sub_resource type="Resource" id="Resource_hades_line_123"]
+script = ExtResource("1_line")
+line_id = "chosen_world_6"
+speaker_name = "Аид"
+text = "Организация путанная."
+next_line_id = "chosen_world_7"
+
+[sub_resource type="Resource" id="Resource_hades_line_124"]
+script = ExtResource("1_line")
+line_id = "chosen_world_7"
+speaker_name = "Аид"
+text = "Пытки непродуманные."
+next_line_id = "chosen_world_8"
+
+[sub_resource type="Resource" id="Resource_hades_line_125"]
+script = ExtResource("1_line")
+line_id = "chosen_world_8"
+speaker_name = "Аид"
+text = "Слабовато."
+next_line_id = "chosen_world_9"
+
+[sub_resource type="Resource" id="Resource_hades_line_126"]
+script = ExtResource("1_line")
+line_id = "chosen_world_9"
+speaker_name = "Лена"
+text = "Да уж. Не ожидала такое про ад услышать."
+next_line_id = "chosen_world_10"
+
+[sub_resource type="Resource" id="Resource_hades_line_127"]
+script = ExtResource("1_line")
+line_id = "chosen_world_10"
+speaker_name = "Аид"
+text = "Еще и полно каких-то моментов, у которых я вообще смысла не понимаю."
+next_line_id = "chosen_world_11"
+
+[sub_resource type="Resource" id="Resource_hades_line_128"]
+script = ExtResource("1_line")
+line_id = "chosen_world_11"
+speaker_name = "Аид"
+text = "Как будто организатору они просто нравились, и он их добавил, чтобы были."
+next_line_id = "chosen_world_12"
+
+[sub_resource type="Resource" id="Resource_hades_line_129"]
+script = ExtResource("1_line")
+line_id = "chosen_world_12"
+speaker_name = "Лена"
+text = "Ну, может, так и лучше."
+next_line_id = "chosen_world_13"
+
+[sub_resource type="Resource" id="Resource_hades_line_130"]
+script = ExtResource("1_line")
+line_id = "chosen_world_13"
+speaker_name = "Аид"
+text = "Что? Неэффективность?"
+next_line_id = "chosen_world_14"
+
+[sub_resource type="Resource" id="Resource_hades_line_131"]
+script = ExtResource("1_line")
+line_id = "chosen_world_14"
+speaker_name = "Лена"
+text = "Если она помогает руководителю."
+next_line_id = "chosen_world_15"
+
+[sub_resource type="Resource" id="Resource_hades_line_132"]
+script = ExtResource("1_line")
+line_id = "chosen_world_15"
+speaker_name = "Лена"
+text = "Находить мотивацию."
+next_line_id = "chosen_world_16"
+
+[sub_resource type="Resource" id="Resource_hades_line_133"]
+script = ExtResource("1_line")
+line_id = "chosen_world_16"
+speaker_name = "Аид"
+text = "Мотивация — вещь эфемерная."
+next_line_id = "chosen_world_17"
+
+[sub_resource type="Resource" id="Resource_hades_line_134"]
+script = ExtResource("1_line")
+line_id = "chosen_world_17"
+speaker_name = "Аид"
+text = "Не понимаю, как украшения на воротах могут помочь в работе."
+next_line_id = "chosen_world_18"
+
+[sub_resource type="Resource" id="Resource_hades_line_135"]
+script = ExtResource("1_line")
+line_id = "chosen_world_18"
+speaker_name = "Лена"
+text = "Ну, может, каждый раз, когда Сатана проходит через эти ворота, ему это немного сил придает."
+next_line_id = "chosen_world_19"
+
+[sub_resource type="Resource" id="Resource_hades_line_136"]
+script = ExtResource("1_line")
+line_id = "chosen_world_19"
+speaker_name = "Аид"
+text = "Сатана?"
+next_line_id = "chosen_world_20"
+
+[sub_resource type="Resource" id="Resource_hades_line_137"]
+script = ExtResource("1_line")
+line_id = "chosen_world_20"
+speaker_name = "Лена"
+text = "Это правитель ада."
+next_line_id = "chosen_world_21"
+
+[sub_resource type="Resource" id="Resource_hades_line_138"]
+script = ExtResource("1_line")
+line_id = "chosen_world_21"
+speaker_name = "Аид"
+text = "Вы знакомы?"
+next_line_id = "chosen_world_22"
+
+[sub_resource type="Resource" id="Resource_hades_line_139"]
+script = ExtResource("1_line")
+line_id = "chosen_world_22"
+speaker_name = "Лена"
+text = "Не напрямую… Там, откуда я, он вроде как знаменитость."
+next_line_id = "chosen_world_23"
+
+[sub_resource type="Resource" id="Resource_hades_line_140"]
+script = ExtResource("1_line")
+line_id = "chosen_world_23"
+speaker_name = "Аид"
+text = "И что? Считается, что он так уж хорошо адом управляет? Он уважаем?"
+next_line_id = "chosen_world_24"
+
+[sub_resource type="Resource" id="Resource_hades_line_141"]
+script = ExtResource("1_line")
+line_id = "chosen_world_24"
+speaker_name = "Лена"
+text = "Думаю, его скорее боятся."
+next_line_id = "chosen_world_25"
+
+[sub_resource type="Resource" id="Resource_hades_line_142"]
+script = ExtResource("1_line")
+line_id = "chosen_world_25"
+speaker_name = "Аид"
+text = "Понятно."
+next_line_id = "chosen_world_26"
+
+[sub_resource type="Resource" id="Resource_hades_line_143"]
+script = ExtResource("1_line")
+line_id = "chosen_world_26"
+speaker_name = "Аид"
+text = "Когда закончим здесь, отправляйся в Тартар."
+next_line_id = "chosen_world_27"
+
+[sub_resource type="Resource" id="Resource_hades_line_144"]
+script = ExtResource("1_line")
+line_id = "chosen_world_27"
+speaker_name = "Аид"
+text = "Покажу тебе, как может мир мертвых по-настоящему работать."
+next_line_id = "chosen_world_28"
+
+[sub_resource type="Resource" id="Resource_hades_line_145"]
+script = ExtResource("1_line")
+line_id = "chosen_world_28"
+speaker_name = "Лена"
+text = "Эм… Буду ждать с нетерпением."
+next_line_id = "Hades_choices_1"
+
+[resource]
+script = ExtResource("3_dialogue")
+dialogue_id = "hades_dialogue_1"
+dialogue_name = ""
+start_line_id = "intro_1"
+lines = Array[ExtResource("1_line")]([SubResource("Resource_hades_line_2"), SubResource("Resource_hades_line_3"), SubResource("Resource_hades_line_9"), SubResource("Resource_hades_line_10"), SubResource("Resource_hades_line_11"), SubResource("Resource_hades_line_12"), SubResource("Resource_hades_line_13"), SubResource("Resource_hades_line_14"), SubResource("Resource_hades_line_15"), SubResource("Resource_hades_line_16"), SubResource("Resource_hades_line_17"), SubResource("Resource_hades_line_18"), SubResource("Resource_hades_line_19"), SubResource("Resource_hades_line_20"), SubResource("Resource_hades_line_21"), SubResource("Resource_hades_line_22"), SubResource("Resource_hades_line_23"), SubResource("Resource_hades_line_24"), SubResource("Resource_hades_line_25"), SubResource("Resource_hades_line_26"), SubResource("Resource_hades_line_27"), SubResource("Resource_hades_line_28"), SubResource("Resource_hades_line_31"), SubResource("Resource_hades_line_32"), SubResource("Resource_hades_line_33"), SubResource("Resource_hades_line_34"), SubResource("Resource_hades_line_35"), SubResource("Resource_hades_line_36"), SubResource("Resource_hades_line_37"), SubResource("Resource_hades_line_38"), SubResource("Resource_hades_line_39"), SubResource("Resource_hades_line_40"), SubResource("Resource_hades_line_41"), SubResource("Resource_hades_line_42"), SubResource("Resource_hades_line_43"), SubResource("Resource_hades_line_44"), SubResource("Resource_hades_line_45"), SubResource("Resource_hades_line_46"), SubResource("Resource_hades_line_47"), SubResource("Resource_hades_line_48"), SubResource("Resource_hades_line_49"), SubResource("Resource_hades_line_50"), SubResource("Resource_hades_line_51"), SubResource("Resource_hades_line_52"), SubResource("Resource_hades_line_53"), SubResource("Resource_hades_line_54"), SubResource("Resource_hades_line_55"), SubResource("Resource_hades_line_56"), SubResource("Resource_hades_line_57"), SubResource("Resource_hades_line_58"), SubResource("Resource_hades_line_59"), SubResource("Resource_hades_line_60"), SubResource("Resource_hades_line_61"), SubResource("Resource_hades_line_62"), SubResource("Resource_hades_line_63"), SubResource("Resource_hades_line_64"), SubResource("Resource_hades_line_65"), SubResource("Resource_hades_line_66"), SubResource("Resource_hades_line_67"), SubResource("Resource_hades_line_68"), SubResource("Resource_hades_line_69"), SubResource("Resource_hades_line_70"), SubResource("Resource_hades_line_71"), SubResource("Resource_hades_line_72"), SubResource("Resource_hades_line_73"), SubResource("Resource_hades_line_74"), SubResource("Resource_hades_line_75"), SubResource("Resource_hades_line_76"), SubResource("Resource_hades_line_77"), SubResource("Resource_hades_line_78"), SubResource("Resource_hades_line_79"), SubResource("Resource_hades_line_80"), SubResource("Resource_hades_line_81"), SubResource("Resource_hades_line_82"), SubResource("Resource_hades_line_83"), SubResource("Resource_hades_line_84"), SubResource("Resource_hades_line_85"), SubResource("Resource_hades_line_86"), SubResource("Resource_hades_line_87"), SubResource("Resource_hades_line_88"), SubResource("Resource_hades_line_89"), SubResource("Resource_hades_line_90"), SubResource("Resource_hades_line_91"), SubResource("Resource_hades_line_92"), SubResource("Resource_hades_line_93"), SubResource("Resource_hades_line_94"), SubResource("Resource_hades_line_95"), SubResource("Resource_hades_line_96"), SubResource("Resource_hades_line_97"), SubResource("Resource_hades_line_98"), SubResource("Resource_hades_line_99"), SubResource("Resource_hades_line_100"), SubResource("Resource_hades_line_101"), SubResource("Resource_hades_line_102"), SubResource("Resource_hades_line_103"), SubResource("Resource_hades_line_104"), SubResource("Resource_hades_line_105"), SubResource("Resource_hades_line_106"), SubResource("Resource_hades_line_107"), SubResource("Resource_hades_line_108"), SubResource("Resource_hades_line_109"), SubResource("Resource_hades_line_110"), SubResource("Resource_hades_line_111"), SubResource("Resource_hades_line_112"), SubResource("Resource_hades_line_113"), SubResource("Resource_hades_line_114"), SubResource("Resource_hades_line_115"), SubResource("Resource_hades_line_116"), SubResource("Resource_hades_line_117"), SubResource("Resource_hades_line_118"), SubResource("Resource_hades_line_119"), SubResource("Resource_hades_line_120"), SubResource("Resource_hades_line_121"), SubResource("Resource_hades_line_122"), SubResource("Resource_hades_line_123"), SubResource("Resource_hades_line_124"), SubResource("Resource_hades_line_125"), SubResource("Resource_hades_line_126"), SubResource("Resource_hades_line_127"), SubResource("Resource_hades_line_128"), SubResource("Resource_hades_line_129"), SubResource("Resource_hades_line_130"), SubResource("Resource_hades_line_131"), SubResource("Resource_hades_line_132"), SubResource("Resource_hades_line_133"), SubResource("Resource_hades_line_134"), SubResource("Resource_hades_line_135"), SubResource("Resource_hades_line_136"), SubResource("Resource_hades_line_137"), SubResource("Resource_hades_line_138"), SubResource("Resource_hades_line_139"), SubResource("Resource_hades_line_140"), SubResource("Resource_hades_line_141"), SubResource("Resource_hades_line_142"), SubResource("Resource_hades_line_143"), SubResource("Resource_hades_line_144"), SubResource("Resource_hades_line_145")])

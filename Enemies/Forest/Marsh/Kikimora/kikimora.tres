@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://bqpn7xwxwr3uw"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://sfjr378gc3qk" path="res://Enemy_logic/kikimora_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Kikimora/bolotnaya_gryaz.tres" id="4_bg"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Kikimora/neotsenennaya_krasota.tres" id="5_nk"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Kikimora/gryaznye_kogti.tres" id="6_gk"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Кикимора"
+sprite_path = "res://Enemies/Forest/Marsh/Kikimora/Kikimora.png"
+face_sprite = "res://Enemies/Forest/Marsh/Kikimora/Kikimora_Face.png"
+battle_sprite_scale_percent = 84.0
+max_hp = 90
+damage = 22
+armor = 8
+initiative = 6
+accuracy = 80
+evasion = 20
+special_effect_type = "kikimora_extended_debuffs"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_bg"), ExtResource("5_nk"), ExtResource("6_gk")])
+ai_script = ExtResource("3_ai")

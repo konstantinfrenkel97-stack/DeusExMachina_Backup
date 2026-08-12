@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://kchdiso0001"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_do"]
+
+[resource]
+script = ExtResource("1_do")
+icon_path = "uid://bosm54ksuf02l"
+name = "Непослушание"
+majesty_gain = 10
+usable_from_positions = Array[bool]([true, true, false, false])
+targetable_positions = Array[bool]([true, true, false, false])
+ability_marker = "koschei_disobedience"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

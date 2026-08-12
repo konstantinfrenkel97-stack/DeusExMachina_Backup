@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://dhu60lorc3315"]
+
+[ext_resource type="Script" uid="uid://duxmlxlrdbjl8" path="res://combatant_visual.gd" id="1_6tdbk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6tdbk"]
+bg_color = Color(0.47843137, 0.02745098, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_click"]
+size = Vector2(120, 120)
+
+[node name="CombatantVisual" type="Area2D" unique_id=1910668629]
+script = ExtResource("1_6tdbk")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1750647768]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1029384756]
+shape = SubResource("RectangleShape2D_click")
+
+[node name="HPBar" type="ProgressBar" parent="." unique_id=1272526005]
+z_index = 10
+custom_minimum_size = Vector2(160, 16)
+offset_left = -80.0
+offset_top = -120.0
+offset_right = 80.0
+offset_bottom = -104.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_6tdbk")
+show_percentage = false
+
+[node name="HPLabel" type="Label" parent="." unique_id=227515489]
+z_index = 10
+offset_left = -80.0
+offset_top = -120.0
+offset_right = 80.0
+offset_bottom = -104.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NameLabel" type="Label" parent="." unique_id=787735012]
+z_index = 10
+offset_left = -80.0
+offset_top = -140.0
+offset_right = 80.0
+offset_bottom = -120.0
+horizontal_alignment = 1

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://24uwmv5i3use"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_lc6qv"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_p1uyj"]
+[ext_resource type="Script" uid="uid://unn86yr4n88u" path="res://Enemy_logic/draugr_raider_logic.gd" id="3_ai"]
+[ext_resource type="Resource" uid="uid://bj30b3qjp0alc" path="res://Enemies/Dungeon/Hellheim/Draugr_raider/double_strike.tres" id="4_ds"]
+[ext_resource type="Resource" uid="uid://cjy1ex2b3l2na" path="res://Enemies/Dungeon/Hellheim/Draugr_raider/crippling_strike.tres" id="5_cs"]
+[ext_resource type="Resource" uid="uid://cponra7fe1w33" path="res://Enemies/Dungeon/Hellheim/Draugr_raider/axe_through.tres" id="6_at"]
+
+[resource]
+script = ExtResource("2_p1uyj")
+unit_name = "Драугр налетчик"
+sprite_path = "res://Enemies/Dungeon/Hellheim/Draugr_raider/Драугр Налетчик.png"
+face_sprite = "res://Enemies/Dungeon/Hellheim/Draugr_raider/Драугр Налетчик_Face.png"
+battle_sprite_scale_percent = 93.0
+max_hp = 60
+armor = 15
+initiative = 4
+evasion = 15
+crit_chance = 0.25
+special_effect_type = "draugr_raider"
+active_abilities = Array[ExtResource("1_lc6qv")]([ExtResource("4_ds"), ExtResource("5_cs"), ExtResource("6_at")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

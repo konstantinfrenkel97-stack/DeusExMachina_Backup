@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://d2ito8l7pabxp"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://b4ew2lf7vdbaj" path="res://Enemy_logic/jotun_logic.gd" id="3_ai"]
+[ext_resource type="Resource" uid="uid://cyyo0set63wdh" path="res://Enemies/Dungeon/Hellheim/Jotun/winter_breath.tres" id="4_wb"]
+[ext_resource type="Resource" uid="uid://bl7f63kqbuphx" path="res://Enemies/Dungeon/Hellheim/Jotun/jotun_might.tres" id="5_jm"]
+[ext_resource type="Resource" uid="uid://t7bfxsljpxm6" path="res://Enemies/Dungeon/Hellheim/Jotun/immovable_iceberg.tres" id="6_ia"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Йотун"
+sprite_path = "res://Enemies/Dungeon/Hellheim/Jotun/Йотун.png"
+face_sprite = "res://Enemies/Dungeon/Hellheim/Jotun/Йотун_Face.png"
+battle_sprite_scale_percent = 154.0
+max_hp = 120
+armor = 25
+special_effect_type = "jotun_fog"
+is_large = true
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_wb"), ExtResource("5_jm"), ExtResource("6_ia")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

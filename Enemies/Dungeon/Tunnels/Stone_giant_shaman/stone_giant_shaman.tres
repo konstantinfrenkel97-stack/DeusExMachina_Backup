@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://2bgyqf10hpyj"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Resource" uid="uid://26gmddrugrpp" path="res://Enemies/Dungeon/Tunnels/Stone_giant_shaman/stone_wall.tres" id="3_sw"]
+[ext_resource type="Resource" uid="uid://bn3yhsl6agfww" path="res://Enemies/Dungeon/Tunnels/Stone_giant_shaman/earthquake.tres" id="4_eq"]
+[ext_resource type="Resource" uid="uid://do3yehyfqv5a" path="res://Enemies/Dungeon/Tunnels/Stone_giant_shaman/stone_fist.tres" id="5_sf"]
+[ext_resource type="Script" uid="uid://csaabod27desn" path="res://Enemy_logic/stone_giant_shaman_logic.gd" id="6_ai"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Каменный великан шаман"
+sprite_path = "res://Enemies/Dungeon/Tunnels/Stone_giant_shaman/Stone_Giant_Shaman.png"
+face_sprite = "res://Enemies/Dungeon/Tunnels/Stone_giant_shaman/Stone_Giant_Shaman_Face.png"
+max_hp = 60
+damage = 5
+armor = 6
+initiative = 6
+accuracy = 80
+special_effect_type = "shaman_no_move_armor"
+is_large = true
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("3_sw"), ExtResource("4_eq"), ExtResource("5_sf")])
+ai_script = ExtResource("6_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://xiafh3xq2xpn"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Peaks/Oni_warrior/oni_crush_bones.tres" id="2_cb"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Peaks/Oni_warrior/oni_head_blow.tres" id="3_hb"]
+[ext_resource type="Script" uid="uid://q3wag66gw6b0" path="res://Enemy_logic/oni_warrior_logic.gd" id="4_ai"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="5_cr"]
+
+[resource]
+script = ExtResource("5_cr")
+unit_name = "Синий Они"
+sprite_path = "res://Enemies/Sky/Peaks/Oni_warrior/Blue_oni.png"
+face_sprite = "res://Enemies/Sky/Peaks/Oni_warrior/Blue_oni_face.png"
+battle_sprite_scale_percent = 130.0
+max_hp = 70
+damage = 25
+armor = 10
+initiative = 6
+accuracy = 85
+special_effect_type = "oni_rage"
+is_large = true
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_cb"), ExtResource("3_hb"), null])
+ai_script = ExtResource("4_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

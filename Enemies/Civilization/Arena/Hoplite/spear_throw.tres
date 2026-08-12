@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Бросок копья"
+description = "1.2 урона по задним позициям."
+damage_modifier = 1.2
+majesty_gain = 0
+ability_marker = "hoplite_spear_throw"
+target_type = "Enemy"
+usable_from_positions = Array[bool]([false, false, true, true])
+targetable_positions = Array[bool]([false, false, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://bpx2ejvwnq27y"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+icon_path = "uid://c4ulupqi0bbqo"
+name = "Последняя битва"
+description = "Снимает все баффы с союзников. За каждый бафф они получают 7 урона до конца боя. Также снимает все баффы с противников."
+damage_modifier = 0.0
+majesty_gain = 30
+target_type = "All_Allies"
+usable_from_positions = Array[bool]([true, false, false, false])
+ability_marker = "odin_last_battle"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

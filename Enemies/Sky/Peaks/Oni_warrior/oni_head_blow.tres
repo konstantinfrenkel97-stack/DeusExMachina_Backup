@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "По голове"
+damage_modifier = 0.7
+majesty_gain = 0
+ability_marker = "oni_head_blow"
+usable_from_positions = Array[bool]([false, false, true, true])
+targetable_positions = Array[bool]([true, true, true, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

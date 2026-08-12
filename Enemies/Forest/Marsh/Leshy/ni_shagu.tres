@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Ни шагу"
+description = "Цель не может передвигаться на 1 ход."
+damage_modifier = 1.0
+majesty_gain = 0
+target_type = "Enemy"
+effect_types = Array[String](["target_root"])
+effect_values = Dictionary[String, int]({"target_root": 1})
+effect_durations = Dictionary[String, int]({"target_root": 1})
+usable_from_positions = Array[bool]([true, true, true, true])
+targetable_positions = Array[bool]([true, true, true, true])

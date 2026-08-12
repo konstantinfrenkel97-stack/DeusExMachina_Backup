@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://sirngntcl001"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_gc"]
+
+[resource]
+script = ExtResource("1_gc")
+name = "Ласковый зов"
+damage_modifier = 0.8
+majesty_gain = 0
+effect_types = Array[String](["pull_forward", "target_debuff_accuracy"])
+effect_values = Dictionary[String, int]({
+"pull_forward": 2,
+"target_debuff_accuracy": 20
+})
+effect_durations = Dictionary[String, int]({
+"pull_forward": 0,
+"target_debuff_accuracy": 3
+})
+usable_from_positions = Array[bool]([false, true, true, true])
+targetable_positions = Array[bool]([false, false, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

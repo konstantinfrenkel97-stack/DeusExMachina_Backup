@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://nsnl4n58xu10"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_jme5v"]
+
+[resource]
+script = ExtResource("1_jme5v")
+name = "Пламя горнила"
+damage_modifier = 0.3
+majesty_gain = 0
+extra_targets_count = 2
+effect_types = Array[String](["periodic_damage", "self_push_back"])
+effect_values = Dictionary[String, int]({
+"periodic_damage": 15,
+"self_push_back": 1
+})
+effect_durations = Dictionary[String, int]({
+"periodic_damage": 2
+})
+usable_from_positions = Array[bool]([true, false, false, false])
+targetable_positions = Array[bool]([true, true, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://0sdktm8y3jae"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://dkuhrnjuc6scx" path="res://Enemy_logic/troll_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Troll/dat_v_zhban.tres" id="4_dv"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Troll/trolli_ne_umirayut.tres" id="5_tn"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Тролль"
+sprite_path = "res://Enemies/Forest/Marsh/Troll/Troll.png"
+face_sprite = "res://Enemies/Forest/Marsh/Troll/Troll_Face.png"
+battle_sprite_scale_percent = 60.0
+max_hp = 160
+damage = 28
+armor = 15
+initiative = 6
+accuracy = 80
+evasion = 5
+crit_chance = 0.15
+special_effect_type = "troll_self_stun_on_no_damage"
+is_large = true
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_dv"), ExtResource("5_tn")])
+ai_script = ExtResource("3_ai")

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://b3jkkyw5dvodp"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Resource" uid="uid://dunxppyh7rbgt" path="res://Enemies/Dungeon/Tunnels/Dwarf_smith/smith.tres" id="2_v3ext"]
+[ext_resource type="Resource" uid="uid://7yqqc44keeg5" path="res://Enemies/Dungeon/Tunnels/Dwarf_smith/upgrade.tres" id="3_eja7r"]
+[ext_resource type="Resource" uid="uid://nsnl4n58xu10" path="res://Enemies/Dungeon/Tunnels/Dwarf_smith/forge_flame.tres" id="4_bsy57"]
+[ext_resource type="Script" uid="uid://b1lgt60xmy7n0" path="res://Enemy_logic/dwarf_smith_logic.gd" id="5_ai"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Гном кузнец"
+sprite_path = "res://Enemies/Dungeon/Tunnels/Dwarf_smith/Dwarf_smith.png"
+face_sprite = "res://Enemies/Dungeon/Tunnels/Dwarf_smith/Dwarth_Smith_Face.png"
+max_hp = 45
+damage = 6
+armor = 8
+initiative = 5
+accuracy = 80
+evasion = 5
+special_effect_type = "dwarf_smith_ally_buff"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_v3ext"), ExtResource("3_eja7r"), ExtResource("4_bsy57")])
+ai_script = ExtResource("5_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

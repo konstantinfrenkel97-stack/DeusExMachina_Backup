@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://uoq22rhxf1my"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_7yjyw"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Utoplennitsa/vnis.tres" id="2_jay8s"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Utoplennitsa/sredi_vod.tres" id="3_2ylu4"]
+[ext_resource type="Script" uid="uid://d1klnem2p8ra8" path="res://Enemy_logic/utoplennitsa_logic.gd" id="4_uh7rh"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="5_a7wqx"]
+
+[resource]
+script = ExtResource("5_a7wqx")
+unit_name = "Утопленница"
+sprite_path = "res://Enemies/Forest/Marsh/Utoplennitsa/Utoplennitsa.png"
+face_sprite = "res://Enemies/Forest/Marsh/Utoplennitsa/Utoplennitsa_Face.png"
+battle_sprite_scale_percent = 85.0
+max_hp = 70
+damage = 18
+initiative = 8
+accuracy = 85
+evasion = 15
+special_effect_type = "utoplennitsa_location_amplify"
+active_abilities = Array[ExtResource("1_7yjyw")]([ExtResource("2_jay8s"), ExtResource("3_2ylu4")])
+ai_script = ExtResource("4_uh7rh")

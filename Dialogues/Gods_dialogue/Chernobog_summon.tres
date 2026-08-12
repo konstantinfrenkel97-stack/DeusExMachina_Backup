@@ -1,0 +1,94 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://dx0jex5h5ujjo"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_n1l0t"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_awj5w"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_v35kt"]
+
+[sub_resource type="Resource" id="Resource_ot534"]
+script = ExtResource("1_n1l0t")
+speaker_name = "Лена"
+text = "Киияааааа! Я призвала монстра!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_j6que"]
+script = ExtResource("1_n1l0t")
+speaker_name = "Чернобог"
+text = "СТОЙ..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_m4lgs"]
+script = ExtResource("1_n1l0t")
+speaker_name = "Чернобог"
+text = "Я НЕ МОНСТР... Я БОГ..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_h452l"]
+script = ExtResource("1_n1l0t")
+speaker_name = "Лена"
+text = "Вы. Неужели?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_8m18j"]
+script = ExtResource("1_n1l0t")
+speaker_name = "Чернобог"
+text = "ЧЕРНОБОГ..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_g45ad"]
+script = ExtResource("1_n1l0t")
+speaker_name = "Лена"
+text = "Вы действительно бог, но вы ведь покровитель всего зла славянской мифологии, я не уверена что мне стоит…"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_745v5"]
+script = ExtResource("1_n1l0t")
+speaker_name = "Чернобог"
+text = "ЗАЧЕМ... Я ЗДЕСЬ..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_w5akg"]
+script = ExtResource("1_n1l0t")
+speaker_name = "Лена"
+text = "Меня окружила орда чудовищ, и я хотела призвать того, кто сможет с ними разобраться."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_bcjb4"]
+script = ExtResource("1_n1l0t")
+speaker_name = "Лена"
+text = "Но послушайте, я не думаю что нам с вами…"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_7sw0b"]
+script = ExtResource("1_n1l0t")
+speaker_name = "Чернобог"
+text = "ХОЧЕШЬ УБИВАТЬ..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_mxlpx"]
+script = ExtResource("1_n1l0t")
+speaker_name = "Чернобог"
+text = "БУДУ УБИВАТЬ..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_m4oxi"]
+script = ExtResource("1_n1l0t")
+speaker_name = "Лена"
+text = "Нет, постойте!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_syuv7"]
+script = ExtResource("1_n1l0t")
+speaker_name = "Чернобог"
+text = "УБИВАТЬ..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_7smcg"]
+script = ExtResource("1_n1l0t")
+speaker_name = "Лена"
+text = "Да постойте же! Дайте я хоть покажу вам где враги!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_v35kt")
+lines = Array[ExtResource("1_n1l0t")]([SubResource("Resource_ot534"), SubResource("Resource_j6que"), SubResource("Resource_m4lgs"), SubResource("Resource_h452l"), SubResource("Resource_8m18j"), SubResource("Resource_g45ad"), SubResource("Resource_745v5"), SubResource("Resource_w5akg"), SubResource("Resource_bcjb4"), SubResource("Resource_7sw0b"), SubResource("Resource_mxlpx"), SubResource("Resource_m4oxi"), SubResource("Resource_syuv7"), SubResource("Resource_7smcg")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

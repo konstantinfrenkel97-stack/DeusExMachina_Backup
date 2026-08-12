@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bgev8pj6555rp"]
+
+[ext_resource type="Script" uid="uid://d2wyhbslkpdmp" path="res://unit_display.gd" id="1_wabem"]
+
+[node name="UnitDisplay" type="Node2D" unique_id=80267882]
+
+[node name="Button" type="Button" parent="." unique_id=1875934185]
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="Sprite2D" type="Sprite2D" parent="Button" unique_id=474023018]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Button/Sprite2D" unique_id=1089167660]
+script = ExtResource("1_wabem")

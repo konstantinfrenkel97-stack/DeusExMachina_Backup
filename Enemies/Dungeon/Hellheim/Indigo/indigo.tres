@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://doi55l0w0gx66"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://kulff4aic7td" path="res://Enemy_logic/indigo_logic.gd" id="3_ai"]
+[ext_resource type="Resource" uid="uid://dymphk6fkiayf" path="res://Enemies/Dungeon/Hellheim/Indigo/hunt.tres" id="4_ht"]
+[ext_resource type="Resource" uid="uid://bclcvmluq3jv0" path="res://Enemies/Dungeon/Hellheim/Indigo/tear.tres" id="5_tr"]
+[ext_resource type="Resource" uid="uid://snskxmsr4xtn" path="res://Enemies/Dungeon/Hellheim/Indigo/take_trail.tres" id="6_tt"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Индиго"
+sprite_path = "res://Enemies/Dungeon/Hellheim/Indigo/Виндиго_nobg.png"
+face_sprite = "res://Enemies/Dungeon/Hellheim/Indigo/Виндиго_Face.png"
+battle_sprite_scale_percent = 92.0
+special_effect_type = "indigo_fog_evasion"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_ht"), ExtResource("5_tr"), ExtResource("6_tt")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://cc1h72p42isqo"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Resource" uid="uid://dosbsyfibg30o" path="res://Enemies/Dungeon/Tunnels/Kobold/Pike_strike.tres" id="2_2fn6c"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Resource" uid="uid://cmdpmsa0klehp" path="res://Enemies/Dungeon/Tunnels/Kobold/dig_tunnels.tres" id="3_ktb0c"]
+[ext_resource type="Script" uid="uid://dl6s68shrvvb4" path="res://Enemy_logic/kobold_logic.gd" id="4_ai"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Кобольд"
+sprite_path = "res://Enemies/Dungeon/Tunnels/Kobold/Kobold.png"
+face_sprite = "res://Enemies/Dungeon/Tunnels/Kobold/Kobold_Face.png"
+battle_sprite_scale_percent = 80.0
+max_hp = 25
+damage = 6
+armor = 0
+initiative = 9
+accuracy = 80
+evasion = 30
+crit_chance = 0.1
+special_effect_type = "kobold_hp_advantage"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_2fn6c"), ExtResource("3_ktb0c")])
+ai_script = ExtResource("4_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

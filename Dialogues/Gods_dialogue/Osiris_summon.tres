@@ -1,0 +1,124 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://c3rixdgn2jjee"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_8e1aw"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_35w0a"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_pc66q"]
+
+[sub_resource type="Resource" id="Resource_obfi7"]
+script = ExtResource("1_8e1aw")
+speaker_name = "Лена"
+text = "Власть плюс Власть – надеюсь я не призову кого=то... Не буду думать об этом."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ud448"]
+script = ExtResource("1_8e1aw")
+text = "......."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_88ed4"]
+script = ExtResource("1_8e1aw")
+speaker_name = "Лена"
+text = "Осирис! Ох отлично.
+Царь египта и бог отец."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_47t2a"]
+script = ExtResource("1_8e1aw")
+speaker_name = "Осирис"
+text = "Что с тобой, дева? Как-то ты странно выглядишь."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_7d5f8"]
+script = ExtResource("1_8e1aw")
+speaker_name = "Лена"
+text = "Я просто боялась что призову, ну знаешь того самого. А это вы..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_fr0n2"]
+script = ExtResource("1_8e1aw")
+speaker_name = "Осирис"
+text = "Какая дерзость! Я и есть \"тот самый\"!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_n6qqc"]
+script = ExtResource("1_8e1aw")
+speaker_name = "Осирис"
+text = "Бог богов! Царь царей!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_70xfi"]
+script = ExtResource("1_8e1aw")
+speaker_name = "Осирис"
+text = "Владыка бескрайних земель египетских!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_x8g0d"]
+script = ExtResource("1_8e1aw")
+speaker_name = "Лена"
+text = "Да, я…"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ak6xv"]
+script = ExtResource("1_8e1aw")
+speaker_name = "Лена"
+text = "Очень благодарна и рада что появились именно вы."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_onuxi"]
+script = ExtResource("1_8e1aw")
+speaker_name = "Лена"
+text = "Надеюсь вы мне поможете, я пытаюсь одолеть орду чудовищ."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_tuq77"]
+script = ExtResource("1_8e1aw")
+speaker_name = "Осирис"
+text = "Но это странно. Я помню гроб..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_xscjr"]
+script = ExtResource("1_8e1aw")
+speaker_name = "Осирис"
+text = "Мой народ. Мой сын."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_vp3fu"]
+script = ExtResource("1_8e1aw")
+speaker_name = "Осирис"
+text = "Я подвел их всех..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_eaphy"]
+script = ExtResource("1_8e1aw")
+speaker_name = "Лена"
+text = "Мне... Жаль..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_rma54"]
+script = ExtResource("1_8e1aw")
+speaker_name = "Осирис"
+text = "Хмм, река судьбы иногда делает неожиданные повороты."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_35w0a"]
+script = ExtResource("1_8e1aw")
+speaker_name = "Осирис"
+text = "Ну ладно же. Раз оказался в этом странном месте, может я смогу искупить ошибки прошлого."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_pc66q"]
+script = ExtResource("1_8e1aw")
+speaker_name = "Осирис"
+text = "Возрадуйся дева, ибо величайший из богов одарил тебя своей бесконечной мощью!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_184ne"]
+script = ExtResource("1_8e1aw")
+speaker_name = "Лена"
+text = "Урааааааааааа!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_35w0a")
+lines = Array[ExtResource("1_8e1aw")]([SubResource("Resource_obfi7"), SubResource("Resource_ud448"), SubResource("Resource_88ed4"), SubResource("Resource_47t2a"), SubResource("Resource_7d5f8"), SubResource("Resource_fr0n2"), SubResource("Resource_n6qqc"), SubResource("Resource_70xfi"), SubResource("Resource_x8g0d"), SubResource("Resource_ak6xv"), SubResource("Resource_onuxi"), SubResource("Resource_tuq77"), SubResource("Resource_xscjr"), SubResource("Resource_vp3fu"), SubResource("Resource_eaphy"), SubResource("Resource_rma54"), SubResource("Resource_35w0a"), SubResource("Resource_pc66q"), SubResource("Resource_184ne")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://dglwthfn1sv1d"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_8e1mf"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_4ahni"]
+[ext_resource type="Script" uid="uid://koui2fl863s4" path="res://Enemy_logic/golden_valkyrie_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Clouds/Golden Valkerie/dawn_blade.tres" id="4_a1"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Clouds/Golden Valkerie/sun_ray.tres" id="5_a2"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Clouds/Golden Valkerie/warrior_of_day.tres" id="6_a3"]
+
+[resource]
+script = ExtResource("2_4ahni")
+unit_name = "Золотая валькирия"
+sprite_path = "res://Enemies/Sky/Clouds/Golden Valkerie/Золотая валькирия.png"
+face_sprite = "res://Enemies/Sky/Clouds/Golden Valkerie/Золотая валькирия_Face.png"
+battle_sprite_scale_percent = 126.0
+max_hp = 60
+damage = 14
+initiative = 6
+evasion = 15
+crit_chance = 0.1
+special_effect_type = "golden_valkyrie"
+active_abilities = Array[ExtResource("1_8e1mf")]([ExtResource("4_a1"), ExtResource("5_a2"), ExtResource("6_a3")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

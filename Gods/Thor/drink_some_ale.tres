@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://ccgbm2o4tw5ko"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_7unyo"]
+
+[resource]
+script = ExtResource("1_7unyo")
+icon_path = "uid://dgivgrvur2jq"
+name = "Испить эля"
+damage_modifier = 0.0
+majesty_gain = 0
+majesty_cost = 50
+target_type = "Self"
+effect_types = Array[String](["self_heal_percent", "self_dispel_debuffs"])
+effect_values = Dictionary[String, int]({
+"self_heal_percent": 30
+})
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

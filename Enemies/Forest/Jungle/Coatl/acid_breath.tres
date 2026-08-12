@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Кислотное дыхание"
+description = "0,3 урона. Цель + 2 позади. Цели получают периодический урон 0,2 и теряют 10 брони на 2 хода."
+damage_modifier = 0.3
+majesty_gain = 0
+target_type = "Enemy"
+extra_targets_count = 2
+ability_marker = "coatl_acid_breath"
+usable_from_positions = Array[bool]([true, true, false, false])
+targetable_positions = Array[bool]([true, true, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

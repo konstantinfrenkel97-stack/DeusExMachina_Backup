@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://btafag12hqpii"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Быстрый как молния"
+description = "Стойка. Получает +3 уклонения за каждую единицу разницы в инициативе между собой и атакующим. В начале следующего хода +1 инициатива навсегда."
+damage_modifier = 0.0
+majesty_gain = 0
+target_type = "Self"
+targetable_positions = Array[bool]([false, false, false, false])
+stance_duration_type = "UntilNextTurn"
+is_stance = true
+stance_effect_type = "kirin_lightning_dodge"
+ability_marker = "kirin_lightning_fast"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

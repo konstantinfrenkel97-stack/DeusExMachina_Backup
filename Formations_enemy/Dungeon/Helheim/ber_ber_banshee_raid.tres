@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FormationResource" format=3 uid="uid://cg4xsnryyd14m"]
+
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="1_enmks"]
+[ext_resource type="Resource" uid="uid://c0q5dvj3e8f6w" path="res://Enemies/Dungeon/Hellheim/Draugr_Berserk/draugr_berserk.tres" id="1_kpbii"]
+[ext_resource type="Resource" uid="uid://djml03da18pxx" path="res://Enemies/Dungeon/Hellheim/Banshee/banshee.tres" id="2_xxoqe"]
+[ext_resource type="Resource" uid="uid://24uwmv5i3use" path="res://Enemies/Dungeon/Hellheim/Draugr_raider/Draugr_raider.tres" id="3_ab74c"]
+
+[resource]
+script = ExtResource("1_enmks")
+formation_name = "Берсерк_Берсерк_Юанши_Рейдер"
+pos1 = ExtResource("1_kpbii")
+pos2 = ExtResource("1_kpbii")
+pos3 = ExtResource("2_xxoqe")
+pos4 = ExtResource("3_ab74c")
+metadata/_custom_type_script = "uid://c50het7soanc1"

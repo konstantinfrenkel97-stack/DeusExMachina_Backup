@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Адская гильотина"
+description = "Марка. В начале следующего хода дьявола марка пропадёт: цель получит 1,0 урона и 0,5 уровней забытья."
+damage_modifier = 0.0
+majesty_gain = 0
+target_type = "Enemy"
+ability_marker = "devil_guillotine"
+mark_type_int = 1
+mark_position = 0
+mark_target_team = "enemy"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

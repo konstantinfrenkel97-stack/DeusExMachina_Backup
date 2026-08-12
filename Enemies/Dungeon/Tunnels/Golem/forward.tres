@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://clbs4qglx3kfx"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_0rs53"]
+
+[resource]
+script = ExtResource("1_0rs53")
+name = "Вперёд"
+damage_modifier = 0.0
+majesty_gain = 0
+target_type = "Self"
+effect_types = Array[String](["self_pull_forward"])
+effect_values = Dictionary[String, int]({
+"self_pull_forward": 1
+})
+usable_from_positions = Array[bool]([false, false, true, true])
+targetable_positions = Array[bool]([false, false, false, false])
+ability_marker = "golem_forward"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

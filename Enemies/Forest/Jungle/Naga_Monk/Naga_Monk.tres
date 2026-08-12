@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://b351xa8sso0qp"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://dl1v233wi8qka" path="res://Enemy_logic/naga_monk_logic.gd" id="2_ai"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Jungle/Naga_Monk/guidance.tres" id="3_a1"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Jungle/Naga_Monk/karma_punish.tres" id="4_a2"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Jungle/Naga_Monk/universe.tres" id="5_a3"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="6_cr"]
+
+[resource]
+script = ExtResource("6_cr")
+unit_name = "Нага монах"
+sprite_path = "res://Enemies/Forest/Jungle/Naga_Monk/Naga_monk.png"
+face_sprite = "res://Enemies/Forest/Jungle/Naga_Monk/Naga_monk_Face.png"
+max_hp = 70
+damage = 10
+initiative = 9
+special_effect_type = "naga_monk_buff_duration"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("3_a1"), ExtResource("4_a2"), ExtResource("5_a3")])
+ai_script = ExtResource("2_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

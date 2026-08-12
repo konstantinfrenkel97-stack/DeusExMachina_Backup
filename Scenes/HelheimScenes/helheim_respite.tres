@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+
+[sub_resource type="Resource" id="out_heal"]
+script = ExtResource("outcome_script")
+result_text = "Вы используете отведенное время чтобы подлечить раны полученные в сражениях до этого. Боль отступает, возвращаются силы. Все боги восстанавливают 10% здоровья."
+hero_heal_percent = 10
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_strategy"]
+script = ExtResource("outcome_script")
+result_text = "Вы используете отведенное время, чтобы обсудить возможные комбинации, хитрости и стратегию. К следующей битве вы подходите более подготовленными. Враги даже не предполагают что их ждет. Вы получаете 15 очков фантазии."
+fantasy_delta = 15
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_experience"]
+script = ExtResource("outcome_script")
+result_text = "Вы используете отведенное время, чтобы перевести дух. Пока боги отдыхают, они рассказывают друг другу о великих сражениях через которые прошли. Воспоминания и обмен опытом, приподняли боевой дух и укрепили связь между богами. Все боги получают 10 величия."
+hero_majesty_delta = 10
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_heal"]
+script = ExtResource("choice_script")
+choice_text = "Подлатать раны"
+outcome = SubResource("out_heal")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_strategy"]
+script = ExtResource("choice_script")
+choice_text = "Продумать стратегию"
+outcome = SubResource("out_strategy")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_experience"]
+script = ExtResource("choice_script")
+choice_text = "Поделиться опытом"
+outcome = SubResource("out_experience")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Передышка"
+body_text = "Вам попадается кусок свободного пространства.\n\nПо близости нет врагов, и похоже у вас есть редкая возможность перевести дух."
+choices = [SubResource("choice_heal"), SubResource("choice_strategy"), SubResource("choice_experience")]

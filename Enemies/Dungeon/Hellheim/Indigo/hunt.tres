@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://dymphk6fkiayf"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ht"]
+
+[resource]
+script = ExtResource("1_ht")
+name = "Охота"
+damage_modifier = 1.5
+majesty_gain = 0
+effect_types = Array[String](["self_push_back"])
+effect_values = Dictionary[String, int]({
+"self_push_back": 1
+})
+usable_from_positions = Array[bool]([true, true, true, true])
+targetable_positions = Array[bool]([false, true, true, false])
+is_stance = true
+stance_duration_type = "UntilNextTurn"
+stance_effect_type = "indigo_hunt_stance"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

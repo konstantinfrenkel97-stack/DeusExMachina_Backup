@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://cunm7l50rhpj7"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_0n71b"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_osbk1"]
+[ext_resource type="Resource" uid="uid://bcy1tx26cryf8" path="res://Gods/Chernobog/chernobog_ab1.tres" id="3_a"]
+[ext_resource type="Resource" uid="uid://ckpxa6j51rmuj" path="res://Gods/Chernobog/chernobog_ab2.tres" id="4_b"]
+[ext_resource type="Resource" uid="uid://b4muk03kncl1h" path="res://Gods/Chernobog/chernobog_ab3.tres" id="5_c"]
+[ext_resource type="Resource" uid="uid://efg6s76xgy8s" path="res://Gods/Chernobog/chernobog_ab4.tres" id="6_d"]
+[ext_resource type="Resource" uid="uid://rpabwylhehfc" path="res://Gods/Chernobog/chernobog_ab5.tres" id="7_e"]
+
+[resource]
+script = ExtResource("2_osbk1")
+unit_name = "Чернобог"
+sprite_path = "res://Gods/Chernobog/Chernobog.png"
+face_sprite = "res://Gods/Chernobog/Chernobog_face.png"
+battle_sprite_scale_percent = 132.0
+max_hp = 170
+initiative = 5
+is_enemy = false
+special_effect_type = "chernobog_uncurseable"
+active_abilities = Array[ExtResource("1_0n71b")]([ExtResource("3_a"), ExtResource("4_b"), ExtResource("5_c"), ExtResource("6_d")])
+ultimate_ability = ExtResource("7_e")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

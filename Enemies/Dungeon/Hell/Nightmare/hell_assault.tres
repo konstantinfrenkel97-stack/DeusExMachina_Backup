@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Наступление ада"
+description = "0,7 урона. Вперёд 1. Цель +1 (позади)."
+damage_modifier = 0.7
+majesty_gain = 0
+target_type = "Enemy"
+extra_targets_count = 1
+ability_marker = "nightmare_hell_assault"
+usable_from_positions = Array[bool]([false, false, true, true])
+targetable_positions = Array[bool]([true, true, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

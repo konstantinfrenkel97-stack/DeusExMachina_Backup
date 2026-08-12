@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="SpellResource" format=3]
+
+[ext_resource type="Script" uid="uid://bxf7k2m4p9nz" path="res://spell_resource.gd" id="1_sp_plot_armor"]
+
+[resource]
+script = ExtResource("1_sp_plot_armor")
+icon_path = "res://Icons/spells/Plot_armor.png"
+spell_name = "Сюжетная броня"
+description = "Выбранный союзник получает 15 брони на 1 ход."
+fantasy_cost = 20
+target_type = "Ally"
+effect_types = Array[String](["target_buff_armor"])
+effect_values = Dictionary[String, int]({
+"target_buff_armor": 15
+})
+effect_durations = Dictionary[String, int]({
+"target_buff_armor": 1
+})
+metadata/_custom_type_script = "uid://bxf7k2m4p9nz"

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Наставление"
+description = "Союзник получает 14 атаки и 14 удачи на 1 ход."
+damage_modifier = 0.0
+majesty_gain = 0
+target_type = "Ally"
+effect_types = Array[String](["target_buff_damage", "target_buff_crit"])
+effect_values = Dictionary[String, int]({
+"target_buff_damage": 14,
+"target_buff_crit": 14
+})
+effect_durations = Dictionary[String, int]({
+"target_buff_damage": 1,
+"target_buff_crit": 1
+})
+usable_from_positions = Array[bool]([true, true, true, true])
+targetable_positions = Array[bool]([true, true, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

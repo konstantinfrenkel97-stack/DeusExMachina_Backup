@@ -1,0 +1,150 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://cexlm8owsisdd"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_1601a"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_evxjg"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_f7ucd"]
+
+[sub_resource type="Resource" id="Resource_1tmsj"]
+script = ExtResource("1_1601a")
+speaker_name = "Лена"
+text = "Смерть плюс смерть. Ох, пусть это будет не Жнец с косой. "
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_tyngq"]
+script = ExtResource("1_1601a")
+speaker_name = "Лена"
+text = "Хоть бы кто-то не страшный."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_jhc72"]
+script = ExtResource("1_1601a")
+speaker_name = "Самди"
+text = "БУУУ!
+Вот и я!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_bfyrl"]
+script = ExtResource("1_1601a")
+speaker_name = "Лена"
+text = "Ыххх!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_v3xbf"]
+script = ExtResource("1_1601a")
+speaker_name = "Лена"
+text = "Самди! Барон Суббота! Трюкач и бог смерти в вудуизме."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_1l7in"]
+script = ExtResource("1_1601a")
+speaker_name = "Самди"
+text = "Трюкач? Ну я бы сказал это СИИИИИИИЛЬНОЕ преуменьшение."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_omxq0"]
+script = ExtResource("1_1601a")
+speaker_name = "Самди"
+text = "Но где я? Последнее что я помню…"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_tnr0t"]
+script = ExtResource("1_1601a")
+speaker_name = "Самди"
+text = "Я бухал с каким-то подводным чертом с щупальцами на лице и меня вырубило."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_db710"]
+script = ExtResource("1_1601a")
+speaker_name = "Лена"
+text = "Вы… Ох."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_pyhky"]
+script = ExtResource("1_1601a")
+speaker_name = "ЛЕна"
+text = "На самом деле, я призывала вас в план фантазий, чтобы сражаться с бесконечной ордой чудовищ. Если вы не против…
+"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_g8gfo"]
+script = ExtResource("1_1601a")
+speaker_name = "Самди"
+text = "Бесконечная орда чудовищ?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_xc5bd"]
+script = ExtResource("1_1601a")
+speaker_name = "Самди"
+text = "Хм…"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_vxusi"]
+script = ExtResource("1_1601a")
+speaker_name = "Самди"
+text = "Ну ладно, и в худших обстоятельствах просыпался."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_cvqlb"]
+script = ExtResource("1_1601a")
+speaker_name = "Лена"
+text = " А у вас позитивный настрой."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_dqbxk"]
+script = ExtResource("1_1601a")
+speaker_name = "Самди"
+text = "Хэй! Живи красиво, умри молодым! "
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_kkr0j"]
+script = ExtResource("1_1601a")
+speaker_name = "Самди"
+text = "Все равно умрешь, так хоть проживи жизнь в радость – таков мой девиз."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_5452k"]
+script = ExtResource("1_1601a")
+speaker_name = "Лена"
+text = "Но вы же бог, вряд ли вы умрете."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_7kd6b"]
+script = ExtResource("1_1601a")
+speaker_name = "Самди"
+text = "Эй эй! А ну не смей разрушать мое оправдание для безответственного распутства."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_hcma0"]
+script = ExtResource("1_1601a")
+speaker_name = "Лена"
+text = "Ой ну ладно. Чувствую скучно с вами точно не будет."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_vudju"]
+script = ExtResource("1_1601a")
+speaker_name = "Лена"
+text = "Может я могу создать для вас какой-нибудь алкоголь."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_nhfwa"]
+script = ExtResource("1_1601a")
+speaker_name = "Самди"
+text = "Опа! А музыку можешь?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_rhshb"]
+script = ExtResource("1_1601a")
+speaker_name = "Лена"
+text = "Могу попробовать."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_lvat8"]
+script = ExtResource("1_1601a")
+speaker_name = "Самди"
+text = "Вот теперь я вижу что мы поладим."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_evxjg")
+lines = Array[ExtResource("1_1601a")]([SubResource("Resource_1tmsj"), SubResource("Resource_tyngq"), SubResource("Resource_jhc72"), SubResource("Resource_bfyrl"), SubResource("Resource_v3xbf"), SubResource("Resource_1l7in"), SubResource("Resource_omxq0"), SubResource("Resource_tnr0t"), SubResource("Resource_db710"), SubResource("Resource_pyhky"), SubResource("Resource_g8gfo"), SubResource("Resource_xc5bd"), SubResource("Resource_vxusi"), SubResource("Resource_cvqlb"), SubResource("Resource_dqbxk"), SubResource("Resource_kkr0j"), SubResource("Resource_5452k"), SubResource("Resource_7kd6b"), SubResource("Resource_hcma0"), SubResource("Resource_vudju"), SubResource("Resource_nhfwa"), SubResource("Resource_rhshb"), SubResource("Resource_lvat8")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

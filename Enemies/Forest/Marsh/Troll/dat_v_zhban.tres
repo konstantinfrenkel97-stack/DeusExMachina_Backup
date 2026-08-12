@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Дать в жбан"
+description = "Удар по голове. В случае крита оглушает цель на 1 ход."
+damage_modifier = 1.0
+majesty_gain = 0
+target_type = "Enemy"
+effect_types = Array[String](["crit_stun"])
+effect_values = Dictionary[String, int]({"crit_stun": 1})
+effect_durations = Dictionary[String, int]({"crit_stun": 1})
+usable_from_positions = Array[bool]([true, true, false, false])
+targetable_positions = Array[bool]([true, true, false, false])

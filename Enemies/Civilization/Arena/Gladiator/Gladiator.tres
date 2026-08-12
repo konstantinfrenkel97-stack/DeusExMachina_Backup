@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://dr0hta6dys5bb"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://db17k1ggxku7j" path="res://Enemy_logic/arena_random_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Arena/Gladiator/throw_net.tres" id="4_a1"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Arena/Gladiator/blade_dance.tres" id="5_a2"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Гладиатор"
+sprite_path = "res://Enemies/Civilization/Arena/Gladiator/Gladiator.png"
+face_sprite = "res://Enemies/Civilization/Arena/Gladiator/Gladiator_Face.png"
+battle_sprite_scale_percent = 110.0
+max_hp = 65
+damage = 14
+armor = 20
+initiative = 6
+accuracy = 85
+crit_chance = 0.15
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Ужас"
+description = "Все противники теряют 10 точности, 10 уклонения и 10 удачи на 3 хода."
+damage_modifier = 0.0
+majesty_gain = 0
+target_type = "Self"
+effect_types = Array[String](["all_enemies_debuff_accuracy", "all_enemies_debuff_evasion", "all_enemies_debuff_crit_chance"])
+effect_values = Dictionary[String, int]({"all_enemies_debuff_accuracy": 10, "all_enemies_debuff_evasion": 10, "all_enemies_debuff_crit_chance": 10})
+effect_durations = Dictionary[String, int]({"all_enemies_debuff_accuracy": 3, "all_enemies_debuff_evasion": 3, "all_enemies_debuff_crit_chance": 3})
+ability_marker = "uzhas"
+usable_from_positions = Array[bool]([true, true, true, true])
+targetable_positions = Array[bool]([false, false, false, false])

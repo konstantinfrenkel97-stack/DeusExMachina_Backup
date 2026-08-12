@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="FormationResource" format=3 uid="uid://bxhe33342t0ov"]
+
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="1_458og"]
+[ext_resource type="Resource" uid="uid://dcfv5fuesu2fa" path="res://Enemies/Sky/Clouds/Griffin/Griffin.tres" id="1_hutjm"]
+[ext_resource type="Resource" uid="uid://ds0ijni4244vo" path="res://Enemies/Sky/Clouds/Pegasus/pegasus.tres" id="2_ah8qe"]
+
+[resource]
+script = ExtResource("1_458og")
+pos1 = ExtResource("1_hutjm")
+pos3 = ExtResource("2_ah8qe")
+metadata/_custom_type_script = "uid://c50het7soanc1"

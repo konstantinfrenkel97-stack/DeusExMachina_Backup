@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ItemResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Items/item_resource.gd" id="1_ir"]
+
+[resource]
+script = ExtResource("1_ir")
+item_name = "Молот Грома"
+item_type = 0
+rarity = 2
+icon = null
+description = "Древнее оружие, сотрясающее небеса."
+bonus_max_hp = 0
+bonus_damage = 15
+bonus_armor = 0
+bonus_initiative = 2
+bonus_accuracy = 0
+bonus_evasion = 0
+bonus_crit_chance = 0.1
+bonus_majesty = 0
+effect = ""

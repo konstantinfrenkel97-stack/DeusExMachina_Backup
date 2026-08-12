@@ -1,0 +1,156 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"][ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Oboroten/oboroten.tres" id="oboroten"]
+[ext_resource type="Resource" path="res://Gods/Koschei/Koschei.tres" id="koschei"]
+[ext_resource type="Resource" path="res://Essence/essence_power.tres" id="essence_power"]
+
+[sub_resource type="Resource" id="form_full"]
+script = ExtResource("formation_script")
+formation_name = "Проклятие луны: Оборотень x4"
+pos1 = ExtResource("oboroten")
+pos2 = ExtResource("oboroten")
+pos3 = ExtResource("oboroten")
+pos4 = ExtResource("oboroten")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="form_three"]
+script = ExtResource("formation_script")
+formation_name = "Проклятие луны: Оборотень x3"
+pos1 = ExtResource("oboroten")
+pos2 = ExtResource("oboroten")
+pos3 = ExtResource("oboroten")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="buff_beast_regen"]
+script = ExtResource("buff_script")
+stat = 8
+value = 7
+duration = 3
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="buff_beast_accuracy"]
+script = ExtResource("buff_script")
+stat = 2
+value = 15
+duration = 3
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_all_beast"]
+script = ExtResource("unit_modifier_script")
+target_position = 0
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_beast_regen"), SubResource("buff_beast_accuracy")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="mod_first_beast"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_beast_regen"), SubResource("buff_beast_accuracy")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_run_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_full")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_all_beast")])
+location_id = "swamp"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_three"]
+script = ExtResource("battle_script")
+formation = SubResource("form_three")
+location_id = "swamp"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_kill_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_full")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_first_beast")])
+location_id = "swamp"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="reward_power"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_power")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_run_success"]
+script = ExtResource("outcome_script")
+result_text = "Вариант 1 (успех) – Вы начинаете бежать, прыгая по кочкам. Луна освещает вас голубым светом. Вы слышите вой со стороны куста и плеск воды. Оборотни гонятся за вами, и их много. Куда вы не повернете, ото всюду слышится вой.\nПо пути вам попадаются какие-то поваленные мертвые деревья. Вы взбираетесь по ним и продолжаете путь. Вас окружает только лунный свет, волчий вой и холодная, безжалостная топь.\nВ один момент, вы выбиваетесь из сил и останавливаетесь. Похоже вам придется принять бой. Вы занимаете позицию для боя.\nНо никто не приходит. Наконец ночь разрезает душераздирающий человеческий крик. Слишком далеко, чтобы что-то сделать. Они нашли кого-то другого, вы остались в живых."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_run_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вариант 1 (провал) - Вы начинаете бежать, прыгая по кочкам. Луна освещает вас голубым светом. Вы слышите вой со стороны куста и плеск воды. Оборотни гонятся за вами, и их много. Куда вы не повернете, ото всюду слышится вой.\nПлеск воды совсем рядом. Уже сбоку. Вас загоняют. Вы смотрите по бокам и видите горящие от звериного азарта глаза. Вас уже загнали."
+battle = SubResource("battle_run_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_kill_success"]
+script = ExtResource("outcome_script")
+result_text = "Вариант 2 (успех) – Вы бросаетесь. К человеку в процессе трансформации, и один из богов, резким ударом пробивает бедолаге живот. Трансформация останавливается.\nОн так и замирает, уже не человек, но еще не чудовище.\n«Спасибо… вам.»\nМгновение вы смотрите на обмякшее тело. Мгновение прежде чем на вас нападают."
+battle = SubResource("battle_three")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_kill_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вариант 2 (провал) – Вы бросаетесь к оборотню, но прежде чем вы достигаете его, луна полностью выходит из-за туч освещая его. Он отпрыгивает. Шерсть становится дыбом и белеет. Ни одной человеческой черты не осталось в этом существе. Он смотрит на вас, полностью во власти луны, а в глазах ничего кроме голода."
+battle = SubResource("battle_kill_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_koschei"]
+script = ExtResource("outcome_script")
+result_text = "Вариант 3 – Голос Кощея разносится над топью.\nВ ответ ему звучит волчий вой. Вы видите силуэты во тьме, приближающиеся к вам. Оборотень под кустом глухо рычит.\n«Преклонись, тварь!»\nЕго голос раскатисто летит над землей.\nОборотень перед вами скалит зубы и готовится к прыжку. Вы уже видите человекообразных волков, окруживших вас со всех сторон. С острых зубов стекает слюна.\n«ПРЕКЛОНИСЬ, ТВАРЬ!»\nКощей ударяет концом посоха по поверхности воды. Вы не понимаете, что происходит, но одна единственная волна, словно несущая его голос и волю пролетает по воде. Фигуры замирают. Замирают звуки, не слышно ни лягушек, ни мух. Кажется, даже ветер остановился.\nМонстр перед вами опускается на четвереньки. А потом опускает голову и прижимает ее к земле. Фигуры вокруг, также беззвучно опускаются, кто на кочки, кто в воду. Вы в окружении склонивших голову монстров.\nКощей молча шествует вперед. Вы шествуете за ним."
+rewards = [SubResource("reward_power")]
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="check_initiative"]
+script = ExtResource("stat_check_script")
+stat = 1
+stat_label = "Инициатива"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("stat_check_script")
+stat = 4
+stat_label = "Точность"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="choice_run"]
+script = ExtResource("choice_script")
+choice_text = "Бежать"
+stat_check = SubResource("check_initiative")
+success_outcome = SubResource("out_run_success")
+failure_outcome = SubResource("out_run_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_kill"]
+script = ExtResource("choice_script")
+choice_text = "Убить оборотня до полной трансформации"
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_kill_success")
+failure_outcome = SubResource("out_kill_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_koschei"]
+script = ExtResource("choice_script")
+choice_text = "Преклонись, тварь!"
+required_god = ExtResource("koschei")
+outcome = SubResource("out_koschei")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Проклятие луны"
+body_text = "Сначала вам кажется, что это хлюпает влажная болотная земля, но приблизившись к источнику звука вы узнаете человеческие всхлипывания. Подойдя ближе, под жалким кустиком вы обнаруживаете человека, свернувшегося калачиком.\nПри звуках вашего приближения он оборачивается. В скудном свету вы замечаете, что одежда изодрана, а лицо покрыто царапинами. Глаза глядят с безумным страхом.\n«Вы… Вы должны уходить! Бегите! Бегите от меня подальше… *хнык* Я не хочу… *хнык* Я не хочу никого убивааааать…»\nСмысл слов бедолаги вскоре становится ясен. Из-за облаков выглядывает серая луна. Вы слышите вой по бокам и видите, как шерсть начинает быстро расти по всему телу и лицу человека. Последние капли слез стекают по звериным волосам."
+choices = [SubResource("choice_run"), SubResource("choice_kill"), SubResource("choice_koschei")]
+metadata/_custom_type_script = ExtResource("scene_script")

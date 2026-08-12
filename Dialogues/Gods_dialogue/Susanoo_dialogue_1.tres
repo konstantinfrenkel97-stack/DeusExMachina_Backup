@@ -1,0 +1,762 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3]
+
+[ext_resource type="Script" path="res://Dialogues/dialogue_line.gd" id="1_6hpy2"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_choice.gd" id="2_75813"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_resource.gd" id="3_qf30k"]
+
+[sub_resource type="Resource" id="Resource_xor0p"]
+script = ExtResource("1_6hpy2")
+line_id = "intro_1"
+speaker_name = "Сусаноо"
+text = "(Тихая музыка играет в его келье, и ты чувствуешь аромат незнакомого цветка. Он сидит в позе лотоса, обнаженная катана покоится на коленях. Кончики пальцев лежат на блестящем лезвии. Глаза закрыты)"
+
+[sub_resource type="Resource" id="Resource_glutj"]
+script = ExtResource("1_6hpy2")
+line_id = "intro_2"
+speaker_name = "Сусаноо"
+text = "(Хотя тебе казалось, что ты передвигаешься бесшумно, он улыбается при твоем появлении, не открывая глаз)"
+
+[sub_resource type="Resource" id="Resource_m4bnb"]
+script = ExtResource("1_6hpy2")
+line_id = "intro_3"
+speaker_name = "Сусаноо"
+text = "Чем могу быть полезен?"
+
+[sub_resource type="Resource" id="Resource_aycll"]
+script = ExtResource("1_6hpy2")
+line_id = "intro_4"
+speaker_name = "Лена"
+text = "Я не отвлекаю?"
+
+[sub_resource type="Resource" id="Resource_jucbk"]
+script = ExtResource("1_6hpy2")
+line_id = "intro_5"
+speaker_name = "Сусаноо"
+text = "Думаю, раз я уже отвлекся, можем поговорить."
+next_line_id = "Susanoo_choices_1"
+
+[sub_resource type="Resource" id="Resource_yg7ly"]
+script = ExtResource("2_75813")
+choice_id = "open_door"
+choice_text = "Открыть дверь"
+next_line_id = "open_door_1"
+
+[sub_resource type="Resource" id="Resource_wjest"]
+script = ExtResource("2_75813")
+choice_id = "opinion"
+choice_text = "Мнение о богах"
+next_line_id = "opinion_start"
+
+[sub_resource type="Resource" id="Resource_v5nmq"]
+script = ExtResource("2_75813")
+choice_id = "help"
+choice_text = "Твоя помощь"
+next_line_id = "help_1"
+
+[sub_resource type="Resource" id="Resource_io2bu"]
+script = ExtResource("2_75813")
+choice_id = "new_world"
+choice_text = "Как тебе новый мир"
+next_line_id = "new_world_1"
+
+[sub_resource type="Resource" id="Resource_qtvl0"]
+script = ExtResource("2_75813")
+choice_id = "chosen_world"
+choice_text = "Выбранный мир"
+next_line_id = "chosen_world_1"
+
+[sub_resource type="Resource" id="Resource_dcufe"]
+script = ExtResource("1_6hpy2")
+line_id = "Susanoo_choices_1"
+choices = Array[ExtResource("2_75813")]([SubResource("Resource_yg7ly"), SubResource("Resource_wjest"), SubResource("Resource_v5nmq"), SubResource("Resource_io2bu"), SubResource("Resource_qtvl0")])
+
+[sub_resource type="Resource" id="Resource_67jjh"]
+script = ExtResource("1_6hpy2")
+line_id = "open_door_1"
+speaker_name = "Лена"
+text = "Слушай, тут есть ряд дверей. Не мог бы ты открыть одну? Для этого нужен бог."
+next_line_id = "open_door_2"
+
+[sub_resource type="Resource" id="Resource_wu11x"]
+script = ExtResource("1_6hpy2")
+line_id = "open_door_2"
+speaker_name = "Сусаноо"
+text = "Почему нет. Давай посмотрим."
+next_line_id = "open_door_3"
+
+[sub_resource type="Resource" id="Resource_gm6po"]
+script = ExtResource("1_6hpy2")
+line_id = "open_door_3"
+speaker_name = "Сусаноо"
+text = "А, ну конечно, вот эту."
+next_line_id = "open_door_4"
+
+[sub_resource type="Resource" id="Resource_7ijg0"]
+script = ExtResource("1_6hpy2")
+line_id = "open_door_4"
+speaker_name = "Сусаноо"
+text = "Море, острова, навевает воспоминания о родной земле."
+next_line_id = "open_door_5"
+
+[sub_resource type="Resource" id="Resource_thpae"]
+script = ExtResource("1_6hpy2")
+line_id = "open_door_5"
+speaker_name = "Лена"
+text = "От этой двери веет такой расслабленностью."
+next_line_id = "open_door_6"
+
+[sub_resource type="Resource" id="Resource_3f6ns"]
+script = ExtResource("1_6hpy2")
+line_id = "open_door_6"
+speaker_name = "Сусаноо"
+text = "Ну, это будет дополнительным бонусом, я подумал."
+next_line_id = "open_door_7"
+
+[sub_resource type="Resource" id="Resource_qv6by"]
+script = ExtResource("1_6hpy2")
+line_id = "open_door_7"
+speaker_name = "Лена"
+text = "Эй, вы же не выбрали дверь просто потому, что вам захотелось на пляж?"
+next_line_id = "open_door_8"
+
+[sub_resource type="Resource" id="Resource_1y4vp"]
+script = ExtResource("1_6hpy2")
+line_id = "open_door_8"
+speaker_name = "Сусаноо"
+text = "Что ты, ни в коооем случае."
+next_line_id = "Susanoo_choices_1"
+
+[sub_resource type="Resource" id="Resource_q3etc"]
+script = ExtResource("2_75813")
+choice_id = "opinion_shiva"
+choice_text = "Шиве"
+next_line_id = "shiva_1"
+
+[sub_resource type="Resource" id="Resource_07l6w"]
+script = ExtResource("2_75813")
+choice_id = "opinion_samdi"
+choice_text = "Самди"
+next_line_id = "samdi_1"
+
+[sub_resource type="Resource" id="Resource_f6ois"]
+script = ExtResource("1_6hpy2")
+line_id = "opinion_start"
+speaker_name = "Лена"
+text = "Послушай, а что ты думаешь о…"
+choices = Array[ExtResource("2_75813")]([SubResource("Resource_q3etc"), SubResource("Resource_07l6w")])
+
+[sub_resource type="Resource" id="Resource_744gm"]
+script = ExtResource("1_6hpy2")
+line_id = "shiva_1"
+speaker_name = "Лена"
+text = "…Шиве?"
+next_line_id = "shiva_2"
+
+[sub_resource type="Resource" id="Resource_falhc"]
+script = ExtResource("1_6hpy2")
+line_id = "shiva_2"
+speaker_name = "Сусаноо"
+text = "У него четыре руки и синяя кожа."
+next_line_id = "shiva_3"
+
+[sub_resource type="Resource" id="Resource_c4cnv"]
+script = ExtResource("1_6hpy2")
+line_id = "shiva_3"
+speaker_name = "Лена"
+text = "Это верно…"
+next_line_id = "shiva_4"
+
+[sub_resource type="Resource" id="Resource_gktwi"]
+script = ExtResource("1_6hpy2")
+line_id = "shiva_4"
+speaker_name = "Сусаноо"
+text = "Поболтал с ним. Приятный малый."
+next_line_id = "shiva_5"
+
+[sub_resource type="Resource" id="Resource_ff1qe"]
+script = ExtResource("1_6hpy2")
+line_id = "shiva_5"
+speaker_name = "Сусаноо"
+text = "Я слышал обрывки про те земли, откуда он родом."
+next_line_id = "shiva_6"
+
+[sub_resource type="Resource" id="Resource_gjj6r"]
+script = ExtResource("1_6hpy2")
+line_id = "shiva_6"
+speaker_name = "Сусаноо"
+text = "По его описаниям - очень противоречивая, но яркая страна."
+next_line_id = "shiva_7"
+
+[sub_resource type="Resource" id="Resource_i2cm0"]
+script = ExtResource("1_6hpy2")
+line_id = "shiva_7"
+speaker_name = "Лена"
+text = "Полагаю, про многие страны можно так сказать."
+next_line_id = "shiva_8"
+
+[sub_resource type="Resource" id="Resource_7na1q"]
+script = ExtResource("1_6hpy2")
+line_id = "shiva_8"
+speaker_name = "Сусаноо"
+text = "Да."
+next_line_id = "shiva_9"
+
+[sub_resource type="Resource" id="Resource_ok0uy"]
+script = ExtResource("1_6hpy2")
+line_id = "shiva_9"
+speaker_name = "Сусаноо"
+text = "Его философия полна мудрости."
+next_line_id = "shiva_10"
+
+[sub_resource type="Resource" id="Resource_dkxmv"]
+script = ExtResource("1_6hpy2")
+line_id = "shiva_10"
+speaker_name = "Сусаноо"
+text = "Он как будто понимает что-то, чего не понимаю я."
+next_line_id = "shiva_11"
+
+[sub_resource type="Resource" id="Resource_6ympv"]
+script = ExtResource("1_6hpy2")
+line_id = "shiva_11"
+speaker_name = "Сусаноо"
+text = "Будто у него есть что-то, чего мне не хватает."
+next_line_id = "shiva_12"
+
+[sub_resource type="Resource" id="Resource_0o2aj"]
+script = ExtResource("1_6hpy2")
+line_id = "shiva_12"
+speaker_name = "Лена"
+text = "Неожиданное признание."
+next_line_id = "shiva_13"
+
+[sub_resource type="Resource" id="Resource_vf7ta"]
+script = ExtResource("1_6hpy2")
+line_id = "shiva_13"
+speaker_name = "Сусаноо"
+text = "Ну да. Я часто думаю о разном."
+next_line_id = "shiva_14"
+
+[sub_resource type="Resource" id="Resource_f2wqs"]
+script = ExtResource("1_6hpy2")
+line_id = "shiva_14"
+speaker_name = "Сусаноо"
+text = "Наверное, слишком часто."
+next_line_id = "shiva_15"
+
+[sub_resource type="Resource" id="Resource_vsr50"]
+script = ExtResource("1_6hpy2")
+line_id = "shiva_15"
+speaker_name = "Сусаноо"
+text = "Ой, да не слушай мое бормотание."
+next_line_id = "Susanoo_choices_1"
+
+[sub_resource type="Resource" id="Resource_f5ein"]
+script = ExtResource("1_6hpy2")
+line_id = "samdi_1"
+speaker_name = "Лена"
+text = "…Самди."
+next_line_id = "samdi_2"
+
+[sub_resource type="Resource" id="Resource_sigf3"]
+script = ExtResource("1_6hpy2")
+line_id = "samdi_2"
+speaker_name = "Сусаноо"
+text = "Самди…"
+next_line_id = "samdi_3"
+
+[sub_resource type="Resource" id="Resource_t2wut"]
+script = ExtResource("1_6hpy2")
+line_id = "samdi_3"
+speaker_name = "Сусаноо"
+text = "Странный малый. Никогда не встречал таких. И не бывал в землях, откуда он родом."
+next_line_id = "samdi_4"
+
+[sub_resource type="Resource" id="Resource_740fo"]
+script = ExtResource("1_6hpy2")
+line_id = "samdi_4"
+speaker_name = "Сусаноо"
+text = "И я не о том, как он выглядит."
+next_line_id = "samdi_5"
+
+[sub_resource type="Resource" id="Resource_uldk4"]
+script = ExtResource("1_6hpy2")
+line_id = "samdi_5"
+speaker_name = "Сусаноо"
+text = "Хотя, ну ты его видела."
+next_line_id = "samdi_6"
+
+[sub_resource type="Resource" id="Resource_plf47"]
+script = ExtResource("1_6hpy2")
+line_id = "samdi_6"
+speaker_name = "Лена"
+text = "Ха-ха, да."
+next_line_id = "samdi_7"
+
+[sub_resource type="Resource" id="Resource_831mq"]
+script = ExtResource("1_6hpy2")
+line_id = "samdi_7"
+speaker_name = "Сусаноо"
+text = "Он как будто пустой."
+next_line_id = "samdi_8"
+
+[sub_resource type="Resource" id="Resource_juohf"]
+script = ExtResource("1_6hpy2")
+line_id = "samdi_8"
+speaker_name = "Сусаноо"
+text = "Даже не так. Он хочет быть пустым."
+next_line_id = "samdi_9"
+
+[sub_resource type="Resource" id="Resource_toh13"]
+script = ExtResource("1_6hpy2")
+line_id = "samdi_9"
+speaker_name = "Лена"
+text = "Хочет быть пустым?"
+next_line_id = "samdi_10"
+
+[sub_resource type="Resource" id="Resource_517ar"]
+script = ExtResource("1_6hpy2")
+line_id = "samdi_10"
+speaker_name = "Сусаноо"
+text = "Мы с ним поспорили. И, если честно, немного поссорились."
+next_line_id = "samdi_11"
+
+[sub_resource type="Resource" id="Resource_1mlpk"]
+script = ExtResource("1_6hpy2")
+line_id = "samdi_11"
+speaker_name = "Сусаноо"
+text = "Как будто он не верит ни во что, во что верю я."
+next_line_id = "samdi_12"
+
+[sub_resource type="Resource" id="Resource_5gigg"]
+script = ExtResource("1_6hpy2")
+line_id = "samdi_12"
+speaker_name = "Сусаноо"
+text = "И говорит вещи, которые мне кажутся бредом."
+next_line_id = "samdi_13"
+
+[sub_resource type="Resource" id="Resource_qqali"]
+script = ExtResource("1_6hpy2")
+line_id = "samdi_13"
+speaker_name = "Сусаноо"
+text = "Должен признать, я проявил недостойную горячность в разговоре с ним."
+next_line_id = "samdi_14"
+
+[sub_resource type="Resource" id="Resource_s1gtq"]
+script = ExtResource("1_6hpy2")
+line_id = "samdi_14"
+speaker_name = "Лена"
+text = "Я думаю, он часто шутит. Не стоит принимать его так серьезно."
+next_line_id = "samdi_15"
+
+[sub_resource type="Resource" id="Resource_nweli"]
+script = ExtResource("1_6hpy2")
+line_id = "samdi_15"
+speaker_name = "Сусаноо"
+text = "Да, верно."
+next_line_id = "samdi_16"
+
+[sub_resource type="Resource" id="Resource_5srys"]
+script = ExtResource("1_6hpy2")
+line_id = "samdi_16"
+speaker_name = "Сусаноо"
+text = "Но в этом-то и проблема."
+next_line_id = "Susanoo_choices_1"
+
+[sub_resource type="Resource" id="Resource_2njr4"]
+script = ExtResource("1_6hpy2")
+line_id = "help_1"
+speaker_name = "Лена"
+text = "Хотела еще раз сказать спасибо, что помогаете мне."
+next_line_id = "help_2"
+
+[sub_resource type="Resource" id="Resource_2r8g6"]
+script = ExtResource("1_6hpy2")
+line_id = "help_2"
+speaker_name = "Сусаноо"
+text = "Да ладно, чего уж."
+next_line_id = "help_3"
+
+[sub_resource type="Resource" id="Resource_mlp37"]
+script = ExtResource("1_6hpy2")
+line_id = "help_3"
+speaker_name = "Лена"
+text = "И то, о чем вы говорили. Насчет совершенства."
+next_line_id = "help_4"
+
+[sub_resource type="Resource" id="Resource_60g3g"]
+script = ExtResource("1_6hpy2")
+line_id = "help_4"
+speaker_name = "Сусаноо"
+text = "Так..?"
+next_line_id = "help_5"
+
+[sub_resource type="Resource" id="Resource_nfcri"]
+script = ExtResource("1_6hpy2")
+line_id = "help_5"
+speaker_name = "Лена"
+text = "Я бы хотела услышать побольше."
+next_line_id = "help_6"
+
+[sub_resource type="Resource" id="Resource_qjegq"]
+script = ExtResource("1_6hpy2")
+line_id = "help_6"
+speaker_name = "Сусаноо"
+text = "Это, ну… Долгая история."
+next_line_id = "help_7"
+
+[sub_resource type="Resource" id="Resource_rwh4l"]
+script = ExtResource("1_6hpy2")
+line_id = "help_7"
+speaker_name = "Лена"
+text = "…"
+next_line_id = "help_8"
+
+[sub_resource type="Resource" id="Resource_jk627"]
+script = ExtResource("1_6hpy2")
+line_id = "help_8"
+speaker_name = "Сусаноо"
+text = "С чего бы начать? Ты когда-нибудь хотела умереть?"
+next_line_id = "help_9"
+
+[sub_resource type="Resource" id="Resource_ttgym"]
+script = ExtResource("1_6hpy2")
+line_id = "help_9"
+speaker_name = "Лена"
+text = "…"
+next_line_id = "help_10"
+
+[sub_resource type="Resource" id="Resource_6csi8"]
+script = ExtResource("1_6hpy2")
+line_id = "help_10"
+speaker_name = "Сусаноо"
+text = "Точнее не так. Не понимала, зачем живешь?"
+next_line_id = "help_11"
+
+[sub_resource type="Resource" id="Resource_jqogk"]
+script = ExtResource("1_6hpy2")
+line_id = "help_11"
+speaker_name = "Лена"
+text = "Я, да, бывало."
+next_line_id = "help_12"
+
+[sub_resource type="Resource" id="Resource_g0y15"]
+script = ExtResource("1_6hpy2")
+line_id = "help_12"
+speaker_name = "Сусаноо"
+text = "Вот и я тоже."
+next_line_id = "help_13"
+
+[sub_resource type="Resource" id="Resource_uis42"]
+script = ExtResource("1_6hpy2")
+line_id = "help_13"
+speaker_name = "Сусаноо"
+text = "Всю жизнь я сражался, но в один момент понял, что мои враги повержены."
+next_line_id = "help_14"
+
+[sub_resource type="Resource" id="Resource_pbueq"]
+script = ExtResource("1_6hpy2")
+line_id = "help_14"
+speaker_name = "Сусаноо"
+text = "Все."
+next_line_id = "help_15"
+
+[sub_resource type="Resource" id="Resource_peixn"]
+script = ExtResource("1_6hpy2")
+line_id = "help_15"
+speaker_name = "Сусаноо"
+text = "И я не знал, что делать, обратился к своим брату и сестре."
+next_line_id = "help_16"
+
+[sub_resource type="Resource" id="Resource_i78rl"]
+script = ExtResource("1_6hpy2")
+line_id = "help_16"
+speaker_name = "Сусаноо"
+text = "Они сказали, чтобы я делал что хочу, просто жил."
+next_line_id = "help_17"
+
+[sub_resource type="Resource" id="Resource_t8qbc"]
+script = ExtResource("1_6hpy2")
+line_id = "help_17"
+speaker_name = "Сусаноо"
+text = "А я ничего не хотел. Не понимал, что я должен хотеть."
+next_line_id = "help_18"
+
+[sub_resource type="Resource" id="Resource_psbu6"]
+script = ExtResource("1_6hpy2")
+line_id = "help_18"
+speaker_name = "Сусаноо"
+text = "И эта дорога завела меня в страшные места…"
+next_line_id = "help_19"
+
+[sub_resource type="Resource" id="Resource_newdo"]
+script = ExtResource("1_6hpy2")
+line_id = "help_19"
+speaker_name = "Сусаноо"
+text = "И чтобы не сойти с ума, я взял себе цель."
+next_line_id = "help_20"
+
+[sub_resource type="Resource" id="Resource_m38qd"]
+script = ExtResource("1_6hpy2")
+line_id = "help_20"
+speaker_name = "Сусаноо"
+text = "Довести свое мастерство до максимума, до конца."
+next_line_id = "help_21"
+
+[sub_resource type="Resource" id="Resource_tcm2p"]
+script = ExtResource("1_6hpy2")
+line_id = "help_21"
+speaker_name = "Сусаноо"
+text = "Сразить само совершенство."
+next_line_id = "help_22"
+
+[sub_resource type="Resource" id="Resource_8ismq"]
+script = ExtResource("1_6hpy2")
+line_id = "help_22"
+speaker_name = "Лена"
+text = "…"
+next_line_id = "help_23"
+
+[sub_resource type="Resource" id="Resource_xvi7e"]
+script = ExtResource("1_6hpy2")
+line_id = "help_23"
+speaker_name = "Сусаноо"
+text = "Прости, я загрузил тебя?"
+next_line_id = "help_24"
+
+[sub_resource type="Resource" id="Resource_yyc0t"]
+script = ExtResource("1_6hpy2")
+line_id = "help_24"
+speaker_name = "Лена"
+text = "Нет… Я просто задумалась."
+next_line_id = "help_25"
+
+[sub_resource type="Resource" id="Resource_8rrqd"]
+script = ExtResource("1_6hpy2")
+line_id = "help_25"
+speaker_name = "Лена"
+text = "Это очень личные вещи."
+next_line_id = "help_26"
+
+[sub_resource type="Resource" id="Resource_x55i4"]
+script = ExtResource("1_6hpy2")
+line_id = "help_26"
+speaker_name = "Лена"
+text = "Спасибо, что поделились со мной."
+next_line_id = "help_27"
+
+[sub_resource type="Resource" id="Resource_31n6i"]
+script = ExtResource("1_6hpy2")
+line_id = "help_27"
+speaker_name = "Сусаноо"
+text = "Ха, да. Я обычно не настолько болтлив."
+next_line_id = "help_28"
+
+[sub_resource type="Resource" id="Resource_cubsn"]
+script = ExtResource("1_6hpy2")
+line_id = "help_28"
+speaker_name = "Сусаноо"
+text = "Немного потерял контроль."
+next_line_id = "help_29"
+
+[sub_resource type="Resource" id="Resource_jixah"]
+script = ExtResource("1_6hpy2")
+line_id = "help_29"
+speaker_name = "Сусаноо"
+text = "Не знаю, как-то ты странно на меня действуешь."
+next_line_id = "help_30"
+
+[sub_resource type="Resource" id="Resource_5dh4y"]
+script = ExtResource("1_6hpy2")
+line_id = "help_30"
+speaker_name = "Лена"
+text = "Надеюсь, в хорошем смысле."
+next_line_id = "help_31"
+
+[sub_resource type="Resource" id="Resource_613de"]
+script = ExtResource("1_6hpy2")
+line_id = "help_31"
+speaker_name = "Сусаноо"
+text = "Хаха, конечно."
+next_line_id = "Susanoo_choices_1"
+
+[sub_resource type="Resource" id="Resource_wfoa4"]
+script = ExtResource("1_6hpy2")
+line_id = "new_world_1"
+speaker_name = "Лена"
+text = "Как тебе здесь, в мире фантазий?"
+next_line_id = "new_world_2"
+
+[sub_resource type="Resource" id="Resource_meqdd"]
+script = ExtResource("1_6hpy2")
+line_id = "new_world_2"
+speaker_name = "Сусаноо"
+text = "Необычно."
+next_line_id = "new_world_3"
+
+[sub_resource type="Resource" id="Resource_5qf0s"]
+script = ExtResource("1_6hpy2")
+line_id = "new_world_3"
+speaker_name = "Сусаноо"
+text = "Но пока есть возможность ходить на пляж, многое можно выдержать."
+next_line_id = "new_world_4"
+
+[sub_resource type="Resource" id="Resource_7xxm0"]
+script = ExtResource("1_6hpy2")
+line_id = "new_world_4"
+speaker_name = "Лена"
+text = "Вам все шуточки."
+next_line_id = "new_world_5"
+
+[sub_resource type="Resource" id="Resource_hvc00"]
+script = ExtResource("1_6hpy2")
+line_id = "new_world_5"
+speaker_name = "Сусаноо"
+text = "Нет, ну если серьезно. Я удивлен меньше, чем от себя ожидал."
+next_line_id = "new_world_6"
+
+[sub_resource type="Resource" id="Resource_in11o"]
+script = ExtResource("1_6hpy2")
+line_id = "new_world_6"
+speaker_name = "Сусаноо"
+text = "Вроде все так странно и все возможно."
+next_line_id = "new_world_7"
+
+[sub_resource type="Resource" id="Resource_0k4f7"]
+script = ExtResource("1_6hpy2")
+line_id = "new_world_7"
+speaker_name = "Сусаноо"
+text = "Но я как-то быстро привык."
+next_line_id = "new_world_8"
+
+[sub_resource type="Resource" id="Resource_vsbba"]
+script = ExtResource("1_6hpy2")
+line_id = "new_world_8"
+speaker_name = "Лена"
+text = "Да, я тоже заметила."
+next_line_id = "new_world_9"
+
+[sub_resource type="Resource" id="Resource_bsg3t"]
+script = ExtResource("1_6hpy2")
+line_id = "new_world_9"
+speaker_name = "Лена"
+text = "Заставляет задуматься, есть ли обстоятельства, к которым нельзя привыкнуть."
+next_line_id = "new_world_10"
+
+[sub_resource type="Resource" id="Resource_3cxrn"]
+script = ExtResource("1_6hpy2")
+line_id = "new_world_10"
+speaker_name = "Сусаноо"
+text = "Да, тоже об этом думал."
+next_line_id = "new_world_11"
+
+[sub_resource type="Resource" id="Resource_35s21"]
+script = ExtResource("1_6hpy2")
+line_id = "new_world_11"
+speaker_name = "Сусаноо"
+text = "Пришел к выводу, что все упирается в пляж."
+next_line_id = "new_world_12"
+
+[sub_resource type="Resource" id="Resource_nnvt2"]
+script = ExtResource("1_6hpy2")
+line_id = "new_world_12"
+speaker_name = "Лена"
+text = "Хех, верно."
+next_line_id = "Susanoo_choices_1"
+
+[sub_resource type="Resource" id="Resource_5877e"]
+script = ExtResource("1_6hpy2")
+line_id = "chosen_world_1"
+speaker_name = "Лена"
+text = "Думаю, мне нет толку спрашивать, почему ты выбрал именно эту дверь."
+next_line_id = "chosen_world_2"
+
+[sub_resource type="Resource" id="Resource_s5wke"]
+script = ExtResource("1_6hpy2")
+line_id = "chosen_world_2"
+speaker_name = "Сусаноо"
+text = "Думаю, да. О выборе не жалею."
+next_line_id = "chosen_world_3"
+
+[sub_resource type="Resource" id="Resource_n4lij"]
+script = ExtResource("1_6hpy2")
+line_id = "chosen_world_3"
+speaker_name = "Лена"
+text = "Обсудим это?"
+next_line_id = "chosen_world_4"
+
+[sub_resource type="Resource" id="Resource_21al6"]
+script = ExtResource("1_6hpy2")
+line_id = "chosen_world_4"
+speaker_name = "Сусаноо"
+text = "Не понял, что обсудим."
+next_line_id = "chosen_world_5"
+
+[sub_resource type="Resource" id="Resource_a1jws"]
+script = ExtResource("1_6hpy2")
+line_id = "chosen_world_5"
+speaker_name = "Лена"
+text = "У меня обычно просто диалоги по каждому вопросу довольно долгие."
+next_line_id = "chosen_world_6"
+
+[sub_resource type="Resource" id="Resource_1g8ji"]
+script = ExtResource("1_6hpy2")
+line_id = "chosen_world_6"
+speaker_name = "Сусаноо"
+text = "Ага…"
+next_line_id = "chosen_world_7"
+
+[sub_resource type="Resource" id="Resource_jfp5m"]
+script = ExtResource("1_6hpy2")
+line_id = "chosen_world_7"
+speaker_name = "Лена"
+text = "Ну можем просто в тишине постоять."
+next_line_id = "chosen_world_8"
+
+[sub_resource type="Resource" id="Resource_7wg26"]
+script = ExtResource("1_6hpy2")
+line_id = "chosen_world_8"
+speaker_name = "Сусаноо"
+text = "Давай постоим…"
+next_line_id = "chosen_world_9"
+
+[sub_resource type="Resource" id="Resource_m3lrj"]
+script = ExtResource("1_6hpy2")
+line_id = "chosen_world_9"
+speaker_name = "Лена"
+text = "..."
+next_line_id = "chosen_world_10"
+
+[sub_resource type="Resource" id="Resource_qfyiw"]
+script = ExtResource("1_6hpy2")
+line_id = "chosen_world_10"
+speaker_name = "Сусаноо"
+text = "…"
+next_line_id = "chosen_world_11"
+
+[sub_resource type="Resource" id="Resource_y6tm6"]
+script = ExtResource("1_6hpy2")
+line_id = "chosen_world_11"
+speaker_name = "Лена"
+text = "…"
+next_line_id = "chosen_world_12"
+
+[sub_resource type="Resource" id="Resource_gvpk8"]
+script = ExtResource("1_6hpy2")
+line_id = "chosen_world_12"
+speaker_name = "Сусаноо"
+text = "…"
+next_line_id = "chosen_world_13"
+
+[sub_resource type="Resource" id="Resource_caj1v"]
+script = ExtResource("1_6hpy2")
+line_id = "chosen_world_13"
+speaker_name = "Лена"
+text = "Это было неловко."
+next_line_id = "Susanoo_choices_1"
+
+[resource]
+script = ExtResource("3_qf30k")
+dialogue_id = "susanoo_dialogue_1"
+dialogue_name = ""
+start_line_id = "intro_1"
+lines = Array[ExtResource("1_6hpy2")]([SubResource("Resource_xor0p"), SubResource("Resource_glutj"), SubResource("Resource_m4bnb"), SubResource("Resource_aycll"), SubResource("Resource_jucbk"), SubResource("Resource_dcufe"), SubResource("Resource_67jjh"), SubResource("Resource_wu11x"), SubResource("Resource_gm6po"), SubResource("Resource_7ijg0"), SubResource("Resource_thpae"), SubResource("Resource_3f6ns"), SubResource("Resource_qv6by"), SubResource("Resource_1y4vp"), SubResource("Resource_f6ois"), SubResource("Resource_744gm"), SubResource("Resource_falhc"), SubResource("Resource_c4cnv"), SubResource("Resource_gktwi"), SubResource("Resource_ff1qe"), SubResource("Resource_gjj6r"), SubResource("Resource_i2cm0"), SubResource("Resource_7na1q"), SubResource("Resource_ok0uy"), SubResource("Resource_dkxmv"), SubResource("Resource_6ympv"), SubResource("Resource_0o2aj"), SubResource("Resource_vf7ta"), SubResource("Resource_f2wqs"), SubResource("Resource_vsr50"), SubResource("Resource_f5ein"), SubResource("Resource_sigf3"), SubResource("Resource_t2wut"), SubResource("Resource_740fo"), SubResource("Resource_uldk4"), SubResource("Resource_plf47"), SubResource("Resource_831mq"), SubResource("Resource_juohf"), SubResource("Resource_toh13"), SubResource("Resource_517ar"), SubResource("Resource_1mlpk"), SubResource("Resource_5gigg"), SubResource("Resource_qqali"), SubResource("Resource_s1gtq"), SubResource("Resource_nweli"), SubResource("Resource_5srys"), SubResource("Resource_2njr4"), SubResource("Resource_2r8g6"), SubResource("Resource_mlp37"), SubResource("Resource_60g3g"), SubResource("Resource_nfcri"), SubResource("Resource_qjegq"), SubResource("Resource_rwh4l"), SubResource("Resource_jk627"), SubResource("Resource_ttgym"), SubResource("Resource_6csi8"), SubResource("Resource_jqogk"), SubResource("Resource_g0y15"), SubResource("Resource_uis42"), SubResource("Resource_pbueq"), SubResource("Resource_peixn"), SubResource("Resource_i78rl"), SubResource("Resource_t8qbc"), SubResource("Resource_psbu6"), SubResource("Resource_newdo"), SubResource("Resource_m38qd"), SubResource("Resource_tcm2p"), SubResource("Resource_8ismq"), SubResource("Resource_xvi7e"), SubResource("Resource_yyc0t"), SubResource("Resource_8rrqd"), SubResource("Resource_x55i4"), SubResource("Resource_31n6i"), SubResource("Resource_cubsn"), SubResource("Resource_jixah"), SubResource("Resource_5dh4y"), SubResource("Resource_613de"), SubResource("Resource_wfoa4"), SubResource("Resource_meqdd"), SubResource("Resource_5qf0s"), SubResource("Resource_7xxm0"), SubResource("Resource_hvc00"), SubResource("Resource_in11o"), SubResource("Resource_0k4f7"), SubResource("Resource_vsbba"), SubResource("Resource_bsg3t"), SubResource("Resource_3cxrn"), SubResource("Resource_35s21"), SubResource("Resource_nnvt2"), SubResource("Resource_5877e"), SubResource("Resource_s5wke"), SubResource("Resource_n4lij"), SubResource("Resource_21al6"), SubResource("Resource_a1jws"), SubResource("Resource_1g8ji"), SubResource("Resource_jfp5m"), SubResource("Resource_7wg26"), SubResource("Resource_m3lrj"), SubResource("Resource_qfyiw"), SubResource("Resource_y6tm6"), SubResource("Resource_gvpk8"), SubResource("Resource_caj1v")])

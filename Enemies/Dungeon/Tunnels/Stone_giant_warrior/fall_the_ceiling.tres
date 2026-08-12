@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://b4sqwvfjpf2y1"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_bagde"]
+
+[resource]
+majesty_gain = 0
+script = ExtResource("1_bagde")
+name = "Обрушить потолок"
+target_type = "Self"
+usable_from_positions = Array[bool]([true, true, false, false])
+targetable_positions = Array[bool]([false, false, false, false])
+stance_duration_type = "UntilNextTurn"
+is_stance = true
+stance_effect_type = "giant_ceiling"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

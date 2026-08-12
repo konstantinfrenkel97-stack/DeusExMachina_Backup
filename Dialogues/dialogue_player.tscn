@@ -1,0 +1,82 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Dialogues/dialogue_player.gd" id="1_player"]
+
+[node name="DialoguePlayer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
+script = ExtResource("1_player")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
+color = Color(0.04, 0.05, 0.08, 0.9)
+
+[node name="PortraitAnchor" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.02
+anchor_top = 0.0
+anchor_right = 0.68
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Portrait" type="TextureRect" parent="PortraitAnchor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="CloseButton" type="Button" parent="."]
+layout_mode = 1
+offset_left = 20.0
+offset_top = 16.0
+offset_right = 200.0
+offset_bottom = 60.0
+text = "Пропустить"
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchor_top = 0.66
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = 0.0
+offset_right = -28.0
+offset_bottom = -24.0
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 18
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="SpeakerName" type="Label" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Говорящий"
+
+[node name="BodyText" type="RichTextLabel" parent="Panel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "Текст реплики."
+fit_content = false
+scroll_active = false
+
+[node name="Choices" type="VBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8

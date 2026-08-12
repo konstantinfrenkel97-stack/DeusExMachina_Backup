@@ -1,0 +1,715 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3]
+
+[ext_resource type="Script" path="res://Dialogues/dialogue_line.gd" id="1_ccp7y"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_choice.gd" id="2_ndmco"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_resource.gd" id="3_ijq5e"]
+
+[sub_resource type="Resource" id="Resource_q6xlw"]
+script = ExtResource("1_ccp7y")
+line_id = "intro_action"
+speaker_name = "Тор"
+text = "(Когда ты входишь в его комнату, Тор размахивает молотом в тренировочных ударах. Увидев тебя, останавливается)"
+
+[sub_resource type="Resource" id="Resource_21ap6"]
+script = ExtResource("1_ccp7y")
+line_id = "intro_lena"
+speaker_name = "Лена"
+text = "Тор."
+
+[sub_resource type="Resource" id="Resource_8ew8v"]
+script = ExtResource("1_ccp7y")
+line_id = "intro_thor"
+speaker_name = "Тор"
+text = "Здорова будь."
+next_line_id = "Thor_choices_1"
+
+[sub_resource type="Resource" id="Resource_ifp4b"]
+script = ExtResource("2_ndmco")
+choice_id = "open_door"
+choice_text = "Открыть дверь"
+next_line_id = "open_door_1"
+
+[sub_resource type="Resource" id="Resource_vsu5k"]
+script = ExtResource("2_ndmco")
+choice_id = "opinion"
+choice_text = "Мнение о богах"
+next_line_id = "opinion_start"
+
+[sub_resource type="Resource" id="Resource_yo2r4"]
+script = ExtResource("2_ndmco")
+choice_id = "why_help"
+choice_text = "Почему помогает"
+next_line_id = "why_help_1"
+
+[sub_resource type="Resource" id="Resource_83qwo"]
+script = ExtResource("2_ndmco")
+choice_id = "new_world"
+choice_text = "Как тебе новый мир"
+next_line_id = "new_world_1"
+
+[sub_resource type="Resource" id="Resource_ccity"]
+script = ExtResource("2_ndmco")
+choice_id = "tunnels_world"
+choice_text = "Мир тоннелей"
+next_line_id = "tunnels_1"
+
+[sub_resource type="Resource" id="Resource_emsjh"]
+script = ExtResource("1_ccp7y")
+line_id = "Thor_choices_1"
+choices = Array[ExtResource("2_ndmco")]([SubResource("Resource_ifp4b"), SubResource("Resource_vsu5k"), SubResource("Resource_yo2r4"), SubResource("Resource_83qwo"), SubResource("Resource_ccity")])
+
+[sub_resource type="Resource" id="Resource_1f62f"]
+script = ExtResource("1_ccp7y")
+line_id = "open_door_1"
+speaker_name = "Лена"
+text = "Послушай, мне нужна помощь. Враги находятся за вон теми дверями, но я не могу их открыть, только бог может."
+next_line_id = "open_door_2"
+
+[sub_resource type="Resource" id="Resource_qwvkk"]
+script = ExtResource("1_ccp7y")
+line_id = "open_door_2"
+speaker_name = "Тор"
+text = "Дверку открыть? Уж чай нам по силам."
+next_line_id = "open_door_3"
+
+[sub_resource type="Resource" id="Resource_mt0sq"]
+script = ExtResource("1_ccp7y")
+line_id = "open_door_3"
+speaker_name = "Тор"
+text = "Ну-ка… Давай вот эту."
+next_line_id = "open_door_4"
+
+[sub_resource type="Resource" id="Resource_tbw4w"]
+script = ExtResource("1_ccp7y")
+line_id = "open_door_4"
+speaker_name = "Тор"
+text = "Чувствую, там полно сильных противников."
+next_line_id = "open_door_5"
+
+[sub_resource type="Resource" id="Resource_rtbxd"]
+script = ExtResource("1_ccp7y")
+line_id = "open_door_5"
+speaker_name = "Лена"
+text = "Дворфийские тоннели? Не ожидала."
+next_line_id = "open_door_6"
+
+[sub_resource type="Resource" id="Resource_io2a3"]
+script = ExtResource("1_ccp7y")
+line_id = "open_door_6"
+speaker_name = "Тор"
+text = "Тоннели тут ни при чем. Я чувствую великанов."
+next_line_id = "open_door_7"
+
+[sub_resource type="Resource" id="Resource_8exye"]
+script = ExtResource("1_ccp7y")
+line_id = "open_door_7"
+speaker_name = "Тор"
+text = "И чертовски сильных."
+next_line_id = "open_door_8"
+
+[sub_resource type="Resource" id="Resource_4jwg3"]
+script = ExtResource("1_ccp7y")
+line_id = "open_door_8"
+speaker_name = "Тор"
+text = "Идем туда."
+next_line_id = "open_door_9"
+
+[sub_resource type="Resource" id="Resource_t6ktu"]
+script = ExtResource("1_ccp7y")
+line_id = "open_door_9"
+speaker_name = "Лена"
+text = "Небесный бог грома бросает вызов мощи самой земли. Поэтично."
+next_line_id = "open_door_10"
+
+[sub_resource type="Resource" id="Resource_m07nm"]
+script = ExtResource("1_ccp7y")
+line_id = "open_door_10"
+speaker_name = "Тор"
+text = "Ха! И правда!"
+next_line_id = "Thor_choices_1"
+
+[sub_resource type="Resource" id="Resource_5880u"]
+script = ExtResource("2_ndmco")
+choice_id = "opinion_loki"
+choice_text = "Локи"
+next_line_id = "loki_1"
+
+[sub_resource type="Resource" id="Resource_oif08"]
+script = ExtResource("2_ndmco")
+choice_id = "opinion_odin"
+choice_text = "Один"
+next_line_id = "odin_1"
+
+[sub_resource type="Resource" id="Resource_bhxxq"]
+script = ExtResource("1_ccp7y")
+line_id = "opinion_start"
+speaker_name = "Лена"
+text = "Что ты думаешь о…"
+choices = Array[ExtResource("2_ndmco")]([SubResource("Resource_5880u"), SubResource("Resource_oif08")])
+
+[sub_resource type="Resource" id="Resource_pgunh"]
+script = ExtResource("1_ccp7y")
+line_id = "loki_1"
+speaker_name = "Лена"
+text = "… Локи?"
+next_line_id = "loki_2"
+
+[sub_resource type="Resource" id="Resource_pkqvr"]
+script = ExtResource("1_ccp7y")
+line_id = "loki_2"
+speaker_name = "Тор"
+text = "Хмм, он странный парень."
+next_line_id = "loki_3"
+
+[sub_resource type="Resource" id="Resource_cbkdh"]
+script = ExtResource("1_ccp7y")
+line_id = "loki_3"
+speaker_name = "Тор"
+text = "Вечно себе на уме, несет какую-то тарабарщину."
+next_line_id = "loki_4"
+
+[sub_resource type="Resource" id="Resource_7xa7f"]
+script = ExtResource("1_ccp7y")
+line_id = "loki_4"
+speaker_name = "Тор"
+text = "Никогда с ним не ладил."
+next_line_id = "loki_5"
+
+[sub_resource type="Resource" id="Resource_q0xd2"]
+script = ExtResource("1_ccp7y")
+line_id = "loki_5"
+speaker_name = "Тор"
+text = "Раньше думал, просто чудак, но постепенно его шуточки становились все менее…"
+next_line_id = "loki_6"
+
+[sub_resource type="Resource" id="Resource_w2h52"]
+script = ExtResource("1_ccp7y")
+line_id = "loki_6"
+speaker_name = "Тор"
+text = "… терпимыми."
+next_line_id = "loki_7"
+
+[sub_resource type="Resource" id="Resource_3tfd2"]
+script = ExtResource("1_ccp7y")
+line_id = "loki_7"
+speaker_name = "Лена"
+text = "Рагнарек…"
+next_line_id = "loki_8"
+
+[sub_resource type="Resource" id="Resource_4q2gd"]
+script = ExtResource("1_ccp7y")
+line_id = "loki_8"
+speaker_name = "Тор"
+text = "Рагнарек, да."
+next_line_id = "loki_9"
+
+[sub_resource type="Resource" id="Resource_du1xa"]
+script = ExtResource("1_ccp7y")
+line_id = "loki_9"
+speaker_name = "Тор"
+text = "Он принес разрушение всем нам. Породил множество разных чудовищ."
+next_line_id = "loki_10"
+
+[sub_resource type="Resource" id="Resource_m3bd7"]
+script = ExtResource("1_ccp7y")
+line_id = "loki_10"
+speaker_name = "Тор"
+text = "И зачем?"
+next_line_id = "loki_11"
+
+[sub_resource type="Resource" id="Resource_b2arl"]
+script = ExtResource("1_ccp7y")
+line_id = "loki_11"
+speaker_name = "Тор"
+text = "Чего ему в Асгарде не хватало? Чем его все так обидели?"
+next_line_id = "loki_12"
+
+[sub_resource type="Resource" id="Resource_hf54r"]
+script = ExtResource("1_ccp7y")
+line_id = "loki_12"
+speaker_name = "Тор"
+text = "Не понимаю."
+next_line_id = "loki_13"
+
+[sub_resource type="Resource" id="Resource_7r84f"]
+script = ExtResource("1_ccp7y")
+line_id = "loki_13"
+speaker_name = "Лена"
+text = "Хм…"
+next_line_id = "Thor_choices_1"
+
+[sub_resource type="Resource" id="Resource_t3oag"]
+script = ExtResource("1_ccp7y")
+line_id = "odin_1"
+speaker_name = "Лена"
+text = "…Одине."
+next_line_id = "odin_2"
+
+[sub_resource type="Resource" id="Resource_kwcdx"]
+script = ExtResource("1_ccp7y")
+line_id = "odin_2"
+speaker_name = "Тор"
+text = "Про батю-то?"
+next_line_id = "odin_3"
+
+[sub_resource type="Resource" id="Resource_i6hju"]
+script = ExtResource("1_ccp7y")
+line_id = "odin_3"
+speaker_name = "Тор"
+text = "Хорош, могуч, силен."
+next_line_id = "odin_4"
+
+[sub_resource type="Resource" id="Resource_8ep1s"]
+script = ExtResource("1_ccp7y")
+line_id = "odin_4"
+speaker_name = "Тор"
+text = "И умный, как сто лисиц."
+next_line_id = "odin_5"
+
+[sub_resource type="Resource" id="Resource_a3wes"]
+script = ExtResource("1_ccp7y")
+line_id = "odin_5"
+speaker_name = "Лена"
+text = "Это точно."
+next_line_id = "odin_6"
+
+[sub_resource type="Resource" id="Resource_xwoo8"]
+script = ExtResource("1_ccp7y")
+line_id = "odin_6"
+speaker_name = "Тор"
+text = "Понимаешь, я-то и сам не промах. Но я просто парень с молотом, и мне нравится такая жизнь. Да и план боя могу нормально продумать."
+next_line_id = "odin_7"
+
+[sub_resource type="Resource" id="Resource_1qcrt"]
+script = ExtResource("1_ccp7y")
+line_id = "odin_7"
+speaker_name = "Тор"
+text = "Но когда представляю себя на его месте."
+next_line_id = "odin_8"
+
+[sub_resource type="Resource" id="Resource_2kfsn"]
+script = ExtResource("1_ccp7y")
+line_id = "odin_8"
+speaker_name = "Тор"
+text = "Управлять Асгардом, всеми нами."
+next_line_id = "odin_9"
+
+[sub_resource type="Resource" id="Resource_7v7up"]
+script = ExtResource("1_ccp7y")
+line_id = "odin_9"
+speaker_name = "Тор"
+text = "Чем дольше живу, тем больше батю уважаю, вот что."
+next_line_id = "odin_10"
+
+[sub_resource type="Resource" id="Resource_jxbb8"]
+script = ExtResource("1_ccp7y")
+line_id = "odin_10"
+speaker_name = "Лена"
+text = "Спасибо. Я думаю, я могу понять, о чем ты."
+next_line_id = "Thor_choices_1"
+
+[sub_resource type="Resource" id="Resource_x2xf8"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_1"
+speaker_name = "Лена"
+text = "Насчет того, почему ты мне помогаешь."
+next_line_id = "why_help_2"
+
+[sub_resource type="Resource" id="Resource_egl1v"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_2"
+speaker_name = "Тор"
+text = "А что там?"
+next_line_id = "why_help_3"
+
+[sub_resource type="Resource" id="Resource_5gd1o"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_3"
+speaker_name = "Лена"
+text = "Ты говорил, что рад возможности сражаться с сильными противниками."
+next_line_id = "why_help_4"
+
+[sub_resource type="Resource" id="Resource_r5m5i"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_4"
+speaker_name = "Тор"
+text = "Да, есть такое."
+next_line_id = "why_help_5"
+
+[sub_resource type="Resource" id="Resource_gnpnp"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_5"
+speaker_name = "Лена"
+text = "А вот если бы мне угрожали слабые противники, ты бы не помог?"
+next_line_id = "why_help_6"
+
+[sub_resource type="Resource" id="Resource_htcnm"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_6"
+speaker_name = "Тор"
+text = "Что за странный вопрос."
+next_line_id = "why_help_7"
+
+[sub_resource type="Resource" id="Resource_g10bh"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_7"
+speaker_name = "Лена"
+text = "Я просто люблю исследовать. А тут возможность поговорить с живыми божествами. Узнать вас получше."
+next_line_id = "why_help_8"
+
+[sub_resource type="Resource" id="Resource_18jry"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_8"
+speaker_name = "Тор"
+text = "Хм, ну… Помог бы наверное, но было бы не так интересно."
+next_line_id = "why_help_9"
+
+[sub_resource type="Resource" id="Resource_r4f12"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_9"
+speaker_name = "Тор"
+text = "Да и со слабыми врагами моя помощь была бы избыточна."
+next_line_id = "why_help_10"
+
+[sub_resource type="Resource" id="Resource_el8rg"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_10"
+speaker_name = "Лена"
+text = "А что тебе еще нравится помимо битв?"
+next_line_id = "why_help_11"
+
+[sub_resource type="Resource" id="Resource_klqi1"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_11"
+speaker_name = "Тор"
+text = "Хех, многое. Бухать, веселиться. Песни петь."
+next_line_id = "why_help_12"
+
+[sub_resource type="Resource" id="Resource_alyay"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_12"
+speaker_name = "Лена"
+text = "Хмм…"
+next_line_id = "why_help_13"
+
+[sub_resource type="Resource" id="Resource_gq0fu"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_13"
+speaker_name = "Тор"
+text = "Ой, ну что еще?"
+next_line_id = "why_help_14"
+
+[sub_resource type="Resource" id="Resource_iu44q"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_14"
+speaker_name = "Лена"
+text = "Как будто не договариваешь что-то."
+next_line_id = "why_help_15"
+
+[sub_resource type="Resource" id="Resource_lv26v"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_15"
+speaker_name = "Тор"
+text = "Чего?"
+next_line_id = "why_help_16"
+
+[sub_resource type="Resource" id="Resource_41r8l"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_16"
+speaker_name = "Тор"
+text = "Да зачем мне от тебя что-то скрывать?"
+next_line_id = "why_help_17"
+
+[sub_resource type="Resource" id="Resource_g15rl"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_17"
+speaker_name = "Лена"
+text = "Да… Наверное, ты прав. Глупый вопрос, прости."
+next_line_id = "why_help_18"
+
+[sub_resource type="Resource" id="Resource_uatt3"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_18"
+speaker_name = "Тор"
+text = "…"
+next_line_id = "why_help_19"
+
+[sub_resource type="Resource" id="Resource_i6upy"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_19"
+speaker_name = "Лена"
+text = "…."
+next_line_id = "why_help_20"
+
+[sub_resource type="Resource" id="Resource_nx377"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_20"
+speaker_name = "Тор"
+text = "Ладно, тайны хранить умеешь?"
+next_line_id = "why_help_21"
+
+[sub_resource type="Resource" id="Resource_e64gd"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_21"
+speaker_name = "Лена"
+text = "Эм, да, конечно."
+next_line_id = "why_help_22"
+
+[sub_resource type="Resource" id="Resource_ajrti"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_22"
+speaker_name = "Тор"
+text = "Фххххх…"
+next_line_id = "why_help_23"
+
+[sub_resource type="Resource" id="Resource_bbteu"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_23"
+speaker_name = "Тор"
+text = "Я подкармливаю белок."
+next_line_id = "why_help_24"
+
+[sub_resource type="Resource" id="Resource_fh5lb"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_24"
+speaker_name = "Лена"
+text = "Ага."
+next_line_id = "why_help_25"
+
+[sub_resource type="Resource" id="Resource_b3gf7"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_25"
+speaker_name = "Тор"
+text = "Вот."
+next_line_id = "why_help_26"
+
+[sub_resource type="Resource" id="Resource_1ms3w"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_26"
+speaker_name = "Лена"
+text = "Это тайна?"
+next_line_id = "why_help_27"
+
+[sub_resource type="Resource" id="Resource_1ii0l"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_27"
+speaker_name = "Тор"
+text = "Да, и ты никому не должна говорить!"
+next_line_id = "why_help_28"
+
+[sub_resource type="Resource" id="Resource_i8sr8"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_28"
+speaker_name = "Лена"
+text = "Я… Хорошо, как и обещала, не буду."
+next_line_id = "why_help_29"
+
+[sub_resource type="Resource" id="Resource_rosfd"]
+script = ExtResource("1_ccp7y")
+line_id = "why_help_29"
+speaker_name = "Лена"
+text = "Белок…"
+next_line_id = "Thor_choices_1"
+
+[sub_resource type="Resource" id="Resource_anrr2"]
+script = ExtResource("1_ccp7y")
+line_id = "new_world_1"
+speaker_name = "Лена"
+text = "Как тебе это место?"
+next_line_id = "new_world_2"
+
+[sub_resource type="Resource" id="Resource_tfb07"]
+script = ExtResource("1_ccp7y")
+line_id = "new_world_2"
+speaker_name = "Тор"
+text = "Нормально, че."
+next_line_id = "new_world_3"
+
+[sub_resource type="Resource" id="Resource_a4d28"]
+script = ExtResource("1_ccp7y")
+line_id = "new_world_3"
+speaker_name = "Лена"
+text = "И все? Это ведь безумный мир фантазий."
+next_line_id = "new_world_4"
+
+[sub_resource type="Resource" id="Resource_sdsvu"]
+script = ExtResource("1_ccp7y")
+line_id = "new_world_4"
+speaker_name = "Тор"
+text = "Да как-то… Ничего особенного, нет?"
+next_line_id = "new_world_5"
+
+[sub_resource type="Resource" id="Resource_t3wus"]
+script = ExtResource("1_ccp7y")
+line_id = "new_world_5"
+speaker_name = "Лена"
+text = "Ну не знаю."
+next_line_id = "new_world_6"
+
+[sub_resource type="Resource" id="Resource_wkhqt"]
+script = ExtResource("1_ccp7y")
+line_id = "new_world_6"
+speaker_name = "Лена"
+text = "Тут все такое волшебное."
+next_line_id = "new_world_7"
+
+[sub_resource type="Resource" id="Resource_hkuci"]
+script = ExtResource("1_ccp7y")
+line_id = "new_world_7"
+speaker_name = "Тор"
+text = "Да… Нормальное. Я правда не понимаю, о чем ты говоришь."
+next_line_id = "new_world_8"
+
+[sub_resource type="Resource" id="Resource_kq3s3"]
+script = ExtResource("1_ccp7y")
+line_id = "new_world_8"
+speaker_name = "Лена"
+text = "Ладно."
+next_line_id = "Thor_choices_1"
+
+[sub_resource type="Resource" id="Resource_7dcpu"]
+script = ExtResource("1_ccp7y")
+line_id = "tunnels_1"
+speaker_name = "Лена"
+text = "И все же тоннели, странный выбор."
+next_line_id = "tunnels_2"
+
+[sub_resource type="Resource" id="Resource_lj54m"]
+script = ExtResource("1_ccp7y")
+line_id = "tunnels_2"
+speaker_name = "Тор"
+text = "Отчего же?"
+next_line_id = "tunnels_3"
+
+[sub_resource type="Resource" id="Resource_42h4i"]
+script = ExtResource("1_ccp7y")
+line_id = "tunnels_3"
+speaker_name = "Лена"
+text = "Никогда не представляла вас ползающим под землей."
+next_line_id = "tunnels_4"
+
+[sub_resource type="Resource" id="Resource_d7ay5"]
+script = ExtResource("1_ccp7y")
+line_id = "tunnels_4"
+speaker_name = "Лена"
+text = "Скорее парящего в небесах с сияющим молотом."
+next_line_id = "tunnels_5"
+
+[sub_resource type="Resource" id="Resource_4g43t"]
+script = ExtResource("1_ccp7y")
+line_id = "tunnels_5"
+speaker_name = "Тор"
+text = "Ну, этим я тоже занимался."
+next_line_id = "tunnels_6"
+
+[sub_resource type="Resource" id="Resource_itwa2"]
+script = ExtResource("1_ccp7y")
+line_id = "tunnels_6"
+speaker_name = "Тор"
+text = "Но ведь тем интереснее битва, чем она тяжелее, нет?"
+next_line_id = "tunnels_7"
+
+[sub_resource type="Resource" id="Resource_1mr0u"]
+script = ExtResource("1_ccp7y")
+line_id = "tunnels_7"
+speaker_name = "Тор"
+text = "Под землей как раз самое то."
+next_line_id = "tunnels_8"
+
+[sub_resource type="Resource" id="Resource_m545u"]
+script = ExtResource("1_ccp7y")
+line_id = "tunnels_8"
+speaker_name = "Лена"
+text = "Логика… присутствует."
+next_line_id = "tunnels_9"
+
+[sub_resource type="Resource" id="Resource_vvr83"]
+script = ExtResource("1_ccp7y")
+line_id = "tunnels_9"
+speaker_name = "Тор"
+text = "Опять же великаны."
+next_line_id = "tunnels_10"
+
+[sub_resource type="Resource" id="Resource_46sd3"]
+script = ExtResource("1_ccp7y")
+line_id = "tunnels_10"
+speaker_name = "Тор"
+text = "Но я тебя, кстати, должен заверить. Дворфы тоже народ не пальцем деланый."
+next_line_id = "tunnels_11"
+
+[sub_resource type="Resource" id="Resource_f3t47"]
+script = ExtResource("1_ccp7y")
+line_id = "tunnels_11"
+speaker_name = "Тор"
+text = "Чем крепче доспех, тем больше хочется его пробить, как ты понимаешь."
+next_line_id = "tunnels_12"
+
+[sub_resource type="Resource" id="Resource_mfwr1"]
+script = ExtResource("1_ccp7y")
+line_id = "tunnels_12"
+speaker_name = "Лена"
+text = "Не могу сказать, что мне знакомо чувство."
+next_line_id = "tunnels_13"
+
+[sub_resource type="Resource" id="Resource_yabiq"]
+script = ExtResource("1_ccp7y")
+line_id = "tunnels_13"
+speaker_name = "Лена"
+text = "Но я понимаю, о чем вы говорите."
+next_line_id = "tunnels_14"
+
+[sub_resource type="Resource" id="Resource_7ouab"]
+script = ExtResource("1_ccp7y")
+line_id = "tunnels_14"
+speaker_name = "Лена"
+text = "Как думаете, кого мы там можем встретить?"
+next_line_id = "tunnels_15"
+
+[sub_resource type="Resource" id="Resource_dhave"]
+script = ExtResource("1_ccp7y")
+line_id = "tunnels_15"
+speaker_name = "Тор"
+text = "Если я не ошибся."
+next_line_id = "tunnels_16"
+
+[sub_resource type="Resource" id="Resource_lhlgr"]
+script = ExtResource("1_ccp7y")
+line_id = "tunnels_16"
+speaker_name = "Тор"
+text = "…. Короля великанов."
+next_line_id = "tunnels_17"
+
+[sub_resource type="Resource" id="Resource_xww11"]
+script = ExtResource("1_ccp7y")
+line_id = "tunnels_17"
+speaker_name = "Тор"
+text = "Здоровенный и злющий."
+next_line_id = "tunnels_18"
+
+[sub_resource type="Resource" id="Resource_o2rhs"]
+script = ExtResource("1_ccp7y")
+line_id = "tunnels_18"
+speaker_name = "Тор"
+text = "Вот с кем я давно хотел силушкой померяться."
+next_line_id = "tunnels_19"
+
+[sub_resource type="Resource" id="Resource_u8hro"]
+script = ExtResource("1_ccp7y")
+line_id = "tunnels_19"
+speaker_name = "Лена"
+text = "Хах, надеюсь, вам удастся."
+next_line_id = "tunnels_20"
+
+[sub_resource type="Resource" id="Resource_e0vju"]
+script = ExtResource("1_ccp7y")
+line_id = "tunnels_20"
+speaker_name = "Тор"
+text = "Ха! Помяни мое слово. Моя чуйка не подводит."
+next_line_id = "Thor_choices_1"
+
+[resource]
+script = ExtResource("3_ijq5e")
+dialogue_id = "thor_dialogue_1"
+dialogue_name = ""
+start_line_id = "intro_action"
+lines = Array[ExtResource("1_ccp7y")]([SubResource("Resource_q6xlw"), SubResource("Resource_21ap6"), SubResource("Resource_8ew8v"), SubResource("Resource_emsjh"), SubResource("Resource_1f62f"), SubResource("Resource_qwvkk"), SubResource("Resource_mt0sq"), SubResource("Resource_tbw4w"), SubResource("Resource_rtbxd"), SubResource("Resource_io2a3"), SubResource("Resource_8exye"), SubResource("Resource_4jwg3"), SubResource("Resource_t6ktu"), SubResource("Resource_m07nm"), SubResource("Resource_bhxxq"), SubResource("Resource_pgunh"), SubResource("Resource_pkqvr"), SubResource("Resource_cbkdh"), SubResource("Resource_7xa7f"), SubResource("Resource_q0xd2"), SubResource("Resource_w2h52"), SubResource("Resource_3tfd2"), SubResource("Resource_4q2gd"), SubResource("Resource_du1xa"), SubResource("Resource_m3bd7"), SubResource("Resource_b2arl"), SubResource("Resource_hf54r"), SubResource("Resource_7r84f"), SubResource("Resource_t3oag"), SubResource("Resource_kwcdx"), SubResource("Resource_i6hju"), SubResource("Resource_8ep1s"), SubResource("Resource_a3wes"), SubResource("Resource_xwoo8"), SubResource("Resource_1qcrt"), SubResource("Resource_2kfsn"), SubResource("Resource_7v7up"), SubResource("Resource_jxbb8"), SubResource("Resource_x2xf8"), SubResource("Resource_egl1v"), SubResource("Resource_5gd1o"), SubResource("Resource_r5m5i"), SubResource("Resource_gnpnp"), SubResource("Resource_htcnm"), SubResource("Resource_g10bh"), SubResource("Resource_18jry"), SubResource("Resource_r4f12"), SubResource("Resource_el8rg"), SubResource("Resource_klqi1"), SubResource("Resource_alyay"), SubResource("Resource_gq0fu"), SubResource("Resource_iu44q"), SubResource("Resource_lv26v"), SubResource("Resource_41r8l"), SubResource("Resource_g15rl"), SubResource("Resource_uatt3"), SubResource("Resource_i6upy"), SubResource("Resource_nx377"), SubResource("Resource_e64gd"), SubResource("Resource_ajrti"), SubResource("Resource_bbteu"), SubResource("Resource_fh5lb"), SubResource("Resource_b3gf7"), SubResource("Resource_1ms3w"), SubResource("Resource_1ii0l"), SubResource("Resource_i8sr8"), SubResource("Resource_rosfd"), SubResource("Resource_anrr2"), SubResource("Resource_tfb07"), SubResource("Resource_a4d28"), SubResource("Resource_sdsvu"), SubResource("Resource_t3wus"), SubResource("Resource_wkhqt"), SubResource("Resource_hkuci"), SubResource("Resource_kq3s3"), SubResource("Resource_7dcpu"), SubResource("Resource_lj54m"), SubResource("Resource_42h4i"), SubResource("Resource_d7ay5"), SubResource("Resource_4g43t"), SubResource("Resource_itwa2"), SubResource("Resource_1mr0u"), SubResource("Resource_m545u"), SubResource("Resource_vvr83"), SubResource("Resource_46sd3"), SubResource("Resource_f3t47"), SubResource("Resource_mfwr1"), SubResource("Resource_yabiq"), SubResource("Resource_7ouab"), SubResource("Resource_dhave"), SubResource("Resource_lhlgr"), SubResource("Resource_xww11"), SubResource("Resource_o2rhs"), SubResource("Resource_u8hro"), SubResource("Resource_e0vju")])

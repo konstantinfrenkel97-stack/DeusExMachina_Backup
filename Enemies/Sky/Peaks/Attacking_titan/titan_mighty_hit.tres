@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://dpabhscgtou20"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+majesty_gain = 0
+script = ExtResource("1_ab")
+name = "Могучий удар"
+usable_from_positions = Array[bool]([true, true, false, false])
+targetable_positions = Array[bool]([true, true, true, false])
+ability_marker = "titan_mighty_hit"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

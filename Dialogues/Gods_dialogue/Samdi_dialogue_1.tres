@@ -1,0 +1,843 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3]
+
+[ext_resource type="Script" path="res://Dialogues/dialogue_line.gd" id="1_line"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_resource.gd" id="3_res"]
+
+[sub_resource type="Resource" id="Resource_s01"]
+script = ExtResource("1_line")
+line_id = "intro_action"
+speaker_name = "Самди"
+text = "(Из-под двери комнаты Самди идет дым и слышна музыка. Войдя в комнату, ты не сразу замечаешь его среди цветных картин, статуй, цветов и дымки.)"
+next_line_id = "intro_samdi1"
+
+[sub_resource type="Resource" id="Resource_s02"]
+script = ExtResource("1_line")
+line_id = "intro_samdi1"
+speaker_name = "Самди"
+text = "Заходи смелее, мы не кусаемся."
+next_line_id = "intro_lena1"
+
+[sub_resource type="Resource" id="Resource_s03"]
+script = ExtResource("1_line")
+line_id = "intro_lena1"
+speaker_name = "Лена"
+text = "Эм, кто мы?"
+next_line_id = "intro_samdi2"
+
+[sub_resource type="Resource" id="Resource_s04"]
+script = ExtResource("1_line")
+line_id = "intro_samdi2"
+speaker_name = "Самди"
+text = "(Он улыбается держа сигарету в белоснежных зубах. По полу словно змеи расползаются длинные тени.)"
+next_line_id = "Samdi_choices_1"
+
+[sub_resource type="Resource" id="Resource_s05"]
+script = ExtResource("2_choice")
+choice_id = "open_door"
+choice_text = "Открыть дверь"
+next_line_id = "open_door_1"
+
+[sub_resource type="Resource" id="Resource_s06"]
+script = ExtResource("2_choice")
+choice_id = "opinion"
+choice_text = "Мнение о богах"
+next_line_id = "opinion_start"
+
+[sub_resource type="Resource" id="Resource_s07"]
+script = ExtResource("2_choice")
+choice_id = "new_world"
+choice_text = "Новый мир"
+next_line_id = "new_world_1"
+
+[sub_resource type="Resource" id="Resource_s08"]
+script = ExtResource("2_choice")
+choice_id = "your_help"
+choice_text = "Твоя помощь"
+next_line_id = "help_1"
+
+[sub_resource type="Resource" id="Resource_s09"]
+script = ExtResource("2_choice")
+choice_id = "chosen_location"
+choice_text = "Выбранная локация"
+next_line_id = "chosen_location_1"
+
+[sub_resource type="Resource" id="Resource_s10"]
+script = ExtResource("1_line")
+line_id = "Samdi_choices_1"
+choices = Array[ExtResource("2_choice")]([SubResource("Resource_s05"), SubResource("Resource_s06"), SubResource("Resource_s07"), SubResource("Resource_s08"), SubResource("Resource_s09")])
+
+[sub_resource type="Resource" id="Resource_s11"]
+script = ExtResource("1_line")
+line_id = "open_door_1"
+speaker_name = "Лена"
+text = "Могу я попросить вас открыть одну из этих дверей? Тут божественная сила нужна."
+next_line_id = "open_door_2"
+
+[sub_resource type="Resource" id="Resource_s12"]
+script = ExtResource("1_line")
+line_id = "open_door_2"
+speaker_name = "Самди"
+text = "Хмм, давай."
+next_line_id = "open_door_3"
+
+[sub_resource type="Resource" id="Resource_s13"]
+script = ExtResource("1_line")
+line_id = "open_door_3"
+speaker_name = "Самди"
+text = "Что же выбрать?"
+next_line_id = "open_door_4"
+
+[sub_resource type="Resource" id="Resource_s14"]
+script = ExtResource("1_line")
+line_id = "open_door_4"
+speaker_name = "Самди"
+text = "Эй, посмотри на эту?"
+next_line_id = "open_door_5"
+
+[sub_resource type="Resource" id="Resource_s15"]
+script = ExtResource("1_line")
+line_id = "open_door_5"
+speaker_name = "Лена"
+text = "Хмм, какая-то корабельная тематика?"
+next_line_id = "open_door_6"
+
+[sub_resource type="Resource" id="Resource_s16"]
+script = ExtResource("1_line")
+line_id = "open_door_6"
+speaker_name = "Самди"
+text = "Верно, а где корабли там и..."
+next_line_id = "open_door_7"
+
+[sub_resource type="Resource" id="Resource_s17"]
+script = ExtResource("1_line")
+line_id = "open_door_7"
+speaker_name = "Лена"
+text = "Торговля?"
+next_line_id = "open_door_8"
+
+[sub_resource type="Resource" id="Resource_s18"]
+script = ExtResource("1_line")
+line_id = "open_door_8"
+speaker_name = "Самди"
+text = "Мимо."
+next_line_id = "open_door_9"
+
+[sub_resource type="Resource" id="Resource_s19"]
+script = ExtResource("1_line")
+line_id = "open_door_9"
+speaker_name = "Лена"
+text = "Пираты?"
+next_line_id = "open_door_10"
+
+[sub_resource type="Resource" id="Resource_s20"]
+script = ExtResource("1_line")
+line_id = "open_door_10"
+speaker_name = "Самди"
+text = "Близко."
+next_line_id = "open_door_11"
+
+[sub_resource type="Resource" id="Resource_s21"]
+script = ExtResource("1_line")
+line_id = "open_door_11"
+speaker_name = "Лена"
+text = "Корабельные песни?"
+next_line_id = "open_door_12"
+
+[sub_resource type="Resource" id="Resource_s22"]
+script = ExtResource("1_line")
+line_id = "open_door_12"
+speaker_name = "Самди"
+text = "А конкретно?"
+next_line_id = "open_door_13"
+
+[sub_resource type="Resource" id="Resource_s23"]
+script = ExtResource("1_line")
+line_id = "open_door_13"
+speaker_name = "Лена"
+text = "Эм..."
+next_line_id = "open_door_14"
+
+[sub_resource type="Resource" id="Resource_s24"]
+script = ExtResource("1_line")
+line_id = "open_door_14"
+speaker_name = "Самди"
+text = "Йо-хо-хо..."
+next_line_id = "open_door_15"
+
+[sub_resource type="Resource" id="Resource_s25"]
+script = ExtResource("1_line")
+line_id = "open_door_15"
+speaker_name = "Лена"
+text = "И бутылка рома!"
+next_line_id = "open_door_16"
+
+[sub_resource type="Resource" id="Resource_s26"]
+script = ExtResource("1_line")
+line_id = "open_door_16"
+speaker_name = "Самди"
+text = "Верно!"
+next_line_id = "open_door_17"
+
+[sub_resource type="Resource" id="Resource_s27"]
+script = ExtResource("1_line")
+line_id = "open_door_17"
+speaker_name = "Лена"
+text = "Мда, могла бы и догадаться."
+next_line_id = "open_door_18"
+
+[sub_resource type="Resource" id="Resource_s28"]
+script = ExtResource("1_line")
+line_id = "open_door_18"
+speaker_name = "Лена"
+text = "Зная вас."
+next_line_id = "open_door_19"
+
+[sub_resource type="Resource" id="Resource_s29"]
+script = ExtResource("1_line")
+line_id = "open_door_19"
+speaker_name = "Самди"
+text = "Ооо, но ты пока совсем не знаешь меня."
+next_line_id = "Samdi_choices_1"
+
+[sub_resource type="Resource" id="Resource_s30"]
+script = ExtResource("2_choice")
+choice_id = "opinion_susanoo"
+choice_text = "Сусаноо"
+next_line_id = "opinion_susanoo_1"
+
+[sub_resource type="Resource" id="Resource_s31"]
+script = ExtResource("2_choice")
+choice_id = "opinion_shiva"
+choice_text = "Шива"
+next_line_id = "opinion_shiva_1"
+
+[sub_resource type="Resource" id="Resource_s32"]
+script = ExtResource("1_line")
+line_id = "opinion_start"
+speaker_name = "Лена"
+text = "А что вы думаете о..."
+choices = Array[ExtResource("2_choice")]([SubResource("Resource_s30"), SubResource("Resource_s31")])
+
+[sub_resource type="Resource" id="Resource_s33"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_1"
+speaker_name = "Лена"
+text = "... Сусаноо."
+next_line_id = "opinion_susanoo_2"
+
+[sub_resource type="Resource" id="Resource_s34"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_2"
+speaker_name = "Самди"
+text = "Прикольный. Недавно наорал на меня."
+next_line_id = "opinion_susanoo_3"
+
+[sub_resource type="Resource" id="Resource_s35"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_3"
+speaker_name = "Лена"
+text = "Неужели?"
+next_line_id = "opinion_susanoo_4"
+
+[sub_resource type="Resource" id="Resource_s36"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_4"
+speaker_name = "Самди"
+text = "Ага. Он начал мне заливать про свою священную цель и путь."
+next_line_id = "opinion_susanoo_5"
+
+[sub_resource type="Resource" id="Resource_s37"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_5"
+speaker_name = "Самди"
+text = "Я ему сказал, что думаю обо всем этом."
+next_line_id = "opinion_susanoo_6"
+
+[sub_resource type="Resource" id="Resource_s38"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_6"
+speaker_name = "Самди"
+text = "Ну там, слово за слово. Рукой по столу."
+next_line_id = "opinion_susanoo_7"
+
+[sub_resource type="Resource" id="Resource_s39"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_7"
+speaker_name = "Самди"
+text = "Ну ты знаешь как это бывает."
+next_line_id = "opinion_susanoo_8"
+
+[sub_resource type="Resource" id="Resource_s40"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_8"
+speaker_name = "Лена"
+text = "Надеюсь вы не держите обиды, не думаю что он делал вам зла."
+next_line_id = "opinion_susanoo_9"
+
+[sub_resource type="Resource" id="Resource_s41"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_9"
+speaker_name = "Самди"
+text = "Да мне вообще все равно."
+next_line_id = "opinion_susanoo_10"
+
+[sub_resource type="Resource" id="Resource_s42"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_10"
+speaker_name = "Самди"
+text = "Не он первый, не он последний."
+next_line_id = "opinion_susanoo_11"
+
+[sub_resource type="Resource" id="Resource_s43"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_11"
+speaker_name = "Лена"
+text = "И что же вы ему такое сказали?"
+next_line_id = "opinion_susanoo_12"
+
+[sub_resource type="Resource" id="Resource_s44"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_12"
+speaker_name = "Самди"
+text = "Что ему нужно расслабиться. Наслаждаться жизнью."
+next_line_id = "opinion_susanoo_13"
+
+[sub_resource type="Resource" id="Resource_s45"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_13"
+speaker_name = "Лена"
+text = "И все?"
+next_line_id = "opinion_susanoo_14"
+
+[sub_resource type="Resource" id="Resource_s46"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_14"
+speaker_name = "Самди"
+text = "И что он тратит энергию, на полную чушь."
+next_line_id = "opinion_susanoo_15"
+
+[sub_resource type="Resource" id="Resource_s47"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_15"
+speaker_name = "Лена"
+text = "Ох."
+next_line_id = "opinion_susanoo_16"
+
+[sub_resource type="Resource" id="Resource_s48"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_16"
+speaker_name = "Самди"
+text = "Слушай, скажи ка мне. В чем разница между достижением, к которому ты долго стремился, приложил кучу сил и времени, угробил здоровье и сон; и например бутылкой кактусовой настойки?"
+next_line_id = "opinion_susanoo_17"
+
+[sub_resource type="Resource" id="Resource_s49"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_17"
+speaker_name = "Лена"
+text = "Эм... А что общего?"
+next_line_id = "opinion_susanoo_18"
+
+[sub_resource type="Resource" id="Resource_s50"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_18"
+speaker_name = "Самди"
+text = "Разница в том, что бутылка приносит тебе удовольствие пока не закончится. А когда закончится, можно взять новую."
+next_line_id = "opinion_susanoo_19"
+
+[sub_resource type="Resource" id="Resource_s51"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_19"
+speaker_name = "Самди"
+text = "А наслаждение от получения достижения длится секунд пять. И зачем тогда ты претерпевал все эти лишения?"
+next_line_id = "opinion_susanoo_20"
+
+[sub_resource type="Resource" id="Resource_s52"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_20"
+speaker_name = "Самди"
+text = "Такая простая математика."
+next_line_id = "opinion_susanoo_21"
+
+[sub_resource type="Resource" id="Resource_s53"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_21"
+speaker_name = "Лена"
+text = "Я понимаю о чем вы говорите, но не совсем согласна."
+next_line_id = "opinion_susanoo_22"
+
+[sub_resource type="Resource" id="Resource_s54"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_22"
+speaker_name = "Самди"
+text = "Мало кто соглашается. Привыкли к мысли что грешно жить для наслаждения жизнью."
+next_line_id = "opinion_susanoo_23"
+
+[sub_resource type="Resource" id="Resource_s55"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_23"
+speaker_name = "Лена"
+text = "Мне нужно обдумать это."
+next_line_id = "Samdi_choices_1"
+
+[sub_resource type="Resource" id="Resource_s56"]
+script = ExtResource("1_line")
+line_id = "opinion_shiva_1"
+speaker_name = "Лена"
+text = "... Шиве."
+next_line_id = "opinion_shiva_2"
+
+[sub_resource type="Resource" id="Resource_s57"]
+script = ExtResource("1_line")
+line_id = "opinion_shiva_2"
+speaker_name = "Самди"
+text = "Шива. Фанатик какой-то."
+next_line_id = "opinion_shiva_3"
+
+[sub_resource type="Resource" id="Resource_s58"]
+script = ExtResource("1_line")
+line_id = "opinion_shiva_3"
+speaker_name = "Самди"
+text = "Ищет сложные слова, чтобы описать простые вещи."
+next_line_id = "opinion_shiva_4"
+
+[sub_resource type="Resource" id="Resource_s59"]
+script = ExtResource("1_line")
+line_id = "opinion_shiva_4"
+speaker_name = "Самди"
+text = "Хочет выглядеть крутым в собственных глазах."
+next_line_id = "opinion_shiva_5"
+
+[sub_resource type="Resource" id="Resource_s60"]
+script = ExtResource("1_line")
+line_id = "opinion_shiva_5"
+speaker_name = "Лена"
+text = "И какие же простые вещи он пытается усложнить?"
+next_line_id = "opinion_shiva_6"
+
+[sub_resource type="Resource" id="Resource_s61"]
+script = ExtResource("1_line")
+line_id = "opinion_shiva_6"
+speaker_name = "Самди"
+text = "Что он просто боится нести ответственность за свои поступки?"
+next_line_id = "opinion_shiva_7"
+
+[sub_resource type="Resource" id="Resource_s62"]
+script = ExtResource("1_line")
+line_id = "opinion_shiva_7"
+speaker_name = "Лена"
+text = "От вас то такое слышать?"
+next_line_id = "opinion_shiva_8"
+
+[sub_resource type="Resource" id="Resource_s63"]
+script = ExtResource("1_line")
+line_id = "opinion_shiva_8"
+speaker_name = "Самди"
+text = "Но-но-но! Я осознанно отказываюсь от ответственности. Но не делаю вид что занимаюсь чем-то иным."
+next_line_id = "opinion_shiva_9"
+
+[sub_resource type="Resource" id="Resource_s64"]
+script = ExtResource("1_line")
+line_id = "opinion_shiva_9"
+speaker_name = "Самди"
+text = "Я балагурю, потому что люблю балагур."
+next_line_id = "opinion_shiva_10"
+
+[sub_resource type="Resource" id="Resource_s65"]
+script = ExtResource("1_line")
+line_id = "opinion_shiva_10"
+speaker_name = "Самди"
+text = "Он то тоже балагурит, но приговаривает что это не он так решил, а вселенная."
+next_line_id = "opinion_shiva_11"
+
+[sub_resource type="Resource" id="Resource_s66"]
+script = ExtResource("1_line")
+line_id = "opinion_shiva_11"
+speaker_name = "Лена"
+text = "Не уверена что вы правильно толкуете его позицию."
+next_line_id = "opinion_shiva_12"
+
+[sub_resource type="Resource" id="Resource_s67"]
+script = ExtResource("1_line")
+line_id = "opinion_shiva_12"
+speaker_name = "Самди"
+text = "Какая разница в чем позиция?"
+next_line_id = "opinion_shiva_13"
+
+[sub_resource type="Resource" id="Resource_s68"]
+script = ExtResource("1_line")
+line_id = "opinion_shiva_13"
+speaker_name = "Самди"
+text = "Как часто люди принимают философию потому что она верна?"
+next_line_id = "opinion_shiva_14"
+
+[sub_resource type="Resource" id="Resource_s69"]
+script = ExtResource("1_line")
+line_id = "opinion_shiva_14"
+speaker_name = "Самди"
+text = "И как часто, потому что это выставляет их самих в лучшем свете?"
+next_line_id = "opinion_shiva_15"
+
+[sub_resource type="Resource" id="Resource_s70"]
+script = ExtResource("1_line")
+line_id = "opinion_shiva_15"
+speaker_name = "Лена"
+text = "Так то оно так..."
+next_line_id = "opinion_shiva_16"
+
+[sub_resource type="Resource" id="Resource_s71"]
+script = ExtResource("1_line")
+line_id = "opinion_shiva_16"
+speaker_name = "Самди"
+text = "Ладно, болтливая моя, ты пить то будешь?"
+next_line_id = "opinion_shiva_17"
+
+[sub_resource type="Resource" id="Resource_s72"]
+script = ExtResource("1_line")
+line_id = "opinion_shiva_17"
+speaker_name = "Лена"
+text = "А? Нет, спасибо."
+next_line_id = "opinion_shiva_18"
+
+[sub_resource type="Resource" id="Resource_s73"]
+script = ExtResource("1_line")
+line_id = "opinion_shiva_18"
+speaker_name = "Лена"
+text = "Не сейчас."
+next_line_id = "Samdi_choices_1"
+
+[sub_resource type="Resource" id="Resource_s74"]
+script = ExtResource("1_line")
+line_id = "new_world_1"
+speaker_name = "Лена"
+text = "Как вам мир фантазий?"
+next_line_id = "new_world_2"
+
+[sub_resource type="Resource" id="Resource_s75"]
+script = ExtResource("1_line")
+line_id = "new_world_2"
+speaker_name = "Самди"
+text = "Скучноват."
+next_line_id = "new_world_3"
+
+[sub_resource type="Resource" id="Resource_s76"]
+script = ExtResource("1_line")
+line_id = "new_world_3"
+speaker_name = "Лена"
+text = "Скучноват? Уж такой оценки я точно не ожидала."
+next_line_id = "new_world_4"
+
+[sub_resource type="Resource" id="Resource_s77"]
+script = ExtResource("1_line")
+line_id = "new_world_4"
+speaker_name = "Самди"
+text = "Слишком все просто. Слишком дозволено."
+next_line_id = "new_world_5"
+
+[sub_resource type="Resource" id="Resource_s78"]
+script = ExtResource("1_line")
+line_id = "new_world_5"
+speaker_name = "Лена"
+text = "Я думала вы любите простоту и вседозволенность."
+next_line_id = "new_world_6"
+
+[sub_resource type="Resource" id="Resource_s79"]
+script = ExtResource("1_line")
+line_id = "new_world_6"
+speaker_name = "Самди"
+text = "Скажи, мне, милая. Почему нельзя все время бухать?"
+next_line_id = "new_world_7"
+
+[sub_resource type="Resource" id="Resource_s80"]
+script = ExtResource("1_line")
+line_id = "new_world_7"
+speaker_name = "Лена"
+text = "Потому что печень откажет?"
+next_line_id = "new_world_8"
+
+[sub_resource type="Resource" id="Resource_s81"]
+script = ExtResource("1_line")
+line_id = "new_world_8"
+speaker_name = "Самди"
+text = "Потому что алкоголь приестся."
+next_line_id = "new_world_9"
+
+[sub_resource type="Resource" id="Resource_s82"]
+script = ExtResource("1_line")
+line_id = "new_world_9"
+speaker_name = "Самди"
+text = "Тело перестанет реагировать."
+next_line_id = "new_world_10"
+
+[sub_resource type="Resource" id="Resource_s83"]
+script = ExtResource("1_line")
+line_id = "new_world_10"
+speaker_name = "Самди"
+text = "Нужно делать перерывы."
+next_line_id = "new_world_11"
+
+[sub_resource type="Resource" id="Resource_s84"]
+script = ExtResource("1_line")
+line_id = "new_world_11"
+speaker_name = "Лена"
+text = "Какой неожиданно здоровый совет."
+next_line_id = "new_world_12"
+
+[sub_resource type="Resource" id="Resource_s85"]
+script = ExtResource("1_line")
+line_id = "new_world_12"
+speaker_name = "Самди"
+text = "Помогают драки с твоими монстрами."
+next_line_id = "new_world_13"
+
+[sub_resource type="Resource" id="Resource_s86"]
+script = ExtResource("1_line")
+line_id = "new_world_13"
+speaker_name = "Самди"
+text = "Но и тут проблема."
+next_line_id = "new_world_14"
+
+[sub_resource type="Resource" id="Resource_s87"]
+script = ExtResource("1_line")
+line_id = "new_world_14"
+speaker_name = "Лена"
+text = "А?"
+next_line_id = "new_world_15"
+
+[sub_resource type="Resource" id="Resource_s88"]
+script = ExtResource("1_line")
+line_id = "new_world_15"
+speaker_name = "Самди"
+text = "Это тоже слишком весело."
+next_line_id = "Samdi_choices_1"
+
+[sub_resource type="Resource" id="Resource_s89"]
+script = ExtResource("1_line")
+line_id = "help_1"
+speaker_name = "Лена"
+text = "Вы помогаете мне потому что это весело?"
+next_line_id = "help_2"
+
+[sub_resource type="Resource" id="Resource_s90"]
+script = ExtResource("1_line")
+line_id = "help_2"
+speaker_name = "Самди"
+text = "Ага."
+next_line_id = "help_3"
+
+[sub_resource type="Resource" id="Resource_s91"]
+script = ExtResource("1_line")
+line_id = "help_3"
+speaker_name = "Лена"
+text = "И других причин нет?"
+next_line_id = "help_4"
+
+[sub_resource type="Resource" id="Resource_s92"]
+script = ExtResource("1_line")
+line_id = "help_4"
+speaker_name = "Самди"
+text = "Должны быть?"
+next_line_id = "help_5"
+
+[sub_resource type="Resource" id="Resource_s93"]
+script = ExtResource("1_line")
+line_id = "help_5"
+speaker_name = "Лена"
+text = "Не знаю, я вас спрашиваю."
+next_line_id = "help_6"
+
+[sub_resource type="Resource" id="Resource_s94"]
+script = ExtResource("1_line")
+line_id = "help_6"
+speaker_name = "Самди"
+text = "Не думал об этом."
+next_line_id = "help_7"
+
+[sub_resource type="Resource" id="Resource_s95"]
+script = ExtResource("1_line")
+line_id = "help_7"
+speaker_name = "Лена"
+text = "Вы идете в бой, и не думаете о том почему?"
+next_line_id = "help_8"
+
+[sub_resource type="Resource" id="Resource_s96"]
+script = ExtResource("1_line")
+line_id = "help_8"
+speaker_name = "Самди"
+text = "Отчего же думаю."
+next_line_id = "help_9"
+
+[sub_resource type="Resource" id="Resource_s97"]
+script = ExtResource("1_line")
+line_id = "help_9"
+speaker_name = "Самди"
+text = "Потому что это весело."
+next_line_id = "help_10"
+
+[sub_resource type="Resource" id="Resource_s98"]
+script = ExtResource("1_line")
+line_id = "help_10"
+speaker_name = "Лена"
+text = "Вы серьезно сейчас говорите?"
+next_line_id = "help_11"
+
+[sub_resource type="Resource" id="Resource_s99"]
+script = ExtResource("1_line")
+line_id = "help_11"
+speaker_name = "Самди"
+text = "Сама как думаешь."
+next_line_id = "help_12"
+
+[sub_resource type="Resource" id="Resource_s100"]
+script = ExtResource("1_line")
+line_id = "help_12"
+speaker_name = "Лена"
+text = "Ладно, устала я от ваших загадок."
+next_line_id = "help_13"
+
+[sub_resource type="Resource" id="Resource_s101"]
+script = ExtResource("1_line")
+line_id = "help_13"
+speaker_name = "Лена"
+text = "Не хотите, не говорите."
+next_line_id = "help_14"
+
+[sub_resource type="Resource" id="Resource_s102"]
+script = ExtResource("1_line")
+line_id = "help_14"
+speaker_name = "Самди"
+text = "(Сквозь улыбку он выпускает клубы дыма, скрывающие лицо.)"
+next_line_id = "Samdi_choices_1"
+
+[sub_resource type="Resource" id="Resource_s103"]
+script = ExtResource("1_line")
+line_id = "chosen_location_1"
+speaker_name = "Лена"
+text = "Кажется вам весело на кораблях."
+next_line_id = "chosen_location_2"
+
+[sub_resource type="Resource" id="Resource_s104"]
+script = ExtResource("1_line")
+line_id = "chosen_location_2"
+speaker_name = "Самди"
+text = "Да, часто путешествую."
+next_line_id = "chosen_location_3"
+
+[sub_resource type="Resource" id="Resource_s105"]
+script = ExtResource("1_line")
+line_id = "chosen_location_3"
+speaker_name = "Самди"
+text = "Мне это нравится."
+next_line_id = "chosen_location_4"
+
+[sub_resource type="Resource" id="Resource_s106"]
+script = ExtResource("1_line")
+line_id = "chosen_location_4"
+speaker_name = "Лена"
+text = "Да, корабли это что-то особенное."
+next_line_id = "chosen_location_5"
+
+[sub_resource type="Resource" id="Resource_s107"]
+script = ExtResource("1_line")
+line_id = "chosen_location_5"
+speaker_name = "Лена"
+text = "Сама ходила пару раз."
+next_line_id = "chosen_location_6"
+
+[sub_resource type="Resource" id="Resource_s108"]
+script = ExtResource("1_line")
+line_id = "chosen_location_6"
+speaker_name = "Самди"
+text = "Знаешь, поговорку: морская болезнь это не когда тошнит на палубе, а когда идешь по земле а душа на море тянет."
+next_line_id = "chosen_location_7"
+
+[sub_resource type="Resource" id="Resource_s109"]
+script = ExtResource("1_line")
+line_id = "chosen_location_7"
+speaker_name = "Лена"
+text = "Красивые слова, и мудрые."
+next_line_id = "chosen_location_8"
+
+[sub_resource type="Resource" id="Resource_s110"]
+script = ExtResource("1_line")
+line_id = "chosen_location_8"
+speaker_name = "Самди"
+text = "Вот вот."
+next_line_id = "chosen_location_9"
+
+[sub_resource type="Resource" id="Resource_s111"]
+script = ExtResource("1_line")
+line_id = "chosen_location_9"
+speaker_name = "Лена"
+text = "Так значит, вас увлекают не только сигары и алкоголь?"
+next_line_id = "chosen_location_10"
+
+[sub_resource type="Resource" id="Resource_s112"]
+script = ExtResource("1_line")
+line_id = "chosen_location_10"
+speaker_name = "Самди"
+text = "Черт, да почему ты на каждое мое слово пытаешься в душу залезть."
+next_line_id = "chosen_location_11"
+
+[sub_resource type="Resource" id="Resource_s113"]
+script = ExtResource("1_line")
+line_id = "chosen_location_11"
+speaker_name = "Лена"
+text = "Извините, я не хотела лезть, просто..."
+next_line_id = "chosen_location_12"
+
+[sub_resource type="Resource" id="Resource_s114"]
+script = ExtResource("1_line")
+line_id = "chosen_location_12"
+speaker_name = "Самди"
+text = "К тому же ты ошиблась."
+next_line_id = "chosen_location_13"
+
+[sub_resource type="Resource" id="Resource_s115"]
+script = ExtResource("1_line")
+line_id = "chosen_location_13"
+speaker_name = "Лена"
+text = "А?"
+next_line_id = "chosen_location_14"
+
+[sub_resource type="Resource" id="Resource_s116"]
+script = ExtResource("1_line")
+line_id = "chosen_location_14"
+speaker_name = "Самди"
+text = "Не только сигары и алкоголь."
+next_line_id = "chosen_location_15"
+
+[sub_resource type="Resource" id="Resource_s117"]
+script = ExtResource("1_line")
+line_id = "chosen_location_15"
+speaker_name = "Самди"
+text = "Еще драки, музыка и горячая постель."
+next_line_id = "chosen_location_16"
+
+[sub_resource type="Resource" id="Resource_s118"]
+script = ExtResource("1_line")
+line_id = "chosen_location_16"
+speaker_name = "Самди"
+text = "Тебе стоит попробовать."
+next_line_id = "chosen_location_17"
+
+[sub_resource type="Resource" id="Resource_s119"]
+script = ExtResource("1_line")
+line_id = "chosen_location_17"
+speaker_name = "Лена"
+text = "Ууу."
+next_line_id = "chosen_location_18"
+
+[sub_resource type="Resource" id="Resource_s120"]
+script = ExtResource("1_line")
+line_id = "chosen_location_18"
+speaker_name = "Самди"
+text = "Может поймешь, что лучше жить, не задавая глупых вопросов."
+next_line_id = "Samdi_choices_1"
+
+[resource]
+script = ExtResource("3_res")
+dialogue_id = "samdi_dialogue_1"
+dialogue_name = ""
+start_line_id = "intro_action"
+lines = Array[ExtResource("1_line")]([SubResource("Resource_s01"), SubResource("Resource_s02"), SubResource("Resource_s03"), SubResource("Resource_s04"), SubResource("Resource_s05"), SubResource("Resource_s06"), SubResource("Resource_s07"), SubResource("Resource_s08"), SubResource("Resource_s09"), SubResource("Resource_s10"), SubResource("Resource_s11"), SubResource("Resource_s12"), SubResource("Resource_s13"), SubResource("Resource_s14"), SubResource("Resource_s15"), SubResource("Resource_s16"), SubResource("Resource_s17"), SubResource("Resource_s18"), SubResource("Resource_s19"), SubResource("Resource_s20"), SubResource("Resource_s21"), SubResource("Resource_s22"), SubResource("Resource_s23"), SubResource("Resource_s24"), SubResource("Resource_s25"), SubResource("Resource_s26"), SubResource("Resource_s27"), SubResource("Resource_s28"), SubResource("Resource_s29"), SubResource("Resource_s30"), SubResource("Resource_s31"), SubResource("Resource_s32"), SubResource("Resource_s33"), SubResource("Resource_s34"), SubResource("Resource_s35"), SubResource("Resource_s36"), SubResource("Resource_s37"), SubResource("Resource_s38"), SubResource("Resource_s39"), SubResource("Resource_s40"), SubResource("Resource_s41"), SubResource("Resource_s42"), SubResource("Resource_s43"), SubResource("Resource_s44"), SubResource("Resource_s45"), SubResource("Resource_s46"), SubResource("Resource_s47"), SubResource("Resource_s48"), SubResource("Resource_s49"), SubResource("Resource_s50"), SubResource("Resource_s51"), SubResource("Resource_s52"), SubResource("Resource_s53"), SubResource("Resource_s54"), SubResource("Resource_s55"), SubResource("Resource_s56"), SubResource("Resource_s57"), SubResource("Resource_s58"), SubResource("Resource_s59"), SubResource("Resource_s60"), SubResource("Resource_s61"), SubResource("Resource_s62"), SubResource("Resource_s63"), SubResource("Resource_s64"), SubResource("Resource_s65"), SubResource("Resource_s66"), SubResource("Resource_s67"), SubResource("Resource_s68"), SubResource("Resource_s69"), SubResource("Resource_s70"), SubResource("Resource_s71"), SubResource("Resource_s72"), SubResource("Resource_s73"), SubResource("Resource_s74"), SubResource("Resource_s75"), SubResource("Resource_s76"), SubResource("Resource_s77"), SubResource("Resource_s78"), SubResource("Resource_s79"), SubResource("Resource_s80"), SubResource("Resource_s81"), SubResource("Resource_s82"), SubResource("Resource_s83"), SubResource("Resource_s84"), SubResource("Resource_s85"), SubResource("Resource_s86"), SubResource("Resource_s87"), SubResource("Resource_s88"), SubResource("Resource_s89"), SubResource("Resource_s90"), SubResource("Resource_s91"), SubResource("Resource_s92"), SubResource("Resource_s93"), SubResource("Resource_s94"), SubResource("Resource_s95"), SubResource("Resource_s96"), SubResource("Resource_s97"), SubResource("Resource_s98"), SubResource("Resource_s99"), SubResource("Resource_s100"), SubResource("Resource_s101"), SubResource("Resource_s102"), SubResource("Resource_s103"), SubResource("Resource_s104"), SubResource("Resource_s105"), SubResource("Resource_s106"), SubResource("Resource_s107"), SubResource("Resource_s108"), SubResource("Resource_s109"), SubResource("Resource_s110"), SubResource("Resource_s111"), SubResource("Resource_s112"), SubResource("Resource_s113"), SubResource("Resource_s114"), SubResource("Resource_s115"), SubResource("Resource_s116"), SubResource("Resource_s117"), SubResource("Resource_s118"), SubResource("Resource_s119"), SubResource("Resource_s120")])

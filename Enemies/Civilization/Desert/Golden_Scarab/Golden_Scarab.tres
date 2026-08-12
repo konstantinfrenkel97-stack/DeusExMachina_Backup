@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://bd6gb7v2wm6fs"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Desert/Golden_Scarab/scratch.tres" id="2_sc"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Desert/Golden_Scarab/bury_in_sand.tres" id="3_bs"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Desert/Golden_Scarab/good_luck.tres" id="4_gl"]
+[ext_resource type="Script" uid="uid://btfe5np5v3cio" path="res://Enemy_logic/scarab_logic.gd" id="5_ai"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="6_cr"]
+
+[resource]
+script = ExtResource("6_cr")
+unit_name = "Золотой скоробей"
+sprite_path = "res://Enemies/Civilization/Desert/Golden_Scarab/Scarab.png"
+face_sprite = "res://Enemies/Civilization/Desert/Golden_Scarab/Scarab_face.png"
+battle_sprite_scale_percent = 90.0
+max_hp = 55
+damage = 16
+armor = 4
+initiative = 7
+accuracy = 85
+evasion = 25
+crit_chance = 0.1
+special_effect_type = "scarab_death_heal_allies"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_sc"), ExtResource("3_bs"), ExtResource("4_gl")])
+ai_script = ExtResource("5_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

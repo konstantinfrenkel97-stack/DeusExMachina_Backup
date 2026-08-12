@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://cbfg0qlpyvwk3"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_5wawl"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Leshy/ni_shagu.tres" id="2_rkpyi"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Leshy/ty_prinadlezhish_lesu.tres" id="3_2w8vw"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Leshy/uzhas.tres" id="4_dajg0"]
+[ext_resource type="Script" uid="uid://dkfxl761etho1" path="res://Enemy_logic/leshy_logic.gd" id="5_hug8f"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="6_rq1hf"]
+
+[resource]
+script = ExtResource("6_rq1hf")
+unit_name = "Леший"
+sprite_path = "res://Enemies/Forest/Marsh/Leshy/Leshiy.png"
+face_sprite = "res://Enemies/Forest/Marsh/Leshy/Leshiy_face.png"
+battle_sprite_scale_percent = 130.0
+max_hp = 130
+damage = 25
+armor = 8
+initiative = 11
+evasion = 20
+special_effect_type = "leshy_damage_per_debuff"
+is_large = true
+active_abilities = Array[ExtResource("1_5wawl")]([ExtResource("2_rkpyi"), ExtResource("3_2w8vw"), ExtResource("4_dajg0")])
+ai_script = ExtResource("5_hug8f")

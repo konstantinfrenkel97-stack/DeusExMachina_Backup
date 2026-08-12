@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="SpellResource" format=3 uid="uid://eia0o5r7t9ze"]
+
+[ext_resource type="Script" uid="uid://bxf7k2m4p9nz" path="res://spell_resource.gd" id="1_sp03"]
+
+[resource]
+script = ExtResource("1_sp03")
+icon_path = "res://Icons/spells/Tear_a_page.png"
+spell_name = "Порвать страницу"
+description = "Нанести выбранному врагу 15 чистого урона"
+fantasy_cost = 10
+target_type = "Enemy"
+flat_damage = 15
+damage_type = "Pure"
+metadata/_custom_type_script = "uid://bxf7k2m4p9nz"

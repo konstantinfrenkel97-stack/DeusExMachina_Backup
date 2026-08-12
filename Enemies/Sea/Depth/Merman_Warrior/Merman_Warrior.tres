@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://disbvq4o57lpo"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://dmcygrhbnrmea" path="res://Enemy_logic/merwarrior_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Depth/Merman_Warrior/catch_in_net.tres" id="4_a1"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Depth/Merman_Warrior/pierce_with_trident.tres" id="5_a2"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Русал воин"
+sprite_path = "res://Enemies/Sea/Depth/Merman_Warrior/Mermaid_warrior.png"
+face_sprite = "res://Enemies/Sea/Depth/Merman_Warrior/Mermaid_warrior_Face.png"
+battle_sprite_scale_percent = 117.0
+max_hp = 50
+damage = 10
+armor = 15
+initiative = 7
+accuracy = 85
+special_effect_type = "merwarrior_move_luck"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://babpflbdugqlo"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+icon_path = "uid://y0bnw0114nid"
+name = "В гармонии с природой"
+description = "Назад 1. Союзники не могут получать негативные эффекты. При попытке дебаффа восстанавливают 10% здоровья"
+damage_modifier = 0.0
+target_type = "Self"
+usable_from_positions = Array[bool]([false, true, true, true])
+is_stance = true
+stance_effect_type = "duna_harmony"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

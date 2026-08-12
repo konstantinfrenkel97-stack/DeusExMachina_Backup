@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://d30xd0mc11m2t"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Злые волны"
+description = "1.0 урона. Сбивает стойки. Цель отталкивается назад на 1."
+majesty_gain = 0
+effect_types = Array[String](["push_back"])
+effect_values = Dictionary[String, int]({
+"push_back": 1
+})
+effect_durations = Dictionary[String, int]({
+"push_back": 0
+})
+targetable_positions = Array[bool]([true, true, false, false])
+breaks_enemy_stances = true
+ability_marker = "kappa_angry_waves"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

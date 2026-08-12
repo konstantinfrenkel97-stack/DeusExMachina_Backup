@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Искать сокровища"
+description = "Получает +5 к случайной характеристике до конца боя."
+damage_modifier = 0.0
+majesty_gain = 0
+ability_marker = "crab_search_treasure"
+target_type = "Self"
+effect_types = Array[String](["random_stat_buff"])
+effect_values = Dictionary[String, int]({
+"random_stat_buff": 5
+})
+effect_durations = Dictionary[String, int]({
+"random_stat_buff": -1
+})
+usable_from_positions = Array[bool]([false, false, true, true])
+targetable_positions = Array[bool]([false, false, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

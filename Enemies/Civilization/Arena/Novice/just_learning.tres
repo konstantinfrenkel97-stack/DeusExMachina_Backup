@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Я только учусь"
+description = "Стойка. +30 уклонения, пока активна."
+damage_modifier = 0.0
+majesty_gain = 0
+ability_marker = "novice_just_learning"
+target_type = "Self"
+is_stance = true
+stance_effect_type = "novice_training"
+stance_duration_type = "UntilNextTurn"
+usable_from_positions = Array[bool]([false, false, true, true])
+targetable_positions = Array[bool]([false, false, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

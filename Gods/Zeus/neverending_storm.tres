@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://bmumanymd85n0"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_pm6do"]
+
+[resource]
+script = ExtResource("1_pm6do")
+icon_path = "uid://csp50eoo5l0cf"
+name = "Нескончаемый шторм"
+description = "В начале раунда, на самого дальнего противника ударяет молния, нанося 60% урона Зевса"
+damage_modifier = 0.0
+majesty_gain = 0
+majesty_cost = 100
+target_type = "Self"
+effect_types = Array[String](["neverending_storm_mark"])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

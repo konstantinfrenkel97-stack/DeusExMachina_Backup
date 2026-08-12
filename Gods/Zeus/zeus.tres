@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://cf2b0su5tlkeq"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_x84tj"]
+[ext_resource type="Resource" uid="uid://j33daammllgy" path="res://Gods/Zeus/thunder_strike.tres" id="2_p77po"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="3_f44iw"]
+[ext_resource type="Resource" uid="uid://qi23fy4c33s1" path="res://Gods/Zeus/cast_down.tres" id="3_vuehc"]
+[ext_resource type="Resource" uid="uid://c6od3r0c8nuja" path="res://Gods/Zeus/overthelming_winds.tres" id="4_02vl1"]
+[ext_resource type="Resource" uid="uid://biskukutvnyeq" path="res://Gods/Zeus/thunder_god_s_wrath.tres" id="5_f3jyk"]
+[ext_resource type="Resource" uid="uid://bmumanymd85n0" path="res://Gods/Zeus/neverending_storm.tres" id="7_nc7hs"]
+
+[resource]
+script = ExtResource("3_f44iw")
+unit_name = "Зевс"
+sprite_path = "res://Gods/Zeus/Zeus.png"
+face_sprite = "res://Gods/Zeus/Zeus_Face.png"
+battle_sprite_scale_percent = 150.0
+initiative = 10
+is_enemy = false
+special_effect_type = "zeus_position_bonus"
+active_abilities = Array[ExtResource("1_x84tj")]([ExtResource("2_p77po"), ExtResource("3_vuehc"), ExtResource("4_02vl1"), ExtResource("5_f3jyk")])
+ultimate_ability = ExtResource("7_nc7hs")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

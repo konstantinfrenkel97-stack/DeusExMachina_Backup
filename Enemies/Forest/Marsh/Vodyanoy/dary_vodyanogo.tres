@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Дары водяного"
+description = "Цель получает +10 к случайной характеристике и -10 ко всем остальным (включая здоровье)."
+damage_modifier = 1.0
+majesty_gain = 0
+target_type = "Enemy"
+effect_types = Array[String](["random_stat_buff", "All_Enemies_debuff_damage", "All_Enemies_debuff_armor", "All_Enemies_debuff_accuracy", "All_Enemies_debuff_evasion", "All_Enemies_debuff_initiative"])
+effect_values = Dictionary[String, int]({"random_stat_buff": 10, "All_Enemies_debuff_damage": 10, "All_Enemies_debuff_armor": 10, "All_Enemies_debuff_accuracy": 10, "All_Enemies_debuff_evasion": 10, "All_Enemies_debuff_initiative": 10})
+effect_durations = Dictionary[String, int]({"random_stat_buff": -1, "All_Enemies_debuff_damage": 1, "All_Enemies_debuff_armor": 1, "All_Enemies_debuff_accuracy": 1, "All_Enemies_debuff_evasion": 1, "All_Enemies_debuff_initiative": 1})
+usable_from_positions = Array[bool]([false, false, true, true])
+targetable_positions = Array[bool]([true, true, true, true])

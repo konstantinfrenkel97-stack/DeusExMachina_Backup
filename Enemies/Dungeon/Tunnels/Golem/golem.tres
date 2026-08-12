@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://chqn3fttv26y8"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Resource" uid="uid://clbs4qglx3kfx" path="res://Enemies/Dungeon/Tunnels/Golem/forward.tres" id="2_2ql6a"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Resource" uid="uid://bxfaik5chtsg" path="res://Enemies/Dungeon/Tunnels/Golem/Smash.tres" id="3_ylghe"]
+[ext_resource type="Script" uid="uid://52bs6klaf1x5" path="res://Enemy_logic/golem_logic.gd" id="4_ai"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Голем"
+sprite_path = "res://Enemies/Dungeon/Tunnels/Golem/Golem.png"
+face_sprite = "res://Enemies/Dungeon/Tunnels/Golem/Golem_Face.png"
+max_hp = 80
+damage = 14
+armor = 15
+initiative = 2
+accuracy = 80
+evasion = 0
+special_effect_type = "golem_end_turn_growth"
+is_large = true
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_2ql6a"), ExtResource("3_ylghe")])
+ai_script = ExtResource("4_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

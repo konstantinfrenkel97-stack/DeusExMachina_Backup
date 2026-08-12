@@ -1,0 +1,9 @@
+MASK PASS: True
+library: expected=147984 actual=147984 intersection=147984 IoU=1.0000 FP=0 FN=0 PASS=True
+memory_well: expected=122846 actual=122846 intersection=122846 IoU=1.0000 FP=0 FN=0 PASS=True
+altar: expected=114500 actual=114500 intersection=114500 IoU=1.0000 FP=0 FN=0 PASS=True
+gates: expected=268250 actual=268250 intersection=268250 IoU=1.0000 FP=0 FN=0 PASS=True
+creation_garden: expected=112825 actual=112825 intersection=112825 IoU=1.0000 FP=0 FN=0 PASS=True
+decoration_halls: expected=120896 actual=120896 intersection=120896 IoU=1.0000 FP=0 FN=0 PASS=True
+scales: expected=145786 actual=145786 intersection=145786 IoU=1.0000 FP=0 FN=0 PASS=True
+Overlay: D:\dOCS\test\Tools\hover_verify_output\campaign_hover_mask_compare.png

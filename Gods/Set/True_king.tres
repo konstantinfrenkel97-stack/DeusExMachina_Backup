@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://settrkg0001"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_tk"]
+
+[resource]
+script = ExtResource("1_tk")
+icon_path = "uid://bewjldtx3ca6n"
+name = "Настоящий король"
+damage_modifier = 0.0
+target_type = "Self"
+effect_types = Array[String](["self_push_back"])
+effect_values = Dictionary[String, int]({
+"self_push_back": 1
+})
+stance_duration_type = "UntilNextTurn"
+is_stance = true
+stance_effect_type = "set_true_king"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

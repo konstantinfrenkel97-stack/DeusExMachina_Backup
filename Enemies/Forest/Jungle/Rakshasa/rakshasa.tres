@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://dtcdjumisrv3f"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://demmj0drhgk3k" path="res://Enemy_logic/rakshasa_logic.gd" id="2_ai"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Jungle/Rakshasa/vicious_strike.tres" id="3_a1"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Jungle/Rakshasa/sweep.tres" id="4_a2"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Jungle/Rakshasa/disharmony.tres" id="5_a3"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="6_cr"]
+
+[resource]
+script = ExtResource("6_cr")
+unit_name = "Ракшас"
+sprite_path = "res://Enemies/Forest/Jungle/Rakshasa/Rakshasa.png"
+face_sprite = "res://Enemies/Forest/Jungle/Rakshasa/Rakshasa_face.png"
+damage = 15
+initiative = 7
+special_effect_type = "rakshasa_crit_aura"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("3_a1"), ExtResource("4_a2"), ExtResource("5_a3")])
+ai_script = ExtResource("2_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

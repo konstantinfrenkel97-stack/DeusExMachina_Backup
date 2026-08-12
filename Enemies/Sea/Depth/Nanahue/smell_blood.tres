@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Учуять кровь"
+description = "Вперёд на 2. На 1 ход получает +30 точности и +30 удачи (крит)."
+damage_modifier = 0.0
+majesty_gain = 0
+target_type = "Self"
+effect_types = Array[String](["self_push_forward", "self_buff_accuracy", "self_buff_crit"])
+effect_values = Dictionary[String, int]({
+"self_push_forward": 2,
+"self_buff_accuracy": 30,
+"self_buff_crit": 30
+})
+effect_durations = Dictionary[String, int]({
+"self_push_forward": 0,
+"self_buff_accuracy": 1,
+"self_buff_crit": 1
+})
+usable_from_positions = Array[bool]([false, false, false, true])
+targetable_positions = Array[bool]([false, false, false, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

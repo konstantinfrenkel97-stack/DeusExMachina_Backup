@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://b4clcec65e8qa"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Прилив"
+description = "Все союзники: +8 атаки и +3 инициативы на 3 хода."
+damage_modifier = 0.0
+majesty_gain = 0
+target_type = "All_Allies"
+effect_types = Array[String](["target_buff_damage", "target_buff_initiative"])
+effect_values = Dictionary[String, int]({
+"target_buff_damage": 8,
+"target_buff_initiative": 3
+})
+effect_durations = Dictionary[String, int]({
+"target_buff_damage": 3,
+"target_buff_initiative": 3
+})
+ability_marker = "kappa_flow"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

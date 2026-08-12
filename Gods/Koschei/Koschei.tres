@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://kchgod00001"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Resource" uid="uid://kchdiso0001" path="res://Gods/Koschei/Disobedience.tres" id="2_do"]
+[ext_resource type="Resource" uid="uid://kchimrt0001" path="res://Gods/Koschei/Immortal.tres" id="3_im"]
+[ext_resource type="Resource" uid="uid://kchgold0001" path="res://Gods/Koschei/Hoard_gold.tres" id="4_hg"]
+[ext_resource type="Resource" uid="uid://kchndl0001" path="res://Gods/Koschei/Needle_tip.tres" id="5_nd"]
+[ext_resource type="Resource" uid="uid://kchgobk0001" path="res://Gods/Koschei/Go_back.tres" id="6_gb"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="7_cr"]
+
+[resource]
+script = ExtResource("7_cr")
+unit_name = "Кощей"
+sprite_path = "res://Gods/Koschei/Koschei_2.png"
+face_sprite = "res://Gods/Koschei/Koshei_Face.png"
+battle_sprite_scale_percent = 124.0
+max_hp = 80
+armor = 10
+initiative = 8
+is_enemy = false
+special_effect_type = "koschei_life_charges"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_do"), ExtResource("3_im"), ExtResource("4_hg"), ExtResource("5_nd")])
+ultimate_ability = ExtResource("6_gb")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

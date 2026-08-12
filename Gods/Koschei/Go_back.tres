@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://kchgobk0001"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_gb"]
+
+[resource]
+script = ExtResource("1_gb")
+icon_path = "uid://b3tiumid8s5gf"
+name = "Назад!"
+damage_modifier = 0.0
+majesty_cost = 80
+target_type = "Self"
+effect_types = Array[String](["self_buff_armor"])
+effect_values = Dictionary[String, int]({
+"self_buff_armor": 20
+})
+effect_durations = Dictionary[String, int]({
+"self_buff_armor": 1
+})
+ability_marker = "koschei_go_back"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

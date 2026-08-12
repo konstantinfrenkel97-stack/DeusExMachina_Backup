@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://bn7geb648mx1a"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://caatmd8auong1" path="res://Enemy_logic/virgo_logic.gd" id="3_ai"]
+[ext_resource type="Resource" uid="uid://bvirgo001" path="res://Enemies/Sky/Stars/Virgo/as_stars_decreed.tres" id="4_asd"]
+[ext_resource type="Resource" uid="uid://bvirgo002" path="res://Enemies/Sky/Stars/Virgo/starfall.tres" id="5_sf"]
+[ext_resource type="Resource" uid="uid://bvirgo003" path="res://Enemies/Sky/Stars/Virgo/innocent_touch.tres" id="6_it"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Дева"
+sprite_path = "res://Enemies/Sky/Stars/Virgo/Virgo.png"
+face_sprite = "res://Enemies/Sky/Stars/Virgo/Virgo_face.png"
+max_hp = 60
+initiative = 6
+special_effect_type = "virgo_buff_amplify"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_asd"), ExtResource("5_sf"), ExtResource("6_it")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

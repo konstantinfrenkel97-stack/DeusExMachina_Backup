@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="FormationResource" format=3 uid="uid://fvy10hduupin"]
+
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="1_ki8ur"]
+[ext_resource type="Resource" uid="uid://cc1h72p42isqo" path="res://Enemies/Dungeon/Tunnels/Kobold/kobold.tres" id="1_l6qth"]
+
+[resource]
+script = ExtResource("1_ki8ur")
+pos1 = ExtResource("1_l6qth")
+pos2 = ExtResource("1_l6qth")
+pos3 = ExtResource("1_l6qth")
+pos4 = ExtResource("1_l6qth")
+metadata/_custom_type_script = "uid://c50het7soanc1"

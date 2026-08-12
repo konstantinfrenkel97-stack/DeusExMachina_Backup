@@ -1,0 +1,144 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://14g15hkhb0xg"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_06cns"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_4fen5"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_70nui"]
+
+[sub_resource type="Resource" id="Resource_s0laq"]
+script = ExtResource("1_06cns")
+speaker_name = "Лена"
+text = "Ох, это Сет…"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_7kyom"]
+script = ExtResource("1_06cns")
+speaker_name = "Лена"
+text = "Египетский бог раздора и убийца Осириса…"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ijwmj"]
+script = ExtResource("1_06cns")
+speaker_name = "Сет"
+text = "Хехе, все верно. Забыла добавить – истинный правитель египетских земель."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_xu6rn"]
+script = ExtResource("1_06cns")
+text = "Хотя должен признать, править совсем не так весело, куда интереснее сам процесс, ну знаешь..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_4quho"]
+script = ExtResource("1_06cns")
+speaker_name = "Сет"
+text = "Получения. Захвата."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_nmyu1"]
+script = ExtResource("1_06cns")
+speaker_name = "Сет"
+text = "А там уж… Не отказываться же от трона, в конце концов."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_dre6d"]
+script = ExtResource("1_06cns")
+speaker_name = "Лена"
+text = "Да, наверное…"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_xnp2w"]
+script = ExtResource("1_06cns")
+speaker_name = "Сет"
+text = "Ну ладно, увлекся своими мыслями. Че мы делаем?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_uo1km"]
+script = ExtResource("1_06cns")
+speaker_name = "Лена"
+text = "Я призвала вас нал план фантазий, потому что...
+"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_fyi7i"]
+script = ExtResource("1_06cns")
+speaker_name = "Сет"
+text = "Ладно, мне скучно."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_djq8l"]
+script = ExtResource("1_06cns")
+speaker_name = "Сет"
+text = "Пойдем убьем кого-нибудь уже."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_0qomj"]
+script = ExtResource("1_06cns")
+speaker_name = "Лена"
+text = "Но я не говорила что…"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_v2h43"]
+script = ExtResource("1_06cns")
+speaker_name = "Лена"
+text = "Знаете. Я не думаю что нуждаюсь в твоих услугах."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_t8m4g"]
+script = ExtResource("1_06cns")
+speaker_name = "Сет"
+text = "Быстро же ты перешла на \"ты\"."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_m8ewt"]
+script = ExtResource("1_06cns")
+speaker_name = "Сет"
+text = "Только знаешь что? Я уже здесь. И буду делать что хочу."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_n1mnm"]
+script = ExtResource("1_06cns")
+speaker_name = "Сет"
+text = "Я бог, не забыла?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_vi00t"]
+script = ExtResource("1_06cns")
+speaker_name = "Сет"
+text = "Твои варианты: предложить мне чем заняться, или я выберу самостоятельно.
+"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_lnsuf"]
+script = ExtResource("1_06cns")
+speaker_name = "Сет"
+text = "Но из тех, кто выбирал второй вариант, не было того, кто бы потом не пожалел.
+"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_qqquh"]
+script = ExtResource("1_06cns")
+speaker_name = "Сет"
+text = "Так что смотри по себе…"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_qiwnp"]
+script = ExtResource("1_06cns")
+speaker_name = "Сет"
+text = "Знаешь, ты невыносим!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ap8ww"]
+script = ExtResource("1_06cns")
+speaker_name = "Сет"
+text = "В этом мой шарм, крошка."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_jarc4"]
+script = ExtResource("1_06cns")
+speaker_name = "Лена"
+text = "Ладно, иди за мной. Я покажу что делать."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_4fen5")
+lines = Array[ExtResource("1_06cns")]([SubResource("Resource_s0laq"), SubResource("Resource_7kyom"), SubResource("Resource_ijwmj"), SubResource("Resource_xu6rn"), SubResource("Resource_4quho"), SubResource("Resource_nmyu1"), SubResource("Resource_dre6d"), SubResource("Resource_xnp2w"), SubResource("Resource_uo1km"), SubResource("Resource_fyi7i"), SubResource("Resource_djq8l"), SubResource("Resource_0qomj"), SubResource("Resource_v2h43"), SubResource("Resource_t8m4g"), SubResource("Resource_m8ewt"), SubResource("Resource_n1mnm"), SubResource("Resource_vi00t"), SubResource("Resource_lnsuf"), SubResource("Resource_qqquh"), SubResource("Resource_qiwnp"), SubResource("Resource_ap8ww"), SubResource("Resource_jarc4")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

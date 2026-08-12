@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Аура смерти"
+description = "0.2 урона по всем врагам и -15% крита на 2 хода."
+damage_modifier = 0.2
+majesty_gain = 0
+target_type = "All_Enemies"
+ability_marker = "mummy_death_aura"
+usable_from_positions = Array[bool]([false, false, true, true])
+targetable_positions = Array[bool]([true, true, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

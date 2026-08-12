@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ThoughtsResource" format=3 uid="uid://dmvh76qge87c8"]
+
+[ext_resource type="Texture2D" uid="uid://c5g1n2nuaabii" path="res://Essence/Thoughts.png" id="1_1ic16"]
+[ext_resource type="Script" uid="uid://ckrslk6xk8vfm" path="res://thoughts_resource.gd" id="1_thoughts"]
+
+[resource]
+script = ExtResource("1_thoughts")
+name = "Мысли"
+icon = ExtResource("1_1ic16")
+amount = 1000

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://slrnstybld01"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_nb"]
+
+[resource]
+script = ExtResource("1_nb")
+name = "Подлая заточка"
+damage_modifier = 1.0
+majesty_gain = 0
+condition = "OnMiss"
+condition_effect = "self_buff_evasion"
+condition_effect_value = 15
+condition_effect_duration = 2
+usable_from_positions = Array[bool]([true, true, false, false])
+targetable_positions = Array[bool]([true, true, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

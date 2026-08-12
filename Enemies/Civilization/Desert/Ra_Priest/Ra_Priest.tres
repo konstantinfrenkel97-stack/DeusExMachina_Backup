@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://bd3rbapq2x3cq"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Desert/Ra_Priest/incineration.tres" id="2_in"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Desert/Ra_Priest/sun_glory.tres" id="3_sg"]
+[ext_resource type="Script" uid="uid://bbkco17hwplfq" path="res://Enemy_logic/ra_logic.gd" id="5_ai"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="6_cr"]
+
+[resource]
+script = ExtResource("6_cr")
+unit_name = "Жрец Ра"
+sprite_path = "res://Enemies/Civilization/Desert/Ra_Priest/Priestess of Ra.png"
+face_sprite = "res://Enemies/Civilization/Desert/Ra_Priest/Priestess of Ra_Face.png"
+max_hp = 75
+damage = 18
+armor = 6
+initiative = 6
+accuracy = 88
+evasion = 12
+special_effect_type = "ra_no_location_damage"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_in"), ExtResource("3_sg")])
+ai_script = ExtResource("5_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://c0krkw0w6fgaf"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://7vx7bljgbpjc" path="res://Enemy_logic/kappa_shaman_logic.gd" id="3_ai"]
+[ext_resource type="Resource" uid="uid://d30xd0mc11m2t" path="res://Enemies/Sea/Islands/Cappa_shaman/angry_waves.tres" id="4_a1"]
+[ext_resource type="Resource" uid="uid://b4clcec65e8qa" path="res://Enemies/Sea/Islands/Cappa_shaman/flow.tres" id="5_a2"]
+[ext_resource type="Resource" uid="uid://cdfkj24vau2sf" path="res://Enemies/Sea/Islands/Cappa_shaman/ebb.tres" id="6_a3"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Каппа шаман"
+sprite_path = "res://Enemies/Sea/Islands/Cappa_shaman/Каппа шаман.png"
+face_sprite = "res://Enemies/Sea/Islands/Cappa_shaman/Каппа Шаман_Face.png"
+battle_sprite_scale_percent = 90.0
+max_hp = 60
+damage = 10
+armor = 30
+initiative = 4
+accuracy = 75
+special_effect_type = "kappa_shaman"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2"), ExtResource("6_a3")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://c8yr4d8eoum6a"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://dbu7f08gxg3hw" path="res://Enemy_logic/filibuster_logic.gd" id="3_ai"]
+[ext_resource type="Resource" uid="uid://flbstrferv01" path="res://Enemies/Sea/Ships/Filibuster/sea_fervor.tres" id="4_sf"]
+[ext_resource type="Resource" uid="uid://flbstriknw01" path="res://Enemies/Sea/Ships/Filibuster/i_know_what_im_doing.tres" id="5_ik"]
+[ext_resource type="Resource" uid="uid://flbstrpstl01" path="res://Enemies/Sea/Ships/Filibuster/pistol.tres" id="6_ps"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Флибустьер"
+sprite_path = "res://Enemies/Sea/Ships/Filibuster/Флибустьер_nobg.png"
+face_sprite = "res://Enemies/Sea/Ships/Filibuster/Флибустьер_FAce.png"
+battle_sprite_scale_percent = 102.0
+max_hp = 75
+damage = 25
+armor = 8
+initiative = 6
+accuracy = 85
+evasion = 15
+crit_chance = 0.1
+special_effect_type = "filibuster_crit_luck"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_sf"), ExtResource("5_ik"), ExtResource("6_ps")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

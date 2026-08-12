@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://b5g24fy58wfcp"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ld155"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_l3hle"]
+[ext_resource type="Resource" uid="uid://dvkghrona5eyq" path="res://Gods/Duna/duna_ab1.tres" id="3_a"]
+[ext_resource type="Resource" uid="uid://cweeb7y1dnwwq" path="res://Gods/Duna/duna_ab2.tres" id="4_b"]
+[ext_resource type="Resource" uid="uid://cvk8e7oo3xpr0" path="res://Gods/Duna/duna_ab3.tres" id="5_c"]
+[ext_resource type="Resource" uid="uid://babpflbdugqlo" path="res://Gods/Duna/duna_ab4.tres" id="6_d"]
+[ext_resource type="Resource" uid="uid://cqbllml8sgdv" path="res://Gods/Duna/duna_ab5.tres" id="7_e"]
+
+[resource]
+script = ExtResource("2_l3hle")
+unit_name = "Дуна"
+sprite_path = "res://Gods/Duna/Duna.png"
+face_sprite = "res://Gods/Duna/Duna_Face.png"
+initiative = 6
+is_enemy = false
+special_effect_type = "duna_heal_damage"
+active_abilities = Array[ExtResource("1_ld155")]([ExtResource("3_a"), ExtResource("4_b"), ExtResource("5_c"), ExtResource("6_d")])
+ultimate_ability = ExtResource("7_e")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

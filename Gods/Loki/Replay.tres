@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://lokirpl0001"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_rp"]
+
+[resource]
+script = ExtResource("1_rp")
+icon_path = "uid://emqc6bbdi10j"
+name = "Переиграть"
+damage_modifier = 0.7
+majesty_gain = 10
+effect_types = Array[String](["self_push_back"])
+effect_values = Dictionary[String, int]({
+"self_push_back": 1
+})
+usable_from_positions = Array[bool]([true, true, true, false])
+targetable_positions = Array[bool]([true, true, true, false])
+condition = "OnCrit"
+condition_effect = "target_periodic_damage"
+condition_effect_value = 15
+condition_effect_duration = 2
+ability_marker = "loki_replay"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

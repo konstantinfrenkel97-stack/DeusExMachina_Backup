@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Звериные повадки"
+description = "Оборотень получает 10% регенерации и +15 точности на 3 хода."
+damage_modifier = 0.0
+majesty_gain = 0
+target_type = "Self"
+effect_types = Array[String](["regeneration", "self_buff_accuracy"])
+effect_values = Dictionary[String, int]({"regeneration": 7, "self_buff_accuracy": 15})
+effect_durations = Dictionary[String, int]({"regeneration": 3, "self_buff_accuracy": 3})
+ability_marker = "zverinye_povadki"
+usable_from_positions = Array[bool]([true, true, true, true])
+targetable_positions = Array[bool]([false, false, false, false])

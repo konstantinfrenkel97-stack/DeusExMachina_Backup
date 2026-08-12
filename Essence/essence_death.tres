@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="EssenceResource" format=3 uid="uid://bglbr7sxbyn23"]
+
+[ext_resource type="Script" uid="uid://sf5jie3ou0ta" path="res://essence_resource.gd" id="1_e"]
+[ext_resource type="Texture2D" uid="uid://7i1j416xnwpp" path="res://Essence/Essence of Death.png" id="1_k53iw"]
+
+[resource]
+script = ExtResource("1_e")
+name = "Эссенция смерти"
+icon = ExtResource("1_k53iw")
+amount = 2

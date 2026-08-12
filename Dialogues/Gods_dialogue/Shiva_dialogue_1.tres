@@ -1,0 +1,1114 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3]
+
+[ext_resource type="Script" path="res://Dialogues/dialogue_line.gd" id="1_line"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_resource.gd" id="3_dialogue"]
+
+[sub_resource type="Resource" id="Resource_shiva_line_2"]
+script = ExtResource("1_line")
+line_id = "intro_1"
+speaker_name = "Шива"
+text = "(В комнате Шивы играет мягкая музыка и пахнет розами. Сам он медитирует в позе лотоса, уперев две из четырех рук в пол и держа себя над землей. При твоем появлении ловко разворачивается и ставит себя на ноги.)"
+next_line_id = "intro_2"
+
+[sub_resource type="Resource" id="Resource_shiva_line_3"]
+script = ExtResource("1_line")
+line_id = "intro_2"
+speaker_name = "Лена"
+text = "Вы очень ловки."
+next_line_id = "intro_3"
+
+[sub_resource type="Resource" id="Resource_shiva_line_4"]
+script = ExtResource("1_line")
+line_id = "intro_3"
+speaker_name = "Шива"
+text = "Нечего добавить, это действительно так."
+next_line_id = "Shiva_choices_1"
+
+[sub_resource type="Resource" id="Resource_shiva_choice_5"]
+script = ExtResource("2_choice")
+choice_id = "open_door"
+choice_text = "Открыть дверь"
+next_line_id = "open_door_1"
+
+[sub_resource type="Resource" id="Resource_shiva_choice_6"]
+script = ExtResource("2_choice")
+choice_id = "opinion"
+choice_text = "Мнение о богах"
+next_line_id = "opinion_start"
+
+[sub_resource type="Resource" id="Resource_shiva_choice_7"]
+script = ExtResource("2_choice")
+choice_id = "new_world"
+choice_text = "Новый мир"
+next_line_id = "new_world_1"
+
+[sub_resource type="Resource" id="Resource_shiva_choice_8"]
+script = ExtResource("2_choice")
+choice_id = "help"
+choice_text = "Твоя помощь"
+next_line_id = "help_1"
+
+[sub_resource type="Resource" id="Resource_shiva_choice_9"]
+script = ExtResource("2_choice")
+choice_id = "chosen_world"
+choice_text = "Выбранный мир"
+next_line_id = "chosen_world_1"
+
+[sub_resource type="Resource" id="Resource_shiva_line_10"]
+script = ExtResource("1_line")
+line_id = "Shiva_choices_1"
+choices = Array[ExtResource("2_choice")]([SubResource("Resource_shiva_choice_5"), SubResource("Resource_shiva_choice_6"), SubResource("Resource_shiva_choice_7"), SubResource("Resource_shiva_choice_8"), SubResource("Resource_shiva_choice_9")])
+
+[sub_resource type="Resource" id="Resource_shiva_line_11"]
+script = ExtResource("1_line")
+line_id = "open_door_1"
+speaker_name = "Лена"
+text = "Послушайте, тут у меня несколько дверей, нужна ваша помощь, чтобы открыть."
+next_line_id = "open_door_2"
+
+[sub_resource type="Resource" id="Resource_shiva_line_12"]
+script = ExtResource("1_line")
+line_id = "open_door_2"
+speaker_name = "Лена"
+text = "Без бога никак."
+next_line_id = "open_door_3"
+
+[sub_resource type="Resource" id="Resource_shiva_line_13"]
+script = ExtResource("1_line")
+line_id = "open_door_3"
+speaker_name = "Шива"
+text = "Хмм. Ну давай откроем."
+next_line_id = "open_door_4"
+
+[sub_resource type="Resource" id="Resource_shiva_line_14"]
+script = ExtResource("1_line")
+line_id = "open_door_4"
+speaker_name = "Шива"
+text = "О, вот эта хорошая. Напоминает о доме."
+next_line_id = "open_door_5"
+
+[sub_resource type="Resource" id="Resource_shiva_line_15"]
+script = ExtResource("1_line")
+line_id = "open_door_5"
+speaker_name = "Лена"
+text = "Джунгли. Да уж."
+next_line_id = "open_door_6"
+
+[sub_resource type="Resource" id="Resource_shiva_line_16"]
+script = ExtResource("1_line")
+line_id = "open_door_6"
+speaker_name = "Лена"
+text = "Вы любите Индию?"
+next_line_id = "open_door_7"
+
+[sub_resource type="Resource" id="Resource_shiva_line_17"]
+script = ExtResource("1_line")
+line_id = "open_door_7"
+speaker_name = "Шива"
+text = "Спрашиваешь. Индия — самая прекрасная из всех стран."
+next_line_id = "open_door_8"
+
+[sub_resource type="Resource" id="Resource_shiva_line_18"]
+script = ExtResource("1_line")
+line_id = "open_door_8"
+speaker_name = "Лена"
+text = "А вы много где были?"
+next_line_id = "open_door_9"
+
+[sub_resource type="Resource" id="Resource_shiva_line_19"]
+script = ExtResource("1_line")
+line_id = "open_door_9"
+speaker_name = "Шива"
+text = "Нет. Я старался не влезать в земли других богов."
+next_line_id = "open_door_10"
+
+[sub_resource type="Resource" id="Resource_shiva_line_20"]
+script = ExtResource("1_line")
+line_id = "open_door_10"
+speaker_name = "Лена"
+text = "Но при этом вы уверены, что Индия — самое прекрасное из мест. Хотя в других не бывали."
+next_line_id = "open_door_11"
+
+[sub_resource type="Resource" id="Resource_shiva_line_21"]
+script = ExtResource("1_line")
+line_id = "open_door_11"
+speaker_name = "Шива"
+text = "Конечно, а что?"
+next_line_id = "open_door_12"
+
+[sub_resource type="Resource" id="Resource_shiva_line_22"]
+script = ExtResource("1_line")
+line_id = "open_door_12"
+speaker_name = "Лена"
+text = "Вы не видите противоречия?"
+next_line_id = "open_door_13"
+
+[sub_resource type="Resource" id="Resource_shiva_line_23"]
+script = ExtResource("1_line")
+line_id = "open_door_13"
+speaker_name = "Шива"
+text = "А. Я понял, о чем ты."
+next_line_id = "open_door_14"
+
+[sub_resource type="Resource" id="Resource_shiva_line_24"]
+script = ExtResource("1_line")
+line_id = "open_door_14"
+speaker_name = "Лена"
+text = "Так."
+next_line_id = "open_door_15"
+
+[sub_resource type="Resource" id="Resource_shiva_line_25"]
+script = ExtResource("1_line")
+line_id = "open_door_15"
+speaker_name = "Шива"
+text = "Как ты понимаешь, что что-то красиво?"
+next_line_id = "open_door_16"
+
+[sub_resource type="Resource" id="Resource_shiva_line_26"]
+script = ExtResource("1_line")
+line_id = "open_door_16"
+speaker_name = "Шива"
+text = "Какой-то есть точный способ?"
+next_line_id = "open_door_17"
+
+[sub_resource type="Resource" id="Resource_shiva_line_27"]
+script = ExtResource("1_line")
+line_id = "open_door_17"
+speaker_name = "Лена"
+text = "Если отвечать прямо — универсальной метрики нет. Хотя есть некоторые попытки."
+next_line_id = "open_door_18"
+
+[sub_resource type="Resource" id="Resource_shiva_line_28"]
+script = ExtResource("1_line")
+line_id = "open_door_18"
+speaker_name = "Шива"
+text = "А как же ты понимаешь, что что-то красиво?"
+next_line_id = "open_door_19"
+
+[sub_resource type="Resource" id="Resource_shiva_line_29"]
+script = ExtResource("1_line")
+line_id = "open_door_19"
+speaker_name = "Лена"
+text = "Ну, оно отзывается внутри. Ты просто это понимаешь."
+next_line_id = "open_door_20"
+
+[sub_resource type="Resource" id="Resource_shiva_line_30"]
+script = ExtResource("1_line")
+line_id = "open_door_20"
+speaker_name = "Шива"
+text = "Да, я вот так же понимаю, что Индия красива."
+next_line_id = "open_door_21"
+
+[sub_resource type="Resource" id="Resource_shiva_line_31"]
+script = ExtResource("1_line")
+line_id = "open_door_21"
+speaker_name = "Шива"
+text = "Ты когда-нибудь любила?"
+next_line_id = "open_door_22"
+
+[sub_resource type="Resource" id="Resource_shiva_line_32"]
+script = ExtResource("1_line")
+line_id = "open_door_22"
+speaker_name = "Лена"
+text = "Ну да, конечно."
+next_line_id = "open_door_23"
+
+[sub_resource type="Resource" id="Resource_shiva_line_33"]
+script = ExtResource("1_line")
+line_id = "open_door_23"
+speaker_name = "Шива"
+text = "Тогда знаешь, что тот, кого любишь, всегда будет самым красивым."
+next_line_id = "open_door_24"
+
+[sub_resource type="Resource" id="Resource_shiva_line_34"]
+script = ExtResource("1_line")
+line_id = "open_door_24"
+speaker_name = "Лена"
+text = "Это. Да, такую логику я могу понять."
+next_line_id = "Shiva_choices_1"
+
+[sub_resource type="Resource" id="Resource_shiva_line_35"]
+script = ExtResource("1_line")
+line_id = "opinion_start"
+speaker_name = "Лена"
+text = "А как вы относитесь к…"
+next_line_id = "opinion_choices"
+
+[sub_resource type="Resource" id="Resource_shiva_choice_36"]
+script = ExtResource("2_choice")
+choice_id = "susanoo"
+choice_text = "Сусаноо"
+next_line_id = "opinion_susanoo_1"
+
+[sub_resource type="Resource" id="Resource_shiva_choice_37"]
+script = ExtResource("2_choice")
+choice_id = "samdi"
+choice_text = "Самди"
+next_line_id = "opinion_samdi_1"
+
+[sub_resource type="Resource" id="Resource_shiva_line_38"]
+script = ExtResource("1_line")
+line_id = "opinion_choices"
+choices = Array[ExtResource("2_choice")]([SubResource("Resource_shiva_choice_36"), SubResource("Resource_shiva_choice_37")])
+
+[sub_resource type="Resource" id="Resource_shiva_line_39"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_1"
+speaker_name = "Лена"
+text = "…Сусаноо."
+next_line_id = "opinion_susanoo_2"
+
+[sub_resource type="Resource" id="Resource_shiva_line_40"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_2"
+speaker_name = "Шива"
+text = "Сусаноо. Неспокойный и буйный, как море во время шторма."
+next_line_id = "opinion_susanoo_3"
+
+[sub_resource type="Resource" id="Resource_shiva_line_41"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_3"
+speaker_name = "Лена"
+text = "Буйный? Мне он показался довольно спокойным."
+next_line_id = "opinion_susanoo_4"
+
+[sub_resource type="Resource" id="Resource_shiva_line_42"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_4"
+speaker_name = "Шива"
+text = "Он прикладывает к этому немалые усилия."
+next_line_id = "opinion_susanoo_5"
+
+[sub_resource type="Resource" id="Resource_shiva_line_43"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_5"
+speaker_name = "Шива"
+text = "Казаться спокойным, когда внутри бушует ураган."
+next_line_id = "opinion_susanoo_6"
+
+[sub_resource type="Resource" id="Resource_shiva_line_44"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_6"
+speaker_name = "Шива"
+text = "Ты не замечала?"
+next_line_id = "opinion_susanoo_7"
+
+[sub_resource type="Resource" id="Resource_shiva_line_45"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_7"
+speaker_name = "Лена"
+text = "Наверное, замечала, местами."
+next_line_id = "opinion_susanoo_8"
+
+[sub_resource type="Resource" id="Resource_shiva_line_46"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_8"
+speaker_name = "Шива"
+text = "Поэтому я и говорю про принятие судьбы."
+next_line_id = "opinion_susanoo_9"
+
+[sub_resource type="Resource" id="Resource_shiva_line_47"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_9"
+speaker_name = "Шива"
+text = "Он в вечной борьбе. Не может принять силу обстоятельств."
+next_line_id = "opinion_susanoo_10"
+
+[sub_resource type="Resource" id="Resource_shiva_line_48"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_10"
+speaker_name = "Шива"
+text = "Пытается бороться против потока и порождает шторм в своей душе."
+next_line_id = "opinion_susanoo_11"
+
+[sub_resource type="Resource" id="Resource_shiva_line_49"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_11"
+speaker_name = "Лена"
+text = "Вы довольно размыто формулируете мысли."
+next_line_id = "opinion_susanoo_12"
+
+[sub_resource type="Resource" id="Resource_shiva_line_50"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_12"
+speaker_name = "Лена"
+text = "У него есть цель, он к ней стремится."
+next_line_id = "opinion_susanoo_13"
+
+[sub_resource type="Resource" id="Resource_shiva_line_51"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_13"
+speaker_name = "Шива"
+text = "Он считает, что обладает властью достигнуть этой цели. И мучается, потому что это не так."
+next_line_id = "opinion_susanoo_14"
+
+[sub_resource type="Resource" id="Resource_shiva_line_52"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_14"
+speaker_name = "Лена"
+text = "А вы считаете, что все цели недостижимы по умолчанию?"
+next_line_id = "opinion_susanoo_15"
+
+[sub_resource type="Resource" id="Resource_shiva_line_53"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_15"
+speaker_name = "Шива"
+text = "Нет, они достижимы."
+next_line_id = "opinion_susanoo_16"
+
+[sub_resource type="Resource" id="Resource_shiva_line_54"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_16"
+speaker_name = "Шива"
+text = "Но не совсем от нас это зависит."
+next_line_id = "opinion_susanoo_17"
+
+[sub_resource type="Resource" id="Resource_shiva_line_55"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_17"
+speaker_name = "Шива"
+text = "Мы можем выбрать путь, по которому пойдем, но не то, куда он нас приведет."
+next_line_id = "opinion_susanoo_18"
+
+[sub_resource type="Resource" id="Resource_shiva_line_56"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_18"
+speaker_name = "Лена"
+text = "Хмм…"
+next_line_id = "opinion_susanoo_19"
+
+[sub_resource type="Resource" id="Resource_shiva_line_57"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_19"
+speaker_name = "Шива"
+text = "Не веришь."
+next_line_id = "opinion_susanoo_20"
+
+[sub_resource type="Resource" id="Resource_shiva_line_58"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_20"
+speaker_name = "Лена"
+text = "Сомневаюсь."
+next_line_id = "opinion_susanoo_21"
+
+[sub_resource type="Resource" id="Resource_shiva_line_59"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_21"
+speaker_name = "Шива"
+text = "Зря. Это нужно просто почувствовать. Понять не получится."
+next_line_id = "opinion_susanoo_22"
+
+[sub_resource type="Resource" id="Resource_shiva_line_60"]
+script = ExtResource("1_line")
+line_id = "opinion_susanoo_22"
+speaker_name = "Шива"
+text = "Потому что такова истина."
+next_line_id = "Shiva_choices_1"
+
+[sub_resource type="Resource" id="Resource_shiva_line_61"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_1"
+speaker_name = "Лена"
+text = "…Самди."
+next_line_id = "opinion_samdi_2"
+
+[sub_resource type="Resource" id="Resource_shiva_line_62"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_2"
+speaker_name = "Шива"
+text = "Хмм. Он мне не особо нравится."
+next_line_id = "opinion_samdi_3"
+
+[sub_resource type="Resource" id="Resource_shiva_line_63"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_3"
+speaker_name = "Лена"
+text = "Правда? Мне казалось, с ним-то вы должны поладить."
+next_line_id = "opinion_samdi_4"
+
+[sub_resource type="Resource" id="Resource_shiva_line_64"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_4"
+speaker_name = "Лена"
+text = "Вы оба такие… Расслабленные."
+next_line_id = "opinion_samdi_5"
+
+[sub_resource type="Resource" id="Resource_shiva_line_65"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_5"
+speaker_name = "Шива"
+text = "Мы совсем разные."
+next_line_id = "opinion_samdi_6"
+
+[sub_resource type="Resource" id="Resource_shiva_line_66"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_6"
+speaker_name = "Шива"
+text = "Его душа поросла коркой цинизма."
+next_line_id = "opinion_samdi_7"
+
+[sub_resource type="Resource" id="Resource_shiva_line_67"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_7"
+speaker_name = "Шива"
+text = "Там, где я стремлюсь обрести расслабление и покой, он силой себя расслабляет."
+next_line_id = "opinion_samdi_8"
+
+[sub_resource type="Resource" id="Resource_shiva_line_68"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_8"
+speaker_name = "Шива"
+text = "Он будто постоянно убегает от чего-то."
+next_line_id = "opinion_samdi_9"
+
+[sub_resource type="Resource" id="Resource_shiva_line_69"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_9"
+speaker_name = "Шива"
+text = "…"
+next_line_id = "opinion_samdi_10"
+
+[sub_resource type="Resource" id="Resource_shiva_line_70"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_10"
+speaker_name = "Лена"
+text = "Вот как?"
+next_line_id = "opinion_samdi_11"
+
+[sub_resource type="Resource" id="Resource_shiva_line_71"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_11"
+speaker_name = "Шива"
+text = "…"
+next_line_id = "opinion_samdi_12"
+
+[sub_resource type="Resource" id="Resource_shiva_line_72"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_12"
+speaker_name = "Шива"
+text = "Он пугает меня."
+next_line_id = "opinion_samdi_13"
+
+[sub_resource type="Resource" id="Resource_shiva_line_73"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_13"
+speaker_name = "Шива"
+text = "И я не могу понять почему."
+next_line_id = "opinion_samdi_14"
+
+[sub_resource type="Resource" id="Resource_shiva_line_74"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_14"
+speaker_name = "Лена"
+text = "Пугает?"
+next_line_id = "opinion_samdi_15"
+
+[sub_resource type="Resource" id="Resource_shiva_line_75"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_15"
+speaker_name = "Лена"
+text = "Возможно ли, что вы боитесь увидеть сходство с ним?"
+next_line_id = "opinion_samdi_16"
+
+[sub_resource type="Resource" id="Resource_shiva_line_76"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_16"
+speaker_name = "Шива"
+text = "Сходство?"
+next_line_id = "opinion_samdi_17"
+
+[sub_resource type="Resource" id="Resource_shiva_line_77"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_17"
+speaker_name = "Шива"
+text = "Нет, это смешно."
+next_line_id = "opinion_samdi_18"
+
+[sub_resource type="Resource" id="Resource_shiva_line_78"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_18"
+speaker_name = "Шива"
+text = "Я прожил тысячи лет. Осознал тысячи истин."
+next_line_id = "opinion_samdi_19"
+
+[sub_resource type="Resource" id="Resource_shiva_line_79"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_19"
+speaker_name = "Шива"
+text = "А он просто пьяница."
+next_line_id = "opinion_samdi_20"
+
+[sub_resource type="Resource" id="Resource_shiva_line_80"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_20"
+speaker_name = "Шива"
+text = "Нет. Мы совсем разные."
+next_line_id = "opinion_samdi_21"
+
+[sub_resource type="Resource" id="Resource_shiva_line_81"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_21"
+speaker_name = "Лена"
+text = "Но чего вы тогда боитесь?"
+next_line_id = "opinion_samdi_22"
+
+[sub_resource type="Resource" id="Resource_shiva_line_82"]
+script = ExtResource("1_line")
+line_id = "opinion_samdi_22"
+speaker_name = "Шива"
+text = "Я бы и сам хотел понять."
+next_line_id = "Shiva_choices_1"
+
+[sub_resource type="Resource" id="Resource_shiva_line_83"]
+script = ExtResource("1_line")
+line_id = "new_world_1"
+speaker_name = "Лена"
+text = "Вам нравится этот новый мир?"
+next_line_id = "new_world_2"
+
+[sub_resource type="Resource" id="Resource_shiva_line_84"]
+script = ExtResource("1_line")
+line_id = "new_world_2"
+speaker_name = "Шива"
+text = "План фантазий? Да, он очень интересный."
+next_line_id = "new_world_3"
+
+[sub_resource type="Resource" id="Resource_shiva_line_85"]
+script = ExtResource("1_line")
+line_id = "new_world_3"
+speaker_name = "Лена"
+text = "Но вас тянет обратно на вашу родину."
+next_line_id = "new_world_4"
+
+[sub_resource type="Resource" id="Resource_shiva_line_86"]
+script = ExtResource("1_line")
+line_id = "new_world_4"
+speaker_name = "Шива"
+text = "Конечно."
+next_line_id = "new_world_5"
+
+[sub_resource type="Resource" id="Resource_shiva_line_87"]
+script = ExtResource("1_line")
+line_id = "new_world_5"
+speaker_name = "Лена"
+text = "Вы стремитесь к привычному?"
+next_line_id = "new_world_6"
+
+[sub_resource type="Resource" id="Resource_shiva_line_88"]
+script = ExtResource("1_line")
+line_id = "new_world_6"
+speaker_name = "Шива"
+text = "Я стремлюсь к тому, что мне дорого."
+next_line_id = "new_world_7"
+
+[sub_resource type="Resource" id="Resource_shiva_line_89"]
+script = ExtResource("1_line")
+line_id = "new_world_7"
+speaker_name = "Шива"
+text = "Наверное, можно и так сказать, к привычному."
+next_line_id = "new_world_8"
+
+[sub_resource type="Resource" id="Resource_shiva_line_90"]
+script = ExtResource("1_line")
+line_id = "new_world_8"
+speaker_name = "Лена"
+text = "И это не противоречит вашей философии — отдаваться потокам судьбы?"
+next_line_id = "new_world_9"
+
+[sub_resource type="Resource" id="Resource_shiva_line_91"]
+script = ExtResource("1_line")
+line_id = "new_world_9"
+speaker_name = "Шива"
+text = "Нет, почему."
+next_line_id = "new_world_10"
+
+[sub_resource type="Resource" id="Resource_shiva_line_92"]
+script = ExtResource("1_line")
+line_id = "new_world_10"
+speaker_name = "Шива"
+text = "Я не перечу обстоятельствам. Позволяю им править моментом."
+next_line_id = "new_world_11"
+
+[sub_resource type="Resource" id="Resource_shiva_line_93"]
+script = ExtResource("1_line")
+line_id = "new_world_11"
+speaker_name = "Шива"
+text = "Но в сердце держу драгоценный камень — тех вещей, которые ценны для меня всегда."
+next_line_id = "new_world_12"
+
+[sub_resource type="Resource" id="Resource_shiva_line_94"]
+script = ExtResource("1_line")
+line_id = "new_world_12"
+speaker_name = "Лена"
+text = "Но если ваше ядро остается неизменным и не подчиняется обстоятельствам."
+next_line_id = "new_world_13"
+
+[sub_resource type="Resource" id="Resource_shiva_line_95"]
+script = ExtResource("1_line")
+line_id = "new_world_13"
+speaker_name = "Лена"
+text = "То в чем же тогда проявляется покорность судьбе?"
+next_line_id = "new_world_14"
+
+[sub_resource type="Resource" id="Resource_shiva_line_96"]
+script = ExtResource("1_line")
+line_id = "new_world_14"
+speaker_name = "Шива"
+text = "Ты пытаешься меня на чем-то подловить?"
+next_line_id = "new_world_15"
+
+[sub_resource type="Resource" id="Resource_shiva_line_97"]
+script = ExtResource("1_line")
+line_id = "new_world_15"
+speaker_name = "Лена"
+text = "Нет, что вы."
+next_line_id = "new_world_16"
+
+[sub_resource type="Resource" id="Resource_shiva_line_98"]
+script = ExtResource("1_line")
+line_id = "new_world_16"
+speaker_name = "Лена"
+text = "Хотя, честно, да."
+next_line_id = "new_world_17"
+
+[sub_resource type="Resource" id="Resource_shiva_line_99"]
+script = ExtResource("1_line")
+line_id = "new_world_17"
+speaker_name = "Лена"
+text = "Мне ваша философия кажется противоречивой."
+next_line_id = "new_world_18"
+
+[sub_resource type="Resource" id="Resource_shiva_line_100"]
+script = ExtResource("1_line")
+line_id = "new_world_18"
+speaker_name = "Шива"
+text = "Да, она и есть противоречива."
+next_line_id = "new_world_19"
+
+[sub_resource type="Resource" id="Resource_shiva_line_101"]
+script = ExtResource("1_line")
+line_id = "new_world_19"
+speaker_name = "Лена"
+text = "Но если она противоречива, значит — неверна."
+next_line_id = "new_world_20"
+
+[sub_resource type="Resource" id="Resource_shiva_line_102"]
+script = ExtResource("1_line")
+line_id = "new_world_20"
+speaker_name = "Шива"
+text = "Зачастую. Противоречие является признаком лжи, да."
+next_line_id = "new_world_21"
+
+[sub_resource type="Resource" id="Resource_shiva_line_103"]
+script = ExtResource("1_line")
+line_id = "new_world_21"
+speaker_name = "Шива"
+text = "Но и признаком более глубокой истины."
+next_line_id = "new_world_22"
+
+[sub_resource type="Resource" id="Resource_shiva_line_104"]
+script = ExtResource("1_line")
+line_id = "new_world_22"
+speaker_name = "Лена"
+text = "Ага…"
+next_line_id = "new_world_23"
+
+[sub_resource type="Resource" id="Resource_shiva_line_105"]
+script = ExtResource("1_line")
+line_id = "new_world_23"
+speaker_name = "Шива"
+text = "Во всем отдаваться моменту — конечно неверно. Иначе нет тебя, а есть только обстоятельства."
+next_line_id = "new_world_24"
+
+[sub_resource type="Resource" id="Resource_shiva_line_106"]
+script = ExtResource("1_line")
+line_id = "new_world_24"
+speaker_name = "Шива"
+text = "Вопрос в том, чтобы найти баланс между собой и миром."
+next_line_id = "new_world_25"
+
+[sub_resource type="Resource" id="Resource_shiva_line_107"]
+script = ExtResource("1_line")
+line_id = "new_world_25"
+speaker_name = "Лена"
+text = "Баланс между собой и миром."
+next_line_id = "new_world_26"
+
+[sub_resource type="Resource" id="Resource_shiva_line_108"]
+script = ExtResource("1_line")
+line_id = "new_world_26"
+speaker_name = "Лена"
+text = "И вы его нашли?"
+next_line_id = "new_world_27"
+
+[sub_resource type="Resource" id="Resource_shiva_line_109"]
+script = ExtResource("1_line")
+line_id = "new_world_27"
+speaker_name = "Шива"
+text = "Ты знаешь, я люблю философствовать. Но редко встречаю тех, кому это было бы так же интересно."
+next_line_id = "new_world_28"
+
+[sub_resource type="Resource" id="Resource_shiva_line_110"]
+script = ExtResource("1_line")
+line_id = "new_world_28"
+speaker_name = "Лена"
+text = "Да, я люблю такое."
+next_line_id = "new_world_29"
+
+[sub_resource type="Resource" id="Resource_shiva_line_111"]
+script = ExtResource("1_line")
+line_id = "new_world_29"
+speaker_name = "Лена"
+text = "(Но вы не ответили на вопрос.)"
+next_line_id = "Shiva_choices_1"
+
+[sub_resource type="Resource" id="Resource_shiva_line_112"]
+script = ExtResource("1_line")
+line_id = "help_1"
+speaker_name = "Лена"
+text = "Вы знаете, ваша помощь неоценима."
+next_line_id = "help_2"
+
+[sub_resource type="Resource" id="Resource_shiva_line_113"]
+script = ExtResource("1_line")
+line_id = "help_2"
+speaker_name = "Шива"
+text = "Ну, есть некий боевой опыт, хехе."
+next_line_id = "help_3"
+
+[sub_resource type="Resource" id="Resource_shiva_line_114"]
+script = ExtResource("1_line")
+line_id = "help_3"
+speaker_name = "Шива"
+text = "Как-то я дал одному парню возможность превращать кого угодно в пепел, просто коснувшись их макушки."
+next_line_id = "help_4"
+
+[sub_resource type="Resource" id="Resource_shiva_line_115"]
+script = ExtResource("1_line")
+line_id = "help_4"
+speaker_name = "Шива"
+text = "Он решил начать с того, чтобы проверить способность на мне."
+next_line_id = "help_5"
+
+[sub_resource type="Resource" id="Resource_shiva_line_116"]
+script = ExtResource("1_line")
+line_id = "help_5"
+speaker_name = "Лена"
+text = "Эм… А зачем вы это сделали?"
+next_line_id = "help_6"
+
+[sub_resource type="Resource" id="Resource_shiva_line_117"]
+script = ExtResource("1_line")
+line_id = "help_6"
+speaker_name = "Шива"
+text = "Да я уже сам не помню."
+next_line_id = "help_7"
+
+[sub_resource type="Resource" id="Resource_shiva_line_118"]
+script = ExtResource("1_line")
+line_id = "help_7"
+speaker_name = "Лена"
+text = "Как-то вы безразлично к этому относитесь."
+next_line_id = "help_8"
+
+[sub_resource type="Resource" id="Resource_shiva_line_119"]
+script = ExtResource("1_line")
+line_id = "help_8"
+speaker_name = "Шива"
+text = "Ну… да."
+next_line_id = "help_9"
+
+[sub_resource type="Resource" id="Resource_shiva_line_120"]
+script = ExtResource("1_line")
+line_id = "help_9"
+speaker_name = "Шива"
+text = "Много жизней прожил, много битв прошел."
+next_line_id = "help_10"
+
+[sub_resource type="Resource" id="Resource_shiva_line_121"]
+script = ExtResource("1_line")
+line_id = "help_10"
+speaker_name = "Шива"
+text = "Это была одна из них."
+next_line_id = "help_11"
+
+[sub_resource type="Resource" id="Resource_shiva_line_122"]
+script = ExtResource("1_line")
+line_id = "help_11"
+speaker_name = "Лена"
+text = "Вы много о чем забываете?"
+next_line_id = "help_12"
+
+[sub_resource type="Resource" id="Resource_shiva_line_123"]
+script = ExtResource("1_line")
+line_id = "help_12"
+speaker_name = "Шива"
+text = "Да."
+next_line_id = "help_13"
+
+[sub_resource type="Resource" id="Resource_shiva_line_124"]
+script = ExtResource("1_line")
+line_id = "help_13"
+speaker_name = "Шива"
+text = "Если что-то происходит — на то воля вселенной."
+next_line_id = "help_14"
+
+[sub_resource type="Resource" id="Resource_shiva_line_125"]
+script = ExtResource("1_line")
+line_id = "help_14"
+speaker_name = "Шива"
+text = "А когда оно проходит — ему место в прошлом."
+next_line_id = "help_15"
+
+[sub_resource type="Resource" id="Resource_shiva_line_126"]
+script = ExtResource("1_line")
+line_id = "help_15"
+speaker_name = "Шива"
+text = "И незачем о нем вспоминать."
+next_line_id = "help_16"
+
+[sub_resource type="Resource" id="Resource_shiva_line_127"]
+script = ExtResource("1_line")
+line_id = "help_16"
+speaker_name = "Шива"
+text = "Нужно просто жить дальше."
+next_line_id = "help_17"
+
+[sub_resource type="Resource" id="Resource_shiva_line_128"]
+script = ExtResource("1_line")
+line_id = "help_17"
+speaker_name = "Лена"
+text = "А как же уроки, выносимые из прошлого?"
+next_line_id = "help_18"
+
+[sub_resource type="Resource" id="Resource_shiva_line_129"]
+script = ExtResource("1_line")
+line_id = "help_18"
+speaker_name = "Шива"
+text = "Уроки да. Но какие уроки?"
+next_line_id = "help_19"
+
+[sub_resource type="Resource" id="Resource_shiva_line_130"]
+script = ExtResource("1_line")
+line_id = "help_19"
+speaker_name = "Шива"
+text = "Обстоятельства сложились так, и это привело к таким-то последствиям."
+next_line_id = "help_20"
+
+[sub_resource type="Resource" id="Resource_shiva_line_131"]
+script = ExtResource("1_line")
+line_id = "help_20"
+speaker_name = "Шива"
+text = "Будут ли последствия такими же, если это произойдет снова? Никто не знает."
+next_line_id = "help_21"
+
+[sub_resource type="Resource" id="Resource_shiva_line_132"]
+script = ExtResource("1_line")
+line_id = "help_21"
+speaker_name = "Шива"
+text = "Кто-то напился и убил человека."
+next_line_id = "help_22"
+
+[sub_resource type="Resource" id="Resource_shiva_line_133"]
+script = ExtResource("1_line")
+line_id = "help_22"
+speaker_name = "Шива"
+text = "Не значит, что каждый прием алкоголя закончится кровопролитием."
+next_line_id = "help_23"
+
+[sub_resource type="Resource" id="Resource_shiva_line_134"]
+script = ExtResource("1_line")
+line_id = "help_23"
+speaker_name = "Лена"
+text = "Да, но мы многое можем понять и подготовиться к тому, что нас ждет в будущем."
+next_line_id = "help_24"
+
+[sub_resource type="Resource" id="Resource_shiva_line_135"]
+script = ExtResource("1_line")
+line_id = "help_24"
+speaker_name = "Шива"
+text = "Ах, дитя."
+next_line_id = "help_25"
+
+[sub_resource type="Resource" id="Resource_shiva_line_136"]
+script = ExtResource("1_line")
+line_id = "help_25"
+speaker_name = "Шива"
+text = "Никто не может подготовиться к тому, что ждет в будущем."
+next_line_id = "Shiva_choices_1"
+
+[sub_resource type="Resource" id="Resource_shiva_line_137"]
+script = ExtResource("1_line")
+line_id = "chosen_world_1"
+speaker_name = "Лена"
+text = "Вы прямо сияете там, в джунглях."
+next_line_id = "chosen_world_2"
+
+[sub_resource type="Resource" id="Resource_shiva_line_138"]
+script = ExtResource("1_line")
+line_id = "chosen_world_2"
+speaker_name = "Шива"
+text = "О да! Моя стихия!"
+next_line_id = "chosen_world_3"
+
+[sub_resource type="Resource" id="Resource_shiva_line_139"]
+script = ExtResource("1_line")
+line_id = "chosen_world_3"
+speaker_name = "Шива"
+text = "Мне там нравится. Я прямо на одной волне с этим местом."
+next_line_id = "chosen_world_4"
+
+[sub_resource type="Resource" id="Resource_shiva_line_140"]
+script = ExtResource("1_line")
+line_id = "chosen_world_4"
+speaker_name = "Лена"
+text = "Кажется, наши враги тоже готовы отдать себя волнам судьбы."
+next_line_id = "chosen_world_5"
+
+[sub_resource type="Resource" id="Resource_shiva_line_141"]
+script = ExtResource("1_line")
+line_id = "chosen_world_5"
+speaker_name = "Шива"
+text = "Заметила, да?"
+next_line_id = "chosen_world_6"
+
+[sub_resource type="Resource" id="Resource_shiva_line_142"]
+script = ExtResource("1_line")
+line_id = "chosen_world_6"
+speaker_name = "Шива"
+text = "Мне это тоже нравится."
+next_line_id = "chosen_world_7"
+
+[sub_resource type="Resource" id="Resource_shiva_line_143"]
+script = ExtResource("1_line")
+line_id = "chosen_world_7"
+speaker_name = "Шива"
+text = "Никакой иллюзии контроля."
+next_line_id = "chosen_world_8"
+
+[sub_resource type="Resource" id="Resource_shiva_line_144"]
+script = ExtResource("1_line")
+line_id = "chosen_world_8"
+speaker_name = "Шива"
+text = "Просто двое, качающиеся на волнах."
+next_line_id = "chosen_world_9"
+
+[sub_resource type="Resource" id="Resource_shiva_line_145"]
+script = ExtResource("1_line")
+line_id = "chosen_world_9"
+speaker_name = "Шива"
+text = "Одного вынесет на берег, другого унесет в океан."
+next_line_id = "chosen_world_10"
+
+[sub_resource type="Resource" id="Resource_shiva_line_146"]
+script = ExtResource("1_line")
+line_id = "chosen_world_10"
+speaker_name = "Лена"
+text = "Да, это по-своему красиво."
+next_line_id = "chosen_world_11"
+
+[sub_resource type="Resource" id="Resource_shiva_line_147"]
+script = ExtResource("1_line")
+line_id = "chosen_world_11"
+speaker_name = "Шива"
+text = "Только не заблуждайся, что все там так радостно."
+next_line_id = "chosen_world_12"
+
+[sub_resource type="Resource" id="Resource_shiva_line_148"]
+script = ExtResource("1_line")
+line_id = "chosen_world_12"
+speaker_name = "Шива"
+text = "Земля индийская полна самых разнообразных демонов."
+next_line_id = "chosen_world_13"
+
+[sub_resource type="Resource" id="Resource_shiva_line_149"]
+script = ExtResource("1_line")
+line_id = "chosen_world_13"
+speaker_name = "Шива"
+text = "И у них свое представление о судьбе. О мире и гармонии."
+next_line_id = "chosen_world_14"
+
+[sub_resource type="Resource" id="Resource_shiva_line_150"]
+script = ExtResource("1_line")
+line_id = "chosen_world_14"
+speaker_name = "Лена"
+text = "Вы помрачнели."
+next_line_id = "chosen_world_15"
+
+[sub_resource type="Resource" id="Resource_shiva_line_151"]
+script = ExtResource("1_line")
+line_id = "chosen_world_15"
+speaker_name = "Шива"
+text = "Я не люблю их."
+next_line_id = "chosen_world_16"
+
+[sub_resource type="Resource" id="Resource_shiva_line_152"]
+script = ExtResource("1_line")
+line_id = "chosen_world_16"
+speaker_name = "Шива"
+text = "Они не сбалансированные. Не слышат музыки. Не чувствуют танца."
+next_line_id = "chosen_world_17"
+
+[sub_resource type="Resource" id="Resource_shiva_line_153"]
+script = ExtResource("1_line")
+line_id = "chosen_world_17"
+speaker_name = "Шива"
+text = "Точнее, они слышат и чувствуют, но не хотят следовать."
+next_line_id = "chosen_world_18"
+
+[sub_resource type="Resource" id="Resource_shiva_line_154"]
+script = ExtResource("1_line")
+line_id = "chosen_world_18"
+speaker_name = "Шива"
+text = "Хотят, чтобы звучала только их музыка."
+next_line_id = "chosen_world_19"
+
+[sub_resource type="Resource" id="Resource_shiva_line_155"]
+script = ExtResource("1_line")
+line_id = "chosen_world_19"
+speaker_name = "Шива"
+text = "Чтобы весь мир звучал так, как того хотят они."
+next_line_id = "chosen_world_20"
+
+[sub_resource type="Resource" id="Resource_shiva_line_156"]
+script = ExtResource("1_line")
+line_id = "chosen_world_20"
+speaker_name = "Лена"
+text = "Хм…"
+next_line_id = "chosen_world_21"
+
+[sub_resource type="Resource" id="Resource_shiva_line_157"]
+script = ExtResource("1_line")
+line_id = "chosen_world_21"
+speaker_name = "Шива"
+text = "Мне неприятно даже представлять это."
+next_line_id = "chosen_world_22"
+
+[sub_resource type="Resource" id="Resource_shiva_line_158"]
+script = ExtResource("1_line")
+line_id = "chosen_world_22"
+speaker_name = "Лена"
+text = "Демоны — это те, кто хотят поменять музыку мира? Это интересный взгляд."
+next_line_id = "chosen_world_23"
+
+[sub_resource type="Resource" id="Resource_shiva_line_159"]
+script = ExtResource("1_line")
+line_id = "chosen_world_23"
+speaker_name = "Шива"
+text = "Рад, что он тебе интересен."
+next_line_id = "chosen_world_24"
+
+[sub_resource type="Resource" id="Resource_shiva_line_160"]
+script = ExtResource("1_line")
+line_id = "chosen_world_24"
+speaker_name = "Шива"
+text = "Не рад, что это реальность."
+next_line_id = "Shiva_choices_1"
+
+[resource]
+script = ExtResource("3_dialogue")
+dialogue_id = "shiva_dialogue_1"
+dialogue_name = ""
+start_line_id = "intro_1"
+lines = Array[ExtResource("1_line")]([SubResource("Resource_shiva_line_2"), SubResource("Resource_shiva_line_3"), SubResource("Resource_shiva_line_4"), SubResource("Resource_shiva_line_10"), SubResource("Resource_shiva_line_11"), SubResource("Resource_shiva_line_12"), SubResource("Resource_shiva_line_13"), SubResource("Resource_shiva_line_14"), SubResource("Resource_shiva_line_15"), SubResource("Resource_shiva_line_16"), SubResource("Resource_shiva_line_17"), SubResource("Resource_shiva_line_18"), SubResource("Resource_shiva_line_19"), SubResource("Resource_shiva_line_20"), SubResource("Resource_shiva_line_21"), SubResource("Resource_shiva_line_22"), SubResource("Resource_shiva_line_23"), SubResource("Resource_shiva_line_24"), SubResource("Resource_shiva_line_25"), SubResource("Resource_shiva_line_26"), SubResource("Resource_shiva_line_27"), SubResource("Resource_shiva_line_28"), SubResource("Resource_shiva_line_29"), SubResource("Resource_shiva_line_30"), SubResource("Resource_shiva_line_31"), SubResource("Resource_shiva_line_32"), SubResource("Resource_shiva_line_33"), SubResource("Resource_shiva_line_34"), SubResource("Resource_shiva_line_35"), SubResource("Resource_shiva_line_38"), SubResource("Resource_shiva_line_39"), SubResource("Resource_shiva_line_40"), SubResource("Resource_shiva_line_41"), SubResource("Resource_shiva_line_42"), SubResource("Resource_shiva_line_43"), SubResource("Resource_shiva_line_44"), SubResource("Resource_shiva_line_45"), SubResource("Resource_shiva_line_46"), SubResource("Resource_shiva_line_47"), SubResource("Resource_shiva_line_48"), SubResource("Resource_shiva_line_49"), SubResource("Resource_shiva_line_50"), SubResource("Resource_shiva_line_51"), SubResource("Resource_shiva_line_52"), SubResource("Resource_shiva_line_53"), SubResource("Resource_shiva_line_54"), SubResource("Resource_shiva_line_55"), SubResource("Resource_shiva_line_56"), SubResource("Resource_shiva_line_57"), SubResource("Resource_shiva_line_58"), SubResource("Resource_shiva_line_59"), SubResource("Resource_shiva_line_60"), SubResource("Resource_shiva_line_61"), SubResource("Resource_shiva_line_62"), SubResource("Resource_shiva_line_63"), SubResource("Resource_shiva_line_64"), SubResource("Resource_shiva_line_65"), SubResource("Resource_shiva_line_66"), SubResource("Resource_shiva_line_67"), SubResource("Resource_shiva_line_68"), SubResource("Resource_shiva_line_69"), SubResource("Resource_shiva_line_70"), SubResource("Resource_shiva_line_71"), SubResource("Resource_shiva_line_72"), SubResource("Resource_shiva_line_73"), SubResource("Resource_shiva_line_74"), SubResource("Resource_shiva_line_75"), SubResource("Resource_shiva_line_76"), SubResource("Resource_shiva_line_77"), SubResource("Resource_shiva_line_78"), SubResource("Resource_shiva_line_79"), SubResource("Resource_shiva_line_80"), SubResource("Resource_shiva_line_81"), SubResource("Resource_shiva_line_82"), SubResource("Resource_shiva_line_83"), SubResource("Resource_shiva_line_84"), SubResource("Resource_shiva_line_85"), SubResource("Resource_shiva_line_86"), SubResource("Resource_shiva_line_87"), SubResource("Resource_shiva_line_88"), SubResource("Resource_shiva_line_89"), SubResource("Resource_shiva_line_90"), SubResource("Resource_shiva_line_91"), SubResource("Resource_shiva_line_92"), SubResource("Resource_shiva_line_93"), SubResource("Resource_shiva_line_94"), SubResource("Resource_shiva_line_95"), SubResource("Resource_shiva_line_96"), SubResource("Resource_shiva_line_97"), SubResource("Resource_shiva_line_98"), SubResource("Resource_shiva_line_99"), SubResource("Resource_shiva_line_100"), SubResource("Resource_shiva_line_101"), SubResource("Resource_shiva_line_102"), SubResource("Resource_shiva_line_103"), SubResource("Resource_shiva_line_104"), SubResource("Resource_shiva_line_105"), SubResource("Resource_shiva_line_106"), SubResource("Resource_shiva_line_107"), SubResource("Resource_shiva_line_108"), SubResource("Resource_shiva_line_109"), SubResource("Resource_shiva_line_110"), SubResource("Resource_shiva_line_111"), SubResource("Resource_shiva_line_112"), SubResource("Resource_shiva_line_113"), SubResource("Resource_shiva_line_114"), SubResource("Resource_shiva_line_115"), SubResource("Resource_shiva_line_116"), SubResource("Resource_shiva_line_117"), SubResource("Resource_shiva_line_118"), SubResource("Resource_shiva_line_119"), SubResource("Resource_shiva_line_120"), SubResource("Resource_shiva_line_121"), SubResource("Resource_shiva_line_122"), SubResource("Resource_shiva_line_123"), SubResource("Resource_shiva_line_124"), SubResource("Resource_shiva_line_125"), SubResource("Resource_shiva_line_126"), SubResource("Resource_shiva_line_127"), SubResource("Resource_shiva_line_128"), SubResource("Resource_shiva_line_129"), SubResource("Resource_shiva_line_130"), SubResource("Resource_shiva_line_131"), SubResource("Resource_shiva_line_132"), SubResource("Resource_shiva_line_133"), SubResource("Resource_shiva_line_134"), SubResource("Resource_shiva_line_135"), SubResource("Resource_shiva_line_136"), SubResource("Resource_shiva_line_137"), SubResource("Resource_shiva_line_138"), SubResource("Resource_shiva_line_139"), SubResource("Resource_shiva_line_140"), SubResource("Resource_shiva_line_141"), SubResource("Resource_shiva_line_142"), SubResource("Resource_shiva_line_143"), SubResource("Resource_shiva_line_144"), SubResource("Resource_shiva_line_145"), SubResource("Resource_shiva_line_146"), SubResource("Resource_shiva_line_147"), SubResource("Resource_shiva_line_148"), SubResource("Resource_shiva_line_149"), SubResource("Resource_shiva_line_150"), SubResource("Resource_shiva_line_151"), SubResource("Resource_shiva_line_152"), SubResource("Resource_shiva_line_153"), SubResource("Resource_shiva_line_154"), SubResource("Resource_shiva_line_155"), SubResource("Resource_shiva_line_156"), SubResource("Resource_shiva_line_157"), SubResource("Resource_shiva_line_158"), SubResource("Resource_shiva_line_159"), SubResource("Resource_shiva_line_160")])

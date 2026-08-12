@@ -1,0 +1,159 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Tunnels/Dwarf_shield/dwarf_shield.tres" id="enemy_shield"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Tunnels/Dwarf_smith/dwarf_smith.tres" id="enemy_smith"]
+[ext_resource type="Resource" path="res://Items/Armor/Unique/dwarven_cuirass.tres" id="item_cuirass"]
+
+[sub_resource type="Resource" id="form_queue"]
+script = ExtResource("formation_script")
+formation_name = "Очередь к кузнецу: Щит-Щит-Щит-Кузнец"
+pos1 = ExtResource("enemy_shield")
+pos2 = ExtResource("enemy_shield")
+pos3 = ExtResource("enemy_shield")
+pos4 = ExtResource("enemy_smith")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="form_smiths"]
+script = ExtResource("formation_script")
+formation_name = "Смена кузнецов: Кузнец-Кузнец-Кузнец-Кузнец"
+pos1 = ExtResource("enemy_smith")
+pos2 = ExtResource("enemy_smith")
+pos3 = ExtResource("enemy_smith")
+pos4 = ExtResource("enemy_smith")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="buff_init_minus2"]
+script = ExtResource("buff_script")
+stat = 6
+value = -2
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="buff_damage_minus30"]
+script = ExtResource("buff_script")
+stat = 0
+value = -30
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_all_init_minus2"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_init_minus2")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="mod_smith_damage_minus30"]
+script = ExtResource("unit_modifier_script")
+target_position = 4
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_damage_minus30")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_fast_attack"]
+script = ExtResource("battle_script")
+formation = SubResource("form_queue")
+location_id = "tunnels"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_all_init_minus2")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_tired_smith"]
+script = ExtResource("battle_script")
+formation = SubResource("form_queue")
+location_id = "tunnels"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_smith_damage_minus30")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_normal"]
+script = ExtResource("battle_script")
+formation = SubResource("form_queue")
+location_id = "tunnels"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_smiths"]
+script = ExtResource("battle_script")
+formation = SubResource("form_smiths")
+location_id = "tunnels"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="reward_cuirass"]
+script = ExtResource("reward_script")
+kind = 0
+resource = ExtResource("item_cuirass")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_attack"]
+script = ExtResource("outcome_script")
+result_text = "Дворфы ошеломленно разворачиваются, когда вы ударяете их в самый тыл. Крича напоминания, кто за кем занимал, они разворачиваются, чтобы принять бой."
+battle = SubResource("battle_fast_attack")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_wait_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы терпеливо ждете, пока один за другим дворфы покидают кузню. Когда их остается совсем немного, вы видите, что кузнец еле дышит, опираясь обеими руками на наковальню. В этот момент вы достаете оружие."
+battle = SubResource("battle_tired_smith")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_wait_fail"]
+script = ExtResource("outcome_script")
+result_text = "Дворфы замечают странных вторженцев и разворачиваются, чтобы принять бой."
+battle = SubResource("battle_normal")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_queue_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы терпеливо отстаиваете очередь. Когда до вас доходит черед, кузнец не глядя передает вам комплект доспехов. Когда вы собираетесь уходить, в проеме вы сталкиваетесь со сменой кузнецов. Удивленные, они достают оружие."
+battle = SubResource("battle_smiths")
+rewards = [SubResource("reward_cuirass")]
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_queue_fail"]
+script = ExtResource("outcome_script")
+result_text = "Дворфы замечают странных вторженцев и разворачиваются, чтобы принять бой."
+battle = SubResource("battle_normal")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("stat_check_script")
+stat = 4
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="choice_attack"]
+script = ExtResource("choice_script")
+choice_text = "Напасть немедленно"
+outcome = SubResource("out_attack")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_wait"]
+script = ExtResource("choice_script")
+choice_text = "Подождать, пока очередь рассосется"
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_wait_success")
+failure_outcome = SubResource("out_wait_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_queue"]
+script = ExtResource("choice_script")
+choice_text = "Встать за последним и дождаться своей очереди"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_queue_success")
+failure_outcome = SubResource("out_queue_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Очередь к кузнецу"
+body_text = "Вы видите широкую спину дворфа, торчащую из коридора. При ближайшем рассмотрении перед вами оказывается длинная очередь бородачей, переминающихся с ноги на ногу. Линия ведет к кузне, где запыхавшийся дворф неистово стучит молотком по раскаленному куску металла."
+choices = [SubResource("choice_attack"), SubResource("choice_wait"), SubResource("choice_queue")]

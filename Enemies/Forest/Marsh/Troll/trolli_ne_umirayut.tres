@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Тролли не умирают"
+description = "Тролль получает 15% регенерации на 5 ходов."
+damage_modifier = 0.0
+majesty_gain = 0
+target_type = "Self"
+effect_types = Array[String](["regeneration"])
+effect_values = Dictionary[String, int]({"regeneration": 15})
+effect_durations = Dictionary[String, int]({"regeneration": 5})
+ability_marker = "trolli_ne_umirayut"
+usable_from_positions = Array[bool]([true, true, true, true])
+targetable_positions = Array[bool]([false, false, false, false])

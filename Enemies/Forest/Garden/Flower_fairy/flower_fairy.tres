@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://hbur4mg1bd3k"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://c6sgy5wxkx2ar" path="res://Enemy_logic/flower_fairy_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Flower_fairy/sleeping_pollen.tres" id="4_sp"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Flower_fairy/flutter.tres" id="5_fl"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Flower_fairy/unstoppable_bloom.tres" id="6_ub"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Цветочная фея"
+sprite_path = "res://Enemies/Forest/Garden/Flower_fairy/Flower_fairy.png"
+face_sprite = "res://Enemies/Forest/Garden/Flower_fairy/Flower_fairy_face.png"
+battle_sprite_scale_percent = 93.0
+max_hp = 60
+damage = 15
+initiative = 6
+accuracy = 85
+evasion = 25
+crit_chance = 0.15
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_sp"), ExtResource("5_fl"), ExtResource("6_ub")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

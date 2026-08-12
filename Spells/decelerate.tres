@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="SpellResource" format=3 uid="uid://dhz9n4q6s8yd"]
+
+[ext_resource type="Script" uid="uid://bxf7k2m4p9nz" path="res://spell_resource.gd" id="1_sp02"]
+
+[resource]
+script = ExtResource("1_sp02")
+icon_path = "res://Icons/spells/Slow_down.png"
+spell_name = "Притормозить"
+description = "Передвинуть союзника на 1 позицию назад"
+fantasy_cost = 5
+target_type = "Ally"
+effect_types = Array[String](["push_back"])
+effect_values = Dictionary[String, int]({
+"push_back": 1
+})
+metadata/_custom_type_script = "uid://bxf7k2m4p9nz"

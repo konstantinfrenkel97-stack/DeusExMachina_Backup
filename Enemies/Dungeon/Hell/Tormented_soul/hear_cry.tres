@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Услышь мой крик"
+description = "Все враги получают 1 уровень забытья."
+damage_modifier = 2.0
+majesty_gain = 0
+target_type = "All_Enemies"
+ability_marker = "soul_hear_cry"
+usable_from_positions = Array[bool]([true, false, false, false])
+targetable_positions = Array[bool]([true, true, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

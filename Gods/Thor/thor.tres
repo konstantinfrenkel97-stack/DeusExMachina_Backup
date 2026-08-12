@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://48sgdok10cjj"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_858ls"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_idbeb"]
+[ext_resource type="Resource" uid="uid://cy2ek7qleiy70" path="res://Gods/Thor/through_mjolnir.tres" id="3_cmu8u"]
+[ext_resource type="Resource" uid="uid://bhvv8j8se6w0w" path="res://Gods/Thor/hammer_strike.tres" id="3_idbeb"]
+[ext_resource type="Resource" uid="uid://ccgbm2o4tw5ko" path="res://Gods/Thor/drink_some_ale.tres" id="5_fmidj"]
+[ext_resource type="Resource" uid="uid://bqthorhammer1" path="res://Gods/Thor/Hammer_of_lightning.tres" id="6_hlight"]
+[ext_resource type="Resource" uid="uid://k6d3oj5468j3" path="res://Gods/Thor/fight_me.tres" id="7_fight"]
+
+[resource]
+script = ExtResource("2_idbeb")
+unit_name = "Тор"
+sprite_path = "res://Gods/Thor/Thor.png"
+face_sprite = "res://Gods/Thor/Thor_Face.png"
+max_hp = 120
+initiative = 10
+is_enemy = false
+special_effect_type = "thor_berserk"
+active_abilities = Array[ExtResource("1_858ls")]([ExtResource("3_idbeb"), ExtResource("3_cmu8u"), ExtResource("7_fight"), ExtResource("5_fmidj")])
+ultimate_ability = ExtResource("6_hlight")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

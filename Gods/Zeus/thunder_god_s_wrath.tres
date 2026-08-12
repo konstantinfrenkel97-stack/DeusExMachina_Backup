@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://biskukutvnyeq"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_bawdr"]
+
+[resource]
+script = ExtResource("1_bawdr")
+icon_path = "uid://dos7m7c0rvq1r"
+name = "Гнев Бога Грома"
+description = "Стойка. В начале следующего хода, Зевс нанесёт 5 ударов случайным целям, каждый наносит 30% от его урона. Это не израсходует действие во время активации"
+damage_modifier = 0.0
+majesty_gain = 25
+target_type = "Self"
+usable_from_positions = Array[bool]([false, false, true, true])
+stance_duration_type = "UntilNextTurn"
+is_stance = true
+stance_effect_type = "thunder_wrath"
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

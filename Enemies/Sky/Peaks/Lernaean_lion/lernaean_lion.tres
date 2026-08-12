@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://brgl5jn6f60ax"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Peaks/Lernaean_lion/lion_throw.tres" id="2_th"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Peaks/Lernaean_lion/lion_claw.tres" id="3_cl"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Peaks/Lernaean_lion/lion_bite.tres" id="4_bt"]
+[ext_resource type="Script" uid="uid://c4ky6tq5hr8wk" path="res://Enemy_logic/lernaean_lion_logic.gd" id="5_ai"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="6_cr"]
+
+[resource]
+script = ExtResource("6_cr")
+unit_name = "Лернейский лев"
+sprite_path = "res://Enemies/Sky/Peaks/Lernaean_lion/Lernei_lion.png"
+face_sprite = "res://Enemies/Sky/Peaks/Lernaean_lion/Lernei_lion_Face.png"
+max_hp = 80
+damage = 22
+initiative = 10
+evasion = 15
+special_effect_type = "lion_ally_death_heal"
+is_large = true
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_th"), ExtResource("3_cl"), ExtResource("4_bt")])
+ai_script = ExtResource("5_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

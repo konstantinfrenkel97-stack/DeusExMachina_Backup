@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://bd5sx6h0rn5es"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Desert/Sphinx/crushing_paw.tres" id="2_cp"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Desert/Sphinx/riddle.tres" id="3_rd"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Desert/Sphinx/statue_form.tres" id="4_sf"]
+[ext_resource type="Script" uid="uid://dbybjsqfmnqn4" path="res://Enemy_logic/sphinx_logic.gd" id="5_ai"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="6_cr"]
+
+[resource]
+script = ExtResource("6_cr")
+unit_name = "Сфинкс"
+sprite_path = "res://Enemies/Civilization/Desert/Sphinx/Sphinx.png"
+face_sprite = "res://Enemies/Civilization/Desert/Sphinx/Sphinx_face.png"
+battle_sprite_scale_percent = 142.0
+damage = 22
+armor = 18
+initiative = 5
+special_effect_type = "sphinx_debuff_immune"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_cp"), ExtResource("3_rd"), ExtResource("4_sf")])
+ai_script = ExtResource("5_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

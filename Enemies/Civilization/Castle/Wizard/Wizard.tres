@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://hkhgu73ygrpg"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_ch"]
+[ext_resource type="Script" uid="uid://bhictxkxsol4w" path="res://Enemy_logic/wizard_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Castle/Wizard/armageddon.tres" id="4_a1"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Castle/Wizard/magic_arrow.tres" id="5_a2"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Castle/Wizard/cold_ring.tres" id="6_a3"]
+
+[resource]
+script = ExtResource("2_ch")
+unit_name = "Волшебник"
+sprite_path = "res://Enemies/Civilization/Castle/Wizard/Wizard.png"
+face_sprite = "res://Enemies/Civilization/Castle/Wizard/Wizard_Face.png"
+battle_sprite_scale_percent = 106.0
+max_hp = 45
+damage = 12
+armor = 3
+initiative = 6
+crit_chance = 0.1
+special_effect_type = "wizard_fantasy_heal"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2"), ExtResource("6_a3")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

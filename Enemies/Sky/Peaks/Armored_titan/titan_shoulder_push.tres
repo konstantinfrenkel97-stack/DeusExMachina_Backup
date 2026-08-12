@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Толчок плечом"
+damage_modifier = 0.7
+majesty_gain = 0
+effect_types = Array[String](["self_push_forward", "push_back"])
+effect_values = Dictionary[String, int]({
+"self_push_forward": 2,
+"push_back": 2
+})
+usable_from_positions = Array[bool]([false, false, true, true])
+targetable_positions = Array[bool]([true, true, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

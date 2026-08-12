@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://bpgg0f6b7autd"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://brksxg3opye02" path="res://Enemy_logic/oboroten_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Oboroten/zverinye_povadki.tres" id="4_zp"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Oboroten/zasada.tres" id="5_zs"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Oboroten/drat.tres" id="6_dr"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Оборотень"
+sprite_path = "res://Enemies/Forest/Marsh/Oboroten/Werewolf.png"
+face_sprite = "res://Enemies/Forest/Marsh/Oboroten/Werewolf_Face.png"
+max_hp = 110
+damage = 30
+armor = 10
+initiative = 9
+accuracy = 85
+evasion = 15
+crit_chance = 0.1
+special_effect_type = "oboroten_round3_power"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_zp"), ExtResource("5_zs"), ExtResource("6_dr")])
+ai_script = ExtResource("3_ai")

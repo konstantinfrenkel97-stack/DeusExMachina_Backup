@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://c4nn0nunit01"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://bxhvv61tasfyy" path="res://Enemy_logic/cannon_logic.gd" id="3_ai"]
+[ext_resource type="Resource" uid="uid://c4nn0nchrg01" path="res://Enemies/Sea/Ships/Cannon/charge.tres" id="4_ch"]
+[ext_resource type="Resource" uid="uid://c4nn0naim001" path="res://Enemies/Sea/Ships/Cannon/aim.tres" id="5_am"]
+[ext_resource type="Resource" uid="uid://c4nn0nfire01" path="res://Enemies/Sea/Ships/Cannon/fire.tres" id="6_fr"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Пушка"
+sprite_path = "res://Enemies/Sea/Ships/Cannon/ПУшка_nobg.png"
+face_sprite = "res://Enemies/Sea/Ships/Cannon/ПУшка_Face.png"
+damage = 30
+armor = 10
+initiative = 2
+accuracy = 80
+evasion = 0
+special_effect_type = "cannon_position_damage"
+is_large = true
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_ch"), ExtResource("5_am"), ExtResource("6_fr")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

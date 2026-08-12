@@ -1,0 +1,151 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Tunnels/Stone_giant_shaman/stone_giant_shaman.tres" id="enemy_giant_shaman"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Tunnels/Bolder/Bolder.tres" id="enemy_bolder"]
+[ext_resource type="Resource" path="res://Gods/Thor/thor.tres" id="thor"]
+
+[sub_resource type="Resource" id="form_shamans"]
+script = ExtResource("formation_script")
+formation_name = "Состязание шаманов: Великан шаман-Великан шаман"
+pos1 = ExtResource("enemy_giant_shaman")
+pos2 = ExtResource("enemy_giant_shaman")
+pos3 = null
+pos4 = null
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="form_shamans_bolder"]
+script = ExtResource("formation_script")
+formation_name = "Состязание шаманов: Великан шаман-Великан шаман-Булыжник"
+pos1 = ExtResource("enemy_giant_shaman")
+pos2 = ExtResource("enemy_giant_shaman")
+pos3 = ExtResource("enemy_bolder")
+pos4 = null
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="buff_damage_minus10"]
+script = ExtResource("buff_script")
+stat = 0
+value = -10
+duration = 2
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="buff_init_plus2"]
+script = ExtResource("buff_script")
+stat = 6
+value = 2
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_damage_minus10"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_damage_minus10")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="mod_init_plus2"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_init_plus2")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_tired"]
+script = ExtResource("battle_script")
+formation = SubResource("form_shamans")
+location_id = "tunnels"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_damage_minus10")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_normal"]
+script = ExtResource("battle_script")
+formation = SubResource("form_shamans")
+location_id = "tunnels"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_fast_enemies"]
+script = ExtResource("battle_script")
+formation = SubResource("form_shamans")
+location_id = "tunnels"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_init_plus2")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_bolder"]
+script = ExtResource("battle_script")
+formation = SubResource("form_shamans_bolder")
+location_id = "tunnels"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_watch"]
+script = ExtResource("outcome_script")
+result_text = "Великаны давят и давят, отдавая последние силы. Наконец по камню идет трещина, потом вторая, и он разбивается на множество осколков. Оба великана сначала смотрят на кучу камней в удивлении, потом на вас.\n\n«Вы видели?»\n\nБоги кивают в ответ. Вы действительно это видели."
+battle = SubResource("battle_tired")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_leave_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы оставляете позади перетягивание булыжника. Кряхтение и рык великанов еще долго разносятся по коридорам, настигая вас. Что именно вы оставили позади?"
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_leave_fail"]
+script = ExtResource("outcome_script")
+result_text = "Неожиданно из земли вырастает еще один огромный камень, преграждая путь. За спиной у вас два великана хищно улыбаются."
+battle = SubResource("battle_fast_enemies")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_thor_success"]
+script = ExtResource("outcome_script")
+result_text = "Тор врывается в состязание и начинает давить сверху на камень. Постепенно камень вырастает все меньше и меньше, и через какое-то время Тор вместе с великаном вдавливает булыжник в землю.\n\n«Впечатляет», — с удивлением замечает один из великанов. Тор расправляет плечи и торжественно смотрит на вас. Эффект сцены: Тор должен получить 50 величия."
+battle = SubResource("battle_normal")
+target_god = ExtResource("thor")
+target_majesty_delta = 50
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_thor_fail"]
+script = ExtResource("outcome_script")
+result_text = "Тор врывается в состязание и начинает давить сверху на камень.\n\n«Что ты делаешь?» — спрашивает великан, которому он помогал.\n\n«Ладно, это бессмысленно», — продолжает тот же великан и занимает боевую стойку. Булыжник так и остался стоять."
+battle = SubResource("battle_bolder")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="check_initiative"]
+script = ExtResource("stat_check_script")
+stat = 1
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="check_attack"]
+script = ExtResource("stat_check_script")
+stat = 0
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="choice_watch"]
+script = ExtResource("choice_script")
+choice_text = "Наблюдать за удивительной сценой"
+outcome = SubResource("out_watch")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_leave"]
+script = ExtResource("choice_script")
+choice_text = "Попытаться уйти"
+stat_check = SubResource("check_initiative")
+success_outcome = SubResource("out_leave_success")
+failure_outcome = SubResource("out_leave_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_thor"]
+script = ExtResource("choice_script")
+choice_text = "Присоединиться"
+required_god = ExtResource("thor")
+stat_check = SubResource("check_attack")
+success_outcome = SubResource("out_thor_success")
+failure_outcome = SubResource("out_thor_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Состязание шаманов"
+body_text = "Войдя в пещеру, вы наблюдаете диковинное зрелище. Один великан, покрытый каменными наростами, упирается руками в землю, и из каменного пола поднимается огромный булыжник. Второй, также покрытый наростами, уперевшись кончиками пальцев, начинает давить на булыжник, из-за чего тот погружается обратно в землю. Оба великана рычат и упираются, а каменная громада то выдвигается дальше из земли, то погружается обратно."
+choices = [SubResource("choice_watch"), SubResource("choice_leave"), SubResource("choice_thor")]

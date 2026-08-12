@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Глубоководное проклятие"
+description = "Марка на позицию врага, висит 2 хода и накладывает периодический урон 0.3 на 5 ходов."
+damage_modifier = 0.0
+majesty_gain = 0
+ability_marker = "seawitch_curse"
+target_type = "Enemy"
+usable_from_positions = Array[bool]([true, true, true, true])
+targetable_positions = Array[bool]([true, true, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

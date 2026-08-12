@@ -1,0 +1,94 @@
+File                                Name                 PNG_W   PNG_H   Scale%   FinalH   HP    Large
+--------------------------------------------------------------------------------------------------------------
+Golden_Valkerie.tres                Золотая валькирия    932     1688    130      2194     60    
+naga_warrior.tres                   Нага воин            937     1678    121      2030     90    
+Silver_Valkerie.tres                Серебрянная валькирия 1019    1544    130      2007     55    
+Sea_Witch.tres                      Морская ведьма       937     1678    111      1863     50    
+Gladiator.tres                      Гладиатор            941     1672    110      1839     65    
+Wizard.tres                         Волшебник            941     1672    106      1772     45    
+asura.tres                          Асура                937     1678    100      1678     110   
+Hoplite.tres                        Гоплит               768     1376    117      1610     75    
+Triton.tres                         Тритон               854     1280    125      1600     60    
+Sphinx.tres                         Сфинкс               1376    768     200      1536     0     
+aquarius.tres                       Водолей              714     1280    120      1536     65    
+aries.tres                          Овен                 714     1280    120      1536     90    
+virgo.tres                          Дева                 714     1280    120      1536     60    
+Naga_Monk.tres                      Нага монах           1029    1528    100      1528     70    
+Merman_Warrior.tres                 Русал воин           714     1280    117      1498     50    
+Nanahue.tres                        Нанауэ               714     1280    114      1459     60    
+Mermaid_Sorceress.tres              Русалка волшебница   714     1280    111      1421     45    
+medusa.tres                         Медуза               714     1280    111      1421     60    
+Novice.tres                         Новичок              1123    1401    100      1401     45    
+Mentor.tres                         Наставник            768     1376    100      1376     55    
+Princess.tres                       Принцесса            768     1376    100      1376     40    
+Anubis_Priest.tres                  Жрец Анубиса         768     1376    100      1376     70    
+Immortal.tres                       Бессмертный          768     1376    100      1376     110   
+Ra_Priest.tres                      Жрец Ра              768     1376    100      1376     75    
+cappa_warrior.tres                  Воин каппа           768     1376    100      1376     0     
+kobold.tres                         Кобольд              941     1672    80       1338     25    
+Guardsman.tres                      Стражник             714     1280    100      1280     55    
+Jester.tres                         Мистический шут      853     1280    100      1280     35    
+Succubus.tres                       Суккуб               714     1280    100      1280     85    
+Tormented_soul.tres                 Страдающая душа      714     1280    100      1280     70    
+Tormentor.tres                      Мучитель             714     1280    100      1280     95    
+draugr_berserk.tres                 Драугр берсерк       715     1280    100      1280     80    
+Draugr_Juggernaut.tres              Драугр джаггернаут   714     1280    100      1280     0     
+flower_fairy.tres                   Цветочная фея        714     1280    100      1280     60    
+thorn_fairy.tres                    Фея шипов            714     1280    100      1280     65    
+scorpio.tres                        Скорпион             714     1280    100      1280     0     
+Centaur.tres                        Кентавр              1536    1024    124      1270     60    Y
+hellhound.tres                      Адская гончая        768     1377    92       1267     80    
+Inquisitor.tres                     Инквизитор           848     1264    100      1264     50    
+rakshasa.tres                       Ракшас               848     1264    100      1264     0     
+captain.tres                        Капитан              626     1247    101      1259     90    
+armored_titan.tres                  Бронированный титан  1280    698     180      1256     120   Y
+attacking_titan.tres                Атакующий титан      1280    698     180      1256     0     Y
+filibuster.tres                     Флибустьер           660     1220    102      1244     75    
+cappa_shaman.tres                   Каппа шаман          768     1376    90       1238     60    
+libra.tres                          Весы                 1024    1536    80       1229     70    Y
+Saru.tres                           Сару                 1408    768     159      1221     75    
+siren.tres                          Сирена               507     1203    101      1215     70    
+Draugr_raider.tres                  Драугр налетчик      714     1280    93       1190     60    
+sailor.tres                         Матрос               651     1190    100      1190     65    
+druid.tres                          Друид                714     1280    92       1178     70    
+indigo.tres                         Индиго               556     1249    92       1149     0     
+crab_collector.tres                 Краб коллектор       714     1280    89       1139     70    
+banshee.tres                        Банши                628     1203    93       1119     0     
+jotun.tres                          Йотун                1280    714     154      1100     120   Y
+Griffin.tres                        Грифон               1408    768     140      1075     75    Y
+pegasus.tres                        Пегас                1408    768     140      1075     70    Y
+utoplennitsa.tres                   Утопленница          848     1264    85       1074     70    
+sailor_with_barrel.tres             Матрос с бомбой      666     1146    92       1054     55    
+Mummy.tres                          Мумия                572     1024    100      1024     90    
+nightmare.tres                      Кошмар               1536    1024    100      1024     130   Y
+gemini.tres                         Близнецы             714     1280    80       1024     95    Y
+Devil.tres                          Дьявол               714     1280    79       1011     150   Y
+cupid.tres                          Купидон              848     1264    80       1011     40    
+Coatl.tres                          Коатль               1408    768     131      1006     120   Y
+unicorn.tres                        Единорог             1408    768     130      998      90    Y
+Knight.tres                         Рыцарь               1037    1516    65       985      80    Y
+oni_sorcerer.tres                   Красный Они          1280    698     140      977      60    Y
+alraune.tres                        Альрауне             1280    698     139      970      130   Y
+satyr.tres                          Сатир                714     1280    74       947      75    
+stone_giant_warrior.tres            Каменный великан воин 1673    940     100      940      0     Y
+leshy.tres                          Леший                1280    698     130      907      130   Y
+bird_knife_wings.tres               Стимфолийская птица  1280    698     130      907      45    
+oni_warrior.tres                    Синий Они            1280    698     130      907      70    Y
+cyclops.tres                        Циклоп               768     1377    60       826      120   Y
+oboroten.tres                       Оборотень            484     775     100      775      110   
+Minotaur.tres                       Минотавр             768     1376    56       771      85    Y
+Golden_Scarab.tres                  Золотой скоробей     1408    768     100      768      55    
+dwarf_smith.tres                    Гном кузнец          1408    768     100      768      45    
+golem.tres                          Голем                1408    768     100      768      80    Y
+stone_giant_shaman.tres             Каменный великан шаман 1376    768     100      768      60    Y
+dwarf_shield.tres                   Гном щитовик         1408    768     98       753      50    
+vodyanoy.tres                       Водяной              511     743     100      743      120   
+Eel.tres                            Угорь                1280    698     100      698      55    Y
+lernaean_lion.tres                  Лернейский лев       1280    698     100      698      80    Y
+cannon.tres                         Пушка                1218    669     100      669      100   Y
+kikimora.tres                       Кикимора             556     757     84       636      90    
+kirin.tres                          Кирин                1280    714     89       635      80    Y
+lava_boar.tres                      Лавовый кабан        1280    714     84       600      90    Y
+troll.tres                          Тролль               546     773     60       464      160   Y
+
+Total: 90 enemies analyzed.

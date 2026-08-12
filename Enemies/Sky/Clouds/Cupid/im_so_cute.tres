@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Я такой милый"
+description = "0,6 урона. Назад 2. Цель получает метку невинности (50% шанс что атака по ней перенаправится)."
+damage_modifier = 0.6
+majesty_gain = 0
+ability_marker = "cupid_innocence"
+target_type = "Enemy"
+effect_types = Array[String](["self_push_back"])
+effect_values = {"self_push_back": 2}
+usable_from_positions = Array[bool]([true, false, false, false])
+targetable_positions = Array[bool]([true, false, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

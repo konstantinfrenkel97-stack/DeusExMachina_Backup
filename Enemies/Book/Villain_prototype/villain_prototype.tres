@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://91emmgsql7lk3"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Прототип злодея"
+metadata/_custom_type_script = "uid://briall6wwu3rx"

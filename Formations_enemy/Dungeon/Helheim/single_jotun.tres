@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FormationResource" format=3 uid="uid://cyhd5q8668fvb"]
+
+[ext_resource type="Resource" uid="uid://d2ito8l7pabxp" path="res://Enemies/Dungeon/Hellheim/Jotun/jotun.tres" id="1_omudf"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="2_24nsi"]
+
+[resource]
+script = ExtResource("2_24nsi")
+formation_name = "Одинокий йотун"
+pos1 = ExtResource("1_omudf")
+metadata/_custom_type_script = "uid://c50het7soanc1"

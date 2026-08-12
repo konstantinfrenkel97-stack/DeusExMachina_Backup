@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://l88pkpfafqru"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://cljf6gxawocvu" path="res://Enemy_logic/nanahue_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Depth/Nanahue/flesh_tear.tres" id="4_a1"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Depth/Nanahue/smell_blood.tres" id="5_a2"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Depth/Nanahue/devour.tres" id="6_a3"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Нанауэ"
+sprite_path = "res://Enemies/Sea/Depth/Nanahue/Nanahue.png"
+face_sprite = "res://Enemies/Sea/Depth/Nanahue/Nanahue_Face.png"
+battle_sprite_scale_percent = 114.0
+max_hp = 60
+damage = 12
+armor = 10
+initiative = 6
+accuracy = 80
+evasion = 15
+crit_chance = 0.1
+special_effect_type = "nanau_bloodlust"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2"), ExtResource("6_a3")])
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

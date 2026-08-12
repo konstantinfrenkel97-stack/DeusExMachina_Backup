@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://setsndw0001"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_sw"]
+
+[resource]
+script = ExtResource("1_sw")
+icon_path = "uid://cl0rhbucapf"
+name = "Песчаная буря"
+damage_modifier = 0.4
+majesty_gain = 10
+extra_targets_count = 2
+effect_types = Array[String](["target_debuff_accuracy"])
+effect_values = Dictionary[String, int]({
+"target_debuff_accuracy": 40
+})
+effect_durations = Dictionary[String, int]({
+"target_debuff_accuracy": 1
+})
+usable_from_positions = Array[bool]([false, true, true, false])
+targetable_positions = Array[bool]([true, true, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

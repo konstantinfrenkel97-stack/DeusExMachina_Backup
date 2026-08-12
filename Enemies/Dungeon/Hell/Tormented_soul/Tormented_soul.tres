@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://d0lwrjtyifqu0"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://tyvrb2jduqpo" path="res://Enemy_logic/hell_random_logic.gd" id="2_ai"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Tormented_soul/one_path.tres" id="3_a1"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Tormented_soul/hear_cry.tres" id="4_a2"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="5_cr"]
+
+[resource]
+script = ExtResource("5_cr")
+unit_name = "Страдающая душа"
+sprite_path = "res://Enemies/Dungeon/Hell/Tormented_soul/Tormented_soul.png"
+face_sprite = "res://Enemies/Dungeon/Hell/Tormented_soul/Tormented_sould_face.png"
+max_hp = 70
+damage = 12
+initiative = 7
+special_effect_type = "soul_position_buff"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("3_a1"), ExtResource("4_a2")])
+ai_script = ExtResource("2_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

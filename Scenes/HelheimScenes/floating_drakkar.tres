@@ -1,0 +1,136 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hellheim/Draugr_raider/Draugr_raider.tres" id="enemy_raider"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+
+[sub_resource type="Resource" id="form_raiders"]
+script = ExtResource("formation_script")
+formation_name = "Парящий драккар: Рейдер-Рейдер-Рейдер-Рейдер"
+pos1 = ExtResource("enemy_raider")
+pos2 = ExtResource("enemy_raider")
+pos3 = ExtResource("enemy_raider")
+pos4 = ExtResource("enemy_raider")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_normal"]
+script = ExtResource("battle_script")
+formation = SubResource("form_raiders")
+location_id = "helheim"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="buff_hero_evasion_minus_20"]
+script = ExtResource("buff_script")
+stat = 3
+value = -20
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_hero_evasion_minus_20"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_evasion_minus_20")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_hide_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_raiders")
+location_id = "helheim"
+hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_hero_evasion_minus_20")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="mod_enemy_hp80"]
+script = ExtResource("unit_modifier_script")
+hp_percent = 80
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_attack_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_raiders")
+location_id = "helheim"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_enemy_hp80")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="mod_hero_hp85"]
+script = ExtResource("unit_modifier_script")
+hp_percent = 85
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_attack_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_raiders")
+location_id = "helheim"
+hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_hero_hp85")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_hide_success"]
+script = ExtResource("outcome_script")
+result_text = "Быстро и тихо как мыши вы проскальзываете под днище летящего судна. Вы двигаетесь параллельно с ним, пока не натыкаетесь на дыру в скалах. Укрывшись там вы незамеченными наблюдаете как беззвучно исчезает в тумане черное судно."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_hide_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы пробегаете, чтобы укрыться под днищем корабля, но с обеих сторон начинают спрыгивать налетчики. Вы окружены и представляете собой легкую добычу."
+battle = SubResource("battle_hide_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_fight"]
+script = ExtResource("outcome_script")
+result_text = "Вы поднимаете оружие, готовые принять бой. Со свистом топор рассекает воздух и вонзается в землю у ног вашего отряда. Парящий драккар останавливается и с него начинают один за другим спрыгивать темные тени. Череда голубых огней глаз прикована к вам, когда мертвый отряд надвигается на богов ведомый жаждой битвы."
+battle = SubResource("battle_normal")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_attack_success"]
+script = ExtResource("outcome_script")
+result_text = "В едином порыве вы обрушиваете оружие на драккар. Под вашей божественной мощью ломается дряхлая древесина и вскоре он разламываясь падает, погребая под собой орду налетчиков. Выжившие поднимаются из досок и покачиваясь двигаются к вам."
+battle = SubResource("battle_attack_success")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_attack_fail"]
+script = ExtResource("outcome_script")
+result_text = "В едином порыве вы обрушиваете оружие на драккар. Однако прежде чем вам удается нанести достаточный ущерб, судно теряет управление и обрушивается круглым боком прямо на вас. Вы не успеваете отскочить и оказываетесь погребенными. Когда же вы, разломав доски, освобождаетесь, на вас уже смотрят голодные глаза мертвецов."
+battle = SubResource("battle_attack_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="check_initiative"]
+script = ExtResource("stat_check_script")
+stat = 1
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="choice_hide"]
+script = ExtResource("choice_script")
+choice_text = "Спрятаться, пока вас не заметили"
+stat_check = SubResource("check_initiative")
+success_outcome = SubResource("out_hide_success")
+failure_outcome = SubResource("out_hide_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_fight"]
+script = ExtResource("choice_script")
+choice_text = "Принять бой"
+outcome = SubResource("out_fight")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_attack"]
+script = ExtResource("stat_check_script")
+stat = 0
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="choice_attack"]
+script = ExtResource("choice_script")
+choice_text = "Атаковать драккар"
+stat_check = SubResource("check_attack")
+success_outcome = SubResource("out_attack_success")
+failure_outcome = SubResource("out_attack_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Парящий драккар"
+body_text = "Холодный туман окружающий вас кажется становится гуще, из-за него вы лишь в последний момент замечаете огромный объект плывущий сквозь белизну. Черный драккар без парусов парящий в двух метрах над землей надвигается прямо на вас. Вы видите фигуры двигающиеся на палубе."
+choices = [SubResource("choice_hide"), SubResource("choice_fight"), SubResource("choice_attack")]

@@ -1,0 +1,163 @@
+[gd_resource type="Resource" script_class="DialogueSpeakerRegistry" format=3]
+
+[ext_resource type="Script" path="res://Dialogues/dialogue_speaker_profile.gd" id="1_profile"]
+[ext_resource type="Script" path="res://Dialogues/dialogue_speaker_registry.gd" id="2_registry"]
+
+[sub_resource type="Resource" id="Profile_0"]
+script = ExtResource("1_profile")
+speaker_name = "Чернобог"
+default_sprite_path = "res://Gods/Chernobog/Chernobog.png"
+default_mirror_layout = true
+auto_fill_sprite = true
+auto_fill_layout = true
+metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
+
+[sub_resource type="Resource" id="Profile_1"]
+script = ExtResource("1_profile")
+speaker_name = "Дуна"
+default_sprite_path = "res://Gods/Duna/Duna.png"
+default_mirror_layout = true
+auto_fill_sprite = true
+auto_fill_layout = true
+metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
+
+[sub_resource type="Resource" id="Profile_2"]
+script = ExtResource("1_profile")
+speaker_name = "Аид"
+default_sprite_path = "res://Gods/Hades/Hades.png"
+default_mirror_layout = true
+auto_fill_sprite = true
+auto_fill_layout = true
+metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
+
+[sub_resource type="Resource" id="Profile_3"]
+script = ExtResource("1_profile")
+speaker_name = "Кощей"
+default_sprite_path = "res://Gods/Koschei/Koshei.png"
+default_mirror_layout = true
+auto_fill_sprite = true
+auto_fill_layout = true
+metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
+
+[sub_resource type="Resource" id="Profile_4"]
+script = ExtResource("1_profile")
+speaker_name = "Локи"
+default_sprite_path = "res://Gods/Loki/Loki.png"
+default_mirror_layout = true
+auto_fill_sprite = true
+auto_fill_layout = true
+metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
+
+[sub_resource type="Resource" id="Profile_5"]
+script = ExtResource("1_profile")
+speaker_name = "Моргана Лефей"
+aliases = Array[String](["Моргана"])
+default_sprite_path = "res://Gods/Morgan/Morgana.png"
+default_mirror_layout = true
+auto_fill_sprite = true
+auto_fill_layout = true
+metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
+
+[sub_resource type="Resource" id="Profile_6"]
+script = ExtResource("1_profile")
+speaker_name = "Один"
+default_sprite_path = "res://Gods/Odin/Odin.png"
+default_mirror_layout = true
+auto_fill_sprite = true
+auto_fill_layout = true
+metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
+
+[sub_resource type="Resource" id="Profile_7"]
+script = ExtResource("1_profile")
+speaker_name = "Осирис"
+default_sprite_path = "res://Gods/Osiris/Osiris.png"
+default_mirror_layout = true
+auto_fill_sprite = true
+auto_fill_layout = true
+metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
+
+[sub_resource type="Resource" id="Profile_8"]
+script = ExtResource("1_profile")
+speaker_name = "Посейдон"
+default_sprite_path = "res://Gods/Poseidon/Poseidon.png"
+default_mirror_layout = true
+auto_fill_sprite = true
+auto_fill_layout = true
+metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
+
+[sub_resource type="Resource" id="Profile_9"]
+script = ExtResource("1_profile")
+speaker_name = "Самди"
+default_sprite_path = "res://Gods/Samdi/Samdi.png"
+default_mirror_layout = true
+auto_fill_sprite = true
+auto_fill_layout = true
+metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
+
+[sub_resource type="Resource" id="Profile_10"]
+script = ExtResource("1_profile")
+speaker_name = "Сет"
+default_sprite_path = "res://Gods/Set/Set.png"
+default_mirror_layout = true
+auto_fill_sprite = true
+auto_fill_layout = true
+metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
+
+[sub_resource type="Resource" id="Profile_11"]
+script = ExtResource("1_profile")
+speaker_name = "Шива"
+default_sprite_path = "res://Gods/Shiva/Shiva.png"
+default_mirror_layout = true
+auto_fill_sprite = true
+auto_fill_layout = true
+metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
+
+[sub_resource type="Resource" id="Profile_12"]
+script = ExtResource("1_profile")
+speaker_name = "Сусаноо"
+default_sprite_path = "res://Gods/Susanoo/Susanoo.png"
+default_mirror_layout = true
+auto_fill_sprite = true
+auto_fill_layout = true
+metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
+
+[sub_resource type="Resource" id="Profile_13"]
+script = ExtResource("1_profile")
+speaker_name = "Тор"
+default_sprite_path = "res://Gods/Thor/Thor.png"
+default_mirror_layout = true
+auto_fill_sprite = true
+auto_fill_layout = true
+metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
+
+[sub_resource type="Resource" id="Profile_14"]
+script = ExtResource("1_profile")
+speaker_name = "Зевс"
+default_sprite_path = "res://Gods/Zeus/Zeus.png"
+default_mirror_layout = true
+auto_fill_sprite = true
+auto_fill_layout = true
+metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
+
+[sub_resource type="Resource" id="Profile_15"]
+script = ExtResource("1_profile")
+speaker_name = "Лена"
+default_sprite_path = "res://Main_characters/Lena/Lena_surprised.png"
+default_mirror_layout = false
+auto_fill_sprite = true
+auto_fill_layout = false
+metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
+
+[sub_resource type="Resource" id="Profile_16"]
+script = ExtResource("1_profile")
+speaker_name = "Миф"
+default_sprite_path = "res://Main_characters/Myth/Myth_Ironic.png"
+default_mirror_layout = false
+auto_fill_sprite = true
+auto_fill_layout = false
+metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
+
+[resource]
+script = ExtResource("2_registry")
+profiles = Array[ExtResource("1_profile")]([SubResource("Profile_0"), SubResource("Profile_1"), SubResource("Profile_2"), SubResource("Profile_3"), SubResource("Profile_4"), SubResource("Profile_5"), SubResource("Profile_6"), SubResource("Profile_7"), SubResource("Profile_8"), SubResource("Profile_9"), SubResource("Profile_10"), SubResource("Profile_11"), SubResource("Profile_12"), SubResource("Profile_13"), SubResource("Profile_14"), SubResource("Profile_15"), SubResource("Profile_16")])
+metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_registry.gd"

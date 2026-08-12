@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://domy5f3mvtwly"]
+
+[ext_resource type="Script" uid="uid://beel1tgwc5dlt" path="res://battle_scene.gd" id="1_fw8re"]
+
+[node name="BattleScene" type="Node2D" unique_id=399055782]
+script = ExtResource("1_fw8re")
+
+[node name="HeroPositions" type="Node2D" parent="." unique_id=143371987]
+position = Vector2(-124, 365)
+
+[node name="Pos1" type="Marker2D" parent="HeroPositions" unique_id=655179763]
+position = Vector2(620, 0)
+
+[node name="Pos2" type="Marker2D" parent="HeroPositions" unique_id=533291784]
+position = Vector2(480, 0)
+
+[node name="Pos3" type="Marker2D" parent="HeroPositions" unique_id=537826752]
+position = Vector2(340, 0)
+
+[node name="Pos4" type="Marker2D" parent="HeroPositions" unique_id=1430590072]
+position = Vector2(200, 0)
+
+[node name="EnemyPositions" type="Node2D" parent="." unique_id=607290973]
+position = Vector2(-858, 365)
+
+[node name="Pos1" type="Marker2D" parent="EnemyPositions" unique_id=1931624081]
+position = Vector2(1620, 0)
+
+[node name="Pos2" type="Marker2D" parent="EnemyPositions" unique_id=1872379144]
+position = Vector2(1760, 0)
+
+[node name="Pos3" type="Marker2D" parent="EnemyPositions" unique_id=19586237]
+position = Vector2(1900, 0)
+
+[node name="Pos4" type="Marker2D" parent="EnemyPositions" unique_id=332226457]
+position = Vector2(2040, 0)
+
+[node name="BattleUI" type="CanvasLayer" parent="." unique_id=941701879]
+
+[node name="CombatLogPanel" type="PanelContainer" parent="BattleUI" unique_id=-1447774245]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 416.0
+offset_bottom = 260.0
+
+[node name="CombatLog" type="RichTextLabel" parent="BattleUI/CombatLogPanel" unique_id=-447676240]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Ð›Ð¾Ð³ Ð±Ð¾Ñ:
+"
+scroll_following = true
+
+[node name="StatusLabel" type="Label" parent="BattleUI" unique_id=1594819692]
+offset_left = 16.0
+offset_top = 268.0
+offset_right = 700.0
+offset_bottom = 300.0
+
+[node name="AbilityPanel" type="GridContainer" parent="BattleUI" unique_id=1988473168]
+offset_left = 16.0
+offset_top = 500.0
+offset_right = 500.0
+offset_bottom = 570.0
+columns = 4
+
+[node name="Slot1" type="Button" parent="BattleUI/AbilityPanel" unique_id=380134441]
+layout_mode = 2
+
+[node name="Slot2" type="Button" parent="BattleUI/AbilityPanel" unique_id=1694051612]
+layout_mode = 2
+
+[node name="Slot3" type="Button" parent="BattleUI/AbilityPanel" unique_id=694720909]
+layout_mode = 2
+
+[node name="Slot4" type="Button" parent="BattleUI/AbilityPanel" unique_id=2144030103]
+layout_mode = 2
+
+[node name="SlotUlt" type="Button" parent="BattleUI/AbilityPanel" unique_id=1370985439]
+layout_mode = 2
+
+[node name="TacticalButton" type="Button" parent="BattleUI/AbilityPanel" unique_id=265176981]
+layout_mode = 2
+text = "Ð–Ð´Ð°Ñ‚ÑŒ"
+
+[node name="SkipTurnButton" type="Button" parent="BattleUI/AbilityPanel" unique_id=265176982]
+layout_mode = 2
+text = "ÐŸÑ€Ð¾Ð¿ÑƒÑÑ‚Ð¸Ñ‚ÑŒ Ñ…Ð¾Ð´"

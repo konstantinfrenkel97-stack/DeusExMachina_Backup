@@ -1,0 +1,140 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"][ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Utoplennitsa/utoplennitsa.tres" id="utoplennitsa"]
+[ext_resource type="Resource" path="res://Essence/essence_death.tres" id="essence_death"]
+
+[sub_resource type="Resource" id="form_play"]
+script = ExtResource("formation_script")
+formation_name = "Играем?: Утопленница x4"
+pos1 = ExtResource("utoplennitsa")
+pos2 = ExtResource("utoplennitsa")
+pos3 = ExtResource("utoplennitsa")
+pos4 = ExtResource("utoplennitsa")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="buff_enemy_attack"]
+script = ExtResource("buff_script")
+stat = 0
+value = 5
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_enemy_attack"]
+script = ExtResource("unit_modifier_script")
+target_position = 0
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_enemy_attack")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="buff_hero_evasion"]
+script = ExtResource("buff_script")
+stat = 3
+value = -7
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_hero_evasion"]
+script = ExtResource("unit_modifier_script")
+target_position = 0
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_evasion")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_angry"]
+script = ExtResource("battle_script")
+formation = SubResource("form_play")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_enemy_attack")])
+location_id = "swamp"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_hide_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_play")
+hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_hero_evasion")])
+location_id = "swamp"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="reward_death"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_death")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_fight"]
+script = ExtResource("outcome_script")
+result_text = "Вариант 1: Широки пасти утопленниц меняют положение, уголки сползают по щекам вниз. Призраки с выражением обиды, ярости и ненависти смотрят на вас со всех сторон. Секунду висит тишина, не слышно даже комаров. В тишине их рой обрушивается на вас."
+battle = SubResource("battle_angry")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_tag_success"]
+script = ExtResource("outcome_script")
+result_text = "Вариант 2 (успех) – «Играем!» - единый выдох со всех сторон. Призраки начали резко нырять под воду. Вы побежали. Бледные руки вырывались из воды, и хватали за щиколотки. Вас ловили и утаскивали под воду, но всегда оставался кто-то из богов кто успевал вытянуть упавшего за плечо. Вы бежали и бежали, потеряв ориентиры. Не зная куда и не бежите ли вы просто в мертвую трясину. Наконец ваши ноги опускаются на твердую землю. Вы оборачиваетесь, готовясь к бою. На вас смотрит стена из призрачных тел. Но на лицах, вместо кривой скважины улыбки до ушей, спокойное выражение счастливого ребенка.\n«Играем…»\nВетер унес тихий шепот, и призраки растворились вместе с болотным туманом."
+rewards = [SubResource("reward_death")]
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_tag_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вариант 2 (провал) – «Играем!» - единый выдох со всех сторон. Призраки начали резко нырять под воду. Вы побежали. Шлепки по воде резонировали с какофоническим смехом. Бледные руки вырывались из воды, хватали за одежду и ноги. Одного за другим вас утаскивают под воду. Легкие горят, а руки твердые как железные кандалы, тянуть дальше вниз. По воде разносится оглушающий высокий смех. Вы проиграли, и теперь умрете."
+rewards = [SubResource("reward_death")]
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_hide_success"]
+script = ExtResource("outcome_script")
+result_text = "Вариант 3 (успех): «Играем! Играем!». Белесые силуэты запрыгали в воду, не поднимая брызг. Снова наступила тишина, но в этот раз не давящая. Отсчитав до десяти, вы бросаетесь бегом. Ноги шлепают по воде, набирая влагу в ботинки. Вскоре за вами одна за одной начинают лететь призрачные тела. Вы припускаете быстрее, и вскоре обнаруживаете под ногами твердую землю. Стена призраков останавливается у земли. Лица перекошены ненавистью и едва похожи на человеческие. Под их вой и визг вы продолжаете путь через топи."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_hide_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вариант 3 (провал): «Играем! Играем!». Белесые силуэты запрыгали в воду, не поднимая брызг. Снова наступила тишина, но в этот раз не давящая. Отсчитав до десяти, вы бросаетесь бегом. Ноги шлепают по воде, набирая влагу в ботинки. Вскоре за вами одна за одной начинают лететь призрачные тела. Они вьются и окружают вас, хватают за ноги, заставляя падать в воду. Вам придется принять бой в уязвимом положении."
+battle = SubResource("battle_hide_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="check_evasion"]
+script = ExtResource("stat_check_script")
+stat = 3
+stat_label = "Уклонение"
+difficulty = 70
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="check_initiative"]
+script = ExtResource("stat_check_script")
+stat = 1
+stat_label = "Инициатива"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="choice_fight"]
+script = ExtResource("choice_script")
+choice_text = "Никаких игр!"
+outcome = SubResource("out_fight")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_tag"]
+script = ExtResource("choice_script")
+choice_text = "Играем в салки"
+stat_check = SubResource("check_evasion")
+success_outcome = SubResource("out_tag_success")
+failure_outcome = SubResource("out_tag_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_hide"]
+script = ExtResource("choice_script")
+choice_text = "Играем в прятки"
+stat_check = SubResource("check_initiative")
+success_outcome = SubResource("out_hide_success")
+failure_outcome = SubResource("out_hide_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Играем?"
+body_text = "Сырость, грязь и комары действуют на нервы всей группе. Особенно комары.\n«Поиграй со мной»\nВы слышите голос позади вас. Резко разворачиваетесь и видите полу прозрачную девушку. Она по колено стоит в болотистой воде. Широкая улыбка разделяет щеки.\n«Играем? Играем?»\nГолоса появляются отовсюду\n«Играем? Играем?»\nОдна за одной, из воды появляются еще девушки, еще и еще. Какафония их голосов начинает обретать единый ритм.\n«Играем? Играем? Играем?»"
+choices = [SubResource("choice_fight"), SubResource("choice_tag"), SubResource("choice_hide")]
+metadata/_custom_type_script = ExtResource("scene_script")

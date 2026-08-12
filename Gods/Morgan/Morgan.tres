@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://mrggod00001"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Resource" uid="uid://mrgbltn0001" path="res://Gods/Morgan/Black_lightning.tres" id="2_bl"]
+[ext_resource type="Resource" uid="uid://mrgslp00001" path="res://Gods/Morgan/Sleep.tres" id="3_sl"]
+[ext_resource type="Resource" uid="uid://mrgcrse0001" path="res://Gods/Morgan/Ancient_curse.tres" id="4_ac"]
+[ext_resource type="Resource" uid="uid://mrgsmgc0001" path="res://Gods/Morgan/Secret_magic.tres" id="5_sm"]
+[ext_resource type="Resource" uid="uid://mrgdkdn0001" path="res://Gods/Morgan/Dark_dominion.tres" id="6_dd"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="7_cr"]
+
+[resource]
+script = ExtResource("7_cr")
+unit_name = "Моргана"
+sprite_path = "res://Gods/Morgan/Morgana.png"
+face_sprite = "res://Gods/Morgan/Morgana_Face.png"
+max_hp = 85
+initiative = 11
+accuracy = 95
+is_enemy = false
+special_effect_type = "morgan_spell_periodic"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_bl"), ExtResource("3_sl"), ExtResource("4_ac"), ExtResource("5_sm")])
+ultimate_ability = ExtResource("6_dd")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

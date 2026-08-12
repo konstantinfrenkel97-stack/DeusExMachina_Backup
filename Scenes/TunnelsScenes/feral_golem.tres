@@ -1,0 +1,124 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Tunnels/Dwarf_shield/dwarf_shield.tres" id="enemy_shield"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Tunnels/Golem/golem.tres" id="enemy_golem"]
+
+[sub_resource type="Resource" id="form_pursuers"]
+script = ExtResource("formation_script")
+formation_name = "Одичавший голем: Щит-Голем-Щит"
+pos1 = ExtResource("enemy_shield")
+pos2 = ExtResource("enemy_golem")
+pos3 = ExtResource("enemy_shield")
+pos4 = null
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="form_one_golem"]
+script = ExtResource("formation_script")
+formation_name = "Убегающий голем"
+pos1 = ExtResource("enemy_golem")
+pos2 = null
+pos3 = null
+pos4 = null
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="form_two_golems"]
+script = ExtResource("formation_script")
+formation_name = "Голем-Голем"
+pos1 = ExtResource("enemy_golem")
+pos2 = ExtResource("enemy_golem")
+pos3 = null
+pos4 = null
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="mod_golem_stacks10_pos1"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+passive_charges = 10
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="mod_golem_stacks10_pos2"]
+script = ExtResource("unit_modifier_script")
+target_position = 2
+passive_charges = 10
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_pursuers"]
+script = ExtResource("battle_script")
+formation = SubResource("form_pursuers")
+location_id = "tunnels"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_one_golem"]
+script = ExtResource("battle_script")
+formation = SubResource("form_one_golem")
+location_id = "tunnels"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_golem_stacks10_pos1")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_two_golems"]
+script = ExtResource("battle_script")
+formation = SubResource("form_two_golems")
+location_id = "tunnels"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_golem_stacks10_pos2")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_pursuers"]
+script = ExtResource("outcome_script")
+result_text = "Вы бросаетесь на преследователей. Вдали гулко удаляются звуки тяжелых каменных шагов."
+battle = SubResource("battle_pursuers")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_golem"]
+script = ExtResource("outcome_script")
+result_text = "«Слишком поумнел и перестал слушаться приказов, держите его!» — кричит командир дворфов. Вы бросаетесь на убегающую фигуру."
+battle = SubResource("battle_one_golem")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_escape_success"]
+script = ExtResource("outcome_script")
+result_text = "Лишь стук камня о камень достигает ваших ушей, когда вы незаметно ускользаете в следующий тоннель."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_escape_fail"]
+script = ExtResource("outcome_script")
+result_text = "Дворф догоняет убегающего голема и вставляет тому в грудь светящийся оранжевым кристалл, после чего тот замирает.\n\n«Убить вторженцев!» — кричит он, указывая на вас пальцем. Оба голема срываются с места и мчатся на вас, громыхая по всему подземелью."
+battle = SubResource("battle_two_golems")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="check_evasion"]
+script = ExtResource("stat_check_script")
+stat = 3
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="choice_pursuers"]
+script = ExtResource("choice_script")
+choice_text = "Напасть на преследователей"
+outcome = SubResource("out_pursuers")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_golem"]
+script = ExtResource("choice_script")
+choice_text = "Напасть на убегающего голема"
+outcome = SubResource("out_golem")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_escape"]
+script = ExtResource("choice_script")
+choice_text = "Сбежать незамеченным"
+stat_check = SubResource("check_evasion")
+success_outcome = SubResource("out_escape_success")
+failure_outcome = SubResource("out_escape_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Одичавший голем"
+body_text = "Вы слышите скрежет. Посмотрев направо, вы видите крупного голема, пытающегося скрыться за сталагмитами.\n\n«Он побежал сюда! Догнать беглеца!»\n\nВо входе в пещеру появляется дворф в сопровождении другого голема. Фигура за сталагмитами поднимается и, неловко переставляя ноги, движется в другой конец пещеры. Преследователи бросаются наперерез."
+choices = [SubResource("choice_pursuers"), SubResource("choice_golem"), SubResource("choice_escape")]

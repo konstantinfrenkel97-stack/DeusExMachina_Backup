@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FormationResource" format=3 uid="uid://c5b6mxyxe4ehh"]
+
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="1_3acah"]
+[ext_resource type="Resource" uid="uid://chqn3fttv26y8" path="res://Enemies/Dungeon/Tunnels/Golem/golem.tres" id="1_17kro"]
+
+[resource]
+script = ExtResource("1_3acah")
+pos1 = ExtResource("1_17kro")
+pos3 = ExtResource("1_17kro")
+metadata/_custom_type_script = "uid://c50het7soanc1"

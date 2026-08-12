@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://slrbmbgrnd01"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_tg"]
+
+[resource]
+script = ExtResource("1_tg")
+name = "Метнуть гранату"
+damage_modifier = 0.7
+majesty_gain = 0
+extra_targets_count = 1
+usable_from_positions = Array[bool]([false, false, true, false])
+targetable_positions = Array[bool]([false, true, true, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

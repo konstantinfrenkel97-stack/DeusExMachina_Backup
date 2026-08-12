@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://r5merae0tnqh"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_0ypsw"]
+
+[resource]
+script = ExtResource("1_0ypsw")
+icon_path = "uid://dx6xy1hgyv2bi"
+name = "Королевский приказ"
+damage_modifier = 0.0
+majesty_gain = 15
+target_type = "Ally"
+effect_types = Array[String](["ally_pull_porward", "ally_buff_initiative", "ally_buff_accuracy"])
+effect_values = Dictionary[String, int]({
+"ally_buff_accuracy": 15,
+"ally_buff_initiative": 2,
+"ally_pull_porward": 1
+})
+effect_durations = Dictionary[String, int]({
+"ally_buff_accuracy": 2,
+"ally_buff_initiative": 2
+})
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

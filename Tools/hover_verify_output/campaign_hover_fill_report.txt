@@ -1,0 +1,9 @@
+Campaign hover fill verification
+Ð‘ÐµÑÐºÐ¾Ð½ÐµÑ‡Ð½Ð°Ñ Ð±Ð¸Ð±Ð»Ð¸Ð¾Ñ‚ÐµÐºÐ°: expected=148214 actual=147605 intersection=147484 IoU=0.994 FP=121 FN=730 PASS=True
+ÐšÐ¾Ð»Ð¾Ð´ÐµÑ† Ð¿Ð°Ð¼ÑÑ‚Ð¸: expected=123056 actual=122390 intersection=122390 IoU=0.995 FP=0 FN=666 PASS=True
+ÐÐ»Ñ‚Ð°Ñ€ÑŒ Ð²Ð¾ÑÑ…Ð²Ð°Ð»ÐµÐ½Ð¸Ñ: expected=114687 actual=115383 intersection=113857 IoU=0.980 FP=1526 FN=830 PASS=False
+Ð’Ð¾Ñ€Ð¾Ñ‚Ð°: expected=268565 actual=288651 intersection=267251 IoU=0.922 FP=21400 FN=1314 PASS=False
+Ð¡Ð°Ð´ Ñ‚Ð²Ð¾Ñ€ÐµÐ½Ð¸Ñ: expected=113007 actual=113850 intersection=112158 IoU=0.978 FP=1692 FN=849 PASS=False
+Ð—Ð°Ð»Ñ‹ Ð´ÐµÐºÐ¾Ñ€Ð°Ñ†Ð¸Ð¹: expected=121106 actual=120447 intersection=120447 IoU=0.995 FP=0 FN=659 PASS=True
+Ð’ÐµÑÑ‹ Ð¿ÐµÑ€ÐµÐ¾ÑÐ¼Ñ‹ÑÐ»ÐµÐ½Ð¸Ñ: expected=146013 actual=145329 intersection=145285 IoU=0.995 FP=44 FN=728 PASS=True
+Overlay: D:\dOCS\test\Tools\hover_verify_output\campaign_hover_fill_compare.png

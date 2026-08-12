@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://dnkdk301emeno"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://gsdqd4jx7pr4" path="res://Enemy_logic/devil_logic.gd" id="2_ai"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Devil/punishment.tres" id="3_a1"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Devil/guillotine.tres" id="4_a2"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Devil/abandon_hope.tres" id="5_a3"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="6_cr"]
+
+[resource]
+script = ExtResource("6_cr")
+unit_name = "Дьявол"
+sprite_path = "res://Enemies/Dungeon/Hell/Devil/Devil.png"
+face_sprite = "res://Enemies/Dungeon/Hell/Devil/Devil_face.png"
+battle_sprite_scale_percent = 79.0
+max_hp = 150
+damage = 16
+initiative = 7
+special_effect_type = "devil_forget_crit"
+is_large = true
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("3_a1"), ExtResource("4_a2"), ExtResource("5_a3")])
+ai_script = ExtResource("2_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

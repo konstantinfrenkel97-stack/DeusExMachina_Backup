@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://sirntbtm0001"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_tb"]
+
+[resource]
+script = ExtResource("1_tb")
+name = "На дно"
+damage_modifier = 1.0
+majesty_gain = 0
+ability_marker = "siren_to_the_bottom"
+usable_from_positions = Array[bool]([true, true, true, false])
+targetable_positions = Array[bool]([true, true, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

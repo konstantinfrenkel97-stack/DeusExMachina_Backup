@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3]
+
+[ext_resource type="Script" path="res://ability_resource.gd" id="1_ds5yq"]
+[ext_resource type="Resource" path="res://Gods/Susanoo/Swift_slash.tres" id="2_ss"]
+[ext_resource type="Resource" path="res://Gods/Susanoo/Precise_slash.tres" id="3_ps"]
+[ext_resource type="Resource" path="res://Gods/Susanoo/Reflection.tres" id="4_rf"]
+[ext_resource type="Resource" path="res://Gods/Susanoo/Armor_pierce.tres" id="5_ap"]
+[ext_resource type="Resource" path="res://Gods/Susanoo/Sword_dance.tres" id="6_sd"]
+[ext_resource type="Script" path="res://character_resource.gd" id="7_cr"]
+
+[resource]
+script = ExtResource("7_cr")
+unit_name = "Сусаноо"
+sprite_path = "res://Gods/Susanoo/Susanoo.png"
+face_sprite = "res://Gods/Susanoo/Susanoo_face.png"
+campaign_dialogue_path = "res://Dialogues/Gods_dialogue/Susanoo_dialogue_1.tres"
+initiative = 10
+is_enemy = false
+special_effect_type = "susanoo_hit_crit"
+active_abilities = Array[ExtResource("1_ds5yq")]([ExtResource("2_ss"), ExtResource("3_ps"), ExtResource("4_rf"), ExtResource("5_ap")])
+ultimate_ability = ExtResource("6_sd")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

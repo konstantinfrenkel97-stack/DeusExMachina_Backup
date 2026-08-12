@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://bd1esrt7k0m1a"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Desert/Immortal/eastern_blade.tres" id="2_eb"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Desert/Immortal/sand_step.tres" id="3_ss"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Desert/Immortal/my_battle_not_over.tres" id="4_mb"]
+[ext_resource type="Script" uid="uid://dxrbsfygugi8n" path="res://Enemy_logic/immortal_logic.gd" id="5_ai"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="6_cr"]
+
+[resource]
+script = ExtResource("6_cr")
+unit_name = "Бессмертный"
+sprite_path = "res://Enemies/Civilization/Desert/Immortal/Immortal.png"
+face_sprite = "res://Enemies/Civilization/Desert/Immortal/Immortal_Face.png"
+max_hp = 110
+damage = 24
+armor = 12
+initiative = 4
+accuracy = 85
+special_effect_type = "immortal_death_shield"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_eb"), ExtResource("3_ss"), ExtResource("4_mb")])
+ai_script = ExtResource("5_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"
