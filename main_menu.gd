@@ -26,7 +26,7 @@ func _ready() -> void:
 		btn.add_theme_color_override("font_hover_color", Color.WHITE)
 		btn.add_theme_color_override("font_pressed_color", Color.WHITE)
 		btn.add_theme_color_override("font_focus_color", Color.WHITE)
-	menu.add_theme_constant_override("separation", 18)
+	menu.add_theme_constant_override("separation", 10)
 	menu.get_node("NewGameButton").pressed.connect(_on_new_game_pressed)
 	menu.get_node("LoadButton").pressed.connect(_on_load_pressed)
 	menu.get_node("StartButton").pressed.connect(_on_start_button_pressed)

@@ -60,6 +60,10 @@ var crit_chance: float: get = get_crit
 # ÐœÐ°ÑÑÐ¸Ð² ÑÐ»Ð¾Ð²Ð°Ñ€ÐµÐ¹: [{"effect": "str", "value": int, "duration": int}]
 # Ð•ÑÐ»Ð¸ duration == -1, ÑÑ„Ñ„ÐµÐºÑ‚ Ð´ÐµÐ¹ÑÑ‚Ð²ÑƒÐµÑ‚ Ð´Ð¾ ÐºÐ¾Ð½Ñ†Ð° Ð±Ð¾Ñ.
 var active_effects = []
+# Снимок эффектов (по ссылке), активных на начало хода юнита.
+# Используется tick_effects() для правила «ход наложения не считается»:
+# эффекты, наложенные на себя в текущем ходе, пропускают свой первый тик.
+var _turn_start_effects: Array = []
 var _thor_berserk_aura_bonus: int = 0
 
 func _init(resource: CharacterResource):
@@ -264,6 +268,18 @@ func get_status_report() -> String:
 		"Ð£ÐºÐ»Ð¾Ð½ÐµÐ½Ð¸Ðµ: %d\n" % evasion +
 		"ÐšÑ€Ð¸Ñ‚: %d%%" % [crit_chance * 100]
 	)
+## Запоминает эффекты, активные на начало хода юнита. Вызывается боевой сценой
+## перед тем, как юнит получит возможность действовать (накладывать эффекты на себя).
+func snapshot_turn_start_effects() -> void:
+	_turn_start_effects = active_effects.duplicate(false)
+
+## Был ли эффект активен на начало хода юнита (сравнение по ссылке через is_same).
+func _was_active_at_turn_start(effect) -> bool:
+	for e in _turn_start_effects:
+		if is_same(e, effect):
+			return true
+	return false
+
 # Ð’Ð½ÑƒÑ‚Ñ€Ð¸ combatant.gd
 func tick_effects():
 	var i = 0
@@ -275,6 +291,13 @@ func tick_effects():
 		var effect_id = _effect_get(effect, "effect_id", "")
 		if effect_id == "neverending_storm_mark" or stat_name == "neverending_storm_mark":
 			effect["duration"] = -1
+			i += 1
+			continue
+		
+		# ═══ Правило «ход наложения не считается» ═══
+		# Эффектов, которых не было на начало хода (наложены на себя в текущем ходе),
+		# длительность начинает убывать только со следующего хода.
+		if effect_duration > 0 and not _turn_start_effects.is_empty() and not _was_active_at_turn_start(effect):
 			i += 1
 			continue
 		

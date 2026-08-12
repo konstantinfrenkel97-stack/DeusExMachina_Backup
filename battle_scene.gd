@@ -1305,7 +1305,11 @@ func _next_turn():
 		_log_combat("%s оглушён и пропускает ход." % active_unit.unit_name)
 		call_deferred("_finish_unit_turn", active_unit)
 		return
-		
+
+	# Снимок эффектов на начало хода: эффекты, наложенные на себя в этом ходе,
+	# не должны терять длительность за ход наложения (правило «ход наложения не считается»).
+	active_unit.snapshot_turn_start_effects()
+
 	if _is_player_hero(active_unit):
 		waiting_for_player = true
 		_show_player_interface(active_unit)
