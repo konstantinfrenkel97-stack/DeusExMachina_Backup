@@ -12,6 +12,7 @@ script = ExtResource("2_cr")
 unit_name = "Оборотень"
 sprite_path = "res://Enemies/Forest/Marsh/Oboroten/Werewolf.png"
 face_sprite = "res://Enemies/Forest/Marsh/Oboroten/Werewolf_Face.png"
+battle_sprite_scale_percent = 95.0
 max_hp = 110
 damage = 30
 armor = 10

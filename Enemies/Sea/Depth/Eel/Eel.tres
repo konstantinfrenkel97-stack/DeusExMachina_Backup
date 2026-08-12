@@ -11,6 +11,7 @@ script = ExtResource("2_cr")
 unit_name = "Угорь"
 sprite_path = "res://Enemies/Sea/Depth/Eel/Eel.png"
 face_sprite = "res://Enemies/Sea/Depth/Eel/Eel_Face.png"
+battle_sprite_scale_percent = 75.0
 max_hp = 55
 damage = 11
 armor = 10

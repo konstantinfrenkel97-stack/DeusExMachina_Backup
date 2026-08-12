@@ -7,6 +7,9 @@ const CAMPAIGN_SCREEN_PATH := "res://Campaign/campaign_screen.tscn"
 const BG_WORLD := "res://Background/Campaign_Background.png"
 const BG_CAMPAIGN := "res://Background/Campaign_Background.png"
 const BG_LIBRARY := "res://Background/Library.png"
+const MENU_BG_COLOR := Color(0.008, 0.008, 0.298, 1)
+const MENU_BTN_HOVER_COLOR := Color(0.05, 0.05, 0.388, 1)
+const MENU_BTN_PRESSED_COLOR := Color(0.078, 0.078, 0.43, 1)
 
 var _dialog_overlay: Control
 
@@ -15,12 +18,33 @@ func _ready() -> void:
 	for btn in menu.get_children():
 		btn.custom_minimum_size = Vector2(300, 64)
 		btn.add_theme_font_size_override("font_size", 28)
+		btn.add_theme_stylebox_override("normal", _make_menu_btn_style(MENU_BG_COLOR))
+		btn.add_theme_stylebox_override("hover", _make_menu_btn_style(MENU_BTN_HOVER_COLOR))
+		btn.add_theme_stylebox_override("pressed", _make_menu_btn_style(MENU_BTN_PRESSED_COLOR))
+		btn.add_theme_stylebox_override("focus", _make_menu_btn_style(MENU_BG_COLOR))
+		btn.add_theme_color_override("font_color", Color.WHITE)
+		btn.add_theme_color_override("font_hover_color", Color.WHITE)
+		btn.add_theme_color_override("font_pressed_color", Color.WHITE)
+		btn.add_theme_color_override("font_focus_color", Color.WHITE)
 	menu.add_theme_constant_override("separation", 18)
 	menu.get_node("NewGameButton").pressed.connect(_on_new_game_pressed)
 	menu.get_node("LoadButton").pressed.connect(_on_load_pressed)
 	menu.get_node("StartButton").pressed.connect(_on_start_button_pressed)
 	menu.get_node("MissionButton").pressed.connect(_on_mission_button_pressed)
 	menu.get_node("ExitButton").pressed.connect(_on_exit_button_pressed)
+
+func _make_menu_btn_style(bg: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = bg
+	style.corner_radius_top_left = 8
+	style.corner_radius_top_right = 8
+	style.corner_radius_bottom_left = 8
+	style.corner_radius_bottom_right = 8
+	style.content_margin_left = 18.0
+	style.content_margin_right = 18.0
+	style.content_margin_top = 8.0
+	style.content_margin_bottom = 8.0
+	return style
 
 func _on_new_game_pressed() -> void:
 	if DialogueManager.is_active():
