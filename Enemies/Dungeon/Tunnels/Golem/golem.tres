@@ -11,6 +11,7 @@ script = ExtResource("2_cr")
 unit_name = "Голем"
 sprite_path = "res://Enemies/Dungeon/Tunnels/Golem/Golem.png"
 face_sprite = "res://Enemies/Dungeon/Tunnels/Golem/Golem_Face.png"
+battle_sprite_scale_percent = 79.0
 max_hp = 80
 damage = 14
 armor = 15

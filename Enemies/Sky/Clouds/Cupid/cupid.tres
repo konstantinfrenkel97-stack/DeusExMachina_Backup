@@ -12,6 +12,7 @@ unit_name = "Купидон"
 sprite_path = "res://Enemies/Sky/Clouds/Cupid/Купидон.png"
 face_sprite = "res://Enemies/Sky/Clouds/Cupid/Купидон_Face.png"
 battle_sprite_scale_percent = 96.0
+battle_sprite_y_offset_percent = 10.0
 max_hp = 40
 damage = 10
 armor = 0

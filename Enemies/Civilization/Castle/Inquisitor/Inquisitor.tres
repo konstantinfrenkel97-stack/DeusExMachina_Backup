@@ -12,6 +12,7 @@ script = ExtResource("2_ch")
 unit_name = "Инквизитор"
 sprite_path = "res://Enemies/Civilization/Castle/Inquisitor/Inquisition.png"
 face_sprite = "res://Enemies/Civilization/Castle/Inquisitor/Inquisitior_Face.png"
+battle_sprite_scale_percent = 90.0
 max_hp = 50
 damage = 11
 initiative = 5

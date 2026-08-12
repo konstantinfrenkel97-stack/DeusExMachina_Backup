@@ -10,6 +10,7 @@ var source_resource_path: String = ""
 var sprite_path: String # <--- Ð­Ð¢Ð Ð¡Ð¢Ð ÐžÐšÐ ÐÐ£Ð–ÐÐ
 var face_sprite: String # ÐŸÑƒÑ‚ÑŒ Ðº ÑÐ¿Ñ€Ð°Ð¹Ñ‚Ñƒ Ð»Ð¸Ñ†Ð° (Ð´Ð»Ñ Ð¿Ð¾Ñ€Ñ‚Ñ€ÐµÑ‚Ð¾Ð² Ð² Ð¿Ð¾Ð»Ð¾ÑÐµ Ð¾Ñ‡ÐµÑ€ÐµÐ´Ð¸ Ñ…Ð¾Ð´Ð¾Ð²)
 var battle_sprite_scale_percent: float = 100.0 # Ð˜Ð½Ð´Ð¸Ð²Ð¸Ð´ÑƒÐ°Ð»ÑŒÐ½Ñ‹Ð¹ Ð¼Ð°ÑÑˆÑ‚Ð°Ð± ÑÐ¿Ñ€Ð°Ð¹Ñ‚Ð° Ð½Ð° Ð¿Ð¾Ð»Ðµ Ð±Ð¾Ñ.
+var battle_sprite_y_offset_percent: float = 0.0
 var max_hp: int
 var current_hp: int
 var base_damage: int
@@ -72,6 +73,7 @@ func _init(resource: CharacterResource):
 	sprite_path = resource.sprite_path # <--- ÐŸÐ Ð˜Ð¡Ð’ÐžÐ•ÐÐ˜Ð• Ð˜Ð— Ð Ð•Ð¡Ð£Ð Ð¡Ð
 	face_sprite = resource.face_sprite
 	battle_sprite_scale_percent = resource.battle_sprite_scale_percent
+	battle_sprite_y_offset_percent = resource.battle_sprite_y_offset_percent
 	max_hp = resource.max_hp
 	current_hp = resource.max_hp
 	base_damage = resource.damage

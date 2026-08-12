@@ -12,6 +12,7 @@ script = ExtResource("6_cr")
 unit_name = "Мучитель"
 sprite_path = "res://Enemies/Dungeon/Hell/Tormentor/Tormentor.png"
 face_sprite = "res://Enemies/Dungeon/Hell/Tormentor/Tormentor_Face.png"
+battle_sprite_scale_percent = 105.0
 max_hp = 95
 damage = 13
 initiative = 6

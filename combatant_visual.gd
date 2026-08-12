@@ -48,6 +48,7 @@ const EFFECT_ICON_ORDER := [
 var data: Combatant
 var _base_sprite_scale := Vector2.ONE
 var _applied_sprite_scale_percent: float = -1.0
+var _applied_sprite_y_offset_percent: float = 0.0
 var majesty_bar: ProgressBar = null
 var flash_sprite: Sprite2D = null
 var flash_tween: Tween = null
@@ -441,6 +442,7 @@ func _rebuild_base_sprite_scale() -> void:
 	var scale_factor: float = minf(target_size.x / scale_basis.x, target_size.y / scale_basis.y)
 	_base_sprite_scale = Vector2(scale_factor, scale_factor)
 	_applied_sprite_scale_percent = data.battle_sprite_scale_percent
+	_applied_sprite_y_offset_percent = data.battle_sprite_y_offset_percent
 	_apply_sprite_scale_keep_feet(_base_sprite_scale)
 
 func _refresh_runtime_sprite_scale_percent() -> void:
@@ -450,7 +452,8 @@ func _refresh_runtime_sprite_scale_percent() -> void:
 		var live_resource := ResourceLoader.load(data.source_resource_path, "", ResourceLoader.CACHE_MODE_REPLACE) as CharacterResource
 		if live_resource != null:
 			data.battle_sprite_scale_percent = live_resource.battle_sprite_scale_percent
-	if absf(data.battle_sprite_scale_percent - _applied_sprite_scale_percent) > 0.001:
+			data.battle_sprite_y_offset_percent = live_resource.battle_sprite_y_offset_percent
+	if absf(data.battle_sprite_scale_percent - _applied_sprite_scale_percent) > 0.001 or absf(data.battle_sprite_y_offset_percent - _applied_sprite_y_offset_percent) > 0.001:
 		_rebuild_base_sprite_scale()
 
 func _get_scaled_opaque_height() -> float:
@@ -500,7 +503,10 @@ func _apply_sprite_scale_keep_feet(new_scale: Vector2) -> void:
 	var osiris_set_vertical_offset := 0.0
 	if data != null and (data.unit_name == "Сет" or data.sprite_path.ends_with("/Set.png")):
 		osiris_set_vertical_offset = -bounds.size.y * absf(sprite.scale.y) * 0.10
-	sprite.position = Vector2(0, SPRITE_FEET_Y - opaque_bottom_from_center * absf(sprite.scale.y) + osiris_set_vertical_offset)
+	var resource_vertical_offset := 0.0
+	if data != null:
+		resource_vertical_offset = -bounds.size.y * absf(sprite.scale.y) * (data.battle_sprite_y_offset_percent / 100.0)
+	sprite.position = Vector2(0, SPRITE_FEET_Y - opaque_bottom_from_center * absf(sprite.scale.y) + osiris_set_vertical_offset + resource_vertical_offset)
 	if collision_shape != null:
 		var opaque_center_from_texture_center := bounds.position + bounds.size * 0.5 - texture_size * 0.5
 		collision_shape.position = sprite.position + Vector2(opaque_center_from_texture_center.x * sprite.scale.x, opaque_center_from_texture_center.y * sprite.scale.y)

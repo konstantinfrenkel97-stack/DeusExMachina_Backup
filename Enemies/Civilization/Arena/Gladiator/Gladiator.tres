@@ -11,7 +11,6 @@ script = ExtResource("2_cr")
 unit_name = "Гладиатор"
 sprite_path = "res://Enemies/Civilization/Arena/Gladiator/Gladiator.png"
 face_sprite = "res://Enemies/Civilization/Arena/Gladiator/Gladiator_Face.png"
-battle_sprite_scale_percent = 110.0
 max_hp = 65
 damage = 14
 armor = 20

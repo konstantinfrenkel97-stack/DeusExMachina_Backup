@@ -12,6 +12,7 @@ unit_name = "Стимфолийская птица"
 sprite_path = "res://Enemies/Sky/Clouds/Bird_knife_wings/Птица крылья ножи.png"
 face_sprite = "res://Enemies/Sky/Clouds/Bird_knife_wings/Птица крылья ножи_Face.png"
 battle_sprite_scale_percent = 130.0
+battle_sprite_y_offset_percent = 10.0
 max_hp = 45
 damage = 12
 armor = 0

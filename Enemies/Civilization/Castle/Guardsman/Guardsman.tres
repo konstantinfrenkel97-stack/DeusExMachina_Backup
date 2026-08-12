@@ -12,6 +12,7 @@ script = ExtResource("2_ch")
 unit_name = "Стражник"
 sprite_path = "res://Enemies/Civilization/Castle/Guardsman/Guardsman.png"
 face_sprite = "res://Enemies/Civilization/Castle/Guardsman/Guardsman_face.png"
+battle_sprite_scale_percent = 95.0
 max_hp = 55
 damage = 10
 armor = 8

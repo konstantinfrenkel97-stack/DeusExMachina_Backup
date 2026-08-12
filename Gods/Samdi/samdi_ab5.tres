@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_ab")
-icon_path = "uid://bvwfxvxreasjp"
+icon_path = "uid://b8hc3lt7w1wlo"
 name = "Кукла вуду"
 description = "Метка на противника и стоящего за ним. 2 хода: копирование дебаффов и половины урона"
 damage_modifier = 0.0

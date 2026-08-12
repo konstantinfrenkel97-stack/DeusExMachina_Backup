@@ -12,6 +12,7 @@ script = ExtResource("2_cr")
 unit_name = "Гном кузнец"
 sprite_path = "res://Enemies/Dungeon/Tunnels/Dwarf_smith/Dwarf_smith.png"
 face_sprite = "res://Enemies/Dungeon/Tunnels/Dwarf_smith/Dwarth_Smith_Face.png"
+battle_sprite_scale_percent = 118.0
 max_hp = 45
 damage = 6
 armor = 8

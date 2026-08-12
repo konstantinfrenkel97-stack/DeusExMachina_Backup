@@ -12,6 +12,7 @@ script = ExtResource("2_cr")
 unit_name = "Каменный великан воин"
 sprite_path = "res://Enemies/Dungeon/Tunnels/Stone_giant_warrior/Stone_Giant_warrior.png"
 face_sprite = "res://Enemies/Dungeon/Tunnels/Stone_giant_warrior/Stone_Giant_warrior_Face.png"
+battle_sprite_scale_percent = 75.0
 damage = 16
 armor = 12
 accuracy = 85

@@ -11,6 +11,7 @@ script = ExtResource("2_ch")
 unit_name = "Принцесса"
 sprite_path = "res://Enemies/Civilization/Castle/Princess/Princess.png"
 face_sprite = "res://Enemies/Civilization/Castle/Princess/Princess_face.png"
+battle_sprite_scale_percent = 97.0
 max_hp = 40
 damage = 6
 armor = 0
