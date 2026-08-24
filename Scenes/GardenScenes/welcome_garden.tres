@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Flower_fairy/flower_fairy.tres" id="enemy_flower"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Thorn_fairy/thorn_fairy.tres" id="enemy_thorn"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+
+[sub_resource type="Resource" id="form_welcome"]
+script = ExtResource("formation_script")
+formation_name = "Сад приветствует: фея цветов-фея шипов-фея цветов"
+pos1 = ExtResource("enemy_flower")
+pos2 = ExtResource("enemy_thorn")
+pos3 = ExtResource("enemy_flower")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_welcome"]
+script = ExtResource("battle_script")
+formation = SubResource("form_welcome")
+location_id = "garden"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_welcome"]
+script = ExtResource("outcome_script")
+result_text = "На ее лице уверенность, и она, сжав кулаки, идёт вперед прямо на крылатые силуэты, идущие навстречу."
+battle = SubResource("battle_welcome")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_welcome"]
+script = ExtResource("choice_script")
+choice_text = "Сад приветствует вас"
+outcome = SubResource("out_welcome")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Добро пожаловать в сад"
+body_text = "Вы словно попали на картину маслом. Вокруг вас пятна яркого цвета — там, где разрастаются цветочные поля. Мягкий ветер ласкает холмы и деревья. Кажется, сама природа хотела, чтобы это место было предельно красивым.
+Вы замечаете, что один член отряда отстал. Вернувшись, вы видите Дуну, сидящую на коленях. Ее лицо задумчиво и обеспокоено, а пальцы мягко водят по траве и цветам.
+«Нет, нет-нет-нет. Тут что-то не то. Я не понимаю. Должно быть мягче. Должно быть... Нежнее.»
+Вы возвращаетесь к богине, но та словно не замечает вашего присутствия, погруженная в собственные ощущения.
+«Какая-то горечь, какая-то жесткость...»
+Она встает и легонько отряхивает ноги.
+«Идем. Что-то отравило это место, и я должна выяснить что.»"
+choices = [SubResource("choice_welcome")]

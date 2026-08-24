@@ -10,14 +10,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Морская ведьма"
+max_hp = 135
+damage = 32
+armor = 20
+initiative = 8
+accuracy = 93
+evasion = 17
+crit_chance = 0.15
 sprite_path = "res://Enemies/Sea/Depth/Sea_Witch/Sea_witch.png"
 face_sprite = "res://Enemies/Sea/Depth/Sea_Witch/Sea_witch_face.png"
 battle_sprite_scale_percent = 111.0
-max_hp = 50
-damage = 10
-armor = 10
-initiative = 7
-accuracy = 85
 special_effect_type = "seawitch_double_depth"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2"), ExtResource("6_a3")])
 ai_script = ExtResource("3_ai")

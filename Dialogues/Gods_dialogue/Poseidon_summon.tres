@@ -3,11 +3,15 @@
 [ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_f115g"]
 [ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_c2ykg"]
 [ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_ot70m"]
+[ext_resource type="Texture2D" uid="uid://bfu365plvlb5v" path="res://Main_characters/Lena/Lena_surprised.png" id="3_g67cm"]
+[ext_resource type="Texture2D" uid="uid://cl8wacfrih2fj" path="res://Main_characters/Lena/Lena_smile_1.png" id="4_ow0jq"]
+[ext_resource type="Texture2D" uid="uid://bq5671vbp3ry4" path="res://Main_characters/Lena/Lena_smile_2.png" id="5_vgat6"]
 
 [sub_resource type="Resource" id="Resource_pquee"]
 script = ExtResource("1_f115g")
 speaker_name = "Лена"
 text = "О! Один из трех олимпийских братьев. Бог морей Посейдон."
+sprite = ExtResource("3_g67cm")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_g67cm"]
@@ -25,7 +29,8 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 [sub_resource type="Resource" id="Resource_vgat6"]
 script = ExtResource("1_f115g")
 speaker_name = "Лена"
-text = "Видите ли, мы в мире фантазии, и я призвала вас чтобы помочь мне в неравной битве против орды чудовищ."
+text = "Видите ли, мы в мире фантазии, и я призвала вас, чтобы помочь мне в неравной битве против орды чудовищ."
+sprite = ExtResource("3_g67cm")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_p1wdd"]
@@ -38,6 +43,7 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 script = ExtResource("1_f115g")
 speaker_name = "Лена"
 text = "Вы просто так мне поможете?"
+sprite = ExtResource("3_g67cm")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_xd813"]
@@ -50,12 +56,14 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 script = ExtResource("1_f115g")
 speaker_name = "Лена"
 text = "Хочу! Большое вам спасибо!"
+sprite = ExtResource("4_ow0jq")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_51kkg"]
 script = ExtResource("1_f115g")
 speaker_name = "Лена"
-text = "Просто вы так легко согласились"
+text = "Просто вы так легко согласились."
+sprite = ExtResource("3_g67cm")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_uju6p"]
@@ -67,19 +75,20 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 [sub_resource type="Resource" id="Resource_j4boa"]
 script = ExtResource("1_f115g")
 speaker_name = "Посейдон"
-text = "Что я тебя, просто так оставлю?"
+text = "Что я тебя просто так оставлю?"
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_kch1f"]
 script = ExtResource("1_f115g")
 speaker_name = "Посейдон"
-text = "Мне кажется все логично. Не то чтобы у меня здесь были какие-то другие дела."
+text = "Мне кажется, все логично. Не то чтобы у меня здесь были какие-то другие дела."
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_f8npy"]
 script = ExtResource("1_f115g")
 speaker_name = "Лена"
 text = "Это... да... Вы очень благородны."
+sprite = ExtResource("5_vgat6")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_i06e8"]
@@ -97,7 +106,8 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 [sub_resource type="Resource" id="Resource_f7082"]
 script = ExtResource("1_f115g")
 speaker_name = "Лена"
-text = "Да, я просто не привыкла. К людям как вы. Хотя вы бог."
+text = "Да, я просто не привыкла. К людям, как вы. Хотя вы бог."
+sprite = ExtResource("3_g67cm")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_cfica"]
@@ -115,25 +125,26 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 [sub_resource type="Resource" id="Resource_uk4s2"]
 script = ExtResource("1_f115g")
 speaker_name = "Посейдон"
-text = "В один момент просто задал себе вопрос - зачем я вообще это делаю."
+text = "В один момент просто задал себе вопрос – зачем я вообще это делаю."
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_iwhox"]
 script = ExtResource("1_f115g")
 speaker_name = "Посейдон"
-text = "Так что вот. Пытаюсь делать то в чем есть смысл."
+text = "Так что вот. Пытаюсь делать то, в чем есть смысл."
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_eur8t"]
 script = ExtResource("1_f115g")
 speaker_name = "Лена"
-text = "Я думаю все пытаются, но у вас это как-то просто звучит."
+text = "Я думаю, все пытаются, но у вас это как-то просто звучит."
+sprite = ExtResource("3_g67cm")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_hhr8x"]
 script = ExtResource("1_f115g")
 speaker_name = "Посейдон"
-text = "Так а в чем сложность?"
+text = "Так, а в чем сложность?"
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_v0d68"]

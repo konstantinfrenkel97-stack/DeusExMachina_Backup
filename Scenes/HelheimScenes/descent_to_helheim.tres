@@ -1,18 +1,16 @@
-[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3 uid="uid://cigmvnsj3wvof"]
 
-[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
-[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
-[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
-[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
-[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
-[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
-[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
-[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
-[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
-[ext_resource type="Resource" path="res://Enemies/Dungeon/Hellheim/Draugr_raider/Draugr_raider.tres" id="enemy_raider"]
-[ext_resource type="Resource" path="res://Enemies/Dungeon/Hellheim/Banshee/banshee.tres" id="enemy_banshee"]
-[ext_resource type="Resource" path="res://Enemies/Dungeon/Hellheim/Draugr_Juggernaut/Draugr_Juggernaut.tres" id="enemy_juggernaut"]
-[ext_resource type="Resource" path="res://Essence/thoughts.tres" id="thoughts"]
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Resource" uid="uid://djml03da18pxx" path="res://Enemies/Dungeon/Hellheim/Banshee/banshee.tres" id="enemy_banshee"]
+[ext_resource type="Resource" uid="uid://24uwmv5i3use" path="res://Enemies/Dungeon/Hellheim/Draugr_raider/Draugr_raider.tres" id="enemy_raider"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://dutn5fch4d8b5" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+
 [sub_resource type="Resource" id="form_welcome"]
 script = ExtResource("formation_script")
 formation_name = "Хельхейм приветствует: Рейдер-Рейдер-Баньши"
@@ -42,5 +40,13 @@ metadata/_custom_type_script = ExtResource("choice_script")
 [resource]
 script = ExtResource("scene_script")
 scene_title = "Нисхождение в Хельхейм"
-body_text = "Черные скалы, мертвые деревья и белый туман встречают вас. Среди мертвой земли бродят мрачные фигуры драугров, иногда кидаясь друг на друга в приступе ярости. Нежить, живущая лишь воспоминаниями о былых сражениях, они рыщут в поисках хоть капли жизни, на которую они могли бы обрушить свою бесконечную ярость и жажду крови. Скорбный плач баньши сопровождает их бесцельные поиски.\n\nВы петляете среди скал, когда внезапно оказываетесь полностью поглощенными туманом. Холод и влага словно высасывают из вас жизнь. Ваши цели становятся все дальше, эмоции притупляются. Вы забываете что вообще делаете, в чем смысл, к какой цели двигаетесь и почему это важно. Остается только пустота, усталость и странная скорбь. Но вы не помните что именно утрачиваете.\n- За мной, - тихо говорит Локи. Группа бездумно следует за ним. Он их единственный маяк в этом темном мире. Единственная причина двигаться.\n\nОн выводит группу на пустой участок свободный от тумана.\n- Нужно привыкнуть. - говорит Локи. - Этот туман... Сложный. Говорю сразу, легче не станет. Чувство останется таким же тошнотворным. Но постепенно привыкнете. Будет проще действовать. Главное воля, заставляйте себя делать то, что раньше казалось вам важным. Даже если не можете вспомнить почему это важно. Заставляйте , себя.\n\nПока Локи объяснял, вы замечаете отряд нежити наступающий на вас из тумана."
+body_text = "Черные скалы, мертвые деревья и белый туман встречают вас. Среди мертвой земли бродят мрачные фигуры драугров, иногда кидаясь друг на друга в приступе ярости. Нежить, живущая лишь воспоминаниями о былых сражениях, они рыщут в поисках хоть капли жизни, на которую они могли бы обрушить свою бесконечную ярость и жажду крови. Скорбный плач баньши сопровождает их бесцельные поиски.
+
+Вы петляете среди скал, когда внезапно оказываетесь полностью поглощенными туманом. Холод и влага словно высасывают из вас жизнь. Ваши цели становятся все дальше, эмоции притупляются. Вы забываете, что вообще делаете, в чем смысл, к какой цели двигаетесь и почему это важно. Остается только пустота, усталость и странная скорбь. Но вы не помните, что именно утрачиваете.
+— За мной, — тихо говорит Локи. Группа бездумно следует за ним. Он их единственный маяк в этом темном мире. Единственная причина двигаться.
+
+Он выводит группу на пустой участок, свободный от тумана.
+— Нужно привыкнуть, — говорит Локи. — Этот туман... Сложный. Говорю сразу, легче не станет. Чувство останется таким же тошнотворным. Но постепенно привыкнете. Будет проще действовать. Главное — воля, заставляйте себя делать то, что раньше казалось вам важным. Даже если не можете вспомнить, почему это важно. Заставляйте себя.
+
+Пока Локи объяснял, вы замечаете отряд нежити, наступающий на вас из тумана."
 choices = [SubResource("choice_welcome")]

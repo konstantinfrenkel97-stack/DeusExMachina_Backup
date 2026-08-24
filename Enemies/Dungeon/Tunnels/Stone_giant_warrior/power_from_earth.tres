@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_11oka")
 name = "Сила от земли"
+description = "Притягивается вперёд на 1 позицию; восстанавливает 10% максимального здоровья."
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"

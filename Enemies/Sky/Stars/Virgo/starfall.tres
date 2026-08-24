@@ -5,10 +5,11 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Звездопад"
+description = "Наносит 70% урона."
 damage_modifier = 0.7
 majesty_gain = 0
 extra_targets_count = 1
 ability_marker = "virgo_starfall"
-usable_from_positions = Array[bool]([false, false, true, true])
-targetable_positions = Array[bool]([true, true, false, false])
+usable_from_positions = Array[bool]([false, true, true, false])
+targetable_positions = Array[bool]([false, true, true, false])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

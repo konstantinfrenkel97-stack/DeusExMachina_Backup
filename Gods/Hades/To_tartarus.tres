@@ -6,7 +6,10 @@
 script = ExtResource("1_tt")
 icon_path = "uid://bcoouqni5mesp"
 name = "В Тартар"
+description = "Наносит урон, равный 80% недостающего здоровья цели."
 damage_modifier = 0.0
+majesty_gain = 0
+majesty_cost = 100
 damage_type = "Pure"
 usable_from_positions = Array[bool]([true, true, true, false])
 targetable_positions = Array[bool]([true, true, true, false])

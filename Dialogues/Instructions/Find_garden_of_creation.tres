@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://d1waso5bbsdo1"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_p1bx0"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_lkej6"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_tla0s"]
+[ext_resource type="Texture2D" uid="uid://duogyyhwd3igs" path="res://Main_characters/Lena/Lena_sceptical.png" id="3_lkej6"]
+
+[sub_resource type="Resource" id="Resource_pos3a"]
+script = ExtResource("1_p1bx0")
+speaker_name = "Лена"
+text = "Призыв просто так не происходит.
+"
+sprite = ExtResource("3_lkej6")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_owttj"]
+script = ExtResource("1_p1bx0")
+speaker_name = "Лена"
+text = "Чертов замок. Тут должно быть что-то, что мне поможет."
+sprite = ExtResource("3_lkej6")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_tla0s")
+lines = Array[ExtResource("1_p1bx0")]([SubResource("Resource_pos3a"), SubResource("Resource_owttj")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

@@ -9,15 +9,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Альрауне"
+max_hp = 245
+damage = 72
+armor = 26
+initiative = 6
+accuracy = 86
+evasion = 14
+crit_chance = 0.15
 sprite_path = "res://Enemies/Forest/Garden/Alraune/Alraune.png"
 face_sprite = "res://Enemies/Forest/Garden/Alraune/Alraune_face.png"
 battle_sprite_scale_percent = 113.0
-max_hp = 130
-damage = 22
-armor = 12
-initiative = 2
-accuracy = 80
-evasion = 5
 special_effect_type = "alraune_regen"
 is_large = true
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_en"), ExtResource("5_ld")])

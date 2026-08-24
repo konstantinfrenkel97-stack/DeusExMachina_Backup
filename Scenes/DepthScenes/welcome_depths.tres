@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Depth/Merman_Warrior/Merman_Warrior.tres" id="enemy_merman"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Depth/Mermaid_Sorceress/Mermaid_Sorceress.tres" id="enemy_sorceress"]
+
+[sub_resource type="Resource" id="form_welcome"]
+script = ExtResource("formation_script")
+formation_name = "Глубина приветствует: Русал воин-Русал воин-русалка жрица"
+pos1 = ExtResource("enemy_merman")
+pos2 = ExtResource("enemy_merman")
+pos3 = ExtResource("enemy_sorceress")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_welcome"]
+script = ExtResource("battle_script")
+formation = SubResource("form_welcome")
+location_id = "depths"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_welcome"]
+script = ExtResource("outcome_script")
+result_text = "Из синего сумрака бесшумно появляются русалы с трезубцами наперевес, а следом за ними — жрица, ее хвост мерцает в пробивающемся сверху свете. Похоже, чудесами моря дело не ограничится."
+battle = SubResource("battle_welcome")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_welcome"]
+script = ExtResource("choice_script")
+choice_text = "Глубина приветствует вас"
+outcome = SubResource("out_welcome")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Добро пожаловать на Глубину"
+body_text = "За дверью голубая жидкая твердь. Вы инстинктивно задерживаете дыхание, вступая под воду. Ваши волосы и одежда развеваются в потоках, и когда вы не выдерживаете и с ужасом делаете вдох, вы не ощущаете, что вода проникает в легкие. Вы как будто продолжаете дышать воздухом, хотя и непонятно, откуда он взялся.
+Цветные кораллы, разнообразные рыбы, свет, пробивающийся с поверхности. Посейдон плывет, глазея вокруг, с улыбкой ребенка. Его движения плавные, он буквально находится в своей стихии.
+«Ну разве есть что-то прекраснее?» — вы слышите его тихий голос.
+Ваш отряд плывет вперед, глазея по сторонам, когда внезапно Посейдон вытягивает руку поперек вашего пути. Вы не видите никакой разницы, но он поднимает гальку со дна и подбрасывает вперед. Ее мгновенно уносит невидимый поток, и она исчезает в темноте.
+«Будьте осторожны. Потоки непредсказуемы. И кто идет поперек, в море не выживает.»
+Вы продвигаетесь дальше, ловя спокойные воды и останавливаясь перед бурными потоками. Но кажется, чудеса природы это не все, что приготовило вам море."
+choices = [SubResource("choice_welcome")]

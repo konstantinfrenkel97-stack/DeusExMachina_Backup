@@ -8,6 +8,7 @@ icon_path = "uid://0tp35ub5ky52"
 name = "Растительный яд"
 description = "При нанесении урона накладывает периодический урон 20% на 4 хода. Эффект длится 3 хода"
 damage_modifier = 0.0
+majesty_gain = 10
 target_type = "Ally"
 usable_from_positions = Array[bool]([false, true, true, false])
 ability_marker = "duna_plant_poison"

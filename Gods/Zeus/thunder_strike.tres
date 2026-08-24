@@ -6,7 +6,9 @@
 script = ExtResource("1_lqg64")
 icon_path = "uid://bae3ssadxcsd2"
 name = "Удар молнии"
+description = "Наносит 120% урона. Атака не может промахнуться."
 damage_modifier = 1.2
-never_miss = true
+majesty_gain = 15
 usable_from_positions = Array[bool]([false, false, true, true])
+never_miss = true
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

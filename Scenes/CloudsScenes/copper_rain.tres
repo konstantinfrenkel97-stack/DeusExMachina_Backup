@@ -1,0 +1,128 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Clouds/Bird_knife_wings/bird_knife_wings.tres" id="enemy_bird"]
+[ext_resource type="Resource" path="res://Essence/thoughts.tres" id="thoughts"]
+
+[sub_resource type="Resource" id="form_copper_rain"]
+script = ExtResource("formation_script")
+formation_name = "Медный дождь: Птица-Птица-Птица"
+pos1 = ExtResource("enemy_bird")
+pos2 = ExtResource("enemy_bird")
+pos3 = ExtResource("enemy_bird")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="check_initiative"]
+script = ExtResource("stat_check_script")
+stat = 1
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="buff_hero_init_plus2"]
+script = ExtResource("buff_script")
+stat = 6
+value = 2
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_hero_init_plus2_all"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_init_plus2")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v1_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_copper_rain")
+hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_hero_init_plus2_all")])
+location_id = "clouds"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v1_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы взлетаете и, маскируясь среди облаков, оказываетесь с тварями на одном уровне. Выждав момент, вы врываетесь в круг птиц. Они в хаосе разлетаются, не готовые к вашему броску."
+battle = SubResource("battle_v1_success")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="battle_v1_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_copper_rain")
+location_id = "clouds"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v1_fail"]
+script = ExtResource("outcome_script")
+result_text = "Птицы замечают ваше приближение. Их формация быстро перестраивается и клином пикирует прямо на ваши головы."
+battle = SubResource("battle_v1_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v1"]
+script = ExtResource("choice_script")
+choice_text = "Немедленно напасть"
+stat_check = SubResource("check_initiative")
+success_outcome = SubResource("out_v1_success")
+failure_outcome = SubResource("out_v1_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="battle_v2"]
+script = ExtResource("battle_script")
+formation = SubResource("form_copper_rain")
+location_id = "clouds"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v2"]
+script = ExtResource("outcome_script")
+result_text = "Вы очарованы красотой игры света и металла. Красота мира находит отпечаток в ваших сердцах, и когда твари, заметив вас, изготавливаются к атаке, вы не жалеете, что уделили время созерцанию."
+battle = SubResource("battle_v2")
+hero_majesty_delta = 15
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v2"]
+script = ExtResource("choice_script")
+choice_text = "Наблюдать за чарующим зрелищем"
+outcome = SubResource("out_v2")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("stat_check_script")
+stat = 4
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="reward_thoughts_bonus"]
+script = ExtResource("reward_script")
+kind = 3
+resource = ExtResource("thoughts")
+amount = 300
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_v3_success"]
+script = ExtResource("outcome_script")
+result_text = "Вылавливая перья-ножи прямо из воздуха, вы собираете достаточное количество. Так или иначе, но этому ресурсу найдется применение."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_thoughts_bonus")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_v3_fail"]
+script = ExtResource("outcome_script")
+result_text = "Ваши руки кровоточат от безуспешных попыток ловить лезвия в полете. Спутники ворчат, проклиная того, кто придумал эту безумную идею."
+hero_heal_percent = -10
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v3"]
+script = ExtResource("choice_script")
+choice_text = "Попытаться поймать несколько перьев"
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_v3_success")
+failure_outcome = SubResource("out_v3_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Медный дождь"
+body_text = "Пробираясь по облакам, вы обнаруживаете необычное зрелище. Впереди вас идет дождь из медных перьев. Обычно вы сталкиваетесь с этим явлением в бою и не имеете возможности оценить, насколько это красиво. Солнце переливается на медных лезвиях, вы наблюдаете зрелище, которое едва ли многим удастся лицезреть. Наверху вы видите стаю птиц, кружащихся в живом водовороте."
+choices = [SubResource("choice_v1"), SubResource("choice_v2"), SubResource("choice_v3")]

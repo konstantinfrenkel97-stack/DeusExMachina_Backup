@@ -6,12 +6,13 @@
 script = ExtResource("1_7unyo")
 icon_path = "uid://dgivgrvur2jq"
 name = "Испить эля"
+description = "Тор восстанавливает здоровье и снимает с себя дебаффы."
 damage_modifier = 0.0
 majesty_gain = 0
 majesty_cost = 50
 target_type = "Self"
 effect_types = Array[String](["self_heal_percent", "self_dispel_debuffs"])
 effect_values = Dictionary[String, int]({
-"self_heal_percent": 30
+"self_heal_percent": 40
 })
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

@@ -3,29 +3,35 @@
 [ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_db22y"]
 [ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_nu0ox"]
 [ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_t8d77"]
+[ext_resource type="Texture2D" uid="uid://bfu365plvlb5v" path="res://Main_characters/Lena/Lena_surprised.png" id="3_nu0ox"]
+[ext_resource type="Texture2D" uid="uid://bq5671vbp3ry4" path="res://Main_characters/Lena/Lena_smile_2.png" id="4_swmp2"]
+[ext_resource type="Texture2D" uid="uid://duogyyhwd3igs" path="res://Main_characters/Lena/Lena_sceptical.png" id="5_18fmh"]
 
 [sub_resource type="Resource" id="Resource_wu2ib"]
 script = ExtResource("1_db22y")
 speaker_name = "Лена"
 text = "О, Зевс! Могущественный бог молний и властитель Олимпа!"
+sprite = ExtResource("3_nu0ox")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_swmp2"]
 script = ExtResource("1_db22y")
 speaker_name = "Лена"
 text = "Отец и повелитель греческих богов!"
+sprite = ExtResource("3_nu0ox")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_18fmh"]
 script = ExtResource("1_db22y")
 speaker_name = "Зевс"
-text = "Учтивый язык, юная дева. Нравится то что видишь?"
+text = "Учтивый язык, юная дева. Нравится то, что видишь?"
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_hiea6"]
 script = ExtResource("1_db22y")
 speaker_name = "Лена"
 text = "Эм, я… что?"
+sprite = ExtResource("3_nu0ox")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_8o33e"]
@@ -43,7 +49,8 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 [sub_resource type="Resource" id="Resource_lncij"]
 script = ExtResource("1_db22y")
 speaker_name = "Лена"
-text = "А. Вы немного, подавляете…"
+text = "А. Вы немного подавляете…"
+sprite = ExtResource("3_nu0ox")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_3yxjl"]
@@ -61,19 +68,20 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 [sub_resource type="Resource" id="Resource_p7g3u"]
 script = ExtResource("1_db22y")
 speaker_name = "Зевс"
-text = "Не переживай, это нормально"
+text = "Не переживай, это нормально."
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_wfbrx"]
 script = ExtResource("1_db22y")
 speaker_name = "Лена"
 text = "А… Хорошо, спасибо. А, вы мне не поможете? Меня хочет убить орда мифических тварей."
+sprite = ExtResource("3_nu0ox")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_6v0tp"]
 script = ExtResource("1_db22y")
 speaker_name = "Зевс"
-text = " Ха-ха-ха-ха-ха, да раз плюнуть."
+text = "Ха-ха-ха-ха-ха, да раз плюнуть."
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_rgk4a"]
@@ -85,7 +93,8 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 [sub_resource type="Resource" id="Resource_46v80"]
 script = ExtResource("1_db22y")
 speaker_name = "Лена"
-text = "Все таки, на вас можно положиться."
+text = "Все-таки, на вас можно положиться."
+sprite = ExtResource("4_swmp2")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_6tlce"]
@@ -98,6 +107,7 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 script = ExtResource("1_db22y")
 speaker_name = "Лена"
 text = "........"
+sprite = ExtResource("5_18fmh")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [resource]

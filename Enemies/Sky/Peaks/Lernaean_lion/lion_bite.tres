@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Львиный укус"
+description = "Наносит 100% урона."
 damage_modifier = 1.0
 majesty_gain = 0
 ability_marker = "lion_bite"

@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Jungle/Saru/Saru.tres" id="enemy_saru"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Jungle/Naga_warrior/naga_warrior.tres" id="enemy_naga_warrior"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+
+[sub_resource type="Resource" id="form_welcome"]
+script = ExtResource("formation_script")
+formation_name = "Джунгли приветствуют: Сару-Нага воин-Нага воин"
+pos1 = ExtResource("enemy_saru")
+pos2 = ExtResource("enemy_naga_warrior")
+pos3 = ExtResource("enemy_naga_warrior")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_welcome"]
+script = ExtResource("battle_script")
+formation = SubResource("form_welcome")
+location_id = "jungle"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_welcome"]
+script = ExtResource("outcome_script")
+result_text = "Золотая обезьяна спрыгивает с головы Шивы обратно в листву, а из кустов выскальзывают вооруженные наги. Джунгли решили встретить вас без лишних церемоний."
+battle = SubResource("battle_welcome")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_welcome"]
+script = ExtResource("choice_script")
+choice_text = "Джунгли приветствуют вас"
+outcome = SubResource("out_welcome")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Добро пожаловать в джунгли"
+body_text = "Влажный воздух, палящее солнце, зеленые лианы и руины храмов древнее, чем письменность. Вы вступаете в царство джунглей.
+Шива идет первым, крутя головой как любопытный ребёнок.
+«Эй, я знаю этот храм... И эта статуя, в молодости я снес голову одной такой же. В запах.»
+Он поворачивается к отряду, широко разведя четыре руки.
+«Это земля посвящения. Духовного роста. Куда приходят паломники, чтобы найти гармонию с миром и со своей судьбой.»
+«Здесь не борются против предназначения, здесь...»
+В этот момент, огромная обезьяна с золотой шерстью прыгает богу на голову. В кустах неподалеку вам видится блеск зеленой змеиной чешуи."
+choices = [SubResource("choice_welcome")]

@@ -6,8 +6,8 @@
 script = ExtResource("1_ch")
 icon_path = "uid://c0r58o8e5wblk"
 name = "Цепи преисподней"
+description = "Наносит 70% урона и снижает инициативу цели."
 damage_modifier = 0.7
-majesty_gain = 10
 effect_types = Array[String](["target_debuff_initiative"])
 effect_values = Dictionary[String, int]({
 "target_debuff_initiative": 4

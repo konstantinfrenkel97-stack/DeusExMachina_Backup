@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Драть когтями"
+description = "Наносит 60% урона; цель теряет 15 брони на 3 ход.."
 damage_modifier = 0.6
 majesty_gain = 0
 extra_targets_count = 1

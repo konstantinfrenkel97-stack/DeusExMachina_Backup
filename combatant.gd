@@ -67,6 +67,11 @@ var active_effects = []
 var _turn_start_effects: Array = []
 var _thor_berserk_aura_bonus: int = 0
 
+# Экипированные предметы (ItemResource), скопированные из CharacterResource при спавне.
+var equipped_weapon: ItemResource = null
+var equipped_armor: ItemResource = null
+var equipped_trinket: ItemResource = null
+
 func _init(resource: CharacterResource):
 	source_resource_path = resource.resource_path
 	unit_name = resource.unit_name
@@ -88,6 +93,9 @@ func _init(resource: CharacterResource):
 	original_ultimate_ability = resource.ultimate_ability
 	special_effect_type = resource.special_effect_type
 	is_large = resource.is_large
+	equipped_weapon = resource.equipped_weapon
+	equipped_armor = resource.equipped_armor
+	equipped_trinket = resource.equipped_trinket
 	god_level = resource.get_clamped_level()
 	_apply_level_bonuses(resource.get_total_level_bonus())
 	ai_script = resource.ai_script
@@ -121,6 +129,18 @@ func _apply_level_bonuses(bonuses: Dictionary) -> void:
 	base_accuracy += int(bonuses.get("accuracy", 0))
 	base_evasion += int(bonuses.get("evasion", 0))
 	base_crit_chance += float(bonuses.get("crit_chance", 0.0))
+## Возвращает список экипированных предметов (без null-слотов).
+## Общая точка входа для любой пассивной логики предметов (регенерация, будущие эффекты).
+func get_equipped_items() -> Array[ItemResource]:
+	var items: Array[ItemResource] = []
+	if equipped_weapon != null:
+		items.append(equipped_weapon)
+	if equipped_armor != null:
+		items.append(equipped_armor)
+	if equipped_trinket != null:
+		items.append(equipped_trinket)
+	return items
+
 func get_accuracy() -> int: return max(0, base_accuracy + accuracy_modifier)
 func get_damage() -> int:
 	var bonus = 0
@@ -369,7 +389,22 @@ func enter_stance(stance: AbilityResource):
 	# Ð—Ð´ÐµÑÑŒ Ð¼Ð¾Ð¶Ð½Ð¾ Ð¸ÑÐ¿ÑƒÑÐºÐ°Ñ‚ÑŒ ÑÐ¸Ð³Ð½Ð°Ð», Ñ‡Ñ‚Ð¾Ð±Ñ‹ UI Ð¾Ð±Ð½Ð¾Ð²Ð¸Ð»ÑÑ (Ð¸ÐºÐ¾Ð½ÐºÐ° ÑÑ‚Ð¾Ð¹ÐºÐ¸)
 
 func break_stance():
+	# «Неубиваемый» Кощея: броня и метка провокации действуют только пока активна стойка.
+	if active_stance != null and active_stance.stance_effect_type == "koschei_immortal":
+		_strip_effects_by_source("Неубиваемый")
 	active_stance = null
+
+## Снимает все активные эффекты с указанным source_ability (с реверсом стат-модификаторов).
+func _strip_effects_by_source(source: String) -> void:
+	for i in range(active_effects.size() - 1, -1, -1):
+		var e = active_effects[i]
+		if _effect_get(e, "source_ability", "") != source:
+			continue
+		var st = _effect_get(e, "stat", "")
+		var v = _effect_get(e, "value", 0)
+		if st != "provocation_mark" and st != "trigger_marker" and st != "periodic_damage":
+			apply_stat_change(st, -v)
+		active_effects.remove_at(i)
 func check_stance_interruption(reason: String, new_pos: int = -1):
 	if active_stance == null: return
 	

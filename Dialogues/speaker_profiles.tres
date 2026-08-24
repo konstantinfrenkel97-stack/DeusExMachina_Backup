@@ -2,6 +2,23 @@
 
 [ext_resource type="Script" path="res://Dialogues/dialogue_speaker_profile.gd" id="1_profile"]
 [ext_resource type="Script" path="res://Dialogues/dialogue_speaker_registry.gd" id="2_registry"]
+[ext_resource type="Resource" path="res://Gods/Chernobog/Chernobog.tres" id="3_chernobog"]
+[ext_resource type="Resource" path="res://Gods/Duna/Duna.tres" id="4_duna"]
+[ext_resource type="Resource" path="res://Gods/Hades/Hades.tres" id="5_hades"]
+[ext_resource type="Resource" path="res://Gods/Koschei/Koschei.tres" id="6_koschei"]
+[ext_resource type="Resource" path="res://Gods/Loki/Loki.tres" id="7_loki"]
+[ext_resource type="Resource" path="res://Gods/Morgan/Morgan.tres" id="8_morgan"]
+[ext_resource type="Resource" path="res://Gods/Odin/Odin.tres" id="9_odin"]
+[ext_resource type="Resource" path="res://Gods/Osiris/Osiris.tres" id="10_osiris"]
+[ext_resource type="Resource" path="res://Gods/Poseidon/Poseidon.tres" id="11_poseidon"]
+[ext_resource type="Resource" path="res://Gods/Samdi/Samdi.tres" id="12_samdi"]
+[ext_resource type="Resource" path="res://Gods/Set/Set.tres" id="13_set"]
+[ext_resource type="Resource" path="res://Gods/Shiva/Shiva.tres" id="14_shiva"]
+[ext_resource type="Resource" path="res://Gods/Susanoo/Susanoo.tres" id="15_susanoo"]
+[ext_resource type="Resource" path="res://Gods/Thor/thor.tres" id="16_thor"]
+[ext_resource type="Resource" path="res://Gods/Zeus/zeus.tres" id="17_zeus"]
+[ext_resource type="Resource" path="res://Main_characters/Lena/Lena.tres" id="18_lena"]
+[ext_resource type="Resource" path="res://Main_characters/Myth/Myth.tres" id="19_myth"]
 
 [sub_resource type="Resource" id="Profile_0"]
 script = ExtResource("1_profile")
@@ -10,6 +27,7 @@ default_sprite_path = "res://Gods/Chernobog/Chernobog.png"
 default_mirror_layout = true
 auto_fill_sprite = true
 auto_fill_layout = true
+character = ExtResource("3_chernobog")
 metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
 
 [sub_resource type="Resource" id="Profile_1"]
@@ -19,6 +37,7 @@ default_sprite_path = "res://Gods/Duna/Duna.png"
 default_mirror_layout = true
 auto_fill_sprite = true
 auto_fill_layout = true
+character = ExtResource("4_duna")
 metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
 
 [sub_resource type="Resource" id="Profile_2"]
@@ -28,6 +47,7 @@ default_sprite_path = "res://Gods/Hades/Hades.png"
 default_mirror_layout = true
 auto_fill_sprite = true
 auto_fill_layout = true
+character = ExtResource("5_hades")
 metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
 
 [sub_resource type="Resource" id="Profile_3"]
@@ -37,6 +57,7 @@ default_sprite_path = "res://Gods/Koschei/Koshei.png"
 default_mirror_layout = true
 auto_fill_sprite = true
 auto_fill_layout = true
+character = ExtResource("6_koschei")
 metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
 
 [sub_resource type="Resource" id="Profile_4"]
@@ -46,6 +67,7 @@ default_sprite_path = "res://Gods/Loki/Loki.png"
 default_mirror_layout = true
 auto_fill_sprite = true
 auto_fill_layout = true
+character = ExtResource("7_loki")
 metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
 
 [sub_resource type="Resource" id="Profile_5"]
@@ -56,6 +78,7 @@ default_sprite_path = "res://Gods/Morgan/Morgana.png"
 default_mirror_layout = true
 auto_fill_sprite = true
 auto_fill_layout = true
+character = ExtResource("8_morgan")
 metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
 
 [sub_resource type="Resource" id="Profile_6"]
@@ -65,6 +88,7 @@ default_sprite_path = "res://Gods/Odin/Odin.png"
 default_mirror_layout = true
 auto_fill_sprite = true
 auto_fill_layout = true
+character = ExtResource("9_odin")
 metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
 
 [sub_resource type="Resource" id="Profile_7"]
@@ -74,6 +98,7 @@ default_sprite_path = "res://Gods/Osiris/Osiris.png"
 default_mirror_layout = true
 auto_fill_sprite = true
 auto_fill_layout = true
+character = ExtResource("10_osiris")
 metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
 
 [sub_resource type="Resource" id="Profile_8"]
@@ -83,6 +108,7 @@ default_sprite_path = "res://Gods/Poseidon/Poseidon.png"
 default_mirror_layout = true
 auto_fill_sprite = true
 auto_fill_layout = true
+character = ExtResource("11_poseidon")
 metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
 
 [sub_resource type="Resource" id="Profile_9"]
@@ -92,6 +118,7 @@ default_sprite_path = "res://Gods/Samdi/Samdi.png"
 default_mirror_layout = true
 auto_fill_sprite = true
 auto_fill_layout = true
+character = ExtResource("12_samdi")
 metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
 
 [sub_resource type="Resource" id="Profile_10"]
@@ -101,6 +128,7 @@ default_sprite_path = "res://Gods/Set/Set.png"
 default_mirror_layout = true
 auto_fill_sprite = true
 auto_fill_layout = true
+character = ExtResource("13_set")
 metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
 
 [sub_resource type="Resource" id="Profile_11"]
@@ -110,6 +138,7 @@ default_sprite_path = "res://Gods/Shiva/Shiva.png"
 default_mirror_layout = true
 auto_fill_sprite = true
 auto_fill_layout = true
+character = ExtResource("14_shiva")
 metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
 
 [sub_resource type="Resource" id="Profile_12"]
@@ -119,6 +148,7 @@ default_sprite_path = "res://Gods/Susanoo/Susanoo.png"
 default_mirror_layout = true
 auto_fill_sprite = true
 auto_fill_layout = true
+character = ExtResource("15_susanoo")
 metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
 
 [sub_resource type="Resource" id="Profile_13"]
@@ -128,6 +158,7 @@ default_sprite_path = "res://Gods/Thor/Thor.png"
 default_mirror_layout = true
 auto_fill_sprite = true
 auto_fill_layout = true
+character = ExtResource("16_thor")
 metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
 
 [sub_resource type="Resource" id="Profile_14"]
@@ -137,6 +168,7 @@ default_sprite_path = "res://Gods/Zeus/Zeus.png"
 default_mirror_layout = true
 auto_fill_sprite = true
 auto_fill_layout = true
+character = ExtResource("17_zeus")
 metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
 
 [sub_resource type="Resource" id="Profile_15"]
@@ -146,15 +178,18 @@ default_sprite_path = "res://Main_characters/Lena/Lena_surprised.png"
 default_mirror_layout = false
 auto_fill_sprite = true
 auto_fill_layout = false
+character = ExtResource("18_lena")
 metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
 
 [sub_resource type="Resource" id="Profile_16"]
 script = ExtResource("1_profile")
 speaker_name = "Миф"
+aliases = Array[String](["Голос"])
 default_sprite_path = "res://Main_characters/Myth/Myth_Ironic.png"
-default_mirror_layout = false
+default_mirror_layout = true
 auto_fill_sprite = true
-auto_fill_layout = false
+auto_fill_layout = true
+character = ExtResource("19_myth")
 metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
 
 [resource]

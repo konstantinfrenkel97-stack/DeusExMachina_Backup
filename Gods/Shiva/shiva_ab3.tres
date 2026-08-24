@@ -8,6 +8,7 @@ icon_path = "uid://d0btsg3x70cuh"
 name = "Аватара"
 description = "Вперед 2. Получи 2 случайных баффа на 3 хода"
 damage_modifier = 0.0
+majesty_gain = 30
 target_type = "Self"
 usable_from_positions = Array[bool]([false, false, true, true])
 ability_marker = "shiva_avatar"

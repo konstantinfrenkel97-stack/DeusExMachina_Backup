@@ -1,0 +1,142 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Depth/Merman_Warrior/Merman_Warrior.tres" id="enemy_merman"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Depth/Mermaid_Sorceress/Mermaid_Sorceress.tres" id="enemy_sorceress"]
+[ext_resource type="Resource" path="res://Gods/Poseidon/Poseidon.tres" id="god_poseidon"]
+[ext_resource type="Resource" path="res://Essence/essence_chaos.tres" id="res_essence_chaos"]
+[ext_resource type="Resource" path="res://Items/Trinkets/Unique/shiny_pearl.tres" id="item_shiny_pearl"]
+
+[sub_resource type="Resource" id="form_pearl"]
+script = ExtResource("formation_script")
+formation_name = "Магия жемчужины: русал воин-русалка жрица-русалка жрица-русалка жрица"
+pos1 = ExtResource("enemy_merman")
+pos2 = ExtResource("enemy_sorceress")
+pos3 = ExtResource("enemy_sorceress")
+pos4 = ExtResource("enemy_sorceress")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="buff_enemy_dmg10_r1"]
+script = ExtResource("buff_script")
+stat = 0
+value = 10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_enemy_dmg10_r1_all"]
+script = ExtResource("unit_modifier_script")
+target_position = 0
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_enemy_dmg10_r1")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v1"]
+script = ExtResource("battle_script")
+formation = SubResource("form_pearl")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_enemy_dmg10_r1_all")])
+location_id = "depths"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="reward_pearl_item"]
+script = ExtResource("reward_script")
+kind = 0
+resource = ExtResource("item_shiny_pearl")
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_v1"]
+script = ExtResource("outcome_script")
+result_text = "Глядя девушке прямо в глаза, вы вынимаете жемчужину из ракушки и зажимаете в кулаке. Ее глаза расширяются, а зрачки сужаются. Она отплывает и делает резкий жест рукой. Из ее сумки вылетает другая жемчужина, гораздо меньше. Она взлетает над головой русалки и начинает, светясь ярко красным, издавать тревожные волнения через воду. Вскоре к вам плывут другие жрицы и их охранники. На лицах выражение праведного гнева. Девушка указывает на вас пальцем и что-то говорит на незнакомом шипящем языке. Прибывшие оборачиваются к вам, готовые отбить добычу."
+battle = SubResource("battle_v1")
+rewards = [SubResource("reward_pearl_item")]
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v1"]
+script = ExtResource("choice_script")
+choice_text = "Забрать жемчужину себе"
+outcome = SubResource("out_v1")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+stat_label = "Удача"
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="buff_hero_init_plus2_next_battle"]
+script = ExtResource("buff_script")
+stat = 6
+value = 2
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_v2_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы аккуратно отходите от раковины, жестами показывая русалке, что она может забрать жемчужину. Та с опаской, не отводя взгляд, подплывает к ракушке и аккуратно, двумя пальцами, вынимает сокровище и прячет в ладошке. После чего резко отплывает на безопасное расстояние. Вы провожаете ее взглядом. Ситуация кажется исчерпана.
+Но не похоже, что русалка так думает. Она выпускает жемчужину, та замирает в воде на уровне ее груди. Девушка делает несколько плавных жестов, рисуя ладонями круги вокруг блестящего шарика. Внезапно вы чувствуете, как вода начинает легче обтекать вашу кожу. Вы чувствуете себя естественнее, легче. Буквально как рыба в воде.
+Русалка прекращает колдовать и, робко помахав вам рукой, уплывает к своим соплеменникам."
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_init_plus2_next_battle")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="battle_v2_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_pearl")
+location_id = "depths"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v2_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы аккуратно отходите от раковины, жестами показывая русалке, что она может забрать жемчужину. Та с опаской, не отводя взгляд, подплывает к ракушке и аккуратно, двумя пальцами, вынимает сокровище и прячет в ладошке. После чего резко отплывает на безопасное расстояние. Вы провожаете ее взглядом. Ситуация кажется исчерпана.
+Но не похоже, что русалка так считает. Она быстро отплывает к своим сородичам и что-то им говорит, указывая на вас. Вскоре вас окружают русалы и русалки, угрожающе направляющие на вас оружие. Среди них и изначальная девушка, глядящая на вас, уперев руки в бока и обиженно поджав губы. Видимо, вам не дано узнать, чем была вызвана русалья враждебность."
+battle = SubResource("battle_v2_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v2"]
+script = ExtResource("choice_script")
+choice_text = "Отдать жемчужину"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_v2_success")
+failure_outcome = SubResource("out_v2_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="reward_chaos_essence"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("res_essence_chaos")
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_v3"]
+script = ExtResource("outcome_script")
+result_text = "Посейдон выходит вперед и, склонившись на одно колено, аккуратно берет жемчужину, не отводя взгляда от русалки. Та сжимает губы и делает резкое движение. Откуда ни возьмись перед ней появляется несколько жемчужин.
+Посейдон же делает плавный жест рукой и поворачивает ее открытой ладонью вниз. Но жемчужина не выпадает. Он убирает руку, и та остается висеть в воде. Русалка осторожно смотрит на нее и приближается. Посейдон делает мягкое плавное движение рукой вокруг жемчужины. Та начинает медленно вращаться, и по воде расползаются лоскуты света разных цветов. Русалка смотрит не моргая.
+Руки Посейдона начинают танцевать вокруг жемчужины. Да следуют за руками, плетясь, все более крупные и яркие узоры. Словно цветок из света распускается на дне моря.
+Девушка присоединяется. Ее жемчужины следуют за ее руками и кружатся вокруг радужной жемчужины, как спутники вокруг планеты. Узоры все разрастаются и усложняются. Вы замечаете множество русалов и русалок, окруживших вас со всех сторон. Они завороженно наблюдают за световым представлением.
+Наконец радужный цветок распускается окончательно и, высунув, распадается на маленькие кусочки света, которые, как рыбки, расплываются вокруг, растворяясь в воде. Посейдон берет жемчужину в руку и передаёт русалке. Та торжественно принимает.
+Те, кто наблюдал представление, упирают два пальца в шею, под подбородком, и все вместе издают высокий горловой звук. Посейдон величественно стоит, расправив плечи, пока звук не остановился и русалы не вернулись к своим занятиям. После чего бог возвращается к вам, смущенно улыбаясь.
+«Давно не практиковался в жемчужных чарах. Выглядит эффектно, но на самом деле это самый начальный уровень.»
+Отряд продолжает на него смотреть, из-за чего тот заметно смущается.
+«Ну мы это... Поплывем дальше?»
+И вы поплыли."
+rewards = [SubResource("reward_chaos_essence")]
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v3"]
+script = ExtResource("choice_script")
+choice_text = "Призвать магию жемчужины"
+required_god = ExtResource("god_poseidon")
+outcome = SubResource("out_v3")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Магия жемчужины"
+body_text = "Вы плывёте между подводных скал, у самого дна. По морским меркам тут неглубоко, виднеется далекий свет верхнего мира. Но ваши глаза привлекают другое. В землю зарыты разноцветные блестящие ракушки. На расстоянии вы видите русалок с яркими хвостами. Они подбирают ракушки и аккуратно открывают. Из некоторых достают светящиеся жемчужины.
+Зрелище кажется вам довольно красивым, но, не желая быть замеченными, вы отступаете дальше в скалы. И тут один из богов поддевает ногой ракушку, скрытую под песком. Та раскрывается и открывает вам прекрасную жемчужину. Она переливается всеми цветами радуги и размером со спелую черешню.
+Ее чарующий вид гипнотизирует вас, но вы замечаете девушку-русалку, которая смотрит на жемчужину широкими глазами из-за скалы. Она переводит взгляд на вас. Вы пересекаетесь глазами."
+choices = [SubResource("choice_v1"), SubResource("choice_v2"), SubResource("choice_v3")]

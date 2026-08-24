@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://ch6xhb8u6n6hu"]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_wr17e"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_rdt7w"]
+
+[resource]
+script = ExtResource("2_rdt7w")
+dialogue_sprite_scale_percent = 113.0
+dialogue_sprite_y_offset_percent = -15.0
+metadata/_custom_type_script = "uid://briall6wwu3rx"

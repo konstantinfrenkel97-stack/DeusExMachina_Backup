@@ -1,38 +1,32 @@
-[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3 uid="uid://car5r1wpsddkj"]
 
-[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
-[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
-[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
-[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
-[ext_resource type="Resource" path="res://Enemies/Dungeon/Hellheim/Jotun/jotun.tres" id="enemy_jotun"]
-[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
-[ext_resource type="Resource" path="res://Essence/essence_nature.tres" id="essence_nature"]
-[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
-[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
-[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
-[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Resource" uid="uid://d2ito8l7pabxp" path="res://Enemies/Dungeon/Hellheim/Jotun/jotun.tres" id="enemy_jotun"]
+[ext_resource type="Resource" uid="uid://dkjfjueiqpofu" path="res://Essence/essence_nature.tres" id="essence_nature"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://dutn5fch4d8b5" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
 
-[sub_resource type="Resource" id="form_jotun"]
-script = ExtResource("formation_script")
-formation_name = "Сердце ледника: Йотун"
-pos1 = ExtResource("enemy_jotun")
-pos2 = null
-pos3 = null
-pos4 = null
-metadata/_custom_type_script = ExtResource("formation_script")
+[sub_resource type="Resource" id="out_leave"]
+script = ExtResource("outcome_script")
+result_text = "Осмотрев заледеневшее тело, вы решаете уйти. Отправившись дальше, вы кидаете последний взгляд на ледник, спрашивая себя, как долго пробудет великан в ледяном плену."
+metadata/_custom_type_script = ExtResource("outcome_script")
 
-[sub_resource type="Resource" id="reward_nature_essence"]
-script = ExtResource("reward_script")
-kind = 1
-resource = ExtResource("essence_nature")
-amount = 1
-metadata/_custom_type_script = ExtResource("reward_script")
+[sub_resource type="Resource" id="choice_leave"]
+script = ExtResource("choice_script")
+choice_text = "Просто уйти"
+outcome = SubResource("out_leave")
+metadata/_custom_type_script = ExtResource("choice_script")
 
 [sub_resource type="Resource" id="buff_jotun_regen5"]
 script = ExtResource("buff_script")
 stat = 8
 value = 5
-duration = -1
 metadata/_custom_type_script = ExtResource("buff_script")
 
 [sub_resource type="Resource" id="mod_jotun_regen5"]
@@ -41,22 +35,40 @@ target_position = 1
 buffs = Array[ExtResource("buff_script")]([SubResource("buff_jotun_regen5")])
 metadata/_custom_type_script = ExtResource("unit_modifier_script")
 
+[sub_resource type="Resource" id="form_jotun"]
+script = ExtResource("formation_script")
+formation_name = "Сердце ледника: Йотун"
+pos1 = ExtResource("enemy_jotun")
+metadata/_custom_type_script = ExtResource("formation_script")
+
 [sub_resource type="Resource" id="battle_normal"]
 script = ExtResource("battle_script")
 formation = SubResource("form_jotun")
-location_id = "helheim"
 enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_jotun_regen5")])
+location_id = "helheim"
 metadata/_custom_type_script = ExtResource("battle_script")
 
-[sub_resource type="Resource" id="mod_jotun_hp50"]
-script = ExtResource("unit_modifier_script")
-target_position = 1
-hp_percent = 50
-metadata/_custom_type_script = ExtResource("unit_modifier_script")
+[sub_resource type="Resource" id="reward_nature_essence"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_nature")
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_touch"]
+script = ExtResource("outcome_script")
+result_text = "Вы кладете ладони на живот великана, докуда можете дотянуться. Вы чувствуете холод, он проникает в вас через кожу, расползаясь по телу. Но постепенно вы замечаете, что не только холод проникает в вас, но и вы погружаетесь в холод. В тело йотуна, оттуда в тело ледника. Вы чувствуете мерное сердцебиение. Оно сливается с вашим. Когда вы открываете глаза, пара синих глаз смотрит на вас сверху вниз. Эффект сцены: у Йотуна должна быть регенерация 5% до конца боя."
+battle = SubResource("battle_normal")
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_nature_essence")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_touch"]
+script = ExtResource("choice_script")
+choice_text = "Прикоснуться к Йотуну"
+outcome = SubResource("out_touch")
+metadata/_custom_type_script = ExtResource("choice_script")
 
 [sub_resource type="Resource" id="buff_damage_plus20"]
 script = ExtResource("buff_script")
-stat = 0
 value = 20
 duration = 1
 metadata/_custom_type_script = ExtResource("buff_script")
@@ -68,60 +80,41 @@ hp_percent = 95
 buffs = Array[ExtResource("buff_script")]([SubResource("buff_damage_plus20")])
 metadata/_custom_type_script = ExtResource("unit_modifier_script")
 
-[sub_resource type="Resource" id="battle_hp50"]
-script = ExtResource("battle_script")
-formation = SubResource("form_jotun")
-location_id = "helheim"
-enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_jotun_hp50"), SubResource("mod_jotun_regen5")])
-metadata/_custom_type_script = ExtResource("battle_script")
-
 [sub_resource type="Resource" id="battle_hp95"]
 script = ExtResource("battle_script")
 formation = SubResource("form_jotun")
-location_id = "helheim"
 enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_jotun_hp95_attack"), SubResource("mod_jotun_regen5")])
+location_id = "helheim"
 metadata/_custom_type_script = ExtResource("battle_script")
-
-[sub_resource type="Resource" id="out_leave"]
-script = ExtResource("outcome_script")
-result_text = "Осмотрев заледеневшее тело вы решаете уйти. Отправившись дальше вы кидаете последний взгляд на ледник, спрашивая себя как долго пробудет великан в ледяном плену."
-metadata/_custom_type_script = ExtResource("outcome_script")
-
-[sub_resource type="Resource" id="out_touch"]
-script = ExtResource("outcome_script")
-result_text = "Вы кладете ладони на живот великана, до куда можете дотянуться. Вы чувствуете холод, он проникает в вас через кожу, расползаясь по телу. Но постепенно вы замечаете что не только холод проникает в вас, но и вы погружаетесь в холод. В тело йотуна, оттуда в тело ледника. Вы чувствуете мерное сердцебиение. Оно сливается с вашим. Когда вы открываете глаза, пара синих глаз смотрит на вас сверху вниз. Эффект сцены: у Йотуна должна быть регенерация 5% до конца боя."
-battle = SubResource("battle_normal")
-rewards = [SubResource("reward_nature_essence")]
-metadata/_custom_type_script = ExtResource("outcome_script")
-
-[sub_resource type="Resource" id="out_kill_success"]
-script = ExtResource("outcome_script")
-result_text = "Вы пытаетесь одним махом прикончить существо. Однако оружие войдя в грудную клетку застревает там. Глаза великана распахиваются. Снова и снова вы обрушиваете оружие на его грудь, пока великан выламывает себя из ледяного плена. Когда он наконец предстает перед вами, его торс весь покрыт глубокими порезами, окрашенными заледеневшей кровью. Эффект сцены: у Йотуна должна быть регенерация 5% до конца боя."
-battle = SubResource("battle_hp50")
-metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="out_kill_fail"]
 script = ExtResource("outcome_script")
-result_text = "Вы пытаетесь одним махом прикончить существо. Однако оружие отскакивает от оледеневшей кожи гиганта. Вы слышите треск, когда лед начинает разваливаться от силы могучих мышц. Вы снова пытаетесь убить тварь прежде чем она высвободится, но уже поздно. Мощь ледяного великана обрушивается на вас со всей яростью. Эффект сцены: у Йотуна должна быть регенерация 5% до конца боя."
+result_text = "Вы пытаетесь одним махом прикончить существо. Однако оружие отскакивает от оледеневшей кожи гиганта. Вы слышите треск, когда лед начинает разваливаться от силы могучих мышц. Вы снова пытаетесь убить тварь, прежде чем она высвободится, но уже поздно. Мощь ледяного великана обрушивается на вас со всей яростью. Эффект сцены: у Йотуна должна быть регенерация 5% до конца боя."
 battle = SubResource("battle_hp95")
 metadata/_custom_type_script = ExtResource("outcome_script")
 
-[sub_resource type="Resource" id="choice_leave"]
-script = ExtResource("choice_script")
-choice_text = "Просто уйти"
-outcome = SubResource("out_leave")
-metadata/_custom_type_script = ExtResource("choice_script")
-
-[sub_resource type="Resource" id="choice_touch"]
-script = ExtResource("choice_script")
-choice_text = "Прикоснуться к Йотуну"
-outcome = SubResource("out_touch")
-metadata/_custom_type_script = ExtResource("choice_script")
-
 [sub_resource type="Resource" id="check_attack"]
 script = ExtResource("stat_check_script")
-stat = 0
 metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="mod_jotun_hp50"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+hp_percent = 50
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_hp50"]
+script = ExtResource("battle_script")
+formation = SubResource("form_jotun")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_jotun_hp50"), SubResource("mod_jotun_regen5")])
+location_id = "helheim"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_kill_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы пытаетесь одним махом прикончить существо. Однако оружие, войдя в грудную клетку, застревает там. Глаза великана распахиваются. Снова и снова вы обрушиваете оружие на его грудь, пока великан выламывает себя из ледяного плена. Когда он наконец предстает перед вами, его торс весь покрыт глубокими порезами, окрашенными заледеневшей кровью. Эффект сцены: у Йотуна должна быть регенерация 5% до конца боя."
+battle = SubResource("battle_hp50")
+metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_kill"]
 script = ExtResource("choice_script")
@@ -134,5 +127,5 @@ metadata/_custom_type_script = ExtResource("choice_script")
 [resource]
 script = ExtResource("scene_script")
 scene_title = "Сердце ледника"
-body_text = "Окружающий воздух становится все холоднее, вы слышите легкий хруст у себя под ногами. Вскоре перед вами предстает величественный ледник. Какое-то время вы наблюдаете бело-синюю громадину, и когда вы собираетесь идти дальше, вы замечаете силуэт похожий на человеческий. В плоть ледника врезан огромный великан. Его тело наполовину погружено в лед. Глаза закрыты, и ни одна мышца не движется, и все же какое-то чутье подсказывает вам что он жив."
-choices = [SubResource("choice_leave"), SubResource("choice_touch"), SubResource("choice_kill")]
+body_text = "Окружающий воздух становится все холоднее, вы слышите легкий хруст у себя под ногами. Вскоре перед вами предстает величественный ледник. Какое-то время вы наблюдаете бело-синюю громадину, и когда вы собираетесь идти дальше, вы замечаете силуэт, похожий на человеческий. В плоть ледника врезан огромный великан. Его тело наполовину погружено в лед. Глаза закрыты, и ни одна мышца не движется, и все же какое-то чутье подсказывает вам, что он жив."
+choices = Array[ExtResource("choice_script")]([SubResource("choice_leave"), SubResource("choice_touch"), SubResource("choice_kill")])

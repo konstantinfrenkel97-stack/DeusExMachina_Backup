@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://cweeb7y1dnwwq"]
 
+[ext_resource type="Texture2D" uid="uid://cxy2107rb66ed" path="res://Gods/Duna/Root_shield_icon.png" id="1_2q75q"]
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
 
 [resource]
@@ -8,6 +9,11 @@ icon_path = "uid://bwnx7gqb35pta"
 name = "Защита из корней"
 description = "Союзник получает 20% брони. Атакующие получают 40% урона в ответ"
 damage_modifier = 0.0
+majesty_gain = 15
 target_type = "Ally"
 ability_marker = "duna_root_protection"
+mark_type_int = 2
+mark_target_team = "ally"
+mark_duration = 3
+mark_icon = ExtResource("1_2q75q")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

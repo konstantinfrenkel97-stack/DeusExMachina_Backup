@@ -7,6 +7,7 @@ script = ExtResource("1_ab")
 icon_path = "uid://cqyxs3uau557v"
 name = "Король Асгарда"
 description = "Получает +5 урона на 1 ход. Продлевает действие баффов урона на себе на 1 ход."
+majesty_gain = 15
 effect_types = Array[String](["self_buff_damage"])
 effect_values = Dictionary[String, int]({
 "self_buff_damage": 5

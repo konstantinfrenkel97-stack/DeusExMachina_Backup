@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="AbilityResource" format=3]
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://cnw6koeuamna2"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
 
@@ -6,9 +6,10 @@
 script = ExtResource("1_ab")
 name = "Неудержимое цветение"
 description = "Все противники получают 5%% регенерации и периодический урон (15%% от урона феи) на 2 хода."
+damage_modifier = 0.0
 majesty_gain = 0
-ability_marker = "flower_unstoppable_bloom"
 target_type = "All_Enemies"
 usable_from_positions = Array[bool]([false, true, true, false])
 targetable_positions = Array[bool]([false, false, false, false])
+ability_marker = "flower_unstoppable_bloom"
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

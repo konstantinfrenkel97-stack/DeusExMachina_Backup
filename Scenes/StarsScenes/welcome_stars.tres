@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Enemies/Sky/Stars/Aries/aries.tres" id="ext_1"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Stars/Aquarius/aquarius.tres" id="ext_2"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+
+[sub_resource type="Resource" id="sr_001"]
+script = ExtResource("formation_script")
+formation_name = "Дети звезд"
+pos1 = ExtResource("ext_1")
+pos2 = ExtResource("ext_1")
+pos3 = ExtResource("ext_2")
+pos4 = ExtResource("ext_2")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="sr_002"]
+script = ExtResource("battle_script")
+formation = SubResource("sr_001")
+location_id = "stars"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="sr_003"]
+script = ExtResource("outcome_script")
+result_text = "Черная звездная поверхность обретает плотность: космический туман облепляет новообразовавшееся тело, придавая ему причудливые очертания. Один щурит единственный глаз, вороны тревожно каркают. «Любопытно… любопытно…»"
+battle = SubResource("sr_002")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_004"]
+script = ExtResource("choice_script")
+choice_text = "Звезды приветствуют вас"
+outcome = SubResource("sr_003")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Добро пожаловать в Звезды"
+body_text = "Перед вами открывается дорога из северного сияния. Вы не чувствуете воздуха в легких — но не чувствуете и удушья. Вокруг созвездия и космическая пыль, а вы идете по дороге из зеленоватого света.\n\nОдин погружен в мысли глубже обычного: «Этот мир совсем не похож на наш. Мир внутри мира? Древние верили, что по звездам можно предсказывать будущее…»\n\nВдруг черная звездная поверхность обретает плотность: космический туман складывается в тело, наподобие человеческого. Один щурит единственный глаз, вороны на плечах тревожно каркают.\n\n«Любопытно… любопытно…»"
+choices = [SubResource("sr_004")]

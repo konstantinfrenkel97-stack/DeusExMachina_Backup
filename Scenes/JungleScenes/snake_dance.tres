@@ -1,0 +1,216 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" load_steps=27 format=3]
+
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Jungle/Naga_warrior/naga_warrior.tres" id="enemy_naga_warrior"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Resource" path="res://Gods/Shiva/Shiva.tres" id="god_shiva"]
+[ext_resource type="Resource" path="res://Essence/essence_chaos.tres" id="essence_chaos"]
+
+[sub_resource type="Resource" id="form_nagas4"]
+script = ExtResource("formation_script")
+formation_name = "Танец змей: Нага воин x4"
+pos1 = ExtResource("enemy_naga_warrior")
+pos2 = ExtResource("enemy_naga_warrior")
+pos3 = ExtResource("enemy_naga_warrior")
+pos4 = ExtResource("enemy_naga_warrior")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("stat_check_script")
+stat = 4
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="buff_luck10_battle"]
+script = ExtResource("buff_script")
+stat = 1
+value = 10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_all_luck10"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_luck10_battle")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v1_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_nagas4")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_all_luck10")])
+hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_all_luck10")])
+location_id = "jungle"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v1_success"]
+script = ExtResource("outcome_script")
+result_text = "Сложно описать словами, что заставило вас принять такое решение. Какое-то наитие толкнуло не пытаться бежать и не занять позицию, а рвануть туда, где происходил боевой танец.
+Вы оказываетесь в окружении наг. Они несколько огорошены вашей дерзостью. Вы снова слышите барабан. Круг из зеленых хвостов начинает двигаться в синхронном ритме.
+Но и вы плывете на звуке барабана. Наги бросаются в атаку, но вы отбиваетесь. Потому что чувствуете ритм. Барабан превращает противников в один боевой организм, но вы тоже стали едины.
+Вы слились с нагами в едином танце боя."
+battle = SubResource("battle_v1_success")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="battle_v1_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_nagas4")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_all_luck10")])
+location_id = "jungle"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v1_fail"]
+script = ExtResource("outcome_script")
+result_text = "Сложно описать словами, что заставило вас принять такое решение. Какое-то наитие толкнуло не пытаться бежать и не занять позицию, а рвануть туда, где происходил боевой танец.
+Вы оказываетесь в окружении наг. Они несколько огорошены вашей дерзостью. Вы снова слышите барабан. Круг из зеленых хвостов начинает двигаться в синхронном ритме.
+Отбиваться от них совсем не просто. Они движутся в каком-то ритме, который вам никак не удаётся поймать. Стоит одному оседлать звук барабана, как он сбивается из-за рассинхрона с союзниками. Эта битва будет непростой."
+battle = SubResource("battle_v1_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v1"]
+script = ExtResource("choice_script")
+choice_text = "Рвануть на арену"
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_v1_success")
+failure_outcome = SubResource("out_v1_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_evasion"]
+script = ExtResource("stat_check_script")
+stat = 3
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_v2_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы бросаетесь в чащу лиан. За спиной шипение и шелест множества хвостов. Кажется целая орда змей преследует вас.
+Как можете, вы петляете между корнями и лианами, пока не находите какую-то пещеру в земле и не забиваетесь туда, готовые держать оборону.
+Но наги не приходят. То ли они потеряли вас, то ли прекратили преследование. В любом случае, вы избежали битвы."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="buff_luck15_1turn"]
+script = ExtResource("buff_script")
+stat = 1
+value = 15
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_naga_pos2_luck15"]
+script = ExtResource("unit_modifier_script")
+target_position = 2
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_luck15_1turn")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="mod_naga_pos3_luck15"]
+script = ExtResource("unit_modifier_script")
+target_position = 3
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_luck15_1turn")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="mod_naga_pos4_luck15"]
+script = ExtResource("unit_modifier_script")
+target_position = 4
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_luck15_1turn")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v2_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_nagas4")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_naga_pos2_luck15"), SubResource("mod_naga_pos3_luck15"), SubResource("mod_naga_pos4_luck15")])
+location_id = "jungle"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v2_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы бросаетесь в чащу лиан. За спиной шипение и шелест множества хвостов. Кажется целая орда змей преследует вас.
+Как можете, вы петляете между корнями и лианами, пока не находите какую-то пещеру в земле и не забиваетесь туда, готовые держать оборону.
+Первой заползает нага, чье лицо вымазано в маскировочной грязи. Видимо, одна из наблюдательниц, кто вас и заметил. Она издает свист и заползает еще несколько наг, одетых более церемониально. Вам не удалось избежать боя."
+battle = SubResource("battle_v2_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v2"]
+script = ExtResource("choice_script")
+choice_text = "Ускользнуть в джунгли"
+stat_check = SubResource("check_evasion")
+success_outcome = SubResource("out_v2_success")
+failure_outcome = SubResource("out_v2_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+stat_label = "Удача"
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="buff_shiva_luck10_mission"]
+script = ExtResource("buff_script")
+stat = 1
+value = 10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="reward_chaos_essence"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_chaos")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_v3_success"]
+script = ExtResource("outcome_script")
+result_text = "Шива разгоняется и совершает огромный прыжок, отделившись от группы. Он несколько раз отталкивается от воздуха как от земли, оставив на месте толчков маленькие облачка. В результате полета, он оказывается в центре арены, окруженный нагами.
+Те резко поворачиваются к нему. Он проводит ногой по вырезанному кругу. Они поднимают оружие. Он дважды ударяет себя ладонями по груди «Тум тум.» Наги взмахивают «Тум тум тум». Они бьют «Тум тум тум тум тум». Удары не достигают цели, вонзаясь в камень у ног божества. Женщины ошарашенно переглядываются. Словно что-то захватило контроль над их телами. «Тум ту-ту ту-тум» — к ударам по груди присоединяются удары по двойному барабану, который Шива носит с собой.
+«Тум тум тум» удары наг со свистом разрезают воздух. В них все меньше враждебности, все больше ритма. Хвосты извиваются в танце. Вы с замиранием сердца видите, как все плато превратилось в единый организм, движущийся в ритме в унисон. Даже вас захватывает музыка.
+Наконец, ритм становится тише, движения медленнее. Наги постепенно останавливаются. Шива и сам торжественно замирает, руки на барабане, в полном окружении.
+Вооруженные женщины сгибают хвосты и склоняются в почтительном поклоне. Бог кланяется в ответ. Смущенно отмахиваясь и широко улыбаясь, он возвращается к вам. Весь ваш отряд через что-то прошел."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_chaos_essence")])
+target_god = ExtResource("god_shiva")
+target_buffs = Array[ExtResource("buff_script")]([SubResource("buff_shiva_luck10_mission")])
+target_buffs_until_mission_end = true
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="battle_v3_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_nagas4")
+location_id = "jungle"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="buff_shiva_evasion_minus15_1turn"]
+script = ExtResource("buff_script")
+stat = 3
+value = -15
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_v3_fail"]
+script = ExtResource("outcome_script")
+result_text = "Шива разгоняется и совершает огромный прыжок, отделившись от группы. Он несколько раз отталкивается от воздуха как от земли, оставив на месте толчков маленькие облачка. В результате полета, он оказывается в центре арены, окруженный нагами.
+Те резко поворачиваются к нему. Он проводит ногой по вырезанному кругу. Они поднимают оружие. Он дважды ударяет себя ладонями по груди «Тум тум.»
+Наги на мгновение останавливаются в замешательстве, но сразу бросаются на бога. Он ловит ваш взгляд и жестами призывает поспешить на помощь. А чем бы ни был план, он привел только к тому, что бог оказался в окружении."
+battle = SubResource("battle_v3_fail")
+target_god = ExtResource("god_shiva")
+target_buffs = Array[ExtResource("buff_script")]([SubResource("buff_shiva_evasion_minus15_1turn")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v3"]
+script = ExtResource("choice_script")
+choice_text = "Начать новый танец"
+required_god = ExtResource("god_shiva")
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_v3_success")
+failure_outcome = SubResource("out_v3_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Танец змей"
+body_text = "По джунглям разносится ритмичный удар барабана. Но он какой-то странно мягкий. Хоть и слышен отчетливо, но не ощущается как удар. Даже тропические птицы не кажутся потревоженными звуком. Немного послушав, вы идете на звук.
+Выглянув за широкие зеленые листья, вы видите широкую каменную арену, освещенную солнцем. Поверхность украшена фигурами и резьбой, а по всей арене вооруженные женщины с хвостами змеи вместо ног синхронно то ли танцуют, то ли выполняют боевые упражнения. Одна женщина отбивает ритм в огромный барабан.
+Вы наблюдаете за гипнотическим боевым танцем. Их синхронность кажется нереальной, но не неестественной. Оружие, руки и хвосты движутся как волны под ветром. Идеальный баланс.
+Внезапно вы слышите крик за спиной.
+«Чужаки! Священный ритуал был нарушен! Хватайте их, сестры!»
+Звук барабана останавливается, и наги поворачиваются в вашу сторону."
+choices = [SubResource("choice_v1"), SubResource("choice_v2"), SubResource("choice_v3")]

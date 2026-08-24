@@ -8,6 +8,7 @@ icon_path = "uid://ryq5fipwogn"
 name = "Штиль"
 description = "Стойка. Если противник двигается, нанеси ему 70%% урона."
 damage_modifier = 0.0
+majesty_gain = 30
 target_type = "All_Enemies"
 usable_from_positions = Array[bool]([true, true, true, false])
 is_stance = true

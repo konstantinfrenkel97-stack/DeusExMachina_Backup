@@ -1,0 +1,180 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Enemies/Sea/Ships/Sailor/sailor.tres" id="ext_1"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Ships/Sailor_with_barrel/sailor_with_barrel.tres" id="ext_2"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Ships/Captain/captain.tres" id="ext_3"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+
+[sub_resource type="Resource" id="form_parrot"]
+script = ExtResource("formation_script")
+formation_name = "Матрос-Матрос-Матрос с бочкой-Капитан"
+pos1 = ExtResource("ext_1")
+pos2 = ExtResource("ext_1")
+pos3 = ExtResource("ext_2")
+pos4 = ExtResource("ext_3")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="buff_init_minus2_pos1"]
+script = ExtResource("buff_script")
+stat = 6
+value = -2
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="buff_init_minus2_pos2"]
+script = ExtResource("buff_script")
+stat = 6
+value = -2
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="buff_init_minus2_pos3"]
+script = ExtResource("buff_script")
+stat = 6
+value = -2
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_v1_pos1"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_init_minus2_pos1")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="mod_v1_pos2"]
+script = ExtResource("unit_modifier_script")
+target_position = 2
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_init_minus2_pos2")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="mod_v1_pos3"]
+script = ExtResource("unit_modifier_script")
+target_position = 3
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_init_minus2_pos3")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v1"]
+script = ExtResource("battle_script")
+formation = SubResource("form_parrot")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_v1_pos1"), SubResource("mod_v1_pos2"), SubResource("mod_v1_pos3")])
+location_id = "ships"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v1"]
+script = ExtResource("outcome_script")
+result_text = "Вы повторяете фразу, пока попугай не начал повторять за вами. После чего зеленое чудо вспорхнуло и полетело над головами моряков, крича: «Течь! Течь! В трюме течь!» На палубе началась суматоха. Часть моряков бросились на нижнюю палубу, другие пытались набиться в шлюпки. Из каюты в ярости выскочила капитан, в одной руке крюк, в другой пистолет. «Тупорылые крысы, совсем мозги пропили?! Это же просто попугай! Третий раз за месяц!» Она выстрелила в воздух. Паника начала затихать, и в этот момент она замечает вас. «Вы! Совсем там оборзели! Чему вы моего попугая учите!» Эффект: бой, у матросов и матроса с бочкой −2 инициативы на 1 ход."
+battle = SubResource("battle_v1")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v1"]
+script = ExtResource("choice_script")
+choice_text = "Течь! Течь! В трюме течь!"
+outcome = SubResource("out_v1")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_attack_minus5_pos1"]
+script = ExtResource("buff_script")
+stat = 0
+value = -5
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="buff_attack_minus5_pos2"]
+script = ExtResource("buff_script")
+stat = 0
+value = -5
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="buff_attack_minus5_pos3"]
+script = ExtResource("buff_script")
+stat = 0
+value = -5
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_v2_pos1"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_attack_minus5_pos1")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="mod_v2_pos2"]
+script = ExtResource("unit_modifier_script")
+target_position = 2
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_attack_minus5_pos2")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="mod_v2_pos3"]
+script = ExtResource("unit_modifier_script")
+target_position = 3
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_attack_minus5_pos3")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v2"]
+script = ExtResource("battle_script")
+formation = SubResource("form_parrot")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_v2_pos1"), SubResource("mod_v2_pos2"), SubResource("mod_v2_pos3")])
+location_id = "ships"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v2"]
+script = ExtResource("outcome_script")
+result_text = "Вы повторяете фразу, пока попугай не начал повторять за вами. После чего зеленое чудо вспорхнуло и полетело над головами моряков, крича: «Ром! Ром! Ром от капитана!» Матросы побросали работу и рванули к капитанской каюте. Оттуда вышла женщина в широкополой шляпе и какое-то время пыталась через гвалт разобраться, что от нее хотят. «Ром? Какой ром?! Нет никакого рома, а ну быстро за работу!» — прокричала она, заглушая толпу. Повисла тишина. «Нет рома?» — один из матросов поднял на нее широкие и грустные глаза. «Нет рома!» — рявкнула капитан. Медленно матросы потащились обратно, словно печальная тень накрыла палубу. Тогда-то вас и заметили. Эффект: бой, у матросов и матроса с бочкой −5 атаки на 1 ход."
+battle = SubResource("battle_v2")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v2"]
+script = ExtResource("choice_script")
+choice_text = "Ром! Ром! Ром от капитана!"
+outcome = SubResource("out_v2")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="mod_v3_pos1"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+hp_percent = 95
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="mod_v3_pos2"]
+script = ExtResource("unit_modifier_script")
+target_position = 2
+hp_percent = 95
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="mod_v3_pos3"]
+script = ExtResource("unit_modifier_script")
+target_position = 3
+hp_percent = 95
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v3"]
+script = ExtResource("battle_script")
+formation = SubResource("form_parrot")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_v3_pos1"), SubResource("mod_v3_pos2"), SubResource("mod_v3_pos3")])
+location_id = "ships"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v3"]
+script = ExtResource("outcome_script")
+result_text = "Вы повторяете фразу, пока попугай не начал повторять за вами. После чего зеленое чудо вспорхнуло и полетело над головами моряков, крича: «Слышь, урод! Слышь, урод!» Один из моряков обернулся к другому. «Это ты мне сейчас сказал?» «Совсем тупой, что ли? Нет. А даже если и да, ты и есть урод!» «Слышь! Да мне в драке нос сломали. Да я и так покрасивее тебя буду!» «Че?!» На палубе то тут, то там разгорались огни драки, пока это не переросло в массовую потасовку. Шум прорезал выстрел из пистолета в воздух. Посередине палубы стояла капитан. Попугай приземлился ей на плечо. «Ополоумели? Свиньи!» Драка прекратилась, капитан красными глазами оглядывала палубу и пересеклась с вами глазами. «Хотите кому-то врезать? Так врежьте вон тем крысам!» Эффект: бой, матросы и матрос с бочкой теряют 5% здоровья."
+battle = SubResource("battle_v3")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v3"]
+script = ExtResource("choice_script")
+choice_text = "Слышь, урод! Слышь, урод!"
+outcome = SubResource("out_v3")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Повторяй за мной"
+body_text = "На корабле кипит работа, и вас пока не замечают. Вы видите зеленого попугая, порхающего между матросов. Он замечает вас и садится на бочку, разглядывая вас умными глазами. Похоже, эта порода умеет имитировать человеческую речь."
+choices = [SubResource("choice_v1"), SubResource("choice_v2"), SubResource("choice_v3")]

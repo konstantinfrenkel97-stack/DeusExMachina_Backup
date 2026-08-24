@@ -9,15 +9,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Гном щитовик"
+max_hp = 90
+damage = 17
+armor = 15
+initiative = 4
+accuracy = 75
+evasion = 6
+crit_chance = 0.04
 sprite_path = "res://Enemies/Dungeon/Tunnels/Dwarf_shield/Dwarf_Shield.png"
 face_sprite = "res://Enemies/Dungeon/Tunnels/Dwarf_shield/Dwarf_Shiled_Face.png"
 battle_sprite_scale_percent = 110.0
-max_hp = 50
-damage = 8
-armor = 10
-initiative = 4
-accuracy = 85
-evasion = 5
 special_effect_type = "dwarf_shield_back_protect"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_ngdtc"), ExtResource("3_rr5oy")])
 ai_script = ExtResource("4_ai")

@@ -19,11 +19,19 @@ static func get_decision(monster: Combatant, heroes: Array) -> Dictionary:
 	if usable.is_empty():
 		return {}
 
-	# Проверяем, активна ли уже марка (ищем в active_effects маркер bolotnoe_tsarstvo)
+	# Проверяем, активна ли уже марка «Болотное царство» на ком-то из героев
+	# (сама марка хранится в BattleMarks и недоступна отсюда напрямую, поэтому
+	# используем тот же приём, что и у Феи шипов: метка узнаётся по effect_id
+	# на цели, на которую был применён эффект марки).
 	var mark_active = false
-	for e in monster.active_effects:
-		if Combatant._effect_get(e, "source_ability", "") == "bolotnoe_tsarstvo":
-			mark_active = true
+	for h in heroes:
+		if h == null or h.current_hp <= 0:
+			continue
+		for e in h.active_effects:
+			if Combatant._effect_get(e, "effect_id", "") == "bolotnoe_tsarstvo_mark":
+				mark_active = true
+				break
+		if mark_active:
 			break
 
 	# Если марка не активна — 70% шанс применить её

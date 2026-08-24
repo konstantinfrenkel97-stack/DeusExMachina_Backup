@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Бросок"
+description = "Наносит 140% урона; продвигается вперёд на 2 позицию."
 damage_modifier = 1.4
 majesty_gain = 0
 effect_types = Array[String](["self_push_forward"])

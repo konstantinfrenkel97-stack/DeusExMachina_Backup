@@ -6,6 +6,7 @@
 script = ExtResource("1_2bqte")
 icon_path = "uid://d2j1ljcauf1ye"
 name = "Метнуть Мйолнир"
+description = "Наносит 50% урона и притягивает Тора вперёд."
 damage_modifier = 0.5
 majesty_gain = 15
 effect_types = Array[String](["self_pull_forward"])
@@ -13,5 +14,5 @@ effect_values = Dictionary[String, int]({
 "self_pull_forward": 2
 })
 usable_from_positions = Array[bool]([false, false, true, true])
-targetable_positions = Array[bool]([true, true, true, false])
+targetable_positions = Array[bool]([true, true, true, true])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

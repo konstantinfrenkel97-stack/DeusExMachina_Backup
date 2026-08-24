@@ -25,6 +25,64 @@ var treasury: Array[String] = []
 var available_missions: Array[String] = []
 var pages: int = 0
 
+## Сюжетные флаги вступления. Одноразовые, без отката назад.
+var before_first_battle_played: bool = false
+var first_battle_completed: bool = false
+var before_doors_played: bool = false
+
+## Локации, чью дверь уже открыл соответствующий бог (выбор "Открыть дверь" в его
+## диалоге). Хранится как отображаемое имя локации — то же, что в
+## Doors/doors.gd::LOCATIONS_CLOCKWISE / LOCATION_DOORS.
+var opened_locations: Array[String] = []
+
+## Папка бога (Gods/<Folder>/...) → локация, которую он открывает.
+const GOD_FOLDER_TO_LOCATION := {
+	"Loki": "Хельхейм",
+	"Hades": "Ад",
+	"Thor": "Тоннели",
+	"Chernobog": "Облака",
+	"Odin": "Звезды",
+	"Zeus": "Горы",
+	"Koschei": "Топь",
+	"Duna": "Сад",
+	"Shiva": "Джунгли",
+	"Osiris": "Пустыня",
+	"Set": "Арена",
+	"Morgan": "Замок",
+	"Samdi": "Корабли",
+	"Poseidon": "Глубина",
+	"Susanoo": "Острова",
+}
+
+## Локация → путь к её миссии "Welcome_to_<локация>". Локации без записи здесь
+## ещё не имеют авторизованной миссии — дверь всё равно откроется, но входа
+## пока не будет (см. Doors/doors.gd::_on_location_selected).
+const LOCATION_TO_WELCOME_MISSION := {
+	"Хельхейм": "res://Missions/Helheim/welcome_to_helheim_mission.tres",
+	"Ад": "res://Missions/Hell/welcome_to_hell.tres",
+	"Тоннели": "res://Missions/Tunnels/welcome_to_tunnels.tres",
+	"Облака": "res://Missions/Clouds/welcome_to_clouds.tres",
+	"Острова": "res://Missions/Islands/welcome_to_islands.tres",
+	"Звезды": "res://Missions/Stars/welcome_to_stars.tres",
+	"Пустыня": "res://Missions/Desert/welcome_to_desert.tres",
+	"Арена": "res://Missions/Arena/welcome_to_arena.tres",
+	"Замок": "res://Missions/Castle/welcome_to_castle.tres",
+	"Корабли": "res://Missions/Ships/welcome_to_ships.tres",
+	"Горы": "res://Missions/Peaks/welcome_to_mountains.tres",
+	"Топь": "res://Missions/Marsh/welcome_to_swamp.tres",
+	"Сад": "res://Missions/Garden/welcome_to_garden.tres",
+	"Глубина": "res://Missions/Depth/welcome_to_depths.tres",
+	"Джунгли": "res://Missions/Jungle/welcome_to_jungle.tres",
+}
+
+func open_location(location: String) -> void:
+	var clean := location.strip_edges()
+	if clean != "" and not opened_locations.has(clean):
+		opened_locations.append(clean)
+
+func is_location_opened(location: String) -> bool:
+	return opened_locations.has(location.strip_edges())
+
 const MIN_GOD_LEVEL := 1
 const MAX_GOD_LEVEL := 6
 const ULTIMATE_UPGRADE_LEVEL := 6
@@ -97,6 +155,10 @@ func reset_all() -> void:
 	treasury.clear()
 	available_missions.clear()
 	pages = 0
+	before_first_battle_played = false
+	first_battle_completed = false
+	before_doors_played = false
+	opened_locations.clear()
 	clear_god_state_overrides()
 	reset_currency_amounts()
 	roster_changed.emit()

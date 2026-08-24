@@ -9,15 +9,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Овен"
+max_hp = 83
+damage = 24
+armor = 12
+initiative = 4
+accuracy = 76
+evasion = 8
+crit_chance = 0.07
 sprite_path = "res://Enemies/Sky/Stars/Aries/Aries.png"
 face_sprite = "res://Enemies/Sky/Stars/Aries/Aries_face.png"
 battle_sprite_scale_percent = 99.0
-max_hp = 90
-damage = 30
-armor = 15
-initiative = 4
-accuracy = 80
-evasion = 5
 special_effect_type = "aries_path_buffs"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_hrn"), ExtResource("5_bnc")])
 ai_script = ExtResource("3_ai")

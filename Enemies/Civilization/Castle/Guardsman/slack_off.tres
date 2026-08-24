@@ -11,5 +11,5 @@ target_type = "Self"
 effect_types = Array[String](["self_heal_percent", "self_buff_evasion"])
 effect_values = {"self_heal_percent": 15, "self_buff_evasion": 15}
 effect_durations = {"self_heal_percent": 0, "self_buff_evasion": 2}
-usable_from_positions = Array[bool]([true, true, true, true])
+usable_from_positions = Array[bool]([false, false, false, true])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

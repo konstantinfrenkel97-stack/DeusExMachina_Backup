@@ -10,14 +10,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Драугр берсерк"
+max_hp = 88
+damage = 37
+armor = 11
+initiative = 6
+accuracy = 85
+evasion = 15
+crit_chance = 0.14
 sprite_path = "res://Enemies/Dungeon/Hellheim/Draugr_Berserk/Драугр Берсерк.png"
 face_sprite = "res://Enemies/Dungeon/Hellheim/Draugr_Berserk/Драугр Берсерк_Face.png"
-max_hp = 80
-damage = 35
-armor = 10
-initiative = 5
-accuracy = 80
-crit_chance = 0.15
+battle_sprite_scale_percent = 105.0
 special_effect_type = "draugr_berserker"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_mr"), ExtResource("5_fc"), ExtResource("6_bf")])
 ai_script = ExtResource("3_ai")

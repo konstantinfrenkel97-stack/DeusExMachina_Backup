@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FormationResource" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="1_fr"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Ships/Sailor/sailor.tres" id="2_sailor"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Ships/Sailor_with_barrel/sailor_with_barrel.tres" id="3_barrel"]
+
+[resource]
+script = ExtResource("1_fr")
+formation_name = "Матрос — матрос — матрос с бочкой"
+pos1 = ExtResource("2_sailor")
+pos2 = ExtResource("2_sailor")
+pos3 = ExtResource("3_barrel")
+pos4 = null

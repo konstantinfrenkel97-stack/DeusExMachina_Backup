@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_7tnlv")
 name = "Неостановимое наступление"
+description = "Продвигается вперёд на 1 позицию; получает +20 брони на 3 ход.."
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"

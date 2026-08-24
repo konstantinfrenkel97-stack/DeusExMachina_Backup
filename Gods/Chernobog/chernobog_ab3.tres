@@ -8,6 +8,7 @@ icon_path = "uid://bupq1ke8e5k5"
 name = "Я и есть боль"
 description = "Теряет 7% здоровья. Плюс 1 цель. 0.2 периодического урона на 3 хода"
 damage_modifier = 0.7
+majesty_gain = 15
 usable_from_positions = Array[bool]([true, true, true, false])
 targetable_positions = Array[bool]([true, true, true, false])
 ability_marker = "chernobog_i_am_pain"

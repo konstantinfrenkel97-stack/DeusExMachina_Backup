@@ -6,15 +6,17 @@
 script = ExtResource("1_im")
 icon_path = "uid://f3n573womnnd"
 name = "Неубиваемый"
+description = "Стойка: Кощей продвигается вперёд, получает +30 брони и метку провокации на 1 ход."
 damage_modifier = 0.0
 target_type = "Self"
-effect_types = Array[String](["self_push_forward", "self_buff_armor"])
+effect_types = Array[String](["self_push_forward", "self_buff_armor", "self_provocation_mark"])
 effect_values = Dictionary[String, int]({
 "self_buff_armor": 30,
 "self_push_forward": 2
 })
 effect_durations = Dictionary[String, int]({
-"self_buff_armor": 1
+"self_buff_armor": -1,
+"self_provocation_mark": -1
 })
 usable_from_positions = Array[bool]([true, true, true, false])
 stance_duration_type = "UntilNextTurn"

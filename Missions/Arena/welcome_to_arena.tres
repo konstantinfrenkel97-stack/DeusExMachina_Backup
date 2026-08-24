@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MissionResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_resource.gd" id="mission_script"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Resource" path="res://Scenes/ArenaScenes/welcome_arena.tres" id="scene_welcome"]
+[ext_resource type="Resource" path="res://Scenes/ArenaScenes/first_blood.tres" id="scene_first_blood"]
+[ext_resource type="Resource" path="res://Scenes/ArenaScenes/arena_break.tres" id="scene_break"]
+[ext_resource type="Resource" path="res://Scenes/ArenaScenes/arena_battle.tres" id="scene_arena_battle"]
+
+[resource]
+script = ExtResource("mission_script")
+mission_name = "Добро пожаловать на Арену"
+scenes = Array[ExtResource("scene_script")]([ExtResource("scene_welcome"), ExtResource("scene_break"), ExtResource("scene_first_blood"), ExtResource("scene_break"), ExtResource("scene_arena_battle")])
+location = 6
+required_god = 11

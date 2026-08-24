@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_3tyqx")
 name = "Каменный кулак"
+description = "Наносит 80% урона; отталкивает цель назад на 1 позицию; получает +15 брони на 1 ход.."
 damage_modifier = 0.8
 majesty_gain = 0
 effect_types = Array[String](["enemy_push_back", "self_buff_armor"])

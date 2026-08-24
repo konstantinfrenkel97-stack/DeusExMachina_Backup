@@ -8,6 +8,7 @@ icon_path = "uid://clkgl64u4vg8q"
 name = "Шквал кулаков"
 description = "Наносит урон 3 случайным противникам"
 damage_modifier = 0.6
+majesty_gain = 15
 usable_from_positions = Array[bool]([true, true, false, false])
 targetable_positions = Array[bool]([true, true, true, false])
 ability_marker = "shiva_fist_flurry"

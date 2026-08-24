@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_gimt4")
 name = "Удар колонной"
+description = "Наносит 200% урона; цель теряет 30 точности на 2 ход.."
 damage_modifier = 2.0
 majesty_gain = 0
 effect_types = Array[String](["enemy_debuff_accuracy"])
@@ -15,5 +16,5 @@ effect_durations = Dictionary[String, int]({
 "enemy_debuff_accuracy": 2
 })
 usable_from_positions = Array[bool]([true, true, true, false])
-targetable_positions = Array[bool]([true, true, false, false])
+targetable_positions = Array[bool]([true, false, false, false])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

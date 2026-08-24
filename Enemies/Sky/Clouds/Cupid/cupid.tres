@@ -9,16 +9,17 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Купидон"
+max_hp = 66
+damage = 14
+armor = 9
+initiative = 6
+accuracy = 80
+evasion = 12
+crit_chance = 0.07
 sprite_path = "res://Enemies/Sky/Clouds/Cupid/Купидон.png"
 face_sprite = "res://Enemies/Sky/Clouds/Cupid/Купидон_Face.png"
 battle_sprite_scale_percent = 96.0
 battle_sprite_y_offset_percent = 10.0
-max_hp = 40
-damage = 10
-armor = 0
-initiative = 9
-accuracy = 100
-evasion = 15
 special_effect_type = "cupid_double_location"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2")])
 ai_script = ExtResource("3_ai")

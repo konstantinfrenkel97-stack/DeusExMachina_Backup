@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_dg")
 name = "Обречённый стон"
+description = "Наносит 50% урона; цель теряет 20 удачи на 2 ход.; цель теряет 20 атаки на 2 ход.."
 damage_modifier = 0.5
 majesty_gain = 0
 effect_types = Array[String](["enemy_debuff_crit", "enemy_debuff_damage"])

@@ -6,7 +6,10 @@
 script = ExtResource("1_dd")
 icon_path = "uid://blfkbwtfaca8w"
 name = "Власть тьмы"
+description = "Все враги получают периодический урон на 5 ходов: 3% максимального здоровья за каждый дебафф на цели."
 damage_modifier = 0.0
+majesty_gain = 0
+majesty_cost = 100
 target_type = "All_Enemies"
 ability_marker = "morgan_dark_dominion"
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

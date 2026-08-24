@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_gc")
 name = "Ласковый зов"
+description = "Наносит 80% урона; притягивает цель вперёд на 2 позицию; цель теряет 20 точности на 3 ход.."
 damage_modifier = 0.8
 majesty_gain = 0
 effect_types = Array[String](["pull_forward", "target_debuff_accuracy"])

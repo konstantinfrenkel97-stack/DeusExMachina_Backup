@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_hs")
 name = "Удар крюком"
+description = "Наносит 100% урона; притягивает цель вперёд на 1 позицию; цель теряет 15 точности на 2 ход.."
 damage_modifier = 1.0
 majesty_gain = 0
 effect_types = Array[String](["pull_forward", "target_debuff_accuracy"])

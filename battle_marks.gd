@@ -32,11 +32,12 @@ func _init(scene) -> void:
 #  СИСТЕМА ПОЗИЦИОННЫХ МАРОК
 # ════════════════════════════════════════════════
 
-func place_mark(caster: Combatant, ability: AbilityResource) -> void:
+func place_mark(caster: Combatant, ability: AbilityResource, position_override: int = -1) -> void:
+	var mark_position: int = ability.mark_position if position_override < 0 else position_override
 	var mark = {
 		"caster": caster,
 		"team": ability.mark_target_team,
-		"position": ability.mark_position,
+		"position": mark_position,
 		"type": ability.mark_type,
 		"rounds_left": ability.mark_duration if ability.mark_type == "persistent" else 1,
 		"damage_percent": ability.mark_damage_percent,
@@ -44,13 +45,15 @@ func place_mark(caster: Combatant, ability: AbilityResource) -> void:
 		"effect_type": ability.mark_effect_type,
 		"effect_value": ability.mark_effect_value,
 		"effect_duration": ability.mark_effect_duration,
+		"majesty_gain": ability.majesty_gain,
+		"icon": ability.mark_icon,
 		"triggered_units_this_round": []
 	}
-	position_marks.append(mark)
+	add_position_mark(mark)
 	if not caster.is_enemy and ability.majesty_gain > 0:
 		caster.modify_majesty(ability.majesty_gain)
 	_scene._log_combat("%s накладывает марку на позицию %d (%s)." % [
-		caster.unit_name, ability.mark_position + 1, ability.mark_target_team
+		caster.unit_name, mark_position + 1, ability.mark_target_team
 	])
 	var target = get_unit_at_mark(mark)
 	# Персистентная марка срабатывает сразу при размещении (но не чаще раза за раунд);
@@ -61,12 +64,44 @@ func place_mark(caster: Combatant, ability: AbilityResource) -> void:
 	_scene._update_all_visuals()
 
 
+## Размещает марку, удалив предыдущие на той же позиции (команда + позиция).
+## На одной позиции может висеть только одна марка — последняя наложенная.
+func add_position_mark(mark: Dictionary) -> void:
+	var team = mark.get("team", "")
+	var pos = mark.get("position", -1)
+	for i in range(position_marks.size() - 1, -1, -1):
+		var m = position_marks[i]
+		if m.get("team", "") == team and m.get("position", -1) == pos:
+			position_marks.remove_at(i)
+	position_marks.append(mark)
+
+
 func get_unit_at_mark(mark: Dictionary) -> Combatant:
 	var team = _scene.heroes_team if mark["team"] == "ally" else _scene.enemies_team
 	var pos = mark["position"]
 	if pos >= 0 and pos < team.size() and team[pos] and team[pos].current_hp > 0:
 		return team[pos]
 	return null
+
+
+## Самди «Кукла вуду»: метка НА ЮНИТЕ (не позиционная марка) — связывает цель
+## с живым юнитом позади неё: 50% урона и копии дебаффов уходят связанному.
+func apply_voodoo_mark(caster: Combatant, target: Combatant, rounds: int) -> void:
+	if caster == null or target == null or target.current_hp <= 0:
+		return
+	var _v_team = _scene.enemies_team if target.is_enemy else _scene.heroes_team
+	var _linked: Combatant = null
+	for _linked_pos in range(target.position_index + 1, _v_team.size()):
+		var _candidate = _v_team[_linked_pos]
+		if _candidate != null and _candidate != target and _candidate.current_hp > 0:
+			_linked = _candidate
+			break
+	var _vd_duration = _scene._compute_effect_duration(caster, target, maxi(1, rounds), true)
+	target.active_effects.append({"stat": "voodoo_marked", "value": 0, "duration": _vd_duration, "effect_id": "voodoo_marked", "source_ability": "Кукла вуду", "linked": _linked})
+	if _linked != null:
+		_scene._log_combat("  [Кукла вуду] %s связан с %s: 50%% урона и дебаффы переходят связанному." % [target.unit_name, _linked.unit_name])
+	else:
+		_scene._log_combat("  [Кукла вуду] %s помечен (позади никого нет)." % target.unit_name)
 
 
 func apply_mark_to_unit(mark: Dictionary, target: Combatant, is_placement: bool = false) -> void:
@@ -104,13 +139,17 @@ func apply_mark_to_unit(mark: Dictionary, target: Combatant, is_placement: bool 
 		_scene._log_combat("%s %s получает периодический урон (%d) от марки Аутодафе на %d ходов." % [log_prefix, target.unit_name, mark["effect_value"], mark["effect_duration"]])
 	# Один: «Стая воронов» — после атаки меченого врага союзник-владелец получает +15 точности
 	elif mark["effect_type"] == "raven_mark_accuracy":
-		target.active_effects.append({"stat": "raven_marked", "value": 0, "duration": maxi(1, mark["rounds_left"]), "effect_id": "raven_marked", "source_ability": "Стая воронов", "owner": caster})
+		var _rm_duration = _scene._compute_effect_duration(caster, target, maxi(1, mark["rounds_left"]), true)
+		target.active_effects.append({"stat": "raven_marked", "value": 0, "duration": _rm_duration, "effect_id": "raven_marked", "source_ability": "Стая воронов", "owner": caster})
 		_scene._log_combat("%s %s помечен вороном: при его атаке союзник получит +15 точности." % [log_prefix, target.unit_name])
 	# Самди: «Кукла вуду» — связать цель с юнитом позади (50% урона переходит на него)
 	elif mark["effect_type"] == "ally_buff_evasion":
+		var _rg_duration = _scene._compute_effect_duration(caster, target, mark["effect_duration"], false)
 		target.apply_stat_change("evasion", mark["effect_value"])
-		target.active_effects.append({"stat": "evasion", "value": mark["effect_value"], "duration": mark["effect_duration"], "effect_id": "osiris_rays_of_glory", "source_ability": "Лучи славы"})
-		_scene._log_combat("%s %s получает +%d уклонения от Лучей славы на %d ход(ов)." % [log_prefix, target.unit_name, mark["effect_value"], mark["effect_duration"]])
+		target.active_effects.append({"stat": "evasion", "value": mark["effect_value"], "duration": _rg_duration, "effect_id": "osiris_rays_of_glory", "source_ability": "Лучи славы"})
+		# Осирис уже получает величие через обычный majesty_gain (place_mark) — сама марка даёт то же количество союзнику под ней.
+		target.modify_majesty(int(mark.get("majesty_gain", 15)))
+		_scene._log_combat("%s %s получает +%d уклонения и величие от Лучей славы на %d ход(ов)." % [log_prefix, target.unit_name, mark["effect_value"], _rg_duration])
 	# Дьявол: «Адская гильотина» — once-марка, наносит 1.0 урона + 0.5 уровней забыванья
 	elif mark["effect_type"] == "devil_guillotine":
 		var _dg_dmg = caster.damage
@@ -129,20 +168,11 @@ func apply_mark_to_unit(mark: Dictionary, target: Combatant, is_placement: bool 
 		target.active_effects.append({"stat": "crit", "value": -mark["effect_value"], "duration": maxi(1, mark["rounds_left"]), "effect_id": "asura_streak_debuff", "source_ability": "Чёрная полоса"})
 		_scene._log_combat("%s %s: чёрная полоса (-%d удачи) на %d ход(ов)." % [log_prefix, target.unit_name, mark["effect_value"], maxi(1, mark["rounds_left"])])
 	elif mark["effect_type"] == "voodoo_mark":
-		var _v_team = _scene.enemies_team if target.is_enemy else _scene.heroes_team
-		var _behind_pos = target.position_index + 1
-		var _linked = null
-		if _behind_pos < _v_team.size() and _v_team[_behind_pos] != null and _v_team[_behind_pos].current_hp > 0:
-			_linked = _v_team[_behind_pos]
-		target.active_effects.append({"stat": "voodoo_marked", "value": 0, "duration": maxi(1, mark["rounds_left"]), "effect_id": "voodoo_marked", "source_ability": "Кукла вуду", "linked": _linked})
-		if _linked != null:
-			_scene._log_combat("%s %s связан куклой вуду с %s (50%% урона переходит)." % [log_prefix, target.unit_name, _linked.unit_name])
-		else:
-			_scene._log_combat("%s %s помечен куклой вуду (позади никого нет)." % [log_prefix, target.unit_name])
+		apply_voodoo_mark(caster, target, mark["rounds_left"])
 	# Чернобог: «Ужас без конца» -10 броня/удача/уклонение, +15 атака/точность (обновление, без стэка)
 	elif mark["effect_type"] == "chernobog_endless_horror":
 		var _eh_id = "chernobog_endless_horror"
-		var _eh_dur = maxi(1, mark["rounds_left"])
+		var _eh_dur = _scene._compute_effect_duration(caster, target, maxi(1, mark["rounds_left"]), true)
 		var _already = false
 		for e in target.active_effects:
 			if Combatant._effect_get(e, "effect_id", "") == _eh_id:
@@ -154,17 +184,57 @@ func apply_mark_to_unit(mark: Dictionary, target: Combatant, is_placement: bool 
 				target.apply_stat_change(p[0], p[1])
 				target.active_effects.append({"stat": p[0], "value": p[1], "duration": _eh_dur, "effect_id": _eh_id, "source_ability": "Ужас без конца"})
 		_scene._log_combat("%s %s: ужас без конца (-10 броня/удача/уклонение, +15 атака/точность) на %d ходов." % [log_prefix, target.unit_name, _eh_dur])
+	# Водяной: «Болотное царство» — копирует эффект локации (Топь) на отмеченную цель на 1 ход (обновляется, пока висит марка)
+	elif mark["effect_type"] == "copy_location_effect":
+		if CombatManager.selected_location_id == "swamp":
+			var _bt_ut_count = 0
+			for _bt_u in (_scene.enemies_team if not target.is_enemy else _scene.heroes_team):
+				if _bt_u and _bt_u.current_hp > 0 and _bt_u.special_effect_type == "utoplennitsa_location_amplify":
+					_bt_ut_count += 1
+			var _bt_mult = 1.0 + 0.05 * _bt_ut_count
+			var _bt_armor = int(round(5 * _bt_mult))
+			var _bt_evasion = int(round(5 * _bt_mult))
+			target.initiative = maxi(target.initiative - 1, 0)
+			target.apply_stat_change("armor", -_bt_armor)
+			target.apply_stat_change("evasion", -_bt_evasion)
+			var _bt_duration = _scene._compute_effect_duration(caster, target, 1, true)
+			target.active_effects.append({"stat": "armor", "value": -_bt_armor, "duration": _bt_duration, "effect_id": "bolotnoe_tsarstvo_mark", "source_ability": "Болотное царство"})
+			target.active_effects.append({"stat": "evasion", "value": -_bt_evasion, "duration": _bt_duration, "effect_id": "bolotnoe_tsarstvo_mark", "source_ability": "Болотное царство"})
+			_scene._log_combat("%s %s: болотное царство копирует эффект Топи (-1 инициатива, -%d брони, -%d уклонения)." % [log_prefix, target.unit_name, _bt_armor, _bt_evasion])
+		else:
+			_scene._log_combat("%s %s: болотное царство активно, но эффект локации Топь не действует здесь." % [log_prefix, target.unit_name])
+	# Мумия: «Древнее проклятие» — метка на позиции, -2 урон/-2 броня до конца боя тому, кто на ней стоит
+	elif mark["effect_type"] == "mummy_ancient_curse_mark":
+		var _mc_id = "mummy_ancient_curse_mark"
+		var _mc_already = false
+		for e in target.active_effects:
+			if Combatant._effect_get(e, "effect_id", "") == _mc_id:
+				_mc_already = true
+		if not _mc_already:
+			var _mc_val = int(mark["effect_value"])
+			target.apply_stat_change("damage", -_mc_val)
+			target.apply_stat_change("armor", -_mc_val)
+			target.active_effects.append({"stat": "damage", "value": -_mc_val, "duration": -1, "effect_id": _mc_id, "source_ability": "Древнее проклятие"})
+			target.active_effects.append({"stat": "armor", "value": -_mc_val, "duration": -1, "effect_id": _mc_id, "source_ability": "Древнее проклятие"})
+		_scene._log_combat("%s %s: древнее проклятие (-%d урона, -%d брони) до конца боя." % [log_prefix, target.unit_name, int(mark["effect_value"]), int(mark["effect_value"])])
 	# Дуна: «Защита из корней» (безопасность — марочный вариант, если марка размещена на союзнике)
 	elif mark["effect_type"] == "root_protection":
 		var _rp_bonus = int(target.base_armor * 0.2)
 		target.armor_modifier += _rp_bonus
-		target.active_effects.append({"stat": "armor", "value": _rp_bonus, "duration": maxi(1, mark["rounds_left"]), "effect_id": "root_protection", "source_ability": "Защита из корней"})
-		target.active_effects.append({"stat": "trigger_marker", "value": 0, "duration": maxi(1, mark["rounds_left"]), "effect_id": "root_thorns", "source_ability": "Защита из корней"})
+		var _rp_duration = _scene._compute_effect_duration(caster, target, maxi(1, mark["rounds_left"]), false)
+		target.active_effects.append({"stat": "armor", "value": _rp_bonus, "duration": _rp_duration, "effect_id": "root_protection", "source_ability": "Защита из корней"})
+		target.active_effects.append({"stat": "trigger_marker", "value": 0, "duration": _rp_duration, "effect_id": "root_thorns", "source_ability": "Защита из корней"})
 		_scene._log_combat("%s %s: +%d брони, шипы 40%%." % [log_prefix, target.unit_name, _rp_bonus])
 	elif mark["effect_type"] != "":
 		var fake_ab = AbilityResource.new()
-		fake_ab.effect_values = { mark["effect_type"]: mark["effect_value"] }
-		fake_ab.effect_durations = { mark["effect_type"]: mark["effect_duration"] }
+		# effect_values/effect_durations — типизированные Dictionary[String, int],
+		# поэтому заполняем через типизированные локальные словари (иначе падает присвоение).
+		var _mk_vals: Dictionary[String, int] = {}
+		_mk_vals[mark["effect_type"]] = int(mark["effect_value"])
+		fake_ab.effect_values = _mk_vals
+		var _mk_durs: Dictionary[String, int] = {}
+		_mk_durs[mark["effect_type"]] = int(mark["effect_duration"])
+		fake_ab.effect_durations = _mk_durs
 		var note = _scene._apply_effect_to_target(caster, target, mark["effect_type"], fake_ab)
 		if note != "":
 			_scene._log_combat("%s %s" % [log_prefix, note])

@@ -18,7 +18,21 @@ const TAB_MISSIONS := 2
 const _RosterSlot := preload("res://Campaign/god_roster_slot.gd")
 const STAT_ICON_TOOLTIP_BUTTON_SCRIPT := preload("res://stat_icon_tooltip_button.gd")
 const CAMPAIGN_BACKGROUND_PATH := "res://Background/Campaign_Background.png"
+const REQUIRED_GODS_FOR_FIRST_BATTLE := 4
+const FIRST_BATTLE_MISSION_PATH := "res://Missions/First_battle.tres"
+const DOORS_SCENE_PATH := "res://Doors/doors.tscn"
+const BEFORE_FIRST_BATTLE_DIALOGUE_PATH := "res://Dialogues/Instructions/Before_first_battle.tres"
+const AFTER_FIRST_BATTLE_DIALOGUE_PATH := "res://Dialogues/Introduction/After_first_battle.tres"
+const BEFORE_DOORS_DIALOGUE_PATH := "res://Dialogues/Introduction/Before_doors.tres"
+const GATES_WRONG_DIALOGUE_PATH := "res://Dialogues/Instructions/Gates_wrong.tres"
+const WRONG_LOCATION_DIALOGUE_PATH := "res://Dialogues/Instructions/Wrong_location.tres"
+const OPEN_DOOR_CHOICE_ID := "open_door"
 const _ABILITY_ICON_BUTTON_SIZE := Vector2(58.0, 58.0)
+const GOD_DETAIL_BG_COLOR := Color(0.0, 0.0, 0.0, 0.96)
+const GOD_DETAIL_ACCENT_COLOR := Color(0.58, 0.86, 1.0, 0.9)
+const GOD_DETAIL_ACCENT_DIM_COLOR := Color(0.24, 0.55, 0.72, 0.55)
+const GOD_DETAIL_TOP_MARGIN := 92.0
+const GOD_DETAIL_ROSTER_GAP := 14.0
 const CAMPAIGN_BOTTOM_BAR_MIN_HEIGHT := 96.0
 const ROSTER_BOTTOM_GAP := 10.0
 const ROSTER_Z_INDEX := 80
@@ -76,6 +90,8 @@ var _menu_button: Button
 var _menu_popup: PopupPanel
 # Диалог сохранения/загрузки (оверлей).
 var _dialog_overlay: Control
+var _help_overlay: Control
+var _help_showing_topic: bool = false
 
 # ── Страница бога ──
 var _god_overlay: Control
@@ -126,8 +142,17 @@ var _current_slot_type: int = -1
 # ── Ростер богов внизу (1 ряд из 16 квадратов) ──
 const ROSTER_COLUMNS := 16
 const ROSTER_ROWS := 1
+const MYTH_FACE_PATH := "res://Main_characters/Myth/Myth_Ironic_face.png"
+const MYTH_BEFORE_MISSION_DIALOGUE_PATH := "res://Dialogues/Instructions/Myth_before_mission.tres"
+const MYTH_DIALOGUE_CANDIDATES: Array[String] = [
+	"res://Dialogues/Myth/Myth_Dialogue_1.tres",
+]
 var _roster_grid: GridContainer
 var _roster_slots: Array = []           # Array[GodRosterSlot] — 16 квадратов
+var _before_first_battle_dialogue_pending: bool = false
+var _myth_face_slot: Control = null
+var _myth_skip_button: Button = null
+var _active_god_dialogue_path: String = ""
 var _roster_order: Array[String] = []   # Расположение: путь бога или "" (16 элементов)
 
 # Сигнал, который экран может发射ать при изменении (на будущее).
@@ -140,7 +165,11 @@ func _ready() -> void:
 	# Ростер богов обновляется автоматически при изменении CampaignState.
 	if not CampaignState.roster_changed.is_connected(_refresh_roster):
 		CampaignState.roster_changed.connect(_refresh_roster)
+	if not DialogueManager.dialogue_choice_selected.is_connected(_on_dialogue_choice_selected):
+		DialogueManager.dialogue_choice_selected.connect(_on_dialogue_choice_selected)
 	_refresh_roster()
+	_check_first_battle_mission_return()
+	_flush_pending_before_first_battle_dialogue()
 
 
 # ════════════════════════════════════════════════════════════
@@ -3671,6 +3700,8 @@ func _campaign_click_hits_real_button() -> bool:
 	while hovered != null:
 		if _roster_grid != null and is_instance_valid(_roster_grid) and (_roster_grid == hovered or _roster_grid.is_ancestor_of(hovered)):
 			return true
+		if _myth_face_slot != null and is_instance_valid(_myth_face_slot) and (_myth_face_slot == hovered or _myth_face_slot.is_ancestor_of(hovered)):
+			return true
 		if hovered is Button:
 			if _campaign_room_hit_layer != null and is_instance_valid(_campaign_room_hit_layer) and _campaign_room_hit_layer.is_ancestor_of(hovered):
 				return false
@@ -3691,9 +3722,46 @@ func _campaign_room_at_position(position: Vector2) -> Dictionary:
 		return {}
 	for room in _campaign_room_defs():
 		var polygon: PackedVector2Array = _campaign_room_polygon(room, bg_size)
-		if _campaign_point_in_polygon(position, polygon):
-			return {"section": str(room["section"]), "rect": _campaign_polygon_bounds(polygon), "polygon": polygon, "mask": str(room.get("mask", ""))}
+		if not _campaign_point_in_polygon(position, polygon):
+			continue
+		var mask_path: String = str(room.get("mask", ""))
+		if mask_path != "" and not _campaign_mask_contains_point(mask_path, position, bg_size):
+			continue
+		return {"section": str(room["section"]), "rect": _campaign_polygon_bounds(polygon), "polygon": polygon, "mask": mask_path}
 	return {}
+
+
+## Возвращает Image маски подсветки комнаты (с кэшированием — маска грузится
+## и разжимается только один раз за сессию).
+func _get_room_mask_image(mask_path: String) -> Image:
+	if mask_path == "":
+		return null
+	if _campaign_room_mask_images.has(mask_path):
+		return _campaign_room_mask_images[mask_path]
+	var image: Image = null
+	var texture := load(mask_path) as Texture2D
+	if texture != null:
+		image = texture.get_image()
+		if image != null and image.is_compressed():
+			image.decompress()
+	_campaign_room_mask_images[mask_path] = image
+	return image
+
+
+## Точная проверка: попадает ли точка не просто в грубый многоугольник комнаты,
+## а именно в непрозрачный пиксель самой картинки-маски (Campaign_Hover_*.png).
+## Так кликабельная/наводимая зона совпадает с тем, что реально подсвечивается
+## белым на экране, а не с более широким контуром _campaign_room_polygon.
+func _campaign_mask_contains_point(mask_path: String, position: Vector2, bg_size: Vector2) -> bool:
+	var image := _get_room_mask_image(mask_path)
+	if image == null or bg_size.x <= 0.0 or bg_size.y <= 0.0:
+		return true
+	var image_size := image.get_size()
+	if image_size.x <= 0 or image_size.y <= 0:
+		return true
+	var px := clampi(int(position.x / bg_size.x * image_size.x), 0, image_size.x - 1)
+	var py := clampi(int(position.y / bg_size.y * image_size.y), 0, image_size.y - 1)
+	return image.get_pixel(px, py).a > 0.05
 
 
 func _campaign_room_polygon(room: Dictionary, bg_size: Vector2) -> PackedVector2Array:
@@ -3813,6 +3881,7 @@ func _build_currency_bar(parent: Node) -> void:
 		pair.add_child(amt)
 		_currency_amount_labels.append(amt)
 		bar.add_child(pair)
+	_add_myth_face_to_currency_bar(bar)
 
 ## Обновить отображаемые количества (вызвать после изменения amount ресурса).
 func _refresh_currencies() -> void:
@@ -3824,6 +3893,99 @@ func _refresh_currencies() -> void:
 			_currency_amount_labels[i].text = str(CampaignState.get_currency_amount(_CURRENCY_PATHS[i]))
 	_refresh_pages()
 
+
+func _add_myth_face_to_currency_bar(parent: Node) -> void:
+	var slot := Control.new()
+	slot.custom_minimum_size = _RosterSlot.SLOT_SIZE
+	slot.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	slot.mouse_filter = Control.MOUSE_FILTER_STOP
+	parent.add_child(slot)
+	_myth_face_slot = slot
+
+	var bg := ColorRect.new()
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.color = Color(0.12, 0.12, 0.16, 0.9)
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	slot.add_child(bg)
+
+	var portrait := TextureRect.new()
+	portrait.set_anchors_preset(Control.PRESET_FULL_RECT)
+	portrait.offset_left = _RosterSlot.PORTRAIT_MARGIN
+	portrait.offset_top = _RosterSlot.PORTRAIT_MARGIN
+	portrait.offset_right = -_RosterSlot.PORTRAIT_MARGIN
+	portrait.offset_bottom = -_RosterSlot.PORTRAIT_MARGIN
+	portrait.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	portrait.texture = load(MYTH_FACE_PATH) as Texture2D
+	portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	slot.add_child(portrait)
+
+	var dialogue_button := Button.new()
+	dialogue_button.anchor_left = 1.0
+	dialogue_button.anchor_top = 0.0
+	dialogue_button.anchor_right = 1.0
+	dialogue_button.anchor_bottom = 0.0
+	dialogue_button.offset_left = -_RosterSlot.DIALOGUE_BUTTON_SIZE - 4.0
+	dialogue_button.offset_top = 4.0
+	dialogue_button.offset_right = -4.0
+	dialogue_button.offset_bottom = _RosterSlot.DIALOGUE_BUTTON_SIZE + 4.0
+	dialogue_button.custom_minimum_size = Vector2(_RosterSlot.DIALOGUE_BUTTON_SIZE, _RosterSlot.DIALOGUE_BUTTON_SIZE)
+	dialogue_button.text = "💬"
+	dialogue_button.tooltip_text = "Диалог"
+	dialogue_button.flat = true
+	var transparent_button_style := StyleBoxEmpty.new()
+	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
+		dialogue_button.add_theme_stylebox_override(state, transparent_button_style)
+	dialogue_button.focus_mode = Control.FOCUS_NONE
+	dialogue_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	dialogue_button.pressed.connect(_on_myth_dialogue_button_pressed)
+	slot.add_child(dialogue_button)
+
+	if not CampaignState.first_battle_completed:
+		var skip_button := Button.new()
+		skip_button.anchor_left = 1.0
+		skip_button.anchor_top = 1.0
+		skip_button.anchor_right = 1.0
+		skip_button.anchor_bottom = 1.0
+		skip_button.offset_left = -_RosterSlot.DIALOGUE_BUTTON_SIZE - 4.0
+		skip_button.offset_top = -_RosterSlot.DIALOGUE_BUTTON_SIZE - 4.0
+		skip_button.offset_right = -4.0
+		skip_button.offset_bottom = -4.0
+		skip_button.custom_minimum_size = Vector2(_RosterSlot.DIALOGUE_BUTTON_SIZE, _RosterSlot.DIALOGUE_BUTTON_SIZE)
+		skip_button.text = "⏭"
+		skip_button.tooltip_text = "Пропустить стартовую миссию"
+		skip_button.flat = true
+		for state in ["normal", "hover", "pressed", "disabled", "focus"]:
+			skip_button.add_theme_stylebox_override(state, transparent_button_style)
+		skip_button.focus_mode = Control.FOCUS_NONE
+		skip_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		skip_button.pressed.connect(_on_skip_first_mission_button_pressed)
+		slot.add_child(skip_button)
+		_myth_skip_button = skip_button
+
+
+## Кнопка рядом с портретом Мифа: сразу отмечает стартовую миссию (First_battle)
+## пройденной и проигрывает After_first_battle — тот же итог, что и после реального
+## прохождения миссии (см. _check_first_battle_mission_return), без самого боя.
+func _on_skip_first_mission_button_pressed() -> void:
+	CampaignState.before_first_battle_played = true
+	CampaignState.first_battle_completed = true
+	if _myth_skip_button != null and is_instance_valid(_myth_skip_button):
+		_myth_skip_button.queue_free()
+		_myth_skip_button = null
+	DialogueManager.show_dialogue_path(AFTER_FIRST_BATTLE_DIALOGUE_PATH)
+
+
+## До прохождения First_battle — Myth_before_mission. После — обычный Myth_dialogue_1.
+func _on_myth_dialogue_button_pressed() -> void:
+	if not CampaignState.first_battle_completed and ResourceLoader.exists(MYTH_BEFORE_MISSION_DIALOGUE_PATH):
+		DialogueManager.show_dialogue_path(MYTH_BEFORE_MISSION_DIALOGUE_PATH)
+		return
+	for dialogue_path in MYTH_DIALOGUE_CANDIDATES:
+		if ResourceLoader.exists(dialogue_path):
+			DialogueManager.show_dialogue_path(dialogue_path)
+			return
+	push_warning("Диалог Мифа не найден")
 
 func _refresh_pages() -> void:
 	if _campaign_pages_label == null or not is_instance_valid(_campaign_pages_label):
@@ -3900,6 +4062,50 @@ func _refresh_roster() -> void:
 	for i in range(_roster_slots.size()):
 		if _roster_slots[i]:
 			_roster_slots[i].set_god(_roster_order[i])
+	_check_first_battle_intro_dialogue()
+
+## Первый раз, когда в ростере оказалось REQUIRED_GODS_FOR_FIRST_BATTLE богов —
+## помечает Before_first_battle как "ожидает показа". Флаг одноразовый, обратного
+## пути нет. Сам диалог показывается через _flush_pending_before_first_battle_dialogue(),
+## а не отсюда напрямую: если 5-й бог только что создан в Саду творения, следом
+## сразу показывается его диалог призыва, а DialogueManager.show_dialogue_path()
+## закрывает текущий проигрываемый диалог при показе нового — так что Before_first_battle,
+## показанный прямо здесь, тут же обрывался бы диалогом призыва бога.
+func _check_first_battle_intro_dialogue() -> void:
+	if CampaignState.before_first_battle_played:
+		return
+	if CampaignState.available_gods.size() < REQUIRED_GODS_FOR_FIRST_BATTLE:
+		return
+	CampaignState.before_first_battle_played = true
+	_before_first_battle_dialogue_pending = true
+
+## Показывает Before_first_battle, если он ждал своей очереди (см. комментарий выше).
+func _flush_pending_before_first_battle_dialogue() -> void:
+	if not _before_first_battle_dialogue_pending:
+		return
+	_before_first_battle_dialogue_pending = false
+	DialogueManager.show_dialogue_path(BEFORE_FIRST_BATTLE_DIALOGUE_PATH)
+
+## DEBUG-хоткей (Ctrl+Shift+F9, только в debug-сборке): отмечает First_battle
+## пройденной, чтобы проверять диалоги/двери ПОСЛЕ неё, не переигрывая бой
+## каждый раз. before_doors_played сбрасывается в false, чтобы Before_doors
+## можно было увидеть повторно при следующем клике на ворота.
+## Не заменяет призыв REQUIRED_GODS_FOR_FIRST_BATTLE богов — он всё ещё нужен, чтобы клик по воротам вообще
+## дошёл до проверки first_battle_completed (см. _on_gates_clicked).
+func _debug_skip_first_battle() -> void:
+	CampaignState.before_first_battle_played = true
+	CampaignState.first_battle_completed = true
+	CampaignState.before_doors_played = false
+	print("[DEBUG] First_battle пропущена: before_first_battle_played=true, first_battle_completed=true, before_doors_played=false")
+
+## Если мы только что вернулись с миссии First_battle — отмечаем её пройденной
+## и один раз проигрываем After_first_battle.
+func _check_first_battle_mission_return() -> void:
+	if MissionState.last_completed_mission_path != FIRST_BATTLE_MISSION_PATH:
+		return
+	MissionState.last_completed_mission_path = ""
+	CampaignState.first_battle_completed = true
+	DialogueManager.show_dialogue_path(AFTER_FIRST_BATTLE_DIALOGUE_PATH)
 
 ## Перетаскивание портрета из одного квадрата в другой — меняем их местами.
 func _on_roster_swap(from_index: int, to_index: int) -> void:
@@ -3922,7 +4128,23 @@ func _on_god_dialogue_requested(god_path: String) -> void:
 	if dialogue_path == "":
 		push_warning("Диалог бога не найден: " + god_res.unit_name)
 		return
+	_active_god_dialogue_path = god_path
 	DialogueManager.show_dialogue_path(dialogue_path)
+
+
+## Реплика "Открыть дверь" есть в диалоге каждого бога (choice_id = "open_door").
+## Как только игрок её выбирает — соответствующая богу локация (см.
+## CampaignState.GOD_FOLDER_TO_LOCATION) считается открытой: на экране Ворот её
+## дверь сменит спрайт на открытый, а если для неё уже есть миссия
+## "Welcome_to_<локация>" — она станет доступна для входа через эту дверь.
+func _on_dialogue_choice_selected(_dialogue_id: String, choice_id: String) -> void:
+	if choice_id != OPEN_DOOR_CHOICE_ID or _active_god_dialogue_path == "":
+		return
+	var folder_name := _active_god_dialogue_path.get_base_dir().get_file()
+	var location: String = str(CampaignState.GOD_FOLDER_TO_LOCATION.get(folder_name, ""))
+	if location == "":
+		return
+	CampaignState.open_location(location)
 
 
 func _campaign_dialogue_path_for_god(god_path: String, god_res: CharacterResource) -> String:
@@ -3949,18 +4171,37 @@ func _campaign_dialogue_path_for_god(god_path: String, god_res: CharacterResourc
 ## Пока показывает заглушку; механики разделов добавляются позже.
 func _on_section_button(section: String) -> void:
 	if section == "Ворота":
-		get_tree().change_scene_to_file("res://Doors/doors.tscn")
+		_on_gates_clicked()
 		return
 	if section == "Сад творения":
 		_show_creation_window()
 		return
-	for child in _content_grid.get_children():
-		child.queue_free()
-	var hint := Label.new()
-	hint.text = "«%s» — раздел в разработке." % section
-	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	hint.add_theme_font_size_override("font_size", 22)
-	_content_grid.add_child(hint)
+	DialogueManager.show_dialogue_path(WRONG_LOCATION_DIALOGUE_PATH)
+
+## Ворота проходят несколько состояний по мере продвижения сюжета:
+## 1) < REQUIRED_GODS_FOR_FIRST_BATTLE богов → Gates_wrong (каждый раз, это просто предупреждение).
+## 2) богов достаточно, но First_battle ещё не пройдена → сразу запускается миссия First_battle.
+## 3) First_battle пройдена, Before_doors ещё не показан → открываются двери, и поверх
+##    них (уже на фоне самих дверей) сразу проигрывается Before_doors.
+## 4) Before_doors уже показан → двери открываются напрямую, без диалога.
+func _on_gates_clicked() -> void:
+	# Если First_battle уже отмечена пройденной (в т.ч. через кнопку "Пропустить
+	# стартовую миссию"), ворота считают, что богов достаточно, и эту проверку не делают.
+	if not CampaignState.first_battle_completed and CampaignState.available_gods.size() < REQUIRED_GODS_FOR_FIRST_BATTLE:
+		DialogueManager.show_dialogue_path(GATES_WRONG_DIALOGUE_PATH)
+		return
+	if not CampaignState.first_battle_completed:
+		_launch_first_battle_mission()
+		return
+	get_tree().change_scene_to_file(DOORS_SCENE_PATH)
+	if not CampaignState.before_doors_played:
+		CampaignState.before_doors_played = true
+		DialogueManager.show_dialogue_path(BEFORE_DOORS_DIALOGUE_PATH)
+
+func _launch_first_battle_mission() -> void:
+	MissionState.requested_mission_path = FIRST_BATTLE_MISSION_PATH
+	MissionState.return_scene_path = "res://Campaign/campaign_screen.tscn"
+	get_tree().change_scene_to_file("res://Missions/mission_select.tscn")
 
 
 func _select_tab(tab: int) -> void:
@@ -4159,6 +4400,7 @@ func _show_menu_popup() -> void:
 		{"text": "Сохранить", "action": _menu_save},
 		{"text": "Загрузить", "action": _menu_load},
 		{"text": "Настройки", "action": _menu_settings},
+		{"text": "Помощь", "action": _menu_help},
 		{"text": "Выход", "action": _menu_exit},
 	]:
 		var btn := Button.new()
@@ -4198,6 +4440,11 @@ func _unhandled_input(event: InputEvent) -> void:
 ## дочерние элементы поглощают событие, поэтому gui_input панели его не получает.
 ## _input срабатывает до обработки GUI и ловит клик над любым элементом оверлея.
 func _input(event: InputEvent) -> void:
+	if OS.is_debug_build() and event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_F9 and event.ctrl_pressed and event.shift_pressed:
+			_debug_skip_first_battle()
+			get_viewport().set_input_as_handled()
+			return
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		if not _campaign_room_input_is_blocked() and not _campaign_click_hits_real_button():
 			var section := _campaign_section_at_position(event.position)
@@ -4208,19 +4455,25 @@ func _input(event: InputEvent) -> void:
 					viewport.set_input_as_handled()
 				return
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-		if _creation_overlay != null and is_instance_valid(_creation_overlay):
+		var cancelled := false
+		if _handle_help_back():
+			cancelled = true
+		elif _dialog_overlay != null and is_instance_valid(_dialog_overlay):
+			_close_dialog()
+			cancelled = true
+		elif _menu_popup != null and is_instance_valid(_menu_popup) and _menu_popup.visible:
+			_menu_popup.hide()
+			cancelled = true
+		elif _creation_overlay != null and is_instance_valid(_creation_overlay):
 			_close_creation_window()
-			var viewport := get_viewport()
-			if viewport != null:
-				viewport.set_input_as_handled()
+			cancelled = true
 		elif _god_overlay != null and is_instance_valid(_god_overlay):
 			_close_god_detail()
+			cancelled = true
+		if cancelled:
 			var viewport := get_viewport()
 			if viewport != null:
 				viewport.set_input_as_handled()
-
-
-# === Сад творения (создание богов из двух эссенций) ===
 
 ## Открывает окно Сада творения: 2 слота эссенций, место спрайта бога, кнопка «Создать».
 func _show_creation_window() -> void:
@@ -4502,8 +4755,15 @@ func _on_create_pressed() -> void:
 func _play_summon_dialogue_for_god(god_path: String) -> void:
 	var dialogue_path := _summon_dialogue_path_for_god(god_path)
 	if dialogue_path == "" or not ResourceLoader.exists(dialogue_path):
+		_flush_pending_before_first_battle_dialogue()
 		return
+	if DialogueManager.dialogue_finished.is_connected(_on_summon_dialogue_finished):
+		DialogueManager.dialogue_finished.disconnect(_on_summon_dialogue_finished)
+	DialogueManager.dialogue_finished.connect(_on_summon_dialogue_finished, CONNECT_ONE_SHOT)
 	DialogueManager.show_dialogue_path(dialogue_path)
+
+func _on_summon_dialogue_finished(_dialogue_id: String) -> void:
+	_flush_pending_before_first_battle_dialogue()
 
 
 func _summon_dialogue_path_for_god(god_path: String) -> String:
@@ -4533,6 +4793,127 @@ func _menu_load() -> void:
 func _menu_settings() -> void:
 	_hide_menu_popup()
 	# Пока пусто — заглушка для будущих настроек.
+
+
+func _menu_help() -> void:
+	_hide_menu_popup()
+	_show_help_topics()
+
+
+func _help_topics() -> Dictionary:
+	return {
+		"Кампания": "На экране кампании выбираются разделы замка, создаются и просматриваются боги, открываются миссии и проверяются ресурсы.",
+		"Миссии": "В миссиях выбирается отряд богов. Сцены идут по порядку: выбор, результат, возможный бой, затем следующая сцена.",
+		"Бой": "Бой идет по очереди хода. Выберите способность или заклинание, затем цель, если она нужна. Правая кнопка мыши отменяет текущий выбор.",
+		"Способности": "Способности имеют позиции применения, цели, стоимость величия и эффекты. Наведение показывает подробное описание.",
+		"Заклинания": "Заклинания тратят фантазию. Часть заклинаний зависит от выбранной локации.",
+		"Эффекты": "Баффы, дебаффы, стойки и уникальные метки отображаются иконками возле персонажа. Наведение на иконку показывает подробности."
+	}
+
+
+func _show_help_topics() -> void:
+	_clear_help_overlay()
+	_help_showing_topic = false
+	_help_overlay = _make_help_overlay()
+	var panel := _make_help_panel(_help_overlay)
+	var root := _make_help_root(panel)
+
+	var title := Label.new()
+	title.text = "Помощь"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 36)
+	root.add_child(title)
+
+	for topic_name in _help_topics().keys():
+		var btn := Button.new()
+		btn.text = str(topic_name)
+		btn.custom_minimum_size = Vector2(640, 58)
+		btn.add_theme_font_size_override("font_size", 24)
+		btn.pressed.connect(_show_help_topic.bind(str(topic_name), str(_help_topics()[topic_name])))
+		root.add_child(btn)
+
+	var back_btn := Button.new()
+	back_btn.text = "Назад"
+	back_btn.custom_minimum_size = Vector2(220, 54)
+	back_btn.add_theme_font_size_override("font_size", 22)
+	back_btn.pressed.connect(_clear_help_overlay)
+	root.add_child(back_btn)
+
+
+func _show_help_topic(topic_title: String, topic_text: String) -> void:
+	_clear_help_overlay()
+	_help_showing_topic = true
+	_help_overlay = _make_help_overlay()
+	var panel := _make_help_panel(_help_overlay)
+	var root := _make_help_root(panel)
+
+	var title := Label.new()
+	title.text = topic_title
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 32)
+	root.add_child(title)
+
+	var body := RichTextLabel.new()
+	body.bbcode_enabled = true
+	body.fit_content = false
+	body.scroll_active = true
+	body.custom_minimum_size = Vector2(760, 390)
+	body.add_theme_font_size_override("normal_font_size", 24)
+	body.text = topic_text
+	root.add_child(body)
+
+	var back_btn := Button.new()
+	back_btn.text = "Назад"
+	back_btn.custom_minimum_size = Vector2(220, 54)
+	back_btn.add_theme_font_size_override("font_size", 22)
+	back_btn.pressed.connect(_show_help_topics)
+	root.add_child(back_btn)
+
+
+func _make_help_overlay() -> Control:
+	var overlay := ColorRect.new()
+	overlay.name = "HelpOverlay"
+	overlay.color = Color(0, 0, 0, 0.72)
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	overlay.z_index = 2000
+	add_child(overlay)
+	return overlay
+
+
+func _make_help_panel(parent: Control) -> PanelContainer:
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(900, 620)
+	panel.set_anchors_preset(Control.PRESET_CENTER)
+	panel.position = Vector2(-450, -310)
+	parent.add_child(panel)
+	return panel
+
+
+func _make_help_root(panel: PanelContainer) -> VBoxContainer:
+	var root := VBoxContainer.new()
+	root.alignment = BoxContainer.ALIGNMENT_CENTER
+	root.add_theme_constant_override("separation", 18)
+	root.custom_minimum_size = Vector2(840, 560)
+	panel.add_child(root)
+	return root
+
+
+func _handle_help_back() -> bool:
+	if _help_overlay == null or not is_instance_valid(_help_overlay):
+		return false
+	if _help_showing_topic:
+		_show_help_topics()
+	else:
+		_clear_help_overlay()
+	return true
+
+
+func _clear_help_overlay() -> void:
+	if _help_overlay != null and is_instance_valid(_help_overlay):
+		_help_overlay.queue_free()
+	_help_overlay = null
+	_help_showing_topic = false
 
 
 func _menu_exit() -> void:
@@ -4797,6 +5178,55 @@ func _make_stat_icon_row(stat_key: String, value_text: String) -> Control:
 	row.add_child(lbl)
 	return row
 
+func _make_god_detail_panel_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = GOD_DETAIL_BG_COLOR
+	style.border_color = GOD_DETAIL_ACCENT_COLOR
+	style.set_border_width_all(2)
+	style.corner_radius_top_left = 6
+	style.corner_radius_top_right = 6
+	style.corner_radius_bottom_left = 6
+	style.corner_radius_bottom_right = 6
+	style.content_margin_left = 10
+	style.content_margin_right = 10
+	style.content_margin_top = 10
+	style.content_margin_bottom = 10
+	return style
+
+
+func _make_god_separator() -> HSeparator:
+	var sep := HSeparator.new()
+	var line := StyleBoxLine.new()
+	line.color = GOD_DETAIL_ACCENT_DIM_COLOR
+	line.thickness = 2
+	sep.add_theme_stylebox_override("separator", line)
+	return sep
+
+
+func _style_god_scrollbar(scroll: ScrollContainer) -> void:
+	var scrollbar := scroll.get_v_scroll_bar()
+	if scrollbar == null:
+		return
+	var track := StyleBoxFlat.new()
+	track.bg_color = Color(0.0, 0.0, 0.0, 0.55)
+	var grabber := StyleBoxFlat.new()
+	grabber.bg_color = GOD_DETAIL_ACCENT_DIM_COLOR
+	grabber.corner_radius_top_left = 3
+	grabber.corner_radius_top_right = 3
+	grabber.corner_radius_bottom_left = 3
+	grabber.corner_radius_bottom_right = 3
+	var grabber_hover := StyleBoxFlat.new()
+	grabber_hover.bg_color = GOD_DETAIL_ACCENT_COLOR
+	grabber_hover.corner_radius_top_left = 3
+	grabber_hover.corner_radius_top_right = 3
+	grabber_hover.corner_radius_bottom_left = 3
+	grabber_hover.corner_radius_bottom_right = 3
+	scrollbar.add_theme_stylebox_override("scroll", track)
+	scrollbar.add_theme_stylebox_override("grabber", grabber)
+	scrollbar.add_theme_stylebox_override("grabber_highlight", grabber_hover)
+	scrollbar.add_theme_stylebox_override("grabber_pressed", grabber_hover)
+
+
 func _show_god_detail(god_path: String) -> void:
 	_close_god_detail()
 	_current_god_path = god_path
@@ -4820,14 +5250,21 @@ func _show_god_detail(god_path: String) -> void:
 	)
 	_god_overlay.add_child(dark_bg)
 
-	var center := CenterContainer.new()
+	var center := Control.new()
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
 	# IGNORE — клики мимо панели проходят сквозь к dark_bg и закрывают страницу.
 	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_god_overlay.add_child(center)
 
+	var roster_top := vp_size.y - CAMPAIGN_BOTTOM_BAR_MIN_HEIGHT - ROSTER_BOTTOM_GAP - _RosterSlot.SLOT_SIZE.y
+	var panel_top := GOD_DETAIL_TOP_MARGIN
+	var panel_bottom := maxf(panel_top + 360.0, roster_top - GOD_DETAIL_ROSTER_GAP)
+	var panel_size := Vector2(vp_size.x * 0.8, panel_bottom - panel_top)
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(vp_size.x * 0.8, vp_size.y * 0.8)
+	panel.position = Vector2((vp_size.x - panel_size.x) * 0.5, panel_top)
+	panel.size = panel_size
+	panel.custom_minimum_size = panel_size
+	panel.add_theme_stylebox_override("panel", _make_god_detail_panel_style())
 	# Правый клик по панели тоже закрывает страницу.
 	panel.gui_input.connect(func(event: InputEvent):
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
@@ -4874,6 +5311,7 @@ func _build_god_left_column() -> Control:
 	vb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	vb.add_theme_constant_override("separation", 8)
 	scroll.add_child(vb)
+	call_deferred("_style_god_scrollbar", scroll)
 
 	var res := _current_god_res
 
@@ -4891,7 +5329,7 @@ func _build_god_left_column() -> Control:
 		dead_lbl.add_theme_font_size_override("font_size", 18)
 		vb.add_child(dead_lbl)
 
-	vb.add_child(HSeparator.new())
+	vb.add_child(_make_god_separator())
 
 	var stats_title := Label.new()
 	stats_title.text = "Характеристики"
@@ -4914,23 +5352,29 @@ func _build_god_left_column() -> Control:
 		penalty.add_theme_font_size_override("font_size", 14)
 		vb.add_child(penalty)
 
-	vb.add_child(HSeparator.new())
+	vb.add_child(_make_god_separator())
 
 	var abilities_title := Label.new()
 	abilities_title.text = "Умения"
 	abilities_title.add_theme_font_size_override("font_size", 18)
 	vb.add_child(abilities_title)
 
+	var abilities: Array[AbilityResource] = []
 	for ability in res.active_abilities:
-		vb.add_child(_make_ability_button(ability))
-
+		if ability != null:
+			abilities.append(ability)
 	if res.ultimate_ability != null:
-		var ult_lbl := Label.new()
-		ult_lbl.text = "Ультимативное:"
-		ult_lbl.add_theme_font_size_override("font_size", 14)
-		ult_lbl.add_theme_color_override("font_color", Color(0.8, 0.6, 0.2))
-		vb.add_child(ult_lbl)
-		vb.add_child(_make_ability_button(res.ultimate_ability))
+		abilities.append(res.ultimate_ability)
+
+	if abilities.size() > 0:
+		var abilities_grid := GridContainer.new()
+		abilities_grid.columns = max(1, int(ceil(float(abilities.size()) / 2.0)))
+		abilities_grid.add_theme_constant_override("h_separation", 8)
+		abilities_grid.add_theme_constant_override("v_separation", 8)
+		abilities_grid.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		for ability in abilities:
+			abilities_grid.add_child(_make_ability_button(ability))
+		vb.add_child(abilities_grid)
 
 	return scroll
 
@@ -4957,51 +5401,95 @@ func _make_ability_button(ability: AbilityResource) -> Button:
 ## Формирует подробный текст тултипа умения (аналогично боевому _get_ability_tooltip).
 func _format_ability_tooltip(ability: AbilityResource) -> String:
 	var lines: Array[String] = []
-	lines.append("=== %s ===" % ability.name)
-	if ability.description != "":
-		lines.append(ability.description)
+	lines.append("=== %s ===" % ability.get_display_name())
+	var ability_description: String = ability.get_display_description().strip_edges()
+	if not DataTables.is_placeholder_description(ability_description):
+		lines.append(ability_description)
 		lines.append("")
 	if ability.damage_modifier > 0:
-		lines.append("Урон: %d%% от базового" % int(ability.damage_modifier * 100))
+		lines.append("Урон: %d%% от атаки" % int(ability.damage_modifier * 100))
 		if ability.damage_type != "" and ability.damage_type != "Physical":
 			lines.append("Тип урона: %s" % ability.damage_type)
 	if ability.majesty_cost > 0:
 		lines.append("Стоимость: %d величия" % ability.majesty_cost)
 	if ability.majesty_gain > 0:
 		lines.append("Величие: +%d" % ability.majesty_gain)
-	var _target_ru := {
-		"Enemy": "Враг", "Ally": "Союзник", "Self": "Себя",
-		"All_Enemies": "Все враги", "All_Allies": "Все союзники",
-		"Position": "Позиция"
-	}
 	if ability.target_type != "":
-		lines.append("Цель: %s" % _target_ru.get(ability.target_type, ability.target_type))
+		lines.append("Цель: %s" % DataTables.get_target_type_name(ability.target_type))
 	if ability.extra_targets_count > 0:
-		lines.append("Доп. цели: +%d позади" % ability.extra_targets_count)
+		lines.append("Доп. цели: +%d цель" % ability.extra_targets_count)
 	if ability.effect_types.size() > 0:
 		lines.append("")
 		lines.append("Эффекты:")
 		for effect in ability.effect_types:
-			var dur: int = ability.effect_durations.get(effect, 1)
-			var dur_text := "бесконечно" if dur == -1 else "%d ход." % dur
-			lines.append("  • %s [%s]" % [effect, dur_text])
+			var val: int = int(ability.effect_values.get(effect, 0))
+			var dur: int = int(ability.effect_durations.get(effect, 1))
+			var dur_text: String = "навсегда" if dur == -1 else "%d ход." % dur
+			lines.append("  • %s [%s]" % [DataTables.describe_effect(effect, val), dur_text])
+	var extra_lines: Array[String] = []
+	var extra_description: String = ability.get_display_extra_effect_description().strip_edges()
+	if not DataTables.is_placeholder_description(extra_description):
+		extra_lines.append(extra_description)
+	if ability.never_miss:
+		extra_lines.append("Не может промахнуться.")
+	if ability.breaks_enemy_stances:
+		extra_lines.append("Сбивает стойку цели.")
 	if ability.is_stance:
-		lines.append("")
-		lines.append("★ Стойка (%s)" % ability.stance_duration_type)
+		var stance_line: String = "Стойка"
+		if ability.stance_duration_type != "":
+			stance_line += " (%s)" % ability.stance_duration_type
+		extra_lines.append(stance_line + ".")
+		var stance_description: String = DataTables.get_stance_effect_description(ability.stance_effect_type)
+		var current_text_for_stance: String = "\n".join(lines)
+		if extra_lines.size() > 0:
+			current_text_for_stance += "\n" + "\n".join(extra_lines)
+		if DataTables.should_append_detail(current_text_for_stance, stance_description):
+			extra_lines.append(stance_description)
 	if ability.condition != "":
+		var condition_line: String = "Срабатывает %s" % DataTables.get_condition_name(ability.condition)
+		if ability.condition_effect != "":
+			var cond_val: int = ability.condition_effect_value
+			var cond_dur: int = ability.condition_effect_duration
+			var cond_dur_text: String = "навсегда" if cond_dur == -1 else "%d ход." % cond_dur
+			condition_line += ": %s [%s]" % [DataTables.describe_effect(ability.condition_effect, cond_val), cond_dur_text]
+		condition_line += "."
+		extra_lines.append(condition_line)
+	if ability.mark_type != "":
+		var mark_line: String = "Отложенная метка: %s, позиция %d, сторона: %s" % [DataTables.get_mark_type_name(ability.mark_type), ability.mark_position + 1, ability.mark_target_team]
+		if ability.mark_duration > 0:
+			mark_line += ", %d ход." % ability.mark_duration
+		else:
+			mark_line += "."
+		extra_lines.append(mark_line)
+		if ability.mark_damage_percent > 0:
+			extra_lines.append("После метки наносит %d%% от текущей атаки." % ability.mark_damage_percent)
+		if ability.mark_effect_type != "":
+			var mark_dur_text: String = "навсегда" if ability.mark_effect_duration == -1 else "%d ход." % ability.mark_effect_duration
+			extra_lines.append("Эффект метки: %s [%s]" % [DataTables.describe_effect(ability.mark_effect_type, ability.mark_effect_value), mark_dur_text])
+	var marker_description: String = DataTables.get_ability_marker_description(ability.ability_marker)
+	var current_text_for_marker: String = "\n".join(lines)
+	if extra_lines.size() > 0:
+		current_text_for_marker += "\n" + "\n".join(extra_lines)
+	if DataTables.should_append_detail(current_text_for_marker, marker_description):
+		extra_lines.append(marker_description)
+	if extra_lines.size() > 0:
 		lines.append("")
-		lines.append("Условие: %s" % ability.condition)
+		lines.append("Дополнительно:")
+		for extra_line in extra_lines:
+			lines.append("  • %s" % extra_line)
 	var pos_from: Array[String] = []
 	for i in range(ability.usable_from_positions.size()):
 		if ability.usable_from_positions[i]:
 			pos_from.append(str(i + 1))
 	if pos_from.size() > 0 and pos_from.size() < 4:
 		lines.append("Доступно с линий: %s" % " / ".join(pos_from))
+	var target_pos: Array[String] = []
+	for i in range(ability.targetable_positions.size()):
+		if ability.targetable_positions[i]:
+			target_pos.append(str(i + 1))
+	if target_pos.size() > 0:
+		lines.append("Цель на линиях: %s" % " / ".join(target_pos))
 	return "\n".join(lines)
-
-
-# ── Центральная колонка ──
-
 func _build_god_center_column() -> Control:
 	var vb := VBoxContainer.new()
 	vb.add_theme_constant_override("separation", 12)
@@ -5037,9 +5525,9 @@ func _build_god_center_column() -> Control:
 	fade_bar.value = res.forgetting_level
 	fade_bar.custom_minimum_size = Vector2(300, 26)
 	fade_bar.show_percentage = false
-	vb.add_child(_make_bar_with_label("Забвение", fade_bar, "%.1f / 5.0" % res.forgetting_level, Color(0.9, 0.5, 0.3)))
+	vb.add_child(_make_bar_with_label("Забвение", fade_bar, "%.1f / 5.0" % res.forgetting_level, Color(0.28, 0.08, 0.4)))
 
-	vb.add_child(HSeparator.new())
+	vb.add_child(_make_god_separator())
 
 	# Слоты экипировки.
 	var equip_title := Label.new()
@@ -5124,7 +5612,7 @@ func _populate_inventory_panel() -> void:
 	unequip_btn.pressed.connect(_unequip_current_slot)
 	_inventory_side.add_child(unequip_btn)
 
-	_inventory_side.add_child(HSeparator.new())
+	_inventory_side.add_child(_make_god_separator())
 
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL

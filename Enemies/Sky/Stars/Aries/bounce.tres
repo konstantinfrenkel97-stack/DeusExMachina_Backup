@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Отскочить"
+description = "Наносит 50% урона; отходит назад на 2 позицию."
 damage_modifier = 0.5
 majesty_gain = 0
 target_type = "Enemy"

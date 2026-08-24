@@ -10,14 +10,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Русалка волшебница"
+max_hp = 66
+damage = 14
+armor = 9
+initiative = 6
+accuracy = 80
+evasion = 12
+crit_chance = 0.07
 sprite_path = "res://Enemies/Sea/Depth/Mermaid_Sorceress/Mermaid_sorceress.png"
 face_sprite = "res://Enemies/Sea/Depth/Mermaid_Sorceress/Mermaid_sorceress_face.png"
 battle_sprite_scale_percent = 102.0
-max_hp = 45
-damage = 9
-armor = 10
-initiative = 6
-accuracy = 80
 special_effect_type = "mermaid_depth_heal"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2"), ExtResource("6_a3")])
 ai_script = ExtResource("3_ai")

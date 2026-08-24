@@ -10,10 +10,15 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Дева"
+max_hp = 83
+damage = 17
+armor = 12
+initiative = 6
+accuracy = 82
+evasion = 13
+crit_chance = 0.08
 sprite_path = "res://Enemies/Sky/Stars/Virgo/Virgo.png"
 face_sprite = "res://Enemies/Sky/Stars/Virgo/Virgo_face.png"
-max_hp = 60
-initiative = 6
 special_effect_type = "virgo_buff_amplify"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_asd"), ExtResource("5_sf"), ExtResource("6_it")])
 ai_script = ExtResource("3_ai")

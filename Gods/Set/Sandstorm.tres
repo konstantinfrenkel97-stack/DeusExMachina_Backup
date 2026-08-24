@@ -6,8 +6,9 @@
 script = ExtResource("1_sw")
 icon_path = "uid://cl0rhbucapf"
 name = "Песчаная буря"
+description = "Наносит 40% урона и снижает точность цели."
 damage_modifier = 0.4
-majesty_gain = 10
+majesty_gain = 15
 extra_targets_count = 2
 effect_types = Array[String](["target_debuff_accuracy"])
 effect_values = Dictionary[String, int]({

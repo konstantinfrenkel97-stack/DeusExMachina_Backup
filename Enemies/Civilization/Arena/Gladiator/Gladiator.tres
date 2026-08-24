@@ -9,14 +9,15 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Гладиатор"
+max_hp = 79
+damage = 32
+armor = 10
+initiative = 6
+accuracy = 83
+evasion = 14
+crit_chance = 0.12
 sprite_path = "res://Enemies/Civilization/Arena/Gladiator/Gladiator.png"
 face_sprite = "res://Enemies/Civilization/Arena/Gladiator/Gladiator_Face.png"
-max_hp = 65
-damage = 14
-armor = 20
-initiative = 6
-accuracy = 85
-crit_chance = 0.15
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2")])
 ai_script = ExtResource("3_ai")
 metadata/_custom_type_script = "uid://briall6wwu3rx"

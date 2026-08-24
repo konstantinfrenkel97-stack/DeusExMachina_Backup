@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_sf")
 name = "Морской кураж"
+description = "Наносит 70% урона; получает +15 удачи на 2 ход.; продвигается вперёд на 1 позицию."
 damage_modifier = 0.7
 majesty_gain = 0
 effect_types = Array[String](["self_buff_crit", "self_push_forward"])

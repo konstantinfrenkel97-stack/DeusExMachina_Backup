@@ -5,8 +5,10 @@
 [resource]
 script = ExtResource("1_bd")
 name = "Бомбардировка"
+description = "Стойка: в начале следующего хода наносит 4 удара по случайным врагам, каждый удар наносит 50% урона."
 damage_modifier = 0.5
 majesty_gain = 0
+target_type = "Self"
 is_stance = true
 stance_duration_type = "UntilNextTurn"
 stance_effect_type = "bombardment_stance"

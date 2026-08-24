@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="1_msr"]
+[ext_resource type="Resource" path="res://tests/test_choice_battle.tres" id="2_battle"]
+[ext_resource type="Resource" path="res://tests/test_choice_leave.tres" id="3_leave"]
+
+[resource]
+script = ExtResource("1_msr")
+scene_title = "Тестовая миссия"
+body_text = "Эта миссия нужна для быстрой проверки запуска прямо с экрана кампании.\n\nВыбери отряд, нажми «Вперед», а потом запусти бой."
+choices = [ExtResource("2_battle"), ExtResource("3_leave")]

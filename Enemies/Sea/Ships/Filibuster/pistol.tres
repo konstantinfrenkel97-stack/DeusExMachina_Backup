@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ps")
 name = "Пистоль"
+description = "Наносит 150% урона."
 damage_modifier = 1.5
 majesty_gain = 0
 usable_from_positions = Array[bool]([false, false, false, true])

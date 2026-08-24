@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_q53vt")
 name = "Сокрушение"
+description = "Наносит 200% урона."
 damage_modifier = 2.0
 majesty_gain = 0
 usable_from_positions = Array[bool]([true, true, false, false])

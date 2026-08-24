@@ -8,14 +8,15 @@ class_name StoneGiantShamanLogic
 const STONE_WALL = "каменная стена"
 
 static func get_decision(monster: Combatant, heroes: Array) -> Dictionary:
+	var wall := _find_ability(monster, STONE_WALL)
+
 	# Приоритет: «Каменная стена» если ещё не использована в этом бою
-	if not monster.get_meta("shaman_used_stone_wall", false):
-		var wall = _find_ability(monster, STONE_WALL)
-		if wall and _is_usable_from_position(wall, monster.position_index):
+	if wall and not monster.get_meta("shaman_used_stone_wall", false):
+		if _is_usable_from_position(wall, monster.position_index):
 			return {"ability": wall, "target": monster}
 
-	# В остальных случаях — случайный выбор
-	return ArenaRandomLogic.get_decision(monster, heroes)
+	# В остальных случаях — случайный выбор, но не повторная «Каменная стена»
+	return ArenaRandomLogic.get_decision(monster, heroes, [], [wall] if wall else [])
 
 
 static func _find_ability(monster: Combatant, ability_name: String) -> AbilityResource:

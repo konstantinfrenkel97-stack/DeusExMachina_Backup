@@ -3,12 +3,18 @@
 [ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_fa7bq"]
 [ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_88v7i"]
 [ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="3_2mglb"]
+[ext_resource type="Texture2D" uid="uid://bfu365plvlb5v" path="res://Main_characters/Lena/Lena_surprised.png" id="3_cmjng"]
+[ext_resource type="Texture2D" uid="uid://cl8wacfrih2fj" path="res://Main_characters/Lena/Lena_smile_1.png" id="4_j7tri"]
+[ext_resource type="Texture2D" uid="uid://c41xe23xeeys3" path="res://Main_characters/Lena/Lena_sad.png" id="5_dq013"]
+[ext_resource type="Texture2D" uid="uid://b8kvavkxxvw23" path="res://Main_characters/Lena/Lena_Angry.png" id="6_5jtxe"]
+[ext_resource type="Texture2D" uid="uid://duogyyhwd3igs" path="res://Main_characters/Lena/Lena_sceptical.png" id="7_o57i2"]
 
 [sub_resource type="Resource" id="Resource_xs1t7"]
 script = ExtResource("1_fa7bq")
 speaker_name = "Лена"
-text = "Ух ты! Вы Моргана? Легендарная колдунья и сестра короля Артура?
+text = "Ух ты! Вы та самая Моргана? Легендарная колдунья и сестра короля Артура?
 "
+sprite = ExtResource("3_cmjng")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_q7y22"]
@@ -22,13 +28,15 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 script = ExtResource("1_fa7bq")
 speaker_name = "Лена"
 text = "(она проигнорировала вопрос?)"
+sprite = ExtResource("3_cmjng")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_bx075"]
 script = ExtResource("1_fa7bq")
 speaker_name = "Лена"
-text = " Я Лена. И я сама не до конца понимаю, как это все работает. Но мне нужна помощь, меня хочет убить армия монстров.
+text = "Я Лена. И я сама не до конца понимаю, как это все работает. Но мне нужна помощь. Меня хочет убить армия монстров.
 "
+sprite = ExtResource("4_j7tri")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_8khoj"]
@@ -41,30 +49,33 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 script = ExtResource("1_fa7bq")
 speaker_name = "Лена"
 text = "Что? Но почему?"
+sprite = ExtResource("3_cmjng")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_uo7cm"]
 script = ExtResource("1_fa7bq")
 speaker_name = "Моргана"
-text = "Ты призвала меня не спросив согласия и просишь рисковать собой для своего блага. Не вижу ни одной причины соглашаться."
+text = "Ты призвала меня, не спросив согласия, и просишь рисковать собой для своего блага. Не вижу ни одной причины соглашаться."
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_f0dus"]
 script = ExtResource("1_fa7bq")
 speaker_name = "Лена"
 text = "Но если вы мне не поможете…"
+sprite = ExtResource("5_dq013")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_hyhxa"]
 script = ExtResource("1_fa7bq")
 speaker_name = "Моргана"
-text = "Кто научил тебя этой магии? Покажи мне как осуществляешь призыв."
+text = "Кто научил тебя этой магии? Покажи мне, как осуществляешь призыв."
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_kndjv"]
 script = ExtResource("1_fa7bq")
 speaker_name = "Лена"
 text = "Ха, отказываюсь!"
+sprite = ExtResource("6_5jtxe")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_0bf6b"]
@@ -77,6 +88,7 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 script = ExtResource("1_fa7bq")
 speaker_name = "Лена"
 text = "Вы правы, я не должна была призывать вас сюда и просить о безвозмездной помощи."
+sprite = ExtResource("4_j7tri")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_s0cso"]
@@ -84,24 +96,28 @@ script = ExtResource("1_fa7bq")
 speaker_name = "Лена"
 text = "Это не просто некрасиво по отношению к вам. А конкретно неправильно и несправедливо.
 "
+sprite = ExtResource("5_dq013")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_8mhb7"]
 script = ExtResource("1_fa7bq")
 speaker_name = "Лена"
 text = "Но моя жизнь под угрозой. Как и ваша, кстати."
+sprite = ExtResource("7_o57i2")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_rcner"]
 script = ExtResource("1_fa7bq")
 speaker_name = "Лена"
-text = "Поэтому помогите мне, и тогда я раскрою вам все что знаю об этом месте."
+text = "Поэтому помогите мне, и тогда я раскрою вам все, что знаю об этом месте."
+sprite = ExtResource("7_o57i2")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_bandu"]
 script = ExtResource("1_fa7bq")
 speaker_name = "Лена"
 text = "И еще раз извините, что призвала не спросив."
+sprite = ExtResource("5_dq013")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_16vee"]
@@ -114,6 +130,7 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 script = ExtResource("1_fa7bq")
 speaker_name = "Лена"
 text = "…"
+sprite = ExtResource("7_o57i2")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_ijlt3"]
@@ -126,6 +143,7 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 script = ExtResource("1_fa7bq")
 speaker_name = "Лена"
 text = "Правда?"
+sprite = ExtResource("3_cmjng")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_6ohs3"]

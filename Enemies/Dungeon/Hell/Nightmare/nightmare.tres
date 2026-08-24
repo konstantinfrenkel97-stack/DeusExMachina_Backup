@@ -10,12 +10,16 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Кошмар"
+max_hp = 180
+damage = 43
+armor = 17
+initiative = 7
+accuracy = 91
+evasion = 15
+crit_chance = 0.13
 sprite_path = "res://Enemies/Dungeon/Hell/Nightmare/Nightmare.png"
 face_sprite = "res://Enemies/Dungeon/Hell/Nightmare/Nightmare_face.png"
 battle_sprite_scale_percent = 89.0
-max_hp = 130
-damage = 15
-initiative = 5
 special_effect_type = "nightmare_majesty_damage"
 is_large = true
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("3_a1"), ExtResource("4_a2"), ExtResource("5_a3")])

@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="AbilityResource" format=3]
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://sdp0ihwanfy2"]
 
+[ext_resource type="Texture2D" uid="uid://d341t8ub4706n" path="res://Enemies/Forest/Jungle/Asura/Dark_streak.png" id="1_8emlj"]
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
 
 [resource]
@@ -8,14 +9,11 @@ name = "Чёрная полоса"
 description = "0,15 урона. Марка длится 3 хода. Цель в ней получает минус 20 удачи."
 damage_modifier = 0.15
 majesty_gain = 0
-target_type = "Enemy"
 ability_marker = "asura_streak"
 mark_type_int = 2
 mark_duration = 3
-mark_target_team = "enemy"
 mark_effect_type = "asura_streak_debuff"
 mark_effect_value = 20
 mark_effect_duration = 3
-usable_from_positions = Array[bool]([true, true, true, true])
-targetable_positions = Array[bool]([true, true, true, true])
+mark_icon = ExtResource("1_8emlj")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ch")
 name = "Заряжай"
+description = "Отходит назад на 2 позицию; получает +20 брони на 2 ход.."
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"

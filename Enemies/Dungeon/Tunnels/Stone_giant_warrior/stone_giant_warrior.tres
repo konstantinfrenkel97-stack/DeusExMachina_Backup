@@ -10,13 +10,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Каменный великан воин"
+max_hp = 217
+damage = 64
+armor = 23
+initiative = 5
+accuracy = 84
+evasion = 12
+crit_chance = 0.13
 sprite_path = "res://Enemies/Dungeon/Tunnels/Stone_giant_warrior/Stone_Giant_warrior.png"
 face_sprite = "res://Enemies/Dungeon/Tunnels/Stone_giant_warrior/Stone_Giant_warrior_Face.png"
 battle_sprite_scale_percent = 75.0
-damage = 16
-armor = 12
-accuracy = 85
-evasion = 5
 special_effect_type = "giant_armor_pierce"
 is_large = true
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_ygxcl"), ExtResource("3_c6s8v"), ExtResource("4_tgb27")])

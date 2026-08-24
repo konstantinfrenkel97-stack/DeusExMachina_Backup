@@ -5,12 +5,16 @@
 [resource]
 script = ExtResource("1_yaow6")
 name = "Калечащий удар"
-damage_modifier = 0.7
+description = "Наносит 80% урона; цель теряет 3 инициативы на 2 хода."
+damage_modifier = 0.8
 majesty_gain = 0
 effect_types = Array[String](["enemy_debuff_initiative"])
 effect_values = Dictionary[String, int]({
+"enemy_debuff_initiative": 3
+})
+effect_durations = Dictionary[String, int]({
 "enemy_debuff_initiative": 2
 })
-usable_from_positions = Array[bool]([false, true, false, false])
-targetable_positions = Array[bool]([true, true, false, false])
+usable_from_positions = Array[bool]([true, false, false, false])
+targetable_positions = Array[bool]([true, false, false, false])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

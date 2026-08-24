@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_qtwvj")
 name = "Метание топора"
+description = "Наносит 100% урона."
 majesty_gain = 0
 usable_from_positions = Array[bool]([false, false, true, true])
 targetable_positions = Array[bool]([false, true, true, true])

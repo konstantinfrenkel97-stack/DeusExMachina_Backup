@@ -6,7 +6,9 @@
 script = ExtResource("1_kfk0r")
 icon_path = "uid://c2c1creoalmh2"
 name = "Удар молота"
-majesty_gain = 30
+description = "Наносит обычный урон и даёт 25 величия. Если броня цели больше 50 — бьёт ещё раз."
+majesty_gain = 25
 usable_from_positions = Array[bool]([true, true, false, false])
 targetable_positions = Array[bool]([true, true, false, false])
+ability_marker = "thor_hammer_strike"
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

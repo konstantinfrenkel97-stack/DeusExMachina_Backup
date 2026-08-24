@@ -6,6 +6,7 @@
 majesty_gain = 0
 script = ExtResource("1_ab")
 name = "Равновесие"
+description = "Стойка: пока она активна, когда союзник получает урон, враги получают 25% этого урона чистым уроном."
 target_type = "Self"
 is_stance = true
 stance_effect_type = "libra_balance"

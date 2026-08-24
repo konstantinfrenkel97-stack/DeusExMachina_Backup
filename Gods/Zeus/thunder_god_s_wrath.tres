@@ -8,7 +8,6 @@ icon_path = "uid://dos7m7c0rvq1r"
 name = "Гнев Бога Грома"
 description = "Стойка. В начале следующего хода, Зевс нанесёт 5 ударов случайным целям, каждый наносит 30% от его урона. Это не израсходует действие во время активации"
 damage_modifier = 0.0
-majesty_gain = 25
 target_type = "Self"
 usable_from_positions = Array[bool]([false, false, true, true])
 stance_duration_type = "UntilNextTurn"

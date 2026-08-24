@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MissionResource" format=3 uid="uid://b51apwbg3b1jf"]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="1_m52cx"]
+[ext_resource type="Script" uid="uid://cgfjcbn8gssac" path="res://Missions/mission_resource.gd" id="2_r7573"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="3_mnph7"]
+[ext_resource type="Resource" path="res://Scenes/HellScenes/welcome_hell.tres" id="3_welcome"]
+[ext_resource type="Resource" path="res://Scenes/HellScenes/hell_treasure_chest.tres" id="4_chest"]
+[ext_resource type="Resource" path="res://Scenes/HellScenes/hell_patrol_1.tres" id="5_patrol"]
+[ext_resource type="Resource" path="res://Scenes/rest.tres" id="6_rest"]
+[ext_resource type="Resource" uid="uid://cnf67v27hkbnt" path="res://Scenes/HellScenes/soul_escape.tres" id="4_soul_escape"]
+
+[resource]
+script = ExtResource("2_r7573")
+mission_name = "Добро пожаловать в Ад"
+scenes = Array[ExtResource("1_m52cx")]([ExtResource("3_welcome"), ExtResource("4_chest"), ExtResource("5_patrol"), ExtResource("6_rest"), ExtResource("4_soul_escape")])
+location = 1
+metadata/_custom_type_script = "uid://cgfjcbn8gssac"

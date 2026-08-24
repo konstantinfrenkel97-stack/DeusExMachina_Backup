@@ -1,0 +1,169 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Enemies/Sky/Clouds/Pegasus/pegasus.tres" id="ext_pegasus"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Clouds/Cupid/cupid.tres" id="ext_cupid"]
+[ext_resource type="Resource" path="res://Gods/Chernobog/Chernobog.tres" id="ext_chernobog"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+
+[sub_resource type="Resource" id="form_pegasus"]
+script = ExtResource("formation_script")
+formation_name = "Пегас-купидон-купидон"
+pos1 = ExtResource("ext_pegasus")
+pos2 = ExtResource("ext_cupid")
+pos3 = ExtResource("ext_cupid")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="check_initiative"]
+script = ExtResource("stat_check_script")
+stat = 1
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="buff_all_evasion_minus10"]
+script = ExtResource("buff_script")
+stat = 3
+value = -10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_all_evasion_minus10"]
+script = ExtResource("unit_modifier_script")
+target_position = 0
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_all_evasion_minus10")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v1_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_pegasus")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_all_evasion_minus10")])
+location_id = "clouds"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v1_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы пользуетесь ее отвлеченностью, и прорываетесь сквозь облако. Всадница вскрикивает, а ваше оружие уже в опасной близости от нее."
+battle = SubResource("battle_v1_success")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="buff_pegasus_attack_plus20"]
+script = ExtResource("buff_script")
+stat = 0
+value = 20
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_pegasus_attack_plus20"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_pegasus_attack_plus20")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v1_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_pegasus")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_pegasus_attack_plus20")])
+location_id = "clouds"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v1_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы пытаетесь напасть незаметно, но она замечает вас. Удивление на ее лице сменяется стыдливым румянцем, а после и яростным покраснением.\n«Вы подслушивали?!»\nРука уже натягивает тетиву."
+battle = SubResource("battle_v1_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v1"]
+script = ExtResource("choice_script")
+choice_text = "Воспользоваться неожиданностью"
+stat_check = SubResource("check_initiative")
+success_outcome = SubResource("out_v1_success")
+failure_outcome = SubResource("out_v1_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_evasion"]
+script = ExtResource("stat_check_script")
+stat = 3
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_v2_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы оставляете всадницу с ее фантазиями. В мире всегда найдется немного места для любви."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="buff_all_accuracy_plus15"]
+script = ExtResource("buff_script")
+stat = 2
+value = 15
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_all_accuracy_plus15"]
+script = ExtResource("unit_modifier_script")
+target_position = 0
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_all_accuracy_plus15")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v2_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_pegasus")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_all_accuracy_plus15")])
+location_id = "clouds"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v2_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы удаляетесь, но вскоре сверху на вас обрушивается дождь стрел. Рыцарь и купидоны воспользовались вашим отступлением, чтобы занять выгодную позицию сверху."
+battle = SubResource("battle_v2_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v2"]
+script = ExtResource("choice_script")
+choice_text = "Предоставить ее самой себе"
+stat_check = SubResource("check_evasion")
+success_outcome = SubResource("out_v2_success")
+failure_outcome = SubResource("out_v2_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_pegasus_attack_minus10_perma"]
+script = ExtResource("buff_script")
+stat = 0
+value = -10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_pegasus_attack_minus10_perma"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_pegasus_attack_minus10_perma")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v3"]
+script = ExtResource("battle_script")
+formation = SubResource("form_pegasus")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_pegasus_attack_minus10_perma")])
+location_id = "clouds"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v3"]
+script = ExtResource("outcome_script")
+result_text = "Чернобог расправляет крылья и, подобно статуе из обсидиана, надвигается на девушку на Пегасе. Не успевает она отреагировать, как божество вытягивает вперед руку и сжимает кулак. Девушка хватается за грудь, откуда вылетает блеклая розовая дымка. Она тонкой струйкой утекает и растворяется в голодной пустоте лица Чернобога. Всадница поднимает глаза.\n«Я... Что я...? О чем я думала...»\nОна натягивает тетиву и направляет ее на вас, но ее движения медленные и вялые, а из глаз полностью пропал блеск."
+battle = SubResource("battle_v3")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v3"]
+script = ExtResource("choice_script")
+choice_text = "Нет любви..."
+required_god = ExtResource("ext_chernobog")
+outcome = SubResource("out_v3")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Полет Пегаса"
+body_text = "Пробираясь сквозь облака, вы замечаете за белым холмом силуэт рыцаря на Пегасе, рядом с ней озорно пархают два купидона. Вы пока не замечены и можете расслышать ее бормотание:\n«Но он такой сильный и смелый. Наверняка он на меня даже не посмотрит...»"
+choices = [SubResource("choice_v1"), SubResource("choice_v2"), SubResource("choice_v3")]

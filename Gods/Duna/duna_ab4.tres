@@ -8,6 +8,7 @@ icon_path = "uid://y0bnw0114nid"
 name = "В гармонии с природой"
 description = "Назад 1. Союзники не могут получать негативные эффекты. При попытке дебаффа восстанавливают 10% здоровья"
 damage_modifier = 0.0
+majesty_gain = 25
 target_type = "Self"
 usable_from_positions = Array[bool]([false, true, true, true])
 is_stance = true

@@ -3,11 +3,14 @@
 [ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_1yku3"]
 [ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_tau1c"]
 [ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_wi428"]
+[ext_resource type="Texture2D" uid="uid://bfu365plvlb5v" path="res://Main_characters/Lena/Lena_surprised.png" id="3_jaff4"]
+[ext_resource type="Texture2D" uid="uid://c41xe23xeeys3" path="res://Main_characters/Lena/Lena_sad.png" id="4_34nth"]
 
 [sub_resource type="Resource" id="Resource_jaff4"]
 script = ExtResource("1_1yku3")
 speaker_name = "Лена"
 text = " Власть и смерть. Аид. Логично."
+sprite = ExtResource("3_jaff4")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_34nth"]
@@ -19,7 +22,8 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 [sub_resource type="Resource" id="Resource_vjgdq"]
 script = ExtResource("1_1yku3")
 speaker_name = "Лена"
-text = "Прошу меня простить за беспокойство, но не могли бы вы помочь мне с ордой чудовищ, она хочет меня убить."
+text = "Прошу меня простить за беспокойство, но не могли бы вы помочь мне с ордой чудовищ. Она хочет меня убить."
+sprite = ExtResource("3_jaff4")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_t41rc"]
@@ -32,6 +36,7 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 script = ExtResource("1_1yku3")
 speaker_name = "Лена"
 text = "Но… Я уже призвала вас. И я не знаю, как бы вы могли вернуться туда."
+sprite = ExtResource("3_jaff4")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_hsxlr"]
@@ -43,13 +48,14 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 [sub_resource type="Resource" id="Resource_t8jvs"]
 script = ExtResource("1_1yku3")
 speaker_name = "Аид"
-text = "Меня оторвали от моих обязанностей, и единственный способ мне вернуться к ним - одолеть орду монстров?"
+text = "Меня оторвали от моих обязанностей, и единственный способ мне вернуться к ним — одолеть орду монстров?"
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_x6lv6"]
 script = ExtResource("1_1yku3")
 speaker_name = "Лена"
-text = "Извините.... Да."
+text = "Извините... Да."
+sprite = ExtResource("4_34nth")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_gl4rg"]
@@ -62,6 +68,7 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 script = ExtResource("1_1yku3")
 speaker_name = "Лена"
 text = "Вы не злитесь?"
+sprite = ExtResource("3_jaff4")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_i8n34"]
@@ -74,6 +81,7 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 script = ExtResource("1_1yku3")
 speaker_name = "Лена"
 text = "Звучит как-то... грустно."
+sprite = ExtResource("4_34nth")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_w5j2d"]

@@ -6,7 +6,7 @@
 script = ExtResource("1_c4po3")
 icon_path = "uid://bsxqxl6xfe1kg"
 name = "Быстрый удар"
-damage_modifier = 1.2
+description = "Наносит обычный урон и продвигает Сусаноо вперёд."
 majesty_gain = 10
 effect_types = Array[String](["self_push_forward"])
 effect_values = Dictionary[String, int]({

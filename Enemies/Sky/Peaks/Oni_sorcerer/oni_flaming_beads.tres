@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Пылающие бусы"
+description = "Наносит 70% урона; цель теряет 30 брони на 2 ход.."
 damage_modifier = 0.7
 majesty_gain = 0
 extra_targets_count = 1

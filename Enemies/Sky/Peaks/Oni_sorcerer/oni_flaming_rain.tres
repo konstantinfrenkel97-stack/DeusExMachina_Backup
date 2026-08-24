@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Пламенный дождь"
+description = "Стойка: в начале следующего хода наносит огненный удар по противникам."
 damage_modifier = 0.3
 majesty_gain = 0
 target_type = "Self"

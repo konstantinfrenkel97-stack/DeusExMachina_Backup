@@ -5,12 +5,11 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Бросить сеть"
-description = "0.2 урона по 3 целям. -30% уклонения на 2 хода."
+description = "0.2 урона. -30% уклонения на 2 хода."
 damage_modifier = 0.2
 majesty_gain = 0
 ability_marker = "gladiator_throw_net"
 target_type = "Enemy"
-extra_targets_count = 2
 effect_types = Array[String](["target_debuff_evasion"])
 effect_values = Dictionary[String, int]({
 "target_debuff_evasion": 30

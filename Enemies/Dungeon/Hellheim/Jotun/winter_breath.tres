@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_wb")
 name = "Дыхание Зимы"
+description = "Наносит 40% урона; цель теряет 1 инициативы на 4 ход.; цель теряет 10 точности на 4 ход.."
 damage_modifier = 0.4
 majesty_gain = 0
 extra_targets_count = 2

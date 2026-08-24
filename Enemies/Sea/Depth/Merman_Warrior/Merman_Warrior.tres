@@ -9,14 +9,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Русал воин"
+max_hp = 63
+damage = 22
+armor = 8
+initiative = 7
+accuracy = 82
+evasion = 17
+crit_chance = 0.1
 sprite_path = "res://Enemies/Sea/Depth/Merman_Warrior/Mermaid_warrior.png"
 face_sprite = "res://Enemies/Sea/Depth/Merman_Warrior/Mermaid_warrior_Face.png"
 battle_sprite_scale_percent = 105.0
-max_hp = 50
-damage = 10
-armor = 15
-initiative = 7
-accuracy = 85
 special_effect_type = "merwarrior_move_luck"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2")])
 ai_script = ExtResource("3_ai")

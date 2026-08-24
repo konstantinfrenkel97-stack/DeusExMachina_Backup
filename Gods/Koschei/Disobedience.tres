@@ -6,6 +6,7 @@
 script = ExtResource("1_do")
 icon_path = "uid://bosm54ksuf02l"
 name = "Непослушание"
+description = "Наносит урон. Дополнительно наносит урон от собственной брони Кощея: +1% урона за 1 броню."
 majesty_gain = 10
 usable_from_positions = Array[bool]([true, true, false, false])
 targetable_positions = Array[bool]([true, true, false, false])

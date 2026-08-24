@@ -8,10 +8,11 @@ icon_path = "uid://d0pc1jdx7e25u"
 name = "Объятия кракена"
 description = "Оглушить противника. Дать -3 инициативы на 2 хода."
 damage_modifier = 0.0
+majesty_gain = 10
 effect_types = Array[String](["stun", "target_debuff_initiative"])
 effect_values = Dictionary[String, int]({
 "stun": 1,
-"target_debuff_initiative": -3
+"target_debuff_initiative": 3
 })
 effect_durations = Dictionary[String, int]({
 "stun": 1,

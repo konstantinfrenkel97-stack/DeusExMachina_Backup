@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_dl")
 name = "Не смотри!"
+description = "Наносит 100% урона; отходит назад на 2 позицию."
 damage_modifier = 1.0
 majesty_gain = 0
 effect_types = Array[String](["self_push_back"])

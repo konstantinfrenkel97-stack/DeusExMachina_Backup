@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://c75rlgj5211nf"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_32tpc"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_1j3xd"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_wjfn6"]
+[ext_resource type="Texture2D" uid="uid://cko0dkwyf4e1a" path="res://Enemies/Forest/Marsh/Leshy/Leshiy.png" id="3_1j3xd"]
+[ext_resource type="Texture2D" uid="uid://bwmrl7quj85d" path="res://Main_characters/Lena/Lena_scared.png" id="4_3s4ku"]
+
+[sub_resource type="Resource" id="Resource_3s4ku"]
+script = ExtResource("1_32tpc")
+speaker_name = "Монстры"
+text = "Арррррргхх!!!"
+sprite = ExtResource("3_1j3xd")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_jcc5n"]
+script = ExtResource("1_32tpc")
+text = "Дверь жалобно трещит."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_lk5it"]
+script = ExtResource("1_32tpc")
+speaker_name = "Лена"
+text = "Ииииии!!!"
+sprite = ExtResource("4_3s4ku")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_wjfn6")
+lines = Array[ExtResource("1_32tpc")]([SubResource("Resource_3s4ku"), SubResource("Resource_jcc5n"), SubResource("Resource_lk5it")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

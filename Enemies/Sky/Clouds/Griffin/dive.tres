@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="AbilityResource" format=3]
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://d2fxc6a84c8au"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Texture2D" uid="uid://cprxy16dbviwq" path="res://Enemies/Sky/Clouds/Griffin/dive_icon.png" id="1_es2c5"]
 
 [resource]
 script = ExtResource("1_ab")
@@ -9,7 +10,5 @@ description = "Марка на врага. В начале следующего 
 damage_modifier = 0.0
 majesty_gain = 0
 ability_marker = "griffin_dive"
-target_type = "Enemy"
-usable_from_positions = Array[bool]([true, true, true, true])
-targetable_positions = Array[bool]([true, true, true, true])
+mark_icon = ExtResource("1_es2c5")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

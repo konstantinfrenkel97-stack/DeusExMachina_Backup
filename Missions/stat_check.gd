@@ -32,10 +32,11 @@ func display_stat() -> String:
 	return "?"
 
 
-## Собственно бросок: успех если rand(0..100) + средний_стат×коэфф ≥ difficulty.
-func is_success(avg_team_stat: float) -> bool:
+## Собственно бросок: успех если rand(0..100) + средний_стат×коэфф ≥ difficulty − difficulty_delta.
+## difficulty_delta — одноразовая скидка сложности от эффектов миссии (не меняет сам ресурс).
+func is_success(avg_team_stat: float, difficulty_delta: int = 0) -> bool:
 	var roll := randi_range(0, 100) + int(avg_team_stat * coefficient)
-	return roll >= difficulty
+	return roll >= (difficulty - difficulty_delta)
 
 
 ## Среднее значение характеристики по команде (массив путей .tres богов).

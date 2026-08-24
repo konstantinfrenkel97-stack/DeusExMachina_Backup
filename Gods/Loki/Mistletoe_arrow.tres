@@ -6,8 +6,8 @@
 script = ExtResource("1_ma")
 icon_path = "uid://0rkfk0rrdgs4"
 name = "Стрела из омелы"
+description = "Цель теряет броню."
 damage_modifier = 0.0
-majesty_gain = 10
 effect_types = Array[String](["target_debuff_armor"])
 effect_values = Dictionary[String, int]({
 "target_debuff_armor": 40

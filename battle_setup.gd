@@ -1,16 +1,24 @@
 extends Control
 
 const GODS_DIR := "res://Gods/"
-const LEFT_EDGE := 40.0
-const RIGHT_EDGE := 1240.0
+const LEFT_EDGE := 50.0
+const RIGHT_EDGE := 1230.0
 const SPAN_WIDTH := RIGHT_EDGE - LEFT_EDGE
-const LOCATION_CARD_SIZE := Vector2(230, 96)
+const LOCATION_CARD_SIZE := Vector2(224, 101)
 const LOCATION_ICON_SIZE := Vector2(150, 70)
-const SLOT_SIZE := Vector2(120, 120)
-const SLOT_ICON_SIZE := Vector2(98, 76)
-const HERO_PICKER_CARD_SIZE := Vector2(96, 60)
-const ENEMY_PICKER_CARD_SIZE := Vector2(122, 60)
-const PICKER_ICON_SIZE := Vector2(44, 30)
+const SLOT_SIZE := Vector2(102, 94)
+const SLOT_ICON_SIZE := Vector2(86, 60)
+const HERO_PICKER_CARD_SIZE := Vector2(50, 50)
+const ENEMY_PICKER_CARD_SIZE := Vector2(50, 50)
+const PICKER_ICON_SIZE := Vector2(50, 50)
+const SETUP_FRAME_TEXTURE := "res://Background/Battle_Setup_Frame.png"
+const SETUP_SCREEN_BG := Color(0.018, 0.021, 0.027, 1.0)
+const SETUP_CARD_BG := Color(0.0, 0.0, 0.0, 0.92)
+const SETUP_CARD_HOVER_BG := Color(0.015, 0.026, 0.035, 0.96)
+const SETUP_CARD_PRESSED_BG := Color(0.025, 0.045, 0.06, 1.0)
+const SETUP_PANEL_BG := Color(0.0, 0.0, 0.0, 0.82)
+const SETUP_BLUE := Color(0.62, 0.84, 0.96, 0.9)
+const SETUP_BLUE_FAINT := Color(0.34, 0.54, 0.68, 0.65)
 
 const LOCATIONS := [
 	{"name":"Хельхейм", "category":"Подземелье", "description":"Без описания", "id":"helheim", "background":"res://Background/Helheim.png", "fog":"res://Background/Helheim_fog.png", "enemy_dir":"res://Enemies/Dungeon/Hellheim/", "door":"res://Doors/Helheim_door.png", "door_open":"res://Doors/Helheim_door_open.png"},
@@ -33,6 +41,14 @@ const LOCATIONS := [
 static func apply_location_to_combat_manager(location_id: String) -> bool:
 	if location_id.strip_edges() == "":
 		return false
+	if location_id == "book":
+		CombatManager.selected_location_name = "Книга"
+		CombatManager.selected_location_description = "Без описания"
+		CombatManager.selected_location_id = "book"
+		CombatManager.selected_location_category = "Особое"
+		CombatManager.selected_background = "res://Background/Book_background.png"
+		CombatManager.selected_fog_background = ""
+		return true
 	for loc in LOCATIONS:
 		if str(loc["id"]) == location_id:
 			CombatManager.selected_location_name = str(loc["name"])
@@ -59,9 +75,11 @@ var _heroes_locked := false
 var _status_label: Label
 var _hero_picker_panel: PanelContainer
 var _enemy_picker_panel: PanelContainer
-var _hero_picker_grid: GridContainer
-var _enemy_picker_grid: GridContainer
+var _hero_picker_grid: Control
+var _enemy_picker_grid: Control
 var _start_button: Button
+var _character_info_panel: PanelContainer
+var _character_info_label: RichTextLabel
 
 func _ready() -> void:
 	_prepare_selection_state()
@@ -73,6 +91,74 @@ func _ready() -> void:
 	_rebuild_enemy_picker()
 	_update_all()
 
+func _add_screen_background() -> void:
+	var bg := TextureRect.new()
+	bg.name = "ScreenBackground"
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	bg.stretch_mode = TextureRect.STRETCH_SCALE
+	bg.texture = load(SETUP_FRAME_TEXTURE)
+	add_child(bg)
+	move_child(bg, 0)
+
+func _make_setup_style(bg: Color, border: Color, border_width: int = 1) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = bg
+	style.corner_radius_top_left = 3
+	style.corner_radius_top_right = 3
+	style.corner_radius_bottom_left = 3
+	style.corner_radius_bottom_right = 3
+	style.border_width_top = border_width
+	style.border_width_bottom = border_width
+	style.border_width_left = border_width
+	style.border_width_right = border_width
+	style.border_color = border
+	style.content_margin_left = 6.0
+	style.content_margin_right = 6.0
+	style.content_margin_top = 4.0
+	style.content_margin_bottom = 4.0
+	return style
+
+func _apply_setup_button_style(button: Button) -> void:
+	var clear_style := _make_setup_style(Color(0.0, 0.0, 0.0, 0.0), Color(0.0, 0.0, 0.0, 0.0), 0)
+	button.add_theme_stylebox_override("normal", clear_style)
+	button.add_theme_stylebox_override("hover", clear_style)
+	button.add_theme_stylebox_override("pressed", clear_style)
+	button.add_theme_stylebox_override("focus", clear_style)
+	button.add_theme_stylebox_override("disabled", clear_style)
+	button.add_theme_color_override("font_color", Color(0.88, 0.94, 0.98, 1.0))
+	button.add_theme_color_override("font_hover_color", Color(0.95, 0.99, 1.0, 1.0))
+	button.add_theme_color_override("font_pressed_color", Color(0.72, 0.9, 1.0, 1.0))
+	button.add_theme_color_override("font_disabled_color", Color(0.55, 0.59, 0.62, 1.0))
+
+func _apply_selected_slot_style(button: Button) -> void:
+	var normal_style := _make_setup_style(Color(0.0, 0.0, 0.0, 0.0), Color(0.0, 0.0, 0.0, 0.0), 0)
+	var selected_style := _make_setup_style(Color(0.42, 0.78, 1.0, 0.18), Color(0.0, 0.0, 0.0, 0.0), 0)
+	button.add_theme_stylebox_override("normal", normal_style)
+	button.add_theme_stylebox_override("hover", selected_style)
+	button.add_theme_stylebox_override("pressed", selected_style)
+	button.add_theme_stylebox_override("focus", selected_style)
+	button.add_theme_stylebox_override("disabled", normal_style)
+func _apply_setup_label_style(label: Label, font_size: int) -> void:
+	label.add_theme_font_size_override("font_size", font_size)
+	label.add_theme_color_override("font_color", Color(0.9, 0.95, 0.98, 1.0))
+	label.add_theme_color_override("font_shadow_color", Color(0.0, 0.0, 0.0, 0.75))
+	label.add_theme_constant_override("shadow_offset_x", 1)
+	label.add_theme_constant_override("shadow_offset_y", 1)
+
+func _apply_setup_panel_style(panel: PanelContainer) -> void:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.0, 0.0, 0.0, 0.0)
+	style.border_width_top = 0
+	style.border_width_bottom = 0
+	style.border_width_left = 0
+	style.border_width_right = 0
+	style.content_margin_left = 0.0
+	style.content_margin_right = 0.0
+	style.content_margin_top = 0.0
+	style.content_margin_bottom = 0.0
+	panel.add_theme_stylebox_override("panel", style)
 func _prepare_selection_state() -> void:
 	var formation_enemies: Array[String] = CombatManager.pending_formation_enemies.duplicate()
 	var has_formation := false
@@ -103,10 +189,13 @@ func _prepare_selection_state() -> void:
 
 func _build_ui() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_add_screen_background()
 	var back_button := Button.new()
 	back_button.text = "Назад"
-	back_button.position = Vector2(LEFT_EDGE, 8)
-	back_button.size = Vector2(120, 34)
+	back_button.position = Vector2(42, 10)
+	back_button.size = Vector2(172, 53)
+	_apply_setup_button_style(back_button)
+	back_button.add_theme_font_size_override("font_size", 16)
 	back_button.pressed.connect(_on_back_pressed)
 	add_child(back_button)
 	_status_label = Label.new()
@@ -114,60 +203,60 @@ func _build_ui() -> void:
 	_status_label.position = Vector2(LEFT_EDGE, 26)
 	_status_label.size = Vector2(SPAN_WIDTH, 20)
 	_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_status_label.add_theme_font_size_override("font_size", 14)
+	_apply_setup_label_style(_status_label, 14)
 	add_child(_status_label)
 	_build_locations()
 	_build_slots()
 	_build_picker_panels()
 	_start_button = Button.new()
 	_start_button.text = "В БОЙ!"
-	_start_button.position = Vector2(1092, 8)
-	_start_button.size = Vector2(148, 34)
+	_start_button.position = Vector2(1034, 11)
+	_start_button.size = Vector2(194, 53)
+	_apply_setup_button_style(_start_button)
+	_start_button.add_theme_font_size_override("font_size", 16)
 	_start_button.pressed.connect(_on_start_battle_pressed)
 	add_child(_start_button)
+	_build_character_info_panel()
 
 func _build_locations() -> void:
-	var start_y := 50.0
-	var h_gap := (SPAN_WIDTH - LOCATION_CARD_SIZE.x * 5.0) / 4.0
-	var v_gap := 8.0
+	var loc_xs: Array[float] = [50.0, 288.0, 530.0, 766.0, 1003.0]
+	var loc_ys: Array[float] = [58.0, 164.0, 270.0]
 	for i in range(LOCATIONS.size()):
 		var row := floori(i / 5.0)
 		var col := i % 5
 		var button := _make_location_button(i)
-		button.position = Vector2(LEFT_EDGE + col * (LOCATION_CARD_SIZE.x + h_gap), start_y + row * (LOCATION_CARD_SIZE.y + v_gap))
+		button.position = Vector2(loc_xs[col], loc_ys[row])
 		_location_buttons.append(button)
 		add_child(button)
 
 func _build_slots() -> void:
-	var slot_y := 376.0
-	var slot_gap := 8.0
-	var group_width := SLOT_SIZE.x * 4.0 + slot_gap * 3.0
-	var enemy_x := RIGHT_EDGE - group_width
+	var slot_y := 386.0
+	var hero_xs: Array[float] = [83.0, 191.0, 299.0, 406.0]
+	var enemy_xs: Array[float] = [772.0, 879.0, 986.0, 1093.0]
 	_hero_slot_buttons.resize(4)
 	_enemy_slot_buttons.resize(4)
 	for visual_index in range(4):
 		var hero_index := 3 - visual_index
 		var hero_button := _make_slot_button(false, hero_index)
-		hero_button.position = Vector2(LEFT_EDGE + visual_index * (SLOT_SIZE.x + slot_gap), slot_y)
+		hero_button.position = Vector2(hero_xs[visual_index], slot_y)
 		_hero_slot_buttons[hero_index] = hero_button
 		add_child(hero_button)
 		var enemy_button := _make_slot_button(true, visual_index)
-		enemy_button.position = Vector2(enemy_x + visual_index * (SLOT_SIZE.x + slot_gap), slot_y)
+		enemy_button.position = Vector2(enemy_xs[visual_index], slot_y)
 		_enemy_slot_buttons[visual_index] = enemy_button
 		add_child(enemy_button)
 
-
 func _make_location_button(index: int) -> Button:
-	var loc: Dictionary = LOCATIONS[index]
 	var button := Button.new()
 	button.size = LOCATION_CARD_SIZE
 	button.focus_mode = Control.FOCUS_NONE
 	button.clip_contents = true
 	button.toggle_mode = true
+	_apply_setup_button_style(button)
 	button.pressed.connect(_on_location_pressed.bind(index))
 	var icon := TextureRect.new()
 	icon.name = "Icon"
-	icon.position = Vector2((LOCATION_CARD_SIZE.x - LOCATION_ICON_SIZE.x) * 0.5, 2)
+	icon.position = Vector2((LOCATION_CARD_SIZE.x - LOCATION_ICON_SIZE.x) * 0.5, 21)
 	icon.size = LOCATION_ICON_SIZE
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -175,12 +264,12 @@ func _make_location_button(index: int) -> Button:
 	button.add_child(icon)
 	var label := Label.new()
 	label.name = "Name"
-	label.text = str(loc["name"])
-	label.position = Vector2(4, 74)
+	label.text = ""
+	label.position = Vector2(4, 79)
 	label.size = Vector2(LOCATION_CARD_SIZE.x - 8, 20)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.clip_text = true
-	label.add_theme_font_size_override("font_size", 13)
+	_apply_setup_label_style(label, 13)
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	button.add_child(label)
 	return button
@@ -191,10 +280,11 @@ func _make_slot_button(is_enemy: bool, index: int) -> Button:
 	button.focus_mode = Control.FOCUS_NONE
 	button.clip_contents = true
 	button.toggle_mode = true
+	_apply_selected_slot_style(button)
 	button.pressed.connect(_on_slot_pressed.bind(is_enemy, index))
 	var icon := TextureRect.new()
 	icon.name = "Icon"
-	icon.position = Vector2((SLOT_SIZE.x - SLOT_ICON_SIZE.x) * 0.5, 6)
+	icon.position = Vector2((SLOT_SIZE.x - SLOT_ICON_SIZE.x) * 0.5, 7)
 	icon.size = SLOT_ICON_SIZE
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -202,47 +292,39 @@ func _make_slot_button(is_enemy: bool, index: int) -> Button:
 	button.add_child(icon)
 	var label := Label.new()
 	label.name = "Name"
-	label.position = Vector2(4, 84)
+	label.position = Vector2(4, 63)
 	label.size = Vector2(SLOT_SIZE.x - 8, 32)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.add_theme_font_size_override("font_size", 12)
+	_apply_setup_label_style(label, 12)
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	button.add_child(label)
 	return button
 
 func _build_picker_panels() -> void:
-	var slot_gap := 8.0
-	var group_width := SLOT_SIZE.x * 4.0 + slot_gap * 3.0
-	var enemy_x := RIGHT_EDGE - group_width
-	var panel_y := 512.0
-	var panel_size := Vector2(group_width, 198)
+	var panel_y := 489.0
+	var hero_panel_size := Vector2(540, 210)
+	var enemy_panel_size := Vector2(500, 210)
 
-	_hero_picker_panel = _make_picker_panel(Vector2(LEFT_EDGE, panel_y), panel_size)
+	_hero_picker_panel = _make_picker_panel(Vector2(33, panel_y), hero_panel_size)
 	add_child(_hero_picker_panel)
-	_hero_picker_grid = _hero_picker_panel.get_node("Box/Grid") as GridContainer
-	_hero_picker_grid.columns = 5
+	_hero_picker_grid = _hero_picker_panel.get_node("Grid") as Control
 
-	_enemy_picker_panel = _make_picker_panel(Vector2(enemy_x, panel_y), panel_size)
+	_enemy_picker_panel = _make_picker_panel(Vector2(718, panel_y), enemy_panel_size)
 	add_child(_enemy_picker_panel)
-	_enemy_picker_grid = _enemy_picker_panel.get_node("Box/Grid") as GridContainer
-	_enemy_picker_grid.columns = 4
+	_enemy_picker_grid = _enemy_picker_panel.get_node("Grid") as Control
 
 func _make_picker_panel(pos: Vector2, panel_size: Vector2) -> PanelContainer:
 	var panel := PanelContainer.new()
 	panel.position = pos
 	panel.size = panel_size
-	var box := VBoxContainer.new()
-	box.name = "Box"
-	box.add_theme_constant_override("separation", 4)
-	panel.add_child(box)
-	var grid := GridContainer.new()
+	_apply_setup_panel_style(panel)
+	var grid := Control.new()
 	grid.name = "Grid"
-	grid.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	grid.add_theme_constant_override("h_separation", 5)
-	grid.add_theme_constant_override("v_separation", 5)
-	box.add_child(grid)
+	grid.position = Vector2.ZERO
+	grid.size = panel_size
+	panel.add_child(grid)
 	return panel
 
 func _apply_mission_location_if_needed() -> void:
@@ -291,15 +373,43 @@ func _on_slot_pressed(is_enemy: bool, index: int) -> void:
 
 func _rebuild_hero_picker() -> void:
 	_clear_grid(_hero_picker_grid)
+	var item_index: int = 0
 	for path in _get_alive_heroes():
-		_hero_picker_grid.add_child(_make_character_card(path, false))
+		var card := _make_character_card(path, false)
+		card.position = _get_picker_cell_position(false, item_index)
+		_hero_picker_grid.add_child(card)
+		item_index += 1
 
 func _rebuild_enemy_picker() -> void:
 	_clear_grid(_enemy_picker_grid)
+	var item_index: int = 0
 	for path in available_enemies:
-		_enemy_picker_grid.add_child(_make_character_card(path, true))
+		var card := _make_character_card(path, true)
+		card.position = _get_picker_cell_position(true, item_index)
+		_enemy_picker_grid.add_child(card)
+		item_index += 1
 
-func _clear_grid(grid: GridContainer) -> void:
+func _get_picker_cell_position(is_enemy: bool, item_index: int) -> Vector2:
+	var centers: Array[Vector2] = []
+	var panel_origin := Vector2.ZERO
+	if is_enemy:
+		panel_origin = _enemy_picker_panel.position
+		centers = [
+			Vector2(795.2, 533.5), Vector2(914.5, 533.5), Vector2(1039.5, 533.3), Vector2(1161.0, 530.3),
+			Vector2(795.2, 602.7), Vector2(914.5, 602.7), Vector2(1039.5, 602.7), Vector2(1161.0, 602.7),
+		]
+	else:
+		panel_origin = _hero_picker_panel.position
+		centers = [
+			Vector2(99.6, 530.3), Vector2(197.9, 530.3), Vector2(296.2, 530.3), Vector2(394.5, 530.3), Vector2(492.8, 530.3),
+			Vector2(99.6, 592.2), Vector2(197.9, 592.2), Vector2(296.2, 592.2), Vector2(394.5, 592.2), Vector2(492.8, 592.2),
+			Vector2(99.6, 653.8), Vector2(197.9, 653.8), Vector2(296.2, 653.8), Vector2(396.7, 653.8), Vector2(492.8, 653.8),
+		]
+	if item_index < 0 or item_index >= centers.size():
+		return Vector2.ZERO
+	var card_size := ENEMY_PICKER_CARD_SIZE if is_enemy else HERO_PICKER_CARD_SIZE
+	return centers[item_index] - panel_origin - card_size * 0.5
+func _clear_grid(grid: Control) -> void:
 	if grid == null:
 		return
 	for child in grid.get_children():
@@ -309,32 +419,26 @@ func _make_character_card(path: String, is_enemy: bool) -> Button:
 	var card_size := ENEMY_PICKER_CARD_SIZE if is_enemy else HERO_PICKER_CARD_SIZE
 	var button := Button.new()
 	button.custom_minimum_size = card_size
+	button.size = card_size
 	button.focus_mode = Control.FOCUS_NONE
 	button.clip_contents = true
+	button.tooltip_text = _get_name_from_resource(path, "")
+	_apply_setup_button_style(button)
 	button.disabled = _current_slot_index != -1 and is_enemy == _current_slot_is_enemy and not _can_place_character(path, is_enemy, _current_slot_index)
+	button.mouse_entered.connect(_show_character_info.bind(path))
+	button.mouse_exited.connect(_hide_character_info)
 	if is_enemy:
 		button.pressed.connect(_select_enemy.bind(path))
 	else:
 		button.pressed.connect(_select_hero.bind(path))
 	var icon := TextureRect.new()
-	icon.position = Vector2((card_size.x - PICKER_ICON_SIZE.x) * 0.5, 2)
+	icon.position = Vector2((card_size.x - PICKER_ICON_SIZE.x) * 0.5, (card_size.y - PICKER_ICON_SIZE.y) * 0.5)
 	icon.size = PICKER_ICON_SIZE
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	icon.texture = _get_character_texture(path)
 	button.add_child(icon)
-	var label := Label.new()
-	label.text = _get_name_from_resource(path, "")
-	label.position = Vector2(3, 32)
-	label.size = Vector2(card_size.x - 6, 26)
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	label.add_theme_font_size_override("font_size", 8 if is_enemy else 9)
-	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	button.add_child(label)
 	return button
 
 func _select_hero(path: String) -> void:
@@ -411,11 +515,7 @@ func _update_location_buttons() -> void:
 		var door_path := str(loc.get("door_open", "")) if i == _current_location_index else str(loc.get("door", ""))
 		icon.texture = _load_texture_or_null(door_path)
 		button.button_pressed = i == _current_location_index
-	if _current_location_index == -1:
-		_status_label.text = ""
-	else:
-		var loc_now: Dictionary = LOCATIONS[_current_location_index]
-		_status_label.text = "%s: %s (%s)" % ["Локация", loc_now["name"], loc_now["category"]]
+	_status_label.text = ""
 
 func _update_slots() -> void:
 	for i in range(4):
@@ -512,6 +612,59 @@ func _scan_directory_for_resources(path: String, array_to_fill: Array[String]) -
 		file_name = dir.get_next()
 	dir.list_dir_end()
 
+func _build_character_info_panel() -> void:
+	_character_info_panel = PanelContainer.new()
+	_character_info_panel.position = Vector2(563, 505)
+	_character_info_panel.size = Vector2(202, 202)
+	_character_info_panel.visible = false
+	_character_info_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_character_info_panel.add_theme_stylebox_override("panel", _make_setup_style(Color(0.0, 0.0, 0.0, 0.78), SETUP_BLUE_FAINT, 1))
+	add_child(_character_info_panel)
+	_character_info_label = RichTextLabel.new()
+	_character_info_label.bbcode_enabled = true
+	_character_info_label.fit_content = true
+	_character_info_label.scroll_active = false
+	_character_info_label.size = Vector2(190, 190)
+	_character_info_label.add_theme_font_size_override("normal_font_size", 11)
+	_character_info_label.add_theme_font_size_override("bold_font_size", 12)
+	_character_info_panel.add_child(_character_info_label)
+
+func _show_character_info(path: String) -> void:
+	if _character_info_panel == null or _character_info_label == null:
+		return
+	var res := CampaignState.load_character_resource(path)
+	if res == null:
+		return
+	_character_info_label.text = _build_character_info_text(res)
+	_character_info_panel.show()
+
+func _hide_character_info() -> void:
+	if _character_info_panel != null:
+		_character_info_panel.hide()
+
+func _build_character_info_text(res: CharacterResource) -> String:
+	var lines: Array[String] = []
+	lines.append("[b]%s[/b]" % res.get_display_name())
+	lines.append("HP: %d" % res.max_hp)
+	lines.append("Урон: %d | Броня: %d" % [res.damage, res.armor])
+	lines.append("Иниц.: %d | Точн.: %d%%" % [res.initiative, res.accuracy])
+	lines.append("Уклон.: %d%% | Удача: %d%%" % [res.evasion, int(round(res.crit_chance * 100.0))])
+	if res.special_effect_type.strip_edges() != "":
+		lines.append("Пассивка: %s" % res.special_effect_type)
+	var ability_names: Array[String] = []
+	for ability in res.active_abilities:
+		if ability != null:
+			ability_names.append(ability.name)
+	if res.ultimate_ability != null:
+		ability_names.append(res.ultimate_ability.name)
+	if not ability_names.is_empty():
+		var ability_text := ""
+		for i in range(ability_names.size()):
+			if i > 0:
+				ability_text += ", "
+			ability_text += ability_names[i]
+		lines.append("Способности: " + ability_text)
+	return "\n".join(lines)
 func _get_name_from_resource(path: String, default_name: String) -> String:
 	if path == "":
 		return default_name

@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "По голове"
+description = "Наносит 70% урона."
 damage_modifier = 0.7
 majesty_gain = 0
 ability_marker = "oni_head_blow"

@@ -1,0 +1,139 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3 uid="uid://dtda6rybu8yv0"]
+
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Resource" uid="uid://bd1esrt7k0m1a" path="res://Enemies/Civilization/Desert/Immortal/Immortal.tres" id="ext_1"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://dutn5fch4d8b5" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+
+[sub_resource type="Resource" id="sr_001"]
+script = ExtResource("formation_script")
+formation_name = "Бессмертная армия"
+pos1 = ExtResource("ext_1")
+pos2 = ExtResource("ext_1")
+pos3 = ExtResource("ext_1")
+pos4 = ExtResource("ext_1")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="sr_002"]
+script = ExtResource("battle_script")
+formation = SubResource("sr_001")
+location_id = "desert"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="sr_003"]
+script = ExtResource("buff_script")
+stat = 2
+value = -15
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="sr_004"]
+script = ExtResource("buff_script")
+stat = 4
+value = 10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="sr_005"]
+script = ExtResource("outcome_script")
+result_text = "Бежать некуда — и вы становитесь ядром порядка в хаосе, встав кругом. Из бури на вас обрушиваются удары, но вы хотя бы можете прикрывать друг друга. Эффект: у богов −15 точности на весь бой, +10 брони на 1 раунд."
+battle = SubResource("sr_002")
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("sr_003"), SubResource("sr_004")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_006"]
+script = ExtResource("choice_script")
+choice_text = "Спина к спине"
+outcome = SubResource("sr_005")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="sr_008"]
+script = ExtResource("buff_script")
+stat = 2
+value = -15
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="sr_009"]
+script = ExtResource("buff_script")
+stat = 3
+value = -10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="sr_010"]
+script = ExtResource("outcome_script")
+result_text = "Черные тени следуют за вами по пятам, нанося хлесткие удары, а выхода все нет. Все, чего вы добились, — слом собственного построения. Эффект: у богов −15 точности на весь бой и −10 уклонения на 1 раунд."
+battle = SubResource("sr_002")
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("sr_008"), SubResource("sr_009")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_011"]
+script = ExtResource("stat_check_script")
+stat = 1
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="sr_007"]
+script = ExtResource("outcome_script")
+result_text = "Вы вырываетесь из горячих объятий бури на чистый песок. Из стены пыли медленно, почти торжественно выходят фигуры в черных одеяниях с серебряными масками. Вы поднимаете оружие, готовясь дать бой бессмертным."
+battle = SubResource("sr_002")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_012"]
+script = ExtResource("choice_script")
+choice_text = "Вырваться из бури"
+stat_check = SubResource("sr_011")
+success_outcome = SubResource("sr_007")
+failure_outcome = SubResource("sr_010")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="sr_015"]
+script = ExtResource("buff_script")
+stat = 2
+value = -15
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="sr_016"]
+script = ExtResource("outcome_script")
+result_text = "Пустыня сыграла с вами злую шутку: вместо скал под ногами лишь мягкий песок. На ногах кровоточат порезы, память подвела. Эффект: у богов −15 точности на весь бой и −10% максимального здоровья."
+battle = SubResource("sr_002")
+hero_heal_percent = -10
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("sr_015")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_017"]
+script = ExtResource("stat_check_script")
+stat = 4
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="sr_013"]
+script = ExtResource("buff_script")
+stat = 4
+value = 5
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="sr_014"]
+script = ExtResource("outcome_script")
+result_text = "Память не подводит: среди пыли вырастает тень скал, и ваш отряд занимает позицию в ущелье. Ветер все еще оглушает, но вы хотя бы видите врагов — фигуры в черном с серебряными масками. Эффект: у богов +5 брони на 1 раунд."
+battle = SubResource("sr_002")
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("sr_013")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_018"]
+script = ExtResource("choice_script")
+choice_text = "Найти укрытие"
+stat_check = SubResource("sr_017")
+success_outcome = SubResource("sr_014")
+failure_outcome = SubResource("sr_016")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Песчаная буря"
+body_text = "Стена из пыли, ветра и песка обрушивается на вас, сдирая кожу и блокируя дыхание. Когда вы отдышались — среди песка замаячили высокие тени. Кривые сабли разрезают воздух, а заклинания пробивают бессмертных насквозь — те падают и встают снова. В потоке хаоса вы должны дать бой бессмертной армии."
+choices = Array[ExtResource("choice_script")]([SubResource("sr_006"), SubResource("sr_012"), SubResource("sr_018")])

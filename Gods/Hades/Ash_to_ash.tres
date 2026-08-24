@@ -6,8 +6,9 @@
 script = ExtResource("1_aa")
 icon_path = "uid://ku8bes2hv0jc"
 name = "Прах к праху"
+description = "Наносит 60% урона. За каждый дебафф на цели дополнительно наносит 10% базового урона."
 damage_modifier = 0.6
-majesty_gain = 10
+majesty_gain = 15
 usable_from_positions = Array[bool]([false, true, true, true])
 targetable_positions = Array[bool]([true, true, true, false])
 ability_marker = "hades_ash_to_ash"

@@ -9,15 +9,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Новичок"
+max_hp = 37
+damage = 15
+armor = 4
+initiative = 6
+accuracy = 76
+evasion = 15
+crit_chance = 0.08
 sprite_path = "res://Enemies/Civilization/Arena/Novice/Novice.png"
 face_sprite = "res://Enemies/Civilization/Arena/Novice/Novice_Face.png"
 battle_sprite_scale_percent = 90.0
-max_hp = 45
-damage = 8
-armor = 10
-initiative = 4
-accuracy = 75
-evasion = 15
 special_effect_type = "novice_transformation"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2")])
 ai_script = ExtResource("3_ai")

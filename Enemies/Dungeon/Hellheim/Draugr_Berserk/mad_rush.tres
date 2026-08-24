@@ -5,7 +5,8 @@
 [resource]
 script = ExtResource("1_mr")
 name = "Бешеный натиск"
-damage_modifier = 0.6
+description = "Наносит 80% урона; сам теряет 5% своего максимального здоровья; продвигается вперёд на 1 позицию."
+damage_modifier = 0.8
 majesty_gain = 0
 effect_types = Array[String](["self_damage_hp_percent", "self_push_forward"])
 effect_values = Dictionary[String, int]({

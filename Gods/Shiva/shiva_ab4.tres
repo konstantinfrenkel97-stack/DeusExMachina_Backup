@@ -8,6 +8,7 @@ icon_path = "uid://dly15hwklw73"
 name = "Карма"
 description = "Противник получает 50% урона нанесённого мне и копирует мои дебаффы"
 damage_modifier = 0.0
+majesty_gain = 30
 target_type = "Self"
 is_stance = true
 stance_effect_type = "shiva_karma"

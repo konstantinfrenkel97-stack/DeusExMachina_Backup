@@ -11,35 +11,21 @@ static func get_decision(monster: Combatant, heroes: Array) -> Dictionary:
 			poison_ab = ab
 			break
 
-	# Если есть способность яда и доступна — проверить, нужно ли применить (есть ли враг без яда).
-	if poison_ab != null and _is_usable_from_position(poison_ab, monster.position_index):
-		var has_enemy_without_poison = false
+	# Отравить случайного врага «Ядом древнего народа» — но только один раз за бой,
+	# в первый подходящий ход (спека: «...и больше не применяет»).
+	if poison_ab != null and not monster.get_meta("kappa_poison_used", false) \
+			and _is_usable_from_position(poison_ab, monster.position_index):
+		var targets: Array = []
 		for h in heroes:
-			if h == null or h.current_hp <= 0:
-				continue
-			if Combatant.can_be_targeted_at(h, poison_ab):
-				if not _has_effect_from(h, "periodic_damage", "kappa_ancient_poison"):
-					has_enemy_without_poison = true
-					break
-		# Применяем яд, только если НИКТО из врагов ещё не отравлен.
-		if has_enemy_without_poison and not _any_hero_poisoned(heroes, poison_ab):
-			var targets: Array = []
-			for h in heroes:
-				if h and h.current_hp > 0 and Combatant.can_be_targeted_at(h, poison_ab) \
-						and not _has_effect_from(h, "periodic_damage", "kappa_ancient_poison"):
-					targets.append(h)
-			if targets.size() > 0:
-				return {"ability": poison_ab, "target": targets.pick_random()}
+			if h and h.current_hp > 0 and Combatant.can_be_targeted_at(h, poison_ab) \
+					and not _has_effect_from(h, "periodic_damage", "kappa_ancient_poison"):
+				targets.append(h)
+		if targets.size() > 0:
+			monster.set_meta("kappa_poison_used", true)
+			return {"ability": poison_ab, "target": targets.pick_random()}
 
-	# Иначе — случайный доступный навык (включая яд при необходимости).
-	return _random_usable(monster, heroes)
-
-
-static func _any_hero_poisoned(heroes: Array, poison_ab: AbilityResource) -> bool:
-	for h in heroes:
-		if h and h.current_hp > 0 and _has_effect_from(h, "periodic_damage", "kappa_ancient_poison"):
-			return true
-	return false
+	# Иначе — случайный доступный навык (яд сюда уже не попадёт после первого применения).
+	return _random_usable(monster, heroes, poison_ab if monster.get_meta("kappa_poison_used", false) else null)
 
 
 static func _is_usable_from_position(ab: AbilityResource, pos: int) -> bool:
@@ -57,10 +43,10 @@ static func _has_effect_from(unit: Combatant, stat: String, source_marker: Strin
 	return false
 
 
-static func _random_usable(monster: Combatant, heroes: Array) -> Dictionary:
+static func _random_usable(monster: Combatant, heroes: Array, exclude_ab: AbilityResource = null) -> Dictionary:
 	var usable: Array = []
 	for ab in monster.active_abilities:
-		if ab == null:
+		if ab == null or ab == exclude_ab:
 			continue
 		if _is_usable_from_position(ab, monster.position_index):
 			usable.append(ab)

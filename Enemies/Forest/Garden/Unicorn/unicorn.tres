@@ -10,15 +10,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Единорог"
+max_hp = 202
+damage = 35
+armor = 22
+initiative = 8
+accuracy = 89
+evasion = 17
+crit_chance = 0.14
 sprite_path = "res://Enemies/Forest/Garden/Unicorn/Unicorn.png"
 face_sprite = "res://Enemies/Forest/Garden/Unicorn/Unicorn_face.png"
 battle_sprite_scale_percent = 113.0
-max_hp = 90
-damage = 24
-armor = 10
-initiative = 5
-evasion = 15
-crit_chance = 0.1
 special_effect_type = "unicorn_counter_accuracy"
 is_large = true
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_ch"), ExtResource("5_ub"), ExtResource("6_gp")])

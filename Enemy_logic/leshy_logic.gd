@@ -49,7 +49,7 @@ static func get_decision(monster: Combatant, heroes: Array) -> Dictionary:
 
 	# Если нет цели с 2 стаками дебаффа локации — 70% "Ты принадлежишь лесу"
 	if not has_2stack_location and ty_lesu and randi() % 100 < 70:
-		var target = _get_random_valid_target(heroes, ty_lesu)
+		var target = best_target if best_target and Combatant.can_be_targeted_at(best_target, ty_lesu) else _get_random_valid_target(heroes, ty_lesu)
 		if target:
 			return {"ability": ty_lesu, "target": target}
 
@@ -79,19 +79,17 @@ static func get_decision(monster: Combatant, heroes: Array) -> Dictionary:
 static func _count_debuffs(c: Combatant) -> int:
 	var count: int = 0
 	for e in c.active_effects:
-		var etype = Combatant._effect_get(e, "effect_type", "")
-		if etype.begins_with("target_debuff") or etype.begins_with("all_enemies_debuff"):
+		var eid = Combatant._effect_get(e, "effect_id", "")
+		if eid.begins_with("target_debuff") or eid.begins_with("all_enemies_debuff"):
 			count += 1
 	return count
 
-## Подсчёт стаков дебаффов локации на combatant
+## Подсчёт стаков дебаффа локации (Топь: "swamp_debuff") на combatant
 static func _count_location_debuffs(c: Combatant) -> int:
-	var count: int = 0
 	for e in c.active_effects:
-		var etype = Combatant._effect_get(e, "effect_type", "")
-		if etype == "location_effect" or etype == "location_debuff":
-			count += 1
-	return count
+		if Combatant._effect_get(e, "effect_id", "") == "swamp_debuff":
+			return int(Combatant._effect_get(e, "stacks", 0))
+	return 0
 
 static func _get_random_valid_target(heroes: Array, ability: AbilityResource) -> Combatant:
 	var valid: Array = []

@@ -6,7 +6,9 @@
 script = ExtResource("1_hg")
 icon_path = "uid://cw07js0wjxwp2"
 name = "Чахнуть над златом"
+description = "Восстанавливает 15 фантазии и снимает с Кощея дебаффы."
 damage_modifier = 0.0
+majesty_gain = 25
 target_type = "Self"
 effect_types = Array[String](["self_dispel_debuffs"])
 ability_marker = "koschei_hoard_gold"

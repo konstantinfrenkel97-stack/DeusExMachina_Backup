@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_hp")
 name = "Гарпун"
+description = "Наносит 60% урона; притягивает цель вперёд на 2 позицию; продвигается вперёд на 1 позицию; накладывает периодический урон 30 на 2 ход.."
 damage_modifier = 0.6
 majesty_gain = 0
 effect_types = Array[String](["pull_forward", "self_push_forward", "periodic_damage"])
@@ -18,6 +19,6 @@ effect_durations = Dictionary[String, int]({
 "self_push_forward": 0,
 "periodic_damage": 2
 })
-usable_from_positions = Array[bool]([false, false, true, true])
+usable_from_positions = Array[bool]([false, true, true, false])
 targetable_positions = Array[bool]([false, false, true, true])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

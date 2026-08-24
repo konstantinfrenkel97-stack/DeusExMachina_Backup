@@ -6,6 +6,7 @@
 majesty_gain = 0
 script = ExtResource("1_bagde")
 name = "Обрушить потолок"
+description = "Стойка: в начале следующего хода обрушивает потолок."
 target_type = "Self"
 usable_from_positions = Array[bool]([true, true, false, false])
 targetable_positions = Array[bool]([false, false, false, false])

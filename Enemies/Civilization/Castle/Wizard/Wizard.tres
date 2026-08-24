@@ -10,14 +10,16 @@
 [resource]
 script = ExtResource("2_ch")
 unit_name = "Волшебник"
+max_hp = 111
+damage = 54
+armor = 15
+initiative = 7
+accuracy = 95
+evasion = 14
+crit_chance = 0.19
 sprite_path = "res://Enemies/Civilization/Castle/Wizard/Wizard.png"
 face_sprite = "res://Enemies/Civilization/Castle/Wizard/Wizard_Face.png"
 battle_sprite_scale_percent = 103.0
-max_hp = 45
-damage = 12
-armor = 3
-initiative = 6
-crit_chance = 0.1
 special_effect_type = "wizard_fantasy_heal"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2"), ExtResource("6_a3")])
 ai_script = ExtResource("3_ai")

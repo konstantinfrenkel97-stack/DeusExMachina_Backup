@@ -6,6 +6,7 @@
 script = ExtResource("1_cs")
 icon_path = "uid://dvb4fsadt24yp"
 name = "Подлый удар"
+description = "Наносит 80% урона; цель теряет инициативу и уклонение."
 damage_modifier = 0.8
 majesty_gain = 10
 effect_types = Array[String](["target_debuff_initiative", "target_debuff_evasion"])

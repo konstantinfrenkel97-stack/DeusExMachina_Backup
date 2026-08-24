@@ -7,6 +7,7 @@ script = ExtResource("1_ab")
 icon_path = "uid://d21h8apcve6a4"
 name = "Удар трезубцем"
 description = "Урон увеличивается на 5%% за каждый бафф на мне."
+majesty_gain = 15
 usable_from_positions = Array[bool]([true, true, false, false])
 targetable_positions = Array[bool]([true, true, false, false])
 ability_marker = "poseidon_trident_strike"

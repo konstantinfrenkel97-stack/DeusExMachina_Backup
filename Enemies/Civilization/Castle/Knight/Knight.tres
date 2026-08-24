@@ -10,14 +10,16 @@
 [resource]
 script = ExtResource("2_ch")
 unit_name = "Рыцарь"
+max_hp = 266
+damage = 53
+armor = 35
+initiative = 6
+accuracy = 85
+evasion = 12
+crit_chance = 0.12
 sprite_path = "res://Enemies/Civilization/Castle/Knight/Knight.png"
 face_sprite = "res://Enemies/Civilization/Castle/Knight/knight_face.png"
 battle_sprite_scale_percent = 61.0
-max_hp = 80
-damage = 14
-armor = 10
-accuracy = 80
-evasion = 5
 special_effect_type = "knight_spell_cost_increase"
 is_large = true
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2"), ExtResource("6_a3")])

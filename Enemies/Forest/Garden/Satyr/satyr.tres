@@ -8,15 +8,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Сатир"
+max_hp = 106
+damage = 0
+armor = 14
+initiative = 7
+accuracy = 0
+evasion = 14
+crit_chance = 0
 sprite_path = "res://Enemies/Forest/Garden/Satyr/Satyr.png"
 face_sprite = "res://Enemies/Forest/Garden/Satyr/Satyr_face.png"
 battle_sprite_scale_percent = 75.0
-max_hp = 75
-damage = 18
-armor = 8
-initiative = 4
-accuracy = 85
-evasion = 15
 special_effect_type = "satyr_redirect"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_cs")])
 ai_script = ExtResource("3_ai")

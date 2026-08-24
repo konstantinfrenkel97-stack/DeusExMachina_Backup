@@ -65,7 +65,10 @@ static func calculate_ability_damage(attacker: Combatant, target: Combatant, abi
 
 	var final_damage := raw_damage
 	if ability.damage_type == "Physical" and not CombatManager.is_armor_ignored():
-		final_damage = apply_armor(raw_damage, target.armor)
+		var _eff_armor := target.armor
+		if attacker.special_effect_type == "giant_armor_pierce":
+			_eff_armor = int(target.armor * 0.5)
+		final_damage = apply_armor(raw_damage, _eff_armor)
 
 	return {
 		"is_hit": true, "is_crit": is_crit,

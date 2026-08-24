@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_osg44")
 name = "Прокопать тоннель"
+description = "Все союзники получают +4 инициативы на 1 ход.; все союзники получают +20 удачи на 1 ход.."
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "All_Allies"
@@ -18,5 +19,5 @@ effect_durations = Dictionary[String, int]({
 "All_Allies_buff_initiative": 1
 })
 usable_from_positions = Array[bool]([false, false, false, true])
-targetable_positions = Array[bool]([false, false, false, false])
+targetable_positions = Array[bool]([true, true, true, true])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

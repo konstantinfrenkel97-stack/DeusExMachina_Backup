@@ -6,7 +6,8 @@
 script = ExtResource("1_4aoc6")
 icon_path = "uid://cew033dqebjsf"
 name = "Золотой хопеш"
-majesty_gain = 15
-usable_from_positions = Array[bool]([true, true, false, false])
+description = "Наносит обычный урон и даёт 50 величия."
+majesty_gain = 50
+usable_from_positions = Array[bool]([true, true, true, false])
 targetable_positions = Array[bool]([true, true, false, false])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

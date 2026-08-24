@@ -17,16 +17,19 @@ static func get_decision(monster: Combatant, heroes: Array) -> Dictionary:
 			if target:
 				return {"ability": beads_ability, "target": target}
 
-	# Иначе случайная доступная способность
+	# Иначе случайная доступная способность — не бусины, если дебафф уже есть
+	# (если условие для бусин выше просто не выпало на броске, они остаются в пуле)
 	var usable = _get_usable_abilities(monster)
+	if has_beads_debuff and beads_ability != null:
+		usable.erase(beads_ability)
 	usable.shuffle()
 	for ability in usable:
 		var target = _get_random_target(heroes, ability)
 		if target:
 			return {"ability": ability, "target": target}
 
-	# Фолбэк — бусины как последний вариант
-	if beads_ability != null:
+	# Фолбэк — бусины как последний вариант, только если дебаффа ещё ни на ком нет
+	if not has_beads_debuff and beads_ability != null:
 		var target = _get_random_target(heroes, beads_ability)
 		if target:
 			return {"ability": beads_ability, "target": target}

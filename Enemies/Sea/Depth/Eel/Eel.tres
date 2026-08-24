@@ -9,16 +9,17 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Угорь"
+max_hp = 166
+damage = 60
+armor = 15
+initiative = 8
+accuracy = 90
+evasion = 21
+crit_chance = 0.16
 sprite_path = "res://Enemies/Sea/Depth/Eel/Eel.png"
 face_sprite = "res://Enemies/Sea/Depth/Eel/Eel_Face.png"
 battle_sprite_scale_percent = 75.0
 battle_sprite_y_offset_percent = 10.0
-max_hp = 55
-damage = 11
-armor = 10
-initiative = 8
-accuracy = 85
-evasion = 15
 special_effect_type = "eel_counter_stun"
 is_large = true
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2")])

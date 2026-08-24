@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Острые клешни"
+description = "Наносит 100% урона; сам теряет 10 брони на 2 ход.."
 damage_modifier = 1.0
 majesty_gain = 0
 extra_targets_count = 1

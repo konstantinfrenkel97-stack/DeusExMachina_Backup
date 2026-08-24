@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Utoplennitsa/utoplennitsa.tres" id="enemy_utoplennitsa"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Kikimora/kikimora.tres" id="enemy_kikimora"]
+
+[sub_resource type="Resource" id="form_welcome_marsh"]
+script = ExtResource("formation_script")
+formation_name = "Утопленница-Утопленница-Кикимора"
+pos1 = ExtResource("enemy_utoplennitsa")
+pos2 = ExtResource("enemy_utoplennitsa")
+pos3 = ExtResource("enemy_kikimora")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_welcome"]
+script = ExtResource("battle_script")
+formation = SubResource("form_welcome_marsh")
+location_id = "swamp"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_welcome"]
+script = ExtResource("outcome_script")
+result_text = "Вскоре, однако, он появился на кочках неподалеку, торжественно выйдя из пучины, болотной травой в зубцах короны.
+«... вас засосет.»
+Вы смотрите на него. А также на несколько пар светящихся глаз, глядящих на вас из болотной дымки."
+battle = SubResource("battle_welcome")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_welcome"]
+script = ExtResource("choice_script")
+choice_text = "Болота приветствуют вас"
+outcome = SubResource("out_welcome")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Добро пожаловать в Топь"
+body_text = "Топь встречает вас неприветливо. Комары, сырость, холод, темнота и мягкая податливая почва, в которую ноги погружаются по щиколотку.
+«Смотрите, куда идете, судари,» уверенно заявил Кощей, оборачиваясь к отряду на ходу. «Земля крайне обманчива, один шаг не в то место, и вас...»
+На этом слове он наступает туда, где, видимо, не было земли, и мгновенно уходит под воду под тяжестью собственных доспехов.
+Ваш отряд смотрит на круги на воде. Кощей пропал."
+choices = [SubResource("choice_welcome")]

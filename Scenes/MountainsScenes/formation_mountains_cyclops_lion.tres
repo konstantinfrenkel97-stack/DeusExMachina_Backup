@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FormationResource" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="1_fr"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Peaks/Cyclopes/cyclops.tres" id="2_cyclops"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Peaks/Lernaean_lion/lernaean_lion.tres" id="3_lion"]
+
+[resource]
+script = ExtResource("1_fr")
+formation_name = "Циклоп — лев"
+pos1 = ExtResource("2_cyclops")
+pos2 = null
+pos3 = ExtResource("3_lion")
+pos4 = null

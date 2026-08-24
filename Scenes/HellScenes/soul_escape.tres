@@ -1,0 +1,168 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3 uid="uid://cnf67v27hkbnt"]
+
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Resource" uid="uid://d0lwrjtyifqu0" path="res://Enemies/Dungeon/Hell/Tormented_soul/Tormented_soul.tres" id="ext_1"]
+[ext_resource type="Resource" uid="uid://76di7vb2r53g" path="res://Enemies/Dungeon/Hell/Tormentor/Tormentor.tres" id="ext_2"]
+[ext_resource type="Resource" uid="uid://1x2q7ynihq6c" path="res://Essence/essence_power.tres" id="ext_3"]
+[ext_resource type="Resource" uid="uid://dmvh76qge87c8" path="res://Essence/thoughts.tres" id="ext_4"]
+[ext_resource type="Resource" uid="uid://hadgod000001" path="res://Gods/Hades/Hades.tres" id="ext_5"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://dutn5fch4d8b5" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+
+[sub_resource type="Resource" id="sr_003"]
+script = ExtResource("unit_modifier_script")
+hp_percent = 70
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="sr_005"]
+script = ExtResource("buff_script")
+stat = 6
+value = -2
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="sr_006"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("sr_005")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="sr_001"]
+script = ExtResource("formation_script")
+formation_name = "Побег душ"
+pos1 = ExtResource("ext_1")
+pos2 = ExtResource("ext_1")
+pos3 = ExtResource("ext_1")
+pos4 = ExtResource("ext_1")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="sr_007"]
+script = ExtResource("battle_script")
+formation = SubResource("sr_001")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("sr_003")])
+hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("sr_006")])
+location_id = "hell"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="sr_011"]
+script = ExtResource("outcome_script")
+result_text = "Вы покрепче хватаетесь за оружие и даете отпор наплыву визжащих грешных душ. Однако дымная волна сметает вас. Вы теряете друг друга из виду и кто как может пытается отбиться от волны потерянных душ. Эффект: противники начинают бой с 70% здоровья, герои теряют 2 инициативы на 1 ход."
+battle = SubResource("sr_007")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_012"]
+script = ExtResource("stat_check_script")
+stat = 2
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="sr_004"]
+script = ExtResource("battle_script")
+formation = SubResource("sr_001")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("sr_003")])
+location_id = "hell"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="sr_010"]
+script = ExtResource("outcome_script")
+result_text = "Вы покрепче хватаетесь за оружие и даете отпор наплыву визжащих грешных душ. Их пепельный поток ударяется о стену вашей обороны и не может ее преодолеть. Души воют и извиваются, но не могут добраться до вас. Вы слышите демонический голос из-за стены дымных тел: «Так держать! Удерживайте их еще какое-то время!» Эффект: противники начинают бой с 70% здоровья."
+battle = SubResource("sr_004")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_013"]
+script = ExtResource("choice_script")
+choice_text = "Отбиваться от душ"
+stat_check = SubResource("sr_012")
+success_outcome = SubResource("sr_010")
+failure_outcome = SubResource("sr_011")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="sr_002"]
+script = ExtResource("formation_script")
+formation_name = "Тюремщики"
+pos1 = ExtResource("ext_2")
+pos2 = ExtResource("ext_2")
+pos3 = ExtResource("ext_2")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="sr_008"]
+script = ExtResource("battle_script")
+formation = SubResource("sr_002")
+location_id = "hell"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="sr_016"]
+script = ExtResource("outcome_script")
+result_text = "Волна душ настигает вас. В голове звенит, один за другим боги падают на землю. Когда вы открываете глаза, вы не знаете, сколько времени прошло, но вам очень плохо, а на вас с яростью смотрят глаза рогатых тюремщиков. Эффект: бой против трех Мучителей, весь отряд теряет 10% здоровья."
+battle = SubResource("sr_008")
+hero_heal_percent = -10
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_017"]
+script = ExtResource("stat_check_script")
+stat = 3
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="sr_014"]
+script = ExtResource("reward_script")
+kind = 3
+resource = ExtResource("ext_4")
+amount = 150
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="sr_015"]
+script = ExtResource("outcome_script")
+result_text = "Волна душ настигает вас, вы замираете и стараетесь не шевелиться. Вас захлестывает дымный поток, но как волна обрушилась, так она и прошла. Один из богов находит в кулаке янтарную «Слезу незабываемой боли» — когда проводишь по ней пальцем, слышен тихий плач. А между тем тюремщики-мучители выбегают из дыры в стене и обращают свою ярость на ваш отряд. Эффект: бой против трех Мучителей, вы получаете 150 мыслей за найденную реликвию."
+battle = SubResource("sr_008")
+rewards = Array[ExtResource("reward_script")]([SubResource("sr_014")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_018"]
+script = ExtResource("choice_script")
+choice_text = "Ничего не делать"
+stat_check = SubResource("sr_017")
+success_outcome = SubResource("sr_015")
+failure_outcome = SubResource("sr_016")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="sr_020"]
+script = ExtResource("outcome_script")
+result_text = "Аид рассеивает души цепями, но демоны-тюремщики скалятся и яростно поднимают оружие. Тот лишь безразлично пожимает плечами: «Стоило попробовать». Эффект: бой против трех Мучителей."
+battle = SubResource("sr_008")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_021"]
+script = ExtResource("stat_check_script")
+stat_label = "Величие"
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="sr_009"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("ext_3")
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="sr_019"]
+script = ExtResource("outcome_script")
+result_text = "Аид выходит перед отрядом, непоколебимый перед приливом мертвецов. Из его тени одна за другой вырываются цепи, хватают беглые души и рассеивают их. Демоны-тюремщики завороженно слушают повелителя смерти — и уходят. «Театральщина. Я не люблю прибегать к таким трюкам, но опыт показал, что они крайне эффективны. Пойдем». Эффект: бой пропущен, вы получаете эссенцию власти."
+rewards = Array[ExtResource("reward_script")]([SubResource("sr_009")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_022"]
+script = ExtResource("choice_script")
+choice_text = "Изгнать души"
+required_god = ExtResource("ext_5")
+stat_check = SubResource("sr_021")
+success_outcome = SubResource("sr_019")
+failure_outcome = SubResource("sr_020")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Побег душ"
+body_text = "Вы проходите мимо устрашающих адских тюрем, из которых слышится болезненный вой. Неожиданно по стене ближайшей тюрьмы идет трещина, она разлетается на куски — и толпа душ цвета сажи летит прямо на вас. Их эфемерные тела разорваны и заново сшиты металлическими нитями, из-под дымчатой кожи золы сияет огонь. Изнутри здания слышатся громкие резкие крики."
+choices = Array[ExtResource("choice_script")]([SubResource("sr_013"), SubResource("sr_018"), SubResource("sr_022")])

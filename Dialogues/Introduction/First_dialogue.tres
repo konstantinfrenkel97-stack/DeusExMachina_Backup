@@ -3,24 +3,32 @@
 [ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_icr5k"]
 [ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_ed1ei"]
 [ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_rmn3w"]
+[ext_resource type="Texture2D" uid="uid://cl8wacfrih2fj" path="res://Main_characters/Lena/Lena_smile_1.png" id="3_3fa0j"]
+[ext_resource type="Texture2D" uid="uid://b8kvavkxxvw23" path="res://Main_characters/Lena/Lena_Angry.png" id="3_ed1ei"]
+[ext_resource type="Texture2D" uid="uid://bfu365plvlb5v" path="res://Main_characters/Lena/Lena_surprised.png" id="4_k4oqr"]
+[ext_resource type="Texture2D" uid="uid://bwmrl7quj85d" path="res://Main_characters/Lena/Lena_scared.png" id="5_5tdk2"]
+[ext_resource type="Texture2D" uid="uid://duogyyhwd3igs" path="res://Main_characters/Lena/Lena_sceptical.png" id="7_0lul8"]
 
 [sub_resource type="Resource" id="Resource_jjos8"]
 script = ExtResource("1_icr5k")
 speaker_name = "Лена"
 text = "Давайте вот сюда.
 "
+sprite = ExtResource("3_3fa0j")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_n1djq"]
 script = ExtResource("1_icr5k")
 speaker_name = "Лена"
-text = "Только, прошу осторожней. Многие из этих книг - раритеты"
+text = "Только, прошу, осторожней. Многие из этих книг — раритеты"
+sprite = ExtResource("4_k4oqr")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_1cfcq"]
 script = ExtResource("1_icr5k")
 speaker_name = "Лена"
 text = "ОСТОРОЖНО!"
+sprite = ExtResource("5_5tdk2")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_3fa0j"]
@@ -32,18 +40,21 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 script = ExtResource("1_icr5k")
 speaker_name = "Лена"
 text = "Да вы, блин, серьезно?!"
+sprite = ExtResource("3_ed1ei")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_5tdk2"]
 script = ExtResource("1_icr5k")
 speaker_name = "Лена"
-text = "Просто тащите его дальше, я тут сама разберусь"
+text = "Просто тащите его дальше, я тут сама разберусь."
+sprite = ExtResource("7_0lul8")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_0lul8"]
 script = ExtResource("1_icr5k")
 speaker_name = "Лена"
 text = "О боги..."
+sprite = ExtResource("7_0lul8")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_g6as8"]
@@ -55,30 +66,35 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 script = ExtResource("1_icr5k")
 speaker_name = "Лена"
 text = "А это что? "
+sprite = ExtResource("4_k4oqr")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_h4mhf"]
 script = ExtResource("1_icr5k")
 speaker_name = "Лена"
 text = "Когда тебя принесли? Я не помню такой книги. И эти узоры..."
+sprite = ExtResource("4_k4oqr")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_iv505"]
 script = ExtResource("1_icr5k")
 speaker_name = "Лена"
 text = "Как на моем ключе! Странно..."
+sprite = ExtResource("7_0lul8")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_ra0bb"]
 script = ExtResource("1_icr5k")
 speaker_name = "Лена"
 text = "Не открывается, но я не вижу замка. Только скважина прямо посреди обложки."
+sprite = ExtResource("7_0lul8")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_sfqof"]
 script = ExtResource("1_icr5k")
 speaker_name = "Лена"
-text = "Что если...."
+text = "Что, если..."
+sprite = ExtResource("4_k4oqr")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_oqnoy"]

@@ -6,8 +6,9 @@
 script = ExtResource("1_rf")
 icon_path = "uid://v5rs4adunfuj"
 name = "Отражение"
+description = "Стойка: Сусаноо получает уклонение. В начале следующего хода контратакует всех врагов на 40% урона."
 damage_modifier = 0.4
-majesty_gain = 10
+majesty_gain = 30
 target_type = "Self"
 effect_types = Array[String](["self_buff_evasion"])
 effect_values = Dictionary[String, int]({
@@ -17,7 +18,6 @@ effect_durations = Dictionary[String, int]({
 "self_buff_evasion": 1
 })
 usable_from_positions = Array[bool]([true, true, true, false])
-stance_duration_type = "UntilNextTurn"
 is_stance = true
 stance_effect_type = "susanoo_reflection"
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

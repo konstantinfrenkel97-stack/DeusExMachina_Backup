@@ -9,15 +9,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Весы"
+max_hp = 236
+damage = 47
+armor = 30
+initiative = 5
+accuracy = 83
+evasion = 10
+crit_chance = 0.1
 sprite_path = "res://Enemies/Sky/Stars/Libra/Libra.png"
 face_sprite = "res://Enemies/Sky/Stars/Libra/Libra_face.png"
 battle_sprite_scale_percent = 63.0
-max_hp = 70
-damage = 25
-armor = 10
-initiative = 4
-accuracy = 85
-evasion = 15
 special_effect_type = "libra_adjacent_buff"
 is_large = true
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_bal"), ExtResource("5_imb")])

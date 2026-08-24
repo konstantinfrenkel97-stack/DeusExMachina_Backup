@@ -10,14 +10,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Матрос"
+max_hp = 48
+damage = 18
+armor = 5
+initiative = 6
+accuracy = 79
+evasion = 16
+crit_chance = 0.09
 sprite_path = "res://Enemies/Sea/Ships/Sailor/Матрос_nobg.png"
 face_sprite = "res://Enemies/Sea/Ships/Sailor/Матрос_Face.png"
-battle_sprite_scale_percent = 106.0
-max_hp = 65
-armor = 8
-initiative = 5
-accuracy = 85
-evasion = 15
+battle_sprite_scale_percent = 102.0
 special_effect_type = "sailor_rum_heal"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_nb"), ExtResource("5_lg"), ExtResource("6_hp")])
 ai_script = ExtResource("3_ai")

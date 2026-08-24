@@ -1,11 +1,13 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://bv526w6m567pb"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Texture2D" uid="uid://di0nhh060cclp" path="res://Enemies/Forest/Garden/Thorn_fairy/Thorn_bush_icon.png" id="1_csg8o"]
 
 [resource]
 script = ExtResource("1_ab")
 name = "Колючий куст"
 description = "Марка на позицию союзника (3 хода). Когда союзника под маркой атакуют, атакующий получает 30%% урона феи шипов."
+damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Position"
 ability_marker = "thorn_bush"
@@ -13,4 +15,5 @@ mark_type_int = 2
 mark_target_team = "ally"
 mark_duration = 3
 mark_damage_percent = 0.3
+mark_icon = ExtResource("1_csg8o")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

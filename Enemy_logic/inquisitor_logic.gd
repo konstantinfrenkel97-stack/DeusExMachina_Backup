@@ -3,8 +3,8 @@ class_name InquisitorLogic
 
 ## Инквизитор:
 ## • если ни на ком нет эффекта «Аутодафе» — применить его;
-## • для «Исповедь» — выбрать союзника с наибольшим числом дебаффов;
-## • иначе случайный навык.
+## • иначе случайный навык; если случайно выпала «Исповедь» — выбрать союзника
+##   с наибольшим числом дебаффов (если такого нет, «Исповедь» пропускается).
 
 static func get_decision_with_allies(monster: Combatant, heroes: Array, allies: Array) -> Dictionary:
 	var auto_ab := _find_by_marker(monster, "inquisitor_auto_da_fe")
@@ -22,20 +22,19 @@ static func get_decision_with_allies(monster: Combatant, heroes: Array, allies: 
 				if h and h.current_hp > 0 and Combatant.can_be_targeted_at(h, auto_ab):
 					return {"ability": auto_ab, "target": h}
 
-	# Исповедь: выбрать союзника с максимумом дебаффов
-	if confession_ab != null and _is_usable_from_position(confession_ab, monster.position_index):
-		var best_ally: Combatant = null
-		var best_debuffs = -1
-		for a in allies:
-			if a and a.current_hp > 0 and a != monster and Combatant.can_be_targeted_at(a, confession_ab):
-				var dc = _count_debuffs(a)
-				if dc > best_debuffs:
-					best_debuffs = dc
-					best_ally = a
-		if best_ally != null and best_debuffs > 0:
-			return {"ability": confession_ab, "target": best_ally}
+	return _random_decision(monster, heroes, allies, confession_ab)
 
-	return _random_decision(monster, heroes, allies)
+
+static func _find_best_debuffed_ally(monster: Combatant, allies: Array, confession_ab: AbilityResource) -> Combatant:
+	var best_ally: Combatant = null
+	var best_debuffs = 0
+	for a in allies:
+		if a and a.current_hp > 0 and a != monster and Combatant.can_be_targeted_at(a, confession_ab):
+			var dc = _count_debuffs(a)
+			if dc > best_debuffs:
+				best_debuffs = dc
+				best_ally = a
+	return best_ally
 
 
 static func _has_effect_source(unit: Combatant, source: String) -> bool:
@@ -55,7 +54,7 @@ static func _count_debuffs(unit: Combatant) -> int:
 	return cnt
 
 
-static func _random_decision(monster: Combatant, heroes: Array, allies: Array) -> Dictionary:
+static func _random_decision(monster: Combatant, heroes: Array, allies: Array, confession_ab: AbilityResource) -> Dictionary:
 	var usable: Array = []
 	for ab in monster.active_abilities:
 		if ab == null:
@@ -66,12 +65,20 @@ static func _random_decision(monster: Combatant, heroes: Array, allies: Array) -
 		return {}
 	usable.shuffle()
 	for ab in usable:
+		if ab == confession_ab:
+			# «Исповедь»: цель — союзник с наибольшим числом дебаффов.
+			# Нет подходящей цели — пропускаем и пробуем следующий навык.
+			var best_ally := _find_best_debuffed_ally(monster, allies, confession_ab)
+			if best_ally != null:
+				return {"ability": confession_ab, "target": best_ally}
+			continue
 		if ab.target_type == "Self":
 			return {"ability": ab, "target": monster}
 		if ab.target_type == "Ally":
 			for a in allies:
 				if a and a.current_hp > 0 and a != monster and Combatant.can_be_targeted_at(a, ab):
 					return {"ability": ab, "target": a}
+			continue
 		for h in heroes:
 			if h and h.current_hp > 0 and Combatant.can_be_targeted_at(h, ab):
 				return {"ability": ab, "target": h}

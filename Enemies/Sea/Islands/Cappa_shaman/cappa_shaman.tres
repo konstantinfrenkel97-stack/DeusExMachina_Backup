@@ -10,14 +10,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Каппа шаман"
+max_hp = 83
+damage = 17
+armor = 12
+initiative = 6
+accuracy = 82
+evasion = 13
+crit_chance = 0.08
 sprite_path = "res://Enemies/Sea/Islands/Cappa_shaman/Каппа шаман.png"
 face_sprite = "res://Enemies/Sea/Islands/Cappa_shaman/Каппа Шаман_Face.png"
 battle_sprite_scale_percent = 90.0
-max_hp = 60
-damage = 10
-armor = 30
-initiative = 4
-accuracy = 75
 special_effect_type = "kappa_shaman"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2"), ExtResource("6_a3")])
 ai_script = ExtResource("3_ai")

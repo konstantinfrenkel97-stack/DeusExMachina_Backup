@@ -1,8 +1,12 @@
-[gd_resource type="Resource" script_class="DialogueResource" format=3]
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://bxpo2whq3xwms"]
 
-[ext_resource type="Script" path="res://Dialogues/dialogue_line.gd" id="1_line"]
-[ext_resource type="Script" path="res://Dialogues/dialogue_choice.gd" id="2_choice"]
-[ext_resource type="Script" path="res://Dialogues/dialogue_resource.gd" id="3_res"]
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_line"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_choice"]
+[ext_resource type="Texture2D" uid="uid://bfu365plvlb5v" path="res://Main_characters/Lena/Lena_surprised.png" id="3_441xi"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="3_res"]
+[ext_resource type="Texture2D" uid="uid://cl8wacfrih2fj" path="res://Main_characters/Lena/Lena_smile_1.png" id="4_jjd3v"]
+[ext_resource type="Texture2D" uid="uid://bq5671vbp3ry4" path="res://Main_characters/Lena/Lena_smile_2.png" id="5_hryrk"]
+[ext_resource type="Texture2D" uid="uid://duogyyhwd3igs" path="res://Main_characters/Lena/Lena_sceptical.png" id="6_kev65"]
 
 [sub_resource type="Resource" id="Resource_s01"]
 script = ExtResource("1_line")
@@ -23,13 +27,14 @@ script = ExtResource("1_line")
 line_id = "intro_lena1"
 speaker_name = "Лена"
 text = "Эм, кто мы?"
+sprite = ExtResource("3_441xi")
 next_line_id = "intro_samdi2"
 
 [sub_resource type="Resource" id="Resource_s04"]
 script = ExtResource("1_line")
 line_id = "intro_samdi2"
 speaker_name = "Самди"
-text = "(Он улыбается держа сигарету в белоснежных зубах. По полу словно змеи расползаются длинные тени.)"
+text = "(Он улыбается, держа сигарету в белоснежных зубах. По полу словно змеи расползаются длинные тени.)"
 next_line_id = "Samdi_choices_1"
 
 [sub_resource type="Resource" id="Resource_s05"]
@@ -72,6 +77,7 @@ script = ExtResource("1_line")
 line_id = "open_door_1"
 speaker_name = "Лена"
 text = "Могу я попросить вас открыть одну из этих дверей? Тут божественная сила нужна."
+sprite = ExtResource("3_441xi")
 next_line_id = "open_door_2"
 
 [sub_resource type="Resource" id="Resource_s12"]
@@ -100,13 +106,14 @@ script = ExtResource("1_line")
 line_id = "open_door_5"
 speaker_name = "Лена"
 text = "Хмм, какая-то корабельная тематика?"
+sprite = ExtResource("3_441xi")
 next_line_id = "open_door_6"
 
 [sub_resource type="Resource" id="Resource_s16"]
 script = ExtResource("1_line")
 line_id = "open_door_6"
 speaker_name = "Самди"
-text = "Верно, а где корабли там и..."
+text = "Верно, а где корабли, там и..."
 next_line_id = "open_door_7"
 
 [sub_resource type="Resource" id="Resource_s17"]
@@ -114,6 +121,7 @@ script = ExtResource("1_line")
 line_id = "open_door_7"
 speaker_name = "Лена"
 text = "Торговля?"
+sprite = ExtResource("3_441xi")
 next_line_id = "open_door_8"
 
 [sub_resource type="Resource" id="Resource_s18"]
@@ -128,6 +136,7 @@ script = ExtResource("1_line")
 line_id = "open_door_9"
 speaker_name = "Лена"
 text = "Пираты?"
+sprite = ExtResource("3_441xi")
 next_line_id = "open_door_10"
 
 [sub_resource type="Resource" id="Resource_s20"]
@@ -142,6 +151,7 @@ script = ExtResource("1_line")
 line_id = "open_door_11"
 speaker_name = "Лена"
 text = "Корабельные песни?"
+sprite = ExtResource("3_441xi")
 next_line_id = "open_door_12"
 
 [sub_resource type="Resource" id="Resource_s22"]
@@ -156,6 +166,7 @@ script = ExtResource("1_line")
 line_id = "open_door_13"
 speaker_name = "Лена"
 text = "Эм..."
+sprite = ExtResource("3_441xi")
 next_line_id = "open_door_14"
 
 [sub_resource type="Resource" id="Resource_s24"]
@@ -170,6 +181,7 @@ script = ExtResource("1_line")
 line_id = "open_door_15"
 speaker_name = "Лена"
 text = "И бутылка рома!"
+sprite = ExtResource("4_jjd3v")
 next_line_id = "open_door_16"
 
 [sub_resource type="Resource" id="Resource_s26"]
@@ -184,6 +196,7 @@ script = ExtResource("1_line")
 line_id = "open_door_17"
 speaker_name = "Лена"
 text = "Мда, могла бы и догадаться."
+sprite = ExtResource("5_hryrk")
 next_line_id = "open_door_18"
 
 [sub_resource type="Resource" id="Resource_s28"]
@@ -191,6 +204,7 @@ script = ExtResource("1_line")
 line_id = "open_door_18"
 speaker_name = "Лена"
 text = "Зная вас."
+sprite = ExtResource("5_hryrk")
 next_line_id = "open_door_19"
 
 [sub_resource type="Resource" id="Resource_s29"]
@@ -217,6 +231,7 @@ script = ExtResource("1_line")
 line_id = "opinion_start"
 speaker_name = "Лена"
 text = "А что вы думаете о..."
+sprite = ExtResource("3_441xi")
 choices = Array[ExtResource("2_choice")]([SubResource("Resource_s30"), SubResource("Resource_s31")])
 
 [sub_resource type="Resource" id="Resource_s33"]
@@ -224,6 +239,7 @@ script = ExtResource("1_line")
 line_id = "opinion_susanoo_1"
 speaker_name = "Лена"
 text = "... Сусаноо."
+sprite = ExtResource("3_441xi")
 next_line_id = "opinion_susanoo_2"
 
 [sub_resource type="Resource" id="Resource_s34"]
@@ -238,6 +254,7 @@ script = ExtResource("1_line")
 line_id = "opinion_susanoo_3"
 speaker_name = "Лена"
 text = "Неужели?"
+sprite = ExtResource("3_441xi")
 next_line_id = "opinion_susanoo_4"
 
 [sub_resource type="Resource" id="Resource_s36"]
@@ -265,14 +282,15 @@ next_line_id = "opinion_susanoo_7"
 script = ExtResource("1_line")
 line_id = "opinion_susanoo_7"
 speaker_name = "Самди"
-text = "Ну ты знаешь как это бывает."
+text = "Ну ты знаешь, как это бывает."
 next_line_id = "opinion_susanoo_8"
 
 [sub_resource type="Resource" id="Resource_s40"]
 script = ExtResource("1_line")
 line_id = "opinion_susanoo_8"
 speaker_name = "Лена"
-text = "Надеюсь вы не держите обиды, не думаю что он делал вам зла."
+text = "Надеюсь, вы не держите обиды, не думаю, что он делал вам зла."
+sprite = ExtResource("3_441xi")
 next_line_id = "opinion_susanoo_9"
 
 [sub_resource type="Resource" id="Resource_s41"]
@@ -294,6 +312,7 @@ script = ExtResource("1_line")
 line_id = "opinion_susanoo_11"
 speaker_name = "Лена"
 text = "И что же вы ему такое сказали?"
+sprite = ExtResource("3_441xi")
 next_line_id = "opinion_susanoo_12"
 
 [sub_resource type="Resource" id="Resource_s44"]
@@ -308,13 +327,14 @@ script = ExtResource("1_line")
 line_id = "opinion_susanoo_13"
 speaker_name = "Лена"
 text = "И все?"
+sprite = ExtResource("3_441xi")
 next_line_id = "opinion_susanoo_14"
 
 [sub_resource type="Resource" id="Resource_s46"]
 script = ExtResource("1_line")
 line_id = "opinion_susanoo_14"
 speaker_name = "Самди"
-text = "И что он тратит энергию, на полную чушь."
+text = "И что он тратит энергию на полную чушь."
 next_line_id = "opinion_susanoo_15"
 
 [sub_resource type="Resource" id="Resource_s47"]
@@ -322,13 +342,14 @@ script = ExtResource("1_line")
 line_id = "opinion_susanoo_15"
 speaker_name = "Лена"
 text = "Ох."
+sprite = ExtResource("3_441xi")
 next_line_id = "opinion_susanoo_16"
 
 [sub_resource type="Resource" id="Resource_s48"]
 script = ExtResource("1_line")
 line_id = "opinion_susanoo_16"
 speaker_name = "Самди"
-text = "Слушай, скажи ка мне. В чем разница между достижением, к которому ты долго стремился, приложил кучу сил и времени, угробил здоровье и сон; и например бутылкой кактусовой настойки?"
+text = "Слушай, скажи-ка мне. В чем разница между достижением, к которому ты долго стремился, приложил кучу сил и времени, угробил здоровье и сон; и, например, бутылкой кактусовой настойки?"
 next_line_id = "opinion_susanoo_17"
 
 [sub_resource type="Resource" id="Resource_s49"]
@@ -336,13 +357,14 @@ script = ExtResource("1_line")
 line_id = "opinion_susanoo_17"
 speaker_name = "Лена"
 text = "Эм... А что общего?"
+sprite = ExtResource("6_kev65")
 next_line_id = "opinion_susanoo_18"
 
 [sub_resource type="Resource" id="Resource_s50"]
 script = ExtResource("1_line")
 line_id = "opinion_susanoo_18"
 speaker_name = "Самди"
-text = "Разница в том, что бутылка приносит тебе удовольствие пока не закончится. А когда закончится, можно взять новую."
+text = "Разница в том, что бутылка приносит тебе удовольствие, пока не закончится. А когда закончится, можно взять новую."
 next_line_id = "opinion_susanoo_19"
 
 [sub_resource type="Resource" id="Resource_s51"]
@@ -363,14 +385,15 @@ next_line_id = "opinion_susanoo_21"
 script = ExtResource("1_line")
 line_id = "opinion_susanoo_21"
 speaker_name = "Лена"
-text = "Я понимаю о чем вы говорите, но не совсем согласна."
+text = "Я понимаю, о чем вы говорите, но не совсем согласна."
+sprite = ExtResource("3_441xi")
 next_line_id = "opinion_susanoo_22"
 
 [sub_resource type="Resource" id="Resource_s54"]
 script = ExtResource("1_line")
 line_id = "opinion_susanoo_22"
 speaker_name = "Самди"
-text = "Мало кто соглашается. Привыкли к мысли что грешно жить для наслаждения жизнью."
+text = "Мало кто соглашается. Привыкли к мысли, что грешно жить для наслаждения жизнью."
 next_line_id = "opinion_susanoo_23"
 
 [sub_resource type="Resource" id="Resource_s55"]
@@ -378,6 +401,7 @@ script = ExtResource("1_line")
 line_id = "opinion_susanoo_23"
 speaker_name = "Лена"
 text = "Мне нужно обдумать это."
+sprite = ExtResource("6_kev65")
 next_line_id = "Samdi_choices_1"
 
 [sub_resource type="Resource" id="Resource_s56"]
@@ -385,6 +409,7 @@ script = ExtResource("1_line")
 line_id = "opinion_shiva_1"
 speaker_name = "Лена"
 text = "... Шиве."
+sprite = ExtResource("3_441xi")
 next_line_id = "opinion_shiva_2"
 
 [sub_resource type="Resource" id="Resource_s57"]
@@ -413,6 +438,7 @@ script = ExtResource("1_line")
 line_id = "opinion_shiva_5"
 speaker_name = "Лена"
 text = "И какие же простые вещи он пытается усложнить?"
+sprite = ExtResource("3_441xi")
 next_line_id = "opinion_shiva_6"
 
 [sub_resource type="Resource" id="Resource_s61"]
@@ -426,14 +452,15 @@ next_line_id = "opinion_shiva_7"
 script = ExtResource("1_line")
 line_id = "opinion_shiva_7"
 speaker_name = "Лена"
-text = "От вас то такое слышать?"
+text = "От вас-то такое слышать..."
+sprite = ExtResource("6_kev65")
 next_line_id = "opinion_shiva_8"
 
 [sub_resource type="Resource" id="Resource_s63"]
 script = ExtResource("1_line")
 line_id = "opinion_shiva_8"
 speaker_name = "Самди"
-text = "Но-но-но! Я осознанно отказываюсь от ответственности. Но не делаю вид что занимаюсь чем-то иным."
+text = "Но-но-но! Я осознанно отказываюсь от ответственности. Но не делаю вид, что занимаюсь чем-то иным."
 next_line_id = "opinion_shiva_9"
 
 [sub_resource type="Resource" id="Resource_s64"]
@@ -447,28 +474,29 @@ next_line_id = "opinion_shiva_10"
 script = ExtResource("1_line")
 line_id = "opinion_shiva_10"
 speaker_name = "Самди"
-text = "Он то тоже балагурит, но приговаривает что это не он так решил, а вселенная."
+text = "Он-то тоже балагурит, но приговаривает, что это не он так решил, а вселенная."
 next_line_id = "opinion_shiva_11"
 
 [sub_resource type="Resource" id="Resource_s66"]
 script = ExtResource("1_line")
 line_id = "opinion_shiva_11"
 speaker_name = "Лена"
-text = "Не уверена что вы правильно толкуете его позицию."
+text = "Не уверена, что вы правильно толкуете его позицию."
+sprite = ExtResource("6_kev65")
 next_line_id = "opinion_shiva_12"
 
 [sub_resource type="Resource" id="Resource_s67"]
 script = ExtResource("1_line")
 line_id = "opinion_shiva_12"
 speaker_name = "Самди"
-text = "Какая разница в чем позиция?"
+text = "Какая разница, в чем позиция?"
 next_line_id = "opinion_shiva_13"
 
 [sub_resource type="Resource" id="Resource_s68"]
 script = ExtResource("1_line")
 line_id = "opinion_shiva_13"
 speaker_name = "Самди"
-text = "Как часто люди принимают философию потому что она верна?"
+text = "Как часто люди принимают философию, потому что она верна?"
 next_line_id = "opinion_shiva_14"
 
 [sub_resource type="Resource" id="Resource_s69"]
@@ -482,14 +510,15 @@ next_line_id = "opinion_shiva_15"
 script = ExtResource("1_line")
 line_id = "opinion_shiva_15"
 speaker_name = "Лена"
-text = "Так то оно так..."
+text = "Так-то оно так..."
+sprite = ExtResource("3_441xi")
 next_line_id = "opinion_shiva_16"
 
 [sub_resource type="Resource" id="Resource_s71"]
 script = ExtResource("1_line")
 line_id = "opinion_shiva_16"
 speaker_name = "Самди"
-text = "Ладно, болтливая моя, ты пить то будешь?"
+text = "Ладно, болтливая моя, ты пить-то будешь?"
 next_line_id = "opinion_shiva_17"
 
 [sub_resource type="Resource" id="Resource_s72"]
@@ -497,6 +526,7 @@ script = ExtResource("1_line")
 line_id = "opinion_shiva_17"
 speaker_name = "Лена"
 text = "А? Нет, спасибо."
+sprite = ExtResource("3_441xi")
 next_line_id = "opinion_shiva_18"
 
 [sub_resource type="Resource" id="Resource_s73"]
@@ -504,6 +534,7 @@ script = ExtResource("1_line")
 line_id = "opinion_shiva_18"
 speaker_name = "Лена"
 text = "Не сейчас."
+sprite = ExtResource("4_jjd3v")
 next_line_id = "Samdi_choices_1"
 
 [sub_resource type="Resource" id="Resource_s74"]
@@ -511,6 +542,7 @@ script = ExtResource("1_line")
 line_id = "new_world_1"
 speaker_name = "Лена"
 text = "Как вам мир фантазий?"
+sprite = ExtResource("3_441xi")
 next_line_id = "new_world_2"
 
 [sub_resource type="Resource" id="Resource_s75"]
@@ -525,6 +557,7 @@ script = ExtResource("1_line")
 line_id = "new_world_3"
 speaker_name = "Лена"
 text = "Скучноват? Уж такой оценки я точно не ожидала."
+sprite = ExtResource("3_441xi")
 next_line_id = "new_world_4"
 
 [sub_resource type="Resource" id="Resource_s77"]
@@ -539,13 +572,14 @@ script = ExtResource("1_line")
 line_id = "new_world_5"
 speaker_name = "Лена"
 text = "Я думала вы любите простоту и вседозволенность."
+sprite = ExtResource("3_441xi")
 next_line_id = "new_world_6"
 
 [sub_resource type="Resource" id="Resource_s79"]
 script = ExtResource("1_line")
 line_id = "new_world_6"
 speaker_name = "Самди"
-text = "Скажи, мне, милая. Почему нельзя все время бухать?"
+text = "Скажи мне, милая. Почему нельзя все время бухать?"
 next_line_id = "new_world_7"
 
 [sub_resource type="Resource" id="Resource_s80"]
@@ -553,6 +587,7 @@ script = ExtResource("1_line")
 line_id = "new_world_7"
 speaker_name = "Лена"
 text = "Потому что печень откажет?"
+sprite = ExtResource("6_kev65")
 next_line_id = "new_world_8"
 
 [sub_resource type="Resource" id="Resource_s81"]
@@ -581,6 +616,7 @@ script = ExtResource("1_line")
 line_id = "new_world_11"
 speaker_name = "Лена"
 text = "Какой неожиданно здоровый совет."
+sprite = ExtResource("3_441xi")
 next_line_id = "new_world_12"
 
 [sub_resource type="Resource" id="Resource_s85"]
@@ -602,6 +638,7 @@ script = ExtResource("1_line")
 line_id = "new_world_14"
 speaker_name = "Лена"
 text = "А?"
+sprite = ExtResource("3_441xi")
 next_line_id = "new_world_15"
 
 [sub_resource type="Resource" id="Resource_s88"]
@@ -615,7 +652,8 @@ next_line_id = "Samdi_choices_1"
 script = ExtResource("1_line")
 line_id = "help_1"
 speaker_name = "Лена"
-text = "Вы помогаете мне потому что это весело?"
+text = "Вы помогаете мне, потому что это весело?"
+sprite = ExtResource("3_441xi")
 next_line_id = "help_2"
 
 [sub_resource type="Resource" id="Resource_s90"]
@@ -630,6 +668,7 @@ script = ExtResource("1_line")
 line_id = "help_3"
 speaker_name = "Лена"
 text = "И других причин нет?"
+sprite = ExtResource("6_kev65")
 next_line_id = "help_4"
 
 [sub_resource type="Resource" id="Resource_s92"]
@@ -644,6 +683,7 @@ script = ExtResource("1_line")
 line_id = "help_5"
 speaker_name = "Лена"
 text = "Не знаю, я вас спрашиваю."
+sprite = ExtResource("6_kev65")
 next_line_id = "help_6"
 
 [sub_resource type="Resource" id="Resource_s94"]
@@ -657,7 +697,8 @@ next_line_id = "help_7"
 script = ExtResource("1_line")
 line_id = "help_7"
 speaker_name = "Лена"
-text = "Вы идете в бой, и не думаете о том почему?"
+text = "Вы идете в бой, и не думаете о том, почему?"
+sprite = ExtResource("3_441xi")
 next_line_id = "help_8"
 
 [sub_resource type="Resource" id="Resource_s96"]
@@ -679,6 +720,7 @@ script = ExtResource("1_line")
 line_id = "help_10"
 speaker_name = "Лена"
 text = "Вы серьезно сейчас говорите?"
+sprite = ExtResource("3_441xi")
 next_line_id = "help_11"
 
 [sub_resource type="Resource" id="Resource_s99"]
@@ -693,6 +735,7 @@ script = ExtResource("1_line")
 line_id = "help_12"
 speaker_name = "Лена"
 text = "Ладно, устала я от ваших загадок."
+sprite = ExtResource("6_kev65")
 next_line_id = "help_13"
 
 [sub_resource type="Resource" id="Resource_s101"]
@@ -700,6 +743,7 @@ script = ExtResource("1_line")
 line_id = "help_13"
 speaker_name = "Лена"
 text = "Не хотите, не говорите."
+sprite = ExtResource("6_kev65")
 next_line_id = "help_14"
 
 [sub_resource type="Resource" id="Resource_s102"]
@@ -713,7 +757,8 @@ next_line_id = "Samdi_choices_1"
 script = ExtResource("1_line")
 line_id = "chosen_location_1"
 speaker_name = "Лена"
-text = "Кажется вам весело на кораблях."
+text = "Кажется, вам весело на кораблях."
+sprite = ExtResource("4_jjd3v")
 next_line_id = "chosen_location_2"
 
 [sub_resource type="Resource" id="Resource_s104"]
@@ -734,7 +779,8 @@ next_line_id = "chosen_location_4"
 script = ExtResource("1_line")
 line_id = "chosen_location_4"
 speaker_name = "Лена"
-text = "Да, корабли это что-то особенное."
+text = "Да, корабли — это что-то особенное."
+sprite = ExtResource("4_jjd3v")
 next_line_id = "chosen_location_5"
 
 [sub_resource type="Resource" id="Resource_s107"]
@@ -742,13 +788,14 @@ script = ExtResource("1_line")
 line_id = "chosen_location_5"
 speaker_name = "Лена"
 text = "Сама ходила пару раз."
+sprite = ExtResource("4_jjd3v")
 next_line_id = "chosen_location_6"
 
 [sub_resource type="Resource" id="Resource_s108"]
 script = ExtResource("1_line")
 line_id = "chosen_location_6"
 speaker_name = "Самди"
-text = "Знаешь, поговорку: морская болезнь это не когда тошнит на палубе, а когда идешь по земле а душа на море тянет."
+text = "Знаешь поговорку: морская болезнь — это не когда тошнит на палубе, а когда идешь по земле, а душа на море тянет."
 next_line_id = "chosen_location_7"
 
 [sub_resource type="Resource" id="Resource_s109"]
@@ -756,6 +803,7 @@ script = ExtResource("1_line")
 line_id = "chosen_location_7"
 speaker_name = "Лена"
 text = "Красивые слова, и мудрые."
+sprite = ExtResource("5_hryrk")
 next_line_id = "chosen_location_8"
 
 [sub_resource type="Resource" id="Resource_s110"]
@@ -770,6 +818,7 @@ script = ExtResource("1_line")
 line_id = "chosen_location_9"
 speaker_name = "Лена"
 text = "Так значит, вас увлекают не только сигары и алкоголь?"
+sprite = ExtResource("4_jjd3v")
 next_line_id = "chosen_location_10"
 
 [sub_resource type="Resource" id="Resource_s112"]
@@ -784,6 +833,7 @@ script = ExtResource("1_line")
 line_id = "chosen_location_11"
 speaker_name = "Лена"
 text = "Извините, я не хотела лезть, просто..."
+sprite = ExtResource("3_441xi")
 next_line_id = "chosen_location_12"
 
 [sub_resource type="Resource" id="Resource_s114"]
@@ -798,6 +848,7 @@ script = ExtResource("1_line")
 line_id = "chosen_location_13"
 speaker_name = "Лена"
 text = "А?"
+sprite = ExtResource("3_441xi")
 next_line_id = "chosen_location_14"
 
 [sub_resource type="Resource" id="Resource_s116"]
@@ -825,14 +876,15 @@ next_line_id = "chosen_location_17"
 script = ExtResource("1_line")
 line_id = "chosen_location_17"
 speaker_name = "Лена"
-text = "Ууу."
+text = "Ууу..."
+sprite = ExtResource("3_441xi")
 next_line_id = "chosen_location_18"
 
 [sub_resource type="Resource" id="Resource_s120"]
 script = ExtResource("1_line")
 line_id = "chosen_location_18"
 speaker_name = "Самди"
-text = "Может поймешь, что лучше жить, не задавая глупых вопросов."
+text = "Может, поймешь, что лучше жить, не задавая глупых вопросов."
 next_line_id = "Samdi_choices_1"
 
 [resource]
@@ -840,4 +892,4 @@ script = ExtResource("3_res")
 dialogue_id = "samdi_dialogue_1"
 dialogue_name = ""
 start_line_id = "intro_action"
-lines = Array[ExtResource("1_line")]([SubResource("Resource_s01"), SubResource("Resource_s02"), SubResource("Resource_s03"), SubResource("Resource_s04"), SubResource("Resource_s05"), SubResource("Resource_s06"), SubResource("Resource_s07"), SubResource("Resource_s08"), SubResource("Resource_s09"), SubResource("Resource_s10"), SubResource("Resource_s11"), SubResource("Resource_s12"), SubResource("Resource_s13"), SubResource("Resource_s14"), SubResource("Resource_s15"), SubResource("Resource_s16"), SubResource("Resource_s17"), SubResource("Resource_s18"), SubResource("Resource_s19"), SubResource("Resource_s20"), SubResource("Resource_s21"), SubResource("Resource_s22"), SubResource("Resource_s23"), SubResource("Resource_s24"), SubResource("Resource_s25"), SubResource("Resource_s26"), SubResource("Resource_s27"), SubResource("Resource_s28"), SubResource("Resource_s29"), SubResource("Resource_s30"), SubResource("Resource_s31"), SubResource("Resource_s32"), SubResource("Resource_s33"), SubResource("Resource_s34"), SubResource("Resource_s35"), SubResource("Resource_s36"), SubResource("Resource_s37"), SubResource("Resource_s38"), SubResource("Resource_s39"), SubResource("Resource_s40"), SubResource("Resource_s41"), SubResource("Resource_s42"), SubResource("Resource_s43"), SubResource("Resource_s44"), SubResource("Resource_s45"), SubResource("Resource_s46"), SubResource("Resource_s47"), SubResource("Resource_s48"), SubResource("Resource_s49"), SubResource("Resource_s50"), SubResource("Resource_s51"), SubResource("Resource_s52"), SubResource("Resource_s53"), SubResource("Resource_s54"), SubResource("Resource_s55"), SubResource("Resource_s56"), SubResource("Resource_s57"), SubResource("Resource_s58"), SubResource("Resource_s59"), SubResource("Resource_s60"), SubResource("Resource_s61"), SubResource("Resource_s62"), SubResource("Resource_s63"), SubResource("Resource_s64"), SubResource("Resource_s65"), SubResource("Resource_s66"), SubResource("Resource_s67"), SubResource("Resource_s68"), SubResource("Resource_s69"), SubResource("Resource_s70"), SubResource("Resource_s71"), SubResource("Resource_s72"), SubResource("Resource_s73"), SubResource("Resource_s74"), SubResource("Resource_s75"), SubResource("Resource_s76"), SubResource("Resource_s77"), SubResource("Resource_s78"), SubResource("Resource_s79"), SubResource("Resource_s80"), SubResource("Resource_s81"), SubResource("Resource_s82"), SubResource("Resource_s83"), SubResource("Resource_s84"), SubResource("Resource_s85"), SubResource("Resource_s86"), SubResource("Resource_s87"), SubResource("Resource_s88"), SubResource("Resource_s89"), SubResource("Resource_s90"), SubResource("Resource_s91"), SubResource("Resource_s92"), SubResource("Resource_s93"), SubResource("Resource_s94"), SubResource("Resource_s95"), SubResource("Resource_s96"), SubResource("Resource_s97"), SubResource("Resource_s98"), SubResource("Resource_s99"), SubResource("Resource_s100"), SubResource("Resource_s101"), SubResource("Resource_s102"), SubResource("Resource_s103"), SubResource("Resource_s104"), SubResource("Resource_s105"), SubResource("Resource_s106"), SubResource("Resource_s107"), SubResource("Resource_s108"), SubResource("Resource_s109"), SubResource("Resource_s110"), SubResource("Resource_s111"), SubResource("Resource_s112"), SubResource("Resource_s113"), SubResource("Resource_s114"), SubResource("Resource_s115"), SubResource("Resource_s116"), SubResource("Resource_s117"), SubResource("Resource_s118"), SubResource("Resource_s119"), SubResource("Resource_s120")])
+lines = Array[ExtResource("1_line")]([SubResource("Resource_s01"), SubResource("Resource_s02"), SubResource("Resource_s03"), SubResource("Resource_s04"), SubResource("Resource_s10"), SubResource("Resource_s11"), SubResource("Resource_s12"), SubResource("Resource_s13"), SubResource("Resource_s14"), SubResource("Resource_s15"), SubResource("Resource_s16"), SubResource("Resource_s17"), SubResource("Resource_s18"), SubResource("Resource_s19"), SubResource("Resource_s20"), SubResource("Resource_s21"), SubResource("Resource_s22"), SubResource("Resource_s23"), SubResource("Resource_s24"), SubResource("Resource_s25"), SubResource("Resource_s26"), SubResource("Resource_s27"), SubResource("Resource_s28"), SubResource("Resource_s29"), SubResource("Resource_s32"), SubResource("Resource_s33"), SubResource("Resource_s34"), SubResource("Resource_s35"), SubResource("Resource_s36"), SubResource("Resource_s37"), SubResource("Resource_s38"), SubResource("Resource_s39"), SubResource("Resource_s40"), SubResource("Resource_s41"), SubResource("Resource_s42"), SubResource("Resource_s43"), SubResource("Resource_s44"), SubResource("Resource_s45"), SubResource("Resource_s46"), SubResource("Resource_s47"), SubResource("Resource_s48"), SubResource("Resource_s49"), SubResource("Resource_s50"), SubResource("Resource_s51"), SubResource("Resource_s52"), SubResource("Resource_s53"), SubResource("Resource_s54"), SubResource("Resource_s55"), SubResource("Resource_s56"), SubResource("Resource_s57"), SubResource("Resource_s58"), SubResource("Resource_s59"), SubResource("Resource_s60"), SubResource("Resource_s61"), SubResource("Resource_s62"), SubResource("Resource_s63"), SubResource("Resource_s64"), SubResource("Resource_s65"), SubResource("Resource_s66"), SubResource("Resource_s67"), SubResource("Resource_s68"), SubResource("Resource_s69"), SubResource("Resource_s70"), SubResource("Resource_s71"), SubResource("Resource_s72"), SubResource("Resource_s73"), SubResource("Resource_s74"), SubResource("Resource_s75"), SubResource("Resource_s76"), SubResource("Resource_s77"), SubResource("Resource_s78"), SubResource("Resource_s79"), SubResource("Resource_s80"), SubResource("Resource_s81"), SubResource("Resource_s82"), SubResource("Resource_s83"), SubResource("Resource_s84"), SubResource("Resource_s85"), SubResource("Resource_s86"), SubResource("Resource_s87"), SubResource("Resource_s88"), SubResource("Resource_s89"), SubResource("Resource_s90"), SubResource("Resource_s91"), SubResource("Resource_s92"), SubResource("Resource_s93"), SubResource("Resource_s94"), SubResource("Resource_s95"), SubResource("Resource_s96"), SubResource("Resource_s97"), SubResource("Resource_s98"), SubResource("Resource_s99"), SubResource("Resource_s100"), SubResource("Resource_s101"), SubResource("Resource_s102"), SubResource("Resource_s103"), SubResource("Resource_s104"), SubResource("Resource_s105"), SubResource("Resource_s106"), SubResource("Resource_s107"), SubResource("Resource_s108"), SubResource("Resource_s109"), SubResource("Resource_s110"), SubResource("Resource_s111"), SubResource("Resource_s112"), SubResource("Resource_s113"), SubResource("Resource_s114"), SubResource("Resource_s115"), SubResource("Resource_s116"), SubResource("Resource_s117"), SubResource("Resource_s118"), SubResource("Resource_s119"), SubResource("Resource_s120")])

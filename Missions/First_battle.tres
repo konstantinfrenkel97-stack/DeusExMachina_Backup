@@ -1,0 +1,56 @@
+[gd_resource type="Resource" script_class="MissionResource" format=3 uid="uid://bmw1smjy44w3i"]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="1_frkos"]
+[ext_resource type="Script" uid="uid://cgfjcbn8gssac" path="res://Missions/mission_resource.gd" id="1_v1n3h"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="2_rd3k2"]
+[ext_resource type="Script" uid="uid://dutn5fch4d8b5" path="res://Missions/unit_modifier.gd" id="3_cy1b3"]
+[ext_resource type="Resource" uid="uid://bqpn7xwxwr3uw" path="res://Enemies/Forest/Marsh/Kikimora/kikimora.tres" id="4_tx01b"]
+[ext_resource type="Resource" uid="uid://cdkp8u3tg21uk" path="res://Enemies/Dungeon/Hell/Hellhound/hellhound.tres" id="5_gjoyp"]
+[ext_resource type="Resource" uid="uid://24uwmv5i3use" path="res://Enemies/Dungeon/Hellheim/Draugr_raider/Draugr_raider.tres" id="6_fbafn"]
+[ext_resource type="Resource" uid="uid://hbur4mg1bd3k" path="res://Enemies/Forest/Garden/Flower_fairy/flower_fairy.tres" id="7_gn0rn"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="8_xqaqt"]
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="9_l3nxd"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="10_50rdk"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="11_iy3e3"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="12_rpp10"]
+
+[sub_resource type="Resource" id="Resource_p4qgb"]
+script = ExtResource("8_xqaqt")
+pos1 = ExtResource("4_tx01b")
+pos2 = ExtResource("5_gjoyp")
+pos3 = ExtResource("6_fbafn")
+pos4 = ExtResource("7_gn0rn")
+metadata/_custom_type_script = "uid://c50het7soanc1"
+
+[sub_resource type="Resource" id="Resource_icuex"]
+script = ExtResource("9_l3nxd")
+formation = SubResource("Resource_p4qgb")
+metadata/_custom_type_script = "uid://dnsytfvxq1dxf"
+
+[sub_resource type="Resource" id="Resource_7ccau"]
+script = ExtResource("11_iy3e3")
+battle = SubResource("Resource_icuex")
+metadata/_custom_type_script = "uid://dvpdwqc5nh1vu"
+
+[sub_resource type="Resource" id="Resource_gmrj6"]
+script = ExtResource("2_rd3k2")
+choice_text = "Мы выживем!"
+outcome = SubResource("Resource_7ccau")
+launch_battle = true
+metadata/_custom_type_script = "uid://djjvdhvrq6wkh"
+
+[sub_resource type="Resource" id="Resource_x12jg"]
+script = ExtResource("1_frkos")
+scene_title = "Время пришло"
+body_text = "Как только вы сориентировались и познакомились друг с другом - с громким треском распахиваются главные ворота. 
+
+Чудовища самых разных видов проникают в помещение. Больше ждать нельзя. Вы должны дать бой."
+choices = Array[ExtResource("2_rd3k2")]([SubResource("Resource_gmrj6")])
+metadata/_custom_type_script = "uid://dgj8xyl3mmptl"
+
+[resource]
+script = ExtResource("1_v1n3h")
+mission_name = "Первая битва"
+scenes = Array[ExtResource("1_frkos")]([SubResource("Resource_x12jg"), null])
+location = 16
+metadata/_custom_type_script = "uid://cgfjcbn8gssac"

@@ -10,12 +10,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Сирена"
+max_hp = 95
+damage = 23
+armor = 13
+initiative = 6
+accuracy = 87
+evasion = 13
+crit_chance = 0.1
 sprite_path = "res://Enemies/Sea/Ships/Siren/Сирена_nobg.png"
 face_sprite = "res://Enemies/Sea/Ships/Siren/Сирена_Face.png"
-battle_sprite_scale_percent = 101.0
-max_hp = 70
-initiative = 6
-evasion = 20
+battle_sprite_scale_percent = 98.0
 special_effect_type = "siren_ally_evasion"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_gc"), ExtResource("5_ts"), ExtResource("6_tb")])
 ai_script = ExtResource("3_ai")

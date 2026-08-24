@@ -10,14 +10,16 @@
 [resource]
 script = ExtResource("2_6pq76")
 unit_name = "Драугр джаггернаут"
+max_hp = 113
+damage = 21
+armor = 20
+initiative = 4
+accuracy = 77
+evasion = 7
+crit_chance = 0.05
 sprite_path = "res://Enemies/Dungeon/Hellheim/Draugr_Juggernaut/Драугр Джагернаут.png"
 face_sprite = "res://Enemies/Dungeon/Hellheim/Draugr_Juggernaut/Драугр Джагернаут_Face.png"
-damage = 40
-armor = 35
-initiative = 2
-accuracy = 75
-evasion = 5
-crit_chance = 0.15
+battle_sprite_scale_percent = 105.0
 special_effect_type = "draugr_juggernaut"
 active_abilities = Array[ExtResource("1_231lm")]([ExtResource("4_cut"), ExtResource("5_fb"), ExtResource("6_ua")])
 ai_script = ExtResource("3_ai")

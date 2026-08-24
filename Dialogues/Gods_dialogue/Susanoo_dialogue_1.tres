@@ -1,20 +1,26 @@
-[gd_resource type="Resource" script_class="DialogueResource" format=3]
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://tdg224psvium"]
 
-[ext_resource type="Script" path="res://Dialogues/dialogue_line.gd" id="1_6hpy2"]
-[ext_resource type="Script" path="res://Dialogues/dialogue_choice.gd" id="2_75813"]
-[ext_resource type="Script" path="res://Dialogues/dialogue_resource.gd" id="3_qf30k"]
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_6hpy2"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_75813"]
+[ext_resource type="Texture2D" uid="uid://cl8wacfrih2fj" path="res://Main_characters/Lena/Lena_smile_1.png" id="3_aycll"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="3_qf30k"]
+[ext_resource type="Texture2D" uid="uid://duogyyhwd3igs" path="res://Main_characters/Lena/Lena_sceptical.png" id="4_jucbk"]
+[ext_resource type="Texture2D" uid="uid://bfu365plvlb5v" path="res://Main_characters/Lena/Lena_surprised.png" id="5_yg7ly"]
+[ext_resource type="Texture2D" uid="uid://bq5671vbp3ry4" path="res://Main_characters/Lena/Lena_smile_2.png" id="6_wjest"]
+[ext_resource type="Texture2D" uid="uid://bwmrl7quj85d" path="res://Main_characters/Lena/Lena_scared.png" id="7_v5nmq"]
+[ext_resource type="Texture2D" uid="uid://c41xe23xeeys3" path="res://Main_characters/Lena/Lena_sad.png" id="8_io2bu"]
 
 [sub_resource type="Resource" id="Resource_xor0p"]
 script = ExtResource("1_6hpy2")
 line_id = "intro_1"
 speaker_name = "Сусаноо"
-text = "(Тихая музыка играет в его келье, и ты чувствуешь аромат незнакомого цветка. Он сидит в позе лотоса, обнаженная катана покоится на коленях. Кончики пальцев лежат на блестящем лезвии. Глаза закрыты)"
+text = "(Тихая музыка играет в его келье, и ты чувствуешь аромат незнакомого цветка. Он сидит в позе лотоса, обнаженная катана покоится на коленях. Кончики пальцев лежат на блестящем лезвии. Глаза закрыты.)"
 
 [sub_resource type="Resource" id="Resource_glutj"]
 script = ExtResource("1_6hpy2")
 line_id = "intro_2"
 speaker_name = "Сусаноо"
-text = "(Хотя тебе казалось, что ты передвигаешься бесшумно, он улыбается при твоем появлении, не открывая глаз)"
+text = "(Хотя тебе казалось, что ты передвигаешься бесшумно, он улыбается при твоем появлении, не открывая глаз.)"
 
 [sub_resource type="Resource" id="Resource_m4bnb"]
 script = ExtResource("1_6hpy2")
@@ -27,6 +33,7 @@ script = ExtResource("1_6hpy2")
 line_id = "intro_4"
 speaker_name = "Лена"
 text = "Я не отвлекаю?"
+sprite = ExtResource("3_aycll")
 
 [sub_resource type="Resource" id="Resource_jucbk"]
 script = ExtResource("1_6hpy2")
@@ -75,6 +82,7 @@ script = ExtResource("1_6hpy2")
 line_id = "open_door_1"
 speaker_name = "Лена"
 text = "Слушай, тут есть ряд дверей. Не мог бы ты открыть одну? Для этого нужен бог."
+sprite = ExtResource("3_aycll")
 next_line_id = "open_door_2"
 
 [sub_resource type="Resource" id="Resource_wu11x"]
@@ -103,6 +111,7 @@ script = ExtResource("1_6hpy2")
 line_id = "open_door_5"
 speaker_name = "Лена"
 text = "От этой двери веет такой расслабленностью."
+sprite = ExtResource("3_aycll")
 next_line_id = "open_door_6"
 
 [sub_resource type="Resource" id="Resource_3f6ns"]
@@ -117,6 +126,7 @@ script = ExtResource("1_6hpy2")
 line_id = "open_door_7"
 speaker_name = "Лена"
 text = "Эй, вы же не выбрали дверь просто потому, что вам захотелось на пляж?"
+sprite = ExtResource("4_jucbk")
 next_line_id = "open_door_8"
 
 [sub_resource type="Resource" id="Resource_1y4vp"]
@@ -143,6 +153,7 @@ script = ExtResource("1_6hpy2")
 line_id = "opinion_start"
 speaker_name = "Лена"
 text = "Послушай, а что ты думаешь о…"
+sprite = ExtResource("5_yg7ly")
 choices = Array[ExtResource("2_75813")]([SubResource("Resource_q3etc"), SubResource("Resource_07l6w")])
 
 [sub_resource type="Resource" id="Resource_744gm"]
@@ -150,6 +161,7 @@ script = ExtResource("1_6hpy2")
 line_id = "shiva_1"
 speaker_name = "Лена"
 text = "…Шиве?"
+sprite = ExtResource("5_yg7ly")
 next_line_id = "shiva_2"
 
 [sub_resource type="Resource" id="Resource_falhc"]
@@ -164,6 +176,7 @@ script = ExtResource("1_6hpy2")
 line_id = "shiva_3"
 speaker_name = "Лена"
 text = "Это верно…"
+sprite = ExtResource("5_yg7ly")
 next_line_id = "shiva_4"
 
 [sub_resource type="Resource" id="Resource_gktwi"]
@@ -184,7 +197,7 @@ next_line_id = "shiva_6"
 script = ExtResource("1_6hpy2")
 line_id = "shiva_6"
 speaker_name = "Сусаноо"
-text = "По его описаниям - очень противоречивая, но яркая страна."
+text = "По его описаниям – очень противоречивая, но яркая страна."
 next_line_id = "shiva_7"
 
 [sub_resource type="Resource" id="Resource_i2cm0"]
@@ -192,6 +205,7 @@ script = ExtResource("1_6hpy2")
 line_id = "shiva_7"
 speaker_name = "Лена"
 text = "Полагаю, про многие страны можно так сказать."
+sprite = ExtResource("5_yg7ly")
 next_line_id = "shiva_8"
 
 [sub_resource type="Resource" id="Resource_7na1q"]
@@ -227,6 +241,7 @@ script = ExtResource("1_6hpy2")
 line_id = "shiva_12"
 speaker_name = "Лена"
 text = "Неожиданное признание."
+sprite = ExtResource("5_yg7ly")
 next_line_id = "shiva_13"
 
 [sub_resource type="Resource" id="Resource_vf7ta"]
@@ -255,6 +270,7 @@ script = ExtResource("1_6hpy2")
 line_id = "samdi_1"
 speaker_name = "Лена"
 text = "…Самди."
+sprite = ExtResource("5_yg7ly")
 next_line_id = "samdi_2"
 
 [sub_resource type="Resource" id="Resource_sigf3"]
@@ -290,6 +306,7 @@ script = ExtResource("1_6hpy2")
 line_id = "samdi_6"
 speaker_name = "Лена"
 text = "Ха-ха, да."
+sprite = ExtResource("6_wjest")
 next_line_id = "samdi_7"
 
 [sub_resource type="Resource" id="Resource_831mq"]
@@ -311,6 +328,7 @@ script = ExtResource("1_6hpy2")
 line_id = "samdi_9"
 speaker_name = "Лена"
 text = "Хочет быть пустым?"
+sprite = ExtResource("5_yg7ly")
 next_line_id = "samdi_10"
 
 [sub_resource type="Resource" id="Resource_517ar"]
@@ -346,6 +364,7 @@ script = ExtResource("1_6hpy2")
 line_id = "samdi_14"
 speaker_name = "Лена"
 text = "Я думаю, он часто шутит. Не стоит принимать его так серьезно."
+sprite = ExtResource("3_aycll")
 next_line_id = "samdi_15"
 
 [sub_resource type="Resource" id="Resource_nweli"]
@@ -367,6 +386,7 @@ script = ExtResource("1_6hpy2")
 line_id = "help_1"
 speaker_name = "Лена"
 text = "Хотела еще раз сказать спасибо, что помогаете мне."
+sprite = ExtResource("3_aycll")
 next_line_id = "help_2"
 
 [sub_resource type="Resource" id="Resource_2r8g6"]
@@ -381,13 +401,14 @@ script = ExtResource("1_6hpy2")
 line_id = "help_3"
 speaker_name = "Лена"
 text = "И то, о чем вы говорили. Насчет совершенства."
+sprite = ExtResource("5_yg7ly")
 next_line_id = "help_4"
 
 [sub_resource type="Resource" id="Resource_60g3g"]
 script = ExtResource("1_6hpy2")
 line_id = "help_4"
 speaker_name = "Сусаноо"
-text = "Так..?"
+text = "Так?.."
 next_line_id = "help_5"
 
 [sub_resource type="Resource" id="Resource_nfcri"]
@@ -395,6 +416,7 @@ script = ExtResource("1_6hpy2")
 line_id = "help_5"
 speaker_name = "Лена"
 text = "Я бы хотела услышать побольше."
+sprite = ExtResource("5_yg7ly")
 next_line_id = "help_6"
 
 [sub_resource type="Resource" id="Resource_qjegq"]
@@ -409,6 +431,7 @@ script = ExtResource("1_6hpy2")
 line_id = "help_7"
 speaker_name = "Лена"
 text = "…"
+sprite = ExtResource("3_aycll")
 next_line_id = "help_8"
 
 [sub_resource type="Resource" id="Resource_jk627"]
@@ -423,6 +446,7 @@ script = ExtResource("1_6hpy2")
 line_id = "help_9"
 speaker_name = "Лена"
 text = "…"
+sprite = ExtResource("7_v5nmq")
 next_line_id = "help_10"
 
 [sub_resource type="Resource" id="Resource_6csi8"]
@@ -437,6 +461,7 @@ script = ExtResource("1_6hpy2")
 line_id = "help_11"
 speaker_name = "Лена"
 text = "Я, да, бывало."
+sprite = ExtResource("8_io2bu")
 next_line_id = "help_12"
 
 [sub_resource type="Resource" id="Resource_g0y15"]
@@ -471,7 +496,7 @@ next_line_id = "help_16"
 script = ExtResource("1_6hpy2")
 line_id = "help_16"
 speaker_name = "Сусаноо"
-text = "Они сказали, чтобы я делал что хочу, просто жил."
+text = "Они сказали, чтобы я делал, что хочу, просто жил."
 next_line_id = "help_17"
 
 [sub_resource type="Resource" id="Resource_t8qbc"]
@@ -514,6 +539,7 @@ script = ExtResource("1_6hpy2")
 line_id = "help_22"
 speaker_name = "Лена"
 text = "…"
+sprite = ExtResource("5_yg7ly")
 next_line_id = "help_23"
 
 [sub_resource type="Resource" id="Resource_xvi7e"]
@@ -528,6 +554,7 @@ script = ExtResource("1_6hpy2")
 line_id = "help_24"
 speaker_name = "Лена"
 text = "Нет… Я просто задумалась."
+sprite = ExtResource("8_io2bu")
 next_line_id = "help_25"
 
 [sub_resource type="Resource" id="Resource_8rrqd"]
@@ -535,6 +562,7 @@ script = ExtResource("1_6hpy2")
 line_id = "help_25"
 speaker_name = "Лена"
 text = "Это очень личные вещи."
+sprite = ExtResource("3_aycll")
 next_line_id = "help_26"
 
 [sub_resource type="Resource" id="Resource_x55i4"]
@@ -542,6 +570,7 @@ script = ExtResource("1_6hpy2")
 line_id = "help_26"
 speaker_name = "Лена"
 text = "Спасибо, что поделились со мной."
+sprite = ExtResource("6_wjest")
 next_line_id = "help_27"
 
 [sub_resource type="Resource" id="Resource_31n6i"]
@@ -570,6 +599,7 @@ script = ExtResource("1_6hpy2")
 line_id = "help_30"
 speaker_name = "Лена"
 text = "Надеюсь, в хорошем смысле."
+sprite = ExtResource("6_wjest")
 next_line_id = "help_31"
 
 [sub_resource type="Resource" id="Resource_613de"]
@@ -584,6 +614,7 @@ script = ExtResource("1_6hpy2")
 line_id = "new_world_1"
 speaker_name = "Лена"
 text = "Как тебе здесь, в мире фантазий?"
+sprite = ExtResource("3_aycll")
 next_line_id = "new_world_2"
 
 [sub_resource type="Resource" id="Resource_meqdd"]
@@ -605,6 +636,7 @@ script = ExtResource("1_6hpy2")
 line_id = "new_world_4"
 speaker_name = "Лена"
 text = "Вам все шуточки."
+sprite = ExtResource("4_jucbk")
 next_line_id = "new_world_5"
 
 [sub_resource type="Resource" id="Resource_hvc00"]
@@ -633,6 +665,7 @@ script = ExtResource("1_6hpy2")
 line_id = "new_world_8"
 speaker_name = "Лена"
 text = "Да, я тоже заметила."
+sprite = ExtResource("5_yg7ly")
 next_line_id = "new_world_9"
 
 [sub_resource type="Resource" id="Resource_bsg3t"]
@@ -640,6 +673,7 @@ script = ExtResource("1_6hpy2")
 line_id = "new_world_9"
 speaker_name = "Лена"
 text = "Заставляет задуматься, есть ли обстоятельства, к которым нельзя привыкнуть."
+sprite = ExtResource("5_yg7ly")
 next_line_id = "new_world_10"
 
 [sub_resource type="Resource" id="Resource_3cxrn"]
@@ -661,6 +695,7 @@ script = ExtResource("1_6hpy2")
 line_id = "new_world_12"
 speaker_name = "Лена"
 text = "Хех, верно."
+sprite = ExtResource("6_wjest")
 next_line_id = "Susanoo_choices_1"
 
 [sub_resource type="Resource" id="Resource_5877e"]
@@ -668,6 +703,7 @@ script = ExtResource("1_6hpy2")
 line_id = "chosen_world_1"
 speaker_name = "Лена"
 text = "Думаю, мне нет толку спрашивать, почему ты выбрал именно эту дверь."
+sprite = ExtResource("3_aycll")
 next_line_id = "chosen_world_2"
 
 [sub_resource type="Resource" id="Resource_s5wke"]
@@ -682,6 +718,7 @@ script = ExtResource("1_6hpy2")
 line_id = "chosen_world_3"
 speaker_name = "Лена"
 text = "Обсудим это?"
+sprite = ExtResource("5_yg7ly")
 next_line_id = "chosen_world_4"
 
 [sub_resource type="Resource" id="Resource_21al6"]
@@ -696,6 +733,7 @@ script = ExtResource("1_6hpy2")
 line_id = "chosen_world_5"
 speaker_name = "Лена"
 text = "У меня обычно просто диалоги по каждому вопросу довольно долгие."
+sprite = ExtResource("5_yg7ly")
 next_line_id = "chosen_world_6"
 
 [sub_resource type="Resource" id="Resource_1g8ji"]
@@ -752,6 +790,7 @@ script = ExtResource("1_6hpy2")
 line_id = "chosen_world_13"
 speaker_name = "Лена"
 text = "Это было неловко."
+sprite = ExtResource("6_wjest")
 next_line_id = "Susanoo_choices_1"
 
 [resource]

@@ -7,8 +7,16 @@ var next_scene_after_battle: MissionSceneResource = null
 var selected_heroes: Array[String] = ["", "", "", ""]
 var requested_mission_path: String = ""
 var return_scene_path: String = ""
+## Путь к миссии, которая только что была завершена (для одноразовых реакций
+## на экране кампании — например, диалог после конкретной миссии).
+## Устанавливается в mission_scene.gd перед clear_mission_run(), читается и
+## сбрасывается тем экраном, который на это реагирует.
+var last_completed_mission_path: String = ""
 var hero_majesty: Dictionary = {}
 var granted_rewards: Array[Dictionary] = []
+## Одноразовая скидка сложности для СЛЕДУЮЩЕЙ проверки характеристики в миссии.
+## Устанавливается эффектом сцены (напр. "жульничество"), сбрасывается сразу при использовании.
+var pending_check_difficulty_delta: int = 0
 
 func start_mission(mission_res: MissionResource, heroes: Array[String]) -> bool:
 	if mission_res == null or mission_res.scenes.is_empty():
@@ -20,6 +28,7 @@ func start_mission(mission_res: MissionResource, heroes: Array[String]) -> bool:
 	selected_heroes = heroes.duplicate()
 	hero_majesty.clear()
 	granted_rewards.clear()
+	pending_check_difficulty_delta = 0
 	for hero_path in selected_heroes:
 		var clean_path: String = str(hero_path).strip_edges()
 		if clean_path != "":
@@ -92,3 +101,4 @@ func clear_mission_run() -> void:
 	requested_mission_path = ""
 	hero_majesty.clear()
 	granted_rewards.clear()
+	pending_check_difficulty_delta = 0

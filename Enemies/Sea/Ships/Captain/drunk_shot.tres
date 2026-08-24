@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ds")
 name = "Пьяный выстрел"
+description = "Наносит 150% урона; сам теряет 10 точности на 1 ход.; получает +15 удачи на 1 ход.."
 damage_modifier = 1.5
 majesty_gain = 0
 effect_types = Array[String](["self_debuff_accuracy", "self_buff_crit"])

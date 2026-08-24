@@ -79,7 +79,7 @@ metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="out_feint_success"]
 script = ExtResource("outcome_script")
-result_text = "Дворфы пускаются в погоню, ломая строй. К их удивлению вы разворачиваетесь и обрушиваетесь на ошалелого противника как ураган."
+result_text = "Дворфы пускаются в погоню, ломая строй. К их удивлению, вы разворачиваетесь и обрушиваетесь на ошалелого противника, как ураган."
 battle = SubResource("battle_vulnerable")
 metadata/_custom_type_script = ExtResource("outcome_script")
 

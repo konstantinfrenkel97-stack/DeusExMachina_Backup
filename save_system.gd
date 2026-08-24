@@ -101,6 +101,10 @@ func _collect_state() -> Dictionary:
 		"available_missions": CampaignState.available_missions.duplicate(),
 		"currencies": CampaignState.collect_currency_amounts(),
 		"pages": CampaignState.get_pages(),
+		"before_first_battle_played": CampaignState.before_first_battle_played,
+		"first_battle_completed": CampaignState.first_battle_completed,
+		"before_doors_played": CampaignState.before_doors_played,
+		"opened_locations": CampaignState.opened_locations.duplicate(),
 	}
 
 	# — Состояние миссии (CombatManager) —
@@ -136,6 +140,10 @@ func _apply_state(data: Dictionary) -> void:
 	CampaignState.available_missions = _to_string_array(campaign.get("available_missions", []))
 	CampaignState.apply_currency_amounts(campaign.get("currencies", {}))
 	CampaignState.set_pages(int(campaign.get("pages", 0)))
+	CampaignState.before_first_battle_played = bool(campaign.get("before_first_battle_played", false))
+	CampaignState.first_battle_completed = bool(campaign.get("first_battle_completed", false))
+	CampaignState.before_doors_played = bool(campaign.get("before_doors_played", false))
+	CampaignState.opened_locations = _to_string_array(campaign.get("opened_locations", []))
 
 	# — Состояние миссии —
 	var mission: Dictionary = data.get("mission", {})

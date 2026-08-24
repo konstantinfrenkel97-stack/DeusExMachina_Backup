@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_axiy1")
 name = "Землятрясение"
+description = "Наносит 80% урона; цель теряет 15 точности на 2 ход.; цель теряет 15 уклонения на 2 ход.."
 damage_modifier = 0.8
 majesty_gain = 0
 extra_targets_count = 1

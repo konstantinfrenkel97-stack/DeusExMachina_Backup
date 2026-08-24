@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://ckpxa6j51rmuj"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Texture2D" uid="uid://c56mg0qwsa2u6" path="res://Gods/Chernobog/Endless_horror_icon.png" id="1_bjvrg"]
 
 [resource]
 script = ExtResource("1_ab")
@@ -8,8 +9,11 @@ icon_path = "uid://dblvaphhktyxg"
 name = "Ужас без конца"
 description = "3 хода: -10 броня/удача/уклонение, +15 атака/точность"
 damage_modifier = 0.0
+majesty_gain = 10
 usable_from_positions = Array[bool]([false, true, true, false])
+targetable_positions = Array[bool]([true, true, false, false])
 mark_type_int = 2
 mark_duration = 3
 mark_effect_type = "chernobog_endless_horror"
+mark_icon = ExtResource("1_bjvrg")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

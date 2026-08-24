@@ -1,0 +1,51 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3 uid="uid://cai8utj7lpeiw"]
+
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="1_vhdj0"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="2_ssc2w"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="3_1id0k"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="4_2usfq"]
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="5_po6as"]
+
+[sub_resource type="Resource" id="out_heal"]
+script = ExtResource("1_vhdj0")
+result_text = "Вы используете отведенное время, чтобы подлечить раны, полученные в сражениях до этого. Боль отступает, возвращаются силы. Все боги восстанавливают 10% здоровья."
+hero_heal_percent = 10
+metadata/_custom_type_script = ExtResource("1_vhdj0")
+
+[sub_resource type="Resource" id="choice_heal"]
+script = ExtResource("4_2usfq")
+choice_text = "Подлатать раны"
+outcome = SubResource("out_heal")
+metadata/_custom_type_script = "uid://djjvdhvrq6wkh"
+
+[sub_resource type="Resource" id="out_strategy"]
+script = ExtResource("1_vhdj0")
+result_text = "Вы используете отведенное время, чтобы обсудить возможные комбинации, хитрости и стратегию. К следующей битве вы подходите более подготовленными. Враги даже не предполагают, что их ждет. Вы получаете 15 очков фантазии."
+fantasy_delta = 15
+metadata/_custom_type_script = ExtResource("1_vhdj0")
+
+[sub_resource type="Resource" id="choice_strategy"]
+script = ExtResource("4_2usfq")
+choice_text = "Продумать стратегию"
+outcome = SubResource("out_strategy")
+metadata/_custom_type_script = "uid://djjvdhvrq6wkh"
+
+[sub_resource type="Resource" id="out_experience"]
+script = ExtResource("1_vhdj0")
+result_text = "Вы используете отведенное время, чтобы перевести дух. Пока боги отдыхают, они рассказывают друг другу о великих сражениях, через которые прошли. Воспоминания и обмен опытом приподняли боевой дух и укрепили связь между богами. Все боги получают 10 величия."
+hero_majesty_delta = 10
+metadata/_custom_type_script = ExtResource("1_vhdj0")
+
+[sub_resource type="Resource" id="choice_experience"]
+script = ExtResource("4_2usfq")
+choice_text = "Поделиться опытом"
+outcome = SubResource("out_experience")
+metadata/_custom_type_script = "uid://djjvdhvrq6wkh"
+
+[resource]
+script = ExtResource("5_po6as")
+scene_title = "Передышка"
+body_text = "Вам попадается кусок свободного пространства.
+
+Поблизости нет врагов, и, похоже, у вас есть редкая возможность перевести дух."
+choices = Array[ExtResource("4_2usfq")]([SubResource("choice_heal"), SubResource("choice_strategy"), SubResource("choice_experience")])

@@ -1,0 +1,56 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+
+[sub_resource type="Resource" id="out_rest"]
+script = ExtResource("outcome_script")
+result_text = "Вы уделяете время залечиванию ран и отдыху. В следующий бой вы вступите с новыми силами."
+hero_heal_percent = 15
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_rest"]
+script = ExtResource("choice_script")
+choice_text = "Как следует отдохнуть"
+outcome = SubResource("out_rest")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_hero_attack_plus10"]
+script = ExtResource("buff_script")
+stat = 0
+value = 10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_prepare"]
+script = ExtResource("outcome_script")
+result_text = "Вы проводите свободное время, обсуждая стратегию, разминаясь и тренируясь. В следующий бой вы войдете в лучшей форме."
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_attack_plus10")])
+hero_majesty_delta = 10
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_prepare"]
+script = ExtResource("choice_script")
+choice_text = "Подготовиться к следующему бою"
+outcome = SubResource("out_prepare")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="out_cheat"]
+script = ExtResource("outcome_script")
+result_text = "Вы проводите время, подкупая судей, следя за соперниками, незаметно портя чужое оружие. Что бы ни ждало вас в следующем бою, вы обеспечили себе преимущество."
+next_check_difficulty_delta = 10
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_cheat"]
+script = ExtResource("choice_script")
+choice_text = "Попытаться сжульничать"
+outcome = SubResource("out_cheat")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Перерыв между боями"
+body_text = "Вы возвращаетесь в комнату после боя. Протерев пот и кровь и напившись воды, вы обнаруживаете, что у вас есть немного свободного времени, прежде чем вас вызовут на следующий бой."
+choices = [SubResource("choice_rest"), SubResource("choice_prepare"), SubResource("choice_cheat")]

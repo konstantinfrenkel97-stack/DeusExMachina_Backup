@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" uid="uid://ccikt3aaq6mwf" path="res://Items/item_resource.gd" id="1_16np4"]
 
+[ext_resource type="Texture2D" path="res://Items/Trinkets/Common/common_Potion_icon.png" id="2_item_icon"]
+
 [resource]
 script = ExtResource("1_16np4")
 metadata/_custom_type_script = "uid://ccikt3aaq6mwf"
+icon = ExtResource("2_item_icon")

@@ -11,5 +11,5 @@ target_type = "Self"
 is_stance = true
 stance_effect_type = "wizard_armageddon"
 stance_duration_type = "UntilNextTurn"
-usable_from_positions = Array[bool]([true, true, true, true])
+usable_from_positions = Array[bool]([false, false, false, true])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

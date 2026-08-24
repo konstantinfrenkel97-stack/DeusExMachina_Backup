@@ -10,14 +10,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Каменный великан шаман"
+max_hp = 174
+damage = 37
+armor = 18
+initiative = 7
+accuracy = 88
+evasion = 16
+crit_chance = 0.13
 sprite_path = "res://Enemies/Dungeon/Tunnels/Stone_giant_shaman/Stone_Giant_Shaman.png"
 face_sprite = "res://Enemies/Dungeon/Tunnels/Stone_giant_shaman/Stone_Giant_Shaman_Face.png"
 battle_sprite_scale_percent = 80.0
-max_hp = 60
-damage = 5
-armor = 6
-initiative = 6
-accuracy = 80
 special_effect_type = "shaman_no_move_armor"
 is_large = true
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("3_sw"), ExtResource("4_eq"), ExtResource("5_sf")])

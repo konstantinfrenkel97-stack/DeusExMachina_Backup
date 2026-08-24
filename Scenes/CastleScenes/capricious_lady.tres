@@ -1,0 +1,133 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Enemies/Civilization/Castle/Guardsman/Guardsman.tres" id="ext_1"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Castle/Jester/Jester.tres" id="ext_2"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Castle/Princess/Princess.tres" id="ext_3"]
+[ext_resource type="Resource" path="res://Essence/essence_power.tres" id="ext_4"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+
+[sub_resource type="Resource" id="sr_001"]
+script = ExtResource("formation_script")
+formation_name = "Барышня со свитой"
+pos1 = ExtResource("ext_1")
+pos2 = ExtResource("ext_1")
+pos3 = ExtResource("ext_2")
+pos4 = ExtResource("ext_3")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="sr_002"]
+script = ExtResource("formation_script")
+formation_name = "Благородные девицы"
+pos1 = ExtResource("ext_3")
+pos2 = ExtResource("ext_3")
+pos3 = ExtResource("ext_3")
+pos4 = ExtResource("ext_3")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="sr_003"]
+script = ExtResource("formation_script")
+formation_name = "Стража на зов"
+pos1 = ExtResource("ext_1")
+pos2 = ExtResource("ext_1")
+pos3 = ExtResource("ext_3")
+pos4 = null
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="sr_004"]
+script = ExtResource("battle_script")
+formation = SubResource("sr_002")
+location_id = "castle"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="sr_005"]
+script = ExtResource("outcome_script")
+result_text = "Вы делаете вид, что не замечаете высокомерную особу. За спиной раздается истерический визг: «Какое неуважение! Так надругаться над моей честью!» Толпа благородных девиц окружает вас, крича и тыча пальцами. Вы пытаетесь их урезонить, но те становятся только агрессивнее — и вступают в бой."
+battle = SubResource("sr_004")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_006"]
+script = ExtResource("choice_script")
+choice_text = "Игнорировать ее"
+outcome = SubResource("sr_005")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="sr_007"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("ext_4")
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="sr_008"]
+script = ExtResource("outcome_script")
+result_text = "Бог встает на колено и принимает руку девушки. Танец незнаком, но вы быстро схватываете движения — и вскоре ведете сами. Зал замирает, музыканты играют только для вас двоих. Раздаются аплодисменты: вы завоевали этот зал, хоть и не самым привычным методом. Эффект: бой avoided, вы получаете эссенцию власти."
+rewards = [SubResource("sr_007")]
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_009"]
+script = ExtResource("battle_script")
+formation = SubResource("sr_001")
+location_id = "castle"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="sr_010"]
+script = ExtResource("outcome_script")
+result_text = "Танец не клеится: принцесса шипит и колет ногтями при каждом промахе. Наконец слышится треск — бог наступает на край ее платья, и по розовой ткани идет широкий разрыв. «СЮДА! Убрать его! Заточить! КАЗНИТЬ!» Эффект: бой против свиты барышни."
+battle = SubResource("sr_009")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_011"]
+script = ExtResource("stat_check_script")
+stat = 4
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="sr_012"]
+script = ExtResource("choice_script")
+choice_text = "Потанцевать с ней"
+stat_check = SubResource("sr_011")
+success_outcome = SubResource("sr_008")
+failure_outcome = SubResource("sr_010")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="sr_013"]
+script = ExtResource("outcome_script")
+result_text = "Вы замечаете юношу, украдкой косящегося на девушку. Один из богов шепчет ему слова поддержки и подводит к барышне. Между ними пролетает несколько фраз — и вот уже юноша с сияющим лицом ведет ее в центр зала. Ситуация завершилась победой для всех сторон: вы избегаете боя."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_014"]
+script = ExtResource("battle_script")
+formation = SubResource("sr_003")
+location_id = "castle"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="sr_015"]
+script = ExtResource("outcome_script")
+result_text = "Девушка лишь бросает презрительный взгляд на молодого человека: «Я удостоила вас чести танцевать с собой, а вы пытаетесь подсунуть мне какого-то никчемного мальчишку? Стража, быстро ко мне! Займитесь этими грубиянами». Эффект: бой против стражи."
+battle = SubResource("sr_014")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_016"]
+script = ExtResource("stat_check_script")
+stat = 3
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="sr_017"]
+script = ExtResource("choice_script")
+choice_text = "Найти ей другого партнера"
+stat_check = SubResource("sr_016")
+success_outcome = SubResource("sr_013")
+failure_outcome = SubResource("sr_015")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Капризная барышня"
+body_text = "Ваши скитания по замку приводят вас в широкий зал. Играет музыка, пары танцуют, столы завалены едой.\n\nК вам выходит богато одетая девушка и, высоко держа голову, протягивает руку ладонью вниз.\n\n«Ну! Вас совсем не учили манерам? Вам оказана большая честь! Вы должны пригласить меня на танец!»"
+choices = [SubResource("sr_006"), SubResource("sr_012"), SubResource("sr_017")]

@@ -6,8 +6,9 @@
 script = ExtResource("1_rp")
 icon_path = "uid://emqc6bbdi10j"
 name = "Переиграть"
+description = "Наносит 70% урона; Локи отходит назад."
 damage_modifier = 0.7
-majesty_gain = 10
+majesty_gain = 15
 effect_types = Array[String](["self_push_back"])
 effect_values = Dictionary[String, int]({
 "self_push_back": 1

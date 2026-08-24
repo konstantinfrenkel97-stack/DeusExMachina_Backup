@@ -6,13 +6,14 @@
 script = ExtResource("1_s4dxo")
 icon_path = "uid://bjj2cyr6mjphj"
 name = "Король королей"
+description = "Все союзники снимают дебаффы и получают регенерацию 7% здоровья на 3 хода."
 damage_modifier = 0.0
 majesty_gain = 0
-majesty_cost = 80
+majesty_cost = 100
 target_type = "All_Allies"
 effect_types = Array[String](["all_allies_dispel_debuffs", "regeneration"])
 effect_values = Dictionary[String, int]({
-"regeneration": 5
+"regeneration": 7
 })
 effect_durations = Dictionary[String, int]({
 "regeneration": 3

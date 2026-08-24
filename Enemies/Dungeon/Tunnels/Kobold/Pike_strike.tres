@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_1o1u1")
 name = "Удар киркой"
+description = "Наносит 100% урона; цель теряет 7 брони на 4 ход.."
 majesty_gain = 0
 effect_types = Array[String](["enemy_debuff_armor"])
 effect_values = Dictionary[String, int]({

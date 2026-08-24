@@ -6,6 +6,7 @@
 majesty_gain = 0
 script = ExtResource("1_j03pd")
 name = "Каменная стена"
+description = "Наносит 100% урона."
 target_type = "Self"
 targetable_positions = Array[bool]([false, false, false, false])
 ability_marker = "shaman_stone_wall"

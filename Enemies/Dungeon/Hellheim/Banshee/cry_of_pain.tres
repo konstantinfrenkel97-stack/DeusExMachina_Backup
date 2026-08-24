@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_cp")
 name = "Крик боли"
+description = "Наносит 20% урона; цель теряет 10 атаки на 2 ход.."
 damage_modifier = 0.2
 majesty_gain = 0
 target_type = "All_Enemies"

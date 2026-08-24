@@ -10,16 +10,16 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Золотой скоробей"
+max_hp = 39
+damage = 9
+armor = 5
+initiative = 5
+accuracy = 74
+evasion = 10
+crit_chance = 0.05
 sprite_path = "res://Enemies/Civilization/Desert/Golden_Scarab/Scarab.png"
 face_sprite = "res://Enemies/Civilization/Desert/Golden_Scarab/Scarab_face.png"
 battle_sprite_scale_percent = 90.0
-max_hp = 55
-damage = 16
-armor = 4
-initiative = 7
-accuracy = 85
-evasion = 25
-crit_chance = 0.1
 special_effect_type = "scarab_death_heal_allies"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_sc"), ExtResource("3_bs"), ExtResource("4_gl")])
 ai_script = ExtResource("5_ai")

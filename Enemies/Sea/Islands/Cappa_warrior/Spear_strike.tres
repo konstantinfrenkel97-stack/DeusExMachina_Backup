@@ -15,5 +15,5 @@ effect_values = Dictionary[String, int]({
 effect_durations = Dictionary[String, int]({
 })
 usable_from_positions = Array[bool]([true, true, true, false])
-targetable_positions = Array[bool]([true, true, true, false])
+targetable_positions = Array[bool]([true, true, false, false])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

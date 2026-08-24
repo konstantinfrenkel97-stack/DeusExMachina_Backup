@@ -6,8 +6,9 @@
 script = ExtResource("1_ta")
 icon_path = "uid://cjc6w5kkfjhee"
 name = "Разорвать"
+description = "Наносит 60% урона. За каждый бафф на цели повторяет удар на 30% урона и дополнительно снижает броню цели на 5 на 3 хода."
 damage_modifier = 0.6
-majesty_gain = 10
+majesty_gain = 15
 effect_types = Array[String](["target_debuff_armor"])
 effect_values = Dictionary[String, int]({
 "target_debuff_armor": 5

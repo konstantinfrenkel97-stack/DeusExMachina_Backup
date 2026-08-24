@@ -10,10 +10,15 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Ракшас"
+max_hp = 95
+damage = 49
+armor = 11
+initiative = 8
+accuracy = 92
+evasion = 21
+crit_chance = 0.2
 sprite_path = "res://Enemies/Forest/Jungle/Rakshasa/Rakshasa.png"
 face_sprite = "res://Enemies/Forest/Jungle/Rakshasa/Rakshasa_face.png"
-damage = 15
-initiative = 7
 special_effect_type = "rakshasa_crit_aura"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("3_a1"), ExtResource("4_a2"), ExtResource("5_a3")])
 ai_script = ExtResource("2_ai")

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="1_msr"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="2_mc"]
+[ext_resource type="Resource" path="res://Scenes/choice_attack.tres" id="3_atk"]
+[ext_resource type="Resource" path="res://Scenes/choice_talk.tres" id="4_talk"]
+
+[resource]
+script = ExtResource("1_msr")
+scene_title = "Первая встреча"
+body_text = "На тропе стоит незнакомец. Он замечает тебя и кладёт руку на рукоять меча.\n\nЧто будешь делать?"
+choices = [ExtResource("3_atk"), ExtResource("4_talk")]

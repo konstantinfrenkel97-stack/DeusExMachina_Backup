@@ -8,16 +8,16 @@ class_name StoneGiantWarriorLogic
 const POWER_FROM_EARTH = "сила от земли"
 
 static func get_decision(monster: Combatant, heroes: Array) -> Dictionary:
-	# Проверка условия для «Сила от земли»
-	if monster.position_index == 3:
-		var hp_ratio = float(monster.current_hp) / float(monster.max_hp)
-		if hp_ratio < 0.6:
-			var power = _find_ability(monster, POWER_FROM_EARTH)
-			if power and _is_usable_from_position(power, monster.position_index):
-				return {"ability": power, "target": monster}
+	var power := _find_ability(monster, POWER_FROM_EARTH)
 
-	# В остальных случаях — случайный выбор
-	return ArenaRandomLogic.get_decision(monster, heroes)
+	# Проверка условия для «Сила от земли»
+	if power and monster.position_index == 3:
+		var hp_ratio = float(monster.current_hp) / float(monster.max_hp)
+		if hp_ratio < 0.6 and _is_usable_from_position(power, monster.position_index):
+			return {"ability": power, "target": monster}
+
+	# В остальных случаях — случайный выбор, но не «Сила от земли» вне условия
+	return ArenaRandomLogic.get_decision(monster, heroes, [], [power] if power else [])
 
 
 static func _find_ability(monster: Combatant, ability_name: String) -> AbilityResource:

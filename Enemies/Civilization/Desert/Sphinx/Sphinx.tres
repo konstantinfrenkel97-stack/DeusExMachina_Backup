@@ -10,12 +10,16 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Сфинкс"
+max_hp = 120
+damage = 29
+armor = 17
+initiative = 7
+accuracy = 91
+evasion = 15
+crit_chance = 0.13
 sprite_path = "res://Enemies/Civilization/Desert/Sphinx/Sphinx.png"
 face_sprite = "res://Enemies/Civilization/Desert/Sphinx/Sphinx_face.png"
 battle_sprite_scale_percent = 142.0
-damage = 22
-armor = 18
-initiative = 5
 special_effect_type = "sphinx_debuff_immune"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_cp"), ExtResource("3_rd"), ExtResource("4_sf")])
 ai_script = ExtResource("5_ai")

@@ -9,6 +9,8 @@ class_name CharacterResource
 @export var face_sprite: String # Путь к спрайту лица персонажа, например "res://Gods/Thor/Thor_Face.png"
 @export_range(10.0, 400.0, 1.0, "or_greater") var battle_sprite_scale_percent: float = 100.0 # Индивидуальный масштаб спрайта на поле боя: 100 = стандартный размер.
 @export_range(-100.0, 100.0, 1.0) var battle_sprite_y_offset_percent: float = 0.0 # Positive values move the battle sprite upward.
+@export_range(10.0, 400.0, 1.0, "or_greater") var dialogue_sprite_scale_percent: float = 100.0 # Индивидуальный масштаб спрайта в диалогах: 100 = стандартный размер.
+@export_range(-100.0, 100.0, 1.0) var dialogue_sprite_y_offset_percent: float = 0.0 # Positive values move the dialogue portrait upward.
 @export var campaign_dialogue_path: String = "" # Путь к диалогу бога в кампании.
 
 @export_group("Levels")

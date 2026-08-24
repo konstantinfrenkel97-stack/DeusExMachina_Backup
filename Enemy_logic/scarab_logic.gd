@@ -2,18 +2,21 @@ extends RefCounted
 class_name ScarabLogic
 
 ## Золотой скоробей:
-## • один (нет союзников) — «Царапать»;
-## • 2+ союзников — 70% «На удачу», иначе «Зарыться в песок».
+## • нет союзников кроме других Золотых скоробеев — всегда «Царапать»;
+## • иначе, если союзников (любых) 2+ — 70% «На удачу», иначе «Зарыться в песок».
 
 static func get_decision_with_allies(monster: Combatant, heroes: Array, allies: Array) -> Dictionary:
 	var living_allies = 0
+	var non_scarab_allies = 0
 	for a in allies:
-		if a and a.current_hp > 0:
+		if a and a.current_hp > 0 and a != monster:
 			living_allies += 1
+			if a.ai_script != monster.ai_script:
+				non_scarab_allies += 1
 	var scratch = _find_ability(monster, "scarab_scratch")
 	var luck = _find_ability(monster, "scarab_good_luck")
 	var bury = _find_ability(monster, "scarab_bury_in_sand")
-	if living_allies <= 1:
+	if non_scarab_allies == 0:
 		if scratch and _is_usable(monster, scratch):
 			for h in heroes:
 				if h and h.current_hp > 0 and Combatant.can_be_targeted_at(h, scratch):

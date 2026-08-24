@@ -10,16 +10,17 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Фея шипов"
+max_hp = 52
+damage = 13
+armor = 6
+initiative = 5
+accuracy = 80
+evasion = 10
+crit_chance = 0.06
 sprite_path = "res://Enemies/Forest/Garden/Thorn_fairy/thorn_fairy.png"
 face_sprite = "res://Enemies/Forest/Garden/Thorn_fairy/Thorn_fairy_face.png"
 battle_sprite_scale_percent = 90.0
-max_hp = 65
-damage = 18
-armor = 8
-initiative = 5
-accuracy = 85
-evasion = 20
-crit_chance = 0.1
+special_effect_type = "thorn_fairy_debuff_damage"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_tb"), ExtResource("5_ip"), ExtResource("6_pt")])
 ai_script = ExtResource("3_ai")
 metadata/_custom_type_script = "uid://briall6wwu3rx"

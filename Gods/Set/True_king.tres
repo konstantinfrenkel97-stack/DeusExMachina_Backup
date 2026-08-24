@@ -6,7 +6,9 @@
 script = ExtResource("1_tk")
 icon_path = "uid://bewjldtx3ca6n"
 name = "Настоящий король"
+description = "Стойка: Сет отходит назад. Пока стойка активна, он перехватывает величие союзников; союзник лечится на 10% HP и получает +10 брони на 2 хода."
 damage_modifier = 0.0
+majesty_gain = 10
 target_type = "Self"
 effect_types = Array[String](["self_push_back"])
 effect_values = Dictionary[String, int]({

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3]
+
+[ext_resource type="Script" path="res://Items/item_resource.gd" id="1_ir"]
+
+[resource]
+script = ExtResource("1_ir")
+item_name = "Бочка пороха"
+item_type = 0
+rarity = 1
+icon = null
+description = "Артефакт из сцены «Лодка с порохом» (Корабли). По сюжету должен исчезать после окончания миссии или после смерти владельца во время миссии — этот эффект пока не реализован движком, как и получение сразу 3 штук (система наград/инвентаря не поддерживает стакающиеся предметы)."
+bonus_max_hp = 0
+bonus_damage = 20
+bonus_armor = 0
+bonus_initiative = 0
+bonus_accuracy = 0
+bonus_evasion = 0
+bonus_crit_chance = 0.0
+bonus_majesty = 0
+effect = ""

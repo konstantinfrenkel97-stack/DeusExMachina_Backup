@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Толчок плечом"
+description = "Наносит 70% урона; продвигается вперёд на 2 позицию; отталкивает цель назад на 2 позицию."
 damage_modifier = 0.7
 majesty_gain = 0
 effect_types = Array[String](["self_push_forward", "push_back"])

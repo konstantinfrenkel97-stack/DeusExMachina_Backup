@@ -5,16 +5,17 @@
 [resource]
 script = ExtResource("1_bf")
 name = "Слепая ярость"
+description = "Наносит 80% урона; сам теряет 40 точности на 1 ход.."
 damage_modifier = 0.8
 majesty_gain = 0
 extra_targets_count = 1
 effect_types = Array[String](["self_debuff_accuracy"])
 effect_values = Dictionary[String, int]({
-"self_debuff_accuracy": 25
+"self_debuff_accuracy": 40
 })
 effect_durations = Dictionary[String, int]({
 "self_debuff_accuracy": 1
 })
-usable_from_positions = Array[bool]([true, true, false, false])
+usable_from_positions = Array[bool]([true, false, false, false])
 targetable_positions = Array[bool]([true, true, false, false])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

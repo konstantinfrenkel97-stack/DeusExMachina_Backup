@@ -1,0 +1,120 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3 uid="uid://cbv8bwpyfkty3"]
+
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Resource" uid="uid://bd6gb7v2wm6fs" path="res://Enemies/Civilization/Desert/Golden_Scarab/Golden_Scarab.tres" id="ext_1"]
+[ext_resource type="Resource" uid="uid://dmvh76qge87c8" path="res://Essence/thoughts.tres" id="ext_2"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://dutn5fch4d8b5" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+
+[sub_resource type="Resource" id="sr_003"]
+script = ExtResource("outcome_script")
+result_text = "«А ну… тогда уходите. Не на что тут смотреть». Уже отойдя, вы видите, как бедолага открывает ворота и исчезает внутри. Вскоре слышится душераздирающий крик. Вы возвращаетесь: в пыльной зале нет ни человека, ни тела — лишь золотые скарабеи роются мордами в пятнах крови. Они поворачивают к вам безучастные морды. Вы закрываете створки и остаетесь в тишине мертвого города. Эффект: боя не происходит."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_004"]
+script = ExtResource("choice_script")
+choice_text = "Никто не претендует на твое сокровище"
+outcome = SubResource("sr_003")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="sr_001"]
+script = ExtResource("formation_script")
+formation_name = "Золотые скарабеи"
+pos1 = ExtResource("ext_1")
+pos2 = ExtResource("ext_1")
+pos3 = ExtResource("ext_1")
+pos4 = ExtResource("ext_1")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="sr_002"]
+script = ExtResource("battle_script")
+formation = SubResource("sr_001")
+location_id = "desert"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="sr_008"]
+script = ExtResource("outcome_script")
+result_text = "На вас обрушивается вихрь стрел и дождь лезвий. Кое-как высвободившись, вы обнаруживаете себя в окружении золотых спин — сокровища исчезли в облаке пыли. Эффект: бой, у команды −10% здоровья."
+battle = SubResource("sr_002")
+hero_heal_percent = -10
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_009"]
+script = ExtResource("stat_check_script")
+stat = 3
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="sr_005"]
+script = ExtResource("buff_script")
+stat = 2
+value = -15
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="sr_006"]
+script = ExtResource("reward_script")
+kind = 3
+resource = ExtResource("ext_2")
+amount = 1000
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="sr_007"]
+script = ExtResource("outcome_script")
+result_text = "Ловушки не страшат богов: стрелы и лезвия пролетают мимо! Но пьедесталы с сокровищами уходят в пол, а из щелей выползают золотые волны скарабеев. Схватив кто что успел, вы встаете спина к спине. Эффект: бой, +1000 мыслей, но вся команда теряет 15 точности на 1 ход."
+battle = SubResource("sr_002")
+rewards = Array[ExtResource("reward_script")]([SubResource("sr_006")])
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("sr_005")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_010"]
+script = ExtResource("choice_script")
+choice_text = "Сокровища будут наши!"
+stat_check = SubResource("sr_009")
+success_outcome = SubResource("sr_007")
+failure_outcome = SubResource("sr_008")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="sr_013"]
+script = ExtResource("outcome_script")
+result_text = "Вы соглашаетесь помочь, но не успеваете: жуки перегрызают землекопу артерию. Втоптавшись в ловушку, вы теряете часть добычи — остается только драться. Эффект: обычный бой."
+battle = SubResource("sr_002")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_014"]
+script = ExtResource("stat_check_script")
+stat = 1
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="sr_011"]
+script = ExtResource("reward_script")
+kind = 3
+resource = ExtResource("ext_2")
+amount = 400
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="sr_012"]
+script = ExtResource("outcome_script")
+result_text = "Вы вместе раскапываете ворота и, обходя ловушки, добираетесь до дальней стены. Когда орда скарабеев набрасывается на землекопа, вы вырываете его из золотых объятий — а он жмет на глаза чудовища на лепнине, и стена раздвигается. В маленьком зале сияет радужный алмаз — «Сердце пустыни». «Забирайте, это ваша доля». Эффект: бой, вы получаете 400 мыслей за долю сокровищ."
+battle = SubResource("sr_002")
+rewards = Array[ExtResource("reward_script")]([SubResource("sr_011")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_015"]
+script = ExtResource("choice_script")
+choice_text = "Помочь и разделить добычу"
+stat_check = SubResource("sr_014")
+success_outcome = SubResource("sr_012")
+failure_outcome = SubResource("sr_013")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Стражи сокровищ"
+body_text = "В развалинах занесенного песком города вы находите тощего человека, три месяца раскапывающего ворота огромной башни. Завидев вас, он угрожающе поднимает лопату: «Пошли прочь! Мое сокровище!» — но потом сгибается: «Пожалуйста… Моя деревня голодает, мать больна. Это наша единственная надежда»."
+choices = Array[ExtResource("choice_script")]([SubResource("sr_004"), SubResource("sr_010"), SubResource("sr_015")])

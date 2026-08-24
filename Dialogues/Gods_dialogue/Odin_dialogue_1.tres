@@ -1,14 +1,19 @@
-[gd_resource type="Resource" script_class="DialogueResource" format=3]
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://c2dwfnl2wxhd5"]
 
-[ext_resource type="Script" path="res://Dialogues/dialogue_line.gd" id="1_line"]
-[ext_resource type="Script" path="res://Dialogues/dialogue_choice.gd" id="2_choice"]
-[ext_resource type="Script" path="res://Dialogues/dialogue_resource.gd" id="3_dialogue"]
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_line"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_choice"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="3_dialogue"]
+[ext_resource type="Texture2D" uid="uid://bfu365plvlb5v" path="res://Main_characters/Lena/Lena_surprised.png" id="3_e2r3i"]
+[ext_resource type="Texture2D" uid="uid://duogyyhwd3igs" path="res://Main_characters/Lena/Lena_sceptical.png" id="4_tvr8y"]
+[ext_resource type="Texture2D" uid="uid://cl8wacfrih2fj" path="res://Main_characters/Lena/Lena_smile_1.png" id="5_msul6"]
+[ext_resource type="Texture2D" uid="uid://c41xe23xeeys3" path="res://Main_characters/Lena/Lena_sad.png" id="6_lh88f"]
+[ext_resource type="Texture2D" uid="uid://bq5671vbp3ry4" path="res://Main_characters/Lena/Lena_smile_2.png" id="7_r4ar1"]
 
 [sub_resource type="Resource" id="Resource_odin_line_2"]
 script = ExtResource("1_line")
 line_id = "intro_1"
 speaker_name = "Один"
-text = "(Когда ты входишь в его комнату, он стоит и смотрит в окно, сложив руки за спиной. За окном переменчивый мир плана фантазий)"
+text = "(Когда ты входишь в его комнату, он стоит и смотрит в окно, сложив руки за спиной. За окном переменчивый мир плана фантазий.)"
 next_line_id = "intro_2"
 
 [sub_resource type="Resource" id="Resource_odin_line_3"]
@@ -16,6 +21,7 @@ script = ExtResource("1_line")
 line_id = "intro_2"
 speaker_name = "Лена"
 text = "Кхм. Вы не против поговорить?"
+sprite = ExtResource("3_e2r3i")
 next_line_id = "intro_3"
 
 [sub_resource type="Resource" id="Resource_odin_line_4"]
@@ -23,6 +29,7 @@ script = ExtResource("1_line")
 line_id = "intro_3"
 speaker_name = "Один"
 text = "А? Да-да, конечно."
+sprite = ExtResource("3_e2r3i")
 next_line_id = "intro_4"
 
 [sub_resource type="Resource" id="Resource_odin_line_5"]
@@ -71,7 +78,8 @@ choices = Array[ExtResource("2_choice")]([SubResource("Resource_odin_choice_6"),
 script = ExtResource("1_line")
 line_id = "open_door_1"
 speaker_name = "Лена"
-text = "Послушайте, мне нужно чтобы вы открыли одну из этих дверей. Только бог может."
+text = "Послушайте, мне нужно, чтобы вы открыли одну из этих дверей. Только бог может."
+sprite = ExtResource("3_e2r3i")
 next_line_id = "open_door_2"
 
 [sub_resource type="Resource" id="Resource_odin_line_13"]
@@ -85,7 +93,7 @@ next_line_id = "open_door_3"
 script = ExtResource("1_line")
 line_id = "open_door_3"
 speaker_name = "Один"
-text = "На этой звезды нарисованы, что за ней?"
+text = "На этой звезды нарисованы. Что за ней?"
 next_line_id = "open_door_4"
 
 [sub_resource type="Resource" id="Resource_odin_line_15"]
@@ -93,6 +101,7 @@ script = ExtResource("1_line")
 line_id = "open_door_4"
 speaker_name = "Лена"
 text = "Ну, эмм… Не знаю."
+sprite = ExtResource("3_e2r3i")
 next_line_id = "open_door_5"
 
 [sub_resource type="Resource" id="Resource_odin_line_16"]
@@ -100,6 +109,7 @@ script = ExtResource("1_line")
 line_id = "open_door_5"
 speaker_name = "Лена"
 text = "Реально не знаю. Небосклон?"
+sprite = ExtResource("4_tvr8y")
 next_line_id = "open_door_6"
 
 [sub_resource type="Resource" id="Resource_odin_line_17"]
@@ -121,13 +131,15 @@ script = ExtResource("1_line")
 line_id = "open_door_8"
 speaker_name = "Лена"
 text = "Я, честно, даже не могу предположить."
+sprite = ExtResource("4_tvr8y")
 next_line_id = "open_door_9"
 
 [sub_resource type="Resource" id="Resource_odin_line_20"]
 script = ExtResource("1_line")
 line_id = "open_door_9"
 speaker_name = "Лена"
-text = "Может какую-то другую откроете."
+text = "Может, какую-то другую откроете?"
+sprite = ExtResource("3_e2r3i")
 next_line_id = "open_door_10"
 
 [sub_resource type="Resource" id="Resource_odin_line_21"]
@@ -141,7 +153,8 @@ next_line_id = "open_door_11"
 script = ExtResource("1_line")
 line_id = "open_door_11"
 speaker_name = "Лена"
-text = "Думаю нет…"
+text = "Думаю, нет…"
+sprite = ExtResource("3_e2r3i")
 next_line_id = "open_door_12"
 
 [sub_resource type="Resource" id="Resource_odin_line_23"]
@@ -155,7 +168,8 @@ next_line_id = "open_door_13"
 script = ExtResource("1_line")
 line_id = "open_door_13"
 speaker_name = "Лена"
-text = "А вам самим не хочется открыть что-то другое."
+text = "А вам самим не хочется открыть что-то другое?"
+sprite = ExtResource("3_e2r3i")
 next_line_id = "open_door_14"
 
 [sub_resource type="Resource" id="Resource_odin_line_25"]
@@ -177,6 +191,7 @@ script = ExtResource("1_line")
 line_id = "open_door_16"
 speaker_name = "Лена"
 text = "Звучит ответственно."
+sprite = ExtResource("5_msul6")
 next_line_id = "Odin_choices_1"
 
 [sub_resource type="Resource" id="Resource_odin_line_28"]
@@ -184,6 +199,7 @@ script = ExtResource("1_line")
 line_id = "opinion_1"
 speaker_name = "Лена"
 text = "Хотела узнать ваше мнение насчет…"
+sprite = ExtResource("3_e2r3i")
 next_line_id = "opinion_choices"
 
 [sub_resource type="Resource" id="Resource_odin_choice_29"]
@@ -208,6 +224,7 @@ script = ExtResource("1_line")
 line_id = "opinion_тора_1"
 speaker_name = "Лена"
 text = "…Тора."
+sprite = ExtResource("3_e2r3i")
 next_line_id = "opinion_тора_2"
 
 [sub_resource type="Resource" id="Resource_odin_line_33"]
@@ -222,6 +239,7 @@ script = ExtResource("1_line")
 line_id = "opinion_тора_3"
 speaker_name = "Лена"
 text = "Это точно."
+sprite = ExtResource("5_msul6")
 next_line_id = "opinion_тора_4"
 
 [sub_resource type="Resource" id="Resource_odin_line_35"]
@@ -236,6 +254,7 @@ script = ExtResource("1_line")
 line_id = "opinion_тора_5"
 speaker_name = "Лена"
 text = "М?"
+sprite = ExtResource("3_e2r3i")
 next_line_id = "opinion_тора_6"
 
 [sub_resource type="Resource" id="Resource_odin_line_37"]
@@ -270,7 +289,7 @@ next_line_id = "opinion_тора_10"
 script = ExtResource("1_line")
 line_id = "opinion_тора_10"
 speaker_name = "Один"
-text = "Точнее пытается, но только в том, в чем он и так хорош. Физической силе и боевом мастерстве."
+text = "Точнее пытается, но только в том, в чем он и так хорош. В физической силе и боевом мастерстве."
 next_line_id = "opinion_тора_11"
 
 [sub_resource type="Resource" id="Resource_odin_line_42"]
@@ -284,7 +303,7 @@ next_line_id = "opinion_тора_12"
 script = ExtResource("1_line")
 line_id = "opinion_тора_12"
 speaker_name = "Один"
-text = "Но на самом деле, эти вызовы для него просты и удобны."
+text = "Но на самом деле эти вызовы для него просты и удобны."
 next_line_id = "opinion_тора_13"
 
 [sub_resource type="Resource" id="Resource_odin_line_44"]
@@ -305,21 +324,22 @@ next_line_id = "opinion_тора_15"
 script = ExtResource("1_line")
 line_id = "opinion_тора_15"
 speaker_name = "Один"
-text = "И я думаю он боится почувствовать себя слабым в том, что не умеет."
+text = "И я думаю, он боится почувствовать себя слабым в том, что не умеет."
 next_line_id = "opinion_тора_16"
 
 [sub_resource type="Resource" id="Resource_odin_line_47"]
 script = ExtResource("1_line")
 line_id = "opinion_тора_16"
 speaker_name = "Один"
-text = "Слишком привык жить с мыслью что он сильный воин на которого все полагаются."
+text = "Слишком привык жить с мыслью, что он сильный воин, на которого все полагаются."
 next_line_id = "opinion_тора_17"
 
 [sub_resource type="Resource" id="Resource_odin_line_48"]
 script = ExtResource("1_line")
 line_id = "opinion_тора_17"
 speaker_name = "Лена"
-text = "Это, довольно глубокий анализ. И длинны."
+text = "Это довольно глубокий анализ. И длинный."
+sprite = ExtResource("3_e2r3i")
 next_line_id = "opinion_тора_18"
 
 [sub_resource type="Resource" id="Resource_odin_line_49"]
@@ -340,7 +360,8 @@ next_line_id = "Odin_choices_1"
 script = ExtResource("1_line")
 line_id = "opinion_loki_1"
 speaker_name = "Лена"
-text = "…Локи"
+text = "…Локи."
+sprite = ExtResource("3_e2r3i")
 next_line_id = "opinion_loki_2"
 
 [sub_resource type="Resource" id="Resource_odin_line_52"]
@@ -361,7 +382,7 @@ next_line_id = "opinion_loki_4"
 script = ExtResource("1_line")
 line_id = "opinion_loki_4"
 speaker_name = "Один"
-text = "Он уничтожил все над чем я работал. Всех нас, а за одно и себя."
+text = "Он уничтожил все, над чем я работал. Всех нас, а заодно и себя."
 next_line_id = "opinion_loki_5"
 
 [sub_resource type="Resource" id="Resource_odin_line_55"]
@@ -376,6 +397,7 @@ script = ExtResource("1_line")
 line_id = "opinion_loki_6"
 speaker_name = "Лена"
 text = "Мне очень жаль."
+sprite = ExtResource("6_lh88f")
 next_line_id = "opinion_loki_7"
 
 [sub_resource type="Resource" id="Resource_odin_line_57"]
@@ -403,7 +425,8 @@ next_line_id = "opinion_loki_10"
 script = ExtResource("1_line")
 line_id = "opinion_loki_10"
 speaker_name = "Лена"
-text = "Вы, скорее грустите, чем злитесь."
+text = "Вы скорее грустите, чем злитесь."
+sprite = ExtResource("3_e2r3i")
 next_line_id = "opinion_loki_11"
 
 [sub_resource type="Resource" id="Resource_odin_line_61"]
@@ -417,7 +440,7 @@ next_line_id = "opinion_loki_12"
 script = ExtResource("1_line")
 line_id = "opinion_loki_12"
 speaker_name = "Один"
-text = "И, хотя сначала ты злишься на своих детей."
+text = "И хотя сначала ты злишься на своих детей."
 next_line_id = "opinion_loki_13"
 
 [sub_resource type="Resource" id="Resource_odin_line_63"]
@@ -453,13 +476,15 @@ script = ExtResource("1_line")
 line_id = "opinion_loki_17"
 speaker_name = "Лена"
 text = "…"
+sprite = ExtResource("6_lh88f")
 next_line_id = "Odin_choices_1"
 
 [sub_resource type="Resource" id="Resource_odin_line_68"]
 script = ExtResource("1_line")
 line_id = "new_world_1"
 speaker_name = "Лена"
-text = "Что вы можете сказать об этом плане, куда я вас призвала."
+text = "Что вы можете сказать об этом плане, куда я вас призвала?"
+sprite = ExtResource("3_e2r3i")
 next_line_id = "new_world_2"
 
 [sub_resource type="Resource" id="Resource_odin_line_69"]
@@ -473,14 +498,14 @@ next_line_id = "new_world_3"
 script = ExtResource("1_line")
 line_id = "new_world_3"
 speaker_name = "Один"
-text = "Древнее чем я."
+text = "Древнее, чем я."
 next_line_id = "new_world_4"
 
 [sub_resource type="Resource" id="Resource_odin_line_71"]
 script = ExtResource("1_line")
 line_id = "new_world_4"
 speaker_name = "Один"
-text = "Возможно древнее чем Имир."
+text = "Возможно, древнее, чем Имир."
 next_line_id = "new_world_5"
 
 [sub_resource type="Resource" id="Resource_odin_line_72"]
@@ -495,6 +520,7 @@ script = ExtResource("1_line")
 line_id = "new_world_6"
 speaker_name = "Лена"
 text = "Я не понимаю."
+sprite = ExtResource("3_e2r3i")
 next_line_id = "new_world_7"
 
 [sub_resource type="Resource" id="Resource_odin_line_74"]
@@ -515,7 +541,7 @@ next_line_id = "new_world_9"
 script = ExtResource("1_line")
 line_id = "new_world_9"
 speaker_name = "Один"
-text = "Будто моим глазам открывается из чего состоит мир."
+text = "Будто моим глазам открывается, из чего состоит мир."
 next_line_id = "new_world_10"
 
 [sub_resource type="Resource" id="Resource_odin_line_77"]
@@ -536,7 +562,7 @@ next_line_id = "new_world_12"
 script = ExtResource("1_line")
 line_id = "new_world_12"
 speaker_name = "Один"
-text = "И я вот я пытаюсь разгадать."
+text = "И вот я пытаюсь разгадать."
 next_line_id = "new_world_13"
 
 [sub_resource type="Resource" id="Resource_odin_line_80"]
@@ -551,13 +577,14 @@ script = ExtResource("1_line")
 line_id = "new_world_14"
 speaker_name = "Лена"
 text = "Вы любите порассуждать."
+sprite = ExtResource("5_msul6")
 next_line_id = "new_world_15"
 
 [sub_resource type="Resource" id="Resource_odin_line_82"]
 script = ExtResource("1_line")
 line_id = "new_world_15"
 speaker_name = "Один"
-text = "Ну, не даром же я отдал свой глаз."
+text = "Ну, недаром же я отдал свой глаз."
 next_line_id = "Odin_choices_1"
 
 [sub_resource type="Resource" id="Resource_odin_line_83"]
@@ -565,20 +592,21 @@ script = ExtResource("1_line")
 line_id = "help_1"
 speaker_name = "Лена"
 text = "Я не совсем поняла ваши причины, почему вы согласились мне помогать."
+sprite = ExtResource("3_e2r3i")
 next_line_id = "help_2"
 
 [sub_resource type="Resource" id="Resource_odin_line_84"]
 script = ExtResource("1_line")
 line_id = "help_2"
 speaker_name = "Один"
-text = "Потому что это лучшее что я могу сделать."
+text = "Потому что это лучшее, что я могу сделать."
 next_line_id = "help_3"
 
 [sub_resource type="Resource" id="Resource_odin_line_85"]
 script = ExtResource("1_line")
 line_id = "help_3"
 speaker_name = "Один"
-text = "Я в новом мире, ничего о нем не знаю."
+text = "Я в новом мире. Ничего о нем не знаю."
 next_line_id = "help_4"
 
 [sub_resource type="Resource" id="Resource_odin_line_86"]
@@ -593,13 +621,14 @@ script = ExtResource("1_line")
 line_id = "help_5"
 speaker_name = "Лена"
 text = "Конечно! Мы на одной стороне."
+sprite = ExtResource("5_msul6")
 next_line_id = "help_6"
 
 [sub_resource type="Resource" id="Resource_odin_line_88"]
 script = ExtResource("1_line")
 line_id = "help_6"
 speaker_name = "Один"
-text = "С возрастом доверие становится непозволительной роскошью, надеюсь вы не обижаетесь."
+text = "С возрастом доверие становится непозволительной роскошью, надеюсь, вы не обижаетесь."
 next_line_id = "help_7"
 
 [sub_resource type="Resource" id="Resource_odin_line_89"]
@@ -614,6 +643,7 @@ script = ExtResource("1_line")
 line_id = "help_8"
 speaker_name = "Лена"
 text = "А?"
+sprite = ExtResource("3_e2r3i")
 next_line_id = "help_9"
 
 [sub_resource type="Resource" id="Resource_odin_line_91"]
@@ -634,7 +664,7 @@ next_line_id = "help_11"
 script = ExtResource("1_line")
 line_id = "help_11"
 speaker_name = "Один"
-text = "Можно ли было предотвратить Рагнарек."
+text = "Можно ли было предотвратить Рагнарек?"
 next_line_id = "help_12"
 
 [sub_resource type="Resource" id="Resource_odin_line_94"]
@@ -662,7 +692,8 @@ next_line_id = "help_15"
 script = ExtResource("1_line")
 line_id = "help_15"
 speaker_name = "Лена"
-text = "Вы думаете, что сражение с мифическими чудовищами, даст вам ответ."
+text = "Вы думаете, что сражение с мифическими чудовищами даст вам ответ."
+sprite = ExtResource("3_e2r3i")
 next_line_id = "help_16"
 
 [sub_resource type="Resource" id="Resource_odin_line_98"]
@@ -683,7 +714,7 @@ next_line_id = "help_18"
 script = ExtResource("1_line")
 line_id = "help_18"
 speaker_name = "Один"
-text = "То же работа, и очень важная."
+text = "Тоже работа, и очень важная."
 next_line_id = "help_19"
 
 [sub_resource type="Resource" id="Resource_odin_line_101"]
@@ -691,6 +722,7 @@ script = ExtResource("1_line")
 line_id = "help_19"
 speaker_name = "Лена"
 text = "Вас интересно слушать."
+sprite = ExtResource("7_r4ar1")
 next_line_id = "help_20"
 
 [sub_resource type="Resource" id="Resource_odin_line_102"]
@@ -705,6 +737,7 @@ script = ExtResource("1_line")
 line_id = "help_21"
 speaker_name = "Лена"
 text = "Поверьте, я занята этим прямо сейчас."
+sprite = ExtResource("7_r4ar1")
 next_line_id = "Odin_choices_1"
 
 [sub_resource type="Resource" id="Resource_odin_line_104"]
@@ -712,6 +745,7 @@ script = ExtResource("1_line")
 line_id = "chosen_world_1"
 speaker_name = "Лена"
 text = "Как вам звезды?"
+sprite = ExtResource("3_e2r3i")
 next_line_id = "chosen_world_2"
 
 [sub_resource type="Resource" id="Resource_odin_line_105"]
@@ -739,7 +773,8 @@ next_line_id = "chosen_world_5"
 script = ExtResource("1_line")
 line_id = "chosen_world_5"
 speaker_name = "Лена"
-text = "Мне кажется из всех миров, где я бывала здесь – звездный самый странный."
+text = "Мне кажется, из всех миров, где я бывала, здесь – звездный самый странный."
+sprite = ExtResource("3_e2r3i")
 next_line_id = "chosen_world_6"
 
 [sub_resource type="Resource" id="Resource_odin_line_109"]
@@ -760,7 +795,7 @@ next_line_id = "chosen_world_8"
 script = ExtResource("1_line")
 line_id = "chosen_world_8"
 speaker_name = "Один"
-text = "Как-будто вообще по другой логике построен."
+text = "Как будто вообще по другой логике построен."
 next_line_id = "chosen_world_9"
 
 [sub_resource type="Resource" id="Resource_odin_line_112"]
@@ -768,6 +803,7 @@ script = ExtResource("1_line")
 line_id = "chosen_world_9"
 speaker_name = "Лена"
 text = "Да-да."
+sprite = ExtResource("3_e2r3i")
 next_line_id = "chosen_world_10"
 
 [sub_resource type="Resource" id="Resource_odin_line_113"]
@@ -782,6 +818,7 @@ script = ExtResource("1_line")
 line_id = "chosen_world_11"
 speaker_name = "Лена"
 text = "В смысле?"
+sprite = ExtResource("3_e2r3i")
 next_line_id = "chosen_world_12"
 
 [sub_resource type="Resource" id="Resource_odin_line_115"]
@@ -796,6 +833,7 @@ script = ExtResource("1_line")
 line_id = "chosen_world_13"
 speaker_name = "Лена"
 text = "А, ну так это Овен."
+sprite = ExtResource("5_msul6")
 next_line_id = "chosen_world_14"
 
 [sub_resource type="Resource" id="Resource_odin_line_117"]
@@ -810,13 +848,15 @@ script = ExtResource("1_line")
 line_id = "chosen_world_15"
 speaker_name = "Лена"
 text = "А, точно!"
+sprite = ExtResource("3_e2r3i")
 next_line_id = "chosen_world_16"
 
 [sub_resource type="Resource" id="Resource_odin_line_119"]
 script = ExtResource("1_line")
 line_id = "chosen_world_16"
 speaker_name = "Лена"
-text = "Хорошо смотрите, есть двенадцать знаков зодиака, хотя последнее время их стало тринадцать…"
+text = "Хорошо, смотрите, есть двенадцать знаков зодиака, хотя последнее время их стало тринадцать…"
+sprite = ExtResource("7_r4ar1")
 next_line_id = "Odin_choices_1"
 
 [resource]

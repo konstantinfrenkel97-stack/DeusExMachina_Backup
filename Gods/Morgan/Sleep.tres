@@ -6,8 +6,9 @@
 script = ExtResource("1_sl")
 icon_path = "uid://d12ycnju5p0oc"
 name = "Усыпление"
+description = "Наносит 40% урона. Если на цели 3 или больше дебаффов, оглушает её."
 damage_modifier = 0.4
-majesty_gain = 10
+majesty_gain = 25
 usable_from_positions = Array[bool]([false, true, true, false])
 ability_marker = "morgan_sleep"
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

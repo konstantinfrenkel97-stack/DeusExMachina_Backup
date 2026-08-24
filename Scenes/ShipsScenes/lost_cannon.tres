@@ -1,0 +1,163 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Enemies/Sea/Ships/Sailor/sailor.tres" id="ext_1"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Ships/Cannon/cannon.tres" id="ext_2"]
+[ext_resource type="Resource" path="res://Gods/Samdi/Samdi.tres" id="ext_3"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+
+[sub_resource type="Resource" id="form_base"]
+script = ExtResource("formation_script")
+formation_name = "Матрос-Матрос-Пушка"
+pos1 = ExtResource("ext_1")
+pos2 = ExtResource("ext_1")
+pos3 = ExtResource("ext_2")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="form_two_sailors"]
+script = ExtResource("formation_script")
+formation_name = "Матрос-Матрос"
+pos1 = ExtResource("ext_1")
+pos2 = ExtResource("ext_1")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="form_three_sailors"]
+script = ExtResource("formation_script")
+formation_name = "Матрос-Матрос-Матрос"
+pos1 = ExtResource("ext_1")
+pos2 = ExtResource("ext_1")
+pos3 = ExtResource("ext_1")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="buff_cannon_accuracy_minus15"]
+script = ExtResource("buff_script")
+stat = 2
+value = -15
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_cannon_accuracy"]
+script = ExtResource("unit_modifier_script")
+target_position = 3
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_cannon_accuracy_minus15")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v1"]
+script = ExtResource("battle_script")
+formation = SubResource("form_base")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_cannon_accuracy")])
+location_id = "ships"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v1"]
+script = ExtResource("outcome_script")
+result_text = "«Ах так!» Матрос вскакивает на ноги. «А ну, братва, вот вам и возможность проверить пушку в действии». Один из матросов подбегает к орудию, но замирает в растерянности, явно плохо знакомый с устройством пушки. Эффект: бой, у пушки −15 точности до конца боя."
+battle = SubResource("battle_v1")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v1"]
+script = ExtResource("choice_script")
+choice_text = "Ты сам виноват"
+outcome = SubResource("out_v1")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_attack"]
+script = ExtResource("stat_check_script")
+stat = 0
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="battle_v2_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_two_sailors")
+location_id = "ships"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v2_success"]
+script = ExtResource("outcome_script")
+result_text = "Матросня отступает под вашим напором и кивком головы выражает согласие. Счастливый бедолага бежит к своей пушке и обнимает ее со слезами. Вы уже собираетесь уходить, когда видите, как та пара, которую вы лишили награды, тайком обнажает кортики. Эффект: бой против построения матрос-матрос."
+battle = SubResource("battle_v2_success")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="battle_v2_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_base")
+location_id = "ships"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v2_fail"]
+script = ExtResource("outcome_script")
+result_text = "Парочка хитро переглядывается и ухмыляется. «Знаешь, а давай-ка мы вернем тебе твою подружку. Но при условии, что ты шмальнешь как следует по этим выскочкам». Тот матрос, что только что молил о помощи, вскакивает, с улыбкой гиены отбегает к пушке и начинает наводить ее на вас. Эффект: бой."
+battle = SubResource("battle_v2_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v2"]
+script = ExtResource("choice_script")
+choice_text = "Верните ему пушку!"
+stat_check = SubResource("check_attack")
+success_outcome = SubResource("out_v2_success")
+failure_outcome = SubResource("out_v2_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="battle_v3_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_three_sailors")
+location_id = "ships"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v3_success"]
+script = ExtResource("outcome_script")
+result_text = "Вперед выходит барон Суббота, садится и молча поднимает с палубы колоду карт. «Я сыграю с вами за пушку, господа». Двое матросов шушукаются между собой и наконец неуверенно садятся по-турецки напротив бога. Мало кто может сказать, что происходит: метаются карты, звучат какие-то термины. Но вы видите, как постепенно потеют и бледнеют матросы, и наконец, в злобе швырнув карты на палубу, встают. Самди встает и проводит пальцами по поверхности пушки. «Спасибо вам огромное!» — в слезах подбегает матрос. Однако Самди встает между ним и орудием. «Куда это ты руки тянешь к моей Дженни? Я ее выиграл, и теперь она моя». «Но… мы так не договаривались», — пролепетал матрос. «Да. Но мы вообще не договаривались», — улыбнулся бог рядом белоснежных зубов. Лицо матроса побагровело. Он достал кортик. «Парни! А ну все сюда! Покажем им, как честных пиратов обманывать!» Эффект: вы получаете артефакт «корабельная пушка» (NB: предмет-артефакт для этой награды пока не создан в Items — см. отчет), бой против построения матрос-матрос-матрос."
+battle = SubResource("battle_v3_success")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="buff_enemy_luck_minus10"]
+script = ExtResource("buff_script")
+stat = 1
+value = -10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_enemies_luck_all"]
+script = ExtResource("unit_modifier_script")
+target_position = 0
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_enemy_luck_minus10")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v3_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_base")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_enemies_luck_all")])
+location_id = "ships"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v3_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вперед выходит барон Суббота, садится и молча поднимает с палубы колоду карт. «Я сыграю с вами за пушку, господа». Двое матросов шушукаются между собой и наконец неуверенно садятся по-турецки напротив бога. Мало кто может сказать, что происходит: метаются карты, звучат какие-то термины. Но вы видите, как постепенно потеют и бледнеют матросы, и наконец, в злобе швырнув карты на палубу, вскакивают. Бог также встает и собирается идти к пушке, но матросы преграждают ему дорогу. «Пушку ты не получишь!» — прорычал один из них. «С чего бы это?» «Ты сжульничал!» «Да? И ты можешь это доказать?» — с наигранной невинностью пропел Самди. Третий матрос присоединился к товарищам, и они со злобой уставились на барона. «Так», — голос Самди стал глубже, его силуэт словно начал увеличиваться. Матросы съежились под его подавляющей тенью. В голосе бога звучал искренний гнев: «Жульничество есть часть игры. Если вы не можете его доказать, значит, победил шулер. Таковы правила. Но если вы просто отказываетесь уважать результаты игры, такого я терпеть точно не стану!» Эффект: бой, у противников −10 удачи на 1 ход."
+battle = SubResource("battle_v3_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v3"]
+script = ExtResource("choice_script")
+choice_text = "Попытаться выиграть пушку"
+required_god = ExtResource("ext_3")
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_v3_success")
+failure_outcome = SubResource("out_v3_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Проигранная пушка"
+body_text = "Пробираясь с корабля на корабль, на одном вы замечаете трех матросов, сидящих рядом с огромной старой пушкой. Один из них плачет и держится за голову. Когда вы подходите, он замечает вас и бухается в ноги.\n\n«Моя Дженни! Помогите мне, пожалуйста! Эти жулики! Они украли у меня мою Дженни!»\n\nДвое других матросов переглядываются и невинно пожимают плечами.\n\n«Пушка наша, мы выиграли ее честно»."
+choices = [SubResource("choice_v1"), SubResource("choice_v2"), SubResource("choice_v3")]

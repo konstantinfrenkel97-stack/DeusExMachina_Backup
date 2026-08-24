@@ -166,16 +166,36 @@ func _load_scene(scene) -> void:
 		var btn := Button.new()
 		btn.custom_minimum_size = Vector2(0, 54)
 		btn.add_theme_font_size_override("font_size", 20)
-		var choice_text: String = Localization.text_from(choice, "choice_text_key", "choice_text", str(_res_prop(choice, "choice_text", "")))
-		var required_god = _res_prop(choice, "required_god", null)
-		if _is_choice_available(choice):
-			btn.text = choice_text
-		else:
-			var god_name: String = Localization.text_from(required_god, "unit_name_key", "unit_name", str(_res_prop(required_god, "unit_name", "")))
-			btn.text = "%s (нужен %s)" % [choice_text, god_name]
+		btn.text = _choice_display_text(choice)
+		if not _is_choice_available(choice):
 			btn.disabled = true
 		btn.pressed.connect(_on_choice_pressed.bind(choice))
 		choices_container.add_child(btn)
+
+func _choice_display_text(choice) -> String:
+	var base_text: String = Localization.text_from(choice, "choice_text_key", "choice_text", str(_res_prop(choice, "choice_text", "")))
+	var notes: Array[String] = []
+	var required_god = _res_prop(choice, "required_god", null)
+	if required_god != null:
+		var god_name: String = Localization.text_from(required_god, "unit_name_key", "unit_name", str(_res_prop(required_god, "unit_name", "")))
+		if god_name.strip_edges() != "":
+			notes.append("нужен %s" % god_name)
+	var stat_check: StatCheck = _res_prop(choice, "stat_check", null) as StatCheck
+	if stat_check != null:
+		notes.append("проверка: %s %d%%" % [stat_check.display_stat(), _stat_check_success_percent(stat_check)])
+	if notes.is_empty():
+		return base_text
+	return "%s (%s)" % [base_text, "; ".join(notes)]
+
+
+func _stat_check_success_percent(stat_check: StatCheck) -> int:
+	var avg: float = stat_check.team_average(CampaignState.available_gods)
+	var stat_bonus: int = int(avg * stat_check.coefficient)
+	var needed_roll: int = int(stat_check.difficulty) - MissionState.pending_check_difficulty_delta - stat_bonus
+	var success_outcomes: int = 101 - needed_roll
+	var chance: float = clampf(float(success_outcomes) / 101.0, 0.0, 1.0)
+	return int(round(chance * 100.0))
+
 
 func _is_choice_available(choice) -> bool:
 	var required_god = _res_prop(choice, "required_god", null)
@@ -195,7 +215,9 @@ func _pick_outcome(choice):
 	var stat_check = _res_prop(choice, "stat_check", null)
 	if stat_check != null:
 		var avg: float = stat_check.team_average(CampaignState.available_gods)
-		var success: bool = stat_check.is_success(avg)
+		var difficulty_delta: int = MissionState.pending_check_difficulty_delta
+		MissionState.pending_check_difficulty_delta = 0
+		var success: bool = stat_check.is_success(avg, difficulty_delta)
 		print("[Миссия] Проверка %s: среднее %.1f -> %s" % [stat_check.display_stat(), avg, "УСПЕХ" if success else "ПРОВАЛ"])
 		return _res_prop(choice, "success_outcome", null) if success else _res_prop(choice, "failure_outcome", null)
 	return _res_prop(choice, "outcome", null)
@@ -208,6 +230,9 @@ func _present_outcome(outcome, choice) -> void:
 	var result_text: String = Localization.text_from(outcome, "result_text_key", "result_text", str(_res_prop(outcome, "result_text", "")))
 	if result_text != "":
 		lines.append(result_text)
+	var rewards_text := _outcome_rewards_text(outcome)
+	if rewards_text != "":
+		lines.append(rewards_text)
 	if lines.is_empty():
 		_apply_outcome_effects(outcome)
 		return
@@ -221,6 +246,22 @@ func _present_outcome(outcome, choice) -> void:
 	cont.pressed.connect(_apply_outcome_effects.bind(outcome))
 	choices_container.add_child(cont)
 
+func _outcome_rewards_text(outcome) -> String:
+	var parts: Array[String] = []
+	for reward_value in _array_prop(outcome, "rewards"):
+		var reward := reward_value as Reward
+		if reward == null or reward.resource == null:
+			continue
+		var display_name := _reward_display_name(reward.resource)
+		if reward.kind == Reward.Kind.ESSENCE or reward.kind == Reward.Kind.CURRENCY:
+			parts.append("%s x%d" % [display_name, int(reward.amount)])
+		else:
+			parts.append(display_name)
+	if parts.is_empty():
+		return ""
+	return "[b]Получено:[/b] %s" % ", ".join(parts)
+
+
 func _apply_outcome_effects(outcome) -> void:
 	if outcome == null:
 		_advance_or_finish_mission()
@@ -228,6 +269,9 @@ func _apply_outcome_effects(outcome) -> void:
 	for reward in _array_prop(outcome, "rewards"):
 		_grant_and_record_reward(reward)
 	_apply_outcome_mission_effects(outcome)
+	if bool(_res_prop(outcome, "end_mission_as_failure", false)):
+		_finish_mission(false)
+		return
 	var next_scene = _res_prop(outcome, "next_scene", null) as MissionSceneResource
 	var battle = _res_prop(outcome, "battle", null)
 	if battle != null:
@@ -249,24 +293,41 @@ func _apply_outcome_mission_effects(outcome) -> void:
 	var majesty_delta: int = int(_res_prop(outcome, "hero_majesty_delta", 0))
 	if majesty_delta != 0:
 		MissionState.add_majesty_to_selected_heroes(majesty_delta)
+	var hero_buffs_until_mission_end: bool = bool(_res_prop(outcome, "hero_buffs_until_mission_end", false))
 	for buff in _array_prop(outcome, "hero_buffs"):
 		if buff != null:
-			CombatManager.pending_mission_hero_buffs.append(buff)
+			if hero_buffs_until_mission_end:
+				CombatManager.mission_team_buffs.append(buff)
+			else:
+				CombatManager.pending_mission_hero_buffs.append(buff)
 	for buff in _array_prop(outcome, "strongest_hero_buffs"):
 		if buff != null:
 			CombatManager.mission_strongest_hero_buffs.append(buff)
 	if bool(_res_prop(outcome, "skip_helheim_fog_first_round", false)):
 		CombatManager.pending_helheim_skip_fog_rounds += 1
+	var check_difficulty_delta: int = int(_res_prop(outcome, "next_check_difficulty_delta", 0))
+	if check_difficulty_delta != 0:
+		MissionState.pending_check_difficulty_delta += check_difficulty_delta
 	var target_god: Resource = _res_prop(outcome, "target_god", null) as Resource
 	if target_god != null:
 		var target_path: String = str(_res_prop(target_god, "resource_path", ""))
 		if target_path != "":
-			CombatManager.pending_mission_target_effects.append({
-				"resource_path": target_path,
-				"current_hp_percent_delta": int(_res_prop(outcome, "target_current_hp_percent_delta", 0)),
-				"majesty_delta": int(_res_prop(outcome, "target_majesty_delta", 0)),
-				"buffs": _array_prop(outcome, "target_buffs")
-			})
+			var target_buffs: Array = _array_prop(outcome, "target_buffs")
+			var target_buffs_until_mission_end: bool = bool(_res_prop(outcome, "target_buffs_until_mission_end", false))
+			var target_hp_delta: int = int(_res_prop(outcome, "target_current_hp_percent_delta", 0))
+			var target_majesty_delta: int = int(_res_prop(outcome, "target_majesty_delta", 0))
+			if target_hp_delta != 0 or target_majesty_delta != 0 or (not target_buffs_until_mission_end and target_buffs.size() > 0):
+				CombatManager.pending_mission_target_effects.append({
+					"resource_path": target_path,
+					"current_hp_percent_delta": target_hp_delta,
+					"majesty_delta": target_majesty_delta,
+					"buffs": ([] if target_buffs_until_mission_end else target_buffs)
+				})
+			if target_buffs_until_mission_end and target_buffs.size() > 0:
+				CombatManager.mission_target_buffs.append({
+					"resource_path": target_path,
+					"buffs": target_buffs
+				})
 
 func _launch_battle(battle) -> void:
 	_prepare_direct_battle(battle)
@@ -359,6 +420,8 @@ func _finish_mission(show_rewards: bool = true) -> void:
 	if return_path == "":
 		return_path = "res://Campaign/campaign_screen.tscn"
 	_pending_finish_return_path = return_path
+	if MissionState.current_mission != null:
+		MissionState.last_completed_mission_path = MissionState.current_mission.resource_path
 	if show_rewards:
 		_show_mission_reward_summary()
 		return

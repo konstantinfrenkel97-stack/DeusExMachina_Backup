@@ -8,6 +8,7 @@ icon_path = "uid://cd86i06hi052e"
 name = "Игра теней"
 description = "Я получаю 30 уклонения на 2 хода"
 damage_modifier = 0.3
+majesty_gain = 10
 effect_types = Array[String](["self_buff_evasion", "self_push_back"])
 effect_values = Dictionary[String, int]({
 "self_buff_evasion": 30,

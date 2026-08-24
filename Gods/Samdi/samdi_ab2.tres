@@ -10,8 +10,8 @@ description = "Цель теряет 20 уклонения и 20 точност�
 damage_modifier = 0.2
 effect_types = Array[String](["target_debuff_evasion", "target_debuff_accuracy"])
 effect_values = Dictionary[String, int]({
-"target_debuff_accuracy": -20,
-"target_debuff_evasion": -20
+"target_debuff_accuracy": 20,
+"target_debuff_evasion": 20
 })
 effect_durations = Dictionary[String, int]({
 "target_debuff_accuracy": 2,

@@ -6,8 +6,10 @@
 script = ExtResource("1_sd")
 icon_path = "uid://ct8m3acdqrlx5"
 name = "Танец меча"
-damage_modifier = 1.2
-majesty_gain = 30
+description = "Наносит 60% урона всем врагам и отходит назад. За каждое убийство этой способностью лечит Сусаноо на 12% максимального здоровья."
+damage_modifier = 0.6
+majesty_gain = 0
+majesty_cost = 100
 target_type = "All_Enemies"
 effect_types = Array[String](["self_push_back"])
 effect_values = Dictionary[String, int]({

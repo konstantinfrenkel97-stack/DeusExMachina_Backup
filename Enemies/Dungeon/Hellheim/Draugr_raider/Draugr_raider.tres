@@ -10,14 +10,15 @@
 [resource]
 script = ExtResource("2_p1uyj")
 unit_name = "Драугр налетчик"
+max_hp = 63
+damage = 22
+armor = 8
+initiative = 7
+accuracy = 82
+evasion = 17
+crit_chance = 0.1
 sprite_path = "res://Enemies/Dungeon/Hellheim/Draugr_raider/Драугр Налетчик.png"
 face_sprite = "res://Enemies/Dungeon/Hellheim/Draugr_raider/Драугр Налетчик_Face.png"
-battle_sprite_scale_percent = 93.0
-max_hp = 60
-armor = 15
-initiative = 4
-evasion = 15
-crit_chance = 0.25
 special_effect_type = "draugr_raider"
 active_abilities = Array[ExtResource("1_lc6qv")]([ExtResource("4_ds"), ExtResource("5_cs"), ExtResource("6_at")])
 ai_script = ExtResource("3_ai")

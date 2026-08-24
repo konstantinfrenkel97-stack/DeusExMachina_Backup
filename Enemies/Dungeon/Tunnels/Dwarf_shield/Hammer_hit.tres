@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_unetk")
 name = "Удар молотом"
+description = "Наносит 100% урона."
 majesty_gain = 0
 usable_from_positions = Array[bool]([true, true, false, false])
 targetable_positions = Array[bool]([true, true, false, false])

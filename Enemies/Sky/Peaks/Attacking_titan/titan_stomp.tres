@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Топот"
+description = "Наносит 40% урона; цель теряет 10 уклонения на 5 ход.."
 damage_modifier = 0.4
 majesty_gain = 0
 target_type = "All_Enemies"

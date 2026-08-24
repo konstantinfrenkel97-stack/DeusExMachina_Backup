@@ -1,0 +1,176 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Enemies/Sky/Clouds/Griffin/Griffin.tres" id="ext_griffin"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Clouds/Cupid/cupid.tres" id="ext_cupid"]
+[ext_resource type="Resource" path="res://Gods/Chernobog/Chernobog.tres" id="ext_chernobog"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+
+[sub_resource type="Resource" id="form_griffin"]
+script = ExtResource("formation_script")
+formation_name = "Грифон-купидон-купидон"
+pos1 = ExtResource("ext_griffin")
+pos2 = ExtResource("ext_cupid")
+pos3 = ExtResource("ext_cupid")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="check_initiative"]
+script = ExtResource("stat_check_script")
+stat = 1
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="buff_griffin_attack_minus10_1turn"]
+script = ExtResource("buff_script")
+stat = 0
+value = -10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="buff_griffin_accuracy_minus10_perma"]
+script = ExtResource("buff_script")
+stat = 2
+value = -10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_griffin_v1_success"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_griffin_attack_minus10_1turn"), SubResource("buff_griffin_accuracy_minus10_perma")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v1_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_griffin")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_griffin_v1_success")])
+location_id = "clouds"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v1_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы бросаетесь в атаку, проламываясь сквозь белизну облаков. Рыцарь в растерянности оборачивается к вам, и пытается отбиваться, но из-за букета в руке, его движения лишены привычной точности."
+battle = SubResource("battle_v1_success")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="buff_griffin_accuracy_minus10_perma_fail"]
+script = ExtResource("buff_script")
+stat = 2
+value = -10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_griffin_v1_fail"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_griffin_accuracy_minus10_perma_fail")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v1_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_griffin")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_griffin_v1_fail")])
+location_id = "clouds"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v1_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы пытаетесь застать рыцаря врасплох, но он замечает вас и выставляет вперед копье. Во второй руке он продолжает держать букет, и хотя ему это заметно неудобно, хватка на цветах остается твердой."
+battle = SubResource("battle_v1_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v1"]
+script = ExtResource("choice_script")
+choice_text = "Броситься в атаку"
+stat_check = SubResource("check_initiative")
+success_outcome = SubResource("out_v1_success")
+failure_outcome = SubResource("out_v1_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_evasion"]
+script = ExtResource("stat_check_script")
+stat = 3
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_v2_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы решаете не трогать всадника и незаметно скрываетесь среди облаков."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="buff_griffin_luck_plus20"]
+script = ExtResource("buff_script")
+stat = 1
+value = 20
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_griffin_luck_plus20"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_griffin_luck_plus20")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v2_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_griffin")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_griffin_luck_plus20")])
+location_id = "clouds"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v2_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы решаете не трогать всадника, но когда вы отступаете в облака, замечаете над собой широкую тень. Рыцарь вместе с купидонами пикирует на вас сверху. Букета нигде не видно."
+battle = SubResource("battle_v2_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v2"]
+script = ExtResource("choice_script")
+choice_text = "Оставить его"
+stat_check = SubResource("check_evasion")
+success_outcome = SubResource("out_v2_success")
+failure_outcome = SubResource("out_v2_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_griffin_attack_minus10_perma"]
+script = ExtResource("buff_script")
+stat = 0
+value = -10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_griffin_attack_minus10_perma"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_griffin_attack_minus10_perma")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v3"]
+script = ExtResource("battle_script")
+formation = SubResource("form_griffin")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_griffin_attack_minus10_perma")])
+location_id = "clouds"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v3"]
+script = ExtResource("outcome_script")
+result_text = "Чернобог расправляет крылья и плывет по воздуху в направлении всадника. Он сжимает кулак и из щелей в доспехе вылетает розоватая дымка, растворяющаяся в пустоте лица божества. Широкий силуэт рыцаря становится как будто меньше, рука опускается, и вы видите цветы, падающие вниз и разносимые ветром. Как будто неохотно он поднимает копьё."
+battle = SubResource("battle_v3")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v3"]
+script = ExtResource("choice_script")
+choice_text = "Нет любви!"
+required_god = ExtResource("ext_chernobog")
+outcome = SubResource("out_v3")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Полет Грифона"
+body_text = "Пробираясь через облака, вы замечаете массивный силуэт, тяжело размахивающий крыльями. Закованный в броню всадник на грифоне неторопливо летит через облака, а рядом вьются купидоны. Вы замечаете в бронированной перчатке букет полевых цветов. Откуда он только смог их достать?"
+choices = [SubResource("choice_v1"), SubResource("choice_v2"), SubResource("choice_v3")]

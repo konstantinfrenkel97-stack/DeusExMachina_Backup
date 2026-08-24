@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ia")
 name = "Недвижим словно айсберг"
+description = "Накладывает на себя метку провокации на 3 ход.; получает +10 брони на 3 ход.."
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"

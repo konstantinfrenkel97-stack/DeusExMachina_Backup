@@ -1,17 +1,27 @@
-[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3 uid="uid://d4huxgquots5w"]
 
-[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
-[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
-[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
-[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
-[ext_resource type="Resource" path="res://Enemies/Dungeon/Hellheim/Banshee/banshee.tres" id="enemy_banshee"]
-[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
-[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
-[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
-[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
-[ext_resource type="Resource" path="res://Essence/essence_death.tres" id="essence_death"]
-[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
-[ext_resource type="Resource" path="res://Gods/Loki/Loki.tres" id="loki"]
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Resource" uid="uid://djml03da18pxx" path="res://Enemies/Dungeon/Hellheim/Banshee/banshee.tres" id="enemy_banshee"]
+[ext_resource type="Resource" uid="uid://bglbr7sxbyn23" path="res://Essence/essence_death.tres" id="essence_death"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Resource" uid="uid://lokigod00001" path="res://Gods/Loki/Loki.tres" id="loki"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://dutn5fch4d8b5" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+
+[sub_resource type="Resource" id="buff_enemy_damage_plus20"]
+script = ExtResource("buff_script")
+value = 20
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_enemy_damage_plus20"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_enemy_damage_plus20")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
 
 [sub_resource type="Resource" id="form_banshees"]
 script = ExtResource("formation_script")
@@ -22,11 +32,23 @@ pos3 = ExtResource("enemy_banshee")
 pos4 = ExtResource("enemy_banshee")
 metadata/_custom_type_script = ExtResource("formation_script")
 
-[sub_resource type="Resource" id="battle_normal"]
+[sub_resource type="Resource" id="battle_attack_fail"]
 script = ExtResource("battle_script")
 formation = SubResource("form_banshees")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_enemy_damage_plus20")])
 location_id = "helheim"
 metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_attack_fail"]
+script = ExtResource("outcome_script")
+result_text = "Как только вы выходите из-за укрытия, песнь баньши прекращается. Все как одна они смотрят на вас, и вскоре плач меняется на гневный вопль на тех, кто прервал их таинство."
+battle = SubResource("battle_attack_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="check_initiative"]
+script = ExtResource("stat_check_script")
+stat = 1
+metadata/_custom_type_script = ExtResource("stat_check_script")
 
 [sub_resource type="Resource" id="buff_enemy_stun_first_turn"]
 script = ExtResource("buff_script")
@@ -43,28 +65,23 @@ metadata/_custom_type_script = ExtResource("unit_modifier_script")
 [sub_resource type="Resource" id="battle_attack_success"]
 script = ExtResource("battle_script")
 formation = SubResource("form_banshees")
-location_id = "helheim"
 enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_enemy_stun_first_turn")])
-metadata/_custom_type_script = ExtResource("battle_script")
-
-[sub_resource type="Resource" id="buff_enemy_damage_plus20"]
-script = ExtResource("buff_script")
-stat = 0
-value = 20
-duration = -1
-metadata/_custom_type_script = ExtResource("buff_script")
-
-[sub_resource type="Resource" id="mod_enemy_damage_plus20"]
-script = ExtResource("unit_modifier_script")
-buffs = Array[ExtResource("buff_script")]([SubResource("buff_enemy_damage_plus20")])
-metadata/_custom_type_script = ExtResource("unit_modifier_script")
-
-[sub_resource type="Resource" id="battle_attack_fail"]
-script = ExtResource("battle_script")
-formation = SubResource("form_banshees")
 location_id = "helheim"
-enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_enemy_damage_plus20")])
 metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_attack_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы врываетесь в чарующий танец духов. Они поначалу не осознают, что происходит, пока ваше оружие рвет их тела. Но вскоре оборачиваются и обрушивают на вас весь свой гнев. Эффект сцены: противники должны быть оглушены в первый ход."
+battle = SubResource("battle_attack_success")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_attack"]
+script = ExtResource("choice_script")
+choice_text = "Немедленно напасть"
+stat_check = SubResource("check_initiative")
+success_outcome = SubResource("out_attack_success")
+failure_outcome = SubResource("out_attack_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
 
 [sub_resource type="Resource" id="buff_hero_luck_minus20"]
 script = ExtResource("buff_script")
@@ -81,69 +98,25 @@ metadata/_custom_type_script = ExtResource("unit_modifier_script")
 [sub_resource type="Resource" id="battle_leave_fail"]
 script = ExtResource("battle_script")
 formation = SubResource("form_banshees")
-location_id = "helheim"
 hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_hero_luck_minus20")])
+location_id = "helheim"
 metadata/_custom_type_script = ExtResource("battle_script")
-
-[sub_resource type="Resource" id="reward_death_essence"]
-script = ExtResource("reward_script")
-kind = 1
-resource = ExtResource("essence_death")
-amount = 1
-metadata/_custom_type_script = ExtResource("reward_script")
-
-[sub_resource type="Resource" id="out_attack_success"]
-script = ExtResource("outcome_script")
-result_text = "Вы врываетесь в чарующий танец духов. Они поначалу не осознают что происходит, пока ваше оружие рвет их тела. Но вскоре оборачиваются и обрушивают на вас весь свой гнев. Эффект сцены: противники должны быть оглушены в первый ход."
-battle = SubResource("battle_attack_success")
-metadata/_custom_type_script = ExtResource("outcome_script")
-
-[sub_resource type="Resource" id="out_attack_fail"]
-script = ExtResource("outcome_script")
-result_text = "Как только вы выходите из-за укрытия, песнь баньши прекращается. Все как одна они смотрят на вас, и вскоре плач меняется на гневный вопль на тех кто прервал их таинство."
-battle = SubResource("battle_attack_fail")
-metadata/_custom_type_script = ExtResource("outcome_script")
-
-[sub_resource type="Resource" id="out_leave_success"]
-script = ExtResource("outcome_script")
-result_text = "В тишине вы удаляетесь в лес оставив скорбную процессию позади."
-metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="out_leave_fail"]
 script = ExtResource("outcome_script")
-result_text = "Вы удаляетесь в лес, оставив позади пение, когда вдруг осознаете что оно становится ближе. Духи скользят между деревьев, и их песнь высасывает любую радость из вас."
+result_text = "Вы удаляетесь в лес, оставив позади пение, когда вдруг осознаете, что оно становится ближе. Духи скользят между деревьев, и их песнь высасывает любую радость из вас."
 battle = SubResource("battle_leave_fail")
 metadata/_custom_type_script = ExtResource("outcome_script")
-
-[sub_resource type="Resource" id="out_dance_success"]
-script = ExtResource("outcome_script")
-result_text = "Несмотря на попытки товарищей остановить его, Локи неспешно входит в круг баньши. Он движется плавно вместе с ними, губами издавая беззвучный плач. Какое-то время он кружится с ними в танце скорби, пока наконец духи не улетают, а он не возвращается к своим спутникам, неся на лице тень воспоминаний о великой утрате."
-rewards = [SubResource("reward_death_essence")]
-metadata/_custom_type_script = ExtResource("outcome_script")
-
-[sub_resource type="Resource" id="out_dance_fail"]
-script = ExtResource("outcome_script")
-result_text = "Танец не принимает Локи. Скорбный круг рассыпается, и баньши бросаются на вас."
-battle = SubResource("battle_normal")
-metadata/_custom_type_script = ExtResource("outcome_script")
-
-[sub_resource type="Resource" id="check_initiative"]
-script = ExtResource("stat_check_script")
-stat = 1
-metadata/_custom_type_script = ExtResource("stat_check_script")
-
-[sub_resource type="Resource" id="choice_attack"]
-script = ExtResource("choice_script")
-choice_text = "Немедленно напасть"
-stat_check = SubResource("check_initiative")
-success_outcome = SubResource("out_attack_success")
-failure_outcome = SubResource("out_attack_fail")
-metadata/_custom_type_script = ExtResource("choice_script")
 
 [sub_resource type="Resource" id="check_evasion"]
 script = ExtResource("stat_check_script")
 stat = 3
 metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_leave_success"]
+script = ExtResource("outcome_script")
+result_text = "В тишине вы удаляетесь в лес, оставив скорбную процессию позади."
+metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_leave"]
 script = ExtResource("choice_script")
@@ -153,10 +126,34 @@ success_outcome = SubResource("out_leave_success")
 failure_outcome = SubResource("out_leave_fail")
 metadata/_custom_type_script = ExtResource("choice_script")
 
+[sub_resource type="Resource" id="battle_normal"]
+script = ExtResource("battle_script")
+formation = SubResource("form_banshees")
+location_id = "helheim"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_dance_fail"]
+script = ExtResource("outcome_script")
+result_text = "Танец не принимает Локи. Скорбный круг рассыпается, и баньши бросаются на вас."
+battle = SubResource("battle_normal")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
 [sub_resource type="Resource" id="check_luck"]
 script = ExtResource("stat_check_script")
 stat = 5
 metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="reward_death_essence"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_death")
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_dance_success"]
+script = ExtResource("outcome_script")
+result_text = "Несмотря на попытки товарищей остановить его, Локи неспешно входит в круг баньши. Он движется плавно вместе с ними, губами издавая беззвучный плач. Какое-то время он кружится с ними в танце скорби, пока наконец духи не улетают, а он не возвращается к своим спутникам, неся на лице тень воспоминаний о великой утрате."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_death_essence")])
+metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_loki_dance"]
 script = ExtResource("choice_script")
@@ -170,5 +167,5 @@ metadata/_custom_type_script = ExtResource("choice_script")
 [resource]
 script = ExtResource("scene_script")
 scene_title = "Круг скорби"
-body_text = "Пробираясь по лесу сквозь слепящую пелену вы слышите хор заунывного плача. Идя на звук вы находите группу баньши. Паря в круге они в унисон издают жалобные всхлипывания, то затихая то переходя на крик. Их скорбное пение напоминает вам о тех, кого вы сами потеряли."
-choices = [SubResource("choice_attack"), SubResource("choice_leave"), SubResource("choice_loki_dance")]
+body_text = "Пробираясь по лесу сквозь слепящую пелену, вы слышите хор заунывного плача. Идя на звук, вы находите группу баньши. Паря в круге, они в унисон издают жалобные всхлипывания, то затихая, то переходя на крик. Их скорбное пение напоминает вам о тех, кого вы сами потеряли."
+choices = Array[ExtResource("choice_script")]([SubResource("choice_attack"), SubResource("choice_leave"), SubResource("choice_loki_dance")])

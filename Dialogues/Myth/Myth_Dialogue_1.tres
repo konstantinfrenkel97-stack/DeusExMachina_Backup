@@ -1,0 +1,810 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://uoll8eqtury"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_vkhix"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_qpvl7"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_w5445"]
+[ext_resource type="Texture2D" uid="uid://duogyyhwd3igs" path="res://Main_characters/Lena/Lena_sceptical.png" id="3_lena_sceptical"]
+[ext_resource type="Texture2D" uid="uid://bfu365plvlb5v" path="res://Main_characters/Lena/Lena_surprised.png" id="4_lena_surprised"]
+[ext_resource type="Texture2D" uid="uid://cl8wacfrih2fj" path="res://Main_characters/Lena/Lena_smile_1.png" id="5_lena_smile1"]
+[ext_resource type="Texture2D" uid="uid://bwmrl7quj85d" path="res://Main_characters/Lena/Lena_scared.png" id="6_lena_scared"]
+[ext_resource type="Texture2D" uid="uid://c41xe23xeeys3" path="res://Main_characters/Lena/Lena_sad.png" id="7_lena_sad"]
+
+[sub_resource type="Resource" id="Resource_nnw5p"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Миф..."
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_gjw3y"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Ага?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_bj1m1"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Просто хотела кое-что спросить."
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_yg3yg"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Кто ты? Ты бог?"
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_qpvl7"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Ну... Да и нет."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_w5445"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "И как это понимать?"
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_cgbv5"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Я не такой, как твоя небесная банда. 
+Я не сижу на небе.
+Сейчас у меня даже сил почти нет."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_v6fnp"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Так... А в каком смысле ты бог?"
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_iu3cr"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "В том, что я создатель всего, что ты видишь вокруг."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_lpukv"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "И тех чудовищ, что хотят нас убить?"
+sprite = ExtResource("6_lena_scared")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_nkomb"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Верно."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_i7q06"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Которых ты, в теории, должен контролировать, но твое могущество рассеялось с моим появлением, и теперь ты не можешь практически ничего."
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_j6qq6"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Более-менее, да."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_mdya0"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Странно это все."
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ykmn0"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Но откуда ты взялся? И как ты создал этот мир?"
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_28sxe"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Я просто осознал себя в один момент. Как и все мои шесть сиблингов."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_qh8kl"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "А как создал — объяснить не смогу."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_geo7s"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Не потому, что не понимаю."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_08cnl"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Просто для меня этот процесс так естественен, что тот, кто не делал подобного, не поймет."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_32lj0"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Как объяснить боль тому, кто ее никогда не чувствовал."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_fe174"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Понимаю."
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ck0sd"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Вы сказали, что у вас шесть родственников."
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_1vp3u"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Я не хочу о них говорить.
+Не спрашивай."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_7pu65"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Ладно..."
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_gyqid"]
+script = ExtResource("2_qpvl7")
+lines = Array[ExtResource("1_vkhix")]([SubResource("Resource_yg3yg"), SubResource("Resource_qpvl7"), SubResource("Resource_w5445"), SubResource("Resource_cgbv5"), SubResource("Resource_v6fnp"), SubResource("Resource_iu3cr"), SubResource("Resource_lpukv"), SubResource("Resource_nkomb"), SubResource("Resource_i7q06"), SubResource("Resource_j6qq6"), SubResource("Resource_mdya0"), SubResource("Resource_ykmn0"), SubResource("Resource_28sxe"), SubResource("Resource_qh8kl"), SubResource("Resource_geo7s"), SubResource("Resource_08cnl"), SubResource("Resource_32lj0"), SubResource("Resource_fe174"), SubResource("Resource_ck0sd"), SubResource("Resource_1vp3u"), SubResource("Resource_7pu65")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"
+
+[sub_resource type="Resource" id="Resource_tpbk0"]
+script = ExtResource("2_w5445")
+choice_text = "Кто ты такой?"
+next_dialogue = SubResource("Resource_gyqid")
+metadata/_custom_type_script = "uid://dh3qxso5m27bg"
+
+[sub_resource type="Resource" id="Resource_l3t3o"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Мы на плане фантазий."
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_5y2ql"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Да."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_s1nco"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Пространстве, где существует все фантастическое, когда-либо придуманное."
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ekua8"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Верно."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_3x81l"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "И вы его создатель?"
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_hvdd7"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Мы играем в \"перечисли очевидное\"?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_pmxpe"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Я пытаюсь все структурировать."
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_bvqrk"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Я, знаете ли, в параллельный мир попала."
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_4vtym"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Имею право задавать вопросы."
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_g1tr5"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Да задавай. Не то что у меня есть другие занятия прямо сейчас."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_psvao"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Как я сюда попала?"
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_rp5ia"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "А я откуда знаю?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_h4rr0"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Не знаете? Хм..."
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_frim5"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Я открыла книгу ключом... И сразу оказалась здесь..."
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_1xctb"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Книгу? Ключом? 
+Могу взглянуть?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_lofn3"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Ну, книга не перенеслась, а ключ — вот он."
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_s2w2m"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Хмм, интересно.
+Значит, мы в книге..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_hnjf4"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Хах... логично.
+Фантастике место на страницах."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_hdxk3"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Больные уроды."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_pvhpc"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Вы можете поделиться своими выводами?"
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_oktua"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Как я и сказал. 
+Мы заточены в книге."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_onnhm"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Ничего нового."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_6frr4"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Это все, что вы поняли?"
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_7e0ra"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Все, что я готов сказать наверняка."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_oi8xj"]
+script = ExtResource("2_qpvl7")
+lines = Array[ExtResource("1_vkhix")]([SubResource("Resource_l3t3o"), SubResource("Resource_5y2ql"), SubResource("Resource_s1nco"), SubResource("Resource_ekua8"), SubResource("Resource_3x81l"), SubResource("Resource_hvdd7"), SubResource("Resource_pmxpe"), SubResource("Resource_bvqrk"), SubResource("Resource_4vtym"), SubResource("Resource_g1tr5"), SubResource("Resource_psvao"), SubResource("Resource_rp5ia"), SubResource("Resource_h4rr0"), SubResource("Resource_frim5"), SubResource("Resource_1xctb"), SubResource("Resource_lofn3"), SubResource("Resource_s2w2m"), SubResource("Resource_hnjf4"), SubResource("Resource_hdxk3"), SubResource("Resource_pvhpc"), SubResource("Resource_oktua"), SubResource("Resource_onnhm"), SubResource("Resource_6frr4"), SubResource("Resource_7e0ra")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"
+
+[sub_resource type="Resource" id="Resource_wqxds"]
+script = ExtResource("2_w5445")
+choice_text = "Это место"
+next_dialogue = SubResource("Resource_oi8xj")
+metadata/_custom_type_script = "uid://dh3qxso5m27bg"
+
+[sub_resource type="Resource" id="Resource_gviuh"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Я призвала богов при помощи цветных шаров..."
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_djvmp"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Эссенции. МОЕЙ эссенции."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_4s6g7"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "И не призвала. Создала."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_n5ulr"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Это важно."
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_tdqif"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Конечно. Призываешь ты откуда-то куда-то. А мы и так в мире фантазии находимся."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_vhnfw"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Да и нет у тебя таких способностей — управлять тем, что здесь находится."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_uj6dq"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Может минимальная."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ave6a"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Ага. Не могу управлять, но могу создать."
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_2bcgc"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Да. Другими словами — это не совсем боги."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_d0jhu"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Это то, как ты их себе представляешь."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_n4o3r"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Я думала, что они какие-то странные. Значит, я могу создать кого угодно, но это будет не оригинал, а мое представление..."
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_lsesk"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Я могу создать тебя?"
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_mhpi4"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Можешь попытаться."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_y0kxf"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Но ты уверен, что не получится?"
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_iif1b"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Только жалкая пародия."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_2qxvo"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Ты просто слишком мало обо мне знаешь, чтобы воссоздать с хоть какой-то точностью."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_tn4qx"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Вы... любопытны."
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_53627"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Ого, что-то отдаленно похожее на комплимент?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_570j2"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Я ведь старше чем вселенная."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_3dk3u"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Об этом легко забыть."
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_tlvv7"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Ой, иди ты! Мелочь!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_hp2eo"]
+script = ExtResource("2_qpvl7")
+lines = Array[ExtResource("1_vkhix")]([SubResource("Resource_gviuh"), SubResource("Resource_djvmp"), SubResource("Resource_4s6g7"), SubResource("Resource_n5ulr"), SubResource("Resource_tdqif"), SubResource("Resource_vhnfw"), SubResource("Resource_uj6dq"), SubResource("Resource_ave6a"), SubResource("Resource_2bcgc"), SubResource("Resource_d0jhu"), SubResource("Resource_n4o3r"), SubResource("Resource_lsesk"), SubResource("Resource_mhpi4"), SubResource("Resource_y0kxf"), SubResource("Resource_iif1b"), SubResource("Resource_2qxvo"), SubResource("Resource_tn4qx"), SubResource("Resource_53627"), SubResource("Resource_570j2"), SubResource("Resource_3dk3u"), SubResource("Resource_tlvv7")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"
+
+[sub_resource type="Resource" id="Resource_craoc"]
+script = ExtResource("2_w5445")
+choice_text = "Призванные боги"
+next_dialogue = SubResource("Resource_hp2eo")
+metadata/_custom_type_script = "uid://dh3qxso5m27bg"
+
+[sub_resource type="Resource" id="Resource_l5mem"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Тут много мифических персонажей. Но все же не все."
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_rljse"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Ну, я несколько скомкал их множество, чтобы привести к работоспособному виду."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_x7coo"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Вас не поймешь."
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_07e0k"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Но послушайте, там ведь и пираты есть, и гладиаторы, и рыцари."
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_eipad"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Никак не мифические персонажи."
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_5qnio"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Разве?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_6afoh"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Скажи мне, что такое миф?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_fwv4g"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Ваше имя."
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_pq54m"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_u3a4u"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "..."
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_l3us3"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Ахахахахахаха!"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_taryp"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Ну хорошо, еще версии?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_gyvfh"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Истории, которые передаются из поколения в поколение. Через них люди объясняют мир."
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_m1iam"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Сносное объяснение."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ynq0i"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Но важно то, что это выдуманное отражение объективной реальности."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_3jj0l"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Интерпретация, передающая какие-то ключевые идеи и ценности."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_as5vn"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Ну да."
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_rww03"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Те, кого ты перечислила, — рыцари, пираты..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_eo6lp"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Их мифологические образы лишь отсылают к тому, какими они были в реальности."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_2ti7o"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Они не так уж и отличаются от, скажем, великанов."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_k1fg0"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Ты можешь сказать, что у пиратов, рыцарей и всяких древних воителей все же были реальные прототипы."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_mq1y5"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Но таковые были и у великанов."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_x6bdi"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Понимаешь, о чем я говорю?"
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_75qpd"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Хмм, да."
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_6gafe"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Вы довольно углубленно анализируете мифологию."
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_acnll"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Ну так. Моя специализация."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_k5exq"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "То, ради чего я был создан..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_egpfd"]
+script = ExtResource("2_qpvl7")
+lines = Array[ExtResource("1_vkhix")]([SubResource("Resource_l5mem"), SubResource("Resource_rljse"), SubResource("Resource_x7coo"), SubResource("Resource_07e0k"), SubResource("Resource_eipad"), SubResource("Resource_5qnio"), SubResource("Resource_6afoh"), SubResource("Resource_fwv4g"), SubResource("Resource_pq54m"), SubResource("Resource_u3a4u"), SubResource("Resource_l3us3"), SubResource("Resource_taryp"), SubResource("Resource_gyvfh"), SubResource("Resource_m1iam"), SubResource("Resource_ynq0i"), SubResource("Resource_3jj0l"), SubResource("Resource_as5vn"), SubResource("Resource_rww03"), SubResource("Resource_eo6lp"), SubResource("Resource_2ti7o"), SubResource("Resource_k1fg0"), SubResource("Resource_mq1y5"), SubResource("Resource_x6bdi"), SubResource("Resource_75qpd"), SubResource("Resource_6gafe"), SubResource("Resource_acnll"), SubResource("Resource_k5exq")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"
+
+[sub_resource type="Resource" id="Resource_3ykty"]
+script = ExtResource("2_w5445")
+choice_text = "Обитатели плана фантазий"
+next_dialogue = SubResource("Resource_egpfd")
+metadata/_custom_type_script = "uid://dh3qxso5m27bg"
+
+[sub_resource type="Resource" id="Resource_55fvj"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Вы носите кандалы."
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_lkgth"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = ".....
+Да."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_mk8rp"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Но вы такое существо..."
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_61573"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Вы пленник этого мира?"
+sprite = ExtResource("4_lena_surprised")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_a7bdf"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Да, я пленник."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_tsrtl"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Но кто мог заточить вас?"
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_bblei"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "И почему здесь?"
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_tooj0"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "..."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_t8ag3"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Те, кто равен мне по силе."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_twydv"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Этот мир, в некотором роде, создан мной и ими."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_313g3"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Я независимо создал все эти фантастические вещи."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_h1mo8"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "А они создали границы. И эти кандалы."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_jgtuc"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Сейчас я бессилен, но пока я был в кандалах, даже двигаться и говорить не мог."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_yh2pc"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Так что, мне уже есть за что быть тебе благодарным."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_nch5l"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Я, эм... рада помочь..."
+sprite = ExtResource("5_lena_smile1")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_18u2p"]
+script = ExtResource("1_vkhix")
+speaker_name = "Лена"
+text = "Но почему?"
+sprite = ExtResource("3_lena_sceptical")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ctydi"]
+script = ExtResource("1_vkhix")
+speaker_name = "Миф"
+text = "Хех. Задаешь слишком много вопросов."
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[sub_resource type="Resource" id="Resource_ah1u1"]
+script = ExtResource("2_qpvl7")
+lines = Array[ExtResource("1_vkhix")]([SubResource("Resource_55fvj"), SubResource("Resource_lkgth"), SubResource("Resource_mk8rp"), SubResource("Resource_61573"), SubResource("Resource_a7bdf"), SubResource("Resource_tsrtl"), SubResource("Resource_bblei"), SubResource("Resource_tooj0"), SubResource("Resource_t8ag3"), SubResource("Resource_twydv"), SubResource("Resource_313g3"), SubResource("Resource_h1mo8"), SubResource("Resource_jgtuc"), SubResource("Resource_yh2pc"), SubResource("Resource_nch5l"), SubResource("Resource_18u2p"), SubResource("Resource_ctydi")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"
+
+[sub_resource type="Resource" id="Resource_whl1r"]
+script = ExtResource("2_w5445")
+choice_text = "Откуда кандалы"
+next_dialogue = SubResource("Resource_ah1u1")
+metadata/_custom_type_script = "uid://dh3qxso5m27bg"
+
+[sub_resource type="Resource" id="Resource_51lc6"]
+script = ExtResource("1_vkhix")
+choices = Array[ExtResource("2_w5445")]([SubResource("Resource_tpbk0"), SubResource("Resource_wqxds"), SubResource("Resource_craoc"), SubResource("Resource_3ykty"), SubResource("Resource_whl1r")])
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_qpvl7")
+lines = Array[ExtResource("1_vkhix")]([SubResource("Resource_nnw5p"), SubResource("Resource_gjw3y"), SubResource("Resource_bj1m1"), SubResource("Resource_51lc6"), null, null])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

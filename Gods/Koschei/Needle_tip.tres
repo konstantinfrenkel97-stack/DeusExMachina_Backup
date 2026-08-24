@@ -6,8 +6,9 @@
 script = ExtResource("1_nd")
 icon_path = "uid://cpmxpm28nlfl"
 name = "Кончик иглы"
+description = "Наносит 60% урона. За каждый потерянный заряд щита смерти дополнительно наносит ещё 60% урона."
 damage_modifier = 0.6
-majesty_gain = 10
+majesty_gain = 0
 targetable_positions = Array[bool]([true, true, true, false])
 ability_marker = "koschei_needle_tip"
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

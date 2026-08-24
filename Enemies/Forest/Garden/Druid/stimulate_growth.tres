@@ -1,14 +1,15 @@
-[gd_resource type="Resource" script_class="AbilityResource" format=3]
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://dfv2l0fmvywai"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Texture2D" uid="uid://dsn86qmrgtw0p" path="res://Enemies/Forest/Garden/Druid/stimulate_growth_icon.png" id="1_nwu7m"]
 
 [resource]
 script = ExtResource("1_ab")
 name = "Стимулировать рост"
 description = "Союзник на выбранной позиции получает +4 урона до конца боя."
+damage_modifier = 0.0
 majesty_gain = 0
-ability_marker = "druid_stimulate_growth"
 target_type = "Position"
-usable_from_positions = Array[bool]([true, true, true, true])
-targetable_positions = Array[bool]([true, true, true, true])
+ability_marker = "druid_stimulate_growth"
+mark_icon = ExtResource("1_nwu7m")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

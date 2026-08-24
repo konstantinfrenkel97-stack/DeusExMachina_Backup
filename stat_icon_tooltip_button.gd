@@ -12,6 +12,7 @@ const STAT_ICON_PATHS := {
 	"evasion": "res://Icons/Stats/Evasion.png",
 	"luck": "res://Icons/Stats/Luck.png",
 	"glory": "res://Icons/Stats/Glory.png",
+	"fantasy": "res://Icons/fantasy_icon.png",
 }
 const STAT_ICON_TOOLTIPS := {
 	"health": "Здоровье",
@@ -22,6 +23,7 @@ const STAT_ICON_TOOLTIPS := {
 	"evasion": "Уклонение",
 	"luck": "Удача",
 	"glory": "Величие",
+	"fantasy": "Фантазия",
 }
 
 func _make_custom_tooltip(for_text: String) -> Object:
@@ -133,6 +135,12 @@ func _format_stat_icons(text: String) -> String:
 		["Удача", "luck"],
 		["удача", "luck"],
 		["crit", "luck"],
+		["Фантазии", "fantasy"],
+		["фантазии", "fantasy"],
+		["Фантазия", "fantasy"],
+		["фантазия", "fantasy"],
+		["фантазию", "fantasy"],
+		["фантазией", "fantasy"],
 	]
 	for item in replacements:
 		var word := str(item[0])

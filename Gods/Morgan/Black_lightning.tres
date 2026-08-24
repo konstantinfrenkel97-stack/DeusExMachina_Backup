@@ -6,6 +6,7 @@
 script = ExtResource("1_bl")
 icon_path = "uid://bfj0idsvj25i8"
 name = "Черная молния"
+description = "Наносит урон. Если в этом раунде уже использовано заклинание, урон становится чистым."
 majesty_gain = 10
 usable_from_positions = Array[bool]([false, true, true, true])
 ability_marker = "morgan_black_lightning"

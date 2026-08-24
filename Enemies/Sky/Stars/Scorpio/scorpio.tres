@@ -10,13 +10,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Скорпион"
+max_hp = 84
+damage = 44
+armor = 9
+initiative = 8
+accuracy = 90
+evasion = 20
+crit_chance = 0.18
 sprite_path = "res://Enemies/Sky/Stars/Scorpio/Scorpio.png"
 face_sprite = "res://Enemies/Sky/Stars/Scorpio/Scorpio_face.png"
 battle_sprite_scale_percent = 98.0
-damage = 28
-armor = 12
-accuracy = 80
-evasion = 5
 special_effect_type = "scorpio_debuff_damage"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_ps"), ExtResource("5_sc"), ExtResource("6_cr")])
 ai_script = ExtResource("3_ai")

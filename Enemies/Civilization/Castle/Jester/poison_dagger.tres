@@ -5,11 +5,11 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Ядовитый кинжал"
-description = "0.8 урона. Цель получает периодический урон (20% от урона) на 5 ходов."
-damage_modifier = 0.8
+description = "1 урон. Цель получает периодический урон (20% от урона) на 5 ходов."
+damage_modifier = 1.0
 majesty_gain = 0
 target_type = "Enemy"
 ability_marker = "jester_poison_dagger"
-usable_from_positions = Array[bool]([true, true, true, true])
-targetable_positions = Array[bool]([true, true, true, true])
+usable_from_positions = Array[bool]([true, true, false, false])
+targetable_positions = Array[bool]([true, true, false, false])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

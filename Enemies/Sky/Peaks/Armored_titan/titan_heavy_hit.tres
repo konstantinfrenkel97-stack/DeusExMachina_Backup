@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Тяжелый удар"
+description = "Наносит 100% урона."
 damage_modifier = 1.0
 majesty_gain = 0
 ability_marker = "titan_heavy_hit"

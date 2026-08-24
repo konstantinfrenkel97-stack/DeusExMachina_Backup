@@ -1,0 +1,152 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Resource" uid="uid://uoq22rhxf1my" path="res://Enemies/Forest/Marsh/Utoplennitsa/utoplennitsa.tres" id="enemy_utoplennitsa"]
+[ext_resource type="Resource" uid="uid://bqpn7xwxwr3uw" path="res://Enemies/Forest/Marsh/Kikimora/kikimora.tres" id="enemy_kikimora"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://dutn5fch4d8b5" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+
+[sub_resource type="Resource" id="form_patrol"]
+script = ExtResource("formation_script")
+formation_name = "Утопленница - Утопленница - Кикимора"
+pos1 = ExtResource("enemy_utoplennitsa")
+pos2 = ExtResource("enemy_utoplennitsa")
+pos3 = ExtResource("enemy_kikimora")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="buff_hero_init_minus3"]
+script = ExtResource("buff_script")
+stat = 6
+value = -3
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_hero_init_fail"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_init_minus3")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_ambush_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_patrol")
+hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_hero_init_fail")])
+location_id = "swamp"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_ambush_fail"]
+script = ExtResource("outcome_script")
+result_text = "Пока вы сидели в засаде, вы не заметили, что враги обнаружили вас. Поэтому для вас стало сюрпризом, когда противники, которых вы подпустили поближе, обрушились на вас."
+battle = SubResource("battle_ambush_fail")
+metadata/_custom_type_script = "uid://dvpdwqc5nh1vu"
+
+[sub_resource type="Resource" id="check_initiative"]
+script = ExtResource("stat_check_script")
+stat = 1
+metadata/_custom_type_script = "uid://cbv7uofemtg3y"
+
+[sub_resource type="Resource" id="buff_enemy_init_minus3"]
+script = ExtResource("buff_script")
+stat = 6
+value = -3
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_enemy_ambush"]
+script = ExtResource("unit_modifier_script")
+hp_percent = 90
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_enemy_init_minus3")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_ambush_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_patrol")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_enemy_ambush")])
+location_id = "swamp"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_ambush_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы дожидаетесь, пока враги подойдут поближе, и обрушиваетесь со всей мощью. Ошеломленные, они не успевают отреагировать и принимают на себя ваши удары и заклинания."
+battle = SubResource("battle_ambush_success")
+metadata/_custom_type_script = "uid://dvpdwqc5nh1vu"
+
+[sub_resource type="Resource" id="choice_ambush"]
+script = ExtResource("choice_script")
+choice_text = "Устроить засаду"
+stat_check = SubResource("check_initiative")
+success_outcome = SubResource("out_ambush_success")
+failure_outcome = SubResource("out_ambush_fail")
+metadata/_custom_type_script = "uid://djjvdhvrq6wkh"
+
+[sub_resource type="Resource" id="buff_hero_armor_minus10"]
+script = ExtResource("buff_script")
+stat = 4
+value = -10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_hero_armor_fail"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_armor_minus10")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_avoid_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_patrol")
+hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_hero_armor_fail")])
+location_id = "swamp"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_avoid_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы пытаетесь обойти отряд стороной, но один из патрульных замечает движение. Весь отряд бросается на вас. Вы не успеваете сформировать построение, и уязвимы перед их атаками."
+battle = SubResource("battle_avoid_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="check_evasion"]
+script = ExtResource("stat_check_script")
+stat = 3
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_avoid_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы меняете маршрут, и крадетесь обходным путем, не выпуская вражеский отряд из поля зрения. Вскоре они удаляются прочь, а вы продолжаете путь."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_avoid"]
+script = ExtResource("choice_script")
+choice_text = "Попытаться избежать врага"
+stat_check = SubResource("check_evasion")
+success_outcome = SubResource("out_avoid_success")
+failure_outcome = SubResource("out_avoid_fail")
+metadata/_custom_type_script = "uid://djjvdhvrq6wkh"
+
+[sub_resource type="Resource" id="battle_fair"]
+script = ExtResource("battle_script")
+formation = SubResource("form_patrol")
+location_id = "swamp"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_fair"]
+script = ExtResource("outcome_script")
+result_text = "Вы выходите и встаете поперек пути патруля. Заметив вас, они поднимают оружие и устремляются вперед. Вы занимаете позицию, готовясь принять честный бой."
+battle = SubResource("battle_fair")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_fair"]
+script = ExtResource("choice_script")
+choice_text = "Выйти к ним и принять честный бой"
+outcome = SubResource("out_fair")
+metadata/_custom_type_script = "uid://djjvdhvrq6wkh"
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Патруль Топь 1"
+body_text = "Ползя через вязкую топь, вы оказываетесь скрыты в туманной дымке. Кажется, вас не видно, когда до ушей доносится хлюпанье. Вражеский отряд продвигается где-то совсем неподалеку, и они не замечают вас."
+choices = [SubResource("choice_ambush"), SubResource("choice_avoid"), SubResource("choice_fair")]

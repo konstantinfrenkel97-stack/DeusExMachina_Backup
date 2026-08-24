@@ -10,16 +10,16 @@
 [resource]
 script = ExtResource("2_b0vrm")
 unit_name = "Серебрянная валькирия"
+max_hp = 79
+damage = 27
+armor = 10
+initiative = 7
+accuracy = 84
+evasion = 18
+crit_chance = 0.11
 sprite_path = "res://Enemies/Sky/Clouds/Silver Valkerie/Серебрянная валькирия.png"
 face_sprite = "res://Enemies/Sky/Clouds/Silver Valkerie/Серебрянная валькирия_Face.png"
 battle_sprite_scale_percent = 130.0
-max_hp = 55
-damage = 12
-armor = 3
-initiative = 7
-accuracy = 95
-evasion = 20
-crit_chance = 0.15
 special_effect_type = "silver_valkyrie"
 active_abilities = Array[ExtResource("1_td305")]([ExtResource("4_a1"), ExtResource("5_a2"), ExtResource("6_a3")])
 ai_script = ExtResource("3_ai")

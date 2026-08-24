@@ -10,12 +10,16 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Мучитель"
+max_hp = 86
+damage = 20
+armor = 11
+initiative = 6
+accuracy = 85
+evasion = 12
+crit_chance = 0.08
 sprite_path = "res://Enemies/Dungeon/Hell/Tormentor/Tormentor.png"
 face_sprite = "res://Enemies/Dungeon/Hell/Tormentor/Tormentor_Face.png"
 battle_sprite_scale_percent = 105.0
-max_hp = 95
-damage = 13
-initiative = 6
 special_effect_type = "tormentor_dot_regen"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("3_a1"), ExtResource("4_a2"), ExtResource("5_a3")])
 ai_script = ExtResource("2_ai")

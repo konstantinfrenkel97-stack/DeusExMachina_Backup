@@ -10,9 +10,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Индиго"
+max_hp = 95
+damage = 49
+armor = 11
+initiative = 8
+accuracy = 92
+evasion = 21
+crit_chance = 0.2
 sprite_path = "res://Enemies/Dungeon/Hellheim/Indigo/Виндиго_nobg.png"
 face_sprite = "res://Enemies/Dungeon/Hellheim/Indigo/Виндиго_Face.png"
-battle_sprite_scale_percent = 92.0
+battle_sprite_scale_percent = 108.0
 special_effect_type = "indigo_fog_evasion"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_ht"), ExtResource("5_tr"), ExtResource("6_tt")])
 ai_script = ExtResource("3_ai")

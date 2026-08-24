@@ -6,16 +6,10 @@
 script = ExtResource("1_td")
 icon_path = "uid://bspjqgt5ueke0"
 name = "Танец бога обмана"
+description = "Локи получает +30 уклонения на 1 ход, продвигается вперёд, враги теряют по 10 удачи на 2 хода, а Локи получает +10 удачи за каждого врага на 2 хода."
 damage_modifier = 0.0
+majesty_gain = 25
 target_type = "Self"
-effect_types = Array[String](["self_buff_evasion", "self_push_forward"])
-effect_values = Dictionary[String, int]({
-"self_buff_evasion": 30,
-"self_push_forward": 1
-})
-effect_durations = Dictionary[String, int]({
-"self_buff_evasion": 1
-})
 usable_from_positions = Array[bool]([false, true, true, false])
 ability_marker = "loki_trickster_dance"
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

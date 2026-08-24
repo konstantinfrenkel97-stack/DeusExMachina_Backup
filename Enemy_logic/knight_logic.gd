@@ -6,12 +6,15 @@ class_name KnightLogic
 static func get_decision(monster: Combatant, heroes: Array) -> Dictionary:
 	var banish := _find_by_marker(monster, "knight_banish_evil")
 	if banish != null and _is_usable_from_position(banish, monster.position_index):
-		# Найти героя с баффами
+		# Собрать всех героев с баффами и сделать один общий бросок на решение,
+		# а не по броску на каждого (иначе шанс растёт с числом баффнутых целей).
+		var buffed_targets: Array = []
 		for h in heroes:
 			if h and h.current_hp > 0 and Combatant.can_be_targeted_at(h, banish) and _has_buffs(h):
-				if randf() < 0.50:
-					return {"ability": banish, "target": h}
-	return _random_decision(monster, heroes)
+				buffed_targets.append(h)
+		if not buffed_targets.is_empty() and randf() < 0.50:
+			return {"ability": banish, "target": buffed_targets.pick_random()}
+	return _random_decision(monster, heroes, banish)
 
 
 static func _has_buffs(unit: Combatant) -> bool:
@@ -23,10 +26,10 @@ static func _has_buffs(unit: Combatant) -> bool:
 	return false
 
 
-static func _random_decision(monster: Combatant, heroes: Array) -> Dictionary:
+static func _random_decision(monster: Combatant, heroes: Array, exclude_ab: AbilityResource) -> Dictionary:
 	var usable: Array = []
 	for ab in monster.active_abilities:
-		if ab == null:
+		if ab == null or ab == exclude_ab:
 			continue
 		if _is_usable_from_position(ab, monster.position_index):
 			usable.append(ab)

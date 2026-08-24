@@ -5,8 +5,11 @@
 [resource]
 script = ExtResource("1_ik")
 name = "Я знаю что делаю"
+description = "Наносит 80% урона. Стойка: в начале следующего хода наносит 2 удара по случайным врагам."
 damage_modifier = 0.8
 majesty_gain = 0
+target_type = "Self"
+never_miss = true
 is_stance = true
 stance_duration_type = "UntilNextTurn"
 stance_effect_type = "filibuster_double_hit"

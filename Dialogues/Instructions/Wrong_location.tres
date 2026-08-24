@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://0bol2wraxs8q"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_7d2f3"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_462ef"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_j7pyo"]
+[ext_resource type="Texture2D" uid="uid://duogyyhwd3igs" path="res://Main_characters/Lena/Lena_sceptical.png" id="3_462ef"]
+
+[sub_resource type="Resource" id="Resource_44oto"]
+script = ExtResource("1_7d2f3")
+speaker_name = "Лена"
+text = "Пусто..."
+sprite = ExtResource("3_462ef")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_j7pyo")
+lines = Array[ExtResource("1_7d2f3")]([SubResource("Resource_44oto")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

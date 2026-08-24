@@ -11,7 +11,7 @@ static func get_decision(monster: Combatant, heroes: Array) -> Dictionary:
 		for h in heroes:
 			if h and h.current_hp > 0:
 				for eff in h.active_effects:
-					if Combatant._effect_get(eff, "effect_id", "") == "mummy_curse":
+					if Combatant._effect_get(eff, "effect_id", "") == "mummy_ancient_curse_mark":
 						any_cursed = true
 						break
 				if any_cursed:

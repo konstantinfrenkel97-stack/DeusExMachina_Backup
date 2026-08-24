@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ts")
 name = "Нежная песня"
+description = "Наносит 30% урона; все враги теряют 20 удачи на 2 ход.; все враги теряют 20 уклонения на 2 ход.."
 damage_modifier = 0.3
 majesty_gain = 0
 target_type = "All_Enemies"

@@ -1,14 +1,18 @@
-[gd_resource type="Resource" script_class="DialogueResource" format=3]
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://dtv4w3snb5gux"]
 
-[ext_resource type="Script" path="res://Dialogues/dialogue_line.gd" id="1_line"]
-[ext_resource type="Script" path="res://Dialogues/dialogue_choice.gd" id="2_choice"]
-[ext_resource type="Script" path="res://Dialogues/dialogue_resource.gd" id="3_dialogue"]
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_line"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_choice"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="3_dialogue"]
+[ext_resource type="Texture2D" uid="uid://cl8wacfrih2fj" path="res://Main_characters/Lena/Lena_smile_1.png" id="3_khova"]
+[ext_resource type="Texture2D" uid="uid://bfu365plvlb5v" path="res://Main_characters/Lena/Lena_surprised.png" id="4_o01xc"]
+[ext_resource type="Texture2D" uid="uid://bq5671vbp3ry4" path="res://Main_characters/Lena/Lena_smile_2.png" id="5_5tsue"]
+[ext_resource type="Texture2D" uid="uid://duogyyhwd3igs" path="res://Main_characters/Lena/Lena_sceptical.png" id="6_3seas"]
 
 [sub_resource type="Resource" id="Resource_duna_line_2"]
 script = ExtResource("1_line")
 line_id = "intro_1"
 speaker_name = "Дуна"
-text = "(Комната Дуны – это вовсе не комната. Ты выходишь на открытое поле, с высокой травой. Справа от тебя подлесок. В траве, на коленях сидит сама богиня, на руках у нее белый заяц. При твоем появлении она его отпускает)"
+text = "(Комната Дуны – это вовсе не комната. Ты выходишь на открытое поле с высокой травой. Справа от тебя подлесок. В траве на коленях сидит сама богиня, на руках у нее белый заяц. При твоем появлении она его отпускает.)"
 next_line_id = "intro_2"
 
 [sub_resource type="Resource" id="Resource_duna_line_3"]
@@ -23,6 +27,7 @@ script = ExtResource("1_line")
 line_id = "intro_3"
 speaker_name = "Лена"
 text = "Здравствуйте."
+sprite = ExtResource("3_khova")
 next_line_id = "intro_4"
 
 [sub_resource type="Resource" id="Resource_duna_line_5"]
@@ -30,6 +35,7 @@ script = ExtResource("1_line")
 line_id = "intro_4"
 speaker_name = "Лена"
 text = "Хотела вас спросить кое о чем."
+sprite = ExtResource("3_khova")
 next_line_id = "Duna_choices_1"
 
 [sub_resource type="Resource" id="Resource_duna_choice_6"]
@@ -71,7 +77,8 @@ choices = Array[ExtResource("2_choice")]([SubResource("Resource_duna_choice_6"),
 script = ExtResource("1_line")
 line_id = "open_door_1"
 speaker_name = "Лена"
-text = "Послушайте, тут есть несколько волшебный дверей, и без божественной помощи мне их не открыть."
+text = "Послушайте, тут есть несколько волшебных дверей, и без божественной помощи мне их не открыть."
+sprite = ExtResource("4_o01xc")
 next_line_id = "open_door_2"
 
 [sub_resource type="Resource" id="Resource_duna_line_13"]
@@ -93,6 +100,7 @@ script = ExtResource("1_line")
 line_id = "open_door_4"
 speaker_name = "Лена"
 text = "Ох, дверь в цветущий сад."
+sprite = ExtResource("4_o01xc")
 next_line_id = "open_door_5"
 
 [sub_resource type="Resource" id="Resource_duna_line_16"]
@@ -100,6 +108,7 @@ script = ExtResource("1_line")
 line_id = "open_door_5"
 speaker_name = "Лена"
 text = "Что и ожидалось."
+sprite = ExtResource("3_khova")
 next_line_id = "open_door_6"
 
 [sub_resource type="Resource" id="Resource_duna_line_17"]
@@ -121,13 +130,14 @@ script = ExtResource("1_line")
 line_id = "open_door_8"
 speaker_name = "Лена"
 text = "Вам не нравится быть в помещениях."
+sprite = ExtResource("4_o01xc")
 next_line_id = "open_door_9"
 
 [sub_resource type="Resource" id="Resource_duna_line_20"]
 script = ExtResource("1_line")
 line_id = "open_door_9"
 speaker_name = "Дуна"
-text = "Нет что ты!"
+text = "Нет, что ты!"
 next_line_id = "open_door_10"
 
 [sub_resource type="Resource" id="Resource_duna_line_21"]
@@ -148,7 +158,8 @@ next_line_id = "open_door_12"
 script = ExtResource("1_line")
 line_id = "open_door_12"
 speaker_name = "Лена"
-text = "Ну, то есть, вам не нравится."
+text = "Ну, то есть вам не нравится."
+sprite = ExtResource("3_khova")
 next_line_id = "open_door_13"
 
 [sub_resource type="Resource" id="Resource_duna_line_24"]
@@ -169,7 +180,8 @@ next_line_id = "open_door_15"
 script = ExtResource("1_line")
 line_id = "open_door_15"
 speaker_name = "Лена"
-text = "Да ничего, страшного."
+text = "Да ничего страшного."
+sprite = ExtResource("5_5tsue")
 next_line_id = "open_door_16"
 
 [sub_resource type="Resource" id="Resource_duna_line_27"]
@@ -177,13 +189,14 @@ script = ExtResource("1_line")
 line_id = "open_door_16"
 speaker_name = "Лена"
 text = "Я все понимаю, вы же богиня природы."
+sprite = ExtResource("5_5tsue")
 next_line_id = "open_door_17"
 
 [sub_resource type="Resource" id="Resource_duna_line_28"]
 script = ExtResource("1_line")
 line_id = "open_door_17"
 speaker_name = "Дуна"
-text = "Я могу сказать, по крайней мере, что твой замок это одно из самых красивых зданий"
+text = "Я могу сказать, по крайней мере, что твой замок – это одно из самых красивых зданий,"
 next_line_id = "open_door_18"
 
 [sub_resource type="Resource" id="Resource_duna_line_29"]
@@ -198,6 +211,7 @@ script = ExtResource("1_line")
 line_id = "open_door_19"
 speaker_name = "Лена"
 text = "Хех, спасибо вам."
+sprite = ExtResource("5_5tsue")
 next_line_id = "Duna_choices_1"
 
 [sub_resource type="Resource" id="Resource_duna_line_31"]
@@ -205,6 +219,7 @@ script = ExtResource("1_line")
 line_id = "opinion_1"
 speaker_name = "Лена"
 text = "А что вы думаете о…"
+sprite = ExtResource("4_o01xc")
 next_line_id = "opinion_choices"
 
 [sub_resource type="Resource" id="Resource_duna_choice_32"]
@@ -229,6 +244,7 @@ script = ExtResource("1_line")
 line_id = "opinion_morgan_1"
 speaker_name = "Лена"
 text = "…Моргане"
+sprite = ExtResource("4_o01xc")
 next_line_id = "opinion_morgan_2"
 
 [sub_resource type="Resource" id="Resource_duna_line_36"]
@@ -257,6 +273,7 @@ script = ExtResource("1_line")
 line_id = "opinion_morgan_5"
 speaker_name = "Лена"
 text = "Да, не думаю, что вы сможете поладить."
+sprite = ExtResource("6_3seas")
 next_line_id = "opinion_morgan_6"
 
 [sub_resource type="Resource" id="Resource_duna_line_40"]
@@ -285,6 +302,7 @@ script = ExtResource("1_line")
 line_id = "opinion_morgan_9"
 speaker_name = "Лена"
 text = "Вы и за мной тайком присматриваете?"
+sprite = ExtResource("4_o01xc")
 next_line_id = "opinion_morgan_10"
 
 [sub_resource type="Resource" id="Resource_duna_line_44"]
@@ -299,6 +317,7 @@ script = ExtResource("1_line")
 line_id = "opinion_morgan_11"
 speaker_name = "Лена"
 text = "Я… Спасибо большое."
+sprite = ExtResource("5_5tsue")
 next_line_id = "opinion_morgan_12"
 
 [sub_resource type="Resource" id="Resource_duna_line_46"]
@@ -313,6 +332,7 @@ script = ExtResource("1_line")
 line_id = "opinion_koschei_1"
 speaker_name = "Лена"
 text = "…Кощее."
+sprite = ExtResource("4_o01xc")
 next_line_id = "opinion_koschei_2"
 
 [sub_resource type="Resource" id="Resource_duna_line_48"]
@@ -327,6 +347,7 @@ script = ExtResource("1_line")
 line_id = "opinion_koschei_3"
 speaker_name = "Лена"
 text = "Он вам не нравится?"
+sprite = ExtResource("4_o01xc")
 next_line_id = "opinion_koschei_4"
 
 [sub_resource type="Resource" id="Resource_duna_line_50"]
@@ -355,27 +376,28 @@ script = ExtResource("1_line")
 line_id = "opinion_koschei_7"
 speaker_name = "Лена"
 text = "Полагаю, для богини природы странна его тяга к бессмертию."
+sprite = ExtResource("6_3seas")
 next_line_id = "opinion_koschei_8"
 
 [sub_resource type="Resource" id="Resource_duna_line_54"]
 script = ExtResource("1_line")
 line_id = "opinion_koschei_8"
 speaker_name = "Дуна"
-text = "Это тоже. Я стараюст помогать и поддерживать жизнь во всех существах."
+text = "Это тоже. Я стараюсь помогать и поддерживать жизнь во всех существах."
 next_line_id = "opinion_koschei_9"
 
 [sub_resource type="Resource" id="Resource_duna_line_55"]
 script = ExtResource("1_line")
 line_id = "opinion_koschei_9"
 speaker_name = "Дуна"
-text = "Но принимаю смерть, как необходимость."
+text = "Но принимаю смерть как необходимость."
 next_line_id = "opinion_koschei_10"
 
 [sub_resource type="Resource" id="Resource_duna_line_56"]
 script = ExtResource("1_line")
 line_id = "opinion_koschei_10"
 speaker_name = "Дуна"
-text = "Я стараюсь оттянуть смерть для каждого кто жив, но не отменить полностью."
+text = "Я стараюсь оттянуть смерть для каждого, кто жив, но не отменить полностью."
 next_line_id = "opinion_koschei_11"
 
 [sub_resource type="Resource" id="Resource_duna_line_57"]
@@ -396,21 +418,23 @@ next_line_id = "opinion_koschei_13"
 script = ExtResource("1_line")
 line_id = "opinion_koschei_13"
 speaker_name = "Лена"
-text = "Наверное я понимаю вас, он странноват."
+text = "Наверное, я понимаю вас, он странноват."
+sprite = ExtResource("4_o01xc")
 next_line_id = "opinion_koschei_14"
 
 [sub_resource type="Resource" id="Resource_duna_line_60"]
 script = ExtResource("1_line")
 line_id = "opinion_koschei_14"
 speaker_name = "Дуна"
-text = "Только не говори ему что я так сказала. Он может обидеться."
+text = "Только не говори ему, что я так сказала. Он может обидеться."
 next_line_id = "opinion_koschei_15"
 
 [sub_resource type="Resource" id="Resource_duna_line_61"]
 script = ExtResource("1_line")
 line_id = "opinion_koschei_15"
 speaker_name = "Лена"
-text = "Ваш секрет – мой секрет. Спасибо что поделились."
+text = "Ваш секрет – мой секрет. Спасибо, что поделились."
+sprite = ExtResource("3_khova")
 next_line_id = "opinion_koschei_16"
 
 [sub_resource type="Resource" id="Resource_duna_line_62"]
@@ -432,6 +456,7 @@ script = ExtResource("1_line")
 line_id = "new_world_1"
 speaker_name = "Лена"
 text = "У вас тут необычно."
+sprite = ExtResource("4_o01xc")
 next_line_id = "new_world_2"
 
 [sub_resource type="Resource" id="Resource_duna_line_65"]
@@ -439,6 +464,7 @@ script = ExtResource("1_line")
 line_id = "new_world_2"
 speaker_name = "Лена"
 text = "Хотела спросить, как вы адаптировались к новым обстоятельствам."
+sprite = ExtResource("4_o01xc")
 next_line_id = "new_world_3"
 
 [sub_resource type="Resource" id="Resource_duna_line_66"]
@@ -446,6 +472,7 @@ script = ExtResource("1_line")
 line_id = "new_world_3"
 speaker_name = "Лена"
 text = "Но вижу, что лучше, чем все."
+sprite = ExtResource("5_5tsue")
 next_line_id = "new_world_4"
 
 [sub_resource type="Resource" id="Resource_duna_line_67"]
@@ -459,7 +486,7 @@ next_line_id = "new_world_5"
 script = ExtResource("1_line")
 line_id = "new_world_5"
 speaker_name = "Дуна"
-text = "Но полагаю это логично. Ты выходишь за дверь и оказываешься на природе."
+text = "Но, полагаю, это логично. Ты выходишь за дверь и оказываешься на природе."
 next_line_id = "new_world_6"
 
 [sub_resource type="Resource" id="Resource_duna_line_69"]
@@ -467,6 +494,7 @@ script = ExtResource("1_line")
 line_id = "new_world_6"
 speaker_name = "Лена"
 text = "Эм, ну не всегда."
+sprite = ExtResource("4_o01xc")
 next_line_id = "new_world_7"
 
 [sub_resource type="Resource" id="Resource_duna_line_70"]
@@ -488,13 +516,14 @@ script = ExtResource("1_line")
 line_id = "new_world_9"
 speaker_name = "Лена"
 text = "Любопытно."
+sprite = ExtResource("6_3seas")
 next_line_id = "new_world_10"
 
 [sub_resource type="Resource" id="Resource_duna_line_73"]
 script = ExtResource("1_line")
 line_id = "new_world_10"
 speaker_name = "Дуна"
-text = "Да, но я рада что тут и звери водятся."
+text = "Да, но я рада, что тут и звери водятся."
 next_line_id = "new_world_11"
 
 [sub_resource type="Resource" id="Resource_duna_line_74"]
@@ -509,6 +538,7 @@ script = ExtResource("1_line")
 line_id = "new_world_12"
 speaker_name = "Лена"
 text = "Вам не скучно с растениями?"
+sprite = ExtResource("4_o01xc")
 next_line_id = "new_world_13"
 
 [sub_resource type="Resource" id="Resource_duna_line_76"]
@@ -544,6 +574,7 @@ script = ExtResource("1_line")
 line_id = "new_world_17"
 speaker_name = "Лена"
 text = "Разговор с растениями и животными. У вас удивительные способности."
+sprite = ExtResource("4_o01xc")
 next_line_id = "new_world_18"
 
 [sub_resource type="Resource" id="Resource_duna_line_81"]
@@ -565,6 +596,7 @@ script = ExtResource("1_line")
 line_id = "new_world_20"
 speaker_name = "Лена"
 text = "Но по-своему, самая невероятная здесь вы."
+sprite = ExtResource("5_5tsue")
 next_line_id = "new_world_21"
 
 [sub_resource type="Resource" id="Resource_duna_line_84"]
@@ -579,6 +611,7 @@ script = ExtResource("1_line")
 line_id = "new_world_22"
 speaker_name = "Лена"
 text = "Да так, мысли вслух."
+sprite = ExtResource("5_5tsue")
 next_line_id = "Duna_choices_1"
 
 [sub_resource type="Resource" id="Resource_duna_line_86"]
@@ -586,6 +619,7 @@ script = ExtResource("1_line")
 line_id = "help_1"
 speaker_name = "Лена"
 text = "Вас не затрудняет помогать мне?"
+sprite = ExtResource("4_o01xc")
 next_line_id = "help_2"
 
 [sub_resource type="Resource" id="Resource_duna_line_87"]
@@ -600,13 +634,15 @@ script = ExtResource("1_line")
 line_id = "help_3"
 speaker_name = "Лена"
 text = "Просто вы сразу же согласились."
+sprite = ExtResource("4_o01xc")
 next_line_id = "help_4"
 
 [sub_resource type="Resource" id="Resource_duna_line_89"]
 script = ExtResource("1_line")
 line_id = "help_4"
 speaker_name = "Лена"
-text = "Как-будто для вас не существовало другого выбора."
+text = "Как будто для вас не существовало другого выбора."
+sprite = ExtResource("4_o01xc")
 next_line_id = "help_5"
 
 [sub_resource type="Resource" id="Resource_duna_line_90"]
@@ -627,14 +663,15 @@ next_line_id = "help_7"
 script = ExtResource("1_line")
 line_id = "help_7"
 speaker_name = "Дуна"
-text = "Наверное для меня действительно не существует другого выбора."
+text = "Наверное, для меня действительно не существует другого выбора."
 next_line_id = "help_8"
 
 [sub_resource type="Resource" id="Resource_duna_line_93"]
 script = ExtResource("1_line")
 line_id = "help_8"
 speaker_name = "Лена"
-text = "Думаю я понимаю вас."
+text = "Думаю, я понимаю вас."
+sprite = ExtResource("3_khova")
 next_line_id = "help_9"
 
 [sub_resource type="Resource" id="Resource_duna_line_94"]
@@ -648,7 +685,8 @@ next_line_id = "help_10"
 script = ExtResource("1_line")
 line_id = "help_10"
 speaker_name = "Лена"
-text = "А могу я попросить вас об одной мелочи."
+text = "А могу я попросить вас об одной мелочи?"
+sprite = ExtResource("4_o01xc")
 next_line_id = "help_11"
 
 [sub_resource type="Resource" id="Resource_duna_line_96"]
@@ -663,6 +701,7 @@ script = ExtResource("1_line")
 line_id = "help_12"
 speaker_name = "Лена"
 text = "Можете наклонить голову, приложить ладонь к щеке и мягко сказать «Ара-ара»?"
+sprite = ExtResource("4_o01xc")
 next_line_id = "help_13"
 
 [sub_resource type="Resource" id="Resource_duna_line_98"]
@@ -677,6 +716,7 @@ script = ExtResource("1_line")
 line_id = "help_14"
 speaker_name = "Лена"
 text = "К другой щеке. Это заклинание для поднятия духа."
+sprite = ExtResource("3_khova")
 next_line_id = "help_15"
 
 [sub_resource type="Resource" id="Resource_duna_line_100"]
@@ -684,6 +724,7 @@ script = ExtResource("1_line")
 line_id = "help_15"
 speaker_name = "Лена"
 text = "Вот так, и низким мягким голосом – «Ара-ара»."
+sprite = ExtResource("3_khova")
 next_line_id = "help_16"
 
 [sub_resource type="Resource" id="Resource_duna_line_101"]
@@ -698,6 +739,7 @@ script = ExtResource("1_line")
 line_id = "help_17"
 speaker_name = "Лена"
 text = "Уххххх!"
+sprite = ExtResource("5_5tsue")
 next_line_id = "help_18"
 
 [sub_resource type="Resource" id="Resource_duna_line_103"]
@@ -705,13 +747,14 @@ script = ExtResource("1_line")
 line_id = "help_18"
 speaker_name = "Лена"
 text = "Мой дух заряжен!"
+sprite = ExtResource("3_khova")
 next_line_id = "help_19"
 
 [sub_resource type="Resource" id="Resource_duna_line_104"]
 script = ExtResource("1_line")
 line_id = "help_19"
 speaker_name = "Дуна"
-text = "Засмущала… Но я рада что тебя это воодушевляет."
+text = "Засмущала… Но я рада, что тебя это воодушевляет."
 next_line_id = "Duna_choices_1"
 
 [sub_resource type="Resource" id="Resource_duna_line_105"]
@@ -719,6 +762,7 @@ script = ExtResource("1_line")
 line_id = "chosen_world_1"
 speaker_name = "Лена"
 text = "Вы казались удивленной, там за дверью в саду."
+sprite = ExtResource("4_o01xc")
 next_line_id = "chosen_world_2"
 
 [sub_resource type="Resource" id="Resource_duna_line_106"]
@@ -754,6 +798,7 @@ script = ExtResource("1_line")
 line_id = "chosen_world_6"
 speaker_name = "Лена"
 text = "Яд? Вы считаете, что какое-то зло отравляет эти земли."
+sprite = ExtResource("4_o01xc")
 next_line_id = "chosen_world_7"
 
 [sub_resource type="Resource" id="Resource_duna_line_111"]
@@ -781,7 +826,8 @@ next_line_id = "chosen_world_10"
 script = ExtResource("1_line")
 line_id = "chosen_world_10"
 speaker_name = "Лена"
-text = "Должна сказать, я не ощущаю того зла, которое, видимо ощущаете вы."
+text = "Должна сказать, я не ощущаю того зла, которое, видимо, ощущаете вы."
+sprite = ExtResource("6_3seas")
 next_line_id = "chosen_world_11"
 
 [sub_resource type="Resource" id="Resource_duna_line_115"]
@@ -803,6 +849,7 @@ script = ExtResource("1_line")
 line_id = "chosen_world_13"
 speaker_name = "Лена"
 text = "Да. Простите, я не должна была сомневаться в ваших суждениях."
+sprite = ExtResource("3_khova")
 next_line_id = "chosen_world_14"
 
 [sub_resource type="Resource" id="Resource_duna_line_118"]

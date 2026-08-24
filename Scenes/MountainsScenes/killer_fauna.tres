@@ -1,0 +1,142 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="1_scene"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="3_outcome"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="4_battle"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="5_unitmod"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="6_buff"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="7_statcheck"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="8_formation"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Peaks/Lernaean_lion/lernaean_lion.tres" id="9_lion"]
+
+[sub_resource type="Resource" id="form_lion_lion"]
+script = ExtResource("8_formation")
+formation_name = "Лев-Лев"
+pos1 = ExtResource("9_lion")
+pos3 = ExtResource("9_lion")
+metadata/_custom_type_script = ExtResource("8_formation")
+
+[sub_resource type="Resource" id="out_v1"]
+script = ExtResource("3_outcome")
+result_text = "Вы не готовы рисковать жизнью ради козла. Он замечает вас и пытается подползти ближе, но вы удаляетесь. Увидев, что вы уходите все дальше, он начинает блеять все громче. Львы реагируют на звук и бросаются на добычу.
+
+Один из них перегрызает горло зверя, и с добычей в пасти он смотрит на вас. Второй присоединяется. Какое-то время вы ждете агрессии, но львы просто возвращаются к трапезе. У них уже есть две свежие туши."
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="choice_v1"]
+script = ExtResource("2_choice")
+choice_text = "Уйти, оставив животное"
+outcome = SubResource("out_v1")
+metadata/_custom_type_script = ExtResource("2_choice")
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("7_statcheck")
+stat = 4
+metadata/_custom_type_script = ExtResource("7_statcheck")
+
+[sub_resource type="Resource" id="buff_lion_init_minus3"]
+script = ExtResource("6_buff")
+stat = 6
+value = -3
+duration = 1
+metadata/_custom_type_script = ExtResource("6_buff")
+
+[sub_resource type="Resource" id="buff_lion_evasion_minus10"]
+script = ExtResource("6_buff")
+stat = 3
+value = -10
+duration = 1
+metadata/_custom_type_script = ExtResource("6_buff")
+
+[sub_resource type="Resource" id="mod_lions_ambushed"]
+script = ExtResource("5_unitmod")
+buffs = Array[ExtResource("6_buff")]([SubResource("buff_lion_init_minus3"), SubResource("buff_lion_evasion_minus10")])
+metadata/_custom_type_script = ExtResource("5_unitmod")
+
+[sub_resource type="Resource" id="battle_v2_success"]
+script = ExtResource("4_battle")
+formation = SubResource("form_lion_lion")
+enemy_modifiers = Array[ExtResource("5_unitmod")]([SubResource("mod_lions_ambushed")])
+location_id = "mountains"
+metadata/_custom_type_script = ExtResource("4_battle")
+
+[sub_resource type="Resource" id="out_v2_success"]
+script = ExtResource("3_outcome")
+result_text = "Вы крадетесь ко львам, пока они дерут зубами козлиную плоть. Вам удается застать чудовищ врасплох. Они не были готовы, будучи уязвимыми во время обеда."
+battle = SubResource("battle_v2_success")
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="battle_v2_fail"]
+script = ExtResource("4_battle")
+formation = SubResource("form_lion_lion")
+location_id = "mountains"
+metadata/_custom_type_script = ExtResource("4_battle")
+
+[sub_resource type="Resource" id="out_v2_fail"]
+script = ExtResource("3_outcome")
+result_text = "Вы крадетесь ко львам, но в один момент те резко перестают жевать и разворачиваются к вам. Похоже, незаметно подкрасться к дикому зверю не так уж и просто."
+battle = SubResource("battle_v2_fail")
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="choice_v2"]
+script = ExtResource("2_choice")
+choice_text = "Напасть на львов, пока они отвлечены"
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_v2_success")
+failure_outcome = SubResource("out_v2_fail")
+metadata/_custom_type_script = ExtResource("2_choice")
+
+[sub_resource type="Resource" id="check_evasion"]
+script = ExtResource("7_statcheck")
+stat = 3
+metadata/_custom_type_script = ExtResource("7_statcheck")
+
+[sub_resource type="Resource" id="out_v3_success"]
+script = ExtResource("3_outcome")
+result_text = "Ваш отряд быстро выскакивает из-за скал и, схватив блеящее животное под мышку, поспешно укрывается. Не похоже, что львы вас заметили. Козел начинает мотать головой и издавать звуки. Он словно указывает носом в определенном направлении. Вы решаете довериться существу.
+
+Вскоре становится очевидно: козел действительно ведет вас куда-то. Вы отмечаете интеллект животного. Вы петляете среди горных тропинок и расщелин, куда человек едва может добраться, пока не слышите нежное журчание.
+
+Вам попадается пещера. На стенах растут светящиеся голубоватые кристаллы, а в дальнем конце бьет источник. Козел срывается с рук и, кое-как доползя до источника, начинает жадно оттуда пить. Команда с удивлением замечает, как срастается шкура на разодранной лапе. Вскоре козел прекращает пить и, совершенно здоровый, скачет прочь из пещеры.
+
+Команда пользуется возможностью и по очереди пьет из источника. Такая целебная сила вам редко встречалась. Все раны затянуты. И знал о ней, какой-то козел.
+
+Освежившиеся и приободренные, вы готовы двигаться дальше."
+hero_heal_percent = 100
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="battle_v3_fail"]
+script = ExtResource("4_battle")
+formation = SubResource("form_lion_lion")
+location_id = "mountains"
+metadata/_custom_type_script = ExtResource("4_battle")
+
+[sub_resource type="Resource" id="out_v3_fail"]
+script = ExtResource("3_outcome")
+result_text = "Ваш отряд быстро выскакивает из-за скал и, схватив блеящее животное под мышку, поспешно укрывается. Не похоже, что львы вас заметили. Козел начинает мотать головой и издавать звуки. Он словно указывает носом в определенном направлении. Вы решаете довериться существу.
+
+Вскоре становится очевидно: козел действительно ведет вас куда-то. Вы отмечаете интеллект животного. Вы петляете среди горных тропинок и расщелин, куда человек едва может добраться, пока не слышите нежное журчание.
+
+Вам попадается пещера. На стенах растут светящиеся голубоватые кристаллы, а в дальнем конце бьет источник. Козел срывается с рук и, кое-как доползя до источника, начинает жадно оттуда пить. Команда с удивлением замечает, как срастается шкура на разодранной лапе. Вскоре козел прекращает пить и, совершенно здоровый, скачет прочь из пещеры, как вдруг вы слышите рык.
+
+Двое львов с окровавленными мордами мягко заходят в пещеру. Вблизи они еще более огромны. Вы видите, как двигаются плечи в готовности к прыжку, как слюна капает с окровавленных клыков. Они пришли забрать свою добычу."
+battle = SubResource("battle_v3_fail")
+hero_heal_percent = 100
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="choice_v3"]
+script = ExtResource("2_choice")
+choice_text = "Попытаться спасти козла"
+stat_check = SubResource("check_evasion")
+success_outcome = SubResource("out_v3_success")
+failure_outcome = SubResource("out_v3_fail")
+metadata/_custom_type_script = ExtResource("2_choice")
+
+[resource]
+script = ExtResource("1_scene")
+scene_title = "Убийственная фауна"
+body_text = "Вы любуетесь горными пейзажами. Горы выглядят очень масштабно и величественно. Настолько же величественна их фауна. Вы видите стадо горных козлов, куда крупнее, чем обычно. Они грациозно скачут по скалам, отталкиваясь мускулистыми ногами. На мгновение ваш отряд задерживает взгляд, как вдруг из тени скал на стадо обрушиваются два льва. Они орудуют лапами, загоняя добычу, пока один из гигантских козлов не оказывается у них в лапах. Стадо убегает, а двое львов начинают разделывать добычу когтями.
+
+Это была бы возможность избежать битвы, но вы слышите жалобное блеяние. Совсем неподалеку от вашего отряда лежит раненый козел. Его нога разодрана когтями, и он тихонько блеет, словно понимая, что в таком состоянии ему не уйти от львов. Те пока отвлечены мясом, но вскоре обратят внимание на еще одну жертву."
+choices = [SubResource("choice_v1"), SubResource("choice_v2"), SubResource("choice_v3")]

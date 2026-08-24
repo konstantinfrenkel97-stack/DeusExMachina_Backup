@@ -103,6 +103,7 @@ func _show_current_line() -> void:
 	var is_mirrored: bool = _get_effective_mirror_layout(line, profile)
 	var line_sprite: Texture2D = _get_effective_sprite(line, profile)
 	var portrait_scale_percent := _get_effective_portrait_scale_percent(line, profile)
+	var portrait_y_offset_percent := _get_effective_portrait_y_offset_percent(profile)
 	_apply_line_layout(is_mirrored)
 	var raw_speaker_name: String = line.speaker_name.strip_edges()
 	var speaker_name: String = Localization.t(str(line.get("speaker_name_key")), raw_speaker_name)
@@ -113,7 +114,7 @@ func _show_current_line() -> void:
 		portrait_rect.texture = line_sprite
 		portrait_rect.flip_h = is_mirrored
 		_apply_mirrored_edge_hide(is_mirrored)
-		_update_portrait_geometry(line_sprite, is_mirrored, portrait_scale_percent)
+		_update_portrait_geometry(line_sprite, is_mirrored, portrait_scale_percent, portrait_y_offset_percent)
 		portrait_anchor.visible = true
 	else:
 		portrait_rect.texture = null
@@ -182,8 +183,13 @@ func _get_effective_portrait_scale_percent(line, profile: DialogueSpeakerProfile
 	if line != null and line.portrait_scale_percent > 0.0:
 		return line.portrait_scale_percent
 	if profile != null:
-		return profile.default_portrait_scale_percent
+		return profile.get_portrait_scale_percent()
 	return 100.0
+
+func _get_effective_portrait_y_offset_percent(profile: DialogueSpeakerProfile) -> float:
+	if profile != null:
+		return profile.get_portrait_y_offset_percent()
+	return 0.0
 
 func _apply_line_layout(is_mirrored: bool) -> void:
 	speaker_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT if is_mirrored else HORIZONTAL_ALIGNMENT_LEFT
@@ -194,7 +200,7 @@ func _apply_mirrored_edge_hide(is_mirrored: bool) -> void:
 	portrait_rect.offset_bottom = 0.0
 	portrait_rect.offset_left = -MIRRORED_EDGE_HIDE if is_mirrored else 0.0
 
-func _update_portrait_geometry(texture: Texture2D, is_mirrored: bool, scale_percent: float) -> void:
+func _update_portrait_geometry(texture: Texture2D, is_mirrored: bool, scale_percent: float, y_offset_percent: float = 0.0) -> void:
 	if texture == null:
 		return
 	var tex_size := texture.get_size()
@@ -206,6 +212,8 @@ func _update_portrait_geometry(texture: Texture2D, is_mirrored: bool, scale_perc
 	var scale_factor := maxf(0.01, scale_percent / 100.0)
 	var target_height: float = (bottom_edge - top_gap) * scale_factor
 	var target_width: float = float(tex_size.x) * target_height / tex_size.y
+	# Положительный % поднимает портрет вверх — как и battle_sprite_y_offset_percent в бою.
+	bottom_edge -= target_height * (y_offset_percent / 100.0)
 	var top_edge: float = bottom_edge - target_height
 	portrait_anchor.anchor_left = 0.0
 	portrait_anchor.anchor_top = 0.0

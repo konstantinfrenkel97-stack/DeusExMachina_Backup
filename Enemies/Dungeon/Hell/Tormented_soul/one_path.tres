@@ -16,7 +16,7 @@ effect_values = Dictionary[String, int]({
 effect_durations = Dictionary[String, int]({
 "self_push_forward": 0
 })
-usable_from_positions = Array[bool]([false, false, true, true])
+usable_from_positions = Array[bool]([false, true, true, true])
 targetable_positions = Array[bool]([false, false, false, false])
 ability_marker = "soul_one_path"
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

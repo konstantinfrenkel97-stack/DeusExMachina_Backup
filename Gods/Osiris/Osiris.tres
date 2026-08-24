@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://cae4kytj7onnx"]
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://bolu7uocu8pve"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_bij4t"]
 [ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_3tih1"]
@@ -14,9 +14,18 @@ unit_name = "Осирис"
 sprite_path = "res://Gods/Osiris/Osiris.png"
 face_sprite = "res://Gods/Osiris/Osiris_Face.png"
 battle_sprite_scale_percent = 109.0
+dialogue_sprite_scale_percent = 110.0
+dialogue_sprite_y_offset_percent = -6.0
 campaign_dialogue_path = "res://Dialogues/Gods_dialogue/Osiris_dialogue_1.tres"
-max_hp = 80
+max_hp = 90
+damage = 15
+armor = 15
+initiative = 5
+accuracy = 65
+evasion = 8
+crit_chance = 0.07
 is_enemy = false
+forgetting_level = 2.5
 special_effect_type = "osiris_majesty_aura"
 active_abilities = Array[ExtResource("1_bij4t")]([ExtResource("2_j6juu"), ExtResource("3_w2uu1"), ExtResource("4_w2uu1"), ExtResource("6_rg")])
 ultimate_ability = ExtResource("5_8bsk8")

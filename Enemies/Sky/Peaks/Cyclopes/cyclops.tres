@@ -5,17 +5,23 @@
 [ext_resource type="Script" uid="uid://blbjdgg7r4654" path="res://Enemy_logic/cyclops_logic.gd" id="2_m5kyb"]
 [ext_resource type="Resource" uid="uid://q76mrn2lsl0b" path="res://Enemies/Sky/Peaks/Cyclopes/cyclops_gaze.tres" id="2_tur05"]
 [ext_resource type="Resource" uid="uid://cgxuit4khdr21" path="res://Enemies/Sky/Peaks/Cyclopes/cyclops_punch.tres" id="3_t32cv"]
+[ext_resource type="Resource" uid="uid://cw7o0t7vl03rj" path="res://Enemies/Sky/Peaks/Cyclopes/cyclopes_bolder_through.tres" id="4_bthr"]
 
 [resource]
 script = ExtResource("2_i2ty1")
 unit_name = "Циклоп"
+max_hp = 124
+damage = 35
+armor = 12
+initiative = 4
+accuracy = 76
+evasion = 8
+crit_chance = 0.07
 sprite_path = "res://Enemies/Sky/Peaks/Cyclopes/Cyclopes.png"
 face_sprite = "res://Enemies/Sky/Peaks/Cyclopes/Cyclopes_Face.png"
-battle_sprite_scale_percent = 60.0
-max_hp = 120
-initiative = 5
+battle_sprite_scale_percent = 58.0
 special_effect_type = "cyclops_sensitive_accuracy"
 is_large = true
-active_abilities = Array[ExtResource("1_ks7qi")]([ExtResource("2_tur05"), ExtResource("3_t32cv"), null])
+active_abilities = Array[ExtResource("1_ks7qi")]([ExtResource("2_tur05"), ExtResource("3_t32cv"), ExtResource("4_bthr")])
 ai_script = ExtResource("2_m5kyb")
 metadata/_custom_type_script = "uid://briall6wwu3rx"

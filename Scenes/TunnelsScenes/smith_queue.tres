@@ -109,7 +109,7 @@ metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="out_queue_success"]
 script = ExtResource("outcome_script")
-result_text = "Вы терпеливо отстаиваете очередь. Когда до вас доходит черед, кузнец не глядя передает вам комплект доспехов. Когда вы собираетесь уходить, в проеме вы сталкиваетесь со сменой кузнецов. Удивленные, они достают оружие."
+result_text = "Вы терпеливо отстаиваете очередь. Линия становится все короче и короче, и никто не обращает на вас внимания. Когда до вас доходит черед, кузнец не глядя передает вам комплект доспехов. Когда вы собираетесь уходить, в проеме вы сталкиваетесь со сменой кузнецов. Удивленные, они достают оружие."
 battle = SubResource("battle_smiths")
 rewards = [SubResource("reward_cuirass")]
 metadata/_custom_type_script = ExtResource("outcome_script")

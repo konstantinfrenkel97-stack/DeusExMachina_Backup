@@ -1,20 +1,26 @@
-[gd_resource type="Resource" script_class="DialogueResource" format=3]
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://d2k6rkrf654px"]
 
-[ext_resource type="Script" path="res://Dialogues/dialogue_line.gd" id="1_ccp7y"]
-[ext_resource type="Script" path="res://Dialogues/dialogue_choice.gd" id="2_ndmco"]
-[ext_resource type="Script" path="res://Dialogues/dialogue_resource.gd" id="3_ijq5e"]
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_ccp7y"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_ndmco"]
+[ext_resource type="Texture2D" uid="uid://bfu365plvlb5v" path="res://Main_characters/Lena/Lena_surprised.png" id="3_8ew8v"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="3_ijq5e"]
+[ext_resource type="Texture2D" uid="uid://cl8wacfrih2fj" path="res://Main_characters/Lena/Lena_smile_1.png" id="4_ifp4b"]
+[ext_resource type="Texture2D" uid="uid://c41xe23xeeys3" path="res://Main_characters/Lena/Lena_sad.png" id="5_vsu5k"]
+[ext_resource type="Texture2D" uid="uid://bq5671vbp3ry4" path="res://Main_characters/Lena/Lena_smile_2.png" id="6_yo2r4"]
+[ext_resource type="Texture2D" uid="uid://duogyyhwd3igs" path="res://Main_characters/Lena/Lena_sceptical.png" id="7_83qwo"]
 
 [sub_resource type="Resource" id="Resource_q6xlw"]
 script = ExtResource("1_ccp7y")
 line_id = "intro_action"
 speaker_name = "Тор"
-text = "(Когда ты входишь в его комнату, Тор размахивает молотом в тренировочных ударах. Увидев тебя, останавливается)"
+text = "(Когда ты входишь в его комнату, Тор размахивает молотом в тренировочных ударах. Увидев тебя, останавливается.)"
 
 [sub_resource type="Resource" id="Resource_21ap6"]
 script = ExtResource("1_ccp7y")
 line_id = "intro_lena"
 speaker_name = "Лена"
 text = "Тор."
+sprite = ExtResource("3_8ew8v")
 
 [sub_resource type="Resource" id="Resource_8ew8v"]
 script = ExtResource("1_ccp7y")
@@ -63,6 +69,7 @@ script = ExtResource("1_ccp7y")
 line_id = "open_door_1"
 speaker_name = "Лена"
 text = "Послушай, мне нужна помощь. Враги находятся за вон теми дверями, но я не могу их открыть, только бог может."
+sprite = ExtResource("3_8ew8v")
 next_line_id = "open_door_2"
 
 [sub_resource type="Resource" id="Resource_qwvkk"]
@@ -91,6 +98,7 @@ script = ExtResource("1_ccp7y")
 line_id = "open_door_5"
 speaker_name = "Лена"
 text = "Дворфийские тоннели? Не ожидала."
+sprite = ExtResource("3_8ew8v")
 next_line_id = "open_door_6"
 
 [sub_resource type="Resource" id="Resource_io2a3"]
@@ -119,6 +127,7 @@ script = ExtResource("1_ccp7y")
 line_id = "open_door_9"
 speaker_name = "Лена"
 text = "Небесный бог грома бросает вызов мощи самой земли. Поэтично."
+sprite = ExtResource("4_ifp4b")
 next_line_id = "open_door_10"
 
 [sub_resource type="Resource" id="Resource_m07nm"]
@@ -145,6 +154,7 @@ script = ExtResource("1_ccp7y")
 line_id = "opinion_start"
 speaker_name = "Лена"
 text = "Что ты думаешь о…"
+sprite = ExtResource("3_8ew8v")
 choices = Array[ExtResource("2_ndmco")]([SubResource("Resource_5880u"), SubResource("Resource_oif08")])
 
 [sub_resource type="Resource" id="Resource_pgunh"]
@@ -152,6 +162,7 @@ script = ExtResource("1_ccp7y")
 line_id = "loki_1"
 speaker_name = "Лена"
 text = "… Локи?"
+sprite = ExtResource("3_8ew8v")
 next_line_id = "loki_2"
 
 [sub_resource type="Resource" id="Resource_pkqvr"]
@@ -194,6 +205,7 @@ script = ExtResource("1_ccp7y")
 line_id = "loki_7"
 speaker_name = "Лена"
 text = "Рагнарек…"
+sprite = ExtResource("5_vsu5k")
 next_line_id = "loki_8"
 
 [sub_resource type="Resource" id="Resource_4q2gd"]
@@ -236,6 +248,7 @@ script = ExtResource("1_ccp7y")
 line_id = "loki_13"
 speaker_name = "Лена"
 text = "Хм…"
+sprite = ExtResource("5_vsu5k")
 next_line_id = "Thor_choices_1"
 
 [sub_resource type="Resource" id="Resource_t3oag"]
@@ -243,6 +256,7 @@ script = ExtResource("1_ccp7y")
 line_id = "odin_1"
 speaker_name = "Лена"
 text = "…Одине."
+sprite = ExtResource("3_8ew8v")
 next_line_id = "odin_2"
 
 [sub_resource type="Resource" id="Resource_kwcdx"]
@@ -271,6 +285,7 @@ script = ExtResource("1_ccp7y")
 line_id = "odin_5"
 speaker_name = "Лена"
 text = "Это точно."
+sprite = ExtResource("4_ifp4b")
 next_line_id = "odin_6"
 
 [sub_resource type="Resource" id="Resource_xwoo8"]
@@ -306,6 +321,7 @@ script = ExtResource("1_ccp7y")
 line_id = "odin_10"
 speaker_name = "Лена"
 text = "Спасибо. Я думаю, я могу понять, о чем ты."
+sprite = ExtResource("4_ifp4b")
 next_line_id = "Thor_choices_1"
 
 [sub_resource type="Resource" id="Resource_x2xf8"]
@@ -313,6 +329,7 @@ script = ExtResource("1_ccp7y")
 line_id = "why_help_1"
 speaker_name = "Лена"
 text = "Насчет того, почему ты мне помогаешь."
+sprite = ExtResource("3_8ew8v")
 next_line_id = "why_help_2"
 
 [sub_resource type="Resource" id="Resource_egl1v"]
@@ -327,6 +344,7 @@ script = ExtResource("1_ccp7y")
 line_id = "why_help_3"
 speaker_name = "Лена"
 text = "Ты говорил, что рад возможности сражаться с сильными противниками."
+sprite = ExtResource("3_8ew8v")
 next_line_id = "why_help_4"
 
 [sub_resource type="Resource" id="Resource_r5m5i"]
@@ -341,6 +359,7 @@ script = ExtResource("1_ccp7y")
 line_id = "why_help_5"
 speaker_name = "Лена"
 text = "А вот если бы мне угрожали слабые противники, ты бы не помог?"
+sprite = ExtResource("3_8ew8v")
 next_line_id = "why_help_6"
 
 [sub_resource type="Resource" id="Resource_htcnm"]
@@ -355,13 +374,14 @@ script = ExtResource("1_ccp7y")
 line_id = "why_help_7"
 speaker_name = "Лена"
 text = "Я просто люблю исследовать. А тут возможность поговорить с живыми божествами. Узнать вас получше."
+sprite = ExtResource("6_yo2r4")
 next_line_id = "why_help_8"
 
 [sub_resource type="Resource" id="Resource_18jry"]
 script = ExtResource("1_ccp7y")
 line_id = "why_help_8"
 speaker_name = "Тор"
-text = "Хм, ну… Помог бы наверное, но было бы не так интересно."
+text = "Хм, ну… Помог бы, наверное, но было бы не так интересно."
 next_line_id = "why_help_9"
 
 [sub_resource type="Resource" id="Resource_r4f12"]
@@ -376,6 +396,7 @@ script = ExtResource("1_ccp7y")
 line_id = "why_help_10"
 speaker_name = "Лена"
 text = "А что тебе еще нравится помимо битв?"
+sprite = ExtResource("4_ifp4b")
 next_line_id = "why_help_11"
 
 [sub_resource type="Resource" id="Resource_klqi1"]
@@ -390,6 +411,7 @@ script = ExtResource("1_ccp7y")
 line_id = "why_help_12"
 speaker_name = "Лена"
 text = "Хмм…"
+sprite = ExtResource("7_83qwo")
 next_line_id = "why_help_13"
 
 [sub_resource type="Resource" id="Resource_gq0fu"]
@@ -404,6 +426,7 @@ script = ExtResource("1_ccp7y")
 line_id = "why_help_14"
 speaker_name = "Лена"
 text = "Как будто не договариваешь что-то."
+sprite = ExtResource("7_83qwo")
 next_line_id = "why_help_15"
 
 [sub_resource type="Resource" id="Resource_lv26v"]
@@ -425,6 +448,7 @@ script = ExtResource("1_ccp7y")
 line_id = "why_help_17"
 speaker_name = "Лена"
 text = "Да… Наверное, ты прав. Глупый вопрос, прости."
+sprite = ExtResource("4_ifp4b")
 next_line_id = "why_help_18"
 
 [sub_resource type="Resource" id="Resource_uatt3"]
@@ -438,7 +462,8 @@ next_line_id = "why_help_19"
 script = ExtResource("1_ccp7y")
 line_id = "why_help_19"
 speaker_name = "Лена"
-text = "…."
+text = "…"
+sprite = ExtResource("4_ifp4b")
 next_line_id = "why_help_20"
 
 [sub_resource type="Resource" id="Resource_nx377"]
@@ -453,6 +478,7 @@ script = ExtResource("1_ccp7y")
 line_id = "why_help_21"
 speaker_name = "Лена"
 text = "Эм, да, конечно."
+sprite = ExtResource("3_8ew8v")
 next_line_id = "why_help_22"
 
 [sub_resource type="Resource" id="Resource_ajrti"]
@@ -474,6 +500,7 @@ script = ExtResource("1_ccp7y")
 line_id = "why_help_24"
 speaker_name = "Лена"
 text = "Ага."
+sprite = ExtResource("4_ifp4b")
 next_line_id = "why_help_25"
 
 [sub_resource type="Resource" id="Resource_b3gf7"]
@@ -488,6 +515,7 @@ script = ExtResource("1_ccp7y")
 line_id = "why_help_26"
 speaker_name = "Лена"
 text = "Это тайна?"
+sprite = ExtResource("4_ifp4b")
 next_line_id = "why_help_27"
 
 [sub_resource type="Resource" id="Resource_1ii0l"]
@@ -502,6 +530,7 @@ script = ExtResource("1_ccp7y")
 line_id = "why_help_28"
 speaker_name = "Лена"
 text = "Я… Хорошо, как и обещала, не буду."
+sprite = ExtResource("6_yo2r4")
 next_line_id = "why_help_29"
 
 [sub_resource type="Resource" id="Resource_rosfd"]
@@ -509,6 +538,7 @@ script = ExtResource("1_ccp7y")
 line_id = "why_help_29"
 speaker_name = "Лена"
 text = "Белок…"
+sprite = ExtResource("6_yo2r4")
 next_line_id = "Thor_choices_1"
 
 [sub_resource type="Resource" id="Resource_anrr2"]
@@ -516,6 +546,7 @@ script = ExtResource("1_ccp7y")
 line_id = "new_world_1"
 speaker_name = "Лена"
 text = "Как тебе это место?"
+sprite = ExtResource("3_8ew8v")
 next_line_id = "new_world_2"
 
 [sub_resource type="Resource" id="Resource_tfb07"]
@@ -530,6 +561,7 @@ script = ExtResource("1_ccp7y")
 line_id = "new_world_3"
 speaker_name = "Лена"
 text = "И все? Это ведь безумный мир фантазий."
+sprite = ExtResource("3_8ew8v")
 next_line_id = "new_world_4"
 
 [sub_resource type="Resource" id="Resource_sdsvu"]
@@ -544,6 +576,7 @@ script = ExtResource("1_ccp7y")
 line_id = "new_world_5"
 speaker_name = "Лена"
 text = "Ну не знаю."
+sprite = ExtResource("7_83qwo")
 next_line_id = "new_world_6"
 
 [sub_resource type="Resource" id="Resource_wkhqt"]
@@ -551,6 +584,7 @@ script = ExtResource("1_ccp7y")
 line_id = "new_world_6"
 speaker_name = "Лена"
 text = "Тут все такое волшебное."
+sprite = ExtResource("3_8ew8v")
 next_line_id = "new_world_7"
 
 [sub_resource type="Resource" id="Resource_hkuci"]
@@ -565,6 +599,7 @@ script = ExtResource("1_ccp7y")
 line_id = "new_world_8"
 speaker_name = "Лена"
 text = "Ладно."
+sprite = ExtResource("3_8ew8v")
 next_line_id = "Thor_choices_1"
 
 [sub_resource type="Resource" id="Resource_7dcpu"]
@@ -572,6 +607,7 @@ script = ExtResource("1_ccp7y")
 line_id = "tunnels_1"
 speaker_name = "Лена"
 text = "И все же тоннели, странный выбор."
+sprite = ExtResource("4_ifp4b")
 next_line_id = "tunnels_2"
 
 [sub_resource type="Resource" id="Resource_lj54m"]
@@ -586,6 +622,7 @@ script = ExtResource("1_ccp7y")
 line_id = "tunnels_3"
 speaker_name = "Лена"
 text = "Никогда не представляла вас ползающим под землей."
+sprite = ExtResource("4_ifp4b")
 next_line_id = "tunnels_4"
 
 [sub_resource type="Resource" id="Resource_d7ay5"]
@@ -593,6 +630,7 @@ script = ExtResource("1_ccp7y")
 line_id = "tunnels_4"
 speaker_name = "Лена"
 text = "Скорее парящего в небесах с сияющим молотом."
+sprite = ExtResource("6_yo2r4")
 next_line_id = "tunnels_5"
 
 [sub_resource type="Resource" id="Resource_4g43t"]
@@ -621,6 +659,7 @@ script = ExtResource("1_ccp7y")
 line_id = "tunnels_8"
 speaker_name = "Лена"
 text = "Логика… присутствует."
+sprite = ExtResource("4_ifp4b")
 next_line_id = "tunnels_9"
 
 [sub_resource type="Resource" id="Resource_vvr83"]
@@ -634,7 +673,7 @@ next_line_id = "tunnels_10"
 script = ExtResource("1_ccp7y")
 line_id = "tunnels_10"
 speaker_name = "Тор"
-text = "Но я тебя, кстати, должен заверить. Дворфы тоже народ не пальцем деланый."
+text = "Но я тебя, кстати, должен заверить. Дворфы тоже народ не пальцем деланный."
 next_line_id = "tunnels_11"
 
 [sub_resource type="Resource" id="Resource_f3t47"]
@@ -649,6 +688,7 @@ script = ExtResource("1_ccp7y")
 line_id = "tunnels_12"
 speaker_name = "Лена"
 text = "Не могу сказать, что мне знакомо чувство."
+sprite = ExtResource("4_ifp4b")
 next_line_id = "tunnels_13"
 
 [sub_resource type="Resource" id="Resource_yabiq"]
@@ -656,6 +696,7 @@ script = ExtResource("1_ccp7y")
 line_id = "tunnels_13"
 speaker_name = "Лена"
 text = "Но я понимаю, о чем вы говорите."
+sprite = ExtResource("6_yo2r4")
 next_line_id = "tunnels_14"
 
 [sub_resource type="Resource" id="Resource_7ouab"]
@@ -676,7 +717,7 @@ next_line_id = "tunnels_16"
 script = ExtResource("1_ccp7y")
 line_id = "tunnels_16"
 speaker_name = "Тор"
-text = "…. Короля великанов."
+text = "… Короля великанов."
 next_line_id = "tunnels_17"
 
 [sub_resource type="Resource" id="Resource_xww11"]
@@ -698,6 +739,7 @@ script = ExtResource("1_ccp7y")
 line_id = "tunnels_19"
 speaker_name = "Лена"
 text = "Хах, надеюсь, вам удастся."
+sprite = ExtResource("4_ifp4b")
 next_line_id = "tunnels_20"
 
 [sub_resource type="Resource" id="Resource_e0vju"]

@@ -1,0 +1,146 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Enemies/Civilization/Arena/Novice/Novice.tres" id="ext_1"]
+[ext_resource type="Resource" path="res://Gods/Set/Set.tres" id="ext_2"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+
+[sub_resource type="Resource" id="sr_001"]
+script = ExtResource("formation_script")
+formation_name = "Свежие выпускники"
+pos1 = ExtResource("ext_1")
+pos2 = ExtResource("ext_1")
+pos3 = ExtResource("ext_1")
+pos4 = ExtResource("ext_1")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="sr_002"]
+script = ExtResource("formation_script")
+formation_name = "Уцелевший выпускник"
+pos1 = ExtResource("ext_1")
+pos2 = null
+pos3 = null
+pos4 = null
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="sr_003"]
+script = ExtResource("battle_script")
+formation = SubResource("sr_001")
+location_id = "arena"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="sr_004"]
+script = ExtResource("unit_modifier_script")
+target_position = 0
+hp_percent = 50
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="sr_005"]
+script = ExtResource("battle_script")
+formation = SubResource("sr_002")
+location_id = "arena"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("sr_004")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="sr_006"]
+script = ExtResource("buff_script")
+stat = 3
+value = 10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="sr_007"]
+script = ExtResource("buff_script")
+stat = 0
+value = 10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="sr_008"]
+script = ExtResource("unit_modifier_script")
+target_position = 0
+hp_percent = 0
+buffs = Array[ExtResource("buff_script")]([SubResource("sr_006"), SubResource("sr_007")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="sr_009"]
+script = ExtResource("battle_script")
+formation = SubResource("sr_001")
+location_id = "arena"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("sr_008")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="sr_010"]
+script = ExtResource("outcome_script")
+result_text = "Вы выходите против врагов, чтобы сойтись в честном поединке. Никаких уловок. Зрители аплодируют вам."
+battle = SubResource("sr_003")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_011"]
+script = ExtResource("choice_script")
+choice_text = "Да будет честный бой!"
+outcome = SubResource("sr_010")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="sr_012"]
+script = ExtResource("outcome_script")
+result_text = "Вы кричите новичкам, что шансы явно не в их пользу, и кроме жестокого избиения их ничего не ждет. Один из юношей швыряет меч на землю и уходит; его товарищи бросают оружие следом. Диктор поносит слабаков — но вы победили без боя."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_013"]
+script = ExtResource("outcome_script")
+result_text = "«Парни, да они боятся нас! Хотят избежать драки!» Новички подхватывают крик, и с новообретенной уверенностью бросаются в бой. Эффект: у новичков +10 уклонения и +10 атаки до конца боя."
+battle = SubResource("sr_009")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_014"]
+script = ExtResource("stat_check_script")
+stat = 0
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="sr_015"]
+script = ExtResource("choice_script")
+choice_text = "Уговорить их сдаться"
+stat_check = SubResource("sr_014")
+success_outcome = SubResource("sr_012")
+failure_outcome = SubResource("sr_013")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="sr_016"]
+script = ExtResource("outcome_script")
+result_text = "Сет на золотом троне предлагает четвертому новичку выход: убить своих товарищей. Тот наносит вероломный удар — и в кровавом хаосе остаются двое, потом один. Сердце пустыни дрогнуло: уцелевший новичок выходит против вас один, сильно раненый. Эффект: бой против одного новичка с 50% здоровья."
+battle = SubResource("sr_005")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_017"]
+script = ExtResource("outcome_script")
+result_text = "«Мы станем героями! Ясно тебе?! ГЕРОЯМИ!» — юноши не поддаются на провокацию Сета, публика поддерживает их криком. Сет разочарованно пожимает плечами: «Значит, вы сделали свой выбор». Эффект: бой против четырех новичков, чья пассивка (перевоплощение в Гладиатора/Гоплита) сработает на 1 ход раньше обычного."
+battle = SubResource("sr_003")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_018"]
+script = ExtResource("stat_check_script")
+stat = 5
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="sr_019"]
+script = ExtResource("choice_script")
+choice_text = "Заставить их убивать друг друга"
+required_god = ExtResource("ext_2")
+stat_check = SubResource("sr_018")
+success_outcome = SubResource("sr_016")
+failure_outcome = SubResource("sr_017")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Первый боевой опыт"
+body_text = "«ДАМЫ И ГОСПОДА! СЕГОДНЯ НА НАШЕЙ АРЕНЕ КТО-ТО ВПЕРВЫЕ ПРОЛЬЕТ КРОВЬ! ВСТРЕЧАЙТЕ — В ЗАПАДНОМ КРЫЛЕ ТЕМНЫЕ ЛОШАДКИ, ОТРЯД ВЕЛИКОЛЕПНОГО СЕТА! В ВОСТОЧНОМ — СВЕЖИЕ ВЫПУСКНИКИ ВОЕННОЙ ШКОЛЫ!»\n\nНа другом конце Арены — группа молодых людей. Они неуверенно держат мечи, нервно бросают на вас взгляды.\n\n«ДА НАЧНЕТСЯ БИТВА!»"
+choices = [SubResource("sr_011"), SubResource("sr_015"), SubResource("sr_019")]

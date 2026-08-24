@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="1_msr"]
+[ext_resource type="Resource" path="res://Scenes/MountainsScenes/choice_welcome_mountains_battle.tres" id="2_choice"]
+
+[resource]
+script = ExtResource("1_msr")
+scene_title = "Добро пожаловать в горы"
+body_text = "Перед вами величественные пики гор. Серые громадины украшены белыми снеговыми шапками. Воздух разрежен и у вас немного кружится голова. Зевс вдыхает полной грудью.\n\n\"Ну здравствуй, молодость!\"\n\n\"Люблю я горы, этот масштаб, эту мощь! Не зря жил на Олимпе все это время.\"\n\nГоры и правда выглядят массивно. Почти так же массивно, как огромные фигуры исполинов, движущиеся по ним. Некоторые — целенаправленно в вашем направлении.\n\n\"Ах да, забыл добавить.\"\n\nПо коже Зевса пробегают легкие электрические разряды.\n\n\"Коротышки и слабаки в таких горах не выживают. Будьте готовы к большим парням.\""
+choices = [ExtResource("2_choice")]

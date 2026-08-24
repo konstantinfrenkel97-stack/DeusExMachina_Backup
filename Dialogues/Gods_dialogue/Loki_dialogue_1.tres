@@ -1,0 +1,1034 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://boj0laabqlc1u"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_line"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_choice"]
+[ext_resource type="Texture2D" uid="uid://bq5671vbp3ry4" path="res://Main_characters/Lena/Lena_smile_2.png" id="3_hlwyy"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="3_res"]
+[ext_resource type="Texture2D" uid="uid://bfu365plvlb5v" path="res://Main_characters/Lena/Lena_surprised.png" id="4_hrm2y"]
+[ext_resource type="Texture2D" uid="uid://cl8wacfrih2fj" path="res://Main_characters/Lena/Lena_smile_1.png" id="5_avbvm"]
+[ext_resource type="Texture2D" uid="uid://duogyyhwd3igs" path="res://Main_characters/Lena/Lena_sceptical.png" id="6_t5j0p"]
+[ext_resource type="Texture2D" uid="uid://c41xe23xeeys3" path="res://Main_characters/Lena/Lena_sad.png" id="7_awtvp"]
+
+[sub_resource type="Resource" id="Resource_l001"]
+script = ExtResource("1_line")
+line_id = "l1"
+speaker_name = "Локи"
+text = "(Он сидит на полу в своей комнате, лицом к двери и рисует, зажав холст коленями. При твоем появлении кладет холст рисунком вниз и задвигает под кровать.)"
+next_line_id = "l2"
+
+[sub_resource type="Resource" id="Resource_l002"]
+script = ExtResource("1_line")
+line_id = "l2"
+speaker_name = "Локи"
+text = "Хей-хей."
+next_line_id = "l3"
+
+[sub_resource type="Resource" id="Resource_l003"]
+script = ExtResource("1_line")
+line_id = "l3"
+speaker_name = "Лена"
+text = "Хей-Хей."
+sprite = ExtResource("3_hlwyy")
+next_line_id = "hub"
+
+[sub_resource type="Resource" id="Resource_l004"]
+script = ExtResource("1_line")
+line_id = "d1"
+speaker_name = "Лена"
+text = "Слушай, тут есть ряд дверей. Мне нужна твоя божественная сила, чтобы открыть одну из них."
+sprite = ExtResource("4_hrm2y")
+next_line_id = "d2"
+
+[sub_resource type="Resource" id="Resource_l005"]
+script = ExtResource("1_line")
+line_id = "d2"
+speaker_name = "Локи"
+text = "Ты опять пытаешься на гордость надавить?"
+next_line_id = "d3"
+
+[sub_resource type="Resource" id="Resource_l006"]
+script = ExtResource("1_line")
+line_id = "d3"
+speaker_name = "Лена"
+text = "В этот раз нет. Их реально только бог открыть может."
+sprite = ExtResource("4_hrm2y")
+next_line_id = "d4"
+
+[sub_resource type="Resource" id="Resource_l007"]
+script = ExtResource("1_line")
+line_id = "d4"
+speaker_name = "Локи"
+text = "А. Хорошо, ладно."
+next_line_id = "d5"
+
+[sub_resource type="Resource" id="Resource_l008"]
+script = ExtResource("1_line")
+line_id = "d5"
+speaker_name = "Локи"
+text = "Посмотрим. Ага, Хельхейм!"
+next_line_id = "d6"
+
+[sub_resource type="Resource" id="Resource_l009"]
+script = ExtResource("1_line")
+line_id = "d6"
+speaker_name = "Локи"
+text = "Погнали сюда."
+next_line_id = "d7"
+
+[sub_resource type="Resource" id="Resource_l010"]
+script = ExtResource("1_line")
+line_id = "d7"
+speaker_name = "Лена"
+text = "Кто, если не вы, открыл бы эту дверь."
+sprite = ExtResource("5_avbvm")
+next_line_id = "d8"
+
+[sub_resource type="Resource" id="Resource_l011"]
+script = ExtResource("1_line")
+line_id = "d8"
+speaker_name = "Локи"
+text = "Вот именно. Метафора моей жизни, по-своему."
+next_line_id = "d9"
+
+[sub_resource type="Resource" id="Resource_l012"]
+script = ExtResource("1_line")
+line_id = "d9"
+speaker_name = "Лена"
+text = "Оу. Наверное."
+sprite = ExtResource("4_hrm2y")
+next_line_id = "d10"
+
+[sub_resource type="Resource" id="Resource_l013"]
+script = ExtResource("1_line")
+line_id = "d10"
+speaker_name = "Локи"
+text = "Не думай об этом особо."
+next_line_id = "d11"
+
+[sub_resource type="Resource" id="Resource_l014"]
+script = ExtResource("1_line")
+line_id = "d11"
+speaker_name = "Лена"
+text = "Но мне кажется, вы сказали кое-что важное."
+sprite = ExtResource("4_hrm2y")
+next_line_id = "d12"
+
+[sub_resource type="Resource" id="Resource_l015"]
+script = ExtResource("1_line")
+line_id = "d12"
+speaker_name = "Локи"
+text = "Поэтому об этом и не стоит думать. Бери пример с остальных."
+next_line_id = "d13"
+
+[sub_resource type="Resource" id="Resource_l016"]
+script = ExtResource("1_line")
+line_id = "d13"
+speaker_name = "Лена"
+text = "Ладно, не трогаю."
+sprite = ExtResource("5_avbvm")
+next_line_id = "d14"
+
+[sub_resource type="Resource" id="Resource_l017"]
+script = ExtResource("1_line")
+line_id = "d14"
+speaker_name = "Локи"
+text = "Судя по лицу, ты еще докопаешься до меня с этой темой."
+next_line_id = "d15"
+
+[sub_resource type="Resource" id="Resource_l018"]
+script = ExtResource("1_line")
+line_id = "d15"
+speaker_name = "Лена"
+text = "Честно, да."
+sprite = ExtResource("3_hlwyy")
+next_line_id = "d16"
+
+[sub_resource type="Resource" id="Resource_l019"]
+script = ExtResource("1_line")
+line_id = "d16"
+speaker_name = "Локи"
+text = "Эхх."
+next_line_id = "hub"
+
+[sub_resource type="Resource" id="Resource_c141"]
+script = ExtResource("2_choice")
+choice_id = "c_odin"
+choice_text = "Одину"
+next_line_id = "o1"
+
+[sub_resource type="Resource" id="Resource_c142"]
+script = ExtResource("2_choice")
+choice_id = "c_thor"
+choice_text = "Тору"
+next_line_id = "t1"
+
+[sub_resource type="Resource" id="Resource_c143"]
+script = ExtResource("2_choice")
+choice_id = "c_back1"
+choice_text = "Вернуться к вопросам"
+next_line_id = "hub"
+
+[sub_resource type="Resource" id="Resource_h145"]
+script = ExtResource("1_line")
+line_id = "ohub"
+choices = Array[ExtResource("2_choice")]([SubResource("Resource_c141"), SubResource("Resource_c142"), SubResource("Resource_c143")])
+
+[sub_resource type="Resource" id="Resource_l020"]
+script = ExtResource("1_line")
+line_id = "o1"
+speaker_name = "Лена"
+text = "…Одину."
+sprite = ExtResource("4_hrm2y")
+next_line_id = "o2"
+
+[sub_resource type="Resource" id="Resource_l021"]
+script = ExtResource("1_line")
+line_id = "o2"
+speaker_name = "Локи"
+text = "К Одину. Сложно."
+next_line_id = "o3"
+
+[sub_resource type="Resource" id="Resource_l022"]
+script = ExtResource("1_line")
+line_id = "o3"
+speaker_name = "Лена"
+text = "Так."
+sprite = ExtResource("5_avbvm")
+next_line_id = "o4"
+
+[sub_resource type="Resource" id="Resource_l023"]
+script = ExtResource("1_line")
+line_id = "o4"
+speaker_name = "Локи"
+text = "Чего «так»?"
+next_line_id = "o5"
+
+[sub_resource type="Resource" id="Resource_l024"]
+script = ExtResource("1_line")
+line_id = "o5"
+speaker_name = "Локи"
+text = "Он мой царь."
+next_line_id = "o6"
+
+[sub_resource type="Resource" id="Resource_l025"]
+script = ExtResource("1_line")
+line_id = "o6"
+speaker_name = "Локи"
+text = "Был."
+next_line_id = "o7"
+
+[sub_resource type="Resource" id="Resource_l026"]
+script = ExtResource("1_line")
+line_id = "o7"
+speaker_name = "Локи"
+text = "А потом я его убил. Уничтожил вместе со всем его царством."
+next_line_id = "o8"
+
+[sub_resource type="Resource" id="Resource_l027"]
+script = ExtResource("1_line")
+line_id = "o8"
+speaker_name = "Локи"
+text = "Такие у нас не простые отношения."
+next_line_id = "o9"
+
+[sub_resource type="Resource" id="Resource_l028"]
+script = ExtResource("1_line")
+line_id = "o9"
+speaker_name = "Лена"
+text = "А почему вы это сделали?"
+sprite = ExtResource("4_hrm2y")
+next_line_id = "o10"
+
+[sub_resource type="Resource" id="Resource_l029"]
+script = ExtResource("1_line")
+line_id = "o10"
+speaker_name = "Локи"
+text = "Как ты просто спрашиваешь, почему я убил всю свою семью."
+next_line_id = "o11"
+
+[sub_resource type="Resource" id="Resource_l030"]
+script = ExtResource("1_line")
+line_id = "o11"
+speaker_name = "Лена"
+text = "То есть они были вам семьей?"
+sprite = ExtResource("4_hrm2y")
+next_line_id = "o12"
+
+[sub_resource type="Resource" id="Resource_l031"]
+script = ExtResource("1_line")
+line_id = "o12"
+speaker_name = "Локи"
+text = "Ой, да отвали ты."
+next_line_id = "o13"
+
+[sub_resource type="Resource" id="Resource_l032"]
+script = ExtResource("1_line")
+line_id = "o13"
+speaker_name = "Лена"
+text = "Вы все время уклоняетесь от ответа."
+sprite = ExtResource("6_t5j0p")
+next_line_id = "o14"
+
+[sub_resource type="Resource" id="Resource_l033"]
+script = ExtResource("1_line")
+line_id = "o14"
+speaker_name = "Локи"
+text = "Да нет, я как раз все время отвечаю."
+next_line_id = "o15"
+
+[sub_resource type="Resource" id="Resource_l034"]
+script = ExtResource("1_line")
+line_id = "o15"
+speaker_name = "Локи"
+text = "Просто ты не хочешь слушать."
+next_line_id = "o16"
+
+[sub_resource type="Resource" id="Resource_l035"]
+script = ExtResource("1_line")
+line_id = "o16"
+speaker_name = "Локи"
+text = "Тебе нравится задавать вопросы."
+next_line_id = "o17"
+
+[sub_resource type="Resource" id="Resource_l036"]
+script = ExtResource("1_line")
+line_id = "o17"
+speaker_name = "Локи"
+text = "Но ты не готова обдумывать ответы."
+next_line_id = "o18"
+
+[sub_resource type="Resource" id="Resource_l037"]
+script = ExtResource("1_line")
+line_id = "o18"
+speaker_name = "Локи"
+text = "Если тебе их не переживать."
+next_line_id = "o19"
+
+[sub_resource type="Resource" id="Resource_l038"]
+script = ExtResource("1_line")
+line_id = "o19"
+speaker_name = "Лена"
+text = "Но я правда стараюсь понять вас."
+sprite = ExtResource("7_awtvp")
+next_line_id = "o20"
+
+[sub_resource type="Resource" id="Resource_l039"]
+script = ExtResource("1_line")
+line_id = "o20"
+speaker_name = "Локи"
+text = "Я ненавижу Одина."
+next_line_id = "o21"
+
+[sub_resource type="Resource" id="Resource_l040"]
+script = ExtResource("1_line")
+line_id = "o21"
+speaker_name = "Локи"
+text = "И люблю одновременно."
+next_line_id = "o22"
+
+[sub_resource type="Resource" id="Resource_l041"]
+script = ExtResource("1_line")
+line_id = "o22"
+speaker_name = "Локи"
+text = "Вот твой ответ."
+next_line_id = "ohub"
+
+[sub_resource type="Resource" id="Resource_l042"]
+script = ExtResource("1_line")
+line_id = "t1"
+speaker_name = "Лена"
+text = "…Тору."
+sprite = ExtResource("4_hrm2y")
+next_line_id = "t2"
+
+[sub_resource type="Resource" id="Resource_l043"]
+script = ExtResource("1_line")
+line_id = "t2"
+speaker_name = "Локи"
+text = "О, я его обожаю."
+next_line_id = "t3"
+
+[sub_resource type="Resource" id="Resource_l044"]
+script = ExtResource("1_line")
+line_id = "t3"
+speaker_name = "Лена"
+text = "Правда, что ли?"
+sprite = ExtResource("6_t5j0p")
+next_line_id = "t4"
+
+[sub_resource type="Resource" id="Resource_l045"]
+script = ExtResource("1_line")
+line_id = "t4"
+speaker_name = "Локи"
+text = "А почему нет?"
+next_line_id = "t5"
+
+[sub_resource type="Resource" id="Resource_l046"]
+script = ExtResource("1_line")
+line_id = "t5"
+speaker_name = "Локи"
+text = "Он как собака. Точнее как щенок."
+next_line_id = "t6"
+
+[sub_resource type="Resource" id="Resource_l047"]
+script = ExtResource("1_line")
+line_id = "t6"
+speaker_name = "Локи"
+text = "Простой, искренний и преданный."
+next_line_id = "t7"
+
+[sub_resource type="Resource" id="Resource_l048"]
+script = ExtResource("1_line")
+line_id = "t7"
+speaker_name = "Локи"
+text = "За что же его можно не любить?"
+next_line_id = "t8"
+
+[sub_resource type="Resource" id="Resource_l049"]
+script = ExtResource("1_line")
+line_id = "t8"
+speaker_name = "Лена"
+text = "С ваших слов капает ирония."
+sprite = ExtResource("6_t5j0p")
+next_line_id = "t9"
+
+[sub_resource type="Resource" id="Resource_l050"]
+script = ExtResource("1_line")
+line_id = "t9"
+speaker_name = "Локи"
+text = "Ну, протри скорее."
+next_line_id = "t10"
+
+[sub_resource type="Resource" id="Resource_l051"]
+script = ExtResource("1_line")
+line_id = "t10"
+speaker_name = "Лена"
+text = "Вам кажется, что Тор слишком простой?"
+sprite = ExtResource("4_hrm2y")
+next_line_id = "t11"
+
+[sub_resource type="Resource" id="Resource_l052"]
+script = ExtResource("1_line")
+line_id = "t11"
+speaker_name = "Локи"
+text = "…"
+next_line_id = "t12"
+
+[sub_resource type="Resource" id="Resource_l053"]
+script = ExtResource("1_line")
+line_id = "t12"
+speaker_name = "Локи"
+text = "Да."
+next_line_id = "t13"
+
+[sub_resource type="Resource" id="Resource_l054"]
+script = ExtResource("1_line")
+line_id = "t13"
+speaker_name = "Локи"
+text = "Виновен ли человек, если не осознавал проблем, которые создавал?"
+next_line_id = "t14"
+
+[sub_resource type="Resource" id="Resource_l055"]
+script = ExtResource("1_line")
+line_id = "t14"
+speaker_name = "Лена"
+text = "Это сложный вопрос."
+sprite = ExtResource("4_hrm2y")
+next_line_id = "t15"
+
+[sub_resource type="Resource" id="Resource_l056"]
+script = ExtResource("1_line")
+line_id = "t15"
+speaker_name = "Локи"
+text = "Виновен ли, если не думал о последствиях?"
+next_line_id = "t16"
+
+[sub_resource type="Resource" id="Resource_l057"]
+script = ExtResource("1_line")
+line_id = "t16"
+speaker_name = "Лена"
+text = "Ну, скорее виновен."
+sprite = ExtResource("6_t5j0p")
+next_line_id = "t17"
+
+[sub_resource type="Resource" id="Resource_l058"]
+script = ExtResource("1_line")
+line_id = "t17"
+speaker_name = "Локи"
+text = "Если осознанно закрывал глаза."
+next_line_id = "t18"
+
+[sub_resource type="Resource" id="Resource_l059"]
+script = ExtResource("1_line")
+line_id = "t18"
+speaker_name = "Лена"
+text = "Точно виновен, но это все разные ситуации."
+sprite = ExtResource("6_t5j0p")
+next_line_id = "t19"
+
+[sub_resource type="Resource" id="Resource_l060"]
+script = ExtResource("1_line")
+line_id = "t19"
+speaker_name = "Локи"
+text = "Разве? Разве разные?"
+next_line_id = "t20"
+
+[sub_resource type="Resource" id="Resource_l061"]
+script = ExtResource("1_line")
+line_id = "t20"
+speaker_name = "Локи"
+text = "А мне вот кажется, что это просто разные способы описать одно и то же."
+next_line_id = "t21"
+
+[sub_resource type="Resource" id="Resource_l062"]
+script = ExtResource("1_line")
+line_id = "t21"
+speaker_name = "Локи"
+text = "Ты безответственно делаешь, что в башку взбредет, и все говорят — да ладно, он же зла не хотел."
+next_line_id = "t22"
+
+[sub_resource type="Resource" id="Resource_l063"]
+script = ExtResource("1_line")
+line_id = "t22"
+speaker_name = "Лена"
+text = "То, о чем вы говорите, — это оценка морали через намерение или результат действия."
+sprite = ExtResource("6_t5j0p")
+next_line_id = "t23"
+
+[sub_resource type="Resource" id="Resource_l064"]
+script = ExtResource("1_line")
+line_id = "t23"
+speaker_name = "Локи"
+text = "Да."
+next_line_id = "t24"
+
+[sub_resource type="Resource" id="Resource_l065"]
+script = ExtResource("1_line")
+line_id = "t24"
+speaker_name = "Локи"
+text = "Об этом я и говорю."
+next_line_id = "t25"
+
+[sub_resource type="Resource" id="Resource_l066"]
+script = ExtResource("1_line")
+line_id = "t25"
+speaker_name = "Локи"
+text = "Я обожаю Тора. Люблю всем сердцем."
+next_line_id = "t26"
+
+[sub_resource type="Resource" id="Resource_l067"]
+script = ExtResource("1_line")
+line_id = "t26"
+speaker_name = "Локи"
+text = "Как и все."
+next_line_id = "ohub"
+
+[sub_resource type="Resource" id="Resource_l068"]
+script = ExtResource("1_line")
+line_id = "n1"
+speaker_name = "Лена"
+text = "Как тебе это место?"
+sprite = ExtResource("4_hrm2y")
+next_line_id = "n2"
+
+[sub_resource type="Resource" id="Resource_l069"]
+script = ExtResource("1_line")
+line_id = "n2"
+speaker_name = "Локи"
+text = "Конкретная комната или план фантазий?"
+next_line_id = "n3"
+
+[sub_resource type="Resource" id="Resource_l070"]
+script = ExtResource("1_line")
+line_id = "n3"
+speaker_name = "Лена"
+text = "План фантазий."
+next_line_id = "n4"
+
+[sub_resource type="Resource" id="Resource_l071"]
+script = ExtResource("1_line")
+line_id = "n4"
+speaker_name = "Локи"
+text = "Прекрасно. Великолепно. Я всю жизнь мечтал оказаться в подобном месте."
+next_line_id = "n5"
+
+[sub_resource type="Resource" id="Resource_l072"]
+script = ExtResource("1_line")
+line_id = "n5"
+speaker_name = "Лена"
+text = "Вы не шутите."
+sprite = ExtResource("4_hrm2y")
+next_line_id = "n6"
+
+[sub_resource type="Resource" id="Resource_l073"]
+script = ExtResource("1_line")
+line_id = "n6"
+speaker_name = "Локи"
+text = "Нет."
+next_line_id = "n7"
+
+[sub_resource type="Resource" id="Resource_l074"]
+script = ExtResource("1_line")
+line_id = "n7"
+speaker_name = "Локи"
+text = "Это место такое свободное и переменчивое."
+next_line_id = "n8"
+
+[sub_resource type="Resource" id="Resource_l075"]
+script = ExtResource("1_line")
+line_id = "n8"
+speaker_name = "Локи"
+text = "Не ограниченное ожиданиями и представлениями, и очень искреннее."
+next_line_id = "n9"
+
+[sub_resource type="Resource" id="Resource_l076"]
+script = ExtResource("1_line")
+line_id = "n9"
+speaker_name = "Лена"
+text = "Как место может быть искренним?"
+sprite = ExtResource("4_hrm2y")
+next_line_id = "n10"
+
+[sub_resource type="Resource" id="Resource_l077"]
+script = ExtResource("1_line")
+line_id = "n10"
+speaker_name = "Локи"
+text = "Оно искреннее, потому что ему не придают форму. Позволяют быть таким, каким оно хочет быть. А не таким, каким должно в представлении высокомерного толстолоба."
+next_line_id = "n11"
+
+[sub_resource type="Resource" id="Resource_l078"]
+script = ExtResource("1_line")
+line_id = "n11"
+speaker_name = "Лена"
+text = "Вы же кого-то конкретного имеете в виду?"
+sprite = ExtResource("4_hrm2y")
+next_line_id = "n12"
+
+[sub_resource type="Resource" id="Resource_l079"]
+script = ExtResource("1_line")
+line_id = "n12"
+speaker_name = "Локи"
+text = "Может быть."
+next_line_id = "n13"
+
+[sub_resource type="Resource" id="Resource_l080"]
+script = ExtResource("1_line")
+line_id = "n13"
+speaker_name = "Локи"
+text = "Ты знаешь, я даже тебе благодарен."
+next_line_id = "n14"
+
+[sub_resource type="Resource" id="Resource_l081"]
+script = ExtResource("1_line")
+line_id = "n14"
+speaker_name = "Локи"
+text = "За то, что призвала меня сюда."
+next_line_id = "n15"
+
+[sub_resource type="Resource" id="Resource_l082"]
+script = ExtResource("1_line")
+line_id = "n15"
+speaker_name = "Локи"
+text = "Как будто всю жизнь я только к этому и стремился."
+next_line_id = "n16"
+
+[sub_resource type="Resource" id="Resource_l083"]
+script = ExtResource("1_line")
+line_id = "n16"
+speaker_name = "Локи"
+text = "И вот, я наконец здесь."
+next_line_id = "n17"
+
+[sub_resource type="Resource" id="Resource_l084"]
+script = ExtResource("1_line")
+line_id = "n17"
+speaker_name = "Лена"
+text = "И как вам?"
+sprite = ExtResource("4_hrm2y")
+next_line_id = "n18"
+
+[sub_resource type="Resource" id="Resource_l085"]
+script = ExtResource("1_line")
+line_id = "n18"
+speaker_name = "Локи"
+text = "Не знаю. Странно."
+next_line_id = "n19"
+
+[sub_resource type="Resource" id="Resource_l086"]
+script = ExtResource("1_line")
+line_id = "n19"
+speaker_name = "Локи"
+text = "Как будто я всю жизнь искал сокровище, и вот оно у меня в руках."
+next_line_id = "n20"
+
+[sub_resource type="Resource" id="Resource_l087"]
+script = ExtResource("1_line")
+line_id = "n20"
+speaker_name = "Локи"
+text = "Я смотрю на него и не понимаю, что с ним делать. И ради чего вообще искал."
+next_line_id = "n21"
+
+[sub_resource type="Resource" id="Resource_l088"]
+script = ExtResource("1_line")
+line_id = "n21"
+speaker_name = "Лена"
+text = "Вы запутались…"
+sprite = ExtResource("7_awtvp")
+next_line_id = "n22"
+
+[sub_resource type="Resource" id="Resource_l089"]
+script = ExtResource("1_line")
+line_id = "n22"
+speaker_name = "Локи"
+text = "Думаю, да."
+next_line_id = "hub"
+
+[sub_resource type="Resource" id="Resource_l090"]
+script = ExtResource("1_line")
+line_id = "h1"
+speaker_name = "Лена"
+text = "Вы согласились помочь мне."
+sprite = ExtResource("4_hrm2y")
+next_line_id = "h2"
+
+[sub_resource type="Resource" id="Resource_l091"]
+script = ExtResource("1_line")
+line_id = "h2"
+speaker_name = "Локи"
+text = "Было такое."
+next_line_id = "h3"
+
+[sub_resource type="Resource" id="Resource_l092"]
+script = ExtResource("1_line")
+line_id = "h3"
+speaker_name = "Лена"
+text = "Почему?"
+sprite = ExtResource("4_hrm2y")
+next_line_id = "h4"
+
+[sub_resource type="Resource" id="Resource_l093"]
+script = ExtResource("1_line")
+line_id = "h4"
+speaker_name = "Локи"
+text = "Ну, хочешь, откажусь. Мне не сложно."
+next_line_id = "h5"
+
+[sub_resource type="Resource" id="Resource_l094"]
+script = ExtResource("1_line")
+line_id = "h5"
+speaker_name = "Лена"
+text = "Да я не в этом смысле."
+sprite = ExtResource("6_t5j0p")
+next_line_id = "h6"
+
+[sub_resource type="Resource" id="Resource_l095"]
+script = ExtResource("1_line")
+line_id = "h6"
+speaker_name = "Лена"
+text = "Мне правда интересны ваши причины."
+sprite = ExtResource("4_hrm2y")
+next_line_id = "h7"
+
+[sub_resource type="Resource" id="Resource_l096"]
+script = ExtResource("1_line")
+line_id = "h7"
+speaker_name = "Локи"
+text = "…"
+next_line_id = "h8"
+
+[sub_resource type="Resource" id="Resource_l097"]
+script = ExtResource("1_line")
+line_id = "h8"
+speaker_name = "Локи"
+text = "Как ты считаешь, есть ситуации, когда лучше не задавать вопросов?"
+next_line_id = "h9"
+
+[sub_resource type="Resource" id="Resource_l098"]
+script = ExtResource("1_line")
+line_id = "h9"
+speaker_name = "Лена"
+text = "Да, конечно. Просто это моя привычка."
+sprite = ExtResource("4_hrm2y")
+next_line_id = "h10"
+
+[sub_resource type="Resource" id="Resource_l099"]
+script = ExtResource("1_line")
+line_id = "h10"
+speaker_name = "Лена"
+text = "Стараюсь всегда все узнать."
+sprite = ExtResource("5_avbvm")
+next_line_id = "h11"
+
+[sub_resource type="Resource" id="Resource_l100"]
+script = ExtResource("1_line")
+line_id = "h11"
+speaker_name = "Лена"
+text = "Особенно про людей, меня окружающих."
+sprite = ExtResource("5_avbvm")
+next_line_id = "h12"
+
+[sub_resource type="Resource" id="Resource_l101"]
+script = ExtResource("1_line")
+line_id = "h12"
+speaker_name = "Лена"
+text = "Тем более богов."
+sprite = ExtResource("3_hlwyy")
+next_line_id = "h13"
+
+[sub_resource type="Resource" id="Resource_l102"]
+script = ExtResource("1_line")
+line_id = "h13"
+speaker_name = "Лена"
+text = "Я не хотела быть навязчивой."
+sprite = ExtResource("7_awtvp")
+next_line_id = "h14"
+
+[sub_resource type="Resource" id="Resource_l103"]
+script = ExtResource("1_line")
+line_id = "h14"
+speaker_name = "Лена"
+text = "Мне показалось, это безобидный вопрос."
+sprite = ExtResource("7_awtvp")
+next_line_id = "h15"
+
+[sub_resource type="Resource" id="Resource_l104"]
+script = ExtResource("1_line")
+line_id = "h15"
+speaker_name = "Локи"
+text = "А почему иногда лучше не спрашивать?"
+next_line_id = "h16"
+
+[sub_resource type="Resource" id="Resource_l105"]
+script = ExtResource("1_line")
+line_id = "h16"
+speaker_name = "Лена"
+text = "Ну, можно задеть чувства человека."
+sprite = ExtResource("4_hrm2y")
+next_line_id = "h17"
+
+[sub_resource type="Resource" id="Resource_l106"]
+script = ExtResource("1_line")
+line_id = "h17"
+speaker_name = "Локи"
+text = "Практически. Можно на него повлиять."
+next_line_id = "h18"
+
+[sub_resource type="Resource" id="Resource_l107"]
+script = ExtResource("1_line")
+line_id = "h18"
+speaker_name = "Локи"
+text = "Люди переменчивы, как круги на воде."
+next_line_id = "h19"
+
+[sub_resource type="Resource" id="Resource_l108"]
+script = ExtResource("1_line")
+line_id = "h19"
+speaker_name = "Локи"
+text = "И, задавая вопрос, ты бросаешь в пруд камень. Круги изменятся."
+next_line_id = "h20"
+
+[sub_resource type="Resource" id="Resource_l109"]
+script = ExtResource("1_line")
+line_id = "h20"
+speaker_name = "Локи"
+text = "Может, раздумывая над ответом, они поймут, что причин тебе помогать действительно нет."
+next_line_id = "h21"
+
+[sub_resource type="Resource" id="Resource_l110"]
+script = ExtResource("1_line")
+line_id = "h21"
+speaker_name = "Лена"
+text = "Намек понят. Умолкаю."
+sprite = ExtResource("5_avbvm")
+next_line_id = "h22"
+
+[sub_resource type="Resource" id="Resource_l111"]
+script = ExtResource("1_line")
+line_id = "h22"
+speaker_name = "Локи"
+text = "Да нет, не думаю, что ты поняла."
+next_line_id = "hub"
+
+[sub_resource type="Resource" id="Resource_l112"]
+script = ExtResource("1_line")
+line_id = "w1"
+speaker_name = "Лена"
+text = "Хельхейм."
+sprite = ExtResource("5_avbvm")
+next_line_id = "w2"
+
+[sub_resource type="Resource" id="Resource_l113"]
+script = ExtResource("1_line")
+line_id = "w2"
+speaker_name = "Локи"
+text = "Хельхейм."
+next_line_id = "w3"
+
+[sub_resource type="Resource" id="Resource_l114"]
+script = ExtResource("1_line")
+line_id = "w3"
+speaker_name = "Лена"
+text = "Вам нравится это место?"
+sprite = ExtResource("4_hrm2y")
+next_line_id = "w4"
+
+[sub_resource type="Resource" id="Resource_l115"]
+script = ExtResource("1_line")
+line_id = "w4"
+speaker_name = "Локи"
+text = "Нет. Не думаю, что оно нравится кому-либо."
+next_line_id = "w5"
+
+[sub_resource type="Resource" id="Resource_l116"]
+script = ExtResource("1_line")
+line_id = "w5"
+speaker_name = "Лена"
+text = "Но вы выбрали именно эту дверь."
+sprite = ExtResource("4_hrm2y")
+next_line_id = "w6"
+
+[sub_resource type="Resource" id="Resource_l117"]
+script = ExtResource("1_line")
+line_id = "w6"
+speaker_name = "Локи"
+text = "Выбрал."
+next_line_id = "w7"
+
+[sub_resource type="Resource" id="Resource_l118"]
+script = ExtResource("1_line")
+line_id = "w7"
+speaker_name = "Лена"
+text = "Там много ваших детищ."
+sprite = ExtResource("4_hrm2y")
+next_line_id = "w8"
+
+[sub_resource type="Resource" id="Resource_l119"]
+script = ExtResource("1_line")
+line_id = "w8"
+speaker_name = "Локи"
+text = "Много."
+next_line_id = "w9"
+
+[sub_resource type="Resource" id="Resource_l120"]
+script = ExtResource("1_line")
+line_id = "w9"
+speaker_name = "Лена"
+text = "Почему вы открыли именно эту дверь?"
+sprite = ExtResource("4_hrm2y")
+next_line_id = "w10"
+
+[sub_resource type="Resource" id="Resource_l121"]
+script = ExtResource("1_line")
+line_id = "w10"
+speaker_name = "Локи"
+text = "Больше некому."
+next_line_id = "w11"
+
+[sub_resource type="Resource" id="Resource_l122"]
+script = ExtResource("1_line")
+line_id = "w11"
+speaker_name = "Лена"
+text = "Но что, если бы она так и осталась закрытой?"
+sprite = ExtResource("4_hrm2y")
+next_line_id = "w12"
+
+[sub_resource type="Resource" id="Resource_l123"]
+script = ExtResource("1_line")
+line_id = "w12"
+speaker_name = "Локи"
+text = "Поэтому я ее и открыл."
+next_line_id = "w13"
+
+[sub_resource type="Resource" id="Resource_l124"]
+script = ExtResource("1_line")
+line_id = "w13"
+speaker_name = "Лена"
+text = "Не понимаю."
+sprite = ExtResource("4_hrm2y")
+next_line_id = "w14"
+
+[sub_resource type="Resource" id="Resource_l125"]
+script = ExtResource("1_line")
+line_id = "w14"
+speaker_name = "Локи"
+text = "Некоторые двери должны быть открыты."
+next_line_id = "w15"
+
+[sub_resource type="Resource" id="Resource_l126"]
+script = ExtResource("1_line")
+line_id = "w15"
+speaker_name = "Локи"
+text = "Даже если это никому не нравится."
+next_line_id = "w16"
+
+[sub_resource type="Resource" id="Resource_l127"]
+script = ExtResource("1_line")
+line_id = "w16"
+speaker_name = "Локи"
+text = "И никого не сделает счастливым."
+next_line_id = "w17"
+
+[sub_resource type="Resource" id="Resource_l128"]
+script = ExtResource("1_line")
+line_id = "w17"
+speaker_name = "Лена"
+text = "Вы… Поэтому устроили Рагнарек?"
+sprite = ExtResource("4_hrm2y")
+next_line_id = "w18"
+
+[sub_resource type="Resource" id="Resource_l129"]
+script = ExtResource("1_line")
+line_id = "w18"
+speaker_name = "Лена"
+text = "Вы открыли дверь, которую никто не хотел открывать?"
+sprite = ExtResource("4_hrm2y")
+next_line_id = "w19"
+
+[sub_resource type="Resource" id="Resource_l130"]
+script = ExtResource("1_line")
+line_id = "w19"
+speaker_name = "Локи"
+text = "Да… Нет…"
+next_line_id = "w20"
+
+[sub_resource type="Resource" id="Resource_l131"]
+script = ExtResource("1_line")
+line_id = "w20"
+speaker_name = "Локи"
+text = "Сводящая с ума пустота, в которой потерянные души, лишенные рассудка, продолжают бесконечно сражаться, не имея иной цели в жизни."
+next_line_id = "w21"
+
+[sub_resource type="Resource" id="Resource_l132"]
+script = ExtResource("1_line")
+line_id = "w21"
+speaker_name = "Локи"
+text = "Что за место я описал?"
+next_line_id = "w22"
+
+[sub_resource type="Resource" id="Resource_l133"]
+script = ExtResource("1_line")
+line_id = "w22"
+speaker_name = "Лена"
+text = "Ну, Хельхейм."
+sprite = ExtResource("6_t5j0p")
+next_line_id = "w23"
+
+[sub_resource type="Resource" id="Resource_l134"]
+script = ExtResource("1_line")
+line_id = "w23"
+speaker_name = "Локи"
+text = "Возможно."
+next_line_id = "w24"
+
+[sub_resource type="Resource" id="Resource_l135"]
+script = ExtResource("1_line")
+line_id = "w24"
+speaker_name = "Локи"
+text = "А возможно, Вальхаллу."
+
+[resource]
+script = ExtResource("3_res")
+dialogue_id = "loki_dialogue_1"
+dialogue_name = "Локи: Первый диалог"
+start_line_id = "l1"
+lines = Array[ExtResource("1_line")]([SubResource("Resource_l001"), SubResource("Resource_l002"), SubResource("Resource_l003"), SubResource("Resource_l004"), SubResource("Resource_l005"), SubResource("Resource_l006"), SubResource("Resource_l007"), SubResource("Resource_l008"), SubResource("Resource_l009"), SubResource("Resource_l010"), SubResource("Resource_l011"), SubResource("Resource_l012"), SubResource("Resource_l013"), SubResource("Resource_l014"), SubResource("Resource_l015"), SubResource("Resource_l016"), SubResource("Resource_l017"), SubResource("Resource_l018"), SubResource("Resource_l019"), SubResource("Resource_h145"), SubResource("Resource_l020"), SubResource("Resource_l021"), SubResource("Resource_l022"), SubResource("Resource_l023"), SubResource("Resource_l024"), SubResource("Resource_l025"), SubResource("Resource_l026"), SubResource("Resource_l027"), SubResource("Resource_l028"), SubResource("Resource_l029"), SubResource("Resource_l030"), SubResource("Resource_l031"), SubResource("Resource_l032"), SubResource("Resource_l033"), SubResource("Resource_l034"), SubResource("Resource_l035"), SubResource("Resource_l036"), SubResource("Resource_l037"), SubResource("Resource_l038"), SubResource("Resource_l039"), SubResource("Resource_l040"), SubResource("Resource_l041"), SubResource("Resource_l042"), SubResource("Resource_l043"), SubResource("Resource_l044"), SubResource("Resource_l045"), SubResource("Resource_l046"), SubResource("Resource_l047"), SubResource("Resource_l048"), SubResource("Resource_l049"), SubResource("Resource_l050"), SubResource("Resource_l051"), SubResource("Resource_l052"), SubResource("Resource_l053"), SubResource("Resource_l054"), SubResource("Resource_l055"), SubResource("Resource_l056"), SubResource("Resource_l057"), SubResource("Resource_l058"), SubResource("Resource_l059"), SubResource("Resource_l060"), SubResource("Resource_l061"), SubResource("Resource_l062"), SubResource("Resource_l063"), SubResource("Resource_l064"), SubResource("Resource_l065"), SubResource("Resource_l066"), SubResource("Resource_l067"), SubResource("Resource_l068"), SubResource("Resource_l069"), SubResource("Resource_l070"), SubResource("Resource_l071"), SubResource("Resource_l072"), SubResource("Resource_l073"), SubResource("Resource_l074"), SubResource("Resource_l075"), SubResource("Resource_l076"), SubResource("Resource_l077"), SubResource("Resource_l078"), SubResource("Resource_l079"), SubResource("Resource_l080"), SubResource("Resource_l081"), SubResource("Resource_l082"), SubResource("Resource_l083"), SubResource("Resource_l084"), SubResource("Resource_l085"), SubResource("Resource_l086"), SubResource("Resource_l087"), SubResource("Resource_l088"), SubResource("Resource_l089"), SubResource("Resource_l090"), SubResource("Resource_l091"), SubResource("Resource_l092"), SubResource("Resource_l093"), SubResource("Resource_l094"), SubResource("Resource_l095"), SubResource("Resource_l096"), SubResource("Resource_l097"), SubResource("Resource_l098"), SubResource("Resource_l099"), SubResource("Resource_l100"), SubResource("Resource_l101"), SubResource("Resource_l102"), SubResource("Resource_l103"), SubResource("Resource_l104"), SubResource("Resource_l105"), SubResource("Resource_l106"), SubResource("Resource_l107"), SubResource("Resource_l108"), SubResource("Resource_l109"), SubResource("Resource_l110"), SubResource("Resource_l111"), SubResource("Resource_l112"), SubResource("Resource_l113"), SubResource("Resource_l114"), SubResource("Resource_l115"), SubResource("Resource_l116"), SubResource("Resource_l117"), SubResource("Resource_l118"), SubResource("Resource_l119"), SubResource("Resource_l120"), SubResource("Resource_l121"), SubResource("Resource_l122"), SubResource("Resource_l123"), SubResource("Resource_l124"), SubResource("Resource_l125"), SubResource("Resource_l126"), SubResource("Resource_l127"), SubResource("Resource_l128"), SubResource("Resource_l129"), SubResource("Resource_l130"), SubResource("Resource_l131"), SubResource("Resource_l132"), SubResource("Resource_l133"), SubResource("Resource_l134"), SubResource("Resource_l135")])

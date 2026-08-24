@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_jm")
 name = "Мощь Йотуна"
+description = "Наносит 100% урона; получает бонус точности от тумана на 1 ход.."
 damage_modifier = 1.0
 majesty_gain = 0
 effect_types = Array[String](["self_fog_accuracy"])

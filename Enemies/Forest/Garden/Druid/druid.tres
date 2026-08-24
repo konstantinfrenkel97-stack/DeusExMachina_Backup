@@ -10,15 +10,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Друид"
+max_hp = 92
+damage = 20
+armor = 14
+initiative = 6
+accuracy = 84
+evasion = 14
+crit_chance = 0.1
 sprite_path = "res://Enemies/Forest/Garden/Druid/Druid.png"
 face_sprite = "res://Enemies/Forest/Garden/Druid/Druid_face.png"
 battle_sprite_scale_percent = 88.0
-max_hp = 70
-damage = 16
-armor = 8
-initiative = 4
-accuracy = 85
-evasion = 15
 special_effect_type = "druid_regen_aura"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_hg"), ExtResource("5_sg"), ExtResource("6_nw")])
 ai_script = ExtResource("3_ai")

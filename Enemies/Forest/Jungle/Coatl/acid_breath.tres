@@ -12,5 +12,5 @@ target_type = "Enemy"
 extra_targets_count = 2
 ability_marker = "coatl_acid_breath"
 usable_from_positions = Array[bool]([true, true, false, false])
-targetable_positions = Array[bool]([true, true, true, true])
+targetable_positions = Array[bool]([true, true, false, false])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_dekkl")
 name = "Рассекающий удар"
+description = "Наносит 100% урона; цель теряет 1 брони на 1 ход.."
 majesty_gain = 0
 effect_types = Array[String](["enemy_debuff_armor"])
 effect_values = {

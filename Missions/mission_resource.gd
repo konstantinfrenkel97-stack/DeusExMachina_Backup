@@ -70,7 +70,7 @@ const REQUIRED_GOD_PATHS: Array[String] = [
 @export_group("Localization")
 @export var mission_name_key: String = ""
 @export_group("")
-@export var scenes: Array = []
+@export var scenes: Array[MissionSceneResource] = []
 @export var location: Location = Location.NONE
 @export var required_god: RequiredGod = RequiredGod.NONE
 

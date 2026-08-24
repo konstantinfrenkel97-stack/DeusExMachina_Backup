@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="AbilityResource" format=3]
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://b5fnbv7qqf2jo"]
 
-[ext_resource type="Script" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Texture2D" uid="uid://dkxxskd7wccqv" path="res://Enemies/Forest/Marsh/Vodyanoy/Bolotnoye_tsarstvo_icon Aug 14, 2026, 10_21_14 AM (1).png" id="1_xyufi"]
 
 [resource]
 script = ExtResource("1_ab")
@@ -8,15 +9,9 @@ name = "Болотное царство"
 description = "Марка висит 2 хода. Копирует эффект локации на отмеченную цель. Нельзя выбрать позицию 1."
 damage_modifier = 0.0
 majesty_gain = 0
-target_type = "Enemy"
-mark_type_int = 2
-mark_target_team = "enemy"
-mark_position = 0
-mark_duration = 2
-mark_effect_type = "copy_location_effect"
-mark_effect_value = 0
-mark_effect_duration = 2
-ability_marker = "bolotnoe_tsarstvo"
-effect_types = Array[String]([])
-usable_from_positions = Array[bool]([true, true, true, true])
 targetable_positions = Array[bool]([false, true, true, true])
+ability_marker = "bolotnoe_tsarstvo"
+mark_type_int = 2
+mark_effect_type = "copy_location_effect"
+mark_effect_duration = 2
+mark_icon = ExtResource("1_xyufi")

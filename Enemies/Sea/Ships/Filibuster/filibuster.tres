@@ -10,16 +10,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Флибустьер"
+max_hp = 99
+damage = 41
+armor = 13
+initiative = 7
+accuracy = 87
+evasion = 16
+crit_chance = 0.15
 sprite_path = "res://Enemies/Sea/Ships/Filibuster/Флибустьер_nobg.png"
 face_sprite = "res://Enemies/Sea/Ships/Filibuster/Флибустьер_FAce.png"
 battle_sprite_scale_percent = 102.0
-max_hp = 75
-damage = 25
-armor = 8
-initiative = 6
-accuracy = 85
-evasion = 15
-crit_chance = 0.1
 special_effect_type = "filibuster_crit_luck"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_sf"), ExtResource("5_ik"), ExtResource("6_ps")])
 ai_script = ExtResource("3_ai")

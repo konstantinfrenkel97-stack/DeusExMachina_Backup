@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_tt")
 name = "Взять след"
+description = "Получает +10 атаки до конца боя; получает +10 точности до конца боя."
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"

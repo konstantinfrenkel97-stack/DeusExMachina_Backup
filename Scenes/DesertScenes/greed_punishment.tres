@@ -1,0 +1,96 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3 uid="uid://b4o78kc8w22sk"]
+
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Resource" uid="uid://bd1esrt7k0m1a" path="res://Enemies/Civilization/Desert/Immortal/Immortal.tres" id="ext_1"]
+[ext_resource type="Resource" uid="uid://bd6gb7v2wm6fs" path="res://Enemies/Civilization/Desert/Golden_Scarab/Golden_Scarab.tres" id="ext_2"]
+[ext_resource type="Resource" uid="uid://bd4mu5yq6k4dm" path="res://Enemies/Civilization/Desert/Mummy/Mummy.tres" id="ext_3"]
+[ext_resource type="Resource" uid="uid://dmvh76qge87c8" path="res://Essence/thoughts.tres" id="ext_4"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://dutn5fch4d8b5" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+
+[sub_resource type="Resource" id="sr_003"]
+script = ExtResource("outcome_script")
+result_text = "«Сам виноват, сам и расхлебывай». Человек проклинает вас и вашу черствость, а вы идете дальше, оставляя его наедине с проклятием и мумией."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_004"]
+script = ExtResource("choice_script")
+choice_text = "Мы не будем решать твои проблемы"
+outcome = SubResource("sr_003")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="sr_001"]
+script = ExtResource("formation_script")
+formation_name = "Стражи гробницы"
+pos1 = ExtResource("ext_1")
+pos2 = ExtResource("ext_2")
+pos3 = ExtResource("ext_2")
+pos4 = ExtResource("ext_3")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="sr_002"]
+script = ExtResource("battle_script")
+formation = SubResource("sr_001")
+location_id = "desert"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="sr_005"]
+script = ExtResource("outcome_script")
+result_text = "«Хорошо! Крипта — за той дюной. Просто убейте чертову мумию!» Вы отправляетесь к крипте, чтобы снять проклятие с незадачливого грабителя."
+battle = SubResource("sr_002")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_006"]
+script = ExtResource("choice_script")
+choice_text = "Ну ладно, мы одолеем мумию"
+outcome = SubResource("sr_005")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="sr_009"]
+script = ExtResource("outcome_script")
+result_text = "Вы тащите вора к крипте, но мумия не намерена разбираться в нюансах: проклятие распространяется и на вас! Эффект: начинается бой."
+battle = SubResource("sr_002")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_010"]
+script = ExtResource("stat_check_script")
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="sr_007"]
+script = ExtResource("reward_script")
+kind = 3
+resource = ExtResource("ext_4")
+amount = 1000
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="sr_008"]
+script = ExtResource("outcome_script")
+result_text = "Вы связываете вора и оставляете его у входа в крипту — пусть мумия сама разбирается с тем, кто ее ограбил. Из глубины слышно шипение и хруст. Выполнив «правосудие», стражи сокровищницы пропускают вас дальше. Эффект: вы получаете 1000 мыслей из сокровищницы и пропускаете бой."
+rewards = Array[ExtResource("reward_script")]([SubResource("sr_007")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_011"]
+script = ExtResource("choice_script")
+choice_text = "Отдать вора мумии"
+stat_check = SubResource("sr_010")
+success_outcome = SubResource("sr_008")
+failure_outcome = SubResource("sr_009")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Наказание за жадность"
+body_text = "По дюнам к вам бежит мужчина, размахивая руками и сжимая посеревшую, осыпающуюся левую руку.
+
+«Помогите! На меня пали злые чары! Неподалеку крипта, а в ней мумия — одолейте ее, чтобы снять проклятие!»
+
+Вы с сомнением смотрите на него. Очевидно, история неполна.
+
+«Ладно! Я хотел разграбить саркофаг, ясно?! Эта чертова мумия меня прокляла. Просто убейте ее!»"
+choices = Array[ExtResource("choice_script")]([SubResource("sr_004"), SubResource("sr_006"), SubResource("sr_011")])

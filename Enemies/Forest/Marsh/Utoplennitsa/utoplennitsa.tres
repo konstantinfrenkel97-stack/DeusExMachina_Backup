@@ -9,14 +9,16 @@
 [resource]
 script = ExtResource("5_a7wqx")
 unit_name = "Утопленница"
+max_hp = 48
+damage = 18
+armor = 5
+initiative = 6
+accuracy = 79
+evasion = 16
+crit_chance = 0.09
 sprite_path = "res://Enemies/Forest/Marsh/Utoplennitsa/Utoplennitsa.png"
 face_sprite = "res://Enemies/Forest/Marsh/Utoplennitsa/Utoplennitsa_Face.png"
 battle_sprite_scale_percent = 85.0
-max_hp = 70
-damage = 18
-initiative = 8
-accuracy = 85
-evasion = 15
 special_effect_type = "utoplennitsa_location_amplify"
 active_abilities = Array[ExtResource("1_7yjyw")]([ExtResource("2_jay8s"), ExtResource("3_2ylu4")])
 ai_script = ExtResource("4_uh7rh")

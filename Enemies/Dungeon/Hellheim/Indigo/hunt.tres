@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ht")
 name = "Охота"
+description = "Наносит 150% урона. Стойка: в начале следующего хода атакует доступную цель на 2-3 позиции с 150% урона и отступает назад."
 damage_modifier = 1.5
 majesty_gain = 0
 effect_types = Array[String](["self_push_back"])

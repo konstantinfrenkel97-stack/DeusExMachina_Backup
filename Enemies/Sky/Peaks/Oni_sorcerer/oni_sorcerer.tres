@@ -10,13 +10,16 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Красный Они"
+max_hp = 131
+damage = 64
+armor = 11
+initiative = 6
+accuracy = 91
+evasion = 11
+crit_chance = 0.15
 sprite_path = "res://Enemies/Sky/Peaks/Oni_sorcerer/Red_Oni.png"
 face_sprite = "res://Enemies/Sky/Peaks/Oni_sorcerer/Red_Oni_face.png"
-battle_sprite_scale_percent = 140.0
-max_hp = 60
-initiative = 8
-accuracy = 85
-evasion = 15
+battle_sprite_scale_percent = 70.0
 special_effect_type = "oni_rage"
 is_large = true
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_fb"), ExtResource("3_fr"), ExtResource("4_fp")])

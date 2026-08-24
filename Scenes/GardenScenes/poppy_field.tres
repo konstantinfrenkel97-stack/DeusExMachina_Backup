@@ -1,0 +1,195 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Flower_fairy/flower_fairy.tres" id="enemy_flower"]
+[ext_resource type="Resource" path="res://Gods/Duna/Duna.tres" id="god_duna"]
+[ext_resource type="Resource" path="res://Essence/thoughts.tres" id="res_thoughts"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+
+[sub_resource type="Resource" id="form_poppy"]
+script = ExtResource("formation_script")
+formation_name = "Маковое поле: фея цветов x4"
+pos1 = ExtResource("enemy_flower")
+pos2 = ExtResource("enemy_flower")
+pos3 = ExtResource("enemy_flower")
+pos4 = ExtResource("enemy_flower")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="check_evasion"]
+script = ExtResource("stat_check_script")
+stat = 3
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="reward_lose_thoughts"]
+script = ExtResource("reward_script")
+kind = 3
+resource = ExtResource("res_thoughts")
+amount = -600
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_v1_success"]
+script = ExtResource("outcome_script")
+result_text = "Часть вашего сознания бьется о черепную коробку, предупреждая об опасности, что так не должно быть, что у вас была цель и эта цель — не в том, чтобы заснуть на маковом поле. Но вы знаете, чего хотите. Все так просто и ясно. Незачем суетиться. Вы там, где должны быть. Мягкая волна обволакивает сознание, и теплое мягкое облако уносит вас вниз, вниз, вниз...
+Вы сами не знаете, как долго пролежали. Когда вы просыпаетесь, все тело ломит, и голова болит. Кое-как вы продираете глаза и встаете. Никакого поля красных цветов, вы на холме, покрытом травой. И вас полностью обобрали. Забрали оружие, ресурсы, ценности. Их, конечно, можно восстановить в мире фантазии, но это не пройдет даром."
+rewards = [SubResource("reward_lose_thoughts")]
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="buff_hero_init_minus2"]
+script = ExtResource("buff_script")
+stat = 6
+value = -2
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_hero_init_v1_fail"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_init_minus2")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v1_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_poppy")
+hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_hero_init_v1_fail")])
+location_id = "garden"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v1_fail"]
+script = ExtResource("outcome_script")
+result_text = "Часть вашего сознания бьется о черепную коробку, предупреждая об опасности, что так не должно быть, что у вас была цель и эта цель — не в том, чтобы заснуть на маковом поле. Вы стараетесь прогнать навязчивого вторженца, но он слишком шумен. Постепенно через туман расслабления пробивается ветер тревоги. Вы в опасности. Отряд начинает двигаться.
+Тогда ваши противники и обнаруживают себя. Вы слышите мягкий шелест крыльев, и чувствуете, что туман в голове становится гуще. Поднимая голову, вы видите зеленых фей с крыльями бабочки. С каждым взмахом, с них сыплется пыльца, и когда вы вдыхаете пыльцу, вам все легче и приятнее.
+Похоже, они не намерены отпускать вас просто так. Если вы хотите сохранить власть над своим сознанием, придется дать бой."
+battle = SubResource("battle_v1_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v1"]
+script = ExtResource("choice_script")
+choice_text = "Поддаться искушению"
+stat_check = SubResource("check_evasion")
+success_outcome = SubResource("out_v1_success")
+failure_outcome = SubResource("out_v1_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_max_hp"]
+script = ExtResource("stat_check_script")
+stat = 6
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="battle_v2_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_poppy")
+location_id = "garden"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v2_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы не согласны сдаться запаху цветов. Отряд начинает двигаться быстрее, периодически давая оплеухи тому, кто замедляется и начинает погружаться в себя. Вы слышите шелест крыльев. Над вами яркие феи вьют круг, осыпая вас дождем из пыльцы. Вы стараетесь не дышать, поскольку чувствуете, как, вдыхая пыльцу, вы расслабляетесь, и чужеродная ласка сильнее массирует мозг.
+Но вы не ломаетесь, и вскоре красное море цветов сменяется зеленым. Вы выбегаете на траву, и свежий ветер выдувает морок из вашего сознания. Феи опускаются с неба, формируя кольцо вокруг вас. Их насекомые конечности угрожающе изогнуты, и вы слышите легкую вибрацию воздуха их разговоров. Словно едва заметный звон колокольчика. Похоже, просто так они вас не отпустят."
+battle = SubResource("battle_v2_success")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="buff_hero_accuracy_minus20"]
+script = ExtResource("buff_script")
+stat = 2
+value = -20
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_hero_accuracy_v2_fail"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_accuracy_minus20")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v2_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_poppy")
+hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_hero_accuracy_v2_fail")])
+location_id = "garden"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v2_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы не согласны сдаться запаху цветов. Отряд начинает двигаться быстрее, периодически давая оплеухи тому, кто замедляется и начинает погружаться в себя. Вы слышите шелест крыльев. Над вами яркие феи вьют круг, осыпая вас дождем из пыльцы. Вы стараетесь не дышать, поскольку чувствуете, как, вдыхая пыльцу, вы расслабляетесь, и чужеродная ласка сильнее массирует мозг.
+Но красному морю нет конца. Феи неумолимо осыпают вас пыльцой. Похоже, вы не сможете сбежать, прежде чем ваш мозг превратится в сладкую кашу. Придется принимать бой как есть."
+battle = SubResource("battle_v2_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v2"]
+script = ExtResource("choice_script")
+choice_text = "Сопротивляться наваждению"
+stat_check = SubResource("check_max_hp")
+success_outcome = SubResource("out_v2_success")
+failure_outcome = SubResource("out_v2_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_majesty"]
+script = ExtResource("stat_check_script")
+stat = 0
+stat_label = "Величие"
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_v3_success"]
+script = ExtResource("outcome_script")
+result_text = "Дуна встает на колени и погружает пальцы в мягкую почву. Закидывает голову и закрывает глаза, словно слушая что-то внутри собственной головы. Внезапно вы чувствуете, что приятный туман в голове начинает отступать. Не растворяется, его будто что-то высасывает.
+А параллельно, красные цветы вокруг начинают закрываться. Словно само поле засыпает — цветы сворачивают бутоны. Краснота отступает, показывая зелень. И наконец, к вам возвращается ясное сознание. Точнее, вы видите и чувствуете даже четче, чем раньше.
+С неба спускаются несколько зеленых фей. Воздух наполняется странным мягким дребезжанием. Словно краем уха вы слышите далекий колокольчик.
+Дуна открывает рот, и к звону колокольчиков присоединяется еще один. Вы не знаете, как она может издавать такой нечеловеческий звук, но феи реагируют. Их хитинистые тела расслабляются, крылья бьют медленнее. Дуна вытягивает вперед руки, ладонями наружу. Одна за другой, цветочные феи подлетают и мягко прикладываются лбами к ее ладоням. После чего мягко и расслабленно улетают.
+Вы не понимаете ни значения ритуала, ни того, о чем богиня разговаривала с феями.
+Когда все феи улетают, Дуна возвращается к вам. На ее лице тень думы.
+«Я начинаю понимать, что происходит с этим местом. По крайней мере, понимаю лучше.»
+Эффект: следующий бой против Немезиса Дуна начнет с +10 величия."
+hero_majesty_delta = 10
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="buff_hero_accuracy_plus10"]
+script = ExtResource("buff_script")
+stat = 2
+value = 10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_hero_accuracy_v3_fail"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_accuracy_plus10")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v3_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_poppy")
+hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_hero_accuracy_v3_fail")])
+location_id = "garden"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v3_fail"]
+script = ExtResource("outcome_script")
+result_text = "Дуна встает на колени и погружает пальцы в мягкую почву. Закидывает голову и закрывает глаза, словно слушая что-то внутри собственной головы. Внезапно вы чувствуете, что приятный туман в голове начинает отступать. Не растворяется, его будто что-то высасывает.
+А параллельно, красные цветы вокруг начинают закрываться. Словно само поле засыпает — цветы сворачивают бутоны. Краснота отступает, показывая зелень. И наконец, к вам возвращается ясное сознание. Точнее, вы видите и чувствуете даже четче, чем раньше.
+С неба спускаются несколько зеленых фей. Воздух наполняется странным мягким дребезжанием. Словно краем уха вы слышите далекий колокольчик.
+Дуна открывает рот, и к звону колокольчиков присоединяется еще один. Вы не знаете, как она может издавать такой нечеловеческий звук.
+Звон становится все громче. Вы начинаете беспокоиться. Дуна продолжает что-то говорить феям своим волшебным звоном. Те начинают сжимать свои хитиновые кулаки. Наконец, посреди своей очередной речи, она поворачивает глаза на вас и говорит совершенно по-человечески.
+«Они сейчас нападут.»
+Вы бросаетесь к богине в тот же момент, что и рой фей. Но в этот раз, над вами не властен морок макового поля."
+battle = SubResource("battle_v3_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v3"]
+script = ExtResource("choice_script")
+choice_text = "Усыпить цветочное поле"
+required_god = ExtResource("god_duna")
+stat_check = SubResource("check_majesty")
+success_outcome = SubResource("out_v3_success")
+failure_outcome = SubResource("out_v3_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Маковое поле"
+body_text = "Вы чувствуете сладкий запах. Он едва касается вашего нюха, и поначалу его легко игнорировать. Но вскоре вы начинаете испытывать ощущение, будто кто-то массирует мозг кончиками пальцев. Вокруг вас ярко-красные цветы. Полное поле, до горизонта. Вы не помните, как вошли в него.
+Вы не помните, зачем вы вообще сюда пришли. Но вы чувствуете, как под черепом проходит приятная щекотка. Так ли уж нужно идти дальше? Может, стоит просто задержаться и насладиться ощущением чуть дольше?"
+choices = [SubResource("choice_v1"), SubResource("choice_v2"), SubResource("choice_v3")]

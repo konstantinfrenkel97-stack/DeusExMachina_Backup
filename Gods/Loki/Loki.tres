@@ -11,12 +11,15 @@
 [resource]
 script = ExtResource("7_cr")
 unit_name = "Локи"
-sprite_path = "res://Gods/Loki/Loki_3.png"
+sprite_path = "res://Gods/Loki/Loki.png"
 face_sprite = "res://Gods/Loki/Loki_Face.png"
 battle_sprite_scale_percent = 88.0
-max_hp = 90
-initiative = 12
-crit_chance = 0.1
+max_hp = 85
+damage = 35
+initiative = 8
+accuracy = 75
+evasion = 20
+crit_chance = 0.15
 is_enemy = false
 special_effect_type = "loki_crit_stun"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_cs"), ExtResource("3_td"), ExtResource("4_rp"), ExtResource("5_ma")])

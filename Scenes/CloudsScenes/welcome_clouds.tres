@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Enemies/Sky/Clouds/Bird_knife_wings/bird_knife_wings.tres" id="ext_1"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Clouds/Cupid/cupid.tres" id="ext_2"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+
+[sub_resource type="Resource" id="sr_001"]
+script = ExtResource("formation_script")
+formation_name = "Крылатые стражи"
+pos1 = ExtResource("ext_1")
+pos2 = ExtResource("ext_1")
+pos3 = ExtResource("ext_2")
+pos4 = null
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="sr_002"]
+script = ExtResource("battle_script")
+formation = SubResource("sr_001")
+location_id = "clouds"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="sr_003"]
+script = ExtResource("outcome_script")
+result_text = "Крылатые фигуры стремительно приближаются к вам через облака. Бой начинается."
+battle = SubResource("sr_002")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_004"]
+script = ExtResource("choice_script")
+choice_text = "Облака приветствуют вас"
+outcome = SubResource("sr_003")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Добро пожаловать на Облака"
+body_text = "Вы вступаете на облака. Мозг бунтует и паникует, опасаясь, что мягкая субстанция не выдержит веса, и вы провалитесь. Огромные дыры в белой поверхности, через которые видна далекая земля, не улучшают ситуацию. Но кого высота не беспокоит — это Чернобог. Тяжело взмахивая широкими черными крыльями и не шевеля ни руками, ни ногами, он несет свое тело над поверхностью облаков. Вы слышите только взмахи и непрерывный свист от воздуха, исчезающего в пустоте его лица.\n\nНаконец вы убеждаетесь, что обманчиво мягкая поверхность действительно вас выдерживает, и начинаете поспешно двигаться за вашим крылатым проводником. Когда проходит головокружение, вы обращаете внимание на то, что пейзаж вокруг вас хоть и однообразен, но сказочно красив.\n\nКогда вы приближаетесь к Чернобогу, машущему крыльями на одном месте, вы слышите его гулкий голос.\n«НЕБО… БРАТ… ПУСТО…»\n\nВы замечаете несколько крылатых фигур, летящих к вам через облака.\n«БРАТ… УБИВАТЬ…»\n\nНо не похоже, что это брат Чернобога."
+choices = [SubResource("sr_004")]

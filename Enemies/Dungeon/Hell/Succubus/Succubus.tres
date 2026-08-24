@@ -10,12 +10,16 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Суккуб"
+max_hp = 95
+damage = 23
+armor = 13
+initiative = 6
+accuracy = 87
+evasion = 13
+crit_chance = 0.1
 sprite_path = "res://Enemies/Dungeon/Hell/Succubus/Succubus.png"
 face_sprite = "res://Enemies/Dungeon/Hell/Succubus/Succubus_face.png"
 battle_sprite_scale_percent = 106.0
-max_hp = 85
-damage = 12
-initiative = 8
 special_effect_type = "succubus_god_resist"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("3_a1"), ExtResource("4_a2"), ExtResource("5_a3")])
 ai_script = ExtResource("2_ai")

@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_lg")
 name = "Погнали"
+description = "Продвигается вперёд на 2 позицию; получает +30 точности на 3 ход.."
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"

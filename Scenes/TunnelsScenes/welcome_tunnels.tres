@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+
+[sub_resource type="Resource" id="out_welcome"]
+script = ExtResource("outcome_script")
+result_text = ""
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_welcome"]
+script = ExtResource("choice_script")
+choice_text = "Продолжить"
+outcome = SubResource("out_welcome")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Добро пожаловать в Тоннели"
+body_text = "Вы отворяете широкие металлические ворота и вступаете в подземье. Сырые каменные пещеры чередуются с ровными тоннелями, поддерживаемыми толстыми колоннами и украшенными угловатой резьбой. Их освещают многочисленные факелы и светильники. Вы вступили в царство дворфов.\n\nНо, похоже, не они одни заняли эти места. Продвигаясь по одному из коридоров, вы обнаруживаете два глубоких следа в каменной кладке, рядом с обломками колонны. Быстрый осмотр приводит вас к очевидному выводу — кто-то уперся здесь ногами в пол, чтобы выломать колонну, да так сильно, что продавил даже камень. Боги тревожно переглядываются от такого зрелища. Все, кроме одного.\n\n«Ха! Я знал, что выбрал правильное место! Вы только посмотрите! Какая силища должна быть у этого великана!»\n\nТор радостно скачет к другой колонне и, уперевшись в нее обеими руками, начинает давить. Вы видите, как наливаются кровью и набухают мышцы на его могучих руках и спине. Но не похоже, что колонна будет сдвинута.\n\nТор начинает рычать. Его плечи начинают блестеть от пота. Он напрягается и выгибается все сильнее, с колонны начинает сыпаться каменная пыль. Кажется, еще немного — и тело бога сломается пополам. Наконец он убирает руки.\n\n«Мда, не получается. Ну да ничего, чай я тут под землей поднаберусь силенок, и посмотрим тогда, кто тут крутая каменная колонна.»\n\nОн уходит дальше, и вы следуете за ним, но замечаете, как в двух местах та самая колонна пошла трещинами от двух вмятин в виде человеческих рук."
+choices = [SubResource("choice_welcome")]

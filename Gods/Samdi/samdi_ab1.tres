@@ -7,6 +7,7 @@ script = ExtResource("1_ab")
 icon_path = "uid://bo05cjrh10ruo"
 name = "Выпей со смертью"
 description = "Я и цель получаем 0.5 периодического урона на 2 хода"
+majesty_gain = 25
 usable_from_positions = Array[bool]([false, true, true, true])
 ability_marker = "samdi_drink_with_death"
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

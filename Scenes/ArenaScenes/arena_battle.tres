@@ -1,0 +1,142 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Arena/Hoplite/Hoplite.tres" id="enemy_hoplite"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Arena/Gladiator/Gladiator.tres" id="enemy_gladiator"]
+
+[sub_resource type="Resource" id="form_arena_battle"]
+script = ExtResource("formation_script")
+formation_name = "Бой на арене: Гоплит-Гладиатор-Гладиатор-Гоплит"
+pos1 = ExtResource("enemy_hoplite")
+pos2 = ExtResource("enemy_gladiator")
+pos3 = ExtResource("enemy_gladiator")
+pos4 = ExtResource("enemy_hoplite")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_v1"]
+script = ExtResource("battle_script")
+formation = SubResource("form_arena_battle")
+location_id = "arena"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v1"]
+script = ExtResource("outcome_script")
+result_text = "Вы выходите, чтобы встретить вашего соперника. Только честный бой, никаких уловок."
+battle = SubResource("battle_v1")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v1"]
+script = ExtResource("choice_script")
+choice_text = "Да начнется бой"
+outcome = SubResource("out_v1")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("stat_check_script")
+stat = 4
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="buff_enemy_accuracy_minus15_1round"]
+script = ExtResource("buff_script")
+stat = 2
+value = -15
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_enemy_accuracy_minus15_1round_all"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_enemy_accuracy_minus15_1round")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v2_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_arena_battle")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_enemy_accuracy_minus15_1round_all")])
+location_id = "arena"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v2_success"]
+script = ExtResource("outcome_script")
+result_text = "Подмиг судье, маленькие незаметные хитрости. Ваши противники вскоре понимают, что вы деретесь грязно, но сделать ничего не могут. Вы отлично понимаете, что делаете."
+battle = SubResource("battle_v2_success")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="battle_v2_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_arena_battle")
+location_id = "arena"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v2_fail"]
+script = ExtResource("outcome_script")
+result_text = "Подмиг судье, маленькие незаметные хитрости. Но публика замечает ваши трюки. Вас освистывают и поносят. Судья не удаляет команду, но этот бой вам придется провести под улюлюканье толпы."
+battle = SubResource("battle_v2_fail")
+hero_majesty_delta = -10
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v2"]
+script = ExtResource("choice_script")
+choice_text = "Немного хитрости бой не испортит"
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_v2_success")
+failure_outcome = SubResource("out_v2_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+stat_label = "Удача"
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="buff_enemy_accuracy_minus15_battle"]
+script = ExtResource("buff_script")
+stat = 2
+value = -15
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_enemy_accuracy_minus15_battle_all"]
+script = ExtResource("unit_modifier_script")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_enemy_accuracy_minus15_battle")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v3_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_arena_battle")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_enemy_accuracy_minus15_battle_all")])
+location_id = "arena"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v3_success"]
+script = ExtResource("outcome_script")
+result_text = "Ваше жульничество наглое и демонстративное. Вражеская команда совершенно сбита с толку, а зрители негодуют. Но то ли в результате вашей подготовки, то ли счастливого стечения обстоятельств — вас не удаляют. Противники же вынуждены терпеть худший бой в своей жизни."
+battle = SubResource("battle_v3_success")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_v3_fail"]
+script = ExtResource("outcome_script")
+result_text = "Ваше жульничество наглое и демонстративное. Толпа негодующе ревет, а судья выбегает на арену. Диктор торжествующе объявляет, что вас удаляют с арены сегодня. Вы были слишком наглыми в своих махинациях. Но ничего, возможность еще представится."
+end_mission_as_failure = true
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v3"]
+script = ExtResource("choice_script")
+choice_text = "Мы будем нагло жульничать"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_v3_success")
+failure_outcome = SubResource("out_v3_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Бой на арене"
+body_text = "«ОТРЯД ВЕЛИКОЛЕПНОГО СЕЕЕЕЕТААААААА!»
+Вас ослепляет солнце и оглушает рев толпы. Вы выходите на арену. Кто-то из вашего отряда заводит толпу, кто-то безразлично идет в сторону противников. Они стоят в дальнем углу. Опытные воины, покрытые шрамами. Мясо, которое арена пожрет и переварит."
+choices = [SubResource("choice_v1"), SubResource("choice_v2"), SubResource("choice_v3")]

@@ -1,0 +1,156 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" load_steps=20 format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="1_scene"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="3_outcome"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="4_battle"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="5_unitmod"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="6_buff"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="7_statcheck"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="8_formation"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Peaks/Cyclopes/cyclops.tres" id="9_cyclops"]
+[ext_resource type="Resource" path="res://Gods/Zeus/zeus.tres" id="10_zeus"]
+
+[sub_resource type="Resource" id="form_one_cyclops"]
+script = ExtResource("8_formation")
+formation_name = "Циклоп"
+pos1 = ExtResource("9_cyclops")
+metadata/_custom_type_script = ExtResource("8_formation")
+
+[sub_resource type="Resource" id="form_two_cyclops"]
+script = ExtResource("8_formation")
+formation_name = "Циклоп-Циклоп"
+pos1 = ExtResource("9_cyclops")
+pos3 = ExtResource("9_cyclops")
+metadata/_custom_type_script = ExtResource("8_formation")
+
+[sub_resource type="Resource" id="buff_cyclops_dmg10"]
+script = ExtResource("6_buff")
+stat = 0
+value = 10
+duration = -1
+metadata/_custom_type_script = ExtResource("6_buff")
+
+[sub_resource type="Resource" id="mod_cyclops_ambush_bonus"]
+script = ExtResource("5_unitmod")
+hp_percent = 80
+buffs = Array[ExtResource("6_buff")]([SubResource("buff_cyclops_dmg10")])
+metadata/_custom_type_script = ExtResource("5_unitmod")
+
+[sub_resource type="Resource" id="battle_v1"]
+script = ExtResource("4_battle")
+formation = SubResource("form_one_cyclops")
+enemy_modifiers = Array[ExtResource("5_unitmod")]([SubResource("mod_cyclops_ambush_bonus")])
+location_id = "mountains"
+metadata/_custom_type_script = ExtResource("4_battle")
+
+[sub_resource type="Resource" id="out_v1"]
+script = ExtResource("3_outcome")
+result_text = "Лучшей возможности расправиться с противником вам не предоставится. Он открыт и уязвим. Стоило циклопу нагнуться за следующим камнем, как весь ваш отряд обрушил на него ярость своего оружия. Он упал на землю, раненый, но вскоре встал. Зрачок в глазу яростно сузился до размеров монеты."
+battle = SubResource("battle_v1")
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="choice_v1"]
+script = ExtResource("2_choice")
+choice_text = "Это шанс застать его врасплох"
+outcome = SubResource("out_v1")
+metadata/_custom_type_script = ExtResource("2_choice")
+
+[sub_resource type="Resource" id="check_evasion"]
+script = ExtResource("7_statcheck")
+stat = 3
+metadata/_custom_type_script = ExtResource("7_statcheck")
+
+[sub_resource type="Resource" id="out_v2_success"]
+script = ExtResource("3_outcome")
+result_text = "Вы молча наблюдаете за упражнениями циклопа. Он снова и снова кидает булыжник в сторону рыжей скалы, вы замечаете, что с точностью у него не очень. К счастью, вы вовремя слышите приближающиеся тяжелые шаги и шмыгаете за камни. К циклопу-стрелку быстро подходит второй циклоп и начинает яростно жестикулировать. С растерянным видом, здоровяк начинает жестикулировать в ответ. Какое-то время они молча спорят. Новый циклоп периодически прерывает их разговор, отводя глаз и оглядывая ближайшие камни, словно ища кого-то. Вы пользуетесь возможностью и уходите, не ввязываясь в потенциальную битву."
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="mod_second_cyclops_bonus"]
+script = ExtResource("5_unitmod")
+target_position = 3
+hp_percent = 80
+buffs = Array[ExtResource("6_buff")]([SubResource("buff_cyclops_dmg10")])
+metadata/_custom_type_script = ExtResource("5_unitmod")
+
+[sub_resource type="Resource" id="battle_v2_fail"]
+script = ExtResource("4_battle")
+formation = SubResource("form_two_cyclops")
+enemy_modifiers = Array[ExtResource("5_unitmod")]([SubResource("mod_second_cyclops_bonus")])
+location_id = "mountains"
+metadata/_custom_type_script = ExtResource("4_battle")
+
+[sub_resource type="Resource" id="out_v2_fail"]
+script = ExtResource("3_outcome")
+result_text = "Вы молча наблюдаете за упражнениями циклопа. Он снова и снова кидает булыжник в сторону рыжей скалы, вы замечаете, что с точностью у него не очень. К счастью, вы вовремя слышите приближающиеся тяжелые шаги и шмыгаете за камни. К циклопу-стрелку быстро подходит второй циклоп и начинает яростно жестикулировать. С растерянным видом, здоровяк начинает жестикулировать в ответ. Какое-то время они молча спорят. Новый циклоп периодически прерывает их разговор, отводя глаз и оглядывая ближайшие камни, словно ища кого-то. Наконец он вскидывает руки и, схватив булыжник, метает его прямо в сторону вашего укрытия. Тот разбивается на осколки, обдав вас болезненной лавиной каменьев поменьше. Циклоп, который до этого метал камни, также берет один, но медленно и неохотно."
+battle = SubResource("battle_v2_fail")
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="choice_v2"]
+script = ExtResource("2_choice")
+choice_text = "Молча наблюдать"
+stat_check = SubResource("check_evasion")
+success_outcome = SubResource("out_v2_success")
+failure_outcome = SubResource("out_v2_fail")
+metadata/_custom_type_script = ExtResource("2_choice")
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("7_statcheck")
+stat = 4
+metadata/_custom_type_script = ExtResource("7_statcheck")
+
+[sub_resource type="Resource" id="buff_zeus_accuracy15"]
+script = ExtResource("6_buff")
+stat = 2
+value = 15
+duration = -1
+metadata/_custom_type_script = ExtResource("6_buff")
+
+[sub_resource type="Resource" id="out_v3_success"]
+script = ExtResource("3_outcome")
+result_text = "«Хмм, а ведь я когда-то имел дело с циклопами. Может и с этим смогу до чего договориться.»
+Зевс отделяется от вашего отряда и взлетает на уровень взгляда циклопа. Тот замирает, внимательно глядя на человека. Зевс начинает молча делать жесты руками. Циклоп сначала осторожно, потом все энергичнее начинает жестикулировать в ответ. Какое-то время они общаются.
+«Ну что ж, мы славно пообщались. Хороший это парень.»
+С этими словами Зевс резко поворачивается в ту сторону, куда циклоп швырял камни, и резко метает свое копье-молнию в рыжую скалу. Та с громом ударяет рядом, не попав. Циклоп делает неопределенный жест рукой, и также метает булыжник в сторону скалы, но не попадает. Зевс снова метает молнию.
+Горы наполняются громом и грохотом. Великан и бог соревнуются в меткости, обстреливая рыжую скалу. Вы с тревогой замечаете, что уже несколько циклопов пришли на звук и наблюдают за соревнованием. Молния, булыжник, молния, булыжник.
+Наконец, с треском рыжая скала раскалывается от удара молнии. С торжествующим криком, покрывшись ореолом из молний, Зевс яростно взлетает в небо, и исчезает в тучах. Все циклопы тяжело аплодируют, их грохот от их ладоней разносится по горам.
+Наконец Зевс спускается с неба. Вы замечаете, что он сильно вспотел.
+«Ух! Видели да? Как я его! Вот вам и Зевс Громовержец! Есть еще заряд в моих тучах.»
+Он медленно опускается на плато.
+«Хорошая разминка. Давно я не тренировался в меткости.»
+Его прерывает циклоп-метатель. Опустившись на одно колено перед соперником, он торжественно вручает приз победителю. Это камень. Вы замечаете, что этот камень довольно красивый. А еще огромный. Когда Зевс берет его в руки, мышцы вздуваются и покрываются жилами. Циклопы аплодируют. Ваш отряд присоединяется к аплодисментам."
+target_god = ExtResource("10_zeus")
+target_buffs = Array[ExtResource("6_buff")]([SubResource("buff_zeus_accuracy15")])
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="out_v3_fail"]
+script = ExtResource("3_outcome")
+result_text = "«Хмм, а ведь я когда-то имел дело с циклопами. Может и с этим смогу до чего договориться.»
+Зевс отделяется от вашего отряда и взлетает на уровень взгляда циклопа. Тот замирает, внимательно глядя на человека. Зевс начинает молча делать жесты руками. Циклоп сначала осторожно, потом все энергичнее начинает жестикулировать в ответ. Какое-то время они общаются.
+«Ну что ж, мы славно пообщались. Хороший это парень.»
+С этими словами Зевс резко поворачивается в ту сторону, куда циклоп швырял камни, и резко метает свое копье-молнию в рыжую скалу. Та с громом ударяет рядом, не попав. Циклоп делает неопределенный жест рукой, и также метает булыжник в сторону скалы, но не попадает. Зевс снова метает молнию.
+Горы наполняются громом и грохотом. Великан и бог соревнуются в меткости, обстреливая рыжую скалу. Вы с тревогой замечаете, что уже несколько циклопов пришли на звук и наблюдают за соревнованием. Молния, булыжник, молния, булыжник.
+Наконец, с треском булыжник врезается в рыжую скалу. Циклоп аж подпрыгивает от радости и начинает танцевать, скача на толстых ногах. Аккомпанементом ему служат оглушительные аплодисменты от других циклопов. Аплодирует также и Зевс.
+«Хорош! Хорош!»
+Наконец он подходит к вам. По седым бровям стекают капли пота и электричества.
+«Хорошая разминка. Давно я не тренировался в меткости.»"
+target_god = ExtResource("10_zeus")
+target_buffs = Array[ExtResource("6_buff")]([SubResource("buff_zeus_accuracy15")])
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="choice_v3"]
+script = ExtResource("2_choice")
+choice_text = "Посоревноваться в меткости с циклопом"
+required_god = ExtResource("10_zeus")
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_v3_success")
+failure_outcome = SubResource("out_v3_fail")
+metadata/_custom_type_script = ExtResource("2_choice")
+
+[resource]
+script = ExtResource("1_scene")
+scene_title = "Испытание циклопа"
+body_text = "Вы слышите грохот вблизи от себя. Отряд быстро укрывается, среди скал высматривая противника. Грохот звучит еще раз, но чуть дальше. Потом еще раз, но чуть ближе. Выглянув, вы убеждаетесь, что кто-то метает булыжники в вашем направлении. Тихо пробираясь среди камней, вы двигаетесь в сторону противника.
+Его легко обнаружить, ведь поток камней летит почти без перерыва. Огромный циклоп, куда больше, чем вам доводилось видеть, стоит на плато, а рядом с ним куча обломков скал. Он берет и запускает их вдаль, туда, где вы раньше находились. Когда он поворачивается за очередным снарядом, его взгляд пересекается с вашим. Огромный зрачок сужается, но циклоп только берет очередной снаряд и, развернувшись, метает вдаль.
+Вы следите взглядом за полетом камня. Он приземляется неподалеку от скалы с ярко рыжим кончиком. Ее вы заметили краем глаза, когда впервые услышали грохот. Этот циклоп не кажется агрессивным, что нетипично для их вида. Вы осмеливаетесь выйти из укрытия и открыто встать рядом с ним. Он не обращает на вас внимания, продолжая запускать камни один за другим в сторону рыжей скалы."
+choices = [SubResource("choice_v1"), SubResource("choice_v2"), SubResource("choice_v3")]

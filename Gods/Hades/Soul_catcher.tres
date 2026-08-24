@@ -6,6 +6,7 @@
 script = ExtResource("1_sc")
 icon_path = "uid://cs5kg8xp3gsye"
 name = "Ловец душ"
+description = "Союзник восстанавливает 15% максимального здоровья. Тратит 15 фантазии."
 damage_modifier = 0.0
 target_type = "Ally"
 ability_marker = "hades_soul_catcher"

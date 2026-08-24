@@ -3,30 +3,31 @@ extends Control
 const FIRST_DIALOGUE_PATH := "res://Dialogues/Introduction/First_dialogue.tres"
 const SECOND_DIALOGUE_PATH := "res://Dialogues/Introduction/Second_intro_dialogue.tres"
 const THIRD_DIALOGUE_PATH := "res://Dialogues/Introduction/Third_intro_dialogue.tres"
+const FIND_GARDEN_DIALOGUE_PATH := "res://Dialogues/Instructions/Find_garden_of_creation.tres"
 const CAMPAIGN_SCREEN_PATH := "res://Campaign/campaign_screen.tscn"
-const BG_WORLD := "res://Background/Campaign_Background.png"
+const BG_WORLD := "res://Background/World.png"
 const BG_CAMPAIGN := "res://Background/Campaign_Background.png"
 const BG_LIBRARY := "res://Background/Library.png"
-const MENU_BG_COLOR := Color(0.008, 0.008, 0.298, 1)
-const MENU_BTN_HOVER_COLOR := Color(0.05, 0.05, 0.388, 1)
-const MENU_BTN_PRESSED_COLOR := Color(0.078, 0.078, 0.43, 1)
+const MENU_BG_COLOR := Color(0.0, 0.0, 0.0, 1.0)
+const MENU_BTN_HOVER_COLOR := Color(0.02, 0.017, 0.012, 1.0)
+const MENU_BTN_PRESSED_COLOR := Color(0.045, 0.034, 0.018, 1.0)
 
 var _dialog_overlay: Control
 
 func _ready() -> void:
 	var menu = $Center/VBoxContainer
 	for btn in menu.get_children():
-		btn.custom_minimum_size = Vector2(300, 64)
-		btn.add_theme_font_size_override("font_size", 28)
+		btn.custom_minimum_size = Vector2(254, 58)
+		btn.add_theme_font_size_override("font_size", 32)
 		btn.add_theme_stylebox_override("normal", _make_menu_btn_style(MENU_BG_COLOR))
 		btn.add_theme_stylebox_override("hover", _make_menu_btn_style(MENU_BTN_HOVER_COLOR))
 		btn.add_theme_stylebox_override("pressed", _make_menu_btn_style(MENU_BTN_PRESSED_COLOR))
 		btn.add_theme_stylebox_override("focus", _make_menu_btn_style(MENU_BG_COLOR))
-		btn.add_theme_color_override("font_color", Color.WHITE)
-		btn.add_theme_color_override("font_hover_color", Color.WHITE)
-		btn.add_theme_color_override("font_pressed_color", Color.WHITE)
-		btn.add_theme_color_override("font_focus_color", Color.WHITE)
-	menu.add_theme_constant_override("separation", 10)
+		btn.add_theme_color_override("font_color", Color(0.94, 0.91, 0.84, 1.0))
+		btn.add_theme_color_override("font_hover_color", Color(1.0, 0.95, 0.78, 1.0))
+		btn.add_theme_color_override("font_pressed_color", Color(1.0, 0.86, 0.55, 1.0))
+		btn.add_theme_color_override("font_focus_color", Color(0.94, 0.91, 0.84, 1.0))
+	menu.add_theme_constant_override("separation", 1)
 	menu.get_node("NewGameButton").pressed.connect(_on_new_game_pressed)
 	menu.get_node("LoadButton").pressed.connect(_on_load_pressed)
 	menu.get_node("StartButton").pressed.connect(_on_start_button_pressed)
@@ -36,14 +37,19 @@ func _ready() -> void:
 func _make_menu_btn_style(bg: Color) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
 	style.bg_color = bg
-	style.corner_radius_top_left = 8
-	style.corner_radius_top_right = 8
-	style.corner_radius_bottom_left = 8
-	style.corner_radius_bottom_right = 8
-	style.content_margin_left = 18.0
-	style.content_margin_right = 18.0
-	style.content_margin_top = 8.0
-	style.content_margin_bottom = 8.0
+	style.corner_radius_top_left = 0
+	style.corner_radius_top_right = 0
+	style.corner_radius_bottom_left = 0
+	style.corner_radius_bottom_right = 0
+	style.border_width_top = 1
+	style.border_width_bottom = 1
+	style.border_width_left = 1
+	style.border_width_right = 1
+	style.border_color = Color(0.62, 0.49, 0.28, 1.0)
+	style.content_margin_left = 8.0
+	style.content_margin_right = 8.0
+	style.content_margin_top = 2.0
+	style.content_margin_bottom = 2.0
 	return style
 
 func _on_new_game_pressed() -> void:
@@ -83,6 +89,18 @@ func _play_third_dialogue() -> void:
 	call_deferred("_open_campaign_screen")
 
 func _on_third_dialogue_finished(_dialogue_id: String) -> void:
+	call_deferred("_play_find_garden_dialogue")
+
+func _play_find_garden_dialogue() -> void:
+	if ResourceLoader.exists(FIND_GARDEN_DIALOGUE_PATH):
+		if DialogueManager.dialogue_finished.is_connected(_on_find_garden_dialogue_finished):
+			DialogueManager.dialogue_finished.disconnect(_on_find_garden_dialogue_finished)
+		DialogueManager.dialogue_finished.connect(_on_find_garden_dialogue_finished, CONNECT_ONE_SHOT)
+		DialogueManager.show_dialogue_path(FIND_GARDEN_DIALOGUE_PATH, BG_CAMPAIGN)
+		return
+	call_deferred("_open_campaign_screen")
+
+func _on_find_garden_dialogue_finished(_dialogue_id: String) -> void:
 	call_deferred("_open_campaign_screen")
 
 func _open_campaign_screen() -> void:
@@ -191,6 +209,14 @@ func _show_load_dialog() -> void:
 	vb.add_child(cancel_btn)
 
 	add_child(_dialog_overlay)
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+		if _dialog_overlay != null and is_instance_valid(_dialog_overlay):
+			_close_dialog()
+			var viewport := get_viewport()
+			if viewport != null:
+				viewport.set_input_as_handled()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:

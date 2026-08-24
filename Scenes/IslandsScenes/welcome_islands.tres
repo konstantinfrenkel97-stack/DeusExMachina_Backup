@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Enemies/Sea/Islands/Cappa_warrior/cappa_warrior.tres" id="ext_1"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Islands/Cappa_shaman/cappa_shaman.tres" id="ext_2"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+
+[sub_resource type="Resource" id="sr_001"]
+script = ExtResource("formation_script")
+formation_name = "Стражи островов"
+pos1 = ExtResource("ext_1")
+pos2 = ExtResource("ext_1")
+pos3 = ExtResource("ext_2")
+pos4 = null
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="sr_002"]
+script = ExtResource("battle_script")
+formation = SubResource("sr_001")
+location_id = "island"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="sr_003"]
+script = ExtResource("outcome_script")
+result_text = "Сусаноо расслабленно идет первым, положив руку на рукоять меча: «Это место действительно расслабляет. Здесь можно провести целую вечность… Жаль, что так нельзя». Вы продолжаете путь в неловком молчании — и почти с облегчением замечаете мчащийся к вам отряд капп."
+battle = SubResource("sr_002")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_004"]
+script = ExtResource("choice_script")
+choice_text = "Острова приветствуют вас"
+outcome = SubResource("sr_003")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Добро пожаловать на Острова"
+body_text = "Игривый ветер ласкает волосы, мягкий песок рассыпается под ногами, ритмичные удары волн успокаивают сознание. Сусаноо идет первым, расслабленно положив руку на рукоятку меча.\n\n«Это место действительно расслабляет. Можно жить и не думать обо всем, что не так в жизни. Здесь можно провести целую вечность».\n\nВы видите, как напряглись его плечи.\n\n«Жаль, что так нельзя…»\n\nВы продолжаете путь в неловком молчании и почти с облегчением замечаете, как к вам мчится отряд врагов."
+choices = [SubResource("sr_004")]

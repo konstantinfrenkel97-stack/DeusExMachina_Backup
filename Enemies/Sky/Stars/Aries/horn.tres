@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Боднуть"
+description = "Наносит 100% урона; притягивается вперёд на 2 позицию."
 damage_modifier = 1.0
 majesty_gain = 0
 target_type = "Enemy"

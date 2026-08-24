@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3]
+
+[ext_resource type="Script" path="res://Items/item_resource.gd" id="item_script"]
+
+[resource]
+script = ExtResource("item_script")
+item_name = "Блестящая жемчужина"
+item_type = 2
+rarity = 1
+icon = null
+description = "Артефакт из сцены Глубины «Магия жемчужины» — жемчужина, отнятая у русалки. Переливается всеми цветами радуги. Дает 5 удачи и 2 восстановления фантазии в ход."
+bonus_max_hp = 0
+bonus_damage = 0
+bonus_armor = 0
+bonus_initiative = 0
+bonus_accuracy = 0
+bonus_evasion = 0
+bonus_crit_chance = 0.05
+bonus_majesty = 0
+fantasy_regen_per_turn = 2
+effect = ""
+metadata/_custom_type_script = ExtResource("item_script")

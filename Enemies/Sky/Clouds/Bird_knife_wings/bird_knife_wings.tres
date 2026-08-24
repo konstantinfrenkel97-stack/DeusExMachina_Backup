@@ -9,16 +9,17 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Стимфолийская птица"
+max_hp = 37
+damage = 15
+armor = 4
+initiative = 6
+accuracy = 76
+evasion = 15
+crit_chance = 0.08
 sprite_path = "res://Enemies/Sky/Clouds/Bird_knife_wings/Птица крылья ножи.png"
 face_sprite = "res://Enemies/Sky/Clouds/Bird_knife_wings/Птица крылья ножи_Face.png"
 battle_sprite_scale_percent = 130.0
-battle_sprite_y_offset_percent = 10.0
-max_hp = 45
-damage = 12
-armor = 0
-initiative = 8
-evasion = 25
-crit_chance = 0.1
+battle_sprite_y_offset_percent = 52.0
 special_effect_type = "bird_death_damage"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2")])
 ai_script = ExtResource("3_ai")

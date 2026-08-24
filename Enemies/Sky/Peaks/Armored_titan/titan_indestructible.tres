@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Несокрушимый"
+description = "Накладывает на себя метку провокации на 1 ход. Стойка: каждый раз, когда по титану атакуют, он получает +5 брони на 3 хода."
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"

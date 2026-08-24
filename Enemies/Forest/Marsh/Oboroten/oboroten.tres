@@ -10,16 +10,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Оборотень"
+max_hp = 99
+damage = 41
+armor = 13
+initiative = 7
+accuracy = 87
+evasion = 16
+crit_chance = 0.15
 sprite_path = "res://Enemies/Forest/Marsh/Oboroten/Werewolf.png"
 face_sprite = "res://Enemies/Forest/Marsh/Oboroten/Werewolf_Face.png"
 battle_sprite_scale_percent = 95.0
-max_hp = 110
-damage = 30
-armor = 10
-initiative = 9
-accuracy = 85
-evasion = 15
-crit_chance = 0.1
 special_effect_type = "oboroten_round3_power"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_zp"), ExtResource("5_zs"), ExtResource("6_dr")])
 ai_script = ExtResource("3_ai")

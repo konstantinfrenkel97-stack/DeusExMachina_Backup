@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Enemies/Civilization/Castle/Guardsman/Guardsman.tres" id="ext_1"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Castle/Princess/Princess.tres" id="ext_2"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+
+[sub_resource type="Resource" id="sr_001"]
+script = ExtResource("formation_script")
+formation_name = "Стража замка"
+pos1 = ExtResource("ext_1")
+pos2 = ExtResource("ext_1")
+pos3 = ExtResource("ext_2")
+pos4 = null
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="sr_002"]
+script = ExtResource("battle_script")
+formation = SubResource("sr_001")
+location_id = "castle"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="sr_003"]
+script = ExtResource("outcome_script")
+result_text = "Моргана поджигает картину с рыцарем, пронзающим крылатую женщину, — но мир не дает себя игнорировать: перед отрядом встает стража замка вместе с капризной принцессой во главе."
+battle = SubResource("sr_002")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_004"]
+script = ExtResource("choice_script")
+choice_text = "Замок приветствует вас"
+outcome = SubResource("sr_003")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Добро пожаловать в Замок"
+body_text = "Зеленые леса, высокие холмы и огромный серый замок с фиолетовыми знаменами. Ворота распахнуты, стража делает арку из копий. Моргана проходит первой, не одарив охранников взглядом.\n\nВ богато освещенном зале танцуют пары. Моргана останавливается у картины: рыцарь пронзает мечом женщину с крыльями в черных одеждах. Она щелкает пальцами — и холст занимается черным пламенем. Однако в этот раз мир не дает себя игнорировать: перед ней встает отряд стражи."
+choices = [SubResource("sr_004")]

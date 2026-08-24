@@ -11,5 +11,5 @@ majesty_gain = 0
 target_type = "Enemy"
 ability_marker = "tormentor_trident"
 usable_from_positions = Array[bool]([true, true, false, false])
-targetable_positions = Array[bool]([false, false, true, true])
+targetable_positions = Array[bool]([false, true, true, false])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

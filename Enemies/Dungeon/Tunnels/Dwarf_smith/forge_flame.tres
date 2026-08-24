@@ -5,17 +5,15 @@
 [resource]
 script = ExtResource("1_jme5v")
 name = "Пламя горнила"
+description = "Наносит 30% урона; цель +2; накладывает периодический урон 0,15 от урона на 2 хода; отходит назад на 1 позицию."
 damage_modifier = 0.3
 majesty_gain = 0
+ability_marker = "dwarf_smith_forge_flame"
 extra_targets_count = 2
-effect_types = Array[String](["periodic_damage", "self_push_back"])
+effect_types = Array[String](["self_push_back"])
 effect_values = Dictionary[String, int]({
-"periodic_damage": 15,
 "self_push_back": 1
 })
-effect_durations = Dictionary[String, int]({
-"periodic_damage": 2
-})
 usable_from_positions = Array[bool]([true, false, false, false])
-targetable_positions = Array[bool]([true, true, false, false])
+targetable_positions = Array[bool]([true, false, false, false])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

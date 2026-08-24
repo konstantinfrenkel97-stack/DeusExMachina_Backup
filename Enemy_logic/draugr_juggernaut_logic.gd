@@ -40,13 +40,18 @@ static func _find_ability(monster: Combatant, ability_name: String) -> AbilityRe
 	return null
 
 static func _find_high_armor_debuff_target(heroes: Array) -> Combatant:
+	# Каждое применение «Рассекающего удара» добавляет отдельную запись в active_effects
+	# (записи не мёржатся), поэтому дебафф брони нужно суммировать, а не смотреть одну запись.
 	for h in heroes:
 		if h and h.current_hp > 0:
+			var total_armor_debuff: float = 0.0
 			for effect in h.active_effects:
 				var stat = _effect_key(effect, "stat")
 				var value = _effect_key(effect, "value")
-				if stat == "armor" and value is int and value <= ARMOR_DEBUFF_THRESHOLD:
-					return h
+				if stat == "armor" and (value is int or value is float) and value < 0:
+					total_armor_debuff += value
+			if total_armor_debuff <= ARMOR_DEBUFF_THRESHOLD:
+				return h
 	return null
 
 static func _can_target_with_ability(ability: AbilityResource, hero: Combatant) -> bool:

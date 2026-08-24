@@ -12,5 +12,5 @@ target_type = "Enemy"
 extra_targets_count = 1
 ability_marker = "tormentor_chains"
 usable_from_positions = Array[bool]([false, false, true, true])
-targetable_positions = Array[bool]([false, false, true, true])
+targetable_positions = Array[bool]([false, true, true, false])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

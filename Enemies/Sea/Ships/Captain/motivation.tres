@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_mt")
 name = "Мотивация"
+description = "Снимает штрафы точности; все союзники получают +15 точности на 1 ход.."
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "All_Allies"

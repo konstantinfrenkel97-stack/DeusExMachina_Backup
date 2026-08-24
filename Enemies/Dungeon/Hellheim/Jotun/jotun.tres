@@ -10,11 +10,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Йотун"
+max_hp = 266
+damage = 53
+armor = 35
+initiative = 6
+accuracy = 85
+evasion = 12
+crit_chance = 0.12
 sprite_path = "res://Enemies/Dungeon/Hellheim/Jotun/Йотун.png"
 face_sprite = "res://Enemies/Dungeon/Hellheim/Jotun/Йотун_Face.png"
-battle_sprite_scale_percent = 154.0
-max_hp = 120
-armor = 25
+battle_sprite_scale_percent = 75.0
 special_effect_type = "jotun_fog"
 is_large = true
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_wb"), ExtResource("5_jm"), ExtResource("6_ia")])

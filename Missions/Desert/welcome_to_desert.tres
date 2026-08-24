@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MissionResource" format=3 uid="uid://i405jwjbn4kw"]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="1_g8rqp"]
+[ext_resource type="Resource" path="res://Scenes/DesertScenes/desert_patrol_1.tres" id="4_im06i"]
+[ext_resource type="Resource" uid="uid://cai8utj7lpeiw" path="res://Scenes/rest.tres" id="5_i88lk"]
+[ext_resource type="Script" uid="uid://cgfjcbn8gssac" path="res://Missions/mission_resource.gd" id="mission_script"]
+[ext_resource type="Resource" uid="uid://bt3b4bebtoj02" path="res://Scenes/DesertScenes/lost_caravan.tres" id="scene_caravan"]
+[ext_resource type="Resource" uid="uid://dtda6rybu8yv0" path="res://Scenes/DesertScenes/sandstorm.tres" id="scene_storm"]
+[ext_resource type="Resource" uid="uid://dj177jotyub1l" path="res://Scenes/DesertScenes/welcome_desert.tres" id="scene_welcome"]
+
+[resource]
+script = ExtResource("mission_script")
+mission_name = "Добро пожаловать в Пустыню"
+scenes = Array[ExtResource("1_g8rqp")]([ExtResource("scene_welcome"), ExtResource("scene_caravan"), ExtResource("4_im06i"), ExtResource("5_i88lk"), ExtResource("scene_storm")])
+location = 8
+required_god = 8

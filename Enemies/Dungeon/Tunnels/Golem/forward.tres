@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_0rs53")
 name = "Вперёд"
+description = "Притягивается вперёд на 1 позицию."
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"

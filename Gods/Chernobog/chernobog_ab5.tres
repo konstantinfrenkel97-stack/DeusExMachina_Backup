@@ -6,8 +6,10 @@
 script = ExtResource("1_ab")
 icon_path = "uid://bolp7223dlepn"
 name = "Торжество зла"
-description = "Все боги теряют величие. Урон +1% за единицу величия"
+description = "Все другие боги теряют всё величие. Все противники получают урон: 1% атаки Чернобога за каждую стёртую единицу величия."
 damage_modifier = 0.0
+majesty_gain = 0
+majesty_cost = 100
 target_type = "All_Enemies"
 ability_marker = "chernobog_triumph_evil"
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

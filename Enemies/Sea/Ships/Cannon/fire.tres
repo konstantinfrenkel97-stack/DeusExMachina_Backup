@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_fr")
 name = "Пли"
+description = "Наносит 100% урона; отталкивает цель назад на 1 позицию."
 majesty_gain = 0
 extra_targets_count = 2
 effect_types = Array[String](["push_back"])

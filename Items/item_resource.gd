@@ -52,6 +52,11 @@ enum Rarity {
 # Величие.
 @export var bonus_majesty: int = 0
 
+# ─── Пассивная регенерация в бою ───────────────────────────────
+
+# Восстановление фантазии в начале каждого раунда боя (0 = не даёт).
+@export var fantasy_regen_per_turn: int = 0
+
 # ─── Уникальный эффект ─────────────────────────────────────────
 
 # Код уникального эффекта (как special_effect_type у персонажей).
@@ -107,4 +112,6 @@ func get_bonuses_text() -> String:
 		parts.append("Удача %s%.0f%%" % ["+" if bonus_crit_chance > 0 else "", bonus_crit_chance * 100])
 	if bonus_majesty != 0:
 		parts.append("Величие %s%d" % ["+" if bonus_majesty > 0 else "", bonus_majesty])
+	if fantasy_regen_per_turn != 0:
+		parts.append("Фантазия %s%d/ход" % ["+" if fantasy_regen_per_turn > 0 else "", fantasy_regen_per_turn])
 	return ", ".join(parts)

@@ -10,6 +10,6 @@ damage_modifier = 0.8
 majesty_gain = 0
 target_type = "Enemy"
 ability_marker = "naga_cobra_throw"
-usable_from_positions = Array[bool]([false, false, true, true])
+usable_from_positions = Array[bool]([false, true, true, true])
 targetable_positions = Array[bool]([true, true, false, false])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

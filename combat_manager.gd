@@ -20,6 +20,11 @@ var pending_mission_target_effects: Array = []
 var pending_helheim_skip_fog_rounds: int = 0
 # Эффекты, которые держатся до конца миссии и применяются в каждом бою.
 var mission_strongest_hero_buffs: Array = []
+# Баффы на весь отряд героев, до конца миссии (применяются в каждом бою). Array[BuffEntry].
+var mission_team_buffs: Array = []
+# Баффы на конкретных богов, до конца миссии (применяются в каждом бою, если бог жив).
+# Array[Dictionary]: {"resource_path": String, "buffs": Array[BuffEntry]}.
+var mission_target_buffs: Array = []
 
 # ════════════════════════════════════════════════════════════
 #  СОСТОЯНИЕ МИССИИ (внутри компании)
@@ -53,6 +58,8 @@ func reset_mission():
 	pending_mission_target_effects = []
 	pending_helheim_skip_fog_rounds = 0
 	mission_strongest_hero_buffs = []
+	mission_team_buffs = []
+	mission_target_buffs = []
 	is_mission_battle = false
 
 # Выбранный бэкграунд (путь к текстуре, "" = нет)
@@ -81,6 +88,8 @@ func clear_selection():
 	pending_mission_target_effects = []
 	pending_helheim_skip_fog_rounds = 0
 	mission_strongest_hero_buffs = []
+	mission_team_buffs = []
+	mission_target_buffs = []
 	selected_background = ""
 	selected_location_name = ""
 	selected_location_description = ""

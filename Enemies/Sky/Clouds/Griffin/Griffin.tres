@@ -9,16 +9,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Грифон"
+max_hp = 187
+damage = 79
+armor = 17
+initiative = 8
+accuracy = 91
+evasion = 19
+crit_chance = 0.19
 sprite_path = "res://Enemies/Sky/Clouds/Griffin/Рыцарь Грифон.png"
 face_sprite = "res://Enemies/Sky/Clouds/Griffin/Рыцарь Грифон_Face.png"
 battle_sprite_scale_percent = 140.0
-max_hp = 75
-damage = 16
-armor = 8
-initiative = 5
-accuracy = 85
-evasion = 20
-crit_chance = 0.1
 special_effect_type = "griffin_first_strike"
 is_large = true
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2")])

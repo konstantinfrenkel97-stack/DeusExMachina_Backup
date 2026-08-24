@@ -1,0 +1,94 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3 uid="uid://bt3b4bebtoj02"]
+
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Resource" uid="uid://dmvh76qge87c8" path="res://Essence/thoughts.tres" id="ext_1"]
+[ext_resource type="Resource" path="res://Gods/Osiris/Osiris.tres" id="ext_2"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+
+[sub_resource type="Resource" id="sr_001"]
+script = ExtResource("outcome_script")
+result_text = "Ситуация выглядит крайне подозрительно. Может, вы и могли бы помочь, но не можете рисковать миссией ради незнакомцев. С тяжестью на сердце вы уходите вдаль от потерянного каравана. Вы не сделали им ничего плохого. И ничего хорошего."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_002"]
+script = ExtResource("choice_script")
+choice_text = "Оставить их"
+outcome = SubResource("sr_001")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="sr_003"]
+script = ExtResource("outcome_script")
+result_text = "Вы тратите силы материализации на создание новых волов. Долго они не просуществуют, но дотащат караван до города. Спасенные пляшут от радости. Вы едете с ними в тени фургонов, отдыхая и залечивая раны. Эффект: −400 мыслей, все боги восстанавливают 20% здоровья."
+hero_heal_percent = 20
+fantasy_delta = -400
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_004"]
+script = ExtResource("choice_script")
+choice_text = "Помочь нуждающимся"
+outcome = SubResource("sr_003")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="sr_007"]
+script = ExtResource("reward_script")
+kind = 3
+resource = ExtResource("ext_1")
+amount = 150
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="sr_008"]
+script = ExtResource("outcome_script")
+result_text = "Вы переворачиваете повозки и вскрываете тайники, но то ли плохо искали, то ли караван нищий — лишь жалкая горстка драгоценностей попадает вам в руки. «И стоило оно того?» — доносится шепот за спиной. Эффект: +150 мыслей, боги теряют 30 величия."
+rewards = Array[ExtResource("reward_script")]([SubResource("sr_007")])
+hero_majesty_delta = -30
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_009"]
+script = ExtResource("stat_check_script")
+stat = 4
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="sr_005"]
+script = ExtResource("reward_script")
+kind = 3
+resource = ExtResource("ext_1")
+amount = 600
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="sr_006"]
+script = ExtResource("outcome_script")
+result_text = "Вы отмахиваетесь от просьб и идете к фургонам. Караванщики обрушивают проклятья, но вы вскрываете каждый тайник — и увесистый мешочек монет и драгоценностей оказывается в вашем владении. Эффект: +600 мыслей, боги теряют 30 величия."
+rewards = Array[ExtResource("reward_script")]([SubResource("sr_005")])
+hero_majesty_delta = -30
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_010"]
+script = ExtResource("choice_script")
+choice_text = "Разграбить караван"
+stat_check = SubResource("sr_009")
+success_outcome = SubResource("sr_006")
+failure_outcome = SubResource("sr_008")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="sr_011"]
+script = ExtResource("outcome_script")
+result_text = "Осирис подлетает к каравану, золотые украшения начинают светиться, и караванщики падают ниц: «Смертные! Небеса услышали ваши мольбы и ниспослали меня! Высшей волею своей приказываю вам идти до ближайшего города — и добраться туда живыми!» Преисполненные благоговением, люди отправляются в путь. Эффект: все боги получают 20 величия."
+hero_majesty_delta = 20
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_012"]
+script = ExtResource("choice_script")
+choice_text = "Одарить их божественной милостью"
+required_god = ExtResource("ext_2")
+outcome = SubResource("sr_011")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Потерянный караван"
+body_text = "За одной из дюн открывается невеселое зрелище: цепочка фургонов, туши тяговых волов обмякли. Среди фургонов человеческие фигуры вяло слоняются в тени. Завидев вас, они машут руками и призывают приблизиться."
+choices = Array[ExtResource("choice_script")]([SubResource("sr_002"), SubResource("sr_004"), SubResource("sr_010"), SubResource("sr_012")])

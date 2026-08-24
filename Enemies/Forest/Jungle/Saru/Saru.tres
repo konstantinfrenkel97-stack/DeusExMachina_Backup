@@ -10,12 +10,16 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Сару"
+max_hp = 48
+damage = 18
+armor = 5
+initiative = 6
+accuracy = 79
+evasion = 16
+crit_chance = 0.09
 sprite_path = "res://Enemies/Forest/Jungle/Saru/Saru.png"
 face_sprite = "res://Enemies/Forest/Jungle/Saru/Saru_face.png"
 battle_sprite_scale_percent = 80.0
-max_hp = 75
-damage = 13
-initiative = 11
 special_effect_type = "saru_crit_evasion"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("3_a1"), ExtResource("4_a2"), ExtResource("5_a3")])
 ai_script = ExtResource("2_ai")

@@ -8,6 +8,7 @@ icon_path = "uid://r4bldx6f3svp"
 name = "Предвидеть"
 description = "Стойка. Все союзники получают 20 уклонения и 15 удачи. Эффект сохраняется на 1 ход, если стойку не прервали."
 damage_modifier = 0.0
+majesty_gain = 25
 target_type = "All_Allies"
 is_stance = true
 stance_effect_type = "odin_foresight"

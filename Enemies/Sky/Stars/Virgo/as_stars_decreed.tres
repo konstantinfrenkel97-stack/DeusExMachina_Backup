@@ -6,6 +6,7 @@
 majesty_gain = 0
 script = ExtResource("1_ab")
 name = "Как повелели звезды"
+description = "Наносит 100% урона."
 target_type = "All_Allies"
 ability_marker = "virgo_stars_decree"
 usable_from_positions = Array[bool]([false, false, false, true])

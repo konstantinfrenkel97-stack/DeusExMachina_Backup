@@ -5,15 +5,16 @@
 [resource]
 script = ExtResource("1_8wijk")
 name = "Метание булыжника"
+description = "Наносит 70% урона; цель теряет 15 брони на 2 ход.."
 damage_modifier = 0.7
 majesty_gain = 0
 extra_targets_count = 1
-effect_types = Array[String](["enemy_target_debuff"])
+effect_types = Array[String](["target_debuff_armor"])
 effect_values = Dictionary[String, int]({
-"enemy_armor_debuff": 15
+"target_debuff_armor": 15
 })
 effect_durations = Dictionary[String, int]({
-"enemy_armor_debuff": 2
+"target_debuff_armor": 2
 })
 usable_from_positions = Array[bool]([false, false, true, true])
 targetable_positions = Array[bool]([false, true, true, false])

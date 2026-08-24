@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="AbilityResource" format=3]
+[gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://k6d3oj5468j3"]
 
-[ext_resource type="Script" path="res://ability_resource.gd" id="1_fight"]
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_fight"]
 
 [resource]
 script = ExtResource("1_fight")
@@ -8,12 +8,17 @@ icon_path = "uid://c26sexud8iwhx"
 name = "fight_me"
 description = "На 1 ход Тор получает метку провокации и лечится на 7% максимального здоровья каждый раз, когда его атакуют."
 damage_modifier = 0.0
-majesty_gain = 0
+majesty_gain = 30
 target_type = "Self"
 effect_types = Array[String](["self_provocation_mark", "self_thor_fight_me_heal"])
-effect_values = Dictionary[String, int]({"self_provocation_mark": 1, "self_thor_fight_me_heal": 7})
-effect_durations = Dictionary[String, int]({"self_provocation_mark": 2, "self_thor_fight_me_heal": 2})
+effect_values = Dictionary[String, int]({
+"self_provocation_mark": 1,
+"self_thor_fight_me_heal": 7
+})
+effect_durations = Dictionary[String, int]({
+"self_provocation_mark": 2,
+"self_thor_fight_me_heal": 2
+})
 usable_from_positions = Array[bool]([true, true, true, false])
-targetable_positions = Array[bool]([true, true, true, true])
 ability_marker = "thor_fight_me"
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

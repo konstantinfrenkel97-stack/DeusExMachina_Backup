@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://b0jk0v5x0oghv"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_ftiup"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_ad6bb"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_r5hf1"]
+[ext_resource type="Texture2D" uid="uid://c41xe23xeeys3" path="res://Main_characters/Lena/Lena_sad.png" id="4_lena_sad"]
+
+[sub_resource type="Resource" id="Resource_84m7b"]
+script = ExtResource("1_ftiup")
+speaker_name = "Лена"
+text = "Думаю, я больше ничего не могу сделать. Нужно двигаться к воротам."
+sprite = ExtResource("4_lena_sad")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_ad6bb")
+lines = Array[ExtResource("1_ftiup")]([SubResource("Resource_84m7b")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

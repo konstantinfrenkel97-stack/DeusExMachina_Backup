@@ -10,15 +10,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Гоплит"
+max_hp = 113
+damage = 21
+armor = 20
+initiative = 4
+accuracy = 77
+evasion = 7
+crit_chance = 0.05
 sprite_path = "res://Enemies/Civilization/Arena/Hoplite/Goplit.png"
 face_sprite = "res://Enemies/Civilization/Arena/Hoplite/Hoplite_Face.png"
 battle_sprite_scale_percent = 115.0
-max_hp = 75
-damage = 12
-armor = 35
-initiative = 4
-accuracy = 80
-evasion = 5
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2"), ExtResource("6_a3")])
 ai_script = ExtResource("3_ai")
 metadata/_custom_type_script = "uid://briall6wwu3rx"

@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_qqo2x")
 name = "Взгляд циклопа"
+description = "Наносит 20% урона; получает +20 точности на 3 ход.; цель теряет 20 точности на 3 ход.."
 damage_modifier = 0.2
 majesty_gain = 0
 effect_types = Array[String](["self_buff_accuracy", "target_debuff_accuracy"])

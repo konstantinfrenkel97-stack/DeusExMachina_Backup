@@ -5,11 +5,11 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Изгнать зло"
-description = "0.5 урона. Снимает все положительные эффекты с цели. Если снято более 2 уникальных баффов — цель оглушается."
+description = "Наносит 50% урона."
 damage_modifier = 0.5
 majesty_gain = 0
 target_type = "Enemy"
 ability_marker = "knight_banish_evil"
-usable_from_positions = Array[bool]([true, true, true, true])
-targetable_positions = Array[bool]([true, true, true, true])
+usable_from_positions = Array[bool]([true, true, false, false])
+targetable_positions = Array[bool]([true, true, false, false])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

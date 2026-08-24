@@ -6,8 +6,9 @@
 script = ExtResource("1_ap")
 icon_path = "uid://cklhqdnim8df5"
 name = "Точный удар"
+description = "Наносит 70% урона, игнорируя броню цели."
 damage_modifier = 0.7
-majesty_gain = 10
+majesty_gain = 15
 damage_type = "Pure"
 usable_from_positions = Array[bool]([false, true, true, false])
 targetable_positions = Array[bool]([true, true, false, false])

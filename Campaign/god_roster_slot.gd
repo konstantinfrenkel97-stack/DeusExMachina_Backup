@@ -64,6 +64,10 @@ func _ready() -> void:
 	_dialogue_button.custom_minimum_size = Vector2(DIALOGUE_BUTTON_SIZE, DIALOGUE_BUTTON_SIZE)
 	_dialogue_button.text = "💬"
 	_dialogue_button.tooltip_text = "Диалог"
+	_dialogue_button.flat = true
+	var transparent_button_style := StyleBoxEmpty.new()
+	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
+		_dialogue_button.add_theme_stylebox_override(state, transparent_button_style)
 	_dialogue_button.focus_mode = Control.FOCUS_NONE
 	_dialogue_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	_dialogue_button.visible = false

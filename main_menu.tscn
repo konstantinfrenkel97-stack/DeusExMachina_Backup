@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bdxqnstomnqfw"]
+[gd_scene load_steps=4 format=3 uid="uid://bdxqnstomnqfw"]
 
 [ext_resource type="Script" uid="uid://b5bgoygi2ka23" path="res://main_menu.gd" id="1_06t4h"]
 [ext_resource type="Texture2D" uid="uid://b0bgx3mfptf2" path="res://Background/Logo.png" id="2_logo"]
+[ext_resource type="Texture2D" path="res://Background/Main_Menu_Background.png" id="3_menu_bg"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -10,15 +11,18 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("1_06t4h")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-color = Color(0.008, 0.008, 0.298, 1)
+expand_mode = 1
+stretch_mode = 6
+texture = ExtResource("3_menu_bg")
 
 [node name="Logo" type="TextureRect" parent="."]
+visible = false
 layout_mode = 1
 anchor_left = 0.5
 anchor_top = 0.0
@@ -36,11 +40,12 @@ texture = ExtResource("2_logo")
 
 [node name="Center" type="CenterContainer" parent="."]
 layout_mode = 1
-anchor_left = 0.0
-anchor_top = 0.45
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = -12.0
+anchor_left = 0.346
+anchor_top = 0.588
+anchor_right = 0.498
+anchor_bottom = 0.902
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Center"]

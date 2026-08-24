@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://c15fagijrdyu4"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_h6efc"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_kymks"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_tk2fo"]
+[ext_resource type="Texture2D" uid="uid://duogyyhwd3igs" path="res://Main_characters/Lena/Lena_sceptical.png" id="3_tk2fo"]
+
+[sub_resource type="Resource" id="Resource_r3hv1"]
+script = ExtResource("1_h6efc")
+speaker_name = "Лена"
+text = "Ну и куда он делся?"
+sprite = ExtResource("3_tk2fo")
+metadata/_custom_type_script = "uid://bdppjbkvrapob"
+
+[resource]
+script = ExtResource("2_kymks")
+lines = Array[ExtResource("1_h6efc")]([SubResource("Resource_r3hv1")])
+metadata/_custom_type_script = "uid://c3g5x3dcif30x"

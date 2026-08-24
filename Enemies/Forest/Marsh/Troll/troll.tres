@@ -9,16 +9,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Тролль"
+max_hp = 236
+damage = 47
+armor = 30
+initiative = 5
+accuracy = 83
+evasion = 10
+crit_chance = 0.1
 sprite_path = "res://Enemies/Forest/Marsh/Troll/Troll.png"
 face_sprite = "res://Enemies/Forest/Marsh/Troll/Troll_Face.png"
 battle_sprite_scale_percent = 55.0
-max_hp = 160
-damage = 28
-armor = 15
-initiative = 6
-accuracy = 80
-evasion = 5
-crit_chance = 0.15
 special_effect_type = "troll_self_stun_on_no_damage"
 is_large = true
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_dv"), ExtResource("5_tn")])

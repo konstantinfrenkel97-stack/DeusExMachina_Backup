@@ -5,12 +5,11 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Клинок рассвета"
-description = "0,8 урона. Цель двигается вперёд на 1."
+description = "0,8 урона. Цель +1."
 damage_modifier = 0.8
 majesty_gain = 0
 target_type = "Enemy"
-effect_types = Array[String](["push_forward"])
-effect_values = {"push_forward": 1}
+extra_targets_count = 1
 usable_from_positions = Array[bool]([true, true, false, false])
 targetable_positions = Array[bool]([true, true, false, false])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

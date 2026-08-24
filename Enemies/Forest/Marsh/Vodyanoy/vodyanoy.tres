@@ -10,14 +10,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Водяной"
+max_hp = 95
+damage = 23
+armor = 13
+initiative = 6
+accuracy = 87
+evasion = 13
+crit_chance = 0.1
 sprite_path = "res://Enemies/Forest/Marsh/Vodyanoy/Vodyanoy.png"
 face_sprite = "res://Enemies/Forest/Marsh/Vodyanoy/Voidanoy_Face.png"
 battle_sprite_scale_percent = 95.0
-max_hp = 120
-damage = 25
-armor = 12
-initiative = 5
-accuracy = 75
 special_effect_type = "vodyanoy_location_stun"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_bt"), ExtResource("5_vm"), ExtResource("6_dv")])
 ai_script = ExtResource("3_ai")

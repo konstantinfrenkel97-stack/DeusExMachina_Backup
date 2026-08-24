@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="MissionChoice" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="1_mc"]
+[ext_resource type="Resource" path="res://Scenes/ShipsScenes/formation_ships_sailors_barrel.tres" id="2_form"]
+
+[resource]
+script = ExtResource("1_mc")
+choice_text = "Добро пожаловать на корабли."
+effects = "Начинается бой."
+formation = ExtResource("2_form")

@@ -9,7 +9,7 @@ static func get_decision(monster: Combatant, heroes: Array) -> Dictionary:
 		if not _has_effect(monster, "jester_sure_hit"):
 			if randf() < 0.50:
 				return {"ability": sure_ab, "target": monster}
-	return _random_decision(monster, heroes)
+	return _random_decision(monster, heroes, sure_ab)
 
 
 static func _has_effect(unit: Combatant, effect_id: String) -> bool:
@@ -19,10 +19,10 @@ static func _has_effect(unit: Combatant, effect_id: String) -> bool:
 	return false
 
 
-static func _random_decision(monster: Combatant, heroes: Array) -> Dictionary:
+static func _random_decision(monster: Combatant, heroes: Array, exclude_ab: AbilityResource = null) -> Dictionary:
 	var usable: Array = []
 	for ab in monster.active_abilities:
-		if ab == null:
+		if ab == null or ab == exclude_ab:
 			continue
 		if _is_usable_from_position(ab, monster.position_index):
 			usable.append(ab)

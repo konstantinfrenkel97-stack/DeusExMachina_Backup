@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FormationResource" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="1_fr"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Hellhound/hellhound.tres" id="2_hellhound"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Tormented_soul/Tormented_soul.tres" id="3_soul"]
+
+[resource]
+script = ExtResource("1_fr")
+formation_name = "Адская гончая — адская гончая — душа"
+pos1 = ExtResource("2_hellhound")
+pos2 = ExtResource("2_hellhound")
+pos3 = ExtResource("3_soul")
+pos4 = null

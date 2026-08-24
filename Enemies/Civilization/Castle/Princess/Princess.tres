@@ -9,16 +9,16 @@
 [resource]
 script = ExtResource("2_ch")
 unit_name = "Принцесса"
+max_hp = 68
+damage = 16
+armor = 9
+initiative = 6
+accuracy = 83
+evasion = 11
+crit_chance = 0.07
 sprite_path = "res://Enemies/Civilization/Castle/Princess/Princess.png"
 face_sprite = "res://Enemies/Civilization/Castle/Princess/Princess_face.png"
 battle_sprite_scale_percent = 97.0
-max_hp = 40
-damage = 6
-armor = 0
-initiative = 4
-accuracy = 70
-evasion = 30
-crit_chance = 0.1
 special_effect_type = "princess_death_curse"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2")])
 ai_script = ExtResource("3_ai")

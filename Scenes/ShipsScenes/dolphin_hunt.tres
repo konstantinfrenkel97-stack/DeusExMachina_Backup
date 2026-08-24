@@ -1,0 +1,160 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Enemies/Sea/Ships/Sailor/sailor.tres" id="ext_1"]
+[ext_resource type="Resource" path="res://Essence/thoughts.tres" id="ext_2"]
+[ext_resource type="Resource" path="res://Gods/Samdi/Samdi.tres" id="ext_3"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+
+[sub_resource type="Resource" id="sr_001"]
+script = ExtResource("formation_script")
+formation_name = "Разъяренная вахта"
+pos1 = ExtResource("ext_1")
+pos2 = ExtResource("ext_1")
+pos3 = ExtResource("ext_1")
+pos4 = ExtResource("ext_1")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="sr_002"]
+script = ExtResource("formation_script")
+formation_name = "Обезумевшая палуба"
+pos1 = ExtResource("ext_1")
+pos2 = ExtResource("ext_1")
+pos3 = null
+pos4 = null
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="sr_003"]
+script = ExtResource("battle_script")
+formation = SubResource("sr_001")
+location_id = "ships"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="sr_004"]
+script = ExtResource("buff_script")
+stat = 0
+value = 10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="sr_004_mod"]
+script = ExtResource("unit_modifier_script")
+target_position = 0
+buffs = Array[ExtResource("buff_script")]([SubResource("sr_004")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="sr_003_help_success"]
+script = ExtResource("battle_script")
+formation = SubResource("sr_001")
+location_id = "ships"
+hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("sr_004_mod")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="sr_005"]
+script = ExtResource("outcome_script")
+result_text = "Вы протискиваетесь сквозь потные спины матросов и перерубаете пеньковую веревку. Торжествующий крик дельфина! К его голосу присоединяются другие — и вскоре весь корабль тонет в дельфиньем пении. Матросы смущены, а вы покрепче сжимаете оружие. То, что вы сделали, точно было не зря. Эффект: бой, у богов +10 атаки на 1 ход."
+battle = SubResource("sr_003_help_success")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_006"]
+script = ExtResource("buff_script")
+stat = 3
+value = -10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="sr_006_mod"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+buffs = Array[ExtResource("buff_script")]([SubResource("sr_006")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="sr_003_help_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("sr_001")
+location_id = "ships"
+hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("sr_006_mod")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="sr_007"]
+script = ExtResource("outcome_script")
+result_text = "«Э! Ты еще кто такой! За дельфином нашим лезешь! Наша добыча! А ну, братва, бей чужаков!» Толпа матросов наваливается на вас. Эффект: бой, у бога на первой позиции −10 уклонения на 1 ход."
+battle = SubResource("sr_003_help_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_008"]
+script = ExtResource("stat_check_script")
+stat = 3
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="sr_009"]
+script = ExtResource("choice_script")
+choice_text = "Помочь дельфину"
+stat_check = SubResource("sr_008")
+success_outcome = SubResource("sr_005")
+failure_outcome = SubResource("sr_007")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="sr_010"]
+script = ExtResource("reward_script")
+kind = 3
+resource = ExtResource("ext_2")
+amount = 200
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="sr_011"]
+script = ExtResource("outcome_script")
+result_text = "Вы выхватываете гарпун и метаете его в серое тело — гарпун пронзает дельфина точно посреди туловища. Матросы в изумлении смотрят, как вы поднимаете добычу на палубу. Они не смеют претендовать на вашу добычу. Эффект: вы получаете 200 мыслей и пропускаете бой."
+rewards = [SubResource("sr_010")]
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_012"]
+script = ExtResource("outcome_script")
+result_text = "Гарпун поглощает морская волна. «Ты охренел, чужак! Наш дельфин! Еще и гарпун мой выкинул! Сейчас мы на вас покажем, как пользоваться гарпуном!» Эффект: бой."
+battle = SubResource("sr_003")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_013"]
+script = ExtResource("stat_check_script")
+stat = 4
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="sr_014"]
+script = ExtResource("choice_script")
+choice_text = "Загарпунить дельфина"
+stat_check = SubResource("sr_013")
+success_outcome = SubResource("sr_011")
+failure_outcome = SubResource("sr_012")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="sr_015"]
+script = ExtResource("battle_script")
+formation = SubResource("sr_002")
+location_id = "ships"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="sr_016"]
+script = ExtResource("outcome_script")
+result_text = "Самди начинает бормотать ритмичный мотив, ноги двигаются в танцевальных па. Театральный взмах — и один матрос втыкает гарпун в бок соседа; пируэт — другой толкает соседа за борт. Охота погружается в кровавый хаос. Наконец Самди останавливается в поклоне: «Ах, что за неблагодарная публика». Осталось лишь несколько окровавленных матросов, которые с ненавистью смотрят на него. Эффект: бой против двух матросов."
+battle = SubResource("sr_015")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="sr_017"]
+script = ExtResource("choice_script")
+choice_text = "Устроить драку между матросами"
+required_god = ExtResource("ext_3")
+outcome = SubResource("sr_016")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Охота на дельфина"
+body_text = "На качающейся палубе толпа матросов столпилась у борта: в волнах бьется дельфин, его плавник пробит гарпуном. Матросы метают новые и новые гарпуны в животное. Пока они не попадают — но в один момент точно попадут."
+choices = [SubResource("sr_009"), SubResource("sr_014"), SubResource("sr_017")]

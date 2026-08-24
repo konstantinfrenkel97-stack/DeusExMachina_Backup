@@ -139,7 +139,8 @@ func _build_prep_panel(scene) -> void:
 	_prep_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_prep_text.vertical_alignment = VERTICAL_ALIGNMENT_TOP
 	_prep_text.add_theme_font_size_override("font_size", _canvas_font_size(14))
-	_prep_text.text = Localization.text_from(scene, "body_text_key", "body_text", str(scene.get("body_text")))
+	# Текст сцены уже показывается на экране первого выбора (mission_scene.tscn),
+	# здесь, на экране выбора богов, он пока не дублируется.
 	_prep_root.add_child(_prep_text)
 
 	_required_label = Label.new()
@@ -155,12 +156,18 @@ func _build_prep_panel(scene) -> void:
 	_start_button.pressed.connect(_start_selected_mission)
 	_prep_root.add_child(_start_button)
 
+	# Слева направо на экране = задняя позиция → передняя (та же логика, что и в
+	# battle_setup.gd), т.к. на самом поле боя Pos1 — правая (ближняя к врагам)
+	# позиция героев, а Pos4 — левая. Массив индексируется hero_index (= позиции
+	# боя), а не порядком слева направо, поэтому дальше по коду ничего менять не нужно.
 	_slot_buttons.clear()
-	for i in range(4):
+	_slot_buttons.resize(4)
+	for visual_index in range(4):
+		var hero_index := 3 - visual_index
 		var slot := _make_square_button(true)
-		slot.gui_input.connect(_on_slot_gui_input.bind(i))
+		slot.gui_input.connect(_on_slot_gui_input.bind(hero_index))
 		_prep_root.add_child(slot)
-		_slot_buttons.append(slot)
+		_slot_buttons[hero_index] = slot
 
 	_god_buttons.clear()
 	_god_button_paths.clear()
@@ -205,9 +212,10 @@ func _layout_prep_panel() -> void:
 	var text_bottom: float = panel_padding + header_height + required_height + _canvas_value(12.0)
 	var slots_y: float = max(text_bottom, panel_size.y - square_block_height - panel_padding)
 	var slot_start_x: float = float(floor((panel_size.x - slot_row_width) * 0.5))
-	for i in range(_slot_buttons.size()):
-		var slot: Button = _slot_buttons[i]
-		slot.position = Vector2(slot_start_x + i * (slot_size.x + slot_gap), slots_y)
+	for hero_index in range(_slot_buttons.size()):
+		var slot: Button = _slot_buttons[hero_index]
+		var visual_index := 3 - hero_index
+		slot.position = Vector2(slot_start_x + visual_index * (slot_size.x + slot_gap), slots_y)
 		slot.size = slot_size
 
 	var cards_start_x: float = float(floor((panel_size.x - cards_row_width) * 0.5))

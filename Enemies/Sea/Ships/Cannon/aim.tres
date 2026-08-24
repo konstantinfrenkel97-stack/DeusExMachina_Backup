@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_am")
 name = "Цельсь"
+description = "Получает +50 точности на 2 ход.."
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"

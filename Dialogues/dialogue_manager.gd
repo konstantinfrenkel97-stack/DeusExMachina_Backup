@@ -12,11 +12,8 @@ var _player_layer: CanvasLayer = null
 var _bg_texture: TextureRect = null
 
 func show_dialogue(dialogue, bg_path: String = "") -> void:
-	if bg_path.strip_edges() != "":
-		_set_background(bg_path)
-	else:
-		_clear_background()
 	if dialogue == null:
+		_clear_background()
 		return
 	_close_existing_player()
 	var scene := get_tree().current_scene
@@ -27,6 +24,13 @@ func show_dialogue(dialogue, bg_path: String = "") -> void:
 	_player_layer.name = "DialogueTopLayer"
 	_player_layer.layer = DIALOGUE_CANVAS_LAYER
 	get_tree().root.add_child(_player_layer)
+	# Фон устанавливаем ПОСЛЕ создания слоя (раньше это делалось до создания слоя,
+	# поэтому фон сразу терялся — для первого диалога слой был null, для следующих
+	# фон создавался в старом слое, который затем удалялся).
+	if bg_path.strip_edges() != "":
+		_set_background(bg_path)
+	else:
+		_clear_background()
 	_player = DIALOGUE_PLAYER_SCENE.instantiate()
 	_player_layer.add_child(_player)
 	_player.dialogue_closed.connect(_on_dialogue_closed)

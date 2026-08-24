@@ -1,14 +1,20 @@
-[gd_resource type="Resource" script_class="DialogueResource" format=3]
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://cwj3w0an80mw4"]
 
-[ext_resource type="Script" path="res://Dialogues/dialogue_line.gd" id="1_line"]
-[ext_resource type="Script" path="res://Dialogues/dialogue_choice.gd" id="2_choice"]
-[ext_resource type="Script" path="res://Dialogues/dialogue_resource.gd" id="3_dialogue"]
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_line"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_choice"]
+[ext_resource type="Texture2D" uid="uid://cl8wacfrih2fj" path="res://Main_characters/Lena/Lena_smile_1.png" id="3_3gark"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="3_dialogue"]
+[ext_resource type="Texture2D" uid="uid://bfu365plvlb5v" path="res://Main_characters/Lena/Lena_surprised.png" id="4_ie6f3"]
+[ext_resource type="Texture2D" uid="uid://duogyyhwd3igs" path="res://Main_characters/Lena/Lena_sceptical.png" id="5_vn1p5"]
+[ext_resource type="Texture2D" uid="uid://c41xe23xeeys3" path="res://Main_characters/Lena/Lena_sad.png" id="6_6q2cu"]
+[ext_resource type="Texture2D" uid="uid://b8kvavkxxvw23" path="res://Main_characters/Lena/Lena_Angry.png" id="7_10eo7"]
+[ext_resource type="Texture2D" uid="uid://bq5671vbp3ry4" path="res://Main_characters/Lena/Lena_smile_2.png" id="8_4httm"]
 
 [sub_resource type="Resource" id="Resource_zeus_line_2"]
 script = ExtResource("1_line")
 line_id = "intro_1"
 speaker_name = "Зевс"
-text = "(Ты обнаруживаешь бога лежащим на золотом диване. Его обслуживают две стройные девушки в легких белых платьях. Одна массирует плечи, вторая подносит вино. При твоем появлении Зевс делает взмах рукой, и девушки удаляются.)"
+text = "(Ты обнаруживаешь бога лежащим на золотом диване. Его обслуживают две стройные девушки в легких белых платьях. Одна массирует плечи, вторая подносит вино. При твоем появлении, Зевс делает взмах рукой, и девушки удаляются.)"
 next_line_id = "intro_2"
 
 [sub_resource type="Resource" id="Resource_zeus_line_3"]
@@ -58,6 +64,7 @@ script = ExtResource("1_line")
 line_id = "open_door_1"
 speaker_name = "Лена"
 text = "О могущественный Зевс. Прошу о вашей помощи с открытием одной из этих дверей. Без мощи бога никак не обойтись."
+sprite = ExtResource("3_3gark")
 next_line_id = "open_door_2"
 
 [sub_resource type="Resource" id="Resource_zeus_line_11"]
@@ -86,6 +93,7 @@ script = ExtResource("1_line")
 line_id = "open_door_5"
 speaker_name = "Лена"
 text = "Мир гор? Ну, вы повелитель Олимпа. Логично."
+sprite = ExtResource("4_ie6f3")
 next_line_id = "open_door_6"
 
 [sub_resource type="Resource" id="Resource_zeus_line_15"]
@@ -107,6 +115,7 @@ script = ExtResource("1_line")
 line_id = "open_door_8"
 speaker_name = "Лена"
 text = "Кого же?"
+sprite = ExtResource("4_ie6f3")
 next_line_id = "open_door_9"
 
 [sub_resource type="Resource" id="Resource_zeus_line_18"]
@@ -121,6 +130,7 @@ script = ExtResource("1_line")
 line_id = "open_door_10"
 speaker_name = "Лена"
 text = "Хорошо, как скажете."
+sprite = ExtResource("3_3gark")
 next_line_id = "open_door_11"
 
 [sub_resource type="Resource" id="Resource_zeus_line_20"]
@@ -166,6 +176,7 @@ script = ExtResource("1_line")
 line_id = "opinion_poseidon_1"
 speaker_name = "Лена"
 text = "…Посейдону."
+sprite = ExtResource("4_ie6f3")
 next_line_id = "opinion_poseidon_2"
 
 [sub_resource type="Resource" id="Resource_zeus_line_27"]
@@ -201,6 +212,7 @@ script = ExtResource("1_line")
 line_id = "opinion_poseidon_6"
 speaker_name = "Лена"
 text = "Вы поддерживаете его?"
+sprite = ExtResource("4_ie6f3")
 next_line_id = "opinion_poseidon_7"
 
 [sub_resource type="Resource" id="Resource_zeus_line_32"]
@@ -264,6 +276,7 @@ script = ExtResource("1_line")
 line_id = "opinion_poseidon_15"
 speaker_name = "Лена"
 text = "Кажется, к последней части вы подошли особенно ответственно."
+sprite = ExtResource("3_3gark")
 next_line_id = "opinion_poseidon_16"
 
 [sub_resource type="Resource" id="Resource_zeus_line_41"]
@@ -292,6 +305,7 @@ script = ExtResource("1_line")
 line_id = "opinion_poseidon_19"
 speaker_name = "Лена"
 text = "Ах да, вы же еще и женаты."
+sprite = ExtResource("5_vn1p5")
 next_line_id = "opinion_poseidon_20"
 
 [sub_resource type="Resource" id="Resource_zeus_line_45"]
@@ -333,7 +347,8 @@ next_line_id = "opinion_poseidon_25"
 script = ExtResource("1_line")
 line_id = "opinion_poseidon_25"
 speaker_name = "Лена"
-text = "Да, но ваша жена."
+text = "Да, но ваша жена..."
+sprite = ExtResource("5_vn1p5")
 next_line_id = "opinion_poseidon_26"
 
 [sub_resource type="Resource" id="Resource_zeus_line_51"]
@@ -348,6 +363,7 @@ script = ExtResource("1_line")
 line_id = "opinion_poseidon_27"
 speaker_name = "Лена"
 text = "Я ей не завидую."
+sprite = ExtResource("5_vn1p5")
 next_line_id = "opinion_poseidon_28"
 
 [sub_resource type="Resource" id="Resource_zeus_line_53"]
@@ -361,7 +377,7 @@ next_line_id = "opinion_poseidon_29"
 script = ExtResource("1_line")
 line_id = "opinion_poseidon_29"
 speaker_name = "Зевс"
-text = "Но поверь, я делаю что могу, чтобы ей было чуточку легче."
+text = "Но поверь, я делаю, что могу, чтобы ей было чуточку легче."
 next_line_id = "opinion_poseidon_30"
 
 [sub_resource type="Resource" id="Resource_zeus_line_55"]
@@ -369,6 +385,7 @@ script = ExtResource("1_line")
 line_id = "opinion_poseidon_30"
 speaker_name = "Лена"
 text = "Хочется верить."
+sprite = ExtResource("5_vn1p5")
 next_line_id = "Zeus_choices_1"
 
 [sub_resource type="Resource" id="Resource_zeus_line_56"]
@@ -376,6 +393,7 @@ script = ExtResource("1_line")
 line_id = "opinion_hades_1"
 speaker_name = "Лена"
 text = "…Аиду."
+sprite = ExtResource("4_ie6f3")
 next_line_id = "opinion_hades_2"
 
 [sub_resource type="Resource" id="Resource_zeus_line_57"]
@@ -404,6 +422,7 @@ script = ExtResource("1_line")
 line_id = "opinion_hades_5"
 speaker_name = "Лена"
 text = "Мне показалось, что он перегружается…"
+sprite = ExtResource("6_6q2cu")
 next_line_id = "opinion_hades_6"
 
 [sub_resource type="Resource" id="Resource_zeus_line_61"]
@@ -432,6 +451,7 @@ script = ExtResource("1_line")
 line_id = "opinion_hades_9"
 speaker_name = "Лена"
 text = "Да, смешно."
+sprite = ExtResource("3_3gark")
 next_line_id = "opinion_hades_10"
 
 [sub_resource type="Resource" id="Resource_zeus_line_65"]
@@ -446,6 +466,7 @@ script = ExtResource("1_line")
 line_id = "opinion_hades_11"
 speaker_name = "Лена"
 text = "Так это была ваша идея?"
+sprite = ExtResource("4_ie6f3")
 next_line_id = "opinion_hades_12"
 
 [sub_resource type="Resource" id="Resource_zeus_line_67"]
@@ -481,6 +502,7 @@ script = ExtResource("1_line")
 line_id = "opinion_hades_16"
 speaker_name = "Лена"
 text = "“Тыры-пыры”, мдаа. Для бога у вас лексикон, конечно…"
+sprite = ExtResource("5_vn1p5")
 next_line_id = "opinion_hades_17"
 
 [sub_resource type="Resource" id="Resource_zeus_line_72"]
@@ -495,6 +517,7 @@ script = ExtResource("1_line")
 line_id = "opinion_hades_18"
 speaker_name = "Лена"
 text = "Да. Я мало его знаю."
+sprite = ExtResource("4_ie6f3")
 next_line_id = "opinion_hades_19"
 
 [sub_resource type="Resource" id="Resource_zeus_line_74"]
@@ -502,13 +525,14 @@ script = ExtResource("1_line")
 line_id = "opinion_hades_19"
 speaker_name = "Лена"
 text = "Но тоже переживаю."
+sprite = ExtResource("6_6q2cu")
 next_line_id = "opinion_hades_20"
 
 [sub_resource type="Resource" id="Resource_zeus_line_75"]
 script = ExtResource("1_line")
 line_id = "opinion_hades_20"
 speaker_name = "Зевс"
-text = "А ну так может ты это…"
+text = "А ну так, может, ты это…"
 next_line_id = "opinion_hades_21"
 
 [sub_resource type="Resource" id="Resource_zeus_line_76"]
@@ -523,6 +547,7 @@ script = ExtResource("1_line")
 line_id = "opinion_hades_22"
 speaker_name = "Лена"
 text = "ДА КАК ВЫ МОЖЕТЕ ПРЕДЛАГАТЬ ТАКОЕ!"
+sprite = ExtResource("7_10eo7")
 next_line_id = "Zeus_choices_1"
 
 [sub_resource type="Resource" id="Resource_zeus_line_78"]
@@ -579,6 +604,7 @@ script = ExtResource("1_line")
 line_id = "new_world_8"
 speaker_name = "Лена"
 text = "Не уверена. Но, видимо, смогла."
+sprite = ExtResource("5_vn1p5")
 next_line_id = "new_world_9"
 
 [sub_resource type="Resource" id="Resource_zeus_line_86"]
@@ -586,6 +612,7 @@ script = ExtResource("1_line")
 line_id = "new_world_9"
 speaker_name = "Лена"
 text = "Откуда-то же они взялись."
+sprite = ExtResource("5_vn1p5")
 next_line_id = "new_world_10"
 
 [sub_resource type="Resource" id="Resource_zeus_line_87"]
@@ -599,7 +626,7 @@ next_line_id = "new_world_11"
 script = ExtResource("1_line")
 line_id = "new_world_11"
 speaker_name = "Зевс"
-text = "Одна чтобы рыжая, с большими голубыми глазами и красными губами."
+text = "Одна, чтобы рыжая, с большими голубыми глазами и красными губами."
 next_line_id = "new_world_12"
 
 [sub_resource type="Resource" id="Resource_zeus_line_89"]
@@ -614,6 +641,7 @@ script = ExtResource("1_line")
 line_id = "new_world_13"
 speaker_name = "Лена"
 text = "Нет, не могу."
+sprite = ExtResource("5_vn1p5")
 next_line_id = "Zeus_choices_1"
 
 [sub_resource type="Resource" id="Resource_zeus_line_91"]
@@ -649,6 +677,7 @@ script = ExtResource("1_line")
 line_id = "help_5"
 speaker_name = "Лена"
 text = "Неправда, вы подвергаете себя серьезной опасности."
+sprite = ExtResource("3_3gark")
 next_line_id = "help_6"
 
 [sub_resource type="Resource" id="Resource_zeus_line_96"]
@@ -663,6 +692,7 @@ script = ExtResource("1_line")
 line_id = "help_7"
 speaker_name = "Лена"
 text = "Все еще поражаюсь вашим выражениям."
+sprite = ExtResource("5_vn1p5")
 next_line_id = "help_8"
 
 [sub_resource type="Resource" id="Resource_zeus_line_98"]
@@ -740,6 +770,7 @@ script = ExtResource("1_line")
 line_id = "help_18"
 speaker_name = "Лена"
 text = "Припоминаю."
+sprite = ExtResource("3_3gark")
 next_line_id = "help_19"
 
 [sub_resource type="Resource" id="Resource_zeus_line_109"]
@@ -775,6 +806,7 @@ script = ExtResource("1_line")
 line_id = "help_23"
 speaker_name = "Лена"
 text = "Да, печальная история."
+sprite = ExtResource("6_6q2cu")
 next_line_id = "help_24"
 
 [sub_resource type="Resource" id="Resource_zeus_line_114"]
@@ -803,6 +835,7 @@ script = ExtResource("1_line")
 line_id = "help_27"
 speaker_name = "Лена"
 text = "Вау! Это мудро."
+sprite = ExtResource("4_ie6f3")
 next_line_id = "help_28"
 
 [sub_resource type="Resource" id="Resource_zeus_line_118"]
@@ -810,6 +843,7 @@ script = ExtResource("1_line")
 line_id = "help_28"
 speaker_name = "Лена"
 text = "От вас не ожидала."
+sprite = ExtResource("8_4httm")
 next_line_id = "help_29"
 
 [sub_resource type="Resource" id="Resource_zeus_line_119"]
@@ -831,6 +865,7 @@ script = ExtResource("1_line")
 line_id = "help_31"
 speaker_name = "Лена"
 text = "Да… Видимо, все-таки да."
+sprite = ExtResource("8_4httm")
 next_line_id = "Zeus_choices_1"
 
 [sub_resource type="Resource" id="Resource_zeus_line_122"]
@@ -838,6 +873,7 @@ script = ExtResource("1_line")
 line_id = "chosen_world_1"
 speaker_name = "Лена"
 text = "Тот, кого вы хотите найти в этом мире…"
+sprite = ExtResource("4_ie6f3")
 next_line_id = "chosen_world_2"
 
 [sub_resource type="Resource" id="Resource_zeus_line_123"]
@@ -872,7 +908,7 @@ next_line_id = "chosen_world_6"
 script = ExtResource("1_line")
 line_id = "chosen_world_6"
 speaker_name = "Зевс"
-text = "Не просто хотел. Он двух братьев моих убил."
+text = "Не просто хотел. Он двух братьев моих сожрал."
 next_line_id = "chosen_world_7"
 
 [sub_resource type="Resource" id="Resource_zeus_line_128"]
@@ -1020,6 +1056,7 @@ script = ExtResource("1_line")
 line_id = "chosen_world_27"
 speaker_name = "Лена"
 text = "Мне очень жаль. Если я могу чем-то помочь…"
+sprite = ExtResource("6_6q2cu")
 next_line_id = "chosen_world_28"
 
 [sub_resource type="Resource" id="Resource_zeus_line_149"]

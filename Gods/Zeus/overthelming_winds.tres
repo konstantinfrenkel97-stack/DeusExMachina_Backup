@@ -8,7 +8,6 @@ icon_path = "uid://dnhbe5ysmmji4"
 name = "Сокрушающие ветра"
 description = "Отталкивает противника на 2 позиции назад"
 damage_modifier = 0.5
-majesty_gain = 15
 effect_types = Array[String](["enemy_push_back"])
 effect_values = Dictionary[String, int]({
 "enemy_push_back": 2

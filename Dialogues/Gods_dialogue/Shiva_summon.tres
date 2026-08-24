@@ -3,17 +3,22 @@
 [ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_gtl85"]
 [ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_4q28w"]
 [ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="2_e3wt8"]
+[ext_resource type="Texture2D" uid="uid://bfu365plvlb5v" path="res://Main_characters/Lena/Lena_surprised.png" id="3_23xaj"]
+[ext_resource type="Texture2D" uid="uid://cl8wacfrih2fj" path="res://Main_characters/Lena/Lena_smile_1.png" id="4_vbn2h"]
+[ext_resource type="Texture2D" uid="uid://c41xe23xeeys3" path="res://Main_characters/Lena/Lena_sad.png" id="5_1lgmm"]
 
 [sub_resource type="Resource" id="Resource_3jmbg"]
 script = ExtResource("1_gtl85")
 speaker_name = "Лена"
 text = "Шива! Индуистский бог разрушения!"
+sprite = ExtResource("3_23xaj")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_23xaj"]
 script = ExtResource("1_gtl85")
 speaker_name = "Лена"
 text = "Намасте!"
+sprite = ExtResource("4_vbn2h")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_vbn2h"]
@@ -26,12 +31,14 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 script = ExtResource("1_gtl85")
 speaker_name = "Лена"
 text = "Да, это план фантазий. Я призвала вас сюда, потому что меня осаждает орда монстров."
+sprite = ExtResource("4_vbn2h")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_ib377"]
 script = ExtResource("1_gtl85")
 speaker_name = "Лена"
 text = "Прошу, помогите мне."
+sprite = ExtResource("5_1lgmm")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_58nk3"]
@@ -44,6 +51,7 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 script = ExtResource("1_gtl85")
 speaker_name = "Лена"
 text = "Вы так легко согласились?"
+sprite = ExtResource("3_23xaj")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_ms8b1"]
@@ -55,7 +63,7 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 [sub_resource type="Resource" id="Resource_bbqtd"]
 script = ExtResource("1_gtl85")
 speaker_name = "Шива"
-text = "Значит сейчас мое место здесь."
+text = "Значит, сейчас мое место здесь."
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_stb1d"]
@@ -67,7 +75,7 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 [sub_resource type="Resource" id="Resource_4mw60"]
 script = ExtResource("1_gtl85")
 speaker_name = "Шива"
-text = "Да нет, это остальные слишком усложняют"
+text = "Да нет, это остальные слишком усложняют."
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_ywyyq"]
@@ -79,31 +87,33 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 [sub_resource type="Resource" id="Resource_spsxg"]
 script = ExtResource("1_gtl85")
 speaker_name = "Шива"
-text = "Ты либо следуешь им, либо сопротивляешься, страдаешь, и потом все равно оказываешь подхвачен их водами."
+text = "Ты либо следуешь им, либо сопротивляешься, страдаешь, и потом все равно оказываешься подхвачен их водами."
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_grsyd"]
 script = ExtResource("1_gtl85")
 speaker_name = "Шива"
-text = "Девушка с таинственными силами призвала меня в какой-то чудаковатый мир сражаться с монстрами? Значит я буду сражаться с монстрами."
+text = "Девушка с таинственными силами призвала меня в какой-то чудаковатый мир сражаться с монстрами? Значит, я буду сражаться с монстрами."
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_lg1n6"]
 script = ExtResource("1_gtl85")
 speaker_name = "Лена"
-text = "Вам наверное легко живется."
+text = "Вам, наверное, легко живется."
+sprite = ExtResource("3_23xaj")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_wtj3y"]
 script = ExtResource("1_gtl85")
 speaker_name = "Лена"
-text = " Да нет, не сказал бы..."
+text = "Да нет, не сказал бы..."
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_12r1q"]
 script = ExtResource("1_gtl85")
 speaker_name = "Лена"
 text = "Так или иначе. Я рада вашей компании."
+sprite = ExtResource("4_vbn2h")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_dqxyy"]

@@ -6,8 +6,9 @@
 script = ExtResource("1_dt")
 icon_path = "uid://cinx62efkst5m"
 name = "Касание смерти"
+description = "Наносит 120% урона. Продлевает все дебаффы на цели на 1 ход."
 damage_modifier = 1.2
-majesty_gain = 10
+majesty_gain = 15
 usable_from_positions = Array[bool]([true, true, false, false])
 targetable_positions = Array[bool]([true, true, false, false])
 ability_marker = "hades_death_touch"

@@ -10,16 +10,16 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Минотавр"
+max_hp = 217
+damage = 64
+armor = 23
+initiative = 5
+accuracy = 84
+evasion = 12
+crit_chance = 0.13
 sprite_path = "res://Enemies/Civilization/Arena/Minotaur/Minotaur.png"
 face_sprite = "res://Enemies/Civilization/Arena/Minotaur/Minotaur_Face.png"
 battle_sprite_scale_percent = 60.0
-max_hp = 85
-damage = 16
-armor = 25
-initiative = 5
-accuracy = 80
-evasion = 5
-crit_chance = 0.1
 is_large = true
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2"), ExtResource("6_a3")])
 ai_script = ExtResource("3_ai")

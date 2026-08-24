@@ -1,0 +1,587 @@
+[gd_resource type="Resource" script_class="DialogueResource" format=3 uid="uid://j46uaxj087or"]
+
+[ext_resource type="Script" uid="uid://bdppjbkvrapob" path="res://Dialogues/dialogue_line.gd" id="1_line"]
+[ext_resource type="Script" uid="uid://dh3qxso5m27bg" path="res://Dialogues/dialogue_choice.gd" id="2_choice"]
+[ext_resource type="Script" uid="uid://c3g5x3dcif30x" path="res://Dialogues/dialogue_resource.gd" id="3_dialogue"]
+[ext_resource type="Texture2D" uid="uid://cl8wacfrih2fj" path="res://Main_characters/Lena/Lena_smile_1.png" id="3_pfmuh"]
+[ext_resource type="Texture2D" uid="uid://bfu365plvlb5v" path="res://Main_characters/Lena/Lena_surprised.png" id="4_gofqb"]
+[ext_resource type="Texture2D" uid="uid://duogyyhwd3igs" path="res://Main_characters/Lena/Lena_sceptical.png" id="5_6ejx4"]
+[ext_resource type="Texture2D" uid="uid://bq5671vbp3ry4" path="res://Main_characters/Lena/Lena_smile_2.png" id="6_je6eu"]
+[ext_resource type="Texture2D" uid="uid://c41xe23xeeys3" path="res://Main_characters/Lena/Lena_sad.png" id="7_0h5qr"]
+
+[sub_resource type="Resource" id="Resource_cb_L1"]
+script = ExtResource("1_line")
+line_id = "intro_1"
+speaker_name = "Чернобог"
+text = "(Он сидит посреди пустой комнаты подобно горгулье, ты слышишь только тихий свист. Не сразу понимаешь, что это воздух всасывается в пустоту в его лице.)"
+next_line_id = "intro_2"
+
+[sub_resource type="Resource" id="Resource_cb_L2"]
+script = ExtResource("1_line")
+line_id = "intro_2"
+speaker_name = "Лена"
+text = "Я не помешала?"
+sprite = ExtResource("3_pfmuh")
+next_line_id = "intro_3"
+
+[sub_resource type="Resource" id="Resource_cb_L3"]
+script = ExtResource("1_line")
+line_id = "intro_3"
+speaker_name = "Чернобог"
+text = "НЕТ…"
+next_line_id = "Chernobog_choices_1"
+
+[sub_resource type="Resource" id="Resource_cb_C1"]
+script = ExtResource("2_choice")
+choice_id = "open_door"
+choice_text = "Открыть дверь"
+next_line_id = "open_door_1"
+
+[sub_resource type="Resource" id="Resource_cb_C2"]
+script = ExtResource("2_choice")
+choice_id = "opinion"
+choice_text = "Мнение о богах"
+next_line_id = "opinion_1"
+
+[sub_resource type="Resource" id="Resource_cb_C3"]
+script = ExtResource("2_choice")
+choice_id = "help"
+choice_text = "Твоя помощь"
+next_line_id = "help_1"
+
+[sub_resource type="Resource" id="Resource_cb_C4"]
+script = ExtResource("2_choice")
+choice_id = "new_world"
+choice_text = "Новый мир"
+next_line_id = "new_world_1"
+
+[sub_resource type="Resource" id="Resource_cb_C5"]
+script = ExtResource("2_choice")
+choice_id = "chosen_world"
+choice_text = "Выбранный мир"
+next_line_id = "chosen_world_1"
+
+[sub_resource type="Resource" id="Resource_cb_L4"]
+script = ExtResource("1_line")
+line_id = "Chernobog_choices_1"
+choices = Array[ExtResource("2_choice")]([SubResource("Resource_cb_C1"), SubResource("Resource_cb_C2"), SubResource("Resource_cb_C3"), SubResource("Resource_cb_C4"), SubResource("Resource_cb_C5")])
+
+[sub_resource type="Resource" id="Resource_cb_L5"]
+script = ExtResource("1_line")
+line_id = "open_door_1"
+speaker_name = "Лена"
+text = "Послушай. Тут есть ряд дверей, и мне нужна божественная сила, чтобы их открыть…"
+sprite = ExtResource("4_gofqb")
+next_line_id = "open_door_2"
+
+[sub_resource type="Resource" id="Resource_cb_L6"]
+script = ExtResource("1_line")
+line_id = "open_door_2"
+speaker_name = "Чернобог"
+text = "…"
+next_line_id = "open_door_3"
+
+[sub_resource type="Resource" id="Resource_cb_L7"]
+script = ExtResource("1_line")
+line_id = "open_door_3"
+speaker_name = "Лена"
+text = "Короче, просто выбери одну из них и открой."
+sprite = ExtResource("5_6ejx4")
+next_line_id = "open_door_4"
+
+[sub_resource type="Resource" id="Resource_cb_L8"]
+script = ExtResource("1_line")
+line_id = "open_door_4"
+speaker_name = "Лена"
+text = "Пожалуйста."
+sprite = ExtResource("6_je6eu")
+next_line_id = "open_door_5"
+
+[sub_resource type="Resource" id="Resource_cb_L9"]
+script = ExtResource("1_line")
+line_id = "open_door_5"
+speaker_name = "Чернобог"
+text = "…"
+next_line_id = "open_door_6"
+
+[sub_resource type="Resource" id="Resource_cb_L10"]
+script = ExtResource("1_line")
+line_id = "open_door_6"
+speaker_name = "Чернобог"
+text = "НЕБО… СВЕТ…"
+next_line_id = "open_door_7"
+
+[sub_resource type="Resource" id="Resource_cb_L11"]
+script = ExtResource("1_line")
+line_id = "open_door_7"
+speaker_name = "Чернобог"
+text = "БРАТ…"
+next_line_id = "open_door_8"
+
+[sub_resource type="Resource" id="Resource_cb_L12"]
+script = ExtResource("1_line")
+line_id = "open_door_8"
+speaker_name = "Чернобог"
+text = "ДВЕЕЕЕЕЕРЬ…"
+next_line_id = "open_door_9"
+
+[sub_resource type="Resource" id="Resource_cb_L13"]
+script = ExtResource("1_line")
+line_id = "open_door_9"
+speaker_name = "Чернобог"
+text = "ВПЕРЕД…"
+next_line_id = "open_door_10"
+
+[sub_resource type="Resource" id="Resource_cb_L14"]
+script = ExtResource("1_line")
+line_id = "open_door_10"
+speaker_name = "Лена"
+text = "Эй, подожди! Мне нужно подготовиться!"
+sprite = ExtResource("4_gofqb")
+next_line_id = "Chernobog_choices_1"
+
+[sub_resource type="Resource" id="Resource_cb_L15"]
+script = ExtResource("1_line")
+line_id = "opinion_1"
+speaker_name = "Лена"
+text = "Что ты думаешь об…"
+sprite = ExtResource("4_gofqb")
+next_line_id = "opinion_2"
+
+[sub_resource type="Resource" id="Resource_cb_L16"]
+script = ExtResource("1_line")
+line_id = "opinion_2"
+speaker_name = "Чернобог"
+text = "НЕНАВИЖУ…"
+next_line_id = "opinion_3"
+
+[sub_resource type="Resource" id="Resource_cb_L17"]
+script = ExtResource("1_line")
+line_id = "opinion_3"
+speaker_name = "Лена"
+text = "Но я не спросила кого."
+sprite = ExtResource("4_gofqb")
+next_line_id = "opinion_4"
+
+[sub_resource type="Resource" id="Resource_cb_L18"]
+script = ExtResource("1_line")
+line_id = "opinion_4"
+speaker_name = "Чернобог"
+text = "БРАТ…"
+next_line_id = "opinion_5"
+
+[sub_resource type="Resource" id="Resource_cb_L19"]
+script = ExtResource("1_line")
+line_id = "opinion_5"
+speaker_name = "Лена"
+text = "Твой брат… Белобог?"
+sprite = ExtResource("4_gofqb")
+next_line_id = "opinion_6"
+
+[sub_resource type="Resource" id="Resource_cb_L20"]
+script = ExtResource("1_line")
+line_id = "opinion_6"
+speaker_name = "Чернобог"
+text = "БЕЛОООО… БОООООГ"
+next_line_id = "opinion_7"
+
+[sub_resource type="Resource" id="Resource_cb_L21"]
+script = ExtResource("1_line")
+line_id = "opinion_7"
+speaker_name = "Лена"
+text = "Почему ты ненавидишь его?"
+sprite = ExtResource("4_gofqb")
+next_line_id = "opinion_8"
+
+[sub_resource type="Resource" id="Resource_cb_L22"]
+script = ExtResource("1_line")
+line_id = "opinion_8"
+speaker_name = "Чернобог"
+text = "ПУСТО… СТРАШНО…"
+next_line_id = "opinion_9"
+
+[sub_resource type="Resource" id="Resource_cb_L23"]
+script = ExtResource("1_line")
+line_id = "opinion_9"
+speaker_name = "Лена"
+text = "Тебе страшно?"
+sprite = ExtResource("4_gofqb")
+next_line_id = "opinion_10"
+
+[sub_resource type="Resource" id="Resource_cb_L24"]
+script = ExtResource("1_line")
+line_id = "opinion_10"
+speaker_name = "Чернобог"
+text = "УКРАЛ…"
+next_line_id = "opinion_11"
+
+[sub_resource type="Resource" id="Resource_cb_L25"]
+script = ExtResource("1_line")
+line_id = "opinion_11"
+speaker_name = "Лена"
+text = "Тебе пусто и страшно. Он украл у тебя что-то. Что?"
+sprite = ExtResource("4_gofqb")
+next_line_id = "opinion_12"
+
+[sub_resource type="Resource" id="Resource_cb_L26"]
+script = ExtResource("1_line")
+line_id = "opinion_12"
+speaker_name = "Чернобог"
+text = "УКРАЛ… МОЕ… МЕНЯ…"
+next_line_id = "opinion_13"
+
+[sub_resource type="Resource" id="Resource_cb_L27"]
+script = ExtResource("1_line")
+line_id = "opinion_13"
+speaker_name = "Лена"
+text = "У тебя только половина лица."
+sprite = ExtResource("7_0h5qr")
+next_line_id = "opinion_14"
+
+[sub_resource type="Resource" id="Resource_cb_L28"]
+script = ExtResource("1_line")
+line_id = "opinion_14"
+speaker_name = "Лена"
+text = "И пустота, которая все поглощает."
+sprite = ExtResource("5_6ejx4")
+next_line_id = "opinion_15"
+
+[sub_resource type="Resource" id="Resource_cb_L29"]
+script = ExtResource("1_line")
+line_id = "opinion_15"
+speaker_name = "Чернобог"
+text = "ПУСТО…"
+next_line_id = "opinion_16"
+
+[sub_resource type="Resource" id="Resource_cb_L30"]
+script = ExtResource("1_line")
+line_id = "opinion_16"
+speaker_name = "Лена"
+text = "У белобога твоя вторая половина?"
+sprite = ExtResource("7_0h5qr")
+next_line_id = "opinion_17"
+
+[sub_resource type="Resource" id="Resource_cb_L31"]
+script = ExtResource("1_line")
+line_id = "opinion_17"
+speaker_name = "Чернобог"
+text = "МОЕ… ЦЕЛЫЙ…"
+next_line_id = "opinion_18"
+
+[sub_resource type="Resource" id="Resource_cb_L32"]
+script = ExtResource("1_line")
+line_id = "opinion_18"
+speaker_name = "Лена"
+text = "Я начинаю понимать тебя."
+sprite = ExtResource("3_pfmuh")
+next_line_id = "opinion_19"
+
+[sub_resource type="Resource" id="Resource_cb_L33"]
+script = ExtResource("1_line")
+line_id = "opinion_19"
+speaker_name = "Чернобог"
+text = "УБИВАТЬ…"
+next_line_id = "opinion_20"
+
+[sub_resource type="Resource" id="Resource_cb_L34"]
+script = ExtResource("1_line")
+line_id = "opinion_20"
+speaker_name = "Лена"
+text = "Ты знаешь. Ты чертовски пугаешь меня."
+sprite = ExtResource("5_6ejx4")
+next_line_id = "opinion_21"
+
+[sub_resource type="Resource" id="Resource_cb_L35"]
+script = ExtResource("1_line")
+line_id = "opinion_21"
+speaker_name = "Лена"
+text = "Но даже так."
+sprite = ExtResource("6_je6eu")
+next_line_id = "opinion_22"
+
+[sub_resource type="Resource" id="Resource_cb_L36"]
+script = ExtResource("1_line")
+line_id = "opinion_22"
+speaker_name = "Лена"
+text = "Я бы не хотела, чтобы ты страдал."
+sprite = ExtResource("7_0h5qr")
+next_line_id = "opinion_23"
+
+[sub_resource type="Resource" id="Resource_cb_L37"]
+script = ExtResource("1_line")
+line_id = "opinion_23"
+speaker_name = "Лена"
+text = "Надеюсь, тебе станет легче."
+sprite = ExtResource("6_je6eu")
+next_line_id = "opinion_24"
+
+[sub_resource type="Resource" id="Resource_cb_L38"]
+script = ExtResource("1_line")
+line_id = "opinion_24"
+speaker_name = "Лена"
+text = "И не будет пусто и страшно."
+sprite = ExtResource("7_0h5qr")
+next_line_id = "opinion_25"
+
+[sub_resource type="Resource" id="Resource_cb_L39"]
+script = ExtResource("1_line")
+line_id = "opinion_25"
+speaker_name = "Чернобог"
+text = "…"
+next_line_id = "Chernobog_choices_1"
+
+[sub_resource type="Resource" id="Resource_cb_L40"]
+script = ExtResource("1_line")
+line_id = "help_1"
+speaker_name = "Лена"
+text = "Я не уверена, что твоя помощь – это то, что мне нужно."
+sprite = ExtResource("4_gofqb")
+next_line_id = "help_2"
+
+[sub_resource type="Resource" id="Resource_cb_L41"]
+script = ExtResource("1_line")
+line_id = "help_2"
+speaker_name = "Чернобог"
+text = "…"
+next_line_id = "help_3"
+
+[sub_resource type="Resource" id="Resource_cb_L42"]
+script = ExtResource("1_line")
+line_id = "help_3"
+speaker_name = "Лена"
+text = "Ты пугаешь до чертиков, и мне кажется, что высасываешь все хорошее."
+sprite = ExtResource("4_gofqb")
+next_line_id = "help_4"
+
+[sub_resource type="Resource" id="Resource_cb_L43"]
+script = ExtResource("1_line")
+line_id = "help_4"
+speaker_name = "Лена"
+text = "Я хочу спастись и уйти отсюда."
+sprite = ExtResource("4_gofqb")
+next_line_id = "help_5"
+
+[sub_resource type="Resource" id="Resource_cb_L44"]
+script = ExtResource("1_line")
+line_id = "help_5"
+speaker_name = "Лена"
+text = "Но, может, ты просто дома посидишь и не будешь никого убивать?"
+sprite = ExtResource("4_gofqb")
+next_line_id = "help_6"
+
+[sub_resource type="Resource" id="Resource_cb_L45"]
+script = ExtResource("1_line")
+line_id = "help_6"
+speaker_name = "Чернобог"
+text = "НЕТ…"
+next_line_id = "help_7"
+
+[sub_resource type="Resource" id="Resource_cb_L46"]
+script = ExtResource("1_line")
+line_id = "help_7"
+speaker_name = "Чернобог"
+text = "УБИВАТЬ…"
+next_line_id = "help_8"
+
+[sub_resource type="Resource" id="Resource_cb_L47"]
+script = ExtResource("1_line")
+line_id = "help_8"
+speaker_name = "Лена"
+text = "Ясно, спасибо за конструктивный диалог."
+sprite = ExtResource("5_6ejx4")
+next_line_id = "help_9"
+
+[sub_resource type="Resource" id="Resource_cb_L48"]
+script = ExtResource("1_line")
+line_id = "help_9"
+speaker_name = "Чернобог"
+text = "ПОЖАЛУЙСТА…"
+next_line_id = "Chernobog_choices_1"
+
+[sub_resource type="Resource" id="Resource_cb_L49"]
+script = ExtResource("1_line")
+line_id = "new_world_1"
+speaker_name = "Лена"
+text = "Ну ты это…"
+sprite = ExtResource("4_gofqb")
+next_line_id = "new_world_2"
+
+[sub_resource type="Resource" id="Resource_cb_L50"]
+script = ExtResource("1_line")
+line_id = "new_world_2"
+speaker_name = "Лена"
+text = "Пообжился тут?"
+sprite = ExtResource("4_gofqb")
+next_line_id = "new_world_3"
+
+[sub_resource type="Resource" id="Resource_cb_L51"]
+script = ExtResource("1_line")
+line_id = "new_world_3"
+speaker_name = "Лена"
+text = "Привык к новой обстановке?"
+sprite = ExtResource("4_gofqb")
+next_line_id = "new_world_4"
+
+[sub_resource type="Resource" id="Resource_cb_L52"]
+script = ExtResource("1_line")
+line_id = "new_world_4"
+speaker_name = "Чернобог"
+text = "НОВОЕ…"
+next_line_id = "new_world_5"
+
+[sub_resource type="Resource" id="Resource_cb_L53"]
+script = ExtResource("1_line")
+line_id = "new_world_5"
+speaker_name = "Чернобог"
+text = "НЕТ…"
+next_line_id = "new_world_6"
+
+[sub_resource type="Resource" id="Resource_cb_L54"]
+script = ExtResource("1_line")
+line_id = "new_world_6"
+speaker_name = "Чернобог"
+text = "ПУСТО…"
+next_line_id = "new_world_7"
+
+[sub_resource type="Resource" id="Resource_cb_L55"]
+script = ExtResource("1_line")
+line_id = "new_world_7"
+speaker_name = "Лена"
+text = "Не уверена, что понимаю тебя?"
+sprite = ExtResource("4_gofqb")
+next_line_id = "new_world_8"
+
+[sub_resource type="Resource" id="Resource_cb_L56"]
+script = ExtResource("1_line")
+line_id = "new_world_8"
+speaker_name = "Чернобог"
+text = "ПУСТО…"
+next_line_id = "new_world_9"
+
+[sub_resource type="Resource" id="Resource_cb_L57"]
+script = ExtResource("1_line")
+line_id = "new_world_9"
+speaker_name = "Чернобог"
+text = "ВЕЗДЕ…"
+next_line_id = "new_world_10"
+
+[sub_resource type="Resource" id="Resource_cb_L58"]
+script = ExtResource("1_line")
+line_id = "new_world_10"
+speaker_name = "Чернобог"
+text = "ПУСТО…"
+next_line_id = "new_world_11"
+
+[sub_resource type="Resource" id="Resource_cb_L59"]
+script = ExtResource("1_line")
+line_id = "new_world_11"
+speaker_name = "Лена"
+text = "Тебе не важно, где ты находишься, ты чувствуешь только пустоту?"
+sprite = ExtResource("4_gofqb")
+next_line_id = "new_world_12"
+
+[sub_resource type="Resource" id="Resource_cb_L60"]
+script = ExtResource("1_line")
+line_id = "new_world_12"
+speaker_name = "Чернобог"
+text = "ПУСТО…"
+next_line_id = "new_world_13"
+
+[sub_resource type="Resource" id="Resource_cb_L61"]
+script = ExtResource("1_line")
+line_id = "new_world_13"
+speaker_name = "Лена"
+text = "Это… грустно…"
+sprite = ExtResource("7_0h5qr")
+next_line_id = "new_world_14"
+
+[sub_resource type="Resource" id="Resource_cb_L62"]
+script = ExtResource("1_line")
+line_id = "new_world_14"
+speaker_name = "Чернобог"
+text = "…"
+next_line_id = "new_world_15"
+
+[sub_resource type="Resource" id="Resource_cb_L63"]
+script = ExtResource("1_line")
+line_id = "new_world_15"
+speaker_name = "Чернобог"
+text = "ГРУСТНО…"
+next_line_id = "Chernobog_choices_1"
+
+[sub_resource type="Resource" id="Resource_cb_L64"]
+script = ExtResource("1_line")
+line_id = "chosen_world_1"
+speaker_name = "Лена"
+text = "Хочу угадать почему ты выбрал именно этот мир."
+sprite = ExtResource("4_gofqb")
+next_line_id = "chosen_world_2"
+
+[sub_resource type="Resource" id="Resource_cb_L65"]
+script = ExtResource("1_line")
+line_id = "chosen_world_2"
+speaker_name = "Лена"
+text = "На основе того, что про тебя знаю."
+sprite = ExtResource("4_gofqb")
+next_line_id = "chosen_world_3"
+
+[sub_resource type="Resource" id="Resource_cb_L66"]
+script = ExtResource("1_line")
+line_id = "chosen_world_3"
+speaker_name = "Чернобог"
+text = "…"
+next_line_id = "chosen_world_4"
+
+[sub_resource type="Resource" id="Resource_cb_L67"]
+script = ExtResource("1_line")
+line_id = "chosen_world_4"
+speaker_name = "Лена"
+text = "Ты говорил про небо и свет, и про своего брата."
+sprite = ExtResource("5_6ejx4")
+next_line_id = "chosen_world_5"
+
+[sub_resource type="Resource" id="Resource_cb_L68"]
+script = ExtResource("1_line")
+line_id = "chosen_world_5"
+speaker_name = "Лена"
+text = "Ты надеешься найти своего брата Белобога в этом биоме."
+sprite = ExtResource("5_6ejx4")
+next_line_id = "chosen_world_6"
+
+[sub_resource type="Resource" id="Resource_cb_L69"]
+script = ExtResource("1_line")
+line_id = "chosen_world_6"
+speaker_name = "Лена"
+text = "И забрав у него то, что он украл – обрести целостность и больше не чувствовать пустоты."
+sprite = ExtResource("5_6ejx4")
+next_line_id = "chosen_world_7"
+
+[sub_resource type="Resource" id="Resource_cb_L70"]
+script = ExtResource("1_line")
+line_id = "chosen_world_7"
+speaker_name = "Лена"
+text = "Я же права?"
+sprite = ExtResource("4_gofqb")
+next_line_id = "chosen_world_8"
+
+[sub_resource type="Resource" id="Resource_cb_L71"]
+script = ExtResource("1_line")
+line_id = "chosen_world_8"
+speaker_name = "Чернобог"
+text = "ПУСТО…"
+next_line_id = "chosen_world_9"
+
+[sub_resource type="Resource" id="Resource_cb_L72"]
+script = ExtResource("1_line")
+line_id = "chosen_world_9"
+speaker_name = "Лена"
+text = "Буду считать, что права."
+sprite = ExtResource("3_pfmuh")
+next_line_id = "Chernobog_choices_1"
+
+[resource]
+script = ExtResource("3_dialogue")
+dialogue_id = "chernobog_dialogue_1"
+dialogue_name = ""
+start_line_id = "intro_1"
+lines = Array[ExtResource("1_line")]([SubResource("Resource_cb_L1"), SubResource("Resource_cb_L2"), SubResource("Resource_cb_L3"), SubResource("Resource_cb_L4"), SubResource("Resource_cb_L5"), SubResource("Resource_cb_L6"), SubResource("Resource_cb_L7"), SubResource("Resource_cb_L8"), SubResource("Resource_cb_L9"), SubResource("Resource_cb_L10"), SubResource("Resource_cb_L11"), SubResource("Resource_cb_L12"), SubResource("Resource_cb_L13"), SubResource("Resource_cb_L14"), SubResource("Resource_cb_L15"), SubResource("Resource_cb_L16"), SubResource("Resource_cb_L17"), SubResource("Resource_cb_L18"), SubResource("Resource_cb_L19"), SubResource("Resource_cb_L20"), SubResource("Resource_cb_L21"), SubResource("Resource_cb_L22"), SubResource("Resource_cb_L23"), SubResource("Resource_cb_L24"), SubResource("Resource_cb_L25"), SubResource("Resource_cb_L26"), SubResource("Resource_cb_L27"), SubResource("Resource_cb_L28"), SubResource("Resource_cb_L29"), SubResource("Resource_cb_L30"), SubResource("Resource_cb_L31"), SubResource("Resource_cb_L32"), SubResource("Resource_cb_L33"), SubResource("Resource_cb_L34"), SubResource("Resource_cb_L35"), SubResource("Resource_cb_L36"), SubResource("Resource_cb_L37"), SubResource("Resource_cb_L38"), SubResource("Resource_cb_L39"), SubResource("Resource_cb_L40"), SubResource("Resource_cb_L41"), SubResource("Resource_cb_L42"), SubResource("Resource_cb_L43"), SubResource("Resource_cb_L44"), SubResource("Resource_cb_L45"), SubResource("Resource_cb_L46"), SubResource("Resource_cb_L47"), SubResource("Resource_cb_L48"), SubResource("Resource_cb_L49"), SubResource("Resource_cb_L50"), SubResource("Resource_cb_L51"), SubResource("Resource_cb_L52"), SubResource("Resource_cb_L53"), SubResource("Resource_cb_L54"), SubResource("Resource_cb_L55"), SubResource("Resource_cb_L56"), SubResource("Resource_cb_L57"), SubResource("Resource_cb_L58"), SubResource("Resource_cb_L59"), SubResource("Resource_cb_L60"), SubResource("Resource_cb_L61"), SubResource("Resource_cb_L62"), SubResource("Resource_cb_L63"), SubResource("Resource_cb_L64"), SubResource("Resource_cb_L65"), SubResource("Resource_cb_L66"), SubResource("Resource_cb_L67"), SubResource("Resource_cb_L68"), SubResource("Resource_cb_L69"), SubResource("Resource_cb_L70"), SubResource("Resource_cb_L71"), SubResource("Resource_cb_L72")])

@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Рожденный для битвы"
+description = "Стойка: после атаки по титану он получает +10 атаки на 2 хода; в начале следующего хода бьёт по позициям 1-2 врагов."
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"

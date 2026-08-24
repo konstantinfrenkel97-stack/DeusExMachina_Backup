@@ -6,6 +6,7 @@
 majesty_gain = 0
 script = ExtResource("1_3fgi3")
 name = "Удар"
+description = "Наносит 100% урона; отталкивает цель назад на 1 позицию."
 effect_types = Array[String](["push_back"])
 effect_values = Dictionary[String, int]({
 "push_back": 1

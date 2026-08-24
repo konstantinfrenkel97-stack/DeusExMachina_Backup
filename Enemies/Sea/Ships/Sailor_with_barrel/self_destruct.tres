@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_sd")
 name = "Самоподрыв"
+description = "Наносит 130% урона; сам теряет 100% своего максимального здоровья."
 damage_modifier = 1.3
 majesty_gain = 0
 target_type = "All_Enemies"

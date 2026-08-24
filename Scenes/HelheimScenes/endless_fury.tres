@@ -1,20 +1,27 @@
-[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3 uid="uid://ch6rb80pmmwlp"]
 
-[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
-[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
-[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
-[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
-[ext_resource type="Resource" path="res://Enemies/Dungeon/Hellheim/Draugr_Berserk/draugr_berserk.tres" id="enemy_berserk"]
-[ext_resource type="Resource" path="res://Enemies/Dungeon/Hellheim/Banshee/banshee.tres" id="enemy_banshee"]
-[ext_resource type="Resource" path="res://Enemies/Dungeon/Hellheim/Draugr_raider/Draugr_raider.tres" id="enemy_raider"]
-[ext_resource type="Resource" path="res://Enemies/Dungeon/Hellheim/Draugr_Juggernaut/Draugr_Juggernaut.tres" id="enemy_juggernaut"]
-[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
-[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
-[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
-[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
-[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
-[ext_resource type="Resource" path="res://Gods/Loki/Loki.tres" id="loki"]
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Resource" uid="uid://djml03da18pxx" path="res://Enemies/Dungeon/Hellheim/Banshee/banshee.tres" id="enemy_banshee"]
+[ext_resource type="Resource" uid="uid://c0q5dvj3e8f6w" path="res://Enemies/Dungeon/Hellheim/Draugr_Berserk/draugr_berserk.tres" id="enemy_berserk"]
+[ext_resource type="Resource" uid="uid://dp5jiorrrac21" path="res://Enemies/Dungeon/Hellheim/Draugr_Juggernaut/Draugr_Juggernaut.tres" id="enemy_juggernaut"]
+[ext_resource type="Resource" uid="uid://24uwmv5i3use" path="res://Enemies/Dungeon/Hellheim/Draugr_raider/Draugr_raider.tres" id="enemy_raider"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="formation_script"]
 [ext_resource type="Resource" path="res://Items/Weapons/Unique/berserker_claws.tres" id="item_berserker_claws"]
+[ext_resource type="Resource" uid="uid://lokigod00001" path="res://Gods/Loki/Loki.tres" id="loki"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://dutn5fch4d8b5" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+
+[sub_resource type="Resource" id="mod_berserk80_stacks7"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+hp_percent = 80
+passive_charges = 7
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
 
 [sub_resource type="Resource" id="form_initial"]
 script = ExtResource("formation_script")
@@ -25,23 +32,22 @@ pos3 = ExtResource("enemy_banshee")
 pos4 = ExtResource("enemy_raider")
 metadata/_custom_type_script = ExtResource("formation_script")
 
-[sub_resource type="Resource" id="form_escape"]
-script = ExtResource("formation_script")
-formation_name = "Бесконечная ярость: Джаггернаут-Банши-Рейдер"
-pos1 = ExtResource("enemy_juggernaut")
-pos2 = ExtResource("enemy_banshee")
-pos3 = ExtResource("enemy_raider")
-pos4 = null
-metadata/_custom_type_script = ExtResource("formation_script")
+[sub_resource type="Resource" id="battle_kill_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_initial")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_berserk80_stacks7")])
+location_id = "helheim"
+metadata/_custom_type_script = ExtResource("battle_script")
 
-[sub_resource type="Resource" id="form_duel"]
-script = ExtResource("formation_script")
-formation_name = "Дуэль с берсерком"
-pos1 = ExtResource("enemy_berserk")
-pos2 = null
-pos3 = null
-pos4 = null
-metadata/_custom_type_script = ExtResource("formation_script")
+[sub_resource type="Resource" id="out_kill_fail"]
+script = ExtResource("outcome_script")
+result_text = "Прежде чем вы добираетесь до безумца, на вас набрасывается орда нежити."
+battle = SubResource("battle_kill_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="check_attack"]
+script = ExtResource("stat_check_script")
+metadata/_custom_type_script = ExtResource("stat_check_script")
 
 [sub_resource type="Resource" id="mod_berserk10_stacks7"]
 script = ExtResource("unit_modifier_script")
@@ -50,12 +56,26 @@ hp_percent = 10
 passive_charges = 7
 metadata/_custom_type_script = ExtResource("unit_modifier_script")
 
-[sub_resource type="Resource" id="mod_berserk80_stacks7"]
-script = ExtResource("unit_modifier_script")
-target_position = 1
-hp_percent = 80
-passive_charges = 7
-metadata/_custom_type_script = ExtResource("unit_modifier_script")
+[sub_resource type="Resource" id="battle_kill_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_initial")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_berserk10_stacks7")])
+location_id = "helheim"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_kill_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы обрушиваете свое оружие на безумца, его кости трещат, а мышцы рвутся. Прежде чем вас настигает орда нежити, он превращается в едва живой останок."
+battle = SubResource("battle_kill_success")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_kill"]
+script = ExtResource("choice_script")
+choice_text = "Быстро убить берсерка"
+stat_check = SubResource("check_attack")
+success_outcome = SubResource("out_kill_success")
+failure_outcome = SubResource("out_kill_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
 
 [sub_resource type="Resource" id="buff_luck_plus20"]
 script = ExtResource("buff_script")
@@ -72,11 +92,55 @@ passive_charges = 7
 buffs = Array[ExtResource("buff_script")]([SubResource("buff_luck_plus20")])
 metadata/_custom_type_script = ExtResource("unit_modifier_script")
 
+[sub_resource type="Resource" id="battle_escape_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_initial")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_berserk80_luck")])
+location_id = "helheim"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_escape_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вам не удалось достаточно быстро прорубить себе путь сквозь нежить, и вы видите, как на четвереньках, подобно зверю, к вам мчится безумный берсерк."
+battle = SubResource("battle_escape_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="check_initiative"]
+script = ExtResource("stat_check_script")
+stat = 1
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="form_escape"]
+script = ExtResource("formation_script")
+formation_name = "Бесконечная ярость: Джаггернаут-Банши-Рейдер"
+pos1 = ExtResource("enemy_juggernaut")
+pos2 = ExtResource("enemy_banshee")
+pos3 = ExtResource("enemy_raider")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_escape_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_escape")
+location_id = "helheim"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_escape_success"]
+script = ExtResource("outcome_script")
+result_text = "Ваша скорость и сила оружия прорубают вам путь через орду нежити, безумный берсерк остается позади."
+battle = SubResource("battle_escape_success")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_escape"]
+script = ExtResource("choice_script")
+choice_text = "Уходить оттуда"
+stat_check = SubResource("check_initiative")
+success_outcome = SubResource("out_escape_success")
+failure_outcome = SubResource("out_escape_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
 [sub_resource type="Resource" id="buff_damage_minus20"]
 script = ExtResource("buff_script")
-stat = 0
 value = -20
-duration = -1
 metadata/_custom_type_script = ExtResource("buff_script")
 
 [sub_resource type="Resource" id="mod_duel_berserk"]
@@ -87,103 +151,30 @@ passive_charges = 8
 buffs = Array[ExtResource("buff_script")]([SubResource("buff_damage_minus20")])
 metadata/_custom_type_script = ExtResource("unit_modifier_script")
 
-[sub_resource type="Resource" id="battle_kill_success"]
-script = ExtResource("battle_script")
-formation = SubResource("form_initial")
-location_id = "helheim"
-enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_berserk10_stacks7")])
-metadata/_custom_type_script = ExtResource("battle_script")
-
-[sub_resource type="Resource" id="battle_kill_fail"]
-script = ExtResource("battle_script")
-formation = SubResource("form_initial")
-location_id = "helheim"
-enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_berserk80_stacks7")])
-metadata/_custom_type_script = ExtResource("battle_script")
-
-[sub_resource type="Resource" id="battle_escape_success"]
-script = ExtResource("battle_script")
-formation = SubResource("form_escape")
-location_id = "helheim"
-metadata/_custom_type_script = ExtResource("battle_script")
-
-[sub_resource type="Resource" id="battle_escape_fail"]
-script = ExtResource("battle_script")
-formation = SubResource("form_initial")
-location_id = "helheim"
-enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_berserk80_luck")])
-metadata/_custom_type_script = ExtResource("battle_script")
+[sub_resource type="Resource" id="form_duel"]
+script = ExtResource("formation_script")
+formation_name = "Дуэль с берсерком"
+pos1 = ExtResource("enemy_berserk")
+metadata/_custom_type_script = ExtResource("formation_script")
 
 [sub_resource type="Resource" id="battle_duel"]
 script = ExtResource("battle_script")
 formation = SubResource("form_duel")
-location_id = "helheim"
 enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_duel_berserk")])
+location_id = "helheim"
 metadata/_custom_type_script = ExtResource("battle_script")
-
-[sub_resource type="Resource" id="out_kill_success"]
-script = ExtResource("outcome_script")
-result_text = "Вы обрушиваете свое оружие на безумца, его кости трещат а мышцы рвутся. Прежде чем вас настигает орда нежити он превращается в едва живой останок."
-battle = SubResource("battle_kill_success")
-metadata/_custom_type_script = ExtResource("outcome_script")
-
-[sub_resource type="Resource" id="out_kill_fail"]
-script = ExtResource("outcome_script")
-result_text = "Прежде чем вы добираетесь до безумца, на вас набрасывается орда нежити."
-battle = SubResource("battle_kill_fail")
-metadata/_custom_type_script = ExtResource("outcome_script")
-
-[sub_resource type="Resource" id="out_escape_success"]
-script = ExtResource("outcome_script")
-result_text = "Ваша скорость и сила оружия прорубают вам путь через орду нежити, безумный берсерк остается позади."
-battle = SubResource("battle_escape_success")
-metadata/_custom_type_script = ExtResource("outcome_script")
-
-[sub_resource type="Resource" id="out_escape_fail"]
-script = ExtResource("outcome_script")
-result_text = "Вам не удалось достаточно быстро прорубить себе путь сквозь нежить и вы видите, как на четвереньках, подобно зверю к вам мчится безумный берсерк."
-battle = SubResource("battle_escape_fail")
-metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="reward_berserker_claws"]
 script = ExtResource("reward_script")
-kind = 0
 resource = ExtResource("item_berserker_claws")
-amount = 1
 metadata/_custom_type_script = ExtResource("reward_script")
 
 [sub_resource type="Resource" id="out_duel"]
 script = ExtResource("outcome_script")
-result_text = "Локи в одиночку выходит на плато, где безумствует берсерк. Боги замирают, замирает и окружающая нежить. Одинокий бог идет широко расправив руки, ладони открыты. Драугр замечает врага, и направляясь к нему, отрывает собственную руку с когтями, бросая оппоненту оружие. Вы получаете артефакт «Когти берсерка»."
+result_text = "Локи в одиночку выходит на плато, где безумствует берсерк. Боги замирают, замирает и окружающая нежить. Одинокий бог идет, широко расправив руки, ладони открыты. Драугр замечает врага, и, направляясь к нему, отрывает собственную руку с когтями, бросая оппоненту оружие. Вы получаете артефакт «Когти берсерка»."
 battle = SubResource("battle_duel")
-rewards = [SubResource("reward_berserker_claws")]
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_berserker_claws")])
 metadata/_custom_type_script = ExtResource("outcome_script")
-
-[sub_resource type="Resource" id="check_attack"]
-script = ExtResource("stat_check_script")
-stat = 0
-metadata/_custom_type_script = ExtResource("stat_check_script")
-
-[sub_resource type="Resource" id="choice_kill"]
-script = ExtResource("choice_script")
-choice_text = "Быстро убить берсерка"
-stat_check = SubResource("check_attack")
-success_outcome = SubResource("out_kill_success")
-failure_outcome = SubResource("out_kill_fail")
-metadata/_custom_type_script = ExtResource("choice_script")
-
-[sub_resource type="Resource" id="check_initiative"]
-script = ExtResource("stat_check_script")
-stat = 1
-metadata/_custom_type_script = ExtResource("stat_check_script")
-
-[sub_resource type="Resource" id="choice_escape"]
-script = ExtResource("choice_script")
-choice_text = "Уходить оттуда"
-stat_check = SubResource("check_initiative")
-success_outcome = SubResource("out_escape_success")
-failure_outcome = SubResource("out_escape_fail")
-metadata/_custom_type_script = ExtResource("choice_script")
 
 [sub_resource type="Resource" id="choice_loki_duel"]
 script = ExtResource("choice_script")
@@ -195,5 +186,5 @@ metadata/_custom_type_script = ExtResource("choice_script")
 [resource]
 script = ExtResource("scene_script")
 scene_title = "Бесконечная ярость"
-body_text = "Пробираясь через туман вы слышите скрежет металла и звуки ударов. Выглядывая из-за камней вы обнаруживаете одинокого драугра в звериной шкуре. Он мечется, размахивая руками, и из раза в раз вонзает когти в собственное тело. Как ребенок притворяющийся рыцарем, он то наносит удары невидимому противнику, то самому себе. Прежде чем вы можете что-то сделать, вы замечаете что его безумная игра уже собрала вокруг орду нежити."
-choices = [SubResource("choice_kill"), SubResource("choice_escape"), SubResource("choice_loki_duel")]
+body_text = "Пробираясь через туман, вы слышите скрежет металла и звуки ударов. Выглядывая из-за камней, вы обнаруживаете одинокого драугра в звериной шкуре. Он мечется, размахивая руками, и из раза в раз вонзает когти в собственное тело. Как ребенок, притворяющийся рыцарем, он то наносит удары невидимому противнику, то самому себе. Прежде чем вы можете что-то сделать, вы замечаете, что его безумная игра уже собрала вокруг орду нежити."
+choices = Array[ExtResource("choice_script")]([SubResource("choice_kill"), SubResource("choice_escape"), SubResource("choice_loki_duel")])

@@ -275,6 +275,7 @@ func _refresh_effect_icons() -> void:
 	if _effect_icon_row == null or data == null:
 		return
 	for child in _effect_icon_row.get_children():
+		_effect_icon_row.remove_child(child)
 		child.queue_free()
 	var entries := _build_effect_icon_entries()
 	_effect_icon_row.visible = not entries.is_empty()
@@ -289,11 +290,8 @@ func _refresh_effect_icons() -> void:
 		icon.texture = texture
 		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		var icon_width := EFFECT_ICON_HEIGHT
-		if texture.get_height() > 0:
-			icon_width = maxf(EFFECT_ICON_HEIGHT, texture.get_width() * EFFECT_ICON_HEIGHT / texture.get_height())
-		icon.custom_minimum_size = Vector2(icon_width, EFFECT_ICON_HEIGHT)
-		icon.size = Vector2(icon_width, EFFECT_ICON_HEIGHT)
+		icon.custom_minimum_size = Vector2(EFFECT_ICON_HEIGHT, EFFECT_ICON_HEIGHT)
+		icon.size = Vector2(EFFECT_ICON_HEIGHT, EFFECT_ICON_HEIGHT)
 		icon.mouse_filter = Control.MOUSE_FILTER_STOP
 		icon.tooltip_text = str(entry.get("tooltip", ""))
 		_effect_icon_row.add_child(icon)
@@ -312,7 +310,7 @@ func _build_effect_icon_entries() -> Array[Dictionary]:
 	if data.special_effect_type == "satyr_redirect":
 		if not grouped.has("innocence_mark"):
 			grouped["innocence_mark"] = []
-		grouped["innocence_mark"].append("ÃÅ“ÃÂµÃ‘â€šÃÂºÃÂ° ÃÂ½ÃÂµÃÂ²ÃÂ¸ÃÂ½ÃÂ½ÃÂ¾Ã‘ÂÃ‘â€šÃÂ¸: 50% Ã‘Ë†ÃÂ°ÃÂ½Ã‘Â ÃÂ¿ÃÂµÃ‘â‚¬ÃÂµÃÂ½ÃÂ°ÃÂ¿Ã‘â‚¬ÃÂ°ÃÂ²ÃÂ¸Ã‘â€šÃ‘Å’ ÃÂ°Ã‘â€šÃÂ°ÃÂºÃ‘Æ’ ÃÂ½ÃÂ° Ã‘ÂÃÂ»Ã‘Æ’Ã‘â€¡ÃÂ°ÃÂ¹ÃÂ½ÃÂ¾ÃÂ³ÃÂ¾ Ã‘ÂÃÂ¾Ã‘Å½ÃÂ·ÃÂ½ÃÂ¸ÃÂºÃÂ°")
+		grouped["innocence_mark"].append("Метка невинности: 50% шанс перенаправить атаку на случайного союзника.")
 	var entries: Array[Dictionary] = []
 	for category in EFFECT_ICON_ORDER:
 		if not grouped.has(category):
@@ -342,12 +340,12 @@ func _get_effect_icon_category(effect) -> String:
 		return "regeneration"
 	if stat == "periodic_damage":
 		return "periodic_damage"
-	if key.contains("voodoo") or key.contains("vodoo") or key.contains("curse") or key.contains("ÃÂ¿Ã‘â‚¬ÃÂ¾ÃÂºÃÂ»Ã‘Â"):
+	if key.contains("voodoo") or key.contains("vodoo") or key.contains("curse") or key.contains("прокля"):
 		return "voodoo_curse"
 	if stat == "trigger_marker":
-		return ""
+		return "buff"
 	var value := int(Combatant._effect_get(effect, "value", 0))
-	if stat == "stun" or value < 0:
+	if stat == "stun" or stat == "rooted" or value < 0:
 		return "debuff"
 	if value > 0:
 		return "buff"
@@ -361,34 +359,42 @@ func _format_effect_tooltip_line(effect) -> String:
 	var duration := int(Combatant._effect_get(effect, "duration", 0))
 	var title := source
 	if title == "":
-		title = effect_id
-	if title == "":
-		title = _effect_stat_title(stat)
-	var value_text := _effect_value_text(stat, value)
+		title = _effect_title(effect_id, stat)
+	var description := DataTables.describe_active_effect(effect_id, stat, value, source)
+	if description == "":
+		description = _effect_value_text(stat, value)
 	var duration_text := _effect_duration_text(effect_id, duration)
-	return "%s: %s, %s" % [title, value_text, duration_text]
+	if duration_text == "":
+		return "%s: %s" % [title, description]
+	return "%s: %s, %s" % [title, description, duration_text]
 
 func _format_stance_tooltip_line(stance: AbilityResource) -> String:
-	var details := "ÃÂ¡Ã‘â€šÃÂ¾ÃÂ¹ÃÂºÃÂ°: %s" % stance.name
+	var details := "Стойка: %s" % stance.name
 	if stance.stance_effect_type != "":
-		details += "\nÃÂ­Ã‘â€žÃ‘â€žÃÂµÃÂºÃ‘â€š: %s" % stance.stance_effect_type
+		var description := DataTables.get_stance_effect_description(stance.stance_effect_type)
+		if description != "":
+			details += "\n%s" % description
+		else:
+			details += "\nЭффект: %s" % stance.stance_effect_type
 	if stance.stance_duration_type != "":
-		details += "\nÃâ€ÃÂ»ÃÂ¸Ã‘â€šÃÂµÃÂ»Ã‘Å’ÃÂ½ÃÂ¾Ã‘ÂÃ‘â€šÃ‘Å’: %s" % stance.stance_duration_type
+		details += "\nДлительность: %s" % _stance_duration_text(stance.stance_duration_type)
 	return details
 
 func _effect_value_text(stat: String, value: int) -> String:
 	if stat == "periodic_damage":
-		return "ÃÂ¿ÃÂµÃ‘â‚¬ÃÂ¸ÃÂ¾ÃÂ´ÃÂ¸Ã‘â€¡ÃÂµÃ‘ÂÃÂºÃÂ¸ÃÂ¹ Ã‘Æ’Ã‘â‚¬ÃÂ¾ÃÂ½ %d" % value
+		return "периодический урон %d" % value
 	if stat == "regeneration":
-		return "Ã‘â‚¬ÃÂµÃÂ³ÃÂµÃÂ½ÃÂµÃ‘â‚¬ÃÂ°Ã‘â€ ÃÂ¸Ã‘Â %d%%" % value
+		return "регенерация %d%%" % value
 	if stat == "stun":
-		return "ÃÂ¾ÃÂ³ÃÂ»Ã‘Æ’Ã‘Ë†ÃÂµÃÂ½ÃÂ¸ÃÂµ"
+		return "оглушение"
+	if stat == "rooted":
+		return "обездвиживание"
 	if stat == "trigger_marker":
-		return "Ã‘Æ’ÃÂ½ÃÂ¸ÃÂºÃÂ°ÃÂ»Ã‘Å’ÃÂ½ÃÂ°Ã‘Â ÃÂ¼ÃÂµÃ‘â€šÃÂºÃÂ°"
+		return "уникальная метка"
 	if value > 0:
-		return "+%d ÃÂº %s" % [value, _effect_stat_title(stat)]
+		return "+%d к %s" % [value, _effect_stat_title(stat)]
 	if value < 0:
-		return "%d ÃÂº %s" % [value, _effect_stat_title(stat)]
+		return "%d к %s" % [value, _effect_stat_title(stat)]
 	return _effect_stat_title(stat)
 
 func _effect_duration_text(effect_id: String, duration: int) -> String:
@@ -396,25 +402,51 @@ func _effect_duration_text(effect_id: String, duration: int) -> String:
 	if effect_id == "thor_hammer_of_lightning" and duration > 0:
 		shown_duration = maxi(1, duration - 1)
 	if shown_duration < 0:
-		return "ÃÂ´ÃÂ¾ ÃÂºÃÂ¾ÃÂ½Ã‘â€ ÃÂ° ÃÂ±ÃÂ¾Ã‘Â"
+		return "до конца боя"
 	if shown_duration == 0:
-		return "ÃÂ·ÃÂ°ÃÂºÃÂ°ÃÂ½Ã‘â€¡ÃÂ¸ÃÂ²ÃÂ°ÃÂµÃ‘â€šÃ‘ÂÃ‘Â"
-	return "%d Ã‘â€¦ÃÂ¾ÃÂ´(ÃÂ¾ÃÂ²)" % shown_duration
+		return "заканчивается"
+	return "%d ход(ов)" % shown_duration
+
+func _effect_title(effect_id: String, stat: String) -> String:
+	match effect_id:
+		"thor_hammer_of_lightning": return "Громовой молот"
+		"neverending_storm_mark": return "Нескончаемый шторм"
+		"thor_fight_me_heal": return "Провокация Тора"
+		"plant_poison_buff": return "Растительный яд"
+		"cupid_innocence": return "Метка невинности"
+		"provocation_mark", "princess_provocation": return "Метка провокации"
+		"voodoo_marked": return "Кукла вуду"
+		"raven_marked": return "Стая воронов"
+		"root_thorns": return "Шипы корней"
+		"duna_harmony_immune": return "Гармония с природой"
+		"ultimate_blocked": return "Блокировка ульты"
+		"sphinx_riddle": return "Загадка Сфинкса"
+		_:
+			if effect_id != "":
+				return effect_id.capitalize().replace("_", " ")
+			return _effect_stat_title(stat)
+
+func _stance_duration_text(duration_type: String) -> String:
+	match duration_type:
+		"UntilNextTurn": return "до следующего хода"
+		"UntilBattleEnd": return "до конца боя"
+		"UntilStanceBroken": return "пока стойка не сбита"
+		_: return duration_type
 
 func _effect_stat_title(stat: String) -> String:
 	match stat:
-		"hp": return "ÃÂ·ÃÂ´ÃÂ¾Ã‘â‚¬ÃÂ¾ÃÂ²Ã‘Å’ÃÂµ"
-		"max_hp": return "ÃÂ¼ÃÂ°ÃÂºÃ‘Â. ÃÂ·ÃÂ´ÃÂ¾Ã‘â‚¬ÃÂ¾ÃÂ²Ã‘Å’ÃÂµ"
-		"damage": return "Ã‘Æ’Ã‘â‚¬ÃÂ¾ÃÂ½"
-		"armor": return "ÃÂ±Ã‘â‚¬ÃÂ¾ÃÂ½Ã‘Â"
-		"accuracy": return "Ã‘â€šÃÂ¾Ã‘â€¡ÃÂ½ÃÂ¾Ã‘ÂÃ‘â€šÃ‘Å’"
-		"evasion": return "Ã‘Æ’ÃÂºÃÂ»ÃÂ¾ÃÂ½ÃÂµÃÂ½ÃÂ¸ÃÂµ"
-		"crit": return "ÃÂºÃ‘â‚¬ÃÂ¸Ã‘â€š"
-		"initiative": return "ÃÂ¸ÃÂ½ÃÂ¸Ã‘â€ ÃÂ¸ÃÂ°Ã‘â€šÃÂ¸ÃÂ²ÃÂ°"
-		"provocation_mark": return "ÃÂ¼ÃÂµÃ‘â€šÃÂºÃÂ° ÃÂ¿Ã‘â‚¬ÃÂ¾ÃÂ²ÃÂ¾ÃÂºÃÂ°Ã‘â€ ÃÂ¸ÃÂ¸"
-		"invulnerable": return "ÃÂ½ÃÂµÃ‘Æ’Ã‘ÂÃÂ·ÃÂ²ÃÂ¸ÃÂ¼ÃÂ¾Ã‘ÂÃ‘â€šÃ‘Å’"
+		"hp": return "здоровье"
+		"max_hp": return "максимальное здоровье"
+		"damage", "attack": return "атаку"
+		"armor": return "броню"
+		"accuracy": return "точность"
+		"evasion": return "уклонение"
+		"crit", "crit_chance", "luck": return "удачу"
+		"initiative": return "инициативу"
+		"provocation_mark": return "метку провокации"
+		"invulnerable": return "неуязвимость"
+		"crit_modifier": return "шанс крита"
 		_: return stat
-## Ãâ€™Ã‘ÂÃÂ¿Ã‘â€¹Ã‘Ë†ÃÂºÃÂ° ÃÂºÃ‘â‚¬ÃÂ°Ã‘ÂÃÂ½Ã‘â€¹ÃÂ¼ ÃÂ¿ÃÂ¾ÃÂ²ÃÂµÃ‘â‚¬Ã‘â€¦ Ã‘ÂÃÂ¿Ã‘â‚¬ÃÂ°ÃÂ¹Ã‘â€šÃÂ° Ã¢â‚¬â€ ÃÂ²ÃÂ¸ÃÂ·Ã‘Æ’ÃÂ°ÃÂ»Ã‘Å’ÃÂ½ÃÂ¾ ÃÂ¿ÃÂµÃ‘â‚¬ÃÂµÃÂ´ÃÂ°Ã‘â€˜Ã‘â€š ÃÂ¿ÃÂ¾ÃÂ»Ã‘Æ’Ã‘â€¡ÃÂµÃÂ½ÃÂ¸ÃÂµ Ã‘Æ’Ã‘â‚¬ÃÂ¾ÃÂ½ÃÂ° (0.75 Ã‘Â, 50%).
 func flash_damage():
 	if flash_sprite == null:
 		return
@@ -548,7 +580,7 @@ func _on_healed(amount: int) -> void:
 ## kind: "damage" (ÃÂ±ÃÂµÃÂ»ÃÂ¾ÃÂµ Ã‘Â ÃÂºÃ‘â‚¬ÃÂ°Ã‘ÂÃÂ½Ã‘â€¹ÃÂ¼ ÃÂºÃÂ¾ÃÂ½Ã‘â€šÃ‘Æ’Ã‘â‚¬ÃÂ¾ÃÂ¼), "crit" (ÃÂºÃ‘â‚¬Ã‘Æ’ÃÂ¿ÃÂ½ÃÂµÃÂµ, ÃÂ¿ÃÂ¾ÃÂ»ÃÂ½ÃÂ¾Ã‘ÂÃ‘â€šÃ‘Å’Ã‘Å½ ÃÂºÃ‘â‚¬ÃÂ°Ã‘ÂÃÂ½ÃÂ¾ÃÂµ),
 ## "heal" (ÃÂ·ÃÂµÃÂ»Ã‘â€˜ÃÂ½ÃÂ¾ÃÂµ, Ã‘Â ÃÂ¿ÃÂ»Ã‘Å½Ã‘ÂÃÂ¾ÃÂ¼).
 func show_floating_number(amount: int, kind: String) -> void:
-	if amount == 0:
+	if amount == 0 and kind != "miss":
 		return
 	var lbl = Label.new()
 	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -560,6 +592,10 @@ func show_floating_number(amount: int, kind: String) -> void:
 	var outline := Color(0.8, 0.0, 0.0, 1.0)
 	var prefix := ""
 	match kind:
+		"miss":
+			font_size = 44
+			col = Color(1, 1, 1, 1)
+			outline = Color(0, 0, 0, 1)
 		"crit":
 			font_size = 52  # ÃÂ½ÃÂ° ~20% ÃÂ±ÃÂ¾ÃÂ»Ã‘Å’Ã‘Ë†ÃÂµ ÃÂ±ÃÂ°ÃÂ·ÃÂ¾ÃÂ²ÃÂ¾ÃÂ³ÃÂ¾
 			col = Color(1.0, 0.12, 0.12, 1.0)
@@ -568,7 +604,7 @@ func show_floating_number(amount: int, kind: String) -> void:
 			col = Color(0.25, 1.0, 0.35, 1.0)
 			outline = Color(0.0, 0.3, 0.0, 1.0)
 			prefix = "+"
-	lbl.text = prefix + str(amount)
+	lbl.text = "Промах" if kind == "miss" else prefix + str(amount)
 	lbl.add_theme_font_size_override("font_size", font_size)
 	lbl.add_theme_color_override("font_color", col)
 	lbl.add_theme_color_override("font_outline_color", outline)

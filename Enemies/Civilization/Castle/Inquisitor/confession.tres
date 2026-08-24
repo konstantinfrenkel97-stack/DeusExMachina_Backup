@@ -10,6 +10,6 @@ damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Ally"
 ability_marker = "inquisitor_confession"
-usable_from_positions = Array[bool]([true, true, true, true])
+usable_from_positions = Array[bool]([false, true, true, true])
 targetable_positions = Array[bool]([true, true, true, true])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

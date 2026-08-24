@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_eswp2")
 name = "Ковать железо"
+description = "Стойка: кузнец готовит жетон ковки для последующего усиления союзника."
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"

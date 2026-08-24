@@ -8,6 +8,7 @@ icon_path = "uid://c1mbreep3o0pd"
 name = "Веселье никогда не заканчивается"
 description = "Все юниты получают 20 удачи и 20 уклонения, но теряют 30 точности и 15 брони"
 damage_modifier = 0.0
+majesty_gain = 15
 target_type = "All_Allies"
 ability_marker = "samdi_party"
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

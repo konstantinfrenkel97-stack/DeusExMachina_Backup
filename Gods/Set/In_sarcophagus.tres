@@ -6,8 +6,9 @@
 script = ExtResource("1_sc")
 icon_path = "uid://g3yo7wn66kkw"
 name = "В саркофаг"
+description = "Союзник оглушается и становится неуязвимым до следующего хода Сета."
 damage_modifier = 0.0
-majesty_gain = 10
+majesty_gain = 15
 target_type = "Ally"
 usable_from_positions = Array[bool]([false, true, true, false])
 ability_marker = "set_sarcophagus"

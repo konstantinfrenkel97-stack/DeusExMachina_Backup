@@ -7,6 +7,7 @@ script = ExtResource("1_ab")
 icon_path = "uid://cy884a2kf8y76"
 name = "Поглощение жизни"
 description = "Восстанови здоровье равное 50% от нанесенного урона"
+majesty_gain = 15
 usable_from_positions = Array[bool]([false, true, true, true])
 ability_marker = "duna_life_steal"
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

@@ -4,9 +4,11 @@ class_name AbilityResource
 
 @export var name: String = "Название"
 @export_multiline var description: String = "Описание"
+@export_multiline var extra_effect_description: String = ""
 @export_group("Localization")
 @export var name_key: String = ""
 @export var description_key: String = ""
+@export var extra_effect_description_key: String = ""
 @export_group("")
 @export_group("Upgrade")
 @export var upgraded_ability: AbilityResource
@@ -85,3 +87,6 @@ func get_display_name() -> String:
 
 func get_display_description() -> String:
 	return Localization.t(description_key, description)
+
+func get_display_extra_effect_description() -> String:
+	return Localization.t(extra_effect_description_key, extra_effect_description)

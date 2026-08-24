@@ -1,0 +1,117 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Resource" uid="uid://cypvhqrhhfuqx" path="res://Enemies/Civilization/Castle/Guardsman/Guardsman.tres" id="enemy_guardsman"]
+[ext_resource type="Resource" uid="uid://bfq2ys22fvokw" path="res://Enemies/Civilization/Castle/Jester/Jester.tres" id="enemy_jester"]
+[ext_resource type="Resource" uid="uid://ckc2sghbq7nkw" path="res://Enemies/Civilization/Castle/Princess/Princess.tres" id="enemy_princess"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Resource" uid="uid://dmvh76qge87c8" path="res://Essence/thoughts.tres" id="thoughts"]
+[ext_resource type="Script" uid="uid://dutn5fch4d8b5" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+
+[sub_resource type="Resource" id="form_chest_fail"]
+script = ExtResource("formation_script")
+formation_name = "Стражник - стражник - шут - принцесса"
+pos1 = ExtResource("enemy_guardsman")
+pos2 = ExtResource("enemy_guardsman")
+pos3 = ExtResource("enemy_jester")
+pos4 = ExtResource("enemy_princess")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_chest_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_chest_fail")
+location_id = "castle"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="reward_thoughts_800"]
+script = ExtResource("reward_script")
+kind = 3
+resource = ExtResource("thoughts")
+amount = 800
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_open_fail"]
+script = ExtResource("outcome_script")
+result_text = "Замок никак вам не поддается, один за другим боги пробуют, дают друг другу советы и лезут под руку. Когда, наконец, с щелчком открывается замок — вы замечаете, что окружены со всех сторон."
+battle = SubResource("battle_chest_fail")
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_thoughts_800")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("stat_check_script")
+stat = 4
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_open_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы ловко вскрываете сундук. Точная и элегантная работа. Внутри полно украшений, драгоценных камней и фарфора. Непонятно, зачем они вам на плане фантазий, но, решив, что могут пригодиться, вы берете их с собой."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_thoughts_800")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_open"]
+script = ExtResource("choice_script")
+choice_text = "Попытаться открыть сундук"
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_open_success")
+failure_outcome = SubResource("out_open_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="out_break_fail"]
+script = ExtResource("outcome_script")
+result_text = "Сундук не поддается вашим ударам. Один за другим вы обрушиваете сокрушительные атаки, пока наконец сундук не разваливается в труху. К сожалению, та же судьба постигла содержимое: разбитый фарфор, погнутое золото, треснутые драгоценные камни. Воистину сила богов пугает."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="check_attack"]
+script = ExtResource("stat_check_script")
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="reward_thoughts_700"]
+script = ExtResource("reward_script")
+kind = 3
+resource = ExtResource("thoughts")
+amount = 700
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_break_success"]
+script = ExtResource("outcome_script")
+result_text = "Парой точных ударов вы разламываете сундук на части. Внутри находятся золотые монеты, украшения, драгоценные камни и битый украшенный фарфор. Хотя не вся добыча пережила кинетическое воздействие, вы так или иначе обогатились. Но зачем вам золото в этом мире?"
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_thoughts_700")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_break"]
+script = ExtResource("choice_script")
+choice_text = "Разломать сундук"
+stat_check = SubResource("check_attack")
+success_outcome = SubResource("out_break_success")
+failure_outcome = SubResource("out_break_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_strongest_init_minus1"]
+script = ExtResource("buff_script")
+stat = 6
+value = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_take"]
+script = ExtResource("outcome_script")
+result_text = "Сильнейший из ваших богов берет сундук с собой, чтобы открыть в безопасной обстановке убежища. К сожалению, даже для бога сундучишко весьма тяжел. Драться с ним будет совсем несподручно. Персонаж с наибольшей атакой получает штраф 1 инициативы до конца миссии."
+strongest_hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_strongest_init_minus1")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_take"]
+script = ExtResource("choice_script")
+choice_text = "Взять сундук с собой"
+outcome = SubResource("out_take")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Сундук с сокровищами (Замок)"
+body_text = "Сундук. Он стоит на видном месте. Выглядит так, будто он полон сокровищ, но так ли это?"
+choices = [SubResource("choice_open"), SubResource("choice_break"), SubResource("choice_take")]

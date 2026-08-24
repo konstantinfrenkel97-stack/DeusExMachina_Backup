@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MissionResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_resource.gd" id="mission_script"]
+[ext_resource type="Resource" path="res://Scenes/CastleScenes/welcome_castle.tres" id="scene_welcome"]
+[ext_resource type="Resource" path="res://Scenes/CastleScenes/castle_treasure_chest.tres" id="scene_chest"]
+[ext_resource type="Resource" path="res://Scenes/CastleScenes/castle_patrol_1.tres" id="scene_patrol"]
+[ext_resource type="Resource" path="res://Scenes/rest.tres" id="scene_rest"]
+[ext_resource type="Resource" path="res://Scenes/CastleScenes/jesters_secret.tres" id="scene_jester"]
+
+[resource]
+script = ExtResource("mission_script")
+mission_name = "Добро пожаловать в Замок"
+scenes = [ExtResource("scene_welcome"), ExtResource("scene_chest"), ExtResource("scene_patrol"), ExtResource("scene_rest"), ExtResource("scene_jester")]
+location = 7

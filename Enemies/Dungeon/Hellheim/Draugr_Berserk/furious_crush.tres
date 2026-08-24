@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_fc")
 name = "Яростное сокрушение"
+description = "Наносит 100% урона; после удара сам получает урон, равный 5% нанесённого урона."
 damage_modifier = 1.0
 majesty_gain = 0
 effect_types = Array[String](["self_damage_dealt_percent"])

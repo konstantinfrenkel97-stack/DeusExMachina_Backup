@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://dh1r45strewjg"]
 
+[ext_resource type="Texture2D" uid="uid://ydufhkj0y0cj" path="res://Gods/Osiris/Rays_of_glory_icon.png" id="1_epdkh"]
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_rg"]
 
 [resource]
@@ -15,4 +16,5 @@ mark_target_team = "ally"
 mark_effect_type = "ally_buff_evasion"
 mark_effect_value = 10
 mark_effect_duration = 2
+mark_icon = ExtResource("1_epdkh")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

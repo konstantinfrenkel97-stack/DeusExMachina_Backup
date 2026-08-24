@@ -10,12 +10,15 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Жрец Анубиса"
+max_hp = 95
+damage = 17
+armor = 14
+initiative = 6
+accuracy = 83
+evasion = 13
+crit_chance = 0.09
 sprite_path = "res://Enemies/Civilization/Desert/Anubis_Priest/Pristess of Anubys.png"
 face_sprite = "res://Enemies/Civilization/Desert/Anubis_Priest/Pristess of Anubys_Face.png"
-max_hp = 70
-damage = 16
-initiative = 5
-evasion = 15
 special_effect_type = "anubis_resurrect"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_st"), ExtResource("3_sw"), ExtResource("4_dd")])
 ai_script = ExtResource("5_ai")
