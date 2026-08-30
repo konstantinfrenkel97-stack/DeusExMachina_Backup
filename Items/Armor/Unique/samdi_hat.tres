@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3]
+
+[ext_resource type="Script" path="res://Items/item_resource.gd" id="1_ir"]
+
+[resource]
+script = ExtResource("1_ir")
+item_name = "Шляпа Самди"
+item_type = 1
+rarity = 3
+icon = null
+description = "Когда противник получает дебафф, наносит ему 15% урона Самди. Только для Самди."
+bonus_max_hp = 0
+bonus_damage = 0
+bonus_armor = 0
+bonus_initiative = 2
+bonus_accuracy = 0
+bonus_evasion = 10
+bonus_crit_chance = 0.07
+bonus_majesty = 0
+fantasy_regen_per_turn = 0
+majesty_regen_per_turn = 0
+hp_regen_percent = 0.0
+restricted_god_path = "res://Gods/Samdi/Samdi.tres"
+effect = "samdi_hat_debuff_punish"

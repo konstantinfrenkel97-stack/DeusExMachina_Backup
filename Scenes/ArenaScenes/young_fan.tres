@@ -1,0 +1,75 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Gods/Set/Set.tres" id="ext_set"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+
+[sub_resource type="Resource" id="out_bless"]
+script = ExtResource("outcome_script")
+result_text = "Вас тронула решимость молодого бойца. Вместе вы подходите и кладёте руки на рукоятку его меча, торжественно произнося слова благословения. Желаете, чтобы юноша сражался честно и отважно, и обещаете, что тогда величие и слава найдут его.\n\nУ молодого человека — глаза на мокром месте. Его потряхивает, и он дрожащими губами пытается лепетать слова благодарности, но выходят только неразборчивые всхлипывания. Он сжимает меч в объятиях и истово вам кланяется, после чего убегает, задевая предметы и стены."
+set_mission_flag = "arena_fan_blessing"
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_bless"]
+script = ExtResource("choice_script")
+choice_text = "Благословить юношу"
+outcome = SubResource("out_bless")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_peace"]
+script = ExtResource("stat_check_script")
+stat = 4
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_peace_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы собираетесь вокруг юноши, он смотрит на вас широкими глазами. Но вместо слов о смелости и битве вы говорите ему о важности жизни, о семье, о том как мало бойцов доживают до славы, и как тяжело жить калекой. Он неверя качает головой.\n\n«Нет… нет… нет нет нет! Всё должно было пойти не так!»\n\nОн падает и плачет.\n\n«Но я хотел быть героем… слава. Я был бы лучшим! Я бы не ум…»\n\nОн замолкает.\n\n«Я бы умер да? И мама бы плакала… И некому было бы заботиться о брате…»\n\nОн встаёт с колен, качая головой.\n\n«Я не буду воином. Я пойду домой и проживу жизнь. Простую, но долгую.»\n\nОн поднимает глаза на вас.\n\n«И буду вспоминать вас… Спасибо.»\n\nОн уходит, держа спину прямо."
+set_mission_flag = "arena_fan_peace"
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_peace_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы собираетесь вокруг юноши, он смотрит на вас широкими глазами. Но вместо слов о смелости и битве вы говорите ему о важности жизни, о семье, о том как мало бойцов доживают до славы, и как тяжело жить калекой. Он неверя качает головой.\n\n«Нет… нет… нет нет нет! Всё должно было пойти не так!»\n\nОн яростно отходит от вас. Руки сжимают меч до побеления костяшек.\n\n«Вы! Можете в меня не верить! Мне всё равно!»\n\n«ДА! Всё равно! Слышите! Я стану героем! С вашим благословением или без него!»\n\nС этими словами он убегает."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_peace"]
+script = ExtResource("choice_script")
+choice_text = "Отговорить его от сражений на арене"
+stat_check = SubResource("check_peace")
+success_outcome = SubResource("out_peace_success")
+failure_outcome = SubResource("out_peace_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_minion"]
+script = ExtResource("stat_check_script")
+stat = 4
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_minion_success"]
+script = ExtResource("outcome_script")
+result_text = "Сет расталкивает остальных богов, подлетая к юноше с жадной улыбкой.\n\n«О, так ты поклонник Великолепного Сета? Так вот он я. Хочешь получить благословение? Пойдём-ка со мной. Я дам тебе своё особое благословение.»\n\nОн приобнимает парня за плечи и уводит в дальний угол комнаты. Там он ему что-то говорит, но вы можете разобрать только отдельные слова вроде «один из нас», «доказать верность», «все через это проходили».\n\nСначала у парня опускаются плечи. Потом он вдыхает, расправляет грудь, и поднимает лицо, глядя в глаза богу. Второй улыбается, обнажив клыки, и начинает пальцем что-то чертить на лбу у паренька. Вы молча следите за происходящим.\n\nНаконец парень поворачивается. У него немного отсутствующее выражение лица, а на лбу светится тусклым фиолетовым светом нарисованный глаз. Он молча шествует из вашей комнаты. Его движения словно скованные. Вы оборачиваетесь к Сету. На его лице знакомая наглая ухмылка.\n\n«О, у него огромный потенциал. Парня ждёт воистину ВЕЛИКАЯ судьба.»"
+set_mission_flag = "arena_fan_traitor"
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_minion_fail"]
+script = ExtResource("outcome_script")
+result_text = "Сет расталкивает остальных богов, подлетая к юноше с жадной улыбкой.\n\n«О, так ты поклонник Великолепного Сета? Так вот он я. Хочешь получить благословение? Пойдём-ка со мной. Я дам тебе своё особое благословение.»\n\nОн приобнимает парня за плечи и уводит в дальний угол комнаты. Там он ему что-то говорит, но вы можете разобрать только отдельные слова вроде «один из нас», «доказать верность», «все через это проходили».\n\nСначала у парня опускаются плечи. Потом он вдыхает, расправляет грудь, и поднимает лицо, глядя в глаза богу. Второй улыбается, обнажив клыки, и начинает пальцем что-то чертить на лбу у паренька. Вы молча следите за происходящим.\n\nНаконец парень поворачивается. У него немного отсутствующее выражение лица, а на лбу светится тусклым фиолетовым светом нарисованный глаз. Он молча шествует из вашей комнаты. Его движения словно скованные. Вы оборачиваетесь к Сету. На его лице скучающая разочарованность.\n\n«Да, знаю знаю. Поспешная работа, скорее всего слетит. Но что поделать, я работал второпях. Может хоть немного этот неудачник нам пригодится.»"
+set_mission_flag = "arena_fan_weak_traitor"
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_minion"]
+script = ExtResource("choice_script")
+choice_text = "Сделать из него приспешника"
+required_god = ExtResource("ext_set")
+stat_check = SubResource("check_minion")
+success_outcome = SubResource("out_minion_success")
+failure_outcome = SubResource("out_minion_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Юный поклонник"
+body_text = "Пока вы отдыхаете между боями, кто-то тихо стучится в вашу дверь. Вы открываете и обнаруживаете юношу, сжимающего ножны и меч. Его взгляд бегает, а кости ещё не обросли мышцами как следует, из-за чего его худой силуэт кажется немного хрупким. Он поднимает большие глаза.\n\n«З-з-з-здравствуйте… Меня зовут…»\n\n«Да вам не важно как меня зовут…»\n\n«КОМАНДА ВЕЛИКОЛЕПНОГО СЕТА! Я видел ваш бой»\n\n«Это было так круто! Я смотрел и понял что хочу быть как вы. Таким же сильным воином.»\n\n«Это меч моего отца. Пожалуйста, дайте мне ваше благословение, я хочу выступать на арене.»"
+choices = [SubResource("choice_bless"), SubResource("choice_peace"), SubResource("choice_minion")]

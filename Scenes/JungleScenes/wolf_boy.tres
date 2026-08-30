@@ -1,0 +1,103 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" path="res://Items/Trinkets/Common/frog_amulet.tres" id="item_frog_amulet"]
+[ext_resource type="Resource" path="res://Essence/thoughts.tres" id="thoughts"]
+
+[sub_resource type="Resource" id="out_leave"]
+script = ExtResource("outcome_script")
+result_text = "Вы пятитесь назад, стоя к волкам лицом. Отступая в лес, и оставляя их наедине со своей добычей. И со своим человеком."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_leave"]
+script = ExtResource("choice_script")
+choice_text = "Оставить их"
+outcome = SubResource("out_leave")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_evasion"]
+script = ExtResource("stat_check_script")
+stat = 3
+stat_label = "Уклонение"
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="reward_frog_amulet"]
+script = ExtResource("reward_script")
+kind = 0
+resource = ExtResource("item_frog_amulet")
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_talk_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы открыто выходите к волкам, те начинают громче рычать, но на лице мальчика выступает замешательство. Он медленно подходит к вам, неловко передвигаясь на четвереньках. Волки хватают его за руки, не давая приблизиться к опасности, но любопытство пересиливает, и вот он перед вами.
+Вы обращаетесь к нему. Спрашиваете имя, называете свое. Пытаетесь выяснить понимает ли он вас, и как он попал к волкам. Он смотрит на вас открытыми глазами, и одними губами, не произнося звуков повторяет то что вы ему говорите. Потом начинает коверкая звуки и порыкивая пытаться повторить ваши имена. Видно что он очень пытается, но неприученное тело не справляется с человеческой речью. Он видит непонимание на ваших лицах, и на широких глазах выступают слезы.
+Тогда он снимает с шеи какую-то веревочку, скрытую под коркой грязи и протягивает вам. Вы принимаете дар, и видите что на веревочке висит примитивный амулет. Маленькая лягушка вырезанная из дерева, покрытая потершейся зеленой краской. Он отходит спиной вперед не спуская с вас глаз, а губы растягиваются во что-то напоминающее улыбку, но все еще больше похожую на оскал. Вы улыбаетесь и так же отходите назад."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_frog_amulet")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_talk_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы открыто выходите к волкам, те начинают громче рычать, но на лице мальчика выступает замешательство. Он медленно подходит к вам, неловко передвигаясь на четвереньках. Волки хватают его за руки, не давая приблизиться к опасности, но любопытство пересиливает, и вот он перед вами.
+Вы обращаетесь к нему. Спрашиваете имя, называете свое. Пытаетесь выяснить понимает ли он вас, и как он попал к волкам. Он смотрит на вас открытыми глазами, и одними губами, не произнося звуков повторяет то что вы ему говорите. Потом начинает коверкая звуки и порыкивая пытаться повторить ваши имена. Видно что он очень пытается, но неприученное тело не справляется с человеческой речью. Он видит непонимание на ваших лицах, и на широких глазах выступают слезы.
+Один из богов протягивает руку чтобы его успокоить. Зрачки мальчика мгновенно сужаются, он бросается и кусает бога за руку. Остальной отряд бросается на помощь, но мальчик с окровавленными зубами отскочил в сторону, к своей стае и набрав в грудь воздуха начал кричать на вас. Не рычать как волк и не ругаться как человек. Он выл и рычал, голос менял высоту. Будто на языке понятном ему одному выражал свои чувства. Даже волки поджали хвосты. Вы поспешили уйти, но еще долго слышали над джунглями вой одинокого человека."
+random_hero_hp_percent_delta = -2
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_talk"]
+script = ExtResource("choice_script")
+choice_text = "Выйти открыто и заговорить с человеком"
+stat_check = SubResource("check_evasion")
+success_outcome = SubResource("out_talk_success")
+failure_outcome = SubResource("out_talk_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_attack"]
+script = ExtResource("stat_check_script")
+stat = 0
+stat_label = "Атака"
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="reward_thoughts_300"]
+script = ExtResource("reward_script")
+kind = 3
+resource = ExtResource("thoughts")
+amount = 300
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_take_success"]
+script = ExtResource("outcome_script")
+result_text = "Неподалеку вы видели человеческую деревню. Негоже мальчику расти в таких условиях, возможно из него еще выйдет человек. Быстро переговорив, трое богов незаметно берутся за оружие, а один выходит вперед. В мгновение ока, мальчик оказывается схвачен в охапку, а трое других богов оружием начали отгонять волков.
+Они бросались в безумной отчаянии, пытаясь высвободить мальчишку, который кусался и лягался. Но оружие удерживало животных на расстоянии. Медленно ваша процессия выдвинулась, под крик, рык и вой.
+Дорога тянулась целую вечность, и ни волки, ни ребенок не останавливали агрессию, пока вы не дошли до деревни и к вам не выбежали крестьяне с вилами, которые забрали юношу и отогнали животных. Дикаря отнесли в сарай. Один из мужиков вернулся и быстро что-то начал шептать старому деревенскому мужчине, тот кивает и обращается к вам.
+\"Это мальчик пропал из деревни 12 лет назад. Тогда тигр напал на лесорубов. Узнали по медальону в виде лягушонка. Маугли.\"
+\"Может из него еще можно сделать человека, будем пробовать. Отблагодарить вас особо нечем, можем припасами в дорогу снабдить, разве только.\"
+Вы принимаете благодарность от старосты, но перед уходом слышите как кто-то бьется о двери ангара. Вы спешите уйти, но еще долго вас преследует скорбный волчий вой."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_thoughts_300")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_take_fail"]
+script = ExtResource("outcome_script")
+result_text = "Неподалеку вы видели человеческую деревню. Негоже мальчику расти в таких условиях, возможно из него еще выйдет человек. Быстро переговорив, трое богов незаметно берутся за оружие, а один выходит вперед. В мгновение ока, мальчик оказывается схвачен в охапку, а трое других богов оружием начали отгонять волков.
+Они бросались в безумной отчаянии, пытаясь высвободить мальчишку, который кусался и лягался.
+И вам пришлось отступить перед их напором. Искусанные и изодранные вы выпускаете мальчишку и он яростно рыча, вместе с волками исчезает в зеленой чаще. Вы пытались. Вам не удалось."
+hero_heal_percent = -3
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_take"]
+script = ExtResource("choice_script")
+choice_text = "Забрать его и отвести к людям"
+stat_check = SubResource("check_attack")
+success_outcome = SubResource("out_take_success")
+failure_outcome = SubResource("out_take_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Мальчик которого растили как волка"
+body_text = "Вы слышите шорох, приближающийся к вам. Кто-то бежит и очень быстро. Вы прячетесь в кустах, готовые к столкновению, но на поляну выбегает только серый олень. Его нога кровоточит. Он поворачивает морду к вам, и в этот момент, на круп к нему прыгает молодой волк. Еще несколько хватают за ноги, а на шею прыгает долговязый, вымазанный грязью лохматый человек. Вы с удивлением наблюдаете за командной работой волков и человека. Он несомненно молод, почти мальчишка. Одетый только в тропическую грязь он сжимает горло оленя руками, а зубами впивается в ухо.
+Наконец животное ослабевает и падает. Волки и юноша торжествующе скачут вокруг, как вдруг, один разворачивает морду в вашу сторону. Другие также поворачиваются, опускают голову и рыча скалят зубы. Мальчик на четвереньках тоже скалится на вас и рычит."
+choices = [SubResource("choice_leave"), SubResource("choice_talk"), SubResource("choice_take")]

@@ -16,8 +16,11 @@ var pending_mission_hero_heal_percent: int = 0
 var pending_mission_fantasy_delta: int = 0
 var pending_mission_hero_majesty_delta: int = 0
 var pending_mission_hero_buffs: Array = []
+var pending_mission_enemy_buffs: Array = []
 var pending_mission_target_effects: Array = []
 var pending_helheim_skip_fog_rounds: int = 0
+# Заклинание «Ром» в следующем бою бьёт не только выбранную цель, но и всю её команду.
+var pending_rum_spell_whole_team: bool = false
 # Эффекты, которые держатся до конца миссии и применяются в каждом бою.
 var mission_strongest_hero_buffs: Array = []
 # Баффы на весь отряд героев, до конца миссии (применяются в каждом бою). Array[BuffEntry].
@@ -55,8 +58,10 @@ func reset_mission():
 	pending_mission_fantasy_delta = 0
 	pending_mission_hero_majesty_delta = 0
 	pending_mission_hero_buffs = []
+	pending_mission_enemy_buffs = []
 	pending_mission_target_effects = []
 	pending_helheim_skip_fog_rounds = 0
+	pending_rum_spell_whole_team = false
 	mission_strongest_hero_buffs = []
 	mission_team_buffs = []
 	mission_target_buffs = []
@@ -85,8 +90,10 @@ func clear_selection():
 	pending_mission_fantasy_delta = 0
 	pending_mission_hero_majesty_delta = 0
 	pending_mission_hero_buffs = []
+	pending_mission_enemy_buffs = []
 	pending_mission_target_effects = []
 	pending_helheim_skip_fog_rounds = 0
+	pending_rum_spell_whole_team = false
 	mission_strongest_hero_buffs = []
 	mission_team_buffs = []
 	mission_target_buffs = []

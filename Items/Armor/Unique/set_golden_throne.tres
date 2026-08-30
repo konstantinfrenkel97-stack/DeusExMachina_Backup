@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3]
+
+[ext_resource type="Script" path="res://Items/item_resource.gd" id="1_ir"]
+
+[resource]
+script = ExtResource("1_ir")
+item_name = "Золотой трон"
+item_type = 1
+rarity = 3
+icon = null
+description = "Уменьшает стоимость «Узурпировать» на 20 величия. Только для Сета."
+bonus_max_hp = 5
+bonus_damage = 0
+bonus_armor = 0
+bonus_initiative = 0
+bonus_accuracy = 0
+bonus_evasion = 0
+bonus_crit_chance = 0.0
+bonus_majesty = 0
+fantasy_regen_per_turn = 0
+majesty_regen_per_turn = 5
+hp_regen_percent = 0.0
+restricted_god_path = "res://Gods/Set/Set.tres"
+effect = "set_throne_usurp_discount"

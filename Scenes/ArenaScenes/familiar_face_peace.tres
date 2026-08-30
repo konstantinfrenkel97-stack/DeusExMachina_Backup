@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Enemies/Civilization/Arena/Novice/Novice.tres" id="ext_novice"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Arena/Mentor/Mentor.tres" id="ext_mentor"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+
+[sub_resource type="Resource" id="form_missing_first"]
+script = ExtResource("formation_script")
+formation_name = "Тренер без первого новичка"
+pos1 = null
+pos2 = ExtResource("ext_novice")
+pos3 = ExtResource("ext_novice")
+pos4 = ExtResource("ext_mentor")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_peace"]
+script = ExtResource("battle_script")
+formation = SubResource("form_missing_first")
+location_id = "arena"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_continue"]
+script = ExtResource("outcome_script")
+battle = SubResource("battle_peace")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_continue"]
+script = ExtResource("choice_script")
+choice_text = "Продолжить"
+outcome = SubResource("out_continue")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Знакомое лицо"
+body_text = "Вы узнаёте одного из юношей — он обещал вам не принимать участие в боях на арене. Он узнаёт вас. Вы видите как он замирает, потом стыдливо пытается двинуться дальше. Тренер замечает странное поведение и обращается к нему, но юноша, сжимая меч в обеих руках, бежит к выходу с арены. Лысый мужчина что-то кричит ему в ответ. Публика улюлюкает. Но так или иначе, он останется жив."
+choices = [SubResource("choice_continue")]

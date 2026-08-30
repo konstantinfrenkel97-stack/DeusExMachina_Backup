@@ -1,0 +1,55 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Enemies/Civilization/Arena/Novice/Novice.tres" id="ext_novice"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Arena/Mentor/Mentor.tres" id="ext_mentor"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+
+[sub_resource type="Resource" id="form_full"]
+script = ExtResource("formation_script")
+formation_name = "Новичок-Новичок-Новичок-Тренер"
+pos1 = ExtResource("ext_novice")
+pos2 = ExtResource("ext_novice")
+pos3 = ExtResource("ext_novice")
+pos4 = ExtResource("ext_mentor")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="mod_novice_disable"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+disable_passive = true
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="mod_mentor_hp"]
+script = ExtResource("unit_modifier_script")
+target_position = 4
+hp_percent = 80
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_traitor"]
+script = ExtResource("battle_script")
+formation = SubResource("form_full")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_novice_disable"), SubResource("mod_mentor_hp")])
+location_id = "arena"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_continue"]
+script = ExtResource("outcome_script")
+battle = SubResource("battle_traitor")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_continue"]
+script = ExtResource("choice_script")
+choice_text = "Продолжить"
+outcome = SubResource("out_continue")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Знакомое лицо"
+body_text = "Юноша смотрит на вас, на его лбу разгорается фиолетовый глаз. Их отряд идёт к вам, у юноши пустеют глаза и идёт слюна. Тренер замечает его состояние и что-то говорит. Тот не реагирует. Вы оказались почти лицом к лицу. Тренер начинает трясти юношу за плечи. Тот поднимает глаза и смотрит в лицо мужчине. После чего размашисто бьёт его мечом поперёк груди.\n\nПублика ахает. Двое других наставляют клинки на союзника. Откуда-то из облаков несётся злорадный смех. Тренер припадает на одно колено. Светящийся глаз пропадает со лба новичка.\n\n«Я… Я не… Я НЕ ХОТЕЛ! ЭТО МАГИЯ! МЕНЯ ОКОЛДОВАЛИ!»\n\nНо сокомандники смотрят на него и не верят. Слёзы выступают на глазах молодого человека, и он бросается на вас."
+choices = [SubResource("choice_continue")]

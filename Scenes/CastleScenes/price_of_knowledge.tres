@@ -1,0 +1,68 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" path="res://Essence/essence_death.tres" id="essence_death"]
+
+[sub_resource type="Resource" id="out_guard"]
+script = ExtResource("outcome_script")
+result_text = "Вы хватаете осквернителя под руки и тащите к свету. Он кричит и извивается. Приносит извинения и говорит о тех жизнях, что могут спасти его гнилые исследования.
+Но вас его слова не трогают. Осквернение могил не имеет оправдания.
+Вы находите отряд стражи, сдаете им провинившегося и указываете как пройти в тайную комнату. Пусть весь мир знает, что боги стоят на страже естественного порядка."
+hero_majesty_delta = 15
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_guard"]
+script = ExtResource("choice_script")
+choice_text = "Сдать его страже"
+outcome = SubResource("out_guard")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="reward_death"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_death")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_results"]
+script = ExtResource("outcome_script")
+result_text = "Его знания могут быть ценными. В обмен на то, чтобы сохранить его секрет, вы требуете чтобы он поделился результатом исследований.
+Мужчина приходит в восторг, и забыв о вскрытом теле на столе, бросается к шкафам и достает книги. Запинаясь и перебивая сам себя он показывает и рассказывает, создавая полную какофонию. Вы, наконец, просите его остановиться, и сами беретесь за изучение материала.
+Он делал страшные вещи, от многих проводимых экспериментов вас выворачивает, но важность знания неоценима. Вам открываются секреты человеческого тела, секреты жизни и секреты смерти. Это знание оставляет след, и теперь вы им обладаете."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_death")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_results"]
+script = ExtResource("choice_script")
+choice_text = "Пусть поделится результатами исследования"
+outcome = SubResource("out_results")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="out_help"]
+script = ExtResource("outcome_script")
+result_text = "То чем он занимается может помочь человечеству. У вас нет желания рыться в человеческих останках, но вы можете используя собственные знания обогатить его выводы.
+Следующий час вы проводите в исследовательском дебате, сверяя информацию и обогащая друг друга. Наконец вы расходитесь. Ценно для вас было даже не само знание, а факт того, что вы провели исследовательскую работу. Если можно так сказать, вы лучше научились думать."
+thoughts_delta = -100
+max_fantasy_bonus_delta = 5
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_help"]
+script = ExtResource("choice_script")
+choice_text = "Помочь ему в исследованиях"
+outcome = SubResource("out_help")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Цена знания"
+body_text = "Вы заблудились. В этом нет никакого сомнения. Поднимаясь и спускаясь, петляя по коридорам, переходя из залы в залу вы оказались неизвестно где, и не можете даже сказать высоко вы или низко, относительно земли. Судя по нагромождению бочек и старой мебели, скорее второе.
+Тут кое-что привлекает ваше внимание. Вы замечаете кусок двери спрятанный за шкафом. Кто-то поставил его так, чтобы скрыть проход. Приложив усилие вы замечаете, что шкаф движется на маленьких колесах. Похоже есть механизм позволяющий двигать его из-за закрытой двери.
+
+Вы отодвигаете шкаф и заходите внутрь. В ноздри ударяет запах пыли, кислоты и разложения. Вы спускаетесь по узкой лестнице, пока не входите в комнату с низким потолком. Она тускло освещена факелами, у стен стоят шкафы с книгами и какими-то зельями. В центре длинный стол, на нем бледное тело. Над ним, с ножом склонился человек в рясе и с бритой макушкой. При вашем появлении он поднимает глаза и роняет свое орудие.
+\"Клянусь, это не то что вы подумали! Я его не убивал! Я выкопал тело с кладбища! Тьфу, в смысле... Ну... Пожалуйста не выдавайте меня.\"
+Он нервно потирает руки.
+\"Я только занимался исследованиями. Я не хотел красить трупы... Знания о человеческом теле могут помочь... Спасти жизни тех кто еще жив...\""
+choices = [SubResource("choice_guard"), SubResource("choice_results"), SubResource("choice_help")]

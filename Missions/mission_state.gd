@@ -7,6 +7,9 @@ var next_scene_after_battle: MissionSceneResource = null
 var selected_heroes: Array[String] = ["", "", "", ""]
 var requested_mission_path: String = ""
 var return_scene_path: String = ""
+## Локация (русское имя, как в Doors/doors.gd), выбранная на экране «Ворота» —
+## читается экраном Doors/mission_choice_screen.gd для показа её фона.
+var pending_location: String = ""
 ## Путь к миссии, которая только что была завершена (для одноразовых реакций
 ## на экране кампании — например, диалог после конкретной миссии).
 ## Устанавливается в mission_scene.gd перед clear_mission_run(), читается и
@@ -17,6 +20,11 @@ var granted_rewards: Array[Dictionary] = []
 ## Одноразовая скидка сложности для СЛЕДУЮЩЕЙ проверки характеристики в миссии.
 ## Устанавливается эффектом сцены (напр. "жульничество"), сбрасывается сразу при использовании.
 var pending_check_difficulty_delta: int = 0
+## Флаги внутри текущего прохождения миссии (String -> true). Сцена может выставить
+## флаг через MissionOutcome.set_mission_flag, а более поздняя сцена — прочитать его
+## через MissionChoice.flag_outcomes, чтобы выбрать другой итог. Сбрасываются при
+## старте и при завершении миссии — флаги не переживают саму миссию.
+var mission_flags: Dictionary = {}
 
 func start_mission(mission_res: MissionResource, heroes: Array[String]) -> bool:
 	if mission_res == null or mission_res.scenes.is_empty():
@@ -29,6 +37,7 @@ func start_mission(mission_res: MissionResource, heroes: Array[String]) -> bool:
 	hero_majesty.clear()
 	granted_rewards.clear()
 	pending_check_difficulty_delta = 0
+	mission_flags.clear()
 	for hero_path in selected_heroes:
 		var clean_path: String = str(hero_path).strip_edges()
 		if clean_path != "":
@@ -42,6 +51,15 @@ func record_reward(reward: Reward) -> void:
 	granted_rewards.append({
 		"kind": int(reward.kind),
 		"resource_path": reward.resource.resource_path,
+		"amount": int(reward.amount)
+	})
+
+func record_resolved_reward(reward: Reward, resolved_resource: Resource) -> void:
+	if reward == null or resolved_resource == null:
+		return
+	granted_rewards.append({
+		"kind": int(reward.kind),
+		"resource_path": resolved_resource.resource_path,
 		"amount": int(reward.amount)
 	})
 
@@ -102,3 +120,4 @@ func clear_mission_run() -> void:
 	hero_majesty.clear()
 	granted_rewards.clear()
 	pending_check_difficulty_delta = 0
+	mission_flags.clear()

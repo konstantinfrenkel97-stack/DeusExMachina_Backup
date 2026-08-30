@@ -16,7 +16,9 @@ const TAB_MISSIONS := 2
 # Подключаем слот ростера по пути (preload), чтобы не зависеть от
 # регистрации class_name в глобальном кэше классов.
 const _RosterSlot := preload("res://Campaign/god_roster_slot.gd")
+const SettingsPanel := preload("res://Settings/settings_panel.gd")
 const STAT_ICON_TOOLTIP_BUTTON_SCRIPT := preload("res://stat_icon_tooltip_button.gd")
+const StatIconFormatter := preload("res://Scripts/stat_icon_formatter.gd")
 const CAMPAIGN_BACKGROUND_PATH := "res://Background/Campaign_Background.png"
 const REQUIRED_GODS_FOR_FIRST_BATTLE := 4
 const FIRST_BATTLE_MISSION_PATH := "res://Missions/First_battle.tres"
@@ -28,14 +30,90 @@ const GATES_WRONG_DIALOGUE_PATH := "res://Dialogues/Instructions/Gates_wrong.tre
 const WRONG_LOCATION_DIALOGUE_PATH := "res://Dialogues/Instructions/Wrong_location.tres"
 const OPEN_DOOR_CHOICE_ID := "open_door"
 const _ABILITY_ICON_BUTTON_SIZE := Vector2(58.0, 58.0)
-const GOD_DETAIL_BG_COLOR := Color(0.0, 0.0, 0.0, 0.96)
-const GOD_DETAIL_ACCENT_COLOR := Color(0.58, 0.86, 1.0, 0.9)
-const GOD_DETAIL_ACCENT_DIM_COLOR := Color(0.24, 0.55, 0.72, 0.55)
+const GOD_DETAIL_BG_COLOR := Color(0.09, 0.11, 0.20, 0.75)
+const GOD_DETAIL_ACCENT_COLOR := Color(0.83, 0.72, 0.45, 1.0)
+const GOD_DETAIL_ACCENT_DIM_COLOR := Color(0.55, 0.48, 0.32, 1.0)
+# Кнопки внутри полупрозрачных окон — непрозрачные и чуть темнее панели, чтобы не сливаться с фоном.
+const BUTTON_OPAQUE_BG_COLOR := Color(0.05, 0.06, 0.11, 1.0)
+const BUTTON_OPAQUE_BG_HOVER_COLOR := Color(0.08, 0.10, 0.17, 1.0)
+const BUTTON_OPAQUE_BG_PRESSED_COLOR := Color(0.03, 0.04, 0.07, 1.0)
+const BUTTON_OPAQUE_BG_DISABLED_COLOR := Color(0.04, 0.05, 0.08, 1.0)
+
+## ПРАВИЛО: картинка на кнопке-иконке НИКОГДА не должна вылезать за её границы.
+## Используем только нативный Button.icon/expand_icon (не самодельный дочерний
+## TextureRect с ручным .size/.position — на практике он либо не рисуется вовсе,
+## либо разрастается на всё окно, в зависимости от контекста-контейнера).
+## clip_contents — обязательная страховка на случай любых будущих сбоев масштабирования.
+func _apply_tight_icon_button_style(btn: Button) -> void:
+	btn.clip_contents = true
+	var style := StyleBoxFlat.new()
+	style.bg_color = BUTTON_OPAQUE_BG_COLOR
+	style.border_color = GOD_DETAIL_ACCENT_COLOR
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(6)
+	style.content_margin_left = 4
+	style.content_margin_right = 4
+	style.content_margin_top = 4
+	style.content_margin_bottom = 4
+	btn.add_theme_stylebox_override("normal", style)
+	btn.add_theme_stylebox_override("hover", style)
+	btn.add_theme_stylebox_override("pressed", style)
+	btn.add_theme_stylebox_override("focus", style)
+
+## Кнопка выбора эссенции (Сад творения, Весы) — иконка занимает практически всю
+## кнопку (минимальный фиксированный отступ, как у _apply_tight_icon_button_style).
+## Размер кнопки жёстко фиксируется на custom_minimum_size (= видимая рамка), чтобы
+## контейнер-родитель не мог растянуть кнопку больше рамки — тогда отступ до иконки
+## всегда пропорционален тому, что реально видно на экране.
+func _apply_essence_button_style(btn: Button, highlighted: bool = false) -> void:
+	btn.clip_contents = true
+	btn.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	if btn.custom_minimum_size != Vector2.ZERO:
+		btn.size = btn.custom_minimum_size
+	var margin := 4.0
+	var style := StyleBoxFlat.new()
+	style.bg_color = BUTTON_OPAQUE_BG_HOVER_COLOR if highlighted else BUTTON_OPAQUE_BG_COLOR
+	style.border_color = GOD_DETAIL_ACCENT_COLOR
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(6)
+	style.content_margin_left = margin
+	style.content_margin_right = margin
+	style.content_margin_top = margin
+	style.content_margin_bottom = margin
+	btn.add_theme_stylebox_override("normal", style)
+	btn.add_theme_stylebox_override("hover", style)
+	btn.add_theme_stylebox_override("pressed", style)
+	btn.add_theme_stylebox_override("focus", style)
+
+## Стиль для всплывающих информационных панелей (наведение на предмет/юнита) — тоньше
+## рамка и заметно больше отступ, чем у обычных панелей, чтобы текст не упирался в рамку.
+func _make_info_panel_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = GOD_DETAIL_BG_COLOR
+	style.border_color = GOD_DETAIL_ACCENT_COLOR
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(6)
+	style.content_margin_left = 14
+	style.content_margin_right = 14
+	style.content_margin_top = 12
+	style.content_margin_bottom = 12
+	return style
+
 const GOD_DETAIL_TOP_MARGIN := 92.0
 const GOD_DETAIL_ROSTER_GAP := 14.0
 const CAMPAIGN_BOTTOM_BAR_MIN_HEIGHT := 96.0
 const ROSTER_BOTTOM_GAP := 10.0
 const ROSTER_Z_INDEX := 80
+# Единый фиксированный размер окна для всех комнат кампании (Сад творения,
+# Библиотека, Весы) — не меняется от вкладки к вкладке и от шага к шагу.
+const ROOM_PANEL_SIZE := Vector2(980, 640)
+const SCALES_COMMON_TO_RARE_COST := 800
+const SCALES_RARE_TO_EPIC_THOUGHTS_COST := 1200
+const SCALES_BUY_ESSENCE_COST := 600
+const SCALES_SELL_ESSENCE_GAIN := 400
+const SCALES_ITEM_SLOT_SIZE := Vector2(164.0, 164.0)
+const SCALES_ARTIFACT_CARD_SIZE := Vector2(128.0, 144.0)
 const _STAT_ICON_SIZE := Vector2(24.0, 24.0)
 const _STAT_ICON_PATHS := {
 	"health": "res://Icons/Stats/Health.png",
@@ -132,12 +210,72 @@ var _creation_create_btn: Button
 var _creation_popup: PopupPanel
 var _creation_active_slot: int = 0
 const SUMMON_DIALOGUE_DIR := "res://Dialogues/Gods_dialogue"
+
+# ── Весы переосмысления ──
+var _scales_overlay: Control
+var _scales_body: VBoxContainer
+var _scales_tab_row: HBoxContainer
+var _scales_mode: String = "improve"
+var _scales_selected_item_path: String = ""
+var _scales_selected_essence_path: String = ""
+var _scales_picker_visible: bool = false
+
+# ── Бесконечная библиотека ──
+var _library_overlay: Control
+
+# ── Колодец памяти ──
+const MEMORY_WELL_COST := 500
+var _memory_well_overlay: Control
+var _memory_well_body: VBoxContainer
+var _memory_well_selected_god_path: String = ""
+
+# ── Сад творения (создание артефактов) ──
+const THOUGHTS_PATH := "res://Essence/thoughts.tres"
+# Индексы соответствуют ItemResource.ItemType (WEAPON=0, ARMOR=1, TRINKET=2).
+const ARTIFACT_TYPE_NAMES: Array[String] = ["Оружие", "Доспехи", "Безделушка"]
+const ARTIFACT_TYPE_COST: Array[int] = [500, 500, 300]
+const ARTIFACT_COMMON_ITEMS: Array = [
+	[
+		"res://Items/Weapons/Common/Attack_item1.tres",
+		"res://Items/Weapons/Common/Attack_item2.tres",
+		"res://Items/Weapons/Common/Attack_item3.tres",
+		"res://Items/Weapons/Common/Luck_item1.tres",
+		"res://Items/Weapons/Common/luck_item2.tres",
+		"res://Items/Weapons/Common/luck_item3.tres",
+		"res://Items/Weapons/Common/accuracy_item1.tres",
+		"res://Items/Weapons/Common/accuracy_item2.tres",
+		"res://Items/Weapons/Common/accuracy_item3.tres",
+	],
+	[
+		"res://Items/Armor/Common/Armor_item1.tres",
+		"res://Items/Armor/Common/Armor_item2.tres",
+		"res://Items/Armor/Common/Armor_item3.tres",
+		"res://Items/Armor/Common/Health_item1.tres",
+		"res://Items/Armor/Common/Health_item2.tres",
+		"res://Items/Armor/Common/Health_item3.tres",
+		"res://Items/Armor/Common/Dodge_item1.tres",
+		"res://Items/Armor/Common/Dodge_Item2.tres",
+		"res://Items/Armor/Common/Dodge_item3.tres",
+	],
+	[
+		"res://Items/Trinkets/Common/Common_ring.tres",
+		"res://Items/Trinkets/Common/common_Amulet.tres",
+		"res://Items/Trinkets/Common/common_Potion.tres",
+	],
+]
+var _artifact_selected_type: int = -1
+## Сообщение об ошибке для показа на экране выбора предмета (например, нехватка
+## мыслей при попытке создать) — выставляется перед пересборкой окна и потребляется
+## один раз при следующем показе _show_artifact_item_window.
+var _artifact_create_error: String = ""
 var _current_god_path: String = ""
 var _current_god_res: CharacterResource
-# Панель инвентаря справа (показывается при клике на слот).
-var _inventory_side: VBoxContainer
 # Текущий тип слота экипировки (0=оружие, 1=броня, 2=безделушка).
 var _current_slot_type: int = -1
+# Окно выбора артефакта (открывается поверх страницы персонажа по клику на ячейку).
+var _equip_picker_overlay: Control
+var _equip_picker_info_panel: PanelContainer
+var _equip_picker_info_label: RichTextLabel
 
 # ── Ростер богов внизу (1 ряд из 16 квадратов) ──
 const ROSTER_COLUMNS := 16
@@ -3686,6 +3824,12 @@ func _process(_delta: float) -> void:
 func _campaign_room_input_is_blocked() -> bool:
 	if _creation_overlay != null and is_instance_valid(_creation_overlay):
 		return true
+	if _scales_overlay != null and is_instance_valid(_scales_overlay):
+		return true
+	if _library_overlay != null and is_instance_valid(_library_overlay):
+		return true
+	if _memory_well_overlay != null and is_instance_valid(_memory_well_overlay):
+		return true
 	if _god_overlay != null and is_instance_valid(_god_overlay):
 		return true
 	if _dialog_overlay != null and is_instance_valid(_dialog_overlay):
@@ -4176,6 +4320,15 @@ func _on_section_button(section: String) -> void:
 	if section == "Сад творения":
 		_show_creation_window()
 		return
+	if section == "Весы переосмысления":
+		_show_scales_window()
+		return
+	if section == "Бесконечная библиотека":
+		_show_library_read_window()
+		return
+	if section == "Колодец памяти":
+		_show_memory_well_window()
+		return
 	DialogueManager.show_dialogue_path(WRONG_LOCATION_DIALOGUE_PATH)
 
 ## Ворота проходят несколько состояний по мере продвижения сюжета:
@@ -4202,6 +4355,666 @@ func _launch_first_battle_mission() -> void:
 	MissionState.requested_mission_path = FIRST_BATTLE_MISSION_PATH
 	MissionState.return_scene_path = "res://Campaign/campaign_screen.tscn"
 	get_tree().change_scene_to_file("res://Missions/mission_select.tscn")
+
+func _show_scales_window() -> void:
+	_close_scales_window()
+	_scales_mode = "improve"
+	_scales_selected_item_path = ""
+	_scales_selected_essence_path = ""
+	_scales_picker_visible = false
+
+	_scales_overlay = Control.new()
+	_scales_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_scales_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	_scales_overlay.z_index = 1300
+	add_child(_scales_overlay)
+
+	var bg := ColorRect.new()
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.color = Color(0.0, 0.0, 0.0, 0.75)
+	bg.mouse_filter = Control.MOUSE_FILTER_STOP
+	bg.gui_input.connect(_on_scales_background_input)
+	_scales_overlay.add_child(bg)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_scales_overlay.add_child(center)
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = ROOM_PANEL_SIZE
+	center.add_child(panel)
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 28)
+	margin.add_theme_constant_override("margin_right", 28)
+	margin.add_theme_constant_override("margin_top", 22)
+	margin.add_theme_constant_override("margin_bottom", 24)
+	panel.add_child(margin)
+
+	var root := VBoxContainer.new()
+	root.add_theme_constant_override("separation", 16)
+	margin.add_child(root)
+
+	var title := Label.new()
+	title.text = "Весы переосмысления"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 26)
+	root.add_child(title)
+
+	_scales_tab_row = _add_room_tab_bar(root, [
+		{"text": "Додумать", "callback": _set_scales_mode.bind("improve")},
+		{"text": "Передумать", "callback": _set_scales_mode.bind("rethink")},
+	], 0 if _scales_mode == "improve" else 1)
+
+	_scales_body = VBoxContainer.new()
+	_scales_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_scales_body.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_scales_body.add_theme_constant_override("separation", 14)
+	root.add_child(_scales_body)
+	_refresh_scales_window()
+
+func _close_scales_window() -> void:
+	if _scales_overlay != null and is_instance_valid(_scales_overlay):
+		_scales_overlay.queue_free()
+	_scales_overlay = null
+	_scales_body = null
+	_scales_tab_row = null
+	_scales_picker_visible = false
+
+func _on_scales_background_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+		_close_scales_window()
+		var viewport := get_viewport()
+		if viewport != null:
+			viewport.set_input_as_handled()
+
+
+## Колодец памяти: выбор бога из ростера + две платные (500 мыслей) операции
+## над ним — полное исцеление ("Забыть боль") и снятие 1 уровня забвения
+## ("Вспомнить прошлое").
+func _show_memory_well_window() -> void:
+	_close_memory_well_window()
+	_memory_well_selected_god_path = ""
+
+	_memory_well_overlay = Control.new()
+	_memory_well_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_memory_well_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	_memory_well_overlay.z_index = 1300
+	add_child(_memory_well_overlay)
+
+	var bg := ColorRect.new()
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.color = Color(0.0, 0.0, 0.0, 0.75)
+	bg.mouse_filter = Control.MOUSE_FILTER_STOP
+	bg.gui_input.connect(_on_memory_well_background_input)
+	_memory_well_overlay.add_child(bg)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_memory_well_overlay.add_child(center)
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = ROOM_PANEL_SIZE
+	center.add_child(panel)
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 28)
+	margin.add_theme_constant_override("margin_right", 28)
+	margin.add_theme_constant_override("margin_top", 22)
+	margin.add_theme_constant_override("margin_bottom", 24)
+	panel.add_child(margin)
+
+	var root := VBoxContainer.new()
+	root.add_theme_constant_override("separation", 16)
+	margin.add_child(root)
+
+	var title := Label.new()
+	title.text = "Колодец памяти"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 26)
+	root.add_child(title)
+
+	var hint := Label.new()
+	hint.text = "Выберите бога"
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint.add_theme_font_size_override("font_size", 15)
+	hint.add_theme_color_override("font_color", GOD_DETAIL_ACCENT_DIM_COLOR)
+	root.add_child(hint)
+
+	_memory_well_body = VBoxContainer.new()
+	_memory_well_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_memory_well_body.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_memory_well_body.add_theme_constant_override("separation", 14)
+	root.add_child(_memory_well_body)
+	_refresh_memory_well_window()
+
+func _close_memory_well_window() -> void:
+	if _memory_well_overlay != null and is_instance_valid(_memory_well_overlay):
+		_memory_well_overlay.queue_free()
+	_memory_well_overlay = null
+	_memory_well_body = null
+
+func _on_memory_well_background_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+		_close_memory_well_window()
+		var viewport := get_viewport()
+		if viewport != null:
+			viewport.set_input_as_handled()
+
+func _refresh_memory_well_window() -> void:
+	if _memory_well_body == null or not is_instance_valid(_memory_well_body):
+		return
+	for child in _memory_well_body.get_children():
+		child.queue_free()
+
+	var scroll := ScrollContainer.new()
+	scroll.custom_minimum_size = Vector2(0, 300)
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	_memory_well_body.add_child(scroll)
+
+	var grid := GridContainer.new()
+	grid.columns = 4
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grid.add_theme_constant_override("h_separation", 10)
+	grid.add_theme_constant_override("v_separation", 10)
+	scroll.add_child(grid)
+	for path in CampaignState.available_gods:
+		grid.add_child(_make_memory_well_god_card(str(path)))
+
+	var info_label := Label.new()
+	info_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	info_label.add_theme_font_size_override("font_size", 18)
+	if _memory_well_selected_god_path == "":
+		info_label.text = "Бог не выбран"
+	else:
+		var res := CampaignState.load_character_resource(_memory_well_selected_god_path)
+		var cur_hp := CampaignState.get_god_current_hp(_memory_well_selected_god_path)
+		var max_hp := CampaignState.get_god_max_hp(_memory_well_selected_god_path)
+		var forgetting: float = res.forgetting_level if res != null else 0.0
+		info_label.text = "%s — Здоровье: %d / %d, Забвение: %.1f / 5.0" % [
+			res.unit_name if res != null else "?", cur_hp, max_hp, forgetting
+		]
+	_memory_well_body.add_child(info_label)
+
+	var actions := HBoxContainer.new()
+	actions.alignment = BoxContainer.ALIGNMENT_CENTER
+	actions.add_theme_constant_override("separation", 18)
+	_memory_well_body.add_child(actions)
+
+	var forget_pain_btn := _make_scales_button("Забыть боль\n%d мыслей" % MEMORY_WELL_COST, Vector2(260.0, 84.0))
+	var forget_pain_error := _memory_well_forget_pain_error()
+	forget_pain_btn.disabled = forget_pain_error != ""
+	forget_pain_btn.tooltip_text = forget_pain_error
+	forget_pain_btn.pressed.connect(_memory_well_forget_pain)
+	actions.add_child(forget_pain_btn)
+
+	var remember_past_btn := _make_scales_button("Вспомнить прошлое\n%d мыслей" % MEMORY_WELL_COST, Vector2(260.0, 84.0))
+	var remember_past_error := _memory_well_remember_past_error()
+	remember_past_btn.disabled = remember_past_error != ""
+	remember_past_btn.tooltip_text = remember_past_error
+	remember_past_btn.pressed.connect(_memory_well_remember_past)
+	actions.add_child(remember_past_btn)
+
+## Карточка бога в сетке выбора Колодца памяти — клик выбирает бога, рамка
+## подсвечивается у выбранной карточки.
+func _make_memory_well_god_card(path: String) -> Control:
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(180, 150)
+	panel.mouse_filter = Control.MOUSE_FILTER_STOP
+
+	var is_selected := path == _memory_well_selected_god_path
+	var style := StyleBoxFlat.new()
+	style.bg_color = BUTTON_OPAQUE_BG_HOVER_COLOR if is_selected else BUTTON_OPAQUE_BG_COLOR
+	style.border_color = GOD_DETAIL_ACCENT_COLOR if is_selected else GOD_DETAIL_ACCENT_DIM_COLOR
+	style.set_border_width_all(2 if is_selected else 1)
+	style.set_corner_radius_all(6)
+	style.content_margin_left = 8
+	style.content_margin_right = 8
+	style.content_margin_top = 8
+	style.content_margin_bottom = 8
+	panel.add_theme_stylebox_override("panel", style)
+
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 6)
+	panel.add_child(vb)
+
+	var res := CampaignState.load_character_resource(path)
+	var display_name := "Без имени"
+	if res != null and res.unit_name != "":
+		display_name = res.unit_name
+	if res != null and res.is_dead:
+		display_name += "\n☠ Мёртв"
+
+	var lbl := Label.new()
+	lbl.text = display_name
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_size_override("font_size", 16)
+	lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	vb.add_child(lbl)
+
+	var hp_lbl := Label.new()
+	hp_lbl.text = "HP: %d / %d" % [CampaignState.get_god_current_hp(path), CampaignState.get_god_max_hp(path)]
+	hp_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hp_lbl.add_theme_font_size_override("font_size", 13)
+	vb.add_child(hp_lbl)
+
+	if res != null and res.forgetting_level > 0.0:
+		var fade_lbl := Label.new()
+		fade_lbl.text = "Забвение: %.1f / 5.0" % res.forgetting_level
+		fade_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		fade_lbl.add_theme_font_size_override("font_size", 13)
+		fade_lbl.add_theme_color_override("font_color", Color(0.9, 0.5, 0.3))
+		vb.add_child(fade_lbl)
+
+	panel.gui_input.connect(func(event: InputEvent):
+		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			_select_memory_well_god(path)
+	)
+
+	return panel
+
+func _select_memory_well_god(path: String) -> void:
+	_memory_well_selected_god_path = path
+	_refresh_memory_well_window()
+
+func _memory_well_forget_pain_error() -> String:
+	if _memory_well_selected_god_path == "":
+		return "Выберите бога"
+	if CampaignState.get_god_current_hp(_memory_well_selected_god_path) >= CampaignState.get_god_max_hp(_memory_well_selected_god_path):
+		return "Здоровье уже полное"
+	if CampaignState.get_currency_amount(THOUGHTS_PATH) < MEMORY_WELL_COST:
+		return "Недостаточно мыслей"
+	return ""
+
+func _memory_well_remember_past_error() -> String:
+	if _memory_well_selected_god_path == "":
+		return "Выберите бога"
+	var res := CampaignState.load_character_resource(_memory_well_selected_god_path)
+	if res == null or res.forgetting_level <= 0.0:
+		return "Нет забвения, снимать нечего"
+	if CampaignState.get_currency_amount(THOUGHTS_PATH) < MEMORY_WELL_COST:
+		return "Недостаточно мыслей"
+	return ""
+
+## "Забыть боль" — полностью исцеляет выбранного бога за 500 мыслей.
+func _memory_well_forget_pain() -> void:
+	if _memory_well_forget_pain_error() != "":
+		return
+	if not CampaignState.spend_currency_amounts({THOUGHTS_PATH: MEMORY_WELL_COST}):
+		return
+	CampaignState.set_god_current_hp(_memory_well_selected_god_path, CampaignState.get_god_max_hp(_memory_well_selected_god_path))
+	_refresh_currencies()
+	_refresh_memory_well_window()
+
+## "Вспомнить прошлое" — снимает 1 уровень забвения с выбранного бога за 500 мыслей.
+func _memory_well_remember_past() -> void:
+	if _memory_well_remember_past_error() != "":
+		return
+	if not CampaignState.spend_currency_amounts({THOUGHTS_PATH: MEMORY_WELL_COST}):
+		return
+	CampaignState.add_god_forgetting(_memory_well_selected_god_path, -1.0)
+	_refresh_currencies()
+	_refresh_memory_well_window()
+
+func _set_scales_mode(mode: String) -> void:
+	_scales_mode = mode
+	_scales_picker_visible = false
+	if _scales_mode == "rethink" and _scales_selected_essence_path == "":
+		_scales_selected_essence_path = str(CREATION_ESSENCES.values()[0])
+	_refresh_scales_window()
+
+func _refresh_scales_window() -> void:
+	if _scales_body == null or not is_instance_valid(_scales_body):
+		return
+	if _scales_tab_row != null and is_instance_valid(_scales_tab_row):
+		var tab_parent := _scales_tab_row.get_parent()
+		var tab_index := _scales_tab_row.get_index()
+		_scales_tab_row.free()
+		_scales_tab_row = _add_room_tab_bar(tab_parent, [
+			{"text": "Додумать", "callback": _set_scales_mode.bind("improve")},
+			{"text": "Передумать", "callback": _set_scales_mode.bind("rethink")},
+		], 0 if _scales_mode == "improve" else 1)
+		tab_parent.move_child(_scales_tab_row, tab_index)
+	for child in _scales_body.get_children():
+		child.queue_free()
+	if _scales_mode == "rethink":
+		_build_scales_rethink_tab()
+	else:
+		_build_scales_improve_tab()
+
+func _build_scales_improve_tab() -> void:
+	var row := HBoxContainer.new()
+	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	row.add_theme_constant_override("separation", 24)
+	_scales_body.add_child(row)
+
+	var left := VBoxContainer.new()
+	left.custom_minimum_size = Vector2(260.0, 1.0)
+	left.add_theme_constant_override("separation", 10)
+	row.add_child(left)
+
+	var item_slot := _make_scales_item_slot_button()
+	item_slot.pressed.connect(_toggle_scales_item_picker)
+	left.add_child(item_slot)
+
+	var item_info := Label.new()
+	item_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	item_info.add_theme_font_size_override("font_size", 20)
+	item_info.text = _scales_selected_item_summary()
+	left.add_child(item_info)
+
+	var right := VBoxContainer.new()
+	right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	right.add_theme_constant_override("separation", 14)
+	row.add_child(right)
+
+	var cost := Label.new()
+	cost.text = _scales_upgrade_cost_text()
+	cost.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	cost.add_theme_font_size_override("font_size", 24)
+	right.add_child(cost)
+
+	if _scales_selected_item_needs_essence():
+		_build_scales_essence_selector(right)
+
+	var upgrade_btn := _make_scales_button("Улучшить", Vector2(260.0, 58.0))
+	upgrade_btn.disabled = _scales_upgrade_error() != ""
+	upgrade_btn.tooltip_text = _scales_upgrade_error()
+	upgrade_btn.pressed.connect(_upgrade_scales_selected_item)
+	right.add_child(upgrade_btn)
+
+	if _scales_picker_visible:
+		_build_scales_item_picker()
+
+func _build_scales_rethink_tab() -> void:
+	var selected_label := Label.new()
+	selected_label.add_theme_font_size_override("font_size", 22)
+	selected_label.text = "Мысли: %d" % CampaignState.get_currency_amount(THOUGHTS_PATH)
+	_scales_body.add_child(selected_label)
+
+	_build_scales_essence_selector(_scales_body)
+
+	var selected_amount := 0
+	if _scales_selected_essence_path != "":
+		selected_amount = CampaignState.get_currency_amount(_scales_selected_essence_path)
+	var amount_label := Label.new()
+	amount_label.add_theme_font_size_override("font_size", 22)
+	amount_label.text = "Выбранной эссенции: %d" % selected_amount
+	_scales_body.add_child(amount_label)
+
+	var actions := HBoxContainer.new()
+	actions.alignment = BoxContainer.ALIGNMENT_CENTER
+	actions.add_theme_constant_override("separation", 18)
+	_scales_body.add_child(actions)
+
+	var buy_btn := _make_scales_button("Купить эссенцию\n600 мыслей", Vector2(260.0, 84.0))
+	buy_btn.disabled = _scales_selected_essence_path == "" or CampaignState.get_currency_amount(THOUGHTS_PATH) < SCALES_BUY_ESSENCE_COST
+	buy_btn.pressed.connect(_buy_scales_essence)
+	actions.add_child(buy_btn)
+
+	var sell_btn := _make_scales_button("Продать эссенцию\n400 мыслей", Vector2(260.0, 84.0))
+	sell_btn.disabled = _scales_selected_essence_path == "" or selected_amount < 1
+	sell_btn.pressed.connect(_sell_scales_essence)
+	actions.add_child(sell_btn)
+
+func _make_scales_item_slot_button() -> Button:
+	var button := _make_scales_button("Предмет", SCALES_ITEM_SLOT_SIZE)
+	button.expand_icon = true
+	button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	if _scales_selected_item_path != "":
+		var item := load(_scales_selected_item_path) as ItemResource
+		if item != null:
+			button.text = ""
+			button.icon = item.icon
+			button.tooltip_text = _scales_item_tooltip(item)
+	return button
+
+func _toggle_scales_item_picker() -> void:
+	_scales_picker_visible = not _scales_picker_visible
+	_refresh_scales_window()
+
+func _build_scales_item_picker() -> void:
+	var title := Label.new()
+	title.text = "Артефакты"
+	title.add_theme_font_size_override("font_size", 24)
+	_scales_body.add_child(title)
+
+	var panel := PanelContainer.new()
+	panel.add_theme_stylebox_override("panel", _make_scales_panel_style())
+	_scales_body.add_child(panel)
+
+	var scroll := ScrollContainer.new()
+	scroll.custom_minimum_size = Vector2(1.0, 230.0)
+	panel.add_child(scroll)
+
+	var grid := GridContainer.new()
+	grid.columns = 6
+	grid.add_theme_constant_override("h_separation", 12)
+	grid.add_theme_constant_override("v_separation", 12)
+	scroll.add_child(grid)
+
+	var paths := _unique_treasury_paths()
+	if paths.is_empty():
+		var empty := Label.new()
+		empty.text = "Сокровищница пуста"
+		empty.add_theme_font_size_override("font_size", 22)
+		grid.add_child(empty)
+		return
+	for item_path in paths:
+		grid.add_child(_make_scales_artifact_button(item_path))
+
+func _unique_treasury_paths() -> Array[String]:
+	var result: Array[String] = []
+	for item_path in CampaignState.treasury:
+		var clean_path := item_path.strip_edges()
+		if clean_path != "" and ResourceLoader.exists(clean_path) and not result.has(clean_path):
+			result.append(clean_path)
+	return result
+
+func _make_scales_artifact_button(item_path: String) -> Button:
+	var item := load(item_path) as ItemResource
+	var button := _make_scales_button("", SCALES_ARTIFACT_CARD_SIZE)
+	button.expand_icon = true
+	button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	button.tooltip_text = _scales_item_tooltip(item)
+	if item != null:
+		button.icon = item.icon
+	button.pressed.connect(_select_scales_item.bind(item_path))
+
+	var owner_path := CampaignState.get_item_equipped_god_path(item_path)
+	if owner_path != "":
+		var owner := CampaignState.load_character_resource(owner_path)
+		if owner != null and owner.face_sprite != "":
+			var owner_face := load(owner.face_sprite) as Texture2D
+			if owner_face != null:
+				var badge := TextureRect.new()
+				badge.texture = owner_face
+				badge.custom_minimum_size = Vector2(42.0, 42.0)
+				badge.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+				badge.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				badge.anchor_left = 0.0
+				badge.anchor_top = 1.0
+				badge.anchor_right = 0.0
+				badge.anchor_bottom = 1.0
+				badge.offset_left = 6.0
+				badge.offset_top = -48.0
+				badge.offset_right = 48.0
+				badge.offset_bottom = -6.0
+				button.add_child(badge)
+	return button
+
+func _select_scales_item(item_path: String) -> void:
+	_scales_selected_item_path = item_path
+	_scales_picker_visible = false
+	_refresh_scales_window()
+
+func _build_scales_essence_selector(parent: VBoxContainer) -> void:
+	var label := Label.new()
+	label.text = "Эссенция"
+	label.add_theme_font_size_override("font_size", 22)
+	parent.add_child(label)
+
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 10)
+	parent.add_child(row)
+	for essence_name_variant in CREATION_ESSENCES.keys():
+		var essence_name := str(essence_name_variant)
+		var essence_path := str(CREATION_ESSENCES[essence_name])
+		var essence_res := load(essence_path)
+		var button := _make_scales_button("%s: %d" % [essence_name, CampaignState.get_currency_amount(essence_path)], Vector2(150.0, 54.0))
+		var is_selected := _scales_selected_essence_path == essence_path
+		_apply_essence_button_style(button, is_selected)
+		if essence_res != null and essence_res.icon:
+			button.icon = essence_res.icon
+			button.expand_icon = true
+			button.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+			button.vertical_icon_alignment = VERTICAL_ALIGNMENT_CENTER
+		button.pressed.connect(_select_scales_essence.bind(essence_path))
+		row.add_child(button)
+
+func _select_scales_essence(essence_path: String) -> void:
+	_scales_selected_essence_path = essence_path
+	_refresh_scales_window()
+
+func _scales_selected_item_summary() -> String:
+	if _scales_selected_item_path == "":
+		return "Предмет не выбран"
+	var item := load(_scales_selected_item_path) as ItemResource
+	if item == null:
+		return "Предмет не загрузился"
+	var text := "%s\n%s\n%s" % [item.item_name, item.get_type_name(), item.get_rarity_name()]
+	var bonuses := item.get_bonuses_text()
+	if bonuses != "":
+		text += "\n" + bonuses
+	return text
+
+func _scales_upgrade_cost_text() -> String:
+	if _scales_selected_item_path == "":
+		return "Выберите артефакт"
+	var item := load(_scales_selected_item_path) as ItemResource
+	if item == null:
+		return "Предмет не загрузился"
+	match item.rarity:
+		ItemResource.Rarity.COMMON:
+			return "Стоимость улучшения: 800 мыслей"
+		ItemResource.Rarity.RARE:
+			return "Стоимость улучшения: 1200 мыслей и 1 выбранная эссенция"
+	return "Этот артефакт пока нельзя улучшить"
+
+func _scales_selected_item_needs_essence() -> bool:
+	if _scales_selected_item_path == "":
+		return false
+	var item := load(_scales_selected_item_path) as ItemResource
+	return item != null and item.rarity == ItemResource.Rarity.RARE
+
+func _scales_upgrade_error() -> String:
+	if _scales_selected_item_path == "":
+		return "Выберите артефакт"
+	var item := load(_scales_selected_item_path) as ItemResource
+	if item == null:
+		return "Предмет не загрузился"
+	if item.rarity == ItemResource.Rarity.COMMON:
+		if CampaignState.get_currency_amount(THOUGHTS_PATH) < SCALES_COMMON_TO_RARE_COST:
+			return "Недостаточно мыслей"
+		return ""
+	if item.rarity == ItemResource.Rarity.RARE:
+		if CampaignState.get_currency_amount(THOUGHTS_PATH) < SCALES_RARE_TO_EPIC_THOUGHTS_COST:
+			return "Недостаточно мыслей"
+		if _scales_selected_essence_path == "":
+			return "Выберите эссенцию"
+		if CampaignState.get_currency_amount(_scales_selected_essence_path) < 1:
+			return "Недостаточно выбранной эссенции"
+		return ""
+	return "Нет доступного улучшения"
+
+func _upgrade_scales_selected_item() -> void:
+	if _scales_upgrade_error() != "":
+		return
+	var item := load(_scales_selected_item_path) as ItemResource
+	if item == null:
+		return
+	if item.rarity == ItemResource.Rarity.COMMON:
+		if not CampaignState.spend_currency_amounts({THOUGHTS_PATH: SCALES_COMMON_TO_RARE_COST}):
+			return
+		item.rarity = ItemResource.Rarity.RARE
+	elif item.rarity == ItemResource.Rarity.RARE:
+		if not CampaignState.spend_currency_amounts({THOUGHTS_PATH: SCALES_RARE_TO_EPIC_THOUGHTS_COST, _scales_selected_essence_path: 1}):
+			return
+		item.rarity = ItemResource.Rarity.EPIC
+	ResourceSaver.save(item, _scales_selected_item_path)
+	_refresh_currencies()
+	_refresh_scales_window()
+
+func _buy_scales_essence() -> void:
+	if _scales_selected_essence_path == "":
+		return
+	if not CampaignState.spend_currency_amounts({THOUGHTS_PATH: SCALES_BUY_ESSENCE_COST}):
+		return
+	CampaignState.add_currency_amount(_scales_selected_essence_path, 1)
+	_refresh_currencies()
+	_refresh_scales_window()
+
+func _sell_scales_essence() -> void:
+	if _scales_selected_essence_path == "":
+		return
+	if not CampaignState.spend_currency_amounts({_scales_selected_essence_path: 1}):
+		return
+	CampaignState.add_currency_amount(THOUGHTS_PATH, SCALES_SELL_ESSENCE_GAIN)
+	_refresh_currencies()
+	_refresh_scales_window()
+
+func _scales_item_tooltip(item: ItemResource) -> String:
+	if item == null:
+		return ""
+	var lines: Array[String] = [item.item_name, item.get_rarity_name(), item.get_type_name()]
+	if item.description.strip_edges() != "":
+		lines.append(item.description.strip_edges())
+	var bonuses := item.get_bonuses_text()
+	if bonuses != "":
+		lines.append(bonuses)
+	return "\n".join(lines)
+
+func _make_scales_panel_style(color: Color = GOD_DETAIL_BG_COLOR) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = color
+	style.border_color = GOD_DETAIL_ACCENT_COLOR
+	style.set_border_width_all(2)
+	style.corner_radius_top_left = 8
+	style.corner_radius_top_right = 8
+	style.corner_radius_bottom_left = 8
+	style.corner_radius_bottom_right = 8
+	return style
+
+func _make_scales_button(text: String, min_size: Vector2) -> Button:
+	var button := Button.new()
+	button.text = text
+	button.custom_minimum_size = min_size
+	button.add_theme_font_size_override("font_size", 22)
+	button.add_theme_stylebox_override("normal", _make_scales_button_style(false))
+	button.add_theme_stylebox_override("hover", _make_scales_button_style(true))
+	button.add_theme_stylebox_override("pressed", _make_scales_button_style(true))
+	button.add_theme_stylebox_override("disabled", _make_scales_button_style(false, true))
+	return button
+
+func _make_scales_button_style(highlighted: bool = false, disabled: bool = false) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = BUTTON_OPAQUE_BG_HOVER_COLOR if highlighted else BUTTON_OPAQUE_BG_COLOR
+	style.border_color = GOD_DETAIL_ACCENT_COLOR if highlighted else GOD_DETAIL_ACCENT_DIM_COLOR
+	if disabled:
+		style.bg_color = BUTTON_OPAQUE_BG_DISABLED_COLOR
+		style.border_color = Color(0.5, 0.45, 0.34, 0.4)
+	style.set_border_width_all(2)
+	style.corner_radius_top_left = 6
+	style.corner_radius_top_right = 6
+	style.corner_radius_bottom_left = 6
+	style.corner_radius_bottom_right = 6
+	return style
 
 
 func _select_tab(tab: int) -> void:
@@ -4241,8 +5054,17 @@ func _populate_treasury() -> void:
 	if paths.is_empty():
 		_content_grid.add_child(_make_placeholder("Сокровищница пуста"))
 		return
+	# Группируем по пути — один и тот же артефакт может быть создан несколько раз
+	# (см. CampaignState.add_item); показываем одну карточку с "×N" вместо N одинаковых.
+	var counts: Dictionary = {}
+	var order: Array[String] = []
 	for path in paths:
-		_content_grid.add_child(_make_item_card(path))
+		if not counts.has(path):
+			counts[path] = 0
+			order.append(path)
+		counts[path] += 1
+	for path in order:
+		_content_grid.add_child(_make_item_card(path, int(counts[path])))
 
 
 func _populate_missions() -> void:
@@ -4308,7 +5130,7 @@ func _make_god_card(path: String) -> Control:
 	return panel
 
 
-func _make_item_card(path: String) -> Control:
+func _make_item_card(path: String, count: int = 1) -> Control:
 	var panel := PanelContainer.new()
 	panel.custom_minimum_size = Vector2(180, 140)
 	var vb := VBoxContainer.new()
@@ -4319,6 +5141,16 @@ func _make_item_card(path: String) -> Control:
 	var display_name := "Предмет"
 	if res != null and res.item_name != "":
 		display_name = res.item_name
+	if count > 1:
+		display_name += " ×%d" % count
+
+	if res != null and res.icon != null:
+		var icon := TextureRect.new()
+		icon.texture = res.icon
+		icon.custom_minimum_size = Vector2(0, 56)
+		icon.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		vb.add_child(icon)
 
 	var lbl := Label.new()
 	lbl.text = display_name
@@ -4326,6 +5158,30 @@ func _make_item_card(path: String) -> Control:
 	lbl.add_theme_font_size_override("font_size", 18)
 	lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	vb.add_child(lbl)
+
+	if res != null:
+		var summary := _item_bonus_summary(res)
+		if summary != "":
+			var bonus_lbl := Label.new()
+			bonus_lbl.text = summary
+			bonus_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			bonus_lbl.add_theme_font_size_override("font_size", 12)
+			bonus_lbl.add_theme_color_override("font_color", Color(0.75, 0.75, 0.8))
+			bonus_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			vb.add_child(bonus_lbl)
+
+		if res.restricted_god_path != "":
+			var owner_name := res.restricted_god_path.get_file().get_basename()
+			var owner_res := CampaignState.load_character_resource(res.restricted_god_path)
+			if owner_res != null and owner_res.unit_name != "":
+				owner_name = owner_res.unit_name
+			var restrict_lbl := Label.new()
+			restrict_lbl.text = "Только для: %s" % owner_name
+			restrict_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			restrict_lbl.add_theme_font_size_override("font_size", 12)
+			restrict_lbl.add_theme_color_override("font_color", GOD_DETAIL_ACCENT_COLOR)
+			restrict_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			vb.add_child(restrict_lbl)
 
 	return panel
 
@@ -4467,6 +5323,15 @@ func _input(event: InputEvent) -> void:
 		elif _creation_overlay != null and is_instance_valid(_creation_overlay):
 			_close_creation_window()
 			cancelled = true
+		elif _scales_overlay != null and is_instance_valid(_scales_overlay):
+			_close_scales_window()
+			cancelled = true
+		elif _library_overlay != null and is_instance_valid(_library_overlay):
+			_close_library_window()
+			cancelled = true
+		elif _memory_well_overlay != null and is_instance_valid(_memory_well_overlay):
+			_close_memory_well_window()
+			cancelled = true
 		elif _god_overlay != null and is_instance_valid(_god_overlay):
 			_close_god_detail()
 			cancelled = true
@@ -4475,13 +5340,39 @@ func _input(event: InputEvent) -> void:
 			if viewport != null:
 				viewport.set_input_as_handled()
 
-## Открывает окно Сада творения: 2 слота эссенций, место спрайта бога, кнопка «Создать».
-func _show_creation_window() -> void:
+## Открывает Сад творения: выбор "Бог" (эссенции, как раньше) / "Артефакт" (новый путь).
+## Строит переключаемую в любой момент панель вкладок (обычно 2 варианта) и добавляет её
+## в конец vb. tabs: Array из {"text": String, "callback": Callable}. active_index — какая
+## вкладка сейчас открыта (рисуется нажатой и не реагирует на клик).
+func _add_room_tab_bar(vb: VBoxContainer, tabs: Array, active_index: int) -> HBoxContainer:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	for i in range(tabs.size()):
+		var tab_data: Dictionary = tabs[i]
+		var btn := Button.new()
+		btn.text = tab_data["text"]
+		btn.custom_minimum_size = Vector2(180, 40)
+		btn.add_theme_font_size_override("font_size", 16)
+		btn.toggle_mode = true
+		if i == active_index:
+			btn.button_pressed = true
+			btn.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		else:
+			btn.pressed.connect(tab_data["callback"])
+		row.add_child(btn)
+	vb.add_child(row)
+	return row
+
+
+## Шаг 1 создания артефакта: выбор типа (Оружие / Доспехи / Безделушка), с ценой на карточке.
+func _show_artifact_type_window() -> void:
 	_close_creation_window()
-	_creation_slots = ["", ""]
 	_creation_overlay = Control.new()
 	_creation_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_creation_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	# Выше портретов богов (ROSTER_Z_INDEX = 80).
+	_creation_overlay.z_index = 1000
 	add_child(_creation_overlay)
 
 	var bg := ColorRect.new()
@@ -4497,7 +5388,770 @@ func _show_creation_window() -> void:
 	_creation_overlay.add_child(center)
 
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(640, 420)
+	panel.custom_minimum_size = ROOM_PANEL_SIZE
+	center.add_child(panel)
+
+	var margin := MarginContainer.new()
+	for side in ["margin_left", "margin_right", "margin_top", "margin_bottom"]:
+		margin.add_theme_constant_override(side, 20)
+	panel.add_child(margin)
+
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 16)
+	margin.add_child(vb)
+
+	var title := Label.new()
+	title.text = "Сад творения"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 24)
+	vb.add_child(title)
+
+	_add_room_tab_bar(vb, [
+		{"text": "Бог", "callback": _show_creation_window},
+		{"text": "Артефакт", "callback": _show_artifact_type_window},
+	], 1)
+
+	var type_hint := Label.new()
+	type_hint.text = "Выберите тип артефакта"
+	type_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	type_hint.add_theme_font_size_override("font_size", 16)
+	vb.add_child(type_hint)
+
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 16)
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	vb.add_child(row)
+
+	for i in range(ARTIFACT_TYPE_NAMES.size()):
+		var cost: int = ARTIFACT_TYPE_COST[i]
+		var wrap := VBoxContainer.new()
+		wrap.add_theme_constant_override("separation", 4)
+		wrap.alignment = BoxContainer.ALIGNMENT_CENTER
+
+		var card := Button.new()
+		card.custom_minimum_size = Vector2(150, 150)
+		card.alignment = HORIZONTAL_ALIGNMENT_CENTER
+		card.text = ARTIFACT_TYPE_NAMES[i]
+		card.add_theme_font_size_override("font_size", 16)
+		var sample := load(ARTIFACT_COMMON_ITEMS[i][0]) as ItemResource
+		if sample != null and sample.icon != null:
+			card.icon = sample.icon
+			card.expand_icon = true
+			card.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			card.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
+		# Нехватка мыслей больше не блокирует переход — сообщение покажется только
+		# при попытке создать конкретный предмет.
+		card.pressed.connect(_show_artifact_item_window.bind(i))
+		wrap.add_child(card)
+
+		var cost_row := _make_thoughts_icon_row(cost)
+		cost_row.alignment = BoxContainer.ALIGNMENT_CENTER
+		wrap.add_child(cost_row)
+
+		row.add_child(wrap)
+
+
+## Шаг 2 создания артефакта: конкретный предмет из списка "обычных" (плюс "Случайный"),
+## с отметкой уже созданных — карточки строятся в общей прокручиваемой сетке.
+func _show_artifact_item_window(item_type: int) -> void:
+	_close_creation_window()
+	_artifact_selected_type = item_type
+	_creation_overlay = Control.new()
+	_creation_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_creation_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	# Выше портретов богов (ROSTER_Z_INDEX = 80).
+	_creation_overlay.z_index = 1000
+	add_child(_creation_overlay)
+
+	var bg := ColorRect.new()
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.color = Color(0, 0, 0, 0.75)
+	bg.mouse_filter = Control.MOUSE_FILTER_STOP
+	bg.gui_input.connect(_on_creation_bg_input)
+	_creation_overlay.add_child(bg)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_creation_overlay.add_child(center)
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = ROOM_PANEL_SIZE
+	center.add_child(panel)
+
+	var margin := MarginContainer.new()
+	for side in ["margin_left", "margin_right", "margin_top", "margin_bottom"]:
+		margin.add_theme_constant_override(side, 20)
+	panel.add_child(margin)
+
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 12)
+	margin.add_child(vb)
+
+	var cost: int = ARTIFACT_TYPE_COST[item_type]
+	var thoughts_amount := CampaignState.get_currency_amount(THOUGHTS_PATH)
+
+	var title := Label.new()
+	title.text = "Сад творения"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 24)
+	vb.add_child(title)
+
+	_add_room_tab_bar(vb, [
+		{"text": "Бог", "callback": _show_creation_window},
+		{"text": "Артефакт", "callback": _show_artifact_type_window},
+	], 1)
+
+	var type_label := Label.new()
+	type_label.text = ARTIFACT_TYPE_NAMES[item_type]
+	type_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	type_label.add_theme_font_size_override("font_size", 20)
+	vb.add_child(type_label)
+
+	var cost_row := HBoxContainer.new()
+	cost_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	cost_row.add_theme_constant_override("separation", 8)
+	var cost_prefix := Label.new()
+	cost_prefix.text = "Стоимость создания:"
+	cost_prefix.add_theme_font_size_override("font_size", 15)
+	cost_row.add_child(cost_prefix)
+	cost_row.add_child(_make_thoughts_icon_row(cost))
+	var cost_suffix := Label.new()
+	cost_suffix.text = "(есть:"
+	cost_suffix.add_theme_font_size_override("font_size", 15)
+	cost_row.add_child(cost_suffix)
+	cost_row.add_child(_make_thoughts_icon_row(thoughts_amount))
+	var cost_close := Label.new()
+	cost_close.text = ")"
+	cost_close.add_theme_font_size_override("font_size", 15)
+	cost_row.add_child(cost_close)
+	if thoughts_amount < cost:
+		for lbl in [cost_prefix, cost_suffix, cost_close]:
+			lbl.add_theme_color_override("font_color", Color(0.9, 0.4, 0.4))
+	vb.add_child(cost_row)
+
+	if _artifact_create_error != "":
+		var error_label := Label.new()
+		error_label.text = _artifact_create_error
+		error_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		error_label.add_theme_font_size_override("font_size", 15)
+		error_label.add_theme_color_override("font_color", Color(0.9, 0.4, 0.4))
+		vb.add_child(error_label)
+		_artifact_create_error = ""
+
+	var back_btn := Button.new()
+	back_btn.text = "← Другой тип"
+	back_btn.custom_minimum_size = Vector2(120, 36)
+	back_btn.add_theme_font_size_override("font_size", 14)
+	back_btn.pressed.connect(_show_artifact_type_window)
+	vb.add_child(back_btn)
+
+	var scroll := ScrollContainer.new()
+	scroll.custom_minimum_size = Vector2(0, 380)
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	vb.add_child(scroll)
+
+	var grid := GridContainer.new()
+	grid.columns = 4
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grid.add_theme_constant_override("h_separation", 10)
+	grid.add_theme_constant_override("v_separation", 10)
+	scroll.add_child(grid)
+
+	grid.add_child(_make_artifact_pick_card("🎲 Случайный", null, ""))
+	for path in ARTIFACT_COMMON_ITEMS[item_type]:
+		var item := load(path) as ItemResource
+		if item == null:
+			continue
+		grid.add_child(_make_artifact_pick_card(item.item_name, item, path))
+
+
+## Строит одну кликабельную карточку выбора предмета (или "Случайный", если item == null).
+func _make_artifact_pick_card(display_name: String, item: ItemResource, specific_path: String) -> Control:
+	var wrap := VBoxContainer.new()
+	wrap.add_theme_constant_override("separation", 2)
+	wrap.alignment = BoxContainer.ALIGNMENT_CENTER
+
+	var card := Button.new()
+	card.custom_minimum_size = Vector2(150, 110)
+	card.alignment = HORIZONTAL_ALIGNMENT_CENTER
+	card.add_theme_font_size_override("font_size", 14)
+	card.text = display_name
+
+	if item != null and item.icon != null:
+		card.icon = item.icon
+		card.expand_icon = true
+		card.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		card.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
+
+	var is_random := specific_path == ""
+	var already_owned := specific_path != "" and CampaignState.treasury.has(specific_path)
+	# Конкретный предмет можно выбрать напрямую, только если он уже был создан раньше —
+	# иначе его можно получить только через «Случайный». Нехватка мыслей саму карточку
+	# больше не блокирует — сообщение об этом покажется только при попытке создать.
+	var can_pick := is_random or already_owned
+	if not can_pick:
+		card.disabled = true
+		card.tooltip_text = "Сначала получите этот предмет через «Случайный»"
+	else:
+		card.pressed.connect(_create_artifact.bind(_artifact_selected_type, specific_path))
+	wrap.add_child(card)
+
+	if item != null:
+		var bonus_lines := _item_bonus_icon_lines(item)
+		if not bonus_lines.is_empty():
+			var stats_label := RichTextLabel.new()
+			stats_label.bbcode_enabled = true
+			stats_label.fit_content = true
+			stats_label.scroll_active = false
+			stats_label.custom_minimum_size = Vector2(150, 0)
+			stats_label.text = "  ".join(bonus_lines)
+			wrap.add_child(stats_label)
+
+	return wrap
+
+
+## Определяет, какой конкретно предмет создать. specific_path != "" — игрок выбрал сам.
+## specific_path == "" ("Случайный") — сначала пробуем ещё не созданный предмет этого типа,
+## и только если все уже созданы — берём случайный из полного списка (может повториться).
+func _pick_artifact_path(item_type: int, specific_path: String) -> String:
+	if specific_path != "":
+		return specific_path
+	var pool: Array = ARTIFACT_COMMON_ITEMS[item_type]
+	var not_created: Array = []
+	for p in pool:
+		if not CampaignState.treasury.has(p):
+			not_created.append(p)
+	if not not_created.is_empty():
+		return str(not_created[randi() % not_created.size()])
+	return str(pool[randi() % pool.size()])
+
+
+## Списывает мысли и добавляет артефакт в сокровищницу (дубликаты разрешены).
+func _create_artifact(item_type: int, specific_path: String) -> void:
+	var cost: int = ARTIFACT_TYPE_COST[item_type]
+	if not CampaignState.spend_currency_amounts({THOUGHTS_PATH: cost}):
+		_artifact_create_error = "Недостаточно ресурсов"
+		_show_artifact_item_window(item_type)
+		return
+	var path := _pick_artifact_path(item_type, specific_path)
+	CampaignState.add_item(path)
+	_refresh_currencies()
+	_show_artifact_result(path)
+
+
+## Финальный экран: что именно создано, с кнопкой "Закрыть".
+func _show_artifact_result(path: String) -> void:
+	_close_creation_window()
+	_creation_overlay = Control.new()
+	_creation_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_creation_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	# Выше портретов богов (ROSTER_Z_INDEX = 80).
+	_creation_overlay.z_index = 1000
+	add_child(_creation_overlay)
+
+	var bg := ColorRect.new()
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.color = Color(0, 0, 0, 0.75)
+	bg.mouse_filter = Control.MOUSE_FILTER_STOP
+	bg.gui_input.connect(_on_creation_bg_input)
+	_creation_overlay.add_child(bg)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_creation_overlay.add_child(center)
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = ROOM_PANEL_SIZE
+	center.add_child(panel)
+
+	var margin := MarginContainer.new()
+	for side in ["margin_left", "margin_right", "margin_top", "margin_bottom"]:
+		margin.add_theme_constant_override(side, 20)
+	panel.add_child(margin)
+
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 14)
+	margin.add_child(vb)
+
+	var item := load(path) as ItemResource
+
+	var title := Label.new()
+	title.text = "Артефакт сотворён!"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 22)
+	vb.add_child(title)
+
+	if item != null and item.icon != null:
+		var icon := TextureRect.new()
+		icon.texture = item.icon
+		icon.custom_minimum_size = Vector2(0, 90)
+		icon.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		vb.add_child(icon)
+
+	var name_label := Label.new()
+	name_label.text = item.item_name if item != null else "Предмет"
+	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	name_label.add_theme_font_size_override("font_size", 20)
+	vb.add_child(name_label)
+
+	if item != null:
+		var bonus_lines := _item_bonus_icon_lines(item)
+		if not bonus_lines.is_empty():
+			var bonus_label := RichTextLabel.new()
+			bonus_label.bbcode_enabled = true
+			bonus_label.fit_content = true
+			bonus_label.scroll_active = false
+			bonus_label.custom_minimum_size = Vector2(ROOM_PANEL_SIZE.x - 80, 0)
+			var bbcode := "  ".join(bonus_lines)
+			bonus_label.text = "[center]%s[/center]" % bbcode
+			vb.add_child(bonus_label)
+
+	var close_btn := Button.new()
+	close_btn.text = "Закрыть"
+	close_btn.custom_minimum_size = Vector2(0, 48)
+	close_btn.add_theme_font_size_override("font_size", 18)
+	# Артефакт уже создан и сохранён — возвращаемся к выбору типа, а не на экран кампании.
+	close_btn.pressed.connect(_show_artifact_type_window)
+	vb.add_child(close_btn)
+
+
+## Строит стандартный оверлей Библиотеки (тёмная подложка, закрывающая клик по ней +
+## центрированная панель) и возвращает пустой VBoxContainer внутри — наполнение содержимым
+## делает вызывающая функция. Каждый шаг Библиотеки сам решает, что сюда положить.
+func _build_library_overlay(panel_size: Vector2) -> VBoxContainer:
+	_close_library_window()
+	_library_overlay = Control.new()
+	_library_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_library_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	# Выше портретов богов (ROSTER_Z_INDEX = 80).
+	_library_overlay.z_index = 1000
+	add_child(_library_overlay)
+
+	var bg := ColorRect.new()
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.color = Color(0, 0, 0, 0.75)
+	bg.mouse_filter = Control.MOUSE_FILTER_STOP
+	bg.gui_input.connect(func(event: InputEvent):
+		if event is InputEventMouseButton and event.pressed:
+			_close_library_window()
+	)
+	_library_overlay.add_child(bg)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_library_overlay.add_child(center)
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = panel_size
+	center.add_child(panel)
+
+	var margin := MarginContainer.new()
+	for side in ["margin_left", "margin_right", "margin_top", "margin_bottom"]:
+		margin.add_theme_constant_override(side, 20)
+	panel.add_child(margin)
+
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 14)
+	margin.add_child(vb)
+	return vb
+
+
+func _close_library_window() -> void:
+	if _library_overlay != null and is_instance_valid(_library_overlay):
+		_library_overlay.queue_free()
+		_library_overlay = null
+
+
+## Открывает Бесконечную библиотеку: выбор "Читать книги" / "Осмыслять сюжет".
+## "Читать книги" — за 1000 мыслей +5 к максимальной фантазии до конца игры (можно повторно).
+func _show_library_read_window() -> void:
+	var vb := _build_library_overlay(ROOM_PANEL_SIZE)
+
+	var title := Label.new()
+	title.text = "Бесконечная библиотека"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 24)
+	vb.add_child(title)
+
+	_add_room_tab_bar(vb, [
+		{"text": "Читать книги", "callback": _show_library_read_window},
+		{"text": "Осмыслять сюжет", "callback": _show_library_spell_upgrade_window},
+	], 0)
+
+	var desc := Label.new()
+	desc.text = "Каждый прочитанный том увеличивает максимальный запас фантазии на %d — навсегда." % CampaignState.LIBRARY_READ_FANTASY_BONUS
+	desc.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	desc.add_theme_font_size_override("font_size", 15)
+	vb.add_child(desc)
+
+	var progress := Label.new()
+	progress.text = "Уже прочитано: +%d к максимальной фантазии" % CampaignState.library_max_fantasy_bonus
+	progress.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	progress.add_theme_font_size_override("font_size", 14)
+	progress.add_theme_color_override("font_color", Color(0.75, 0.82, 0.95))
+	vb.add_child(progress)
+
+	var thoughts_amount := CampaignState.get_currency_amount(CampaignState.THOUGHTS_PATH)
+	var cost := CampaignState.LIBRARY_READ_COST
+	var can_afford := thoughts_amount >= cost
+
+	var cost_label := Label.new()
+	cost_label.text = "Стоимость: %d мыслей (есть: %d)" % [cost, thoughts_amount]
+	cost_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	cost_label.add_theme_font_size_override("font_size", 15)
+	if not can_afford:
+		cost_label.add_theme_color_override("font_color", Color(0.9, 0.4, 0.4))
+	vb.add_child(cost_label)
+
+	var read_btn := Button.new()
+	read_btn.text = "Читать (%d мыслей)" % cost
+	read_btn.custom_minimum_size = Vector2(0, 50)
+	read_btn.add_theme_font_size_override("font_size", 18)
+	read_btn.disabled = not can_afford
+	if not can_afford:
+		read_btn.tooltip_text = "Недостаточно мыслей"
+	read_btn.pressed.connect(_do_read_library_books)
+	vb.add_child(read_btn)
+
+
+func _do_read_library_books() -> void:
+	if not CampaignState.read_library_books():
+		_show_library_read_window()
+		return
+	_refresh_currencies()
+	_show_library_result(
+		"Ещё один том прочитан!",
+		"Максимальная фантазия увеличена на %d (итого: +%d)." % [CampaignState.LIBRARY_READ_FANTASY_BONUS, CampaignState.library_max_fantasy_bonus]
+	)
+
+
+## Возвращает пути ко всем заклинаниям (для карточек улучшения) — сканирует res://Spells
+## так же, как battle_scene.gd::_collect_spells_from_dir, чтобы новые файлы подхватывались сами.
+func _get_all_spell_paths() -> Array[String]:
+	var result: Array[String] = []
+	var dir := DirAccess.open("res://Spells")
+	if dir == null:
+		return result
+	dir.list_dir_begin()
+	var file_name := dir.get_next()
+	while file_name != "":
+		if file_name.ends_with(".tres") or file_name.ends_with(".res"):
+			result.append("res://Spells".path_join(file_name))
+		file_name = dir.get_next()
+	dir.list_dir_end()
+	result.sort()
+	return result
+
+
+## "Осмыслять сюжет" — список заклинаний; клик открывает подробности улучшения.
+func _show_library_spell_upgrade_window() -> void:
+	var vb := _build_library_overlay(ROOM_PANEL_SIZE)
+
+	var title := Label.new()
+	title.text = "Бесконечная библиотека"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 24)
+	vb.add_child(title)
+
+	_add_room_tab_bar(vb, [
+		{"text": "Читать книги", "callback": _show_library_read_window},
+		{"text": "Осмыслять сюжет", "callback": _show_library_spell_upgrade_window},
+	], 1)
+
+	var desc := Label.new()
+	desc.text = "Выберите заклинание, чтобы посмотреть, каким оно станет после улучшения."
+	desc.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	desc.add_theme_font_size_override("font_size", 14)
+	vb.add_child(desc)
+
+	var center_grid := CenterContainer.new()
+	center_grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	vb.add_child(center_grid)
+
+	var grid := GridContainer.new()
+	grid.columns = 4
+	grid.add_theme_constant_override("h_separation", 14)
+	grid.add_theme_constant_override("v_separation", 14)
+	center_grid.add_child(grid)
+
+	for path in _get_all_spell_paths():
+		var spell := load(path) as SpellResource
+		if spell == null or not SpellUpgradeData.has_upgrades(path):
+			continue
+		var level := CampaignState.get_spell_upgrade_level(path)
+		var card := Button.new()
+		card.custom_minimum_size = Vector2(150, 130)
+		card.alignment = HORIZONTAL_ALIGNMENT_CENTER
+		card.add_theme_font_size_override("font_size", 15)
+		var level_text := "\n(ур. %d/2)" % level if level > 0 else ""
+		card.text = "%s%s" % [spell.spell_name, level_text]
+		var icon_tex := spell.get_icon_texture()
+		if icon_tex != null:
+			card.icon = icon_tex
+			card.expand_icon = true
+			card.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			card.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
+		card.pressed.connect(_show_spell_upgrade_detail.bind(path))
+		grid.add_child(card)
+
+
+## Возвращает {"vb": VBoxContainer, "overlay": Control} — оверлей библиотеки, но с фоном,
+## по клику (любой кнопкой) возвращающим к списку заклинаний, а не закрывающим комнату целиком.
+func _build_spell_detail_overlay(panel_size: Vector2) -> VBoxContainer:
+	_close_library_window()
+	_library_overlay = Control.new()
+	_library_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_library_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	_library_overlay.z_index = 1000
+	add_child(_library_overlay)
+
+	var bg := ColorRect.new()
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.color = Color(0, 0, 0, 0.75)
+	bg.mouse_filter = Control.MOUSE_FILTER_STOP
+	bg.gui_input.connect(func(event: InputEvent):
+		if event is InputEventMouseButton and event.pressed:
+			_show_library_spell_upgrade_window()
+	)
+	_library_overlay.add_child(bg)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_library_overlay.add_child(center)
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = panel_size
+	center.add_child(panel)
+
+	var margin := MarginContainer.new()
+	for side in ["margin_left", "margin_right", "margin_top", "margin_bottom"]:
+		margin.add_theme_constant_override(side, 20)
+	panel.add_child(margin)
+
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 14)
+	margin.add_child(vb)
+	return vb
+
+
+## Подробности улучшения: слева — заклинание как сейчас, справа — каким станет,
+## золотая стрелка между ними, под стрелкой — стоимость. Внизу «Улучшить» и «Назад».
+## Также можно закрыть подробности (вернуться к списку) кликом любой кнопкой мыши по фону.
+func _show_spell_upgrade_detail(path: String) -> void:
+	var spell := load(path) as SpellResource
+	if spell == null:
+		return
+	var vb := _build_spell_detail_overlay(ROOM_PANEL_SIZE)
+
+	var title := Label.new()
+	title.text = spell.spell_name
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 26)
+	vb.add_child(title)
+
+	var current_level := CampaignState.get_spell_upgrade_level(path)
+	var can_upgrade := CampaignState.can_upgrade_spell(path)
+
+	if not can_upgrade:
+		var maxed_label := Label.new()
+		maxed_label.text = "Заклинание улучшено до максимума (уровень 2/2)."
+		maxed_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		maxed_label.add_theme_font_size_override("font_size", 16)
+		vb.add_child(maxed_label)
+	else:
+		var next_level := current_level + 1
+		var current_display := SpellUpgradeData.get_display(spell, current_level)
+		var next_display := SpellUpgradeData.get_display(spell, next_level)
+
+		var compare_row := HBoxContainer.new()
+		compare_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		compare_row.add_theme_constant_override("separation", 24)
+		vb.add_child(compare_row)
+
+		var left_panel := _make_spell_stage_panel("Сейчас (ур. %d)" % current_level, spell, current_display)
+		left_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		left_panel.size_flags_stretch_ratio = 1.0
+		left_panel.custom_minimum_size = Vector2(320, 220)
+		compare_row.add_child(left_panel)
+
+		var arrow_col := VBoxContainer.new()
+		arrow_col.alignment = BoxContainer.ALIGNMENT_CENTER
+		arrow_col.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		arrow_col.add_theme_constant_override("separation", 6)
+		var arrow_label := Label.new()
+		arrow_label.text = "➜"
+		arrow_label.add_theme_font_size_override("font_size", 40)
+		arrow_label.add_theme_color_override("font_color", GOD_DETAIL_ACCENT_COLOR)
+		arrow_col.add_child(arrow_label)
+
+		var cost := CampaignState.get_spell_upgrade_next_cost(path)
+		var thoughts_cost: int = int(cost["thoughts"])
+		var essence_path: String = str(cost["essence_path"])
+		var thoughts_amount := CampaignState.get_currency_amount(CampaignState.THOUGHTS_PATH)
+		var cost_label := Label.new()
+		var cost_text := "%d мыслей" % thoughts_cost
+		if next_level == 2:
+			if essence_path != "":
+				var essence_res := load(essence_path) as ItemResource
+				var essence_name := essence_res.item_name if essence_res != null else "эссенция"
+				cost_text += " + 1 (%s)" % essence_name
+			else:
+				cost_text += " + 1 эссенция (нет в наличии)"
+		cost_label.text = cost_text
+		cost_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		cost_label.add_theme_font_size_override("font_size", 15)
+		var affordable := thoughts_amount >= thoughts_cost and (next_level == 1 or essence_path != "")
+		if not affordable:
+			cost_label.add_theme_color_override("font_color", Color(0.9, 0.4, 0.4))
+		arrow_col.add_child(cost_label)
+		compare_row.add_child(arrow_col)
+
+		var right_panel := _make_spell_stage_panel("Станет (ур. %d)" % next_level, spell, next_display)
+		right_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		right_panel.size_flags_stretch_ratio = 1.0
+		right_panel.custom_minimum_size = Vector2(320, 220)
+		compare_row.add_child(right_panel)
+
+		var upgrade_row := CenterContainer.new()
+		upgrade_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		vb.add_child(upgrade_row)
+
+		var upgrade_btn := Button.new()
+		upgrade_btn.text = "Улучшить"
+		upgrade_btn.custom_minimum_size = Vector2(220, 48)
+		upgrade_btn.add_theme_font_size_override("font_size", 18)
+		upgrade_btn.disabled = not affordable
+		if not affordable:
+			upgrade_btn.tooltip_text = "Недостаточно ресурсов для улучшения"
+		upgrade_btn.pressed.connect(_do_upgrade_spell.bind(path))
+		upgrade_row.add_child(upgrade_btn)
+
+	var back_btn := Button.new()
+	back_btn.text = "← Назад"
+	back_btn.custom_minimum_size = Vector2(0, 36)
+	back_btn.add_theme_font_size_override("font_size", 14)
+	back_btn.pressed.connect(_show_library_spell_upgrade_window)
+	vb.add_child(back_btn)
+
+
+## Карточка одной стадии заклинания (текущей или следующей) для сравнения в подробностях.
+func _make_spell_stage_panel(stage_title: String, spell: SpellResource, display: Dictionary) -> Control:
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(320, 220)
+	var inner := VBoxContainer.new()
+	inner.add_theme_constant_override("separation", 8)
+	panel.add_child(inner)
+
+	var stage_label := Label.new()
+	stage_label.text = stage_title
+	stage_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	stage_label.add_theme_font_size_override("font_size", 14)
+	stage_label.add_theme_color_override("font_color", GOD_DETAIL_ACCENT_DIM_COLOR)
+	inner.add_child(stage_label)
+
+	var icon_tex := spell.get_icon_texture()
+	if icon_tex != null:
+		var icon := TextureRect.new()
+		icon.texture = icon_tex
+		icon.custom_minimum_size = Vector2(0, 64)
+		icon.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		inner.add_child(icon)
+
+	var name_label := Label.new()
+	name_label.text = spell.spell_name
+	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	name_label.add_theme_font_size_override("font_size", 18)
+	inner.add_child(name_label)
+
+	var cost_label := Label.new()
+	cost_label.text = "Стоимость: %d фантазии" % int(display["cost"])
+	cost_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	cost_label.add_theme_font_size_override("font_size", 14)
+	inner.add_child(cost_label)
+
+	var desc_label := Label.new()
+	desc_label.text = str(display["description"])
+	desc_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	desc_label.add_theme_font_size_override("font_size", 13)
+	inner.add_child(desc_label)
+
+	return panel
+
+
+func _do_upgrade_spell(path: String) -> void:
+	if not CampaignState.upgrade_spell(path):
+		_show_spell_upgrade_detail(path)
+		return
+	_refresh_currencies()
+	var spell := load(path) as SpellResource
+	var spell_name := spell.spell_name if spell != null else "Заклинание"
+	var new_level := CampaignState.get_spell_upgrade_level(path)
+	_show_library_result(
+		"Сюжет осмыслен!",
+		"«%s» улучшено до уровня %d." % [spell_name, new_level]
+	)
+
+
+func _show_library_result(title_text: String, message: String) -> void:
+	var vb := _build_library_overlay(ROOM_PANEL_SIZE)
+
+	var title := Label.new()
+	title.text = title_text
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 22)
+	vb.add_child(title)
+
+	var msg := Label.new()
+	msg.text = message
+	msg.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	msg.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	msg.add_theme_font_size_override("font_size", 16)
+	vb.add_child(msg)
+
+	var close_btn := Button.new()
+	close_btn.text = "Закрыть"
+	close_btn.custom_minimum_size = Vector2(0, 48)
+	close_btn.add_theme_font_size_override("font_size", 18)
+	close_btn.pressed.connect(_close_library_window)
+	vb.add_child(close_btn)
+
+
+## Открывает окно Сада творения: 2 слота эссенций, место спрайта бога, кнопка «Создать».
+func _show_creation_window() -> void:
+	_close_creation_window()
+	_creation_slots = ["", ""]
+	_creation_overlay = Control.new()
+	_creation_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_creation_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	# Выше портретов богов (ROSTER_Z_INDEX = 80).
+	_creation_overlay.z_index = 1000
+	add_child(_creation_overlay)
+
+	var bg := ColorRect.new()
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.color = Color(0, 0, 0, 0.75)
+	bg.mouse_filter = Control.MOUSE_FILTER_STOP
+	bg.gui_input.connect(_on_creation_bg_input)
+	_creation_overlay.add_child(bg)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_creation_overlay.add_child(center)
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = ROOM_PANEL_SIZE
 	center.add_child(panel)
 
 	var margin := MarginContainer.new()
@@ -4514,6 +6168,11 @@ func _show_creation_window() -> void:
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_size_override("font_size", 26)
 	main_vb.add_child(title)
+
+	_add_room_tab_bar(main_vb, [
+		{"text": "Бог", "callback": _show_creation_window},
+		{"text": "Артефакт", "callback": _show_artifact_type_window},
+	], 0)
 
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 24)
@@ -4538,12 +6197,12 @@ func _show_creation_window() -> void:
 		slot.gui_input.connect(_on_creation_slot_input.bind(i))
 		# Видимая рамка-квадрат.
 		var sb := StyleBoxFlat.new()
-		sb.bg_color = Color(0.15, 0.15, 0.2, 0.8)
+		sb.bg_color = BUTTON_OPAQUE_BG_COLOR
 		sb.border_width_left = 2
 		sb.border_width_right = 2
 		sb.border_width_top = 2
 		sb.border_width_bottom = 2
-		sb.border_color = Color(0.7, 0.7, 0.7, 1.0)
+		sb.border_color = GOD_DETAIL_ACCENT_COLOR
 		sb.corner_radius_top_left = 6
 		sb.corner_radius_top_right = 6
 		sb.corner_radius_bottom_left = 6
@@ -4625,12 +6284,20 @@ func _build_creation_popup() -> void:
 	var hbox := HBoxContainer.new()
 	hbox.add_theme_constant_override("separation", 8)
 	_creation_popup.add_child(hbox)
+	var essence_btn_size := Vector2(72, 72)
 	for ename in CREATION_ESSENCES.keys():
 		var res = load(CREATION_ESSENCES[ename])
 		var btn := Button.new()
-		btn.text = ename
-		btn.tooltip_text = "Количество: %d" % [CampaignState.get_currency_amount(str(CREATION_ESSENCES[ename])) if res != null else 0]
-		btn.custom_minimum_size = Vector2(96, 64)
+		btn.custom_minimum_size = essence_btn_size
+		btn.tooltip_text = "%s — количество: %d" % [ename, CampaignState.get_currency_amount(str(CREATION_ESSENCES[ename])) if res != null else 0]
+		_apply_essence_button_style(btn)
+		if res != null and res.icon != null:
+			btn.icon = res.icon
+			btn.expand_icon = true
+			btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			btn.vertical_icon_alignment = VERTICAL_ALIGNMENT_CENTER
+		else:
+			btn.text = ename
 		btn.pressed.connect(_on_essence_chosen.bind(ename))
 		hbox.add_child(btn)
 
@@ -4792,7 +6459,10 @@ func _menu_load() -> void:
 
 func _menu_settings() -> void:
 	_hide_menu_popup()
-	# Пока пусто — заглушка для будущих настроек.
+	var panel := SettingsPanel.new()
+	panel.close_requested.connect(panel.queue_free)
+	panel.z_index = 2500
+	add_child(panel)
 
 
 func _menu_help() -> void:
@@ -5178,6 +6848,26 @@ func _make_stat_icon_row(stat_key: String, value_text: String) -> Control:
 	row.add_child(lbl)
 	return row
 
+## Иконка мыслей + число — используется вместо текста "N мыслей" в окнах создания
+## артефакта, где количество мыслей должно отображаться только иконкой.
+func _make_thoughts_icon_row(amount: int) -> Control:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 4)
+	var icon := TextureRect.new()
+	icon.custom_minimum_size = Vector2(26, 26)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	var res = load(THOUGHTS_PATH)
+	if res != null and res.icon != null:
+		icon.texture = res.icon
+	row.add_child(icon)
+	var lbl := Label.new()
+	lbl.text = str(amount)
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_size_override("font_size", 15)
+	row.add_child(lbl)
+	return row
+
 func _make_god_detail_panel_style() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
 	style.bg_color = GOD_DETAIL_BG_COLOR
@@ -5239,6 +6929,9 @@ func _show_god_detail(god_path: String) -> void:
 	_god_overlay = Control.new()
 	_god_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_god_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	# Выше портретов богов (ROSTER_Z_INDEX = 80) — иначе страница персонажа рисовалась
+	# бы под ними.
+	_god_overlay.z_index = 1000
 
 	var dark_bg := ColorRect.new()
 	dark_bg.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -5286,16 +6979,10 @@ func _show_god_detail(god_path: String) -> void:
 	# Левая колонка: статы + умения.
 	main_hb.add_child(_build_god_left_column())
 
-	# Центральная колонка: спрайт + полоски + экипировка.
+	# Центральная колонка: экипировка + большой спрайт + полоски.
 	var center_col := _build_god_center_column()
 	center_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	main_hb.add_child(center_col)
-
-	# Правая колонка: инвентарь (скрыт по умолчанию).
-	_inventory_side = VBoxContainer.new()
-	_inventory_side.custom_minimum_size = Vector2(220, 0)
-	_inventory_side.visible = false
-	main_hb.add_child(_inventory_side)
 
 	add_child(_god_overlay)
 
@@ -5493,21 +7180,38 @@ func _format_ability_tooltip(ability: AbilityResource) -> String:
 func _build_god_center_column() -> Control:
 	var vb := VBoxContainer.new()
 	vb.add_theme_constant_override("separation", 12)
-	vb.alignment = BoxContainer.ALIGNMENT_CENTER
 
 	var res := _current_god_res
 
-	# Спрайт.
+	# Верхний ряд: спрайт слева, слоты экипировки справа от него.
+	var top_row := HBoxContainer.new()
+	top_row.add_theme_constant_override("separation", 18)
+	vb.add_child(top_row)
+
 	if res.sprite_path != "":
 		var tex := load(res.sprite_path) as Texture2D
 		if tex != null:
 			var tex_rect := TextureRect.new()
 			tex_rect.texture = tex
-			tex_rect.custom_minimum_size = Vector2(300, 300)
+			tex_rect.custom_minimum_size = Vector2(340, 340)
 			tex_rect.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
 			tex_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 			tex_rect.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-			vb.add_child(tex_rect)
+			top_row.add_child(tex_rect)
+
+	var equip_col := VBoxContainer.new()
+	equip_col.alignment = BoxContainer.ALIGNMENT_CENTER
+	equip_col.add_theme_constant_override("separation", 14)
+	top_row.add_child(equip_col)
+
+	for slot_info in [
+		{"type": 0, "label": "Оружие", "item": res.equipped_weapon},
+		{"type": 1, "label": "Броня", "item": res.equipped_armor},
+		{"type": 2, "label": "Безделушка", "item": res.equipped_trinket},
+	]:
+		equip_col.add_child(_make_equip_slot_entry(slot_info["type"], slot_info["label"], slot_info["item"]))
+
+	vb.add_child(_make_god_separator())
 
 	# Полоска здоровья.
 	var hp_bar := ProgressBar.new()
@@ -5527,37 +7231,44 @@ func _build_god_center_column() -> Control:
 	fade_bar.show_percentage = false
 	vb.add_child(_make_bar_with_label("Забвение", fade_bar, "%.1f / 5.0" % res.forgetting_level, Color(0.28, 0.08, 0.4)))
 
-	vb.add_child(_make_god_separator())
-
-	# Слоты экипировки.
-	var equip_title := Label.new()
-	equip_title.text = "Экипировка"
-	equip_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	equip_title.add_theme_font_size_override("font_size", 18)
-	vb.add_child(equip_title)
-
-	var equip_row := HBoxContainer.new()
-	equip_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	equip_row.add_theme_constant_override("separation", 12)
-	vb.add_child(equip_row)
-
-	for slot_info in [
-		{"type": 0, "label": "Оружие", "item": res.equipped_weapon},
-		{"type": 1, "label": "Броня", "item": res.equipped_armor},
-		{"type": 2, "label": "Безделушка", "item": res.equipped_trinket},
-	]:
-		var slot_btn := Button.new()
-		slot_btn.custom_minimum_size = Vector2(120, 60)
-		slot_btn.add_theme_font_size_override("font_size", 14)
-		var item: ItemResource = slot_info["item"]
-		if item != null:
-			slot_btn.text = "%s\n%s" % [slot_info["label"], item.item_name]
-		else:
-			slot_btn.text = "%s\n— пусто —" % slot_info["label"]
-		slot_btn.pressed.connect(_on_equipment_slot_pressed.bind(slot_info["type"]))
-		equip_row.add_child(slot_btn)
-
 	return vb
+
+
+## Одна ячейка экипировки: название типа НАД ячейкой, сама ячейка — только иконка предмета
+## (без текста), клик открывает окно выбора артефакта поверх страницы.
+func _make_equip_slot_entry(slot_type: int, slot_label: String, item: ItemResource) -> Control:
+	var wrap := VBoxContainer.new()
+	wrap.alignment = BoxContainer.ALIGNMENT_CENTER
+	wrap.add_theme_constant_override("separation", 4)
+
+	var type_lbl := Label.new()
+	type_lbl.text = slot_label
+	type_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	type_lbl.add_theme_font_size_override("font_size", 13)
+	type_lbl.add_theme_color_override("font_color", GOD_DETAIL_ACCENT_DIM_COLOR)
+	wrap.add_child(type_lbl)
+
+	var slot_btn: Button = STAT_ICON_TOOLTIP_BUTTON_SCRIPT.new()
+	slot_btn.custom_minimum_size = Vector2(86, 86)
+	if item != null:
+		slot_btn.tooltip_text = item.item_name
+		slot_btn.rich_tooltip_text = _item_info_bbcode(item)
+		slot_btn.rich_tooltip_is_bbcode = true
+	else:
+		slot_btn.tooltip_text = "Пусто"
+	slot_btn.pressed.connect(_show_equip_picker.bind(slot_type))
+	_apply_tight_icon_button_style(slot_btn)
+	if item != null and item.icon != null:
+		slot_btn.icon = item.icon
+		slot_btn.expand_icon = true
+		slot_btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		slot_btn.vertical_icon_alignment = VERTICAL_ALIGNMENT_CENTER
+	else:
+		slot_btn.text = "+"
+		slot_btn.add_theme_font_size_override("font_size", 30)
+
+	wrap.add_child(slot_btn)
+	return wrap
 
 
 func _make_bar_with_label(label_text: String, bar: ProgressBar, value_text: String, color: Color) -> Control:
@@ -5585,71 +7296,155 @@ func _make_bar_with_label(label_text: String, bar: ProgressBar, value_text: Stri
 
 # ── Инвентарь и экипировка ──
 
-func _on_equipment_slot_pressed(slot_type: int) -> void:
+const _EQUIP_SLOT_NAMES := ["Оружие", "Броня", "Безделушка"]
+
+## Открывает окно выбора артефакта поверх страницы персонажа (не меняет саму страницу).
+func _show_equip_picker(slot_type: int) -> void:
+	_close_equip_picker()
 	_current_slot_type = slot_type
-	_populate_inventory_panel()
 
+	_equip_picker_overlay = Control.new()
+	_equip_picker_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_equip_picker_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	_equip_picker_overlay.z_index = 1200  # поверх страницы персонажа (z_index 1000)
+	add_child(_equip_picker_overlay)
 
-func _populate_inventory_panel() -> void:
-	if _inventory_side == null or not is_instance_valid(_inventory_side):
-		return
+	var bg := ColorRect.new()
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.color = Color(0, 0, 0, 0.75)
+	bg.mouse_filter = Control.MOUSE_FILTER_STOP
+	bg.gui_input.connect(func(event: InputEvent):
+		if event is InputEventMouseButton and event.pressed:
+			_close_equip_picker()
+	)
+	_equip_picker_overlay.add_child(bg)
 
-	for child in _inventory_side.get_children():
-		child.queue_free()
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_equip_picker_overlay.add_child(center)
 
-	_inventory_side.visible = true
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(640, 460)
+	center.add_child(panel)
+
+	var margin := MarginContainer.new()
+	for side in ["margin_left", "margin_right", "margin_top", "margin_bottom"]:
+		margin.add_theme_constant_override(side, 20)
+	panel.add_child(margin)
+
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 14)
+	margin.add_child(vb)
 
 	var title := Label.new()
-	title.text = "Инвентарь"
+	title.text = "Выбор: %s" % _EQUIP_SLOT_NAMES[slot_type]
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 18)
-	_inventory_side.add_child(title)
+	title.add_theme_font_size_override("font_size", 24)
+	vb.add_child(title)
 
 	var unequip_btn := Button.new()
 	unequip_btn.text = "Снять экипировку"
-	unequip_btn.custom_minimum_size = Vector2(0, 36)
-	unequip_btn.add_theme_font_size_override("font_size", 14)
+	unequip_btn.custom_minimum_size = Vector2(200, 40)
+	unequip_btn.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	unequip_btn.pressed.connect(_unequip_current_slot)
-	_inventory_side.add_child(unequip_btn)
+	vb.add_child(unequip_btn)
 
-	_inventory_side.add_child(_make_god_separator())
+	var body := HBoxContainer.new()
+	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	body.add_theme_constant_override("separation", 16)
+	vb.add_child(body)
 
 	var scroll := ScrollContainer.new()
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	scroll.custom_minimum_size = Vector2(200, 300)
-	_inventory_side.add_child(scroll)
+	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_stretch_ratio = 2.0
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	body.add_child(scroll)
 
-	var list := VBoxContainer.new()
-	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	list.add_theme_constant_override("separation", 4)
-	scroll.add_child(list)
+	var grid := GridContainer.new()
+	grid.columns = 3
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grid.add_theme_constant_override("h_separation", 8)
+	grid.add_theme_constant_override("v_separation", 8)
+	scroll.add_child(grid)
 
-	var needed_type: int = _current_slot_type
+	# Панель информации о предмете (справа), заполняется при наведении на карточку.
+	_equip_picker_info_panel = PanelContainer.new()
+	_equip_picker_info_panel.custom_minimum_size = Vector2(180, 0)
+	_equip_picker_info_panel.add_theme_stylebox_override("panel", _make_info_panel_style())
+	body.add_child(_equip_picker_info_panel)
+	_equip_picker_info_label = RichTextLabel.new()
+	_equip_picker_info_label.bbcode_enabled = true
+	_equip_picker_info_label.fit_content = false
+	_equip_picker_info_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_equip_picker_info_label.add_theme_font_size_override("normal_font_size", 14)
+	_equip_picker_info_label.add_theme_font_size_override("bold_font_size", 16)
+	_equip_picker_info_label.text = "[i]Наведите на артефакт, чтобы увидеть описание[/i]"
+	_equip_picker_info_panel.add_child(_equip_picker_info_label)
+
+	var needed_type: int = slot_type
 	var found_any := false
+	# Один и тот же артефакт может быть в сокровищнице несколько раз (см.
+	# CampaignState.add_item) — для экипировки достаточно одной карточки на путь.
+	var seen_paths: Dictionary = {}
 
 	for item_path in CampaignState.treasury:
+		if seen_paths.has(item_path):
+			continue
 		var item := load(item_path) as ItemResource
 		if item == null:
 			continue
 		if item.item_type != needed_type:
 			continue
+		if item.restricted_god_path != "" and item.restricted_god_path != _current_god_path:
+			continue
+		seen_paths[item_path] = true
 		found_any = true
-
-		var summary := _item_bonus_summary(item)
-		var item_btn := Button.new()
-		item_btn.text = "%s\n%s" % [item.item_name, summary]
-		item_btn.add_theme_font_size_override("font_size", 13)
-		item_btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		item_btn.custom_minimum_size = Vector2(0, 50)
-		item_btn.pressed.connect(_equip_item.bind(item_path))
-		list.add_child(item_btn)
+		grid.add_child(_make_equip_picker_card(item, item_path))
 
 	if not found_any:
 		var empty := Label.new()
 		empty.text = "Нет подходящих предметов"
 		empty.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		empty.add_theme_font_size_override("font_size", 14)
-		list.add_child(empty)
+		grid.add_child(empty)
+
+
+## Карточка предмета в окне выбора: только иконка на всю ячейку, наведение обновляет
+## информационную панель, клик — экипирует.
+func _make_equip_picker_card(item: ItemResource, item_path: String) -> Control:
+	var card := Button.new()
+	card.custom_minimum_size = Vector2(92, 92)
+	card.tooltip_text = item.item_name
+	_apply_tight_icon_button_style(card)
+
+	if item.icon != null:
+		card.icon = item.icon
+		card.expand_icon = true
+		card.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		card.vertical_icon_alignment = VERTICAL_ALIGNMENT_CENTER
+	else:
+		card.text = item.item_name
+
+	card.mouse_entered.connect(_show_equip_picker_item_info.bind(item))
+	card.pressed.connect(_equip_item.bind(item_path))
+	return card
+
+
+## Заполняет info-панель описанием предмета (наведение на карточку в окне выбора).
+func _show_equip_picker_item_info(item: ItemResource) -> void:
+	if _equip_picker_info_label == null or not is_instance_valid(_equip_picker_info_label):
+		return
+	_equip_picker_info_label.text = _item_info_bbcode(item)
+
+
+func _close_equip_picker() -> void:
+	if _equip_picker_overlay != null and is_instance_valid(_equip_picker_overlay):
+		_equip_picker_overlay.queue_free()
+	_equip_picker_overlay = null
+	_equip_picker_info_panel = null
+	_equip_picker_info_label = null
 
 
 func _item_bonus_summary(item: ItemResource) -> String:
@@ -5668,20 +7463,86 @@ func _item_bonus_summary(item: ItemResource) -> String:
 		parts.append("Укл %+d" % item.bonus_evasion)
 	if item.bonus_crit_chance != 0.0:
 		parts.append("Крит %+d%%" % int(item.bonus_crit_chance * 100))
+	if item.bonus_majesty != 0:
+		parts.append("Величие %+d" % item.bonus_majesty)
+	if item.fantasy_regen_per_turn != 0:
+		parts.append("Фантазия %+d/ход" % item.fantasy_regen_per_turn)
+	if item.majesty_regen_per_turn != 0:
+		parts.append("Величие %+d/ход" % item.majesty_regen_per_turn)
+	if item.hp_regen_percent != 0.0:
+		parts.append("Реген %+.0f%%/ход" % item.hp_regen_percent)
 	if parts.is_empty():
 		return ""
 	return " | ".join(parts)
+
+
+## То же самое, что _item_bonus_summary, но каждая характеристика — иконка стата
+## (BBCode [img], безопасный фиксированный размер) вместо текстовой подписи.
+## Для RichTextLabel с bbcode_enabled = true.
+func _item_bonus_icon_lines(item: ItemResource) -> Array[String]:
+	var lines: Array[String] = []
+	var icon_stat := func(key: String, value_text: String) -> String:
+		return "%s %s" % [StatIconFormatter.stat_icon_bbcode(key), value_text]
+	if item.bonus_max_hp != 0:
+		lines.append(icon_stat.call("health", "%+d" % item.bonus_max_hp))
+	if item.bonus_damage != 0:
+		lines.append(icon_stat.call("attack", "%+d" % item.bonus_damage))
+	if item.bonus_armor != 0:
+		lines.append(icon_stat.call("armor", "%+d" % item.bonus_armor))
+	if item.bonus_initiative != 0:
+		lines.append(icon_stat.call("initiative", "%+d" % item.bonus_initiative))
+	if item.bonus_accuracy != 0:
+		lines.append(icon_stat.call("accuracy", "%+d" % item.bonus_accuracy))
+	if item.bonus_evasion != 0:
+		lines.append(icon_stat.call("evasion", "%+d" % item.bonus_evasion))
+	if item.bonus_crit_chance != 0.0:
+		lines.append(icon_stat.call("luck", "%+d%%" % int(item.bonus_crit_chance * 100)))
+	if item.bonus_majesty != 0:
+		lines.append(icon_stat.call("glory", "%+d" % item.bonus_majesty))
+	if item.fantasy_regen_per_turn != 0:
+		lines.append(icon_stat.call("fantasy", "%+d/ход" % item.fantasy_regen_per_turn))
+	if item.majesty_regen_per_turn != 0:
+		lines.append(icon_stat.call("glory", "%+d/ход" % item.majesty_regen_per_turn))
+	if item.hp_regen_percent != 0.0:
+		lines.append(icon_stat.call("health", "%+.0f%%/ход" % item.hp_regen_percent))
+	return lines
+
+
+## Строит полный BBCode-текст информационной панели предмета: имя, редкость,
+## ограничение по богу, характеристики иконками, эффект. Используется и во
+## всплывающей панели окна выбора, и в тултипе экипированного слота.
+func _item_info_bbcode(item: ItemResource) -> String:
+	var lines: Array[String] = []
+	lines.append("[b]%s[/b]" % item.item_name)
+	lines.append(item.get_rarity_name())
+	if item.restricted_god_path != "":
+		var owner_res := CampaignState.load_character_resource(item.restricted_god_path)
+		if owner_res != null:
+			lines.append("Только для: %s" % owner_res.unit_name)
+	var bonus_lines := _item_bonus_icon_lines(item)
+	if not bonus_lines.is_empty():
+		lines.append("")
+		lines.append("[b]Характеристики:[/b]")
+		lines.append_array(bonus_lines)
+	if item.description.strip_edges() != "":
+		lines.append("")
+		lines.append("[b]Эффект:[/b]")
+		lines.append(item.description)
+	return "\n".join(lines)
 
 
 func _equip_item(item_path: String) -> void:
 	var item := load(item_path) as ItemResource
 	if item == null:
 		return
+	if item.restricted_god_path != "" and item.restricted_god_path != _current_god_path:
+		return
 	match _current_slot_type:
 		0: _current_god_res.equipped_weapon = item
 		1: _current_god_res.equipped_armor = item
 		2: _current_god_res.equipped_trinket = item
 	CampaignState.set_god_equipment_path(_current_god_path, _current_slot_type, item_path)
+	_close_equip_picker()
 	_refresh_god_detail()
 
 
@@ -5691,6 +7552,7 @@ func _unequip_current_slot() -> void:
 		1: _current_god_res.equipped_armor = null
 		2: _current_god_res.equipped_trinket = null
 	CampaignState.set_god_equipment_path(_current_god_path, _current_slot_type, "")
+	_close_equip_picker()
 	_refresh_god_detail()
 
 
@@ -5703,10 +7565,10 @@ func _refresh_god_detail() -> void:
 
 
 func _close_god_detail() -> void:
+	_close_equip_picker()
 	if _god_overlay != null and is_instance_valid(_god_overlay):
 		_god_overlay.queue_free()
 		_god_overlay = null
 	_current_god_path = ""
 	_current_god_res = null
 	_current_slot_type = -1
-	_inventory_side = null

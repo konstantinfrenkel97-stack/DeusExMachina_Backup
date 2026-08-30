@@ -35,6 +35,13 @@ class_name MissionChoice
 # При провале проверки.
 @export var failure_outcome: MissionOutcome
 
+# ── Ветвление по флагам миссии (опционально, независимо от stat_check) ──
+# Ключ — имя флага (см. MissionOutcome.set_mission_flag), значение — MissionOutcome.
+# При разрешении выбора (только на пути БЕЗ stat_check) проверяются флаги, выставленные
+# более ранними сценами этой же миссии (MissionState.mission_flags); если какой-то из
+# перечисленных здесь флагов активен — используется соответствующий итог вместо outcome.
+@export var flag_outcomes: Dictionary = {}
+
 # ── Legacy (старые миссии) ──
 @export_multiline var effects: String = ""
 @export var formation: FormationResource

@@ -1,0 +1,141 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Enemies/Civilization/Arena/Novice/Novice.tres" id="ext_novice"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Arena/Mentor/Mentor.tres" id="ext_mentor"]
+[ext_resource type="Resource" path="res://Scenes/ArenaScenes/familiar_face_blessing.tres" id="ext_face_blessing"]
+[ext_resource type="Resource" path="res://Scenes/ArenaScenes/familiar_face_peace.tres" id="ext_face_peace"]
+[ext_resource type="Resource" path="res://Scenes/ArenaScenes/familiar_face_traitor.tres" id="ext_face_traitor"]
+[ext_resource type="Resource" path="res://Scenes/ArenaScenes/familiar_face_weak_traitor.tres" id="ext_face_weak_traitor"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+
+[sub_resource type="Resource" id="form_full"]
+script = ExtResource("formation_script")
+formation_name = "Новичок-Новичок-Новичок-Тренер"
+pos1 = ExtResource("ext_novice")
+pos2 = ExtResource("ext_novice")
+pos3 = ExtResource("ext_novice")
+pos4 = ExtResource("ext_mentor")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_default"]
+script = ExtResource("battle_script")
+formation = SubResource("form_full")
+location_id = "arena"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="buff_c1_atk"]
+script = ExtResource("buff_script")
+stat = 0
+value = -10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_c1_default"]
+script = ExtResource("outcome_script")
+result_text = "Вы вступаете в бой, сдерживая силу удара — раны, но не смерть."
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_c1_atk")])
+hero_majesty_delta = 10
+battle = SubResource("battle_default")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_c1_blessing"]
+script = ExtResource("outcome_script")
+result_text = "Вы вступаете в бой, сдерживая силу удара — раны, но не смерть."
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_c1_atk")])
+hero_majesty_delta = 10
+next_scene = ExtResource("ext_face_blessing")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_c1_peace"]
+script = ExtResource("outcome_script")
+result_text = "Вы вступаете в бой, сдерживая силу удара — раны, но не смерть."
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_c1_atk")])
+hero_majesty_delta = 10
+next_scene = ExtResource("ext_face_peace")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_c1_traitor"]
+script = ExtResource("outcome_script")
+result_text = "Вы вступаете в бой, сдерживая силу удара — раны, но не смерть."
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_c1_atk")])
+hero_majesty_delta = 10
+next_scene = ExtResource("ext_face_traitor")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_c1_weak_traitor"]
+script = ExtResource("outcome_script")
+result_text = "Вы вступаете в бой, сдерживая силу удара — раны, но не смерть."
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_c1_atk")])
+hero_majesty_delta = 10
+next_scene = ExtResource("ext_face_weak_traitor")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_c1"]
+script = ExtResource("choice_script")
+choice_text = "Атаковать так, чтобы не убить"
+outcome = SubResource("out_c1_default")
+flag_outcomes = {
+"arena_fan_blessing": SubResource("out_c1_blessing"),
+"arena_fan_peace": SubResource("out_c1_peace"),
+"arena_fan_traitor": SubResource("out_c1_traitor"),
+"arena_fan_weak_traitor": SubResource("out_c1_weak_traitor")
+}
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="out_c2_default"]
+script = ExtResource("outcome_script")
+result_text = "Вы решаете не сдерживаться — таковы обычаи арены."
+hero_majesty_delta = -10
+battle = SubResource("battle_default")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_c2_blessing"]
+script = ExtResource("outcome_script")
+result_text = "Вы решаете не сдерживаться — таковы обычаи арены."
+hero_majesty_delta = -10
+next_scene = ExtResource("ext_face_blessing")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_c2_peace"]
+script = ExtResource("outcome_script")
+result_text = "Вы решаете не сдерживаться — таковы обычаи арены."
+hero_majesty_delta = -10
+next_scene = ExtResource("ext_face_peace")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_c2_traitor"]
+script = ExtResource("outcome_script")
+result_text = "Вы решаете не сдерживаться — таковы обычаи арены."
+hero_majesty_delta = -10
+next_scene = ExtResource("ext_face_traitor")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_c2_weak_traitor"]
+script = ExtResource("outcome_script")
+result_text = "Вы решаете не сдерживаться — таковы обычаи арены."
+hero_majesty_delta = -10
+next_scene = ExtResource("ext_face_weak_traitor")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_c2"]
+script = ExtResource("choice_script")
+choice_text = "Пренебречь традициями"
+outcome = SubResource("out_c2_default")
+flag_outcomes = {
+"arena_fan_blessing": SubResource("out_c2_blessing"),
+"arena_fan_peace": SubResource("out_c2_peace"),
+"arena_fan_traitor": SubResource("out_c2_traitor"),
+"arena_fan_weak_traitor": SubResource("out_c2_weak_traitor")
+}
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Тренировочный бой"
+body_text = "«КОМАНДА ВЕЛИКОЛЕПНОГО СЕТААААААА!!!»\n\nГолос диктора разлетается над ареной и тонет в аплодисментах. Из другого конца появляется вторая группа. Трое новичков и лысый тренер, раздающий команды. Одного из юношей вы как будто видели раньше.\n\n«Совсем новички, за своё рвение они получили право выступить на арене под присмотром одного из инструкторов. Хотя нет правил насчёт убийства на этих священных песках, но по доброй традиции, в таких боях опытные бойцы используют несмертельные удары.»\n\n«ПОМНИТЕ, ВСЕ ВЫ КОГДА-ТО БЫЛИ НА ИХ МЕСТЕ!!!!»\n\nДиктор анонсирует просьбу насчёт убийств, и публика поддерживает его криками. Традиция традицией, но вы не обязаны следовать ей."
+choices = [SubResource("choice_c1"), SubResource("choice_c2")]

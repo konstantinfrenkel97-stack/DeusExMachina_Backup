@@ -8,3 +8,8 @@
 script = ExtResource("1_fngpy")
 metadata/_custom_type_script = "uid://ccikt3aaq6mwf"
 icon = ExtResource("2_item_icon")
+item_name = "Кожаная броня"
+item_type = 1
+rarity = 0
+bonus_max_hp = 8
+bonus_damage = -3

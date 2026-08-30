@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
 [ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
 [ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" path="res://Essence/essence_power.tres" id="essence_reward"]
 
 [sub_resource type="Resource" id="sr_001"]
 script = ExtResource("formation_script")
@@ -27,10 +28,18 @@ formation = SubResource("sr_001")
 location_id = "castle"
 metadata/_custom_type_script = ExtResource("battle_script")
 
+[sub_resource type="Resource" id="reward_essence"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_reward")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
 [sub_resource type="Resource" id="sr_003"]
 script = ExtResource("outcome_script")
 result_text = "Моргана поджигает картину с рыцарем, пронзающим крылатую женщину, — но мир не дает себя игнорировать: перед отрядом встает стража замка вместе с капризной принцессой во главе."
 battle = SubResource("sr_002")
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_essence")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="sr_004"]

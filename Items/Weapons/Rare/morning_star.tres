@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3]
+
+[ext_resource type="Script" path="res://Items/item_resource.gd" id="item_script"]
+
+[resource]
+script = ExtResource("item_script")
+metadata/_custom_type_script = ExtResource("item_script")
+item_name = "Утренняя звезда"
+item_type = 0
+rarity = 1
+description = "Редкое оружие. Даёт +15 точности и +3 удачи."
+bonus_accuracy = 15
+bonus_crit_chance = 0.03

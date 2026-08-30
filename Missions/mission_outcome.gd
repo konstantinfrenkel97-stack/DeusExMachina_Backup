@@ -17,10 +17,31 @@ class_name MissionOutcome
 @export var rewards: Array[Reward] = []
 
 @export_group("Mission Effects")
+# Если не пусто — при разрешении этого итога выставляется флаг миссии (см.
+# MissionState.mission_flags / MissionChoice.flag_outcomes). Флаги сбрасываются
+# при старте и при завершении миссии, другие миссии их не видят.
+@export var set_mission_flag: String = ""
 # Одноразовое лечение всего отряда в следующем бою, в процентах от максимального HP.
 @export var hero_heal_percent: int = 0
+# Одноразовое изменение уровня забвения всего отряда миссии (см. CharacterResource.forgetting_level),
+# применяется немедленно (не привязано к следующему бою). Положительное значение — усиливает забвение.
+@export var hero_forgetting_delta: float = 0.0
+# В следующем бою заклинание «Ром» (Spells/rum.tres) бьёт не только выбранную цель,
+# но и всю её команду (союзников или врагов — смотря кого выбрал игрок при касте).
+@export var rum_spell_whole_team_next_battle: bool = false
+# Баффы одному случайному живому богу отряда миссии, до конца миссии (в каждом бою).
+# Если target_random_hero_preferred_god задан и он есть в отряде — выбирается именно он
+# вместо случайного бога.
+@export var target_random_hero_buffs: Array[BuffEntry] = []
+@export var target_random_hero_preferred_god: CharacterResource
+# Одноразовое изменение HP одного случайного живого бога в миссии, в процентах от max HP.
+@export var random_hero_hp_percent_delta: int = 0
 # Одноразовое изменение фантазии игрока в следующем бою.
 @export var fantasy_delta: int = 0
+# Немедленное изменение мыслей игрока в кампании. Отрицательное значение = цена выбора.
+@export var thoughts_delta: int = 0
+# Постоянное изменение максимума фантазии на всю кампанию.
+@export var max_fantasy_bonus_delta: int = 0
 # Одноразовое изменение величия всех живых богов в следующем бою.
 @export var hero_majesty_delta: int = 0
 # Постоянные до конца миссии баффы на героя с наибольшей атакой.
@@ -29,6 +50,8 @@ class_name MissionOutcome
 # Если hero_buffs_until_mission_end = true — держатся до конца миссии и применяются в каждом бою.
 @export var hero_buffs: Array[BuffEntry] = []
 @export var hero_buffs_until_mission_end: bool = false
+# Баффы/дебаффы на всех врагов в следующем бою (одноразово).
+@export var enemy_buffs: Array[BuffEntry] = []
 # Одноразовые эффекты на конкретного бога в следующем бою.
 @export var target_god: CharacterResource
 @export var target_current_hp_percent_delta: int = 0

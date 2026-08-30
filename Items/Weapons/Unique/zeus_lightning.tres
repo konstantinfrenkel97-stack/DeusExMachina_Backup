@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3]
+
+[ext_resource type="Script" path="res://Items/item_resource.gd" id="1_ir"]
+
+[resource]
+script = ExtResource("1_ir")
+item_name = "Молния Зевса"
+item_type = 0
+rarity = 3
+icon = null
+description = "Критические атаки наносят периодический урон (30% урона на 3 хода). Только для Зевса."
+bonus_max_hp = 0
+bonus_damage = 0
+bonus_armor = 0
+bonus_initiative = 0
+bonus_accuracy = 10
+bonus_evasion = 0
+bonus_crit_chance = 0.20
+bonus_majesty = 0
+fantasy_regen_per_turn = 0
+majesty_regen_per_turn = 0
+hp_regen_percent = 0.0
+restricted_god_path = "res://Gods/Zeus/zeus.tres"
+effect = "zeus_lightning_crit_dot"

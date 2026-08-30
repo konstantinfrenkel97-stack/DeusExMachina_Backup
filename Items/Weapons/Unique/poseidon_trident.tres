@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3]
+
+[ext_resource type="Script" path="res://Items/item_resource.gd" id="1_ir"]
+
+[resource]
+script = ExtResource("1_ir")
+item_name = "Трезубец Посейдона"
+item_type = 0
+rarity = 3
+icon = null
+description = "В конце каждого хода Посейдон получает +7 к случайной характеристике на 1 ход. Только для Посейдона."
+bonus_max_hp = 0
+bonus_damage = 15
+bonus_armor = 0
+bonus_initiative = 0
+bonus_accuracy = 0
+bonus_evasion = 0
+bonus_crit_chance = 0.0
+bonus_majesty = 0
+fantasy_regen_per_turn = 0
+majesty_regen_per_turn = 0
+hp_regen_percent = 0.0
+restricted_god_path = "res://Gods/Poseidon/Poseidon.tres"
+effect = "poseidon_trident_end_turn_buff"

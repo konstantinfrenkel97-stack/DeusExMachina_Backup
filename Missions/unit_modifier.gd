@@ -12,3 +12,10 @@ class_name UnitModifier
 @export var passive_charges: int = -1
 # Array[BuffEntry] — баффы/дебаффы.
 @export var buffs: Array[BuffEntry] = []
+# Если true — у юнита отключается пассивка на весь бой (special_effect_type очищается
+# при спавне; см. battle_scene.gd::_apply_modifier_list).
+@export var disable_passive: bool = false
+# Если true — юнит с пассивкой Новичка (превращение в Гладиатора/Гоплита) сработает
+# на 1 ход раньше обычного (на 2-м раунде вместо 3-го). В бою это подаётся как
+# "получил(а) благословение от своего кумира". Не влияет на юнитов без этой пассивки.
+@export var bless_early_transform: bool = false

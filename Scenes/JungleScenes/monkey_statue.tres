@@ -1,0 +1,175 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_entry_script"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Jungle/Saru/Saru.tres" id="enemy_saru"]
+[ext_resource type="Resource" path="res://Essence/essence_nature.tres" id="essence_nature"]
+
+[sub_resource type="Resource" id="formation_saru4"]
+script = ExtResource("formation_script")
+formation_name = "Сару - Сару - Сару - Сару"
+pos1 = ExtResource("enemy_saru")
+pos2 = ExtResource("enemy_saru")
+pos3 = ExtResource("enemy_saru")
+pos4 = ExtResource("enemy_saru")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="buff_enemy_damage_10"]
+script = ExtResource("buff_entry_script")
+stat = 0
+value = 10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_entry_script")
+
+[sub_resource type="Resource" id="buff_hero_armor_minus_10"]
+script = ExtResource("buff_entry_script")
+stat = 4
+value = -10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_entry_script")
+
+[sub_resource type="Resource" id="buff_hero_evasion_minus_15"]
+script = ExtResource("buff_entry_script")
+stat = 3
+value = -15
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_entry_script")
+
+[sub_resource type="Resource" id="mod_enemy_damage"]
+script = ExtResource("unit_modifier_script")
+target_position = 0
+buffs = Array[ExtResource("buff_entry_script")]([SubResource("buff_enemy_damage_10")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="mod_hero_armor_fail"]
+script = ExtResource("unit_modifier_script")
+target_position = 0
+buffs = Array[ExtResource("buff_entry_script")]([SubResource("buff_hero_armor_minus_10")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="mod_hero_evasion_fail"]
+script = ExtResource("unit_modifier_script")
+target_position = 0
+buffs = Array[ExtResource("buff_entry_script")]([SubResource("buff_hero_evasion_minus_15")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_climb_success"]
+script = ExtResource("battle_script")
+formation = SubResource("formation_saru4")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_enemy_damage")])
+location_id = "jungle"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_climb_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("formation_saru4")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_enemy_damage")])
+hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_hero_armor_fail")])
+location_id = "jungle"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="battle_path_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("formation_saru4")
+hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_hero_evasion_fail")])
+location_id = "jungle"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="check_evasion"]
+script = ExtResource("stat_check_script")
+stat = 3
+stat_label = "Уклонение"
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+stat_label = "Удача"
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_climb_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы начинаете карабкаться на статую. Она влажная и скользкая, вы постоянно соскальзываете и ударяетесь. И стоит вам перелезть через хвост и добраться до груди огромной обезьяны, как ветки у вас за спиной начинают яростно трещать. Вы ускоряетесь и стараетесь перелезть быстрее. Из леса вылетает не просто стая, а целая орда обезьян. Все что вы видите, это оскаленные пасти и золотые спины. Они рвутся к вам, а вы в уязвимом положении.
+
+Только благодаря удаче и невероятной ловкости, вам удается перелезть через статую прежде чем обезьянья орда обрушивается на вас. Вы даете бой, стоя на мосту."
+battle = SubResource("battle_climb_success")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_climb_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы начинаете карабкаться на статую. Она влажная и скользкая, вы постоянно соскальзываете и ударяетесь. И стоит вам перелезть через хвост и добраться до груди огромной обезьяны, как ветки у вас за спиной начинают яростно трещать. Вы ускоряетесь и стараетесь перелезть быстрее. Из леса вылетает не просто стая, а целая орда обезьян. Все что вы видите, это оскаленные пасти и золотые спины. Они рвутся к вам, а вы в уязвимом положении.
+
+Вы не успеваете перебраться, прежде чем когтистые лапы достигают вас. Кое как удерживая равновесие, полулежа на каменной обезьяне, вы даете бой."
+battle = SubResource("battle_climb_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_climb"]
+script = ExtResource("choice_script")
+choice_text = "Перелезть через статую"
+stat_check = SubResource("check_evasion")
+success_outcome = SubResource("out_climb_success")
+failure_outcome = SubResource("out_climb_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="out_path_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы решаете не связываться со странной статуей и поискать другой путь.
+Неподалеку обнаруживается место где река сужается, и по нависшим веткам можно попробовать перелезть. Вы решаете рискнуть.
+Вода бурлит внизу, а ветки скрипят и гнутся под вашими ногами. Вы видите, как среди зеленой листвы за вами хищно наблюдают звериные глаза. Один неверный шаг, и беды не миновать.
+
+Но шага не происходит. Волею невероятной удачи вы перебираетесь на другой берег, не упав и не пережив нападение зверей. Вы можете спокойно продолжить путь."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_path_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы решаете не связываться со странной статуей и поискать другой путь.
+Неподалеку обнаруживается место где река сужается, и по нависшим веткам можно попробовать перелезть. Вы решаете рискнуть.
+Вода бурлит внизу, а ветки скрипят и гнутся под вашими ногами. Вы видите, как среди зеленой листвы за вами хищно наблюдают звериные глаза. Один неверный шаг, и беды не миновать.
+Один из богов оступается и падает вниз. К счастью, он застревает в спутанных лианах. Вам приходится поднимать упавшего, но пока вы это делаете, воспользовавшись уязвимостью на вас налетает орда хищных обезьян."
+battle = SubResource("battle_path_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_path"]
+script = ExtResource("choice_script")
+choice_text = "Поискать обходной путь"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_path_success")
+failure_outcome = SubResource("out_path_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="reward_nature"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_nature")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_sacrifice"]
+script = ExtResource("outcome_script")
+result_text = "Может это и странно, но вы решаете уважить случайно встреченную статую. Вы оставляете несколько ценных предметов у ее ног, и готовитесь идти в обходной путь, когда из леса медленно выходят обезьяны. Переступая на длинных лапах и глядя на вас спокойно, они окружают вас, целое море золотистых спин.
+Какое-то время висит тишина, а потом они прыгают. Но не на вас, а на ветки. Вы наблюдаете удивительное зрелище. Животные образуют живой мост, сцепляясь лапами. Вскоре дерево на этой стороне оказывается соединено с деревом на том берегу, плотной линией из золотой шерсти и мышц. А другие обезьяны уже хватают вас за руки и поднимают. С удивительной силой, они передают вас по живой цепочке, перенося над водой и аккуратно ставя на мягкую землю на другом берегу.
+Когда вы все оказываетесь на той стороне, обезьяний мост распадается и звери разбредаются исчезая в тени деревьев. Вам остается лишь дивиться чудесам природы, да размышлять о том как теперь возвращаться обратно."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_nature")])
+thoughts_delta = -200
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_sacrifice"]
+script = ExtResource("choice_script")
+choice_text = "Принести жертву статуе"
+outcome = SubResource("out_sacrifice")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Статуя обезьяны"
+body_text = "Вы перебираетесь через глубокий лес, когда до вашего уха доносится журчание воды. Вскоре вы выходите к широкой реке. Высокие кроны деревьев склоняются над водоемом. Через реку перекинут старый деревянный мост, но есть проблема. Огромная старая статуя обезьяны, обернутой собственным хвостом, блокирует проход на мост.
+
+Поблизости нет поселений и непонятно, кто вообще мог перенести сюда эту громадину. Она шире моста и полностью блокирует проход."
+choices = [SubResource("choice_climb"), SubResource("choice_path"), SubResource("choice_sacrifice")]

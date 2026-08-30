@@ -1,0 +1,98 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" path="res://Essence/essence_death.tres" id="essence_death"]
+[ext_resource type="Resource" path="res://Gods/Koschei/Koschei.tres" id="koschei"]
+
+[sub_resource type="Resource" id="reward_common_armor"]
+script = ExtResource("reward_script")
+kind = 0
+use_random_item_type = true
+random_item_type = 1
+use_random_item_rarity = true
+random_item_rarity = 0
+random_item_root = "res://Items/Armor/Common"
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="reward_death_essence"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_death")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_search_success"]
+script = ExtResource("outcome_script")
+result_text = "Жуткое знамение может обернуться удачей, если им воспользоваться. Вы рыщите по болоту, обыскивая трупы в поисках полезных артефактов. Влага уничтожила большую часть снаряжения, но все же, кое что полезное вам удаётся найти. Забрав что можно, вы оставляете утонувшую армию позади."
+rewards = [SubResource("reward_common_armor")]
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_search_fail"]
+script = ExtResource("outcome_script")
+result_text = "Жуткое знамение может обернуться удачей, если им воспользоваться. Вы рыщите по болоту, обыскивая трупы в поисках полезных артефактов. Увы, вьага уничтожила большую часть снаряжения. Вы лишь промокли, да надругались над трупами. Разочарованные вы продолжаете путь."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_pray"]
+script = ExtResource("outcome_script")
+result_text = "Вы уделяете время тому, чтобы помолиться за упокой усопших. Пусть ваш отряд и состоит из богов разных религий, но каждый из них кто с ритуалом, кто про себя обратил просьбу к миру, чтобы потерянные души нашли покой."
+hero_majesty_delta = 5
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_remember_success"]
+script = ExtResource("outcome_script")
+result_text = "Кощей уходит под воду и возвращается держа в руках один из трупов. Шлем кажется особенно украшенным.\n\"Хмм... Этот герб, эта форма... Я видел их, точно видел. Но когда...\"\nОн кладет тело на землю и возвращается под воду. Вскоре он выносит еще тело. Потом еще и еще. Приносит знамена, плащи, мечи. Все выкладывается в ряд. Лицо скелета ничего не выражает когда он смотрит на них.\n\"Ты ведь... Ярослав, да? Я тебя помню. Я помню как ты, мальчишкой, потерялся в лесу и тебя искали. А я пожалел и отправил тебя обратно. Потом ты вырос, бросил мне вызов. Проиграл конечно...\"\n\"Но ты мне нравился. У тебя был дух. А теперь ты здесь... Как давно ты умер?\"\nОн переводит глаза на вас.\n\"Как давно я живу?\"\nВам нечего ответить, а Кощею нечего добавить. Он возвращает всех людей обратно на их подводные лежбища, и вы видите как двигаются его челюсти когда он что-то неслышно шепчет мертвецам.\nПосле Бессмертный возвращается к вам. На его лице лежит тень смерти."
+rewards = [SubResource("reward_death_essence")]
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_remember_fail"]
+script = ExtResource("outcome_script")
+result_text = "Кощей уходит под воду и возвращается держа в руках один из трупов. Шлем кажется особенно украшенным.\n\"Хмм... Этот герб, эта форма... Я видел их, точно видел. Но когда...\"\nОн кладет тело на землю и возвращается под воду. Вскоре он выносит еще тело. Потом еще и еще. Приносит знамена, плащи, мечи. Все выкладывается в ряд. Лицо скелета ничего не выражает когда он смотрит на них.\n\"Почему я не могу вспомнить?\"\nОн поворачивается к вам.\n\"Я знал этих людей. Знаю что знал. И они были важны... Почему-то...\"\n\"Почему тогда я их не помню? Почему я не могу вспомнить?\"\n\"Как давно они тут лежат? Я даже не знал что они сгинули в болоте.\"\nОн поднимает голову к мрачному небу.\n\"Но я не могу их вспомнить... Кого еще я забыл?\""
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+stat_label = "Удача"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("stat_check_script")
+stat = 4
+stat_label = "Точность"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="choice_search"]
+script = ExtResource("choice_script")
+choice_text = "Поискать что-то ценное"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_search_success")
+failure_outcome = SubResource("out_search_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_pray"]
+script = ExtResource("choice_script")
+choice_text = "Помолиться о покое усопших"
+outcome = SubResource("out_pray")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="choice_remember"]
+script = ExtResource("choice_script")
+choice_text = "Попытаться вспомнить события"
+required_god = ExtResource("koschei")
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_remember_success")
+failure_outcome = SubResource("out_remember_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Утонувшая армия"
+body_text = "Ваш путь сквозь топь продолжается. Прямо сейчас вы идете через особенно влажный участок. Ноги погружаются в жидкость выше чем по щиколотку, вы осторожно прощупываете куда ступать, как вдруг один из богов спотыкается обо что-то твердое. Он падает лицом вниз и погружается под воду. А из под воды кто-то смотрит. Преодолев первоначальный страх бог осознает, что это человеческий череп, с полусгнившими остатками плоти. Божество выныривает и делится своим наблюдением с отрядом. Вы осматриваете воду вокруг, и обнаруживаете еще мертвецов. И еще и еще. Они одеты в военную форму. Корявые коряги на поверку оказываются истлевшими знаменами. Там где вы сейчас, некогда сгинула целая армия."
+choices = [SubResource("choice_search"), SubResource("choice_pray"), SubResource("choice_remember")]
+metadata/_custom_type_script = ExtResource("scene_script")

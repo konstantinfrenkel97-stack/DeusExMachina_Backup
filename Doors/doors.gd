@@ -4,7 +4,7 @@ extends Control
 ## «Назад» (внизу слева) и правый клик возвращают в кампанию.
 
 const CAMPAIGN_SCENE := "res://Campaign/campaign_screen.tscn"
-const MISSION_SELECT_SCENE := "res://Missions/mission_select.tscn"
+const MISSION_CHOICE_SCENE := "res://Doors/mission_choice_screen.tscn"
 
 # Локации по кругу по часовой стрелке, начиная с самой верхней.
 const LOCATIONS_CLOCKWISE: Array[String] = [
@@ -120,23 +120,11 @@ func _input(event: InputEvent) -> void:
 
 
 ## Выбор локации. Дверь должна быть открыта (см. CampaignState.is_location_opened),
-## иначе — ничего не происходит. Путь к миссии "Welcome_to_<локация>" ищется в
-## CampaignState.LOCATION_TO_WELCOME_MISSION; для локаций без ещё авторизованной
-## миссии дверь всё равно открывается визуально, но входа пока нет.
+## иначе — ничего не происходит. Открывает экран выбора миссии локации (фон +
+## кнопка «Назад»; кнопка запуска миссии появится там позже).
 func _on_location_selected(location: String) -> void:
 	if not CampaignState.is_location_opened(location):
 		print("Дверь ещё закрыта: ", location)
 		return
-	var mission_path: String = str(CampaignState.LOCATION_TO_WELCOME_MISSION.get(location, ""))
-	if mission_path == "":
-		print("Для локации «%s» пока не создана миссия «Welcome to»." % location)
-		return
-	_launch_mission_from_path(mission_path)
-
-func _launch_mission_from_path(path: String) -> void:
-	if path.strip_edges() == "" or not ResourceLoader.exists(path):
-		push_warning("Не найдена миссия: " + path)
-		return
-	MissionState.requested_mission_path = path
-	MissionState.return_scene_path = "res://Doors/doors.tscn"
-	get_tree().change_scene_to_file(MISSION_SELECT_SCENE)
+	MissionState.pending_location = location
+	get_tree().change_scene_to_file(MISSION_CHOICE_SCENE)

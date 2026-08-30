@@ -3,10 +3,20 @@
 [ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
 [ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
 [ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" path="res://Essence/essence_strength.tres" id="essence_reward"]
+
+[sub_resource type="Resource" id="reward_essence"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_reward")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
 
 [sub_resource type="Resource" id="out_welcome"]
 script = ExtResource("outcome_script")
 result_text = ""
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_essence")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_welcome"]

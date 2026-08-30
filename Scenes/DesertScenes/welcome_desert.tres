@@ -5,10 +5,19 @@
 [ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
 [ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
 [ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Resource" path="res://Essence/essence_power.tres" id="essence_reward"]
+
+[sub_resource type="Resource" id="reward_essence"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_reward")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
 
 [sub_resource type="Resource" id="sr_001"]
 script = ExtResource("outcome_script")
 result_text = "«Идемте! Именем Осириса, царя царей, я выясню, что случилось на моих землях, и верну ей процветание! Египет заждался своего повелителя!» Неохотно ваш отряд покидает тень и выступает вперед."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_essence")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="sr_002"]

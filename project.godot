@@ -23,6 +23,7 @@ CampaignState="*res://campaign_state.gd"
 SaveSystem="*res://save_system.gd"
 Localization="*res://Localization/localization.gd"
 DialogueManager="*res://Dialogues/dialogue_manager.gd"
+GameSettings="*res://game_settings.gd"
 
 [display]
 
@@ -30,6 +31,11 @@ window/size/viewport_width=1280
 window/size/viewport_height=720
 window/size/mode=3
 window/stretch/mode="canvas_items"
+mouse_cursor/custom_image="res://Icons/Cursor/cursor.png"
+
+[gui]
+
+theme/custom="res://Theme/main_theme.tres"
 
 [physics]
 

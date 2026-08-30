@@ -4,7 +4,7 @@ extends Node
 ## Файлы сохранений хранятся в user://saves/.
 ##
 ## Сохраняемое состояние:
-##   • CampaignState: available_gods, treasury, available_missions
+##   • CampaignState: available_gods, treasury, available_missions, completed_missions
 ##   • CombatManager: is_mission_battle, mission_heroes, mission_heroes_set,
 ##                    mission_dead_heroes
 ##   • MissionState: путь к текущей миссии (current_mission)
@@ -99,12 +99,15 @@ func _collect_state() -> Dictionary:
 		"available_gods": CampaignState.available_gods.duplicate(),
 		"treasury": CampaignState.treasury.duplicate(),
 		"available_missions": CampaignState.available_missions.duplicate(),
+		"completed_missions": CampaignState.completed_missions.duplicate(),
 		"currencies": CampaignState.collect_currency_amounts(),
 		"pages": CampaignState.get_pages(),
 		"before_first_battle_played": CampaignState.before_first_battle_played,
 		"first_battle_completed": CampaignState.first_battle_completed,
 		"before_doors_played": CampaignState.before_doors_played,
 		"opened_locations": CampaignState.opened_locations.duplicate(),
+		"library_max_fantasy_bonus": CampaignState.library_max_fantasy_bonus,
+		"spell_upgrade_levels": CampaignState.spell_upgrade_levels.duplicate(),
 	}
 
 	# — Состояние миссии (CombatManager) —
@@ -138,12 +141,16 @@ func _apply_state(data: Dictionary) -> void:
 	CampaignState.available_gods = _to_string_array(campaign.get("available_gods", []))
 	CampaignState.treasury = _to_string_array(campaign.get("treasury", []))
 	CampaignState.available_missions = _to_string_array(campaign.get("available_missions", []))
+	CampaignState.completed_missions = _to_string_array(campaign.get("completed_missions", []))
 	CampaignState.apply_currency_amounts(campaign.get("currencies", {}))
 	CampaignState.set_pages(int(campaign.get("pages", 0)))
 	CampaignState.before_first_battle_played = bool(campaign.get("before_first_battle_played", false))
 	CampaignState.first_battle_completed = bool(campaign.get("first_battle_completed", false))
 	CampaignState.before_doors_played = bool(campaign.get("before_doors_played", false))
 	CampaignState.opened_locations = _to_string_array(campaign.get("opened_locations", []))
+	CampaignState.library_max_fantasy_bonus = int(campaign.get("library_max_fantasy_bonus", 0))
+	var loaded_spell_upgrades: Variant = campaign.get("spell_upgrade_levels", {})
+	CampaignState.spell_upgrade_levels = (loaded_spell_upgrades as Dictionary) if loaded_spell_upgrades is Dictionary else {}
 
 	# — Состояние миссии —
 	var mission: Dictionary = data.get("mission", {})

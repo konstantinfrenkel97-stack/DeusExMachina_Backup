@@ -23,6 +23,9 @@ var treasury: Array[String] = []
 
 ## Доступные миссии (пути к MissionResource .tres).
 var available_missions: Array[String] = []
+## Пройденные миссии (пути к MissionResource .tres). Повторное прохождение
+## награду за завершение миссии не даёт — см. complete_mission().
+var completed_missions: Array[String] = []
 var pages: int = 0
 
 ## Сюжетные флаги вступления. Одноразовые, без отката назад.
@@ -96,6 +99,77 @@ const CURRENCY_RESOURCE_PATHS: Array[String] = [
 	"res://Essence/thoughts.tres",
 ]
 
+# ════════════════════════════════════════════════════════════
+#  Бесконечная библиотека
+# ════════════════════════════════════════════════════════════
+
+const THOUGHTS_PATH := "res://Essence/thoughts.tres"
+
+## "Читать книги" — постоянный бонус к максимальной фантазии (не сбрасывается
+## между боями, копится на всю игру; можно покупать многократно).
+var library_max_fantasy_bonus: int = 0
+const LIBRARY_READ_COST := 1000
+const LIBRARY_READ_FANTASY_BONUS := 5
+
+## "Осмыслять сюжет" — уровень улучшения заклинания (путь к SpellResource -> сколько
+## раз улучшено). 2 уровня: 1-й — 700 мыслей, 2-й — 1500 мыслей + 1 эссенция (любая).
+var spell_upgrade_levels: Dictionary = {}
+const SPELL_UPGRADE_LEVEL_1_COST := 700
+const SPELL_UPGRADE_LEVEL_2_COST := 1500
+const MAX_SPELL_UPGRADE_LEVEL := 2
+const SPELL_UPGRADE_ESSENCE_PATHS := [
+	"res://Essence/essence_strength.tres",
+	"res://Essence/essence_nature.tres",
+	"res://Essence/essence_power.tres",
+	"res://Essence/essence_chaos.tres",
+	"res://Essence/essence_death.tres",
+]
+
+## Покупает том книг: -1000 мыслей, +5 к максимальной фантазии до конца игры.
+func read_library_books() -> bool:
+	if not spend_currency_amounts({THOUGHTS_PATH: LIBRARY_READ_COST}):
+		return false
+	library_max_fantasy_bonus += LIBRARY_READ_FANTASY_BONUS
+	return true
+
+func get_spell_upgrade_level(spell_path: String) -> int:
+	return int(spell_upgrade_levels.get(spell_path, 0))
+
+func can_upgrade_spell(spell_path: String) -> bool:
+	return get_spell_upgrade_level(spell_path) < MAX_SPELL_UPGRADE_LEVEL
+
+## Первая эссенция (любого типа), которой у игрока есть хотя бы 1 штука. "" если нет ни одной.
+func _pick_available_essence_path() -> String:
+	for path in SPELL_UPGRADE_ESSENCE_PATHS:
+		if get_currency_amount(path) >= 1:
+			return path
+	return ""
+
+## Стоимость СЛЕДУЮЩЕГО уровня улучшения: {"thoughts": int, "essence_path": String}.
+## essence_path == "" — эссенция не нужна (1-й уровень) или её вообще нет в наличии (2-й).
+func get_spell_upgrade_next_cost(spell_path: String) -> Dictionary:
+	var next_level := get_spell_upgrade_level(spell_path) + 1
+	if next_level == 1:
+		return {"thoughts": SPELL_UPGRADE_LEVEL_1_COST, "essence_path": ""}
+	return {"thoughts": SPELL_UPGRADE_LEVEL_2_COST, "essence_path": _pick_available_essence_path()}
+
+## Улучшает заклинание на 1 уровень. Возвращает false, если уже на максимуме или не
+## хватает ресурсов (мыслей и/или эссенции) — тогда ничего не списывается.
+func upgrade_spell(spell_path: String) -> bool:
+	if spell_path.strip_edges() == "" or not can_upgrade_spell(spell_path):
+		return false
+	var next_level := get_spell_upgrade_level(spell_path) + 1
+	var costs: Dictionary = {THOUGHTS_PATH: SPELL_UPGRADE_LEVEL_1_COST if next_level == 1 else SPELL_UPGRADE_LEVEL_2_COST}
+	if next_level == 2:
+		var essence_path := _pick_available_essence_path()
+		if essence_path == "":
+			return false
+		costs[essence_path] = 1
+	if not spend_currency_amounts(costs):
+		return false
+	spell_upgrade_levels[spell_path] = next_level
+	return true
+
 var _god_state_overrides: Dictionary = {}
 var _default_currency_amounts: Dictionary = {}
 var _currency_amounts: Dictionary = {}
@@ -119,12 +193,14 @@ func remove_god(path: String) -> void:
 	available_gods.erase(path)
 	roster_changed.emit()
 
-## Добавить артефакт в сокровищницу (без дубликатов).
+## Добавить артефакт в сокровищницу. Один и тот же путь можно добавить несколько
+## раз — treasury допускает дубликаты (количество копий = сколько раз путь встречается);
+## см. Campaign/campaign_screen.gd::_populate_treasury для группировки по количеству.
 func add_item(path: String) -> void:
-	if path.strip_edges() != "" and not treasury.has(path):
+	if path.strip_edges() != "":
 		treasury.append(path)
 
-## Убрать артефакт из сокровищницы.
+## Убрать одну копию артефакта из сокровищницы (если их несколько — убирается одна).
 func remove_item(path: String) -> void:
 	treasury.erase(path)
 
@@ -154,6 +230,7 @@ func reset_all() -> void:
 	available_gods.clear()
 	treasury.clear()
 	available_missions.clear()
+	completed_missions.clear()
 	pages = 0
 	before_first_battle_played = false
 	first_battle_completed = false
@@ -161,6 +238,8 @@ func reset_all() -> void:
 	opened_locations.clear()
 	clear_god_state_overrides()
 	reset_currency_amounts()
+	library_max_fantasy_bonus = 0
+	spell_upgrade_levels.clear()
 	roster_changed.emit()
 
 func clear_god_state_overrides() -> void:
@@ -171,13 +250,16 @@ func get_god_state(path: String) -> Dictionary:
 		return _default_god_state()
 	return _normalize_god_state(_god_state_overrides.get(path, {}))
 
-func set_god_state(path: String, forgetting_level: float, is_dead: bool, level: int = 1, upgraded_abilities: Array = [], creation_essence_paths: Array = [], current_hp: int = -1) -> void:
+func set_god_state(path: String, forgetting_level: float, is_dead: bool, level: int = 1, upgraded_abilities: Array = [], creation_essence_paths: Array = [], current_hp: int = -1, equipment_paths: Array = []) -> void:
 	if path.strip_edges() == "":
 		return
 	var previous_state := _normalize_god_state(_god_state_overrides.get(path, {}))
 	var stored_hp := current_hp
 	if stored_hp < 0:
 		stored_hp = int(previous_state.get("current_hp", -1))
+	var stored_equipment_paths := _normalize_equipment_paths(equipment_paths)
+	if equipment_paths.is_empty():
+		stored_equipment_paths = _normalize_equipment_paths(previous_state.get("equipment_paths", []))
 	_god_state_overrides[path] = {
 		"forgetting_level": clampf(forgetting_level, 0.0, 5.0),
 		"is_dead": is_dead,
@@ -185,6 +267,7 @@ func set_god_state(path: String, forgetting_level: float, is_dead: bool, level: 
 		"upgraded_abilities": _to_string_array(upgraded_abilities),
 		"creation_essence_paths": _unique_string_array(creation_essence_paths),
 		"current_hp": stored_hp,
+		"equipment_paths": stored_equipment_paths,
 	}
 
 func is_god_dead(path: String) -> bool:
@@ -203,7 +286,11 @@ func get_god_max_hp(path: String) -> int:
 	var max_value := maxi(1, resource.max_hp + int(resource.get_total_level_bonus().get("max_hp", 0)))
 	if not resource.is_enemy and resource.forgetting_level > 0.0:
 		max_value = maxi(1, int(float(max_value) * resource.get_forgetting_multiplier()))
-	return max_value
+	# Экипировка — как и в Combatant._init(), плюсуется после "забвения" и им не масштабируется.
+	for item in [resource.equipped_weapon, resource.equipped_armor, resource.equipped_trinket]:
+		if item != null:
+			max_value += item.bonus_max_hp
+	return maxi(1, max_value)
 
 func get_god_current_hp(path: String) -> int:
 	var max_value := get_god_max_hp(path)
@@ -224,7 +311,8 @@ func set_god_current_hp(path: String, value: int, max_override: int = -1) -> voi
 		int(state.get("level", MIN_GOD_LEVEL)),
 		_to_string_array(state.get("upgraded_abilities", [])),
 		_to_string_array(state.get("creation_essence_paths", [])),
-		clampi(value, 0, maxi(1, max_value))
+		clampi(value, 0, maxi(1, max_value)),
+		_to_string_array(state.get("equipment_paths", []))
 	)
 	roster_changed.emit()
 
@@ -236,7 +324,9 @@ func set_god_level(path: String, level: int) -> void:
 		bool(state.get("is_dead", false)),
 		level,
 		_to_string_array(state.get("upgraded_abilities", [])),
-		_to_string_array(state.get("creation_essence_paths", []))
+		_to_string_array(state.get("creation_essence_paths", [])),
+		int(state.get("current_hp", -1)),
+		_to_string_array(state.get("equipment_paths", []))
 	)
 	roster_changed.emit()
 
@@ -259,8 +349,48 @@ func set_god_creation_essences(path: String, essence_paths: Array) -> void:
 		bool(state.get("is_dead", false)),
 		int(state.get("level", MIN_GOD_LEVEL)),
 		_to_string_array(state.get("upgraded_abilities", [])),
-		_unique_string_array(essence_paths)
+		_unique_string_array(essence_paths),
+		int(state.get("current_hp", -1)),
+		_to_string_array(state.get("equipment_paths", []))
 	)
+
+func get_god_equipment_paths(path: String) -> Array[String]:
+	return _normalize_equipment_paths(get_god_state(path).get("equipment_paths", []))
+
+func get_god_equipment_path(path: String, slot_type: int) -> String:
+	var equipment_paths := get_god_equipment_paths(path)
+	if slot_type < 0 or slot_type >= equipment_paths.size():
+		return ""
+	return equipment_paths[slot_type]
+
+func set_god_equipment_path(path: String, slot_type: int, item_path: String) -> void:
+	path = path.strip_edges()
+	if path == "" or slot_type < 0 or slot_type > 2:
+		return
+	var state := get_god_state(path)
+	var equipment_paths := _normalize_equipment_paths(state.get("equipment_paths", []))
+	equipment_paths[slot_type] = item_path.strip_edges()
+	set_god_state(
+		path,
+		float(state.get("forgetting_level", 0.0)),
+		bool(state.get("is_dead", false)),
+		int(state.get("level", MIN_GOD_LEVEL)),
+		_to_string_array(state.get("upgraded_abilities", [])),
+		_to_string_array(state.get("creation_essence_paths", [])),
+		int(state.get("current_hp", -1)),
+		equipment_paths
+	)
+	roster_changed.emit()
+
+func get_item_equipped_god_path(item_path: String) -> String:
+	item_path = item_path.strip_edges()
+	if item_path == "":
+		return ""
+	for god_path in available_gods:
+		var equipment_paths := get_god_equipment_paths(god_path)
+		if equipment_paths.has(item_path):
+			return god_path
+	return ""
 
 func get_god_upgrade_essence_paths(path: String) -> Array[String]:
 	var state_paths := _to_string_array(get_god_state(path).get("creation_essence_paths", []))
@@ -338,6 +468,7 @@ func apply_god_state(resource: CharacterResource, path_override: String = "") ->
 	resource.forgetting_level = float(state.get("forgetting_level", 0.0))
 	resource.is_dead = bool(state.get("is_dead", false))
 	_apply_upgraded_abilities_to_resource(resource, state)
+	_apply_equipment_to_resource(resource, state)
 	return resource
 
 func load_character_resource(path: String) -> CharacterResource:
@@ -383,7 +514,8 @@ func apply_god_states(states: Dictionary) -> void:
 			int(state.get("level", MIN_GOD_LEVEL)),
 			_to_string_array(state.get("upgraded_abilities", [])),
 			_to_string_array(state.get("creation_essence_paths", [])),
-			int(state.get("current_hp", -1))
+			int(state.get("current_hp", -1)),
+			_to_string_array(state.get("equipment_paths", []))
 		)
 
 func _default_god_state() -> Dictionary:
@@ -394,6 +526,7 @@ func _default_god_state() -> Dictionary:
 		"upgraded_abilities": [],
 		"creation_essence_paths": [],
 		"current_hp": -1,
+		"equipment_paths": ["", "", ""],
 	}
 
 func _normalize_god_state(state_variant: Variant) -> Dictionary:
@@ -405,7 +538,27 @@ func _normalize_god_state(state_variant: Variant) -> Dictionary:
 		"upgraded_abilities": _to_string_array(state.get("upgraded_abilities", [])),
 		"creation_essence_paths": _unique_string_array(state.get("creation_essence_paths", [])),
 		"current_hp": int(state.get("current_hp", -1)),
+		"equipment_paths": _normalize_equipment_paths(state.get("equipment_paths", [])),
 	}
+
+func _normalize_equipment_paths(value: Variant) -> Array[String]:
+	var result: Array[String] = ["", "", ""]
+	var raw_paths := _to_string_array(value)
+	for i in range(mini(result.size(), raw_paths.size())):
+		result[i] = raw_paths[i].strip_edges()
+	return result
+
+func _apply_equipment_to_resource(resource: CharacterResource, state: Dictionary) -> void:
+	var equipment_paths := _normalize_equipment_paths(state.get("equipment_paths", []))
+	resource.equipped_weapon = _load_item_or_null(equipment_paths[0])
+	resource.equipped_armor = _load_item_or_null(equipment_paths[1])
+	resource.equipped_trinket = _load_item_or_null(equipment_paths[2])
+
+func _load_item_or_null(path: String) -> ItemResource:
+	path = path.strip_edges()
+	if path == "" or not ResourceLoader.exists(path):
+		return null
+	return load(path) as ItemResource
 
 func _to_string_array(value: Variant) -> Array[String]:
 	var result: Array[String] = []
@@ -463,6 +616,28 @@ func add_currency_amount(path: String, amount: int) -> void:
 	_capture_default_currency_amounts()
 	_currency_amounts[path] = maxi(0, get_currency_amount(path) + amount)
 	_sync_currency_resource(path)
+
+# ════════════════════════════════════════════════════════════
+#  Прохождение миссий
+# ════════════════════════════════════════════════════════════
+
+## Разовая награда мыслями за завершение ЛЮБОЙ миссии (только при первом прохождении).
+const MISSION_COMPLETION_THOUGHTS_REWARD := 700
+
+func is_mission_completed(path: String) -> bool:
+	return completed_missions.has(path.strip_edges())
+
+## Отмечает миссию пройденной. При первом прохождении выдаёт разовую награду
+## в MISSION_COMPLETION_THOUGHTS_REWARD мыслей, увеличивает счётчик страниц на 1
+## и возвращает true; при повторном прохождении ничего не делает и возвращает false.
+func complete_mission(path: String) -> bool:
+	var clean_path := path.strip_edges()
+	if clean_path == "" or completed_missions.has(clean_path):
+		return false
+	completed_missions.append(clean_path)
+	add_currency_amount(THOUGHTS_PATH, MISSION_COMPLETION_THOUGHTS_REWARD)
+	add_pages(1)
+	return true
 
 func spend_currency_amounts(costs: Dictionary) -> bool:
 	for path_variant in costs.keys():

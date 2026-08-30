@@ -8,17 +8,23 @@ const LOCATION_CARD_SIZE := Vector2(224, 101)
 const LOCATION_ICON_SIZE := Vector2(150, 70)
 const SLOT_SIZE := Vector2(102, 94)
 const SLOT_ICON_SIZE := Vector2(86, 60)
-const HERO_PICKER_CARD_SIZE := Vector2(50, 50)
-const ENEMY_PICKER_CARD_SIZE := Vector2(50, 50)
-const PICKER_ICON_SIZE := Vector2(50, 50)
+const HERO_PICKER_CARD_SIZE := Vector2(56, 56)
+const ENEMY_PICKER_CARD_SIZE := Vector2(56, 56)
+const PICKER_ICON_SIZE := Vector2(44, 44)
 const SETUP_FRAME_TEXTURE := "res://Background/Battle_Setup_Frame.png"
-const SETUP_SCREEN_BG := Color(0.018, 0.021, 0.027, 1.0)
-const SETUP_CARD_BG := Color(0.0, 0.0, 0.0, 0.92)
-const SETUP_CARD_HOVER_BG := Color(0.015, 0.026, 0.035, 0.96)
-const SETUP_CARD_PRESSED_BG := Color(0.025, 0.045, 0.06, 1.0)
-const SETUP_PANEL_BG := Color(0.0, 0.0, 0.0, 0.82)
-const SETUP_BLUE := Color(0.62, 0.84, 0.96, 0.9)
-const SETUP_BLUE_FAINT := Color(0.34, 0.54, 0.68, 0.65)
+const SHOW_SETUP_BACKGROUND := false
+# Навy — та же палитра, что в остальном интерфейсе (кампания, Библиотека, Сад, Весы), с единой
+# золотой рамкой во всех состояниях (только фон и толщина рамки меняются при наведении/выборе).
+# Панели (окна) — полупрозрачные; кнопки внутри них — непрозрачные и темнее, чтобы не сливаться с фоном.
+const SETUP_PANEL_BG := Color(0.09, 0.11, 0.20, 0.82)
+const SETUP_BUTTON_BG := Color(0.05, 0.06, 0.11, 1.0)
+const SETUP_BUTTON_BG_HOVER := Color(0.08, 0.10, 0.17, 1.0)
+const SETUP_BUTTON_BG_PRESSED := Color(0.03, 0.04, 0.07, 1.0)
+const SETUP_BUTTON_BG_DISABLED := Color(0.04, 0.05, 0.08, 1.0)
+const SETUP_ACCENT := Color(0.83, 0.72, 0.45, 1.0)
+const SETUP_ACCENT_DISABLED := Color(0.83, 0.72, 0.45, 0.4)
+# Фон всего экрана — темнее основной navy-палитры интерфейса (вместо серого фона по умолчанию).
+const SETUP_SCREEN_BG_COLOR := Color(0.035, 0.042, 0.075, 1.0)
 
 const LOCATIONS := [
 	{"name":"Хельхейм", "category":"Подземелье", "description":"Без описания", "id":"helheim", "background":"res://Background/Helheim.png", "fog":"res://Background/Helheim_fog.png", "enemy_dir":"res://Enemies/Dungeon/Hellheim/", "door":"res://Doors/Helheim_door.png", "door_open":"res://Doors/Helheim_door_open.png"},
@@ -91,7 +97,18 @@ func _ready() -> void:
 	_rebuild_enemy_picker()
 	_update_all()
 
+func _add_solid_screen_background() -> void:
+	var bg := ColorRect.new()
+	bg.name = "ScreenBackgroundColor"
+	bg.color = SETUP_SCREEN_BG_COLOR
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(bg)
+	move_child(bg, 0)
+
 func _add_screen_background() -> void:
+	if not SHOW_SETUP_BACKGROUND:
+		return
 	var bg := TextureRect.new()
 	bg.name = "ScreenBackground"
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -121,44 +138,38 @@ func _make_setup_style(bg: Color, border: Color, border_width: int = 1) -> Style
 	return style
 
 func _apply_setup_button_style(button: Button) -> void:
-	var clear_style := _make_setup_style(Color(0.0, 0.0, 0.0, 0.0), Color(0.0, 0.0, 0.0, 0.0), 0)
-	button.add_theme_stylebox_override("normal", clear_style)
-	button.add_theme_stylebox_override("hover", clear_style)
-	button.add_theme_stylebox_override("pressed", clear_style)
-	button.add_theme_stylebox_override("focus", clear_style)
-	button.add_theme_stylebox_override("disabled", clear_style)
-	button.add_theme_color_override("font_color", Color(0.88, 0.94, 0.98, 1.0))
-	button.add_theme_color_override("font_hover_color", Color(0.95, 0.99, 1.0, 1.0))
-	button.add_theme_color_override("font_pressed_color", Color(0.72, 0.9, 1.0, 1.0))
-	button.add_theme_color_override("font_disabled_color", Color(0.55, 0.59, 0.62, 1.0))
+	var normal_style := _make_setup_style(SETUP_BUTTON_BG, SETUP_ACCENT, 2)
+	var hover_style := _make_setup_style(SETUP_BUTTON_BG_HOVER, SETUP_ACCENT, 2)
+	var pressed_style := _make_setup_style(SETUP_BUTTON_BG_PRESSED, SETUP_ACCENT, 3)
+	var disabled_style := _make_setup_style(SETUP_BUTTON_BG_DISABLED, SETUP_ACCENT_DISABLED, 2)
+	button.add_theme_stylebox_override("normal", normal_style)
+	button.add_theme_stylebox_override("hover", hover_style)
+	button.add_theme_stylebox_override("pressed", pressed_style)
+	button.add_theme_stylebox_override("focus", hover_style)
+	button.add_theme_stylebox_override("disabled", disabled_style)
+	button.add_theme_color_override("font_color", SETUP_ACCENT)
+	button.add_theme_color_override("font_hover_color", SETUP_ACCENT)
+	button.add_theme_color_override("font_pressed_color", SETUP_ACCENT)
+	button.add_theme_color_override("font_disabled_color", SETUP_ACCENT_DISABLED)
 
 func _apply_selected_slot_style(button: Button) -> void:
-	var normal_style := _make_setup_style(Color(0.0, 0.0, 0.0, 0.0), Color(0.0, 0.0, 0.0, 0.0), 0)
-	var selected_style := _make_setup_style(Color(0.42, 0.78, 1.0, 0.18), Color(0.0, 0.0, 0.0, 0.0), 0)
+	var normal_style := _make_setup_style(SETUP_BUTTON_BG, SETUP_ACCENT, 2)
+	var selected_style := _make_setup_style(SETUP_BUTTON_BG_HOVER, SETUP_ACCENT, 3)
+	var disabled_style := _make_setup_style(SETUP_BUTTON_BG_DISABLED, SETUP_ACCENT_DISABLED, 2)
 	button.add_theme_stylebox_override("normal", normal_style)
 	button.add_theme_stylebox_override("hover", selected_style)
 	button.add_theme_stylebox_override("pressed", selected_style)
 	button.add_theme_stylebox_override("focus", selected_style)
-	button.add_theme_stylebox_override("disabled", normal_style)
+	button.add_theme_stylebox_override("disabled", disabled_style)
 func _apply_setup_label_style(label: Label, font_size: int) -> void:
 	label.add_theme_font_size_override("font_size", font_size)
-	label.add_theme_color_override("font_color", Color(0.9, 0.95, 0.98, 1.0))
+	label.add_theme_color_override("font_color", SETUP_ACCENT)
 	label.add_theme_color_override("font_shadow_color", Color(0.0, 0.0, 0.0, 0.75))
 	label.add_theme_constant_override("shadow_offset_x", 1)
 	label.add_theme_constant_override("shadow_offset_y", 1)
 
 func _apply_setup_panel_style(panel: PanelContainer) -> void:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.0, 0.0, 0.0, 0.0)
-	style.border_width_top = 0
-	style.border_width_bottom = 0
-	style.border_width_left = 0
-	style.border_width_right = 0
-	style.content_margin_left = 0.0
-	style.content_margin_right = 0.0
-	style.content_margin_top = 0.0
-	style.content_margin_bottom = 0.0
-	panel.add_theme_stylebox_override("panel", style)
+	panel.add_theme_stylebox_override("panel", _make_setup_style(SETUP_PANEL_BG, SETUP_ACCENT, 2))
 func _prepare_selection_state() -> void:
 	var formation_enemies: Array[String] = CombatManager.pending_formation_enemies.duplicate()
 	var has_formation := false
@@ -189,13 +200,14 @@ func _prepare_selection_state() -> void:
 
 func _build_ui() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_add_solid_screen_background()
 	_add_screen_background()
 	var back_button := Button.new()
 	back_button.text = "Назад"
-	back_button.position = Vector2(42, 10)
-	back_button.size = Vector2(172, 53)
+	back_button.position = Vector2(42, 4)
+	back_button.size = Vector2(150, 38)
 	_apply_setup_button_style(back_button)
-	back_button.add_theme_font_size_override("font_size", 16)
+	back_button.add_theme_font_size_override("font_size", 15)
 	back_button.pressed.connect(_on_back_pressed)
 	add_child(back_button)
 	_status_label = Label.new()
@@ -210,17 +222,17 @@ func _build_ui() -> void:
 	_build_picker_panels()
 	_start_button = Button.new()
 	_start_button.text = "В БОЙ!"
-	_start_button.position = Vector2(1034, 11)
-	_start_button.size = Vector2(194, 53)
+	_start_button.position = Vector2(1054, 4)
+	_start_button.size = Vector2(170, 38)
 	_apply_setup_button_style(_start_button)
-	_start_button.add_theme_font_size_override("font_size", 16)
+	_start_button.add_theme_font_size_override("font_size", 15)
 	_start_button.pressed.connect(_on_start_battle_pressed)
 	add_child(_start_button)
 	_build_character_info_panel()
 
 func _build_locations() -> void:
 	var loc_xs: Array[float] = [50.0, 288.0, 530.0, 766.0, 1003.0]
-	var loc_ys: Array[float] = [58.0, 164.0, 270.0]
+	var loc_ys: Array[float] = [48.0, 154.0, 260.0]
 	for i in range(LOCATIONS.size()):
 		var row := floori(i / 5.0)
 		var col := i % 5
@@ -618,7 +630,12 @@ func _build_character_info_panel() -> void:
 	_character_info_panel.size = Vector2(202, 202)
 	_character_info_panel.visible = false
 	_character_info_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_character_info_panel.add_theme_stylebox_override("panel", _make_setup_style(Color(0.0, 0.0, 0.0, 0.78), SETUP_BLUE_FAINT, 1))
+	var info_style := _make_setup_style(SETUP_PANEL_BG, SETUP_ACCENT, 1)
+	info_style.content_margin_left = 12
+	info_style.content_margin_right = 12
+	info_style.content_margin_top = 10
+	info_style.content_margin_bottom = 10
+	_character_info_panel.add_theme_stylebox_override("panel", info_style)
 	add_child(_character_info_panel)
 	_character_info_label = RichTextLabel.new()
 	_character_info_label.bbcode_enabled = true

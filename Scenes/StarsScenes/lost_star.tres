@@ -1,0 +1,97 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" path="res://Essence/essence_chaos.tres" id="essence_chaos"]
+[ext_resource type="Resource" path="res://Items/Weapons/Rare/morning_star.tres" id="item_morning_star"]
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("stat_check_script")
+stat = 4
+stat_label = "Точность"
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+stat_label = "Удача"
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="reward_chaos"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_chaos")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="reward_morning_star"]
+script = ExtResource("reward_script")
+kind = 0
+resource = ExtResource("item_morning_star")
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_study_success"]
+script = ExtResource("outcome_script")
+result_text = "Это уникальная возможность изучить звездное существо. Стараясь не отпугнуть его, вы внимательно рассматриваете его, но не можете различить ничего кроме света. Вы фиксируете, что звезда игнорирует руки и тела людей, но будет двигаться так чтобы оставаться в центре взгляда человека. При этом она периодически меняет того, кого считает наблюдателем. Звезда излучает тепло. Вы попробовали засунуть в нее лист бумаги, и она прожгла ровный круг на той части, что была погружена, но лист целиком не загорелся.
+Пока вы осмысляете полученную информацию, по небу пролетает россыпь падающих звезд. Ваша новая подруга срывается с места и улетает обратно на небо. Вы провожаете ее глазами. Звезде нравится быть в центре взгляда."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_chaos")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_study_fail"]
+script = ExtResource("outcome_script")
+result_text = "Это уникальная возможность изучить звездное существо. Стараясь не отпугнуть его, вы внимательно рассматриваете его, но не можете различить ничего кроме света.
+Но то ли звезде не по нраву ваше внимание, то ли по своим причинам, но она срывается и улетает обратно на небосклон, где ей и место. Вы провожаете ее глазами."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_study"]
+script = ExtResource("choice_script")
+choice_text = "Исследовать звезду"
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_study_success")
+failure_outcome = SubResource("out_study_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="out_take_success"]
+script = ExtResource("outcome_script")
+result_text = "Один из богов подходит близко к звезде, та не реагирует, только продолжает издавать тихий звон. Тогда бог берет обе руки и мягко берет звезду в две ладони. Она теплая, но не обжигающая.
+Какое-то время вы так стоите, звезда звенит все тише, и наконец перестает. Когда бог отпускает руки, комок света остается в одной из рук. При попытке отделить, она издает игривый перезвон. Похоже к вам привязалась звездочка."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_morning_star")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_take_fail"]
+script = ExtResource("outcome_script")
+result_text = "Один из богов подходит близко к звезде, та не реагирует, только продолжает издавать тихий звон. Тогда бог берет обе руки и мягко берет звезду в две ладони.
+Звезда отстраняется и издает более громкий звон, после чего срывается и улетает. Видимо на звезды можно смотреть, но нельзя трогать."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_take"]
+script = ExtResource("choice_script")
+choice_text = "Забрать звезду с собой"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_take_success")
+failure_outcome = SubResource("out_take_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="out_release"]
+script = ExtResource("outcome_script")
+result_text = "Вы с любопытством рассматриваете звезду, но понимаете что с вами ей не место. Вы замечаете, что она часто сдвигается туда, куда смотрит кто-то из богов. Тогда вы все вместе начинаете смотреть в одну точку на небе. Звезда смещается туда. Какое-то время просто висит. Но постепенно становится меньше и меньше. Пока комочек света не становится неотличим от остальных звезд."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_release"]
+script = ExtResource("choice_script")
+choice_text = "Отпустить звезду обратно в небо"
+outcome = SubResource("out_release")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Потерянная звезда"
+body_text = "Косая линия прочертила небосклон. Вы наблюдаете за падающей звездой. Кто-то просто любуется, кто-то загадывает желание.
+
+Но тут вы замечаете странность ее траектории. Но прежде чем можете сформулировать, что не так, звезда уже приземляется на световую дорогу прямо перед вами.
+
+Комок синеватого света, размером с крупное яблоко, висит перед вами и издает ритмичный звук, похожий на приглушенный звон."
+choices = [SubResource("choice_study"), SubResource("choice_take"), SubResource("choice_release")]

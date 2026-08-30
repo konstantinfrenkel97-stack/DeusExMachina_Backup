@@ -17,7 +17,8 @@ enum Rarity {
 	COMMON,    # Обычное
 	RARE,      # Редкое
 	LEGENDARY, # Легендарное
-	UNIQUE     # Уникальное
+	UNIQUE,    # Уникальное
+	EPIC       # Эпическое
 }
 
 # ─── Основные поля ─────────────────────────────────────────────
@@ -56,6 +57,16 @@ enum Rarity {
 
 # Восстановление фантазии в начале каждого раунда боя (0 = не даёт).
 @export var fantasy_regen_per_turn: int = 0
+# Восстановление величия в начале каждого раунда боя (0 = не даёт).
+@export var majesty_regen_per_turn: int = 0
+# Восстановление HP в начале каждого раунда боя, в % от max_hp (0 = не даёт).
+@export var hp_regen_percent: float = 0.0
+
+# ─── Ограничение по богу ────────────────────────────────────────
+
+# Путь к ресурсу бога (CharacterResource), единственного кто может это надеть.
+# Пусто = нет ограничения, любой бог может использовать.
+@export var restricted_god_path: String = ""
 
 # ─── Уникальный эффект ─────────────────────────────────────────
 
@@ -85,6 +96,7 @@ func get_rarity_name() -> String:
 		Rarity.RARE: return "Редкое"
 		Rarity.LEGENDARY: return "Легендарное"
 		Rarity.UNIQUE: return "Уникальное"
+		Rarity.EPIC: return "Эпическое"
 	return "?"
 
 ## Возвращает true если предмет даёт хотя бы один бонус к статам.
@@ -114,4 +126,8 @@ func get_bonuses_text() -> String:
 		parts.append("Величие %s%d" % ["+" if bonus_majesty > 0 else "", bonus_majesty])
 	if fantasy_regen_per_turn != 0:
 		parts.append("Фантазия %s%d/ход" % ["+" if fantasy_regen_per_turn > 0 else "", fantasy_regen_per_turn])
+	if majesty_regen_per_turn != 0:
+		parts.append("Величие %s%d/ход" % ["+" if majesty_regen_per_turn > 0 else "", majesty_regen_per_turn])
+	if hp_regen_percent != 0.0:
+		parts.append("Регенерация %s%.0f%%/ход" % ["+" if hp_regen_percent > 0 else "", hp_regen_percent])
 	return ", ".join(parts)

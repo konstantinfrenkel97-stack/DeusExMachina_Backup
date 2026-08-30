@@ -1,14 +1,15 @@
 [gd_resource type="Resource" script_class="ItemResource" format=3]
 
 [ext_resource type="Script" path="res://Items/item_resource.gd" id="item_script"]
+[ext_resource type="Texture2D" path="res://Items/Marsh_flower.png" id="item_icon"]
 
 [resource]
 script = ExtResource("item_script")
 item_name = "Цветок кикиморы"
 item_type = 2
 rarity = 3
-icon = null
-description = "Артефакт из сцены Топи. Заготовка для дальнейшей настройки."
+icon = ExtResource("item_icon")
+description = "Артефакт из Топи. Восстанавливает владельцу 3% здоровья каждый раз, когда тот получает дебафф."
 bonus_max_hp = 0
 bonus_damage = 0
 bonus_armor = 0
@@ -17,5 +18,5 @@ bonus_accuracy = 0
 bonus_evasion = 0
 bonus_crit_chance = 0.0
 bonus_majesty = 0
-effect = ""
+effect = "kikimora_flower_heal_on_debuff"
 metadata/_custom_type_script = ExtResource("item_script")

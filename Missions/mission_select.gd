@@ -1,6 +1,6 @@
 extends Control
 
-@export var mission_path: String = "res://Missions/main_mission.tres"
+@export var mission_path: String = ""
 
 const SLOT_SIZE := Vector2(200, 200)
 const CARD_SIZE := Vector2(200, 200)
@@ -38,6 +38,7 @@ var _prep_text: Label = null
 var _start_button: Button = null
 var _required_label: Label = null
 var _required_god_path: String = ""
+var _show_mission_list: bool = false
 
 func _ready() -> void:
 	back_button.pressed.connect(_on_back_pressed)
@@ -48,18 +49,14 @@ func _ready() -> void:
 	back_button.offset_bottom = 42
 	$Scroll.offset_top = 48
 	$Scroll.offset_bottom = -20
-	var requested_path := MissionState.requested_mission_path.strip_edges()
+	var requested_path: String = MissionState.requested_mission_path.strip_edges()
 	if requested_path != "":
 		mission_path = requested_path
-	if mission_path != "" and ResourceLoader.exists(mission_path):
-		mission = load(mission_path)
-	if mission == null:
-		title_label.text = "Миссия не найдена:\n%s" % mission_path
-		_build_buttons()
+		_load_and_open_mission(mission_path)
 		return
-	title_label.text = Localization.text_from(mission, "mission_name_key", "mission_name", mission.mission_name)
-	_required_god_path = mission.get_required_god_path()
-	_build_buttons()
+	_show_mission_list = true
+	title_label.text = "Выбор миссии"
+	_build_mission_list()
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED and _prep_panel != null:
@@ -102,6 +99,96 @@ func _build_buttons() -> void:
 		title_label.text = "%s\nВ миссии нет первой сцены" % title_label.text
 		return
 	call_deferred("_open_mission_prep", mission.scenes[0])
+
+func _build_mission_list() -> void:
+	for child in grid.get_children():
+		child.queue_free()
+	grid.columns = 2
+	var paths: Array[String] = _get_available_mission_paths()
+	if paths.is_empty():
+		var empty_label := Label.new()
+		empty_label.text = "Нет доступных миссий"
+		empty_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		empty_label.add_theme_font_size_override("font_size", 22)
+		empty_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		grid.add_child(empty_label)
+		return
+	for path in paths:
+		grid.add_child(_make_mission_button(path))
+
+func _get_available_mission_paths() -> Array[String]:
+	var result: Array[String] = []
+	for path in CampaignState.available_missions:
+		var clean_path: String = str(path).strip_edges()
+		if clean_path != "" and ResourceLoader.exists(clean_path) and not result.has(clean_path):
+			result.append(clean_path)
+	if not result.is_empty():
+		return result
+	_collect_mission_paths_from_dir("res://Missions", result)
+	result.sort()
+	return result
+
+func _collect_mission_paths_from_dir(dir_path: String, result: Array[String]) -> void:
+	var dir: DirAccess = DirAccess.open(dir_path)
+	if dir == null:
+		return
+	dir.list_dir_begin()
+	while true:
+		var file_name: String = dir.get_next()
+		if file_name == "":
+			break
+		if file_name.begins_with("."):
+			continue
+		var path: String = "%s/%s" % [dir_path, file_name]
+		if dir.current_is_dir():
+			_collect_mission_paths_from_dir(path, result)
+		elif file_name.get_extension().to_lower() == "tres":
+			var loaded: Resource = load(path)
+			if loaded is MissionResource and not result.has(path):
+				result.append(path)
+	dir.list_dir_end()
+
+func _make_mission_button(path: String) -> Button:
+	var button := Button.new()
+	button.custom_minimum_size = Vector2(420, 96)
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.focus_mode = Control.FOCUS_NONE
+	button.text = _get_mission_button_text(path)
+	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	button.add_theme_font_size_override("font_size", 20)
+	button.pressed.connect(_load_and_open_mission.bind(path))
+	return button
+
+func _get_mission_button_text(path: String) -> String:
+	var loaded: Resource = load(path)
+	if loaded is MissionResource:
+		var mission_res := loaded as MissionResource
+		var display_name: String = Localization.text_from(mission_res, "mission_name_key", "mission_name", mission_res.mission_name)
+		if display_name.strip_edges() != "":
+			return display_name
+	return path.get_file().get_basename()
+
+func _load_and_open_mission(path: String) -> void:
+	mission_path = path.strip_edges()
+	mission = null
+	_required_god_path = ""
+	if mission_path != "" and ResourceLoader.exists(mission_path):
+		var loaded: Resource = load(mission_path)
+		if loaded is MissionResource:
+			mission = loaded as MissionResource
+	if mission == null:
+		title_label.text = "Миссия не найдена:\n%s" % mission_path
+		_build_buttons()
+		return
+	if CampaignState.is_mission_completed(mission_path):
+		for child in grid.get_children():
+			child.queue_free()
+		title_label.text = "Миссия уже пройдена"
+		mission = null
+		return
+	title_label.text = Localization.text_from(mission, "mission_name_key", "mission_name", mission.mission_name)
+	_required_god_path = mission.get_required_god_path()
+	_build_buttons()
 func _open_mission_prep(scene) -> void:
 	_selected_scene = scene
 	_selected_heroes = ["", "", "", ""]
@@ -415,6 +502,8 @@ func _cancel_mission_selection() -> void:
 		_prep_panel.queue_free()
 		_prep_panel = null
 		_prep_root = null
+	if _show_mission_list:
+		title_label.text = "Выбор миссии"
 
 func _start_selected_mission() -> void:
 	if _selected_scene == null or not _can_start_mission():

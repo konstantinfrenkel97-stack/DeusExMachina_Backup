@@ -13,6 +13,7 @@ script = ExtResource("2_m3npq")
 unit_name = "Один"
 sprite_path = "res://Gods/Odin/Odin.png"
 face_sprite = "res://Gods/Odin/Odin_Face.png"
+dialogue_sprite_y_offset_percent = 5.0
 max_hp = 110
 armor = 20
 initiative = 5

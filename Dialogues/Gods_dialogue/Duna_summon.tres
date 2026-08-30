@@ -60,7 +60,7 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 
 [sub_resource type="Resource" id="Resource_xpkvi"]
 script = ExtResource("1_tauo5")
-speaker_name = "Дуна"
+speaker_name = "Лена"
 text = "Вы... правда?"
 sprite = ExtResource("4_wsd3d")
 metadata/_custom_type_script = "uid://bdppjbkvrapob"

@@ -220,6 +220,11 @@ func _pick_outcome(choice):
 		var success: bool = stat_check.is_success(avg, difficulty_delta)
 		print("[Миссия] Проверка %s: среднее %.1f -> %s" % [stat_check.display_stat(), avg, "УСПЕХ" if success else "ПРОВАЛ"])
 		return _res_prop(choice, "success_outcome", null) if success else _res_prop(choice, "failure_outcome", null)
+	var flag_outcomes = _res_prop(choice, "flag_outcomes", null)
+	if flag_outcomes is Dictionary and not flag_outcomes.is_empty():
+		for flag_name in flag_outcomes.keys():
+			if MissionState.mission_flags.get(str(flag_name), false):
+				return flag_outcomes[flag_name]
 	return _res_prop(choice, "outcome", null)
 
 func _present_outcome(outcome, choice) -> void:
@@ -250,9 +255,9 @@ func _outcome_rewards_text(outcome) -> String:
 	var parts: Array[String] = []
 	for reward_value in _array_prop(outcome, "rewards"):
 		var reward := reward_value as Reward
-		if reward == null or reward.resource == null:
+		if reward == null:
 			continue
-		var display_name := _reward_display_name(reward.resource)
+		var display_name := reward.display_name() if reward.resource == null else _reward_display_name(reward.resource)
 		if reward.kind == Reward.Kind.ESSENCE or reward.kind == Reward.Kind.CURRENCY:
 			parts.append("%s x%d" % [display_name, int(reward.amount)])
 		else:
@@ -284,12 +289,32 @@ func _apply_outcome_effects(outcome) -> void:
 		return
 	_advance_or_finish_mission()
 func _apply_outcome_mission_effects(outcome) -> void:
+	var set_flag: String = str(_res_prop(outcome, "set_mission_flag", ""))
+	if set_flag != "":
+		MissionState.mission_flags[set_flag] = true
 	var heal_percent: int = int(_res_prop(outcome, "hero_heal_percent", 0))
 	if heal_percent != 0:
 		CombatManager.pending_mission_hero_heal_percent += heal_percent
+	var forgetting_delta: float = float(_res_prop(outcome, "hero_forgetting_delta", 0.0))
+	if forgetting_delta != 0.0:
+		_apply_forgetting_to_mission_heroes(forgetting_delta)
+	if bool(_res_prop(outcome, "rum_spell_whole_team_next_battle", false)):
+		CombatManager.pending_rum_spell_whole_team = true
+	var random_hero_buffs: Array = _array_prop(outcome, "target_random_hero_buffs")
+	if not random_hero_buffs.is_empty():
+		_apply_random_or_preferred_hero_buffs(random_hero_buffs, _res_prop(outcome, "target_random_hero_preferred_god", null))
+	var random_hp_delta: int = int(_res_prop(outcome, "random_hero_hp_percent_delta", 0))
+	if random_hp_delta != 0:
+		_apply_random_mission_hero_hp_delta(random_hp_delta)
 	var fantasy_delta: int = int(_res_prop(outcome, "fantasy_delta", 0))
 	if fantasy_delta != 0:
 		CombatManager.pending_mission_fantasy_delta += fantasy_delta
+	var thoughts_delta: int = int(_res_prop(outcome, "thoughts_delta", 0))
+	if thoughts_delta != 0:
+		CampaignState.add_currency_amount(CampaignState.THOUGHTS_PATH, thoughts_delta)
+	var max_fantasy_bonus_delta: int = int(_res_prop(outcome, "max_fantasy_bonus_delta", 0))
+	if max_fantasy_bonus_delta != 0:
+		CampaignState.library_max_fantasy_bonus = maxi(0, CampaignState.library_max_fantasy_bonus + max_fantasy_bonus_delta)
 	var majesty_delta: int = int(_res_prop(outcome, "hero_majesty_delta", 0))
 	if majesty_delta != 0:
 		MissionState.add_majesty_to_selected_heroes(majesty_delta)
@@ -300,6 +325,9 @@ func _apply_outcome_mission_effects(outcome) -> void:
 				CombatManager.mission_team_buffs.append(buff)
 			else:
 				CombatManager.pending_mission_hero_buffs.append(buff)
+	for buff in _array_prop(outcome, "enemy_buffs"):
+		if buff != null:
+			CombatManager.pending_mission_enemy_buffs.append(buff)
 	for buff in _array_prop(outcome, "strongest_hero_buffs"):
 		if buff != null:
 			CombatManager.mission_strongest_hero_buffs.append(buff)
@@ -328,6 +356,62 @@ func _apply_outcome_mission_effects(outcome) -> void:
 					"resource_path": target_path,
 					"buffs": target_buffs
 				})
+
+func _apply_random_mission_hero_hp_delta(percent_delta: int) -> void:
+	var candidates: Array[String] = []
+	for hero_path in CombatManager.mission_heroes:
+		var path: String = str(hero_path).strip_edges()
+		if path == "" or CombatManager.mission_dead_heroes.has(path):
+			continue
+		if CampaignState.get_god_current_hp(path) <= 0:
+			continue
+		candidates.append(path)
+	if candidates.is_empty():
+		return
+	var target_path: String = candidates[randi_range(0, candidates.size() - 1)]
+	var max_hp: int = CampaignState.get_god_max_hp(target_path)
+	var delta: int = int(round(float(max_hp) * float(percent_delta) / 100.0))
+	if delta == 0:
+		delta = 1 if percent_delta > 0 else -1
+	CampaignState.set_god_current_hp(target_path, CampaignState.get_god_current_hp(target_path) + delta, max_hp)
+
+## Немедленно меняет уровень забвения у всех живых богов миссии (см.
+## MissionOutcome.hero_forgetting_delta). Не привязано к следующему бою —
+## применяется сразу, чтобы работать и когда миссия оканчивается поражением.
+func _apply_forgetting_to_mission_heroes(amount: float) -> void:
+	for hero_path in MissionState.selected_heroes:
+		var clean_path: String = str(hero_path).strip_edges()
+		if clean_path == "" or CampaignState.is_god_dead(clean_path):
+			continue
+		CampaignState.add_god_forgetting(clean_path, amount)
+
+## Баффы одному случайному живому богу отряда миссии на весь оставшийся отряд миссии
+## (см. MissionOutcome.target_random_hero_buffs). Если preferred_god задан и он есть
+## в отряде — выбирается именно он вместо случайного бога.
+func _apply_random_or_preferred_hero_buffs(buffs: Array, preferred_god) -> void:
+	if buffs.is_empty():
+		return
+	var candidates: Array[String] = []
+	for hero_path in CombatManager.mission_heroes:
+		var path: String = str(hero_path).strip_edges()
+		if path == "" or CombatManager.mission_dead_heroes.has(path):
+			continue
+		if CampaignState.get_god_current_hp(path) <= 0:
+			continue
+		candidates.append(path)
+	if candidates.is_empty():
+		return
+	var target_path: String = ""
+	if preferred_god != null:
+		var preferred_path: String = str(_res_prop(preferred_god, "resource_path", "")).strip_edges()
+		if preferred_path != "" and candidates.has(preferred_path):
+			target_path = preferred_path
+	if target_path == "":
+		target_path = candidates[randi_range(0, candidates.size() - 1)]
+	CombatManager.mission_target_buffs.append({
+		"resource_path": target_path,
+		"buffs": buffs,
+	})
 
 func _launch_battle(battle) -> void:
 	_prepare_direct_battle(battle)
@@ -421,7 +505,14 @@ func _finish_mission(show_rewards: bool = true) -> void:
 		return_path = "res://Campaign/campaign_screen.tscn"
 	_pending_finish_return_path = return_path
 	if MissionState.current_mission != null:
-		MissionState.last_completed_mission_path = MissionState.current_mission.resource_path
+		var finished_mission_path := MissionState.current_mission.resource_path
+		MissionState.last_completed_mission_path = finished_mission_path
+		if show_rewards and CampaignState.complete_mission(finished_mission_path):
+			MissionState.granted_rewards.append({
+				"kind": Reward.Kind.CURRENCY,
+				"resource_path": CampaignState.THOUGHTS_PATH,
+				"amount": CampaignState.MISSION_COMPLETION_THOUGHTS_REWARD,
+			})
 	if show_rewards:
 		_show_mission_reward_summary()
 		return
@@ -430,8 +521,11 @@ func _grant_and_record_reward(reward_value) -> void:
 	var reward := reward_value as Reward
 	if reward == null:
 		return
-	reward.grant()
-	MissionState.record_reward(reward)
+	var resolved_resource := reward.resolve_resource()
+	if resolved_resource == null:
+		return
+	reward.grant_resolved(resolved_resource)
+	MissionState.record_resolved_reward(reward, resolved_resource)
 
 func _show_mission_reward_summary() -> void:
 	if _mission_reward_overlay != null and is_instance_valid(_mission_reward_overlay):

@@ -8,3 +8,9 @@
 script = ExtResource("1_16np4")
 metadata/_custom_type_script = "uid://ccikt3aaq6mwf"
 icon = ExtResource("2_item_icon")
+item_name = "Зелье"
+item_type = 2
+rarity = 0
+description = "Регенерация 1% от максимального здоровья в начале каждого хода."
+hp_regen_percent = 1.0
+effect = ""

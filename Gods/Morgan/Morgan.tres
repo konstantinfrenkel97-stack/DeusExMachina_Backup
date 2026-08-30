@@ -13,6 +13,7 @@ script = ExtResource("7_cr")
 unit_name = "Моргана"
 sprite_path = "res://Gods/Morgan/Morgana.png"
 face_sprite = "res://Gods/Morgan/Morgana_Face.png"
+dialogue_sprite_scale_percent = 104.0
 max_hp = 70
 damage = 25
 initiative = 5

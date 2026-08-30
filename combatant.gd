@@ -32,6 +32,7 @@ var round_wait_stamp: int = -1
 var special_effect_type: String = ""
 var god_level: int = 1
 var is_large: bool = false
+var is_boss: bool = false
 var is_stunned: bool = false
 var pending_crit: bool = false  # Ð¤Ð»Ð°Ð³: ÑÐ»ÐµÐ´ÑƒÑŽÑ‰Ð¸Ð¹ Ð¿Ð¾Ð»ÑƒÑ‡ÐµÐ½Ð½Ñ‹Ð¹ ÑƒÑ€Ð¾Ð½ â€” ÐºÑ€Ð¸Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ (Ð´Ð»Ñ Ð²ÑÐ¿Ð»Ñ‹Ð²Ð°ÑŽÑ‰Ð¸Ñ… Ñ‡Ð¸ÑÐµÐ»)
 var active_stance: AbilityResource = null # Ð¡ÑÑ‹Ð»ÐºÐ° Ð½Ð° Ñ‚ÐµÐºÑƒÑ‰ÑƒÑŽ ÑÑ‚Ð¾Ð¹ÐºÑƒ
@@ -93,6 +94,7 @@ func _init(resource: CharacterResource):
 	original_ultimate_ability = resource.ultimate_ability
 	special_effect_type = resource.special_effect_type
 	is_large = resource.is_large
+	is_boss = resource.is_boss
 	equipped_weapon = resource.equipped_weapon
 	equipped_armor = resource.equipped_armor
 	equipped_trinket = resource.equipped_trinket
@@ -100,7 +102,7 @@ func _init(resource: CharacterResource):
 	_apply_level_bonuses(resource.get_total_level_bonus())
 	ai_script = resource.ai_script
 	if special_effect_type == "koschei_life_charges":
-		life_charges = 5
+		life_charges = get_max_life_charges()
 	# Ð—Ð°Ð±Ð²ÐµÐ½Ð¸Ðµ: ÐºÐ°Ð¶Ð´Ñ‹Ð¹ Ñ†ÐµÐ»Ñ‹Ð¹ ÑƒÑ€Ð¾Ð²ÐµÐ½ÑŒ ÑÐ½Ð¸Ð¶Ð°ÐµÑ‚ Ð²ÑÐµ ÑÑ‚Ð°Ñ‚Ñ‹ Ð±Ð¾Ð³Ð° Ð½Ð° 10%
 	if not is_enemy and resource.forgetting_level > 0.0:
 		var fm: float = resource.get_forgetting_multiplier()
@@ -112,6 +114,9 @@ func _init(resource: CharacterResource):
 		base_evasion = int(base_evasion * fm)
 		base_crit_chance = base_crit_chance * fm
 		initiative = maxi(1, int(initiative * fm))
+	# Экипировка (оружие/броня/безделушка) — применяется последней и не зависит
+	# от "забвения": сила предмета не тускнеет от того, что бога подзабыли.
+	_apply_equipment_bonuses()
 
 func _apply_level_bonuses(bonuses: Dictionary) -> void:
 	if bonuses.is_empty():
@@ -129,6 +134,27 @@ func _apply_level_bonuses(bonuses: Dictionary) -> void:
 	base_accuracy += int(bonuses.get("accuracy", 0))
 	base_evasion += int(bonuses.get("evasion", 0))
 	base_crit_chance += float(bonuses.get("crit_chance", 0.0))
+
+## Суммирует бонусы статов экипированных предметов (ItemResource.bonus_*) в базовые
+## статы юнита — так же постоянно на весь бой, как и бонусы уровня. Регенерация
+## фантазии от предметов (fantasy_regen_per_turn) сюда не входит — она читается
+## живьём каждый раунд через get_equipped_items() (см. battle_scene.gd).
+func _apply_equipment_bonuses() -> void:
+	for item in get_equipped_items():
+		var was_full_hp := current_hp >= max_hp
+		max_hp = maxi(1, max_hp + item.bonus_max_hp)
+		if was_full_hp:
+			current_hp = max_hp
+		else:
+			current_hp = clampi(current_hp, 0, max_hp)
+		base_damage += item.bonus_damage
+		base_armor += item.bonus_armor
+		initiative += item.bonus_initiative
+		base_accuracy += item.bonus_accuracy
+		base_evasion += item.bonus_evasion
+		base_crit_chance += item.bonus_crit_chance
+		current_majesty += item.bonus_majesty
+
 ## Возвращает список экипированных предметов (без null-слотов).
 ## Общая точка входа для любой пассивной логики предметов (регенерация, будущие эффекты).
 func get_equipped_items() -> Array[ItemResource]:
@@ -141,12 +167,26 @@ func get_equipped_items() -> Array[ItemResource]:
 		items.append(equipped_trinket)
 	return items
 
+## Проверяет, есть ли среди экипированных предметов один с указанным кодом ItemResource.effect.
+func has_item_effect(code: String) -> bool:
+	for item in get_equipped_items():
+		if item.effect == code:
+			return true
+	return false
+
+## Кощей: максимум зарядов жизни (5 по умолчанию, +1 от «Смерть Кощея»).
+func get_max_life_charges() -> int:
+	return 6 if has_item_effect("koschei_death_extra_charge") else 5
+
 func get_accuracy() -> int: return max(0, base_accuracy + accuracy_modifier)
 func get_damage() -> int:
 	var bonus = 0
 	# Ð—Ð²Ñ‘Ð·Ð´Ñ‹ â€” Ð¡ÐºÐ¾Ñ€Ð¿Ð¸Ð¾Ð½: +5% ÑƒÑ€Ð¾Ð½Ð° Ð·Ð° ÐºÐ°Ð¶Ð´Ñ‹Ð¹ Ð´ÐµÐ±Ð°Ñ„Ñ„ Ð½Ð° ÑÐµÐ±Ðµ
 	if special_effect_type == "scorpio_debuff_damage":
 		bonus += int((base_damage + damage_modifier_flat) * 0.05 * _count_active_debuffs())
+	# Рог Нечистого: при 0 величия +20 атаки
+	if current_majesty == 0 and has_item_effect("unclean_horn_zero_majesty_buff"):
+		bonus += 20
 	var flat_damage: int = int(base_damage) + damage_modifier_flat + bonus
 	return maxi(0, int(round(float(flat_damage) * (1.0 + damage_modifier_percent / 100.0))))
 
@@ -161,8 +201,12 @@ func _count_active_debuffs() -> int:
 		elif v < 0 and st != "stun":
 			n += 1
 	return n
-func get_armor() -> int: 
-	return base_armor + armor_modifier
+func get_armor() -> int:
+	var bonus = 0
+	# Рог Нечистого: при 0 величия +15 брони
+	if current_majesty == 0 and has_item_effect("unclean_horn_zero_majesty_buff"):
+		bonus += 15
+	return base_armor + armor_modifier + bonus
 func get_evasion() -> int: return max(0, base_evasion + evasion_modifier)
 func get_forget_levels() -> float:
 	var total: float = 0.0

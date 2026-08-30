@@ -30,7 +30,8 @@ static func apply_armor(raw_damage: int, armor_percent: int) -> int:
 static func calculate_ability_damage(attacker: Combatant, target: Combatant, ability: AbilityResource) -> Dictionary:
 	var hp_before := target.current_hp
 
-	if not check_hit(attacker.accuracy, target.evasion):
+	# Око Баала: носитель не может промахнуться.
+	if not (attacker.has_item_effect("baal_eye_never_miss") or check_hit(attacker.accuracy, target.evasion)):
 		return {
 			"is_hit": false, "is_crit": false,
 			"raw_damage": 0, "final_damage": 0,
@@ -55,6 +56,10 @@ static func calculate_ability_damage(attacker: Combatant, target: Combatant, abi
 				total_damage = int(total_damage * 1.5)
 				break
 
+	# Коса отцеубийства: +20% урона по боссам
+	if target.is_boss and attacker.has_item_effect("parricide_scythe_boss_damage"):
+		total_damage = int(total_damage * 1.2)
+
 	var battle_dmg_mult := CombatManager.get_damage_multiplier()
 	if battle_dmg_mult != 1.0:
 		total_damage = int(total_damage * battle_dmg_mult)
@@ -63,8 +68,11 @@ static func calculate_ability_damage(attacker: Combatant, target: Combatant, abi
 	var crit_mult := CombatManager.get_crit_multiplier() if is_crit else 1.0
 	var raw_damage := int(total_damage * crit_mult)
 
+	# Стрела из Амелы (Локи): критические удары наносят чистый урон (игнорируют броню).
+	var _crit_ignores_armor := is_crit and attacker.has_item_effect("loki_pure_crit")
+
 	var final_damage := raw_damage
-	if ability.damage_type == "Physical" and not CombatManager.is_armor_ignored():
+	if ability.damage_type == "Physical" and not CombatManager.is_armor_ignored() and not _crit_ignores_armor:
 		var _eff_armor := target.armor
 		if attacker.special_effect_type == "giant_armor_pierce":
 			_eff_armor = int(target.armor * 0.5)

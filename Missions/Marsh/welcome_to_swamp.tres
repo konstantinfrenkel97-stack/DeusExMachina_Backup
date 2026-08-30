@@ -6,10 +6,11 @@
 [ext_resource type="Resource" path="res://Scenes/MarshScenes/marsh_patrol_1.tres" id="scene_patrol"]
 [ext_resource type="Resource" path="res://Scenes/rest.tres" id="scene_rest"]
 [ext_resource type="Resource" path="res://Scenes/MarshScenes/say_im_beautiful.tres" id="scene_beautiful"]
+[ext_resource type="Resource" path="res://Scenes/MarshScenes/drowned_army.tres" id="scene_drowned_army"]
 
 [resource]
 script = ExtResource("mission_script")
 mission_name = "Добро пожаловать в Топь"
-scenes = [ExtResource("scene_welcome"), ExtResource("scene_chest"), ExtResource("scene_patrol"), ExtResource("scene_rest"), ExtResource("scene_beautiful")]
+scenes = [ExtResource("scene_welcome"), ExtResource("scene_chest"), ExtResource("scene_patrol"), ExtResource("scene_rest"), ExtResource("scene_beautiful"), ExtResource("scene_drowned_army")]
 location = 14
 required_god = 4

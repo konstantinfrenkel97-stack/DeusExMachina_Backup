@@ -1,0 +1,83 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Resource" path="res://Gods/Samdi/Samdi.tres" id="samdi"]
+
+[sub_resource type="Resource" id="out_take"]
+script = ExtResource("outcome_script")
+result_text = "Вы берёте бутылку с собой. Влажное стекло приятно холодит бок. На кораблях ром превращается в оружие. Вы теперь отлично вооружены."
+rum_spell_whole_team_next_battle = true
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_take"]
+script = ExtResource("choice_script")
+choice_text = "Взять с собой"
+outcome = SubResource("out_take")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_drink_luck"]
+script = ExtResource("buff_script")
+stat = 1
+value = 20
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="buff_drink_accuracy"]
+script = ExtResource("buff_script")
+stat = 2
+value = -20
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_drink"]
+script = ExtResource("outcome_script")
+result_text = "О чём тут думать? Один из богов берёт бутылку, и весь отряд какое-то время смотрит, как бог её поглощает в одиночку. Наконец пустой сосуд летит за борт. На пошатывающихся ногах и с весёлым выражением лица, бог возвращается в ваш отряд."
+target_random_hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_drink_luck"), SubResource("buff_drink_accuracy")])
+target_random_hero_preferred_god = ExtResource("samdi")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_drink"]
+script = ExtResource("choice_script")
+choice_text = "Выпить"
+outcome = SubResource("out_drink")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_sailors_accuracy"]
+script = ExtResource("buff_script")
+stat = 2
+value = -10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="buff_sailors_damage"]
+script = ExtResource("buff_script")
+stat = 0
+value = -10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_give_sailors"]
+script = ExtResource("outcome_script")
+result_text = "Вы кликаете матросов, и когда они обращают на вас внимание, громко ставите бутылку на бочку, давая понять, что она принадлежит им. Матросы сбегаются к такому зрелищу. Бережно берут бутылку, передают из рук в руки, прижимают к щекам. У кого-то выступили слёзы. Они смотрят на вас с любовью и благодарностью.
+
+«Вы… хорошие люди. Наши пути могут пересечься, но знайте… Если придётся вас зарезать… Хмык… Будет очень стыдно это делать.»
+
+Вы принимаете пиратскую благодарность, как бы она ни была сформулирована."
+enemy_buffs = Array[ExtResource("buff_script")]([SubResource("buff_sailors_accuracy"), SubResource("buff_sailors_damage")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_give_sailors"]
+script = ExtResource("choice_script")
+choice_text = "Отдать матросам"
+outcome = SubResource("out_give_sailors")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Бутылка рома"
+body_text = "Перед вами бутылка рома."
+choices = Array[ExtResource("choice_script")]([SubResource("choice_take"), SubResource("choice_drink"), SubResource("choice_give_sailors")])
+metadata/_custom_type_script = ExtResource("scene_script")

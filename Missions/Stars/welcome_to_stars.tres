@@ -6,10 +6,11 @@
 [ext_resource type="Resource" path="res://Scenes/StarsScenes/stars_patrol_1.tres" id="scene_patrol"]
 [ext_resource type="Resource" path="res://Scenes/rest.tres" id="scene_rest"]
 [ext_resource type="Resource" path="res://Scenes/StarsScenes/aquarius_flow.tres" id="scene_aquarius"]
+[ext_resource type="Resource" path="res://Scenes/StarsScenes/lost_star.tres" id="scene_lost_star"]
 
 [resource]
 script = ExtResource("mission_script")
 mission_name = "Добро пожаловать к Звёздам"
-scenes = [ExtResource("scene_welcome"), ExtResource("scene_chest"), ExtResource("scene_patrol"), ExtResource("scene_rest"), ExtResource("scene_aquarius")]
+scenes = [ExtResource("scene_welcome"), ExtResource("scene_chest"), ExtResource("scene_patrol"), ExtResource("scene_rest"), ExtResource("scene_aquarius"), ExtResource("scene_lost_star")]
 location = 4
 required_god = 7

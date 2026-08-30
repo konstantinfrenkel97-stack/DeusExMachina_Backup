@@ -10,6 +10,10 @@ signal dialogue_choice_selected(dialogue_id: String, choice_id: String)
 var _player = null
 var _player_layer: CanvasLayer = null
 var _bg_texture: TextureRect = null
+var _dim_layer: ColorRect = null
+# Небольшое затемнение фона под диалогом (что бы ни было позади — экран кампании,
+# бой и т.п.) — как отдельный слой, ниже картинки диалога и самого проигрывателя.
+const DIALOGUE_DIM_COLOR := Color(0.0, 0.0, 0.0, 0.35)
 
 func show_dialogue(dialogue, bg_path: String = "") -> void:
 	if dialogue == null:
@@ -24,6 +28,12 @@ func show_dialogue(dialogue, bg_path: String = "") -> void:
 	_player_layer.name = "DialogueTopLayer"
 	_player_layer.layer = DIALOGUE_CANVAS_LAYER
 	get_tree().root.add_child(_player_layer)
+	_dim_layer = ColorRect.new()
+	_dim_layer.name = "DialogueDim"
+	_dim_layer.color = DIALOGUE_DIM_COLOR
+	_dim_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_dim_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_player_layer.add_child(_dim_layer)
 	# Фон устанавливаем ПОСЛЕ создания слоя (раньше это делалось до создания слоя,
 	# поэтому фон сразу терялся — для первого диалога слой был null, для следующих
 	# фон создавался в старом слое, который затем удалялся).
@@ -85,12 +95,14 @@ func _close_existing_player() -> void:
 		_player.queue_free()
 	_player = null
 	_player_layer = null
+	_dim_layer = null
 
 func _on_dialogue_closed(dialogue_id: String) -> void:
 	if _player_layer != null and is_instance_valid(_player_layer):
 		_player_layer.queue_free()
 	_player = null
 	_player_layer = null
+	_dim_layer = null
 	emit_signal("dialogue_finished", dialogue_id)
 
 func _on_dialogue_choice_selected(dialogue_id: String, choice_id: String) -> void:

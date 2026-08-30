@@ -8,3 +8,7 @@
 script = ExtResource("1_lgxh0")
 metadata/_custom_type_script = "uid://ccikt3aaq6mwf"
 icon = ExtResource("2_item_icon")
+item_name = "Кольчуга"
+item_type = 1
+rarity = 0
+bonus_armor = 3

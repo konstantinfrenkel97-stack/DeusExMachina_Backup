@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3]
+
+[ext_resource type="Script" path="res://Items/item_resource.gd" id="item_script"]
+[ext_resource type="Texture2D" path="res://Items/frog_amulet.png" id="item_icon"]
+
+[resource]
+script = ExtResource("item_script")
+metadata/_custom_type_script = ExtResource("item_script")
+icon = ExtResource("item_icon")
+item_name = "Амулет лягушонка"
+item_type = 2
+rarity = 0
+description = "Примитивная деревянная лягушка на веревочке. Придаёт лёгкость движениям и меткость руке."
+bonus_accuracy = 8
+bonus_evasion = 8

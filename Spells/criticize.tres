@@ -6,14 +6,14 @@
 script = ExtResource("1_sp_criticize")
 icon_path = "res://Icons/spells/Critisize.png"
 spell_name = "Критиковать"
-description = "Все враги получают 5 периодического урона на 2 хода."
+description = "Все враги получают периодический урон 5% от макс. здоровья на 2 хода."
 fantasy_cost = 30
 target_type = "All_Enemies"
-effect_types = Array[String](["periodic_damage"])
+effect_types = Array[String](["periodic_damage_percent"])
 effect_values = Dictionary[String, int]({
-"periodic_damage": 5
+"periodic_damage_percent": 5
 })
 effect_durations = Dictionary[String, int]({
-"periodic_damage": 2
+"periodic_damage_percent": 2
 })
 metadata/_custom_type_script = "uid://bxf7k2m4p9nz"

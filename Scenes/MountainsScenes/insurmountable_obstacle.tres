@@ -1,0 +1,91 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+
+[sub_resource type="Resource" id="check_attack"]
+script = ExtResource("stat_check_script")
+stat = 0
+stat_label = "Атака"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_gods_success"]
+script = ExtResource("outcome_script")
+result_text = "Великие боги не преклоняются перед обстоятельствами. Вы используете те способности, что в вашем распоряжении, и так или иначе вам удаётся перелететь через пропасть. Воистину, ничто не способно бросить вызов мощи богов."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_gods_failure"]
+script = ExtResource("outcome_script")
+result_text = "Великие боги не преклоняются перед обстоятельствами. Вы используете те способности, что в вашем распоряжении, пытаясь перелететь через пропасть. Но кажется, даже у божественных сил есть предел, и вы видите, как навстречу вам летит земная твердь. Вы проваливаетесь в пропасть."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_gods"]
+script = ExtResource("choice_script")
+choice_text = "Боги мы или кто?!"
+stat_check = SubResource("check_attack")
+success_outcome = SubResource("out_gods_success")
+failure_outcome = SubResource("out_gods_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+stat_label = "Удача"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_detour_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы решаете поискать способ перебраться через пропасть. Вам везёт: скрытый за скалами, оказывается, стоит заброшенный каменный мост. Вы спокойно преодолеваете преграду без лишних осложнений."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="buff_detour_fail_attack"]
+script = ExtResource("buff_script")
+stat = 0
+value = -5
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_detour_failure"]
+script = ExtResource("outcome_script")
+result_text = "Вы решаете поискать способ перебраться через пропасть. Ищете и ищете, перебираетесь по горам, пока вас не настигнет закатное солнце. Похоже, что простого пути нет, и вы просто потратили кучу сил. Вынуждены всё равно спускаться в пропасть и карабкаться наверх."
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_detour_fail_attack")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_detour"]
+script = ExtResource("choice_script")
+choice_text = "Поискать обходной путь"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_detour_success")
+failure_outcome = SubResource("out_detour_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_climb_attack"]
+script = ExtResource("buff_script")
+stat = 0
+value = -5
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_climb"]
+script = ExtResource("outcome_script")
+result_text = "Вы проявляете смирение и используете самый сложный, но самый надёжный вариант. Терпеливо спускаетесь в пропасть и поднимаетесь наверх. Это занимает у вас кучу времени и сил. Однако вы ничем не рисковали."
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_climb_attack")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_climb"]
+script = ExtResource("choice_script")
+choice_text = "Терпеливо спуститься в пропасть и лезть наверх"
+outcome = SubResource("out_climb")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Непреодолимое препятствие"
+body_text = "Штурмуя горы, ваш отряд встречает противника, который может оказаться не по силам, — огромную широкую пропасть. Вы не видите, как через неё можно было бы перейти."
+choices = Array[ExtResource("choice_script")]([SubResource("choice_gods"), SubResource("choice_detour"), SubResource("choice_climb")])
+metadata/_custom_type_script = ExtResource("scene_script")

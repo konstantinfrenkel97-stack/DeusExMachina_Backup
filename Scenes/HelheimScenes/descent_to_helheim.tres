@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="formation_script"]
 [ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
 [ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" path="res://Essence/essence_death.tres" id="essence_reward"]
 [ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
 [ext_resource type="Script" uid="uid://dutn5fch4d8b5" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
 
@@ -25,10 +26,18 @@ formation = SubResource("form_welcome")
 location_id = "helheim"
 metadata/_custom_type_script = ExtResource("battle_script")
 
+[sub_resource type="Resource" id="reward_essence"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_reward")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
 [sub_resource type="Resource" id="out_welcome"]
 script = ExtResource("outcome_script")
 result_text = "Нежить окружает вас. Пустые глазницы черепов и руны на дряхлом оружии излучают голубое сияние."
 battle = SubResource("battle_welcome")
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_essence")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_welcome"]

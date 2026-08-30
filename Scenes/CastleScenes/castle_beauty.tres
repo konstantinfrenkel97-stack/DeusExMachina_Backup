@@ -1,0 +1,55 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+
+[sub_resource type="Resource" id="out_admire"]
+script = ExtResource("outcome_script")
+result_text = "Вы наслаждаетесь видами. Это время не потрачено впустую — вы запечатлеваете в памяти каждую деталь, наполняя сердце этой неповторимой красотой. Между вами и этим местом возникает незримая связь, и вы отправляетесь дальше с приятным чувством сопричастности."
+next_check_difficulty_delta = 10
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_admire"]
+script = ExtResource("choice_script")
+choice_text = "Дать себе время полюбоваться красотой"
+outcome = SubResource("out_admire")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_attack"]
+script = ExtResource("buff_script")
+stat = 0
+value = 10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_rush"]
+script = ExtResource("outcome_script")
+result_text = "Вы отбрасываете любые сантименты — красота подождёт, враги не дремлют. Вместо отдыха вы настраиваете богов на предстоящий бой: в следующей битве они обрушатся на противника с удвоенной яростью."
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_attack")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_rush"]
+script = ExtResource("choice_script")
+choice_text = "Нет времени на пустяки"
+outcome = SubResource("out_rush")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="out_rest"]
+script = ExtResource("outcome_script")
+result_text = "Вы устраиваете короткий привал. Пусть красота подождёт — сейчас важнее раны. Боги ненадолго переводят дух, и часть сил возвращается к ним прежде, чем вы продолжите путь."
+hero_heal_percent = 5
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_rest"]
+script = ExtResource("choice_script")
+choice_text = "Нужно воспользоваться моментом для передышки"
+outcome = SubResource("out_rest")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Красота"
+body_text = "Вы поднимаетесь по бесконечным ступенькам. Вы уже забыли, зачем пошли на штурм этой лестницы, но прошли уже так много, что упрямство и гордость не позволяют повернуть назад. Наконец вы вдыхаете свежий воздух. На вершине башни никого нет, зато есть деревянные скамейки. Вы присаживаетесь отдохнуть, и взгляд блуждает по окнам. Каменные стены укреплений, развевающиеся флаги, горы вокруг. Суета жителей замка. На минуту вас гипнотизирует средневековая атмосфера. Вы уделяете время тому, чтобы проникнуться тем, что вас окружает."
+choices = Array[ExtResource("choice_script")]([SubResource("choice_admire"), SubResource("choice_rush"), SubResource("choice_rest")])

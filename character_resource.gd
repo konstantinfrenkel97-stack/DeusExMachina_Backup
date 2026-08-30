@@ -63,6 +63,9 @@ class_name CharacterResource
 # Иммунен к отталкиванию/притягиванию. Марки на обеих позициях действуют одновременно.
 @export var is_large: bool = false
 
+# Если true — юнит считается «боссом» (используется артефактами вида «+урон по боссам»).
+@export var is_boss: bool = false
+
 @export_group("Equipment")
 # Снаряжение бога: 3 слота — по одному на каждый тип предмета.
 @export var equipped_weapon: ItemResource

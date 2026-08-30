@@ -1,0 +1,75 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" path="res://Essence/essence_strength.tres" id="essence_strength"]
+
+[sub_resource type="Resource" id="reward_strength"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_strength")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+stat_label = "Удача"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_step_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы делаете шаг, потом ещё один шаг, потом ещё один шаг. Ваш отряд медленно бредёт вперёд. Не зная куда и зачем, просто совершает шаг. Один за другим. В чём смысл? Какая разница. Просто ещё один шаг. Постепенно к мерным шагам добавляется бормотание «ещё один шаг… ещё один шаг…». Словно погружённые в транс, бормочущие команды сами себе, чтобы не забыть, вы ползёте через бесконечную белизну, став одним с миром пустоты и отчаяния. Наконец вы выходите на пустое пространство. Продолжаете идти, двигаясь к следующей белой стене тумана.
+
+«Стоп. Куда мы идём?»
+«Разве нам не нужно сюда? Мы же искали место, чтобы отдохнуть от тумана.»
+Боги падают на землю. Вы словно чувствуете, как с каждым выдохом внутри вас заполняется пространство. Чувствами, мыслями, желаниями. Чувствуете кровь, текущую по жилам, жар тела и биение сердца. У вас есть миссия. У вас есть сила. У вас есть решимость. Вы отдыхаете на пустом пространстве, пока туман полностью не покинет душу. А потом отдыхаете ещё.
+
+Наконец вы встаёте перед белой стеной тумана снова. У вас есть цель, и, чтобы попасть к ней, вы должны пройти сквозь туман. Возможно, вам не повезёт, как повезло сейчас. Возможно, вы потеряете себя и сгинете в этом мире.
+
+А возможно — нет. Вы отправляетесь в путь."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_strength")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_step_failure"]
+script = ExtResource("outcome_script")
+result_text = "Вы делаете шаг, потом ещё один шаг, потом ещё один шаг. Ваш отряд медленно бредёт вперёд. Не зная куда и зачем, просто совершает шаг. Один за другим. В чём смысл? Какая разница. Просто ещё один шаг. Постепенно к мерным шагам добавляется бормотание «ещё один шаг… ещё один шаг…». Словно погружённые в транс, бормочущие команды сами себе, чтобы не забыть, вы ползёте через бесконечную белизну, став одним с миром пустоты и отчаяния. Наконец вы выходите на пустое пространство. Продолжаете идти, двигаясь к следующей белой стене тумана.
+
+Вы выходите из одного белого моря и погружаетесь в другое. Даже не замечаете, что у вас была возможность вырваться. Слишком привыкли к бесконечной пустоте. В вашей жизни никогда не было ничего иного. Только белизна. Только шаг, потом ещё один шаг. Ваш марш никогда не закончится. По пути вам попадаются отряды мертвецов. Но они не нападают. Видимо, принимают вас за своих."
+hero_forgetting_delta = 0.5
+end_mission_as_failure = true
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_step"]
+script = ExtResource("choice_script")
+choice_text = "Сделать шаг. Потом ещё один шаг."
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_step_success")
+failure_outcome = SubResource("out_step_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="out_give_up"]
+script = ExtResource("outcome_script")
+result_text = "Вы ложитесь на землю. Ноги болят. Какое-то время это помогает удерживать остатки фокуса. Но потом вам становится всё равно. Боль становится незначительной. Вы пытаетесь зацепиться хоть за что-то. Но ничего нет. Ни вкуса, ни запаха, ни чувства. Взгляд направлен вверх, там только белая пустота. А вверх ли он направлен? Или пустота полностью окружает со всех сторон. Чтобы увидеть, нужно повернуть голову. Нет, это невозможно. Вы просто в белой пустоте. И кто «вы»? Кто вы? Были ли вы когда-либо. Вокруг ничего нет. Нет и вас самих. Есть только белая пустота."
+hero_forgetting_delta = 1.0
+end_mission_as_failure = true
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_give_up"]
+script = ExtResource("choice_script")
+choice_text = "Пусть оно просто закончится"
+outcome = SubResource("out_give_up")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Безысходность"
+body_text = "Каждый шаг сквозь туман высасывает из вас жизнь. Каждая минута, проведённая в белизне, делает краски чуть более блёклыми, звуки чуть более тихими, эмоции чуть более далёкими. И хотя тяжело представить себе что-то менее приятное, обычно участки тумана сменялись областями свободного пространства, где вы могли перевести дух, и разум возвращался к нормальному состоянию. Но не в этот раз.
+
+Вы не знаете, что пошло не так. То ли вы заблудились, то ли просто не повезло, но туман всё не заканчивается. Вы идёте и идёте, надеясь, что вот-вот в ноздри ударит чистый воздух. Но надежда прогорает впустую, как одинокая свеча. Всё меньше вам верится в то, что выход найдётся. Всё меньше есть сил сделать следующий шаг. Да и зачем вы вообще отправились в этот путь? Верили, что сможете там, где другие сгинули? Вы были высокомерны, когда поверили в себя, и теперь понесёте наказание. Вы пытаетесь вспомнить, чего хотели, но внутри только пустота. Будто вы кричите в пустую комнату, и никто не отвечает. Ваш отряд останавливается. Вокруг только нескончаемая белизна и холод. Вам некуда идти. Никакое направление не имеет смысла. Вы никогда никуда не придёте."
+choices = Array[ExtResource("choice_script")]([SubResource("choice_step"), SubResource("choice_give_up")])
+metadata/_custom_type_script = ExtResource("scene_script")

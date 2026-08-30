@@ -8,3 +8,8 @@
 script = ExtResource("1_yqct0")
 metadata/_custom_type_script = "uid://ccikt3aaq6mwf"
 icon = ExtResource("2_item_icon")
+item_name = "Молот"
+item_type = 0
+rarity = 0
+bonus_accuracy = -8
+bonus_crit_chance = 0.12

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3]
+
+[ext_resource type="Script" path="res://Items/item_resource.gd" id="1_ir"]
+
+[resource]
+script = ExtResource("1_ir")
+item_name = "Сердце природы"
+item_type = 1
+rarity = 3
+icon = null
+description = "Каждый раз, когда Дуна применяет способность, бог с наименьшим количеством здоровья восстанавливает 10% от макс. здоровья. Только для Дуны."
+bonus_max_hp = 10
+bonus_damage = 0
+bonus_armor = 0
+bonus_initiative = 0
+bonus_accuracy = 0
+bonus_evasion = 0
+bonus_crit_chance = 0.0
+bonus_majesty = 0
+fantasy_regen_per_turn = 0
+majesty_regen_per_turn = 5
+hp_regen_percent = 3.0
+restricted_god_path = "res://Gods/Duna/Duna.tres"
+effect = "duna_heart_heal_lowest"
