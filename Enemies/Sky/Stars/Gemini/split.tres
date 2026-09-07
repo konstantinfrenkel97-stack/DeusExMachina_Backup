@@ -6,7 +6,7 @@
 majesty_gain = 0
 script = ExtResource("1_ab")
 name = "Разделиться"
-description = "Наносит 100% урона."
+description = "Лечит себя на 50% максимального HP и снижает собственный урон на 50% до конца боя."
 target_type = "Self"
 usable_from_positions = Array[bool]([true, true, true, true])
 targetable_positions = Array[bool]([false, false, false, false])

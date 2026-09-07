@@ -19,6 +19,7 @@ dialogue_sprite_y_offset_percent = 9.0
 max_hp = 65
 damage = 40
 initiative = 4
+accuracy = 100
 evasion = 5
 crit_chance = 0.12
 is_enemy = false

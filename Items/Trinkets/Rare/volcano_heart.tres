@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3]
+
+[ext_resource type="Script" path="res://Items/item_resource.gd" id="item_script"]
+
+[resource]
+script = ExtResource("item_script")
+metadata/_custom_type_script = ExtResource("item_script")
+item_name = "Сердце вулкана"
+item_type = 2
+rarity = 1
+description = "Редкая безделушка. Светящийся камень, вырванный из жерла вулкана — он сросся с одним из богов, прижившись в области солнечного сплетения. +8 к урону. Дарит тепло: восстанавливает 3% здоровья в начале каждого хода боя."
+bonus_damage = 8
+hp_regen_percent = 3.0

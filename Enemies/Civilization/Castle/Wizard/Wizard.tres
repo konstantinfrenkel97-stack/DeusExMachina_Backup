@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("2_ch")
 unit_name = "Волшебник"
-max_hp = 111
-damage = 54
-armor = 15
+max_hp = 78
+damage = 38
+armor = 10
 initiative = 7
 accuracy = 95
-evasion = 14
-crit_chance = 0.19
+evasion = 10
+crit_chance = 0.133
+danger_level = 8
 sprite_path = "res://Enemies/Civilization/Castle/Wizard/Wizard.png"
 face_sprite = "res://Enemies/Civilization/Castle/Wizard/Wizard_Face.png"
 battle_sprite_scale_percent = 103.0

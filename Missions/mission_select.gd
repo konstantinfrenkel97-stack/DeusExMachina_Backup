@@ -181,6 +181,13 @@ func _load_and_open_mission(path: String) -> void:
 		_build_buttons()
 		return
 	if CampaignState.is_mission_completed(mission_path):
+		# Полноэкранная панель подготовки отряда (mouse_filter = STOP) могла остаться
+		# от предыдущей миссии — если её не убрать, она перехватывает вообще все клики
+		# и ПКМ, и с экрана невозможно выйти никак.
+		if _prep_panel != null and is_instance_valid(_prep_panel):
+			_prep_panel.queue_free()
+		_prep_panel = null
+		_prep_root = null
 		for child in grid.get_children():
 			child.queue_free()
 		title_label.text = "Миссия уже пройдена"
@@ -278,7 +285,9 @@ func _layout_prep_panel() -> void:
 	var panel_padding: float = _canvas_value(PANEL_PADDING)
 	var header_height: float = _canvas_value(HEADER_HEIGHT)
 	var required_height: float = _canvas_value(REQUIRED_HEIGHT)
-	var button_size: Vector2 = _canvas_size(BUTTON_SIZE)
+	# Совпадает по размеру с back_button (а не с константой BUTTON_SIZE), чтобы
+	# «Вперёд» и «Назад» визуально были одной и той же кнопкой по размеру.
+	var button_size: Vector2 = back_button.size
 	var slot_size: Vector2 = _canvas_size(SLOT_SIZE)
 	var card_size: Vector2 = _canvas_size(CARD_SIZE)
 	var slot_gap: float = _canvas_value(SLOT_GAP)
@@ -356,10 +365,20 @@ func _make_square_button(is_slot: bool) -> Button:
 	button.add_child(label)
 
 	return button
+## Навy — та же палитра, что в остальном интерфейсе (кампания, подготовка к бою).
+## Общий источник — Scripts/campaign_theme.gd (тот же campaign_screen.gd и battle_setup.gd).
+const _PANEL_BG := CampaignTheme.PANEL_BG
+const _BUTTON_BG := CampaignTheme.BUTTON_BG
+const _BUTTON_BG_HOVER := CampaignTheme.BUTTON_BG_HOVER
+const _BUTTON_BG_PRESSED := CampaignTheme.BUTTON_BG_PRESSED
+const _BUTTON_BG_DISABLED := CampaignTheme.BUTTON_BG_DISABLED
+const _ACCENT := CampaignTheme.ACCENT
+const _ACCENT_DIM := CampaignTheme.ACCENT_DIM
+
 func _apply_panel_style(panel: PanelContainer) -> void:
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.09, 0.09, 0.12, 1.0)
-	style.border_color = Color(0.18, 0.18, 0.24, 1.0)
+	style.bg_color = _PANEL_BG
+	style.border_color = _ACCENT
 	style.border_width_left = 1
 	style.border_width_top = 1
 	style.border_width_right = 1
@@ -372,8 +391,8 @@ func _apply_panel_style(panel: PanelContainer) -> void:
 
 func _apply_square_style(button: Button) -> void:
 	var normal := StyleBoxFlat.new()
-	normal.bg_color = Color(0.12, 0.12, 0.16, 1.0)
-	normal.border_color = Color(0.42, 0.42, 0.50, 1.0)
+	normal.bg_color = _BUTTON_BG
+	normal.border_color = _ACCENT_DIM
 	normal.border_width_left = 2
 	normal.border_width_top = 2
 	normal.border_width_right = 2
@@ -383,14 +402,14 @@ func _apply_square_style(button: Button) -> void:
 	normal.corner_radius_bottom_left = 6
 	normal.corner_radius_bottom_right = 6
 	var hover := normal.duplicate()
-	hover.bg_color = Color(0.16, 0.16, 0.22, 1.0)
-	hover.border_color = Color(0.64, 0.64, 0.74, 1.0)
+	hover.bg_color = _BUTTON_BG_HOVER
+	hover.border_color = _ACCENT
 	var pressed := normal.duplicate()
-	pressed.bg_color = Color(0.22, 0.22, 0.30, 1.0)
-	pressed.border_color = Color(0.90, 0.90, 0.96, 1.0)
+	pressed.bg_color = _BUTTON_BG_PRESSED
+	pressed.border_color = _ACCENT
 	var disabled := normal.duplicate()
-	disabled.bg_color = Color(0.09, 0.09, 0.12, 1.0)
-	disabled.border_color = Color(0.28, 0.28, 0.34, 1.0)
+	disabled.bg_color = _BUTTON_BG_DISABLED
+	disabled.border_color = _ACCENT_DIM
 	button.add_theme_stylebox_override("normal", normal)
 	button.add_theme_stylebox_override("hover", hover)
 	button.add_theme_stylebox_override("pressed", pressed)
@@ -488,7 +507,9 @@ func _place_god_in_slot(god_path: String, target_slot: int, source_slot: int) ->
 		_selected_heroes[target_slot] = god_path
 	else:
 		_selected_heroes[target_slot] = god_path
-	_selected_slot_index = target_slot
+	# Сбрасываем выбор слота после размещения — иначе следующий клик по любому
+	# богу в ростере тут же перезаписывает только что заполненный слот.
+	_selected_slot_index = -1
 	_selected_god_path = ""
 	_clear_drag()
 

@@ -1,0 +1,101 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Flower_fairy/flower_fairy.tres" id="ext_flower_fairy"]
+[ext_resource type="Resource" path="res://Gods/Duna/Duna.tres" id="ext_duna"]
+[ext_resource type="Resource" path="res://Scenes/GardenScenes/fairy_gift_tasted_success.tres" id="ext_next_success"]
+[ext_resource type="Resource" path="res://Scenes/GardenScenes/fairy_gift_tasted_failure.tres" id="ext_next_failure"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+
+[sub_resource type="Resource" id="form_flower_fairies"]
+script = ExtResource("formation_script")
+formation_name = "Фея лепестков x4"
+pos1 = ExtResource("ext_flower_fairy")
+pos2 = ExtResource("ext_flower_fairy")
+pos3 = ExtResource("ext_flower_fairy")
+pos4 = ExtResource("ext_flower_fairy")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="check_attack"]
+script = ExtResource("stat_check_script")
+stat = 0
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="battle_v1"]
+script = ExtResource("battle_script")
+formation = SubResource("form_flower_fairies")
+location_id = "garden"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v1_success"]
+script = ExtResource("outcome_script")
+result_text = "Слова лесного народа вас не убеждают. Вы бросаетесь к мальчику, пока трансформация не прошла полностью. Феи преграждают вам путь, и вы достаёте оружие."
+battle = SubResource("battle_v1")
+next_scene = ExtResource("ext_next_success")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_v1_fail"]
+script = ExtResource("outcome_script")
+result_text = "Слова лесного народа вас не убеждают. Вы бросаетесь к мальчику, пока трансформация не прошла полностью. Феи преграждают вам путь, и вы достаёте оружие."
+battle = SubResource("battle_v1")
+next_scene = ExtResource("ext_next_failure")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v1"]
+script = ExtResource("choice_script")
+choice_text = "Спасти ребёнка"
+stat_check = SubResource("check_attack")
+success_outcome = SubResource("out_v1_success")
+failure_outcome = SubResource("out_v1_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="out_v2"]
+script = ExtResource("outcome_script")
+result_text = "Вы решаете довериться словам лесного народа и не вмешиваться. Плач стихает, лес вновь наполняется тишиной. Вы продолжаете свой путь, гадая, что стало с мальчиком."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v2"]
+script = ExtResource("choice_script")
+choice_text = "Прислушаться к феям"
+outcome = SubResource("out_v2")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_duna_regen3"]
+script = ExtResource("buff_script")
+stat = 8
+value = 3
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_v3"]
+script = ExtResource("outcome_script")
+result_text = "Дуна хмурится, глядя на фей. «Это неправильно... Природа не должна поступать так с детьми.» Она не решается вмешаться прямо сейчас, но вы видите, как в ней разгорается гнев — гнев, который однажды выплеснется на того, кто в ответе за всё это."
+nemesis_buff_god = ExtResource("ext_duna")
+nemesis_buff_stat = SubResource("buff_duna_regen3")
+nemesis_buff_location_id = "garden"
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v3"]
+script = ExtResource("choice_script")
+choice_text = "Так не должно быть"
+required_god = ExtResource("ext_duna")
+outcome = SubResource("out_v3")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Угощение феи"
+body_text = "Гуляя по саду, вы углубились в лес. Пусть он и не такой цветастый, как раскидистые цветочные поля, но всё ещё неестественно освещён, а стволы деревьев покрыты разными мелкими цветочками. Красиво, но странно.
+Тут до вас доносится детский плач. Он идёт откуда-то из глубины леса, и вы не видите источник. Это могут быть проделки игривых фей, но могут и не быть. Вы решаете, что шанс спасти жизнь ребёнка стоит того, и устремляетесь на звук. Постепенно плач переходит в хныканье, а затем затихает. Но вас это не успокаивает.
+Ускорившись, вы наконец выбегаете на поляну и видите мальчика в ободранной одежде. Он сидит на коленях, а перед ним на пеньке лежат несколько булочек, украшенных ягодами. Он поворачивается к вам — в руках у него наполовину съеденный пирожок. Вы чувствуете холодок по спине. В разуме вспыхивают легенды о том, как феи забирали тех, кто ел их еду.
+Они не заставляют себя долго ждать. Зелёные женские фигуры появляются из-за деревьев, мерно размахивая цветными крыльями бабочек. Воздух наполняется пыльцой.
+Лицо мальчика расплывается в мечтательной улыбке. Он открывает рот и медленно кусает пирожок. Речь, похожая на звон колокольчиков, разносится по поляне.
+«Уходите. Для вкусившего дар фей нет обратного пути. Он уже не вернётся к людям.»
+Мальчик же поедает уже вторую булку. Из его волос прорастают хитиновые шипы, глаза становятся фасеточными, фигура сжимается и уменьшается.
+«Уходите. Его уже не вернуть.»"
+choices = [SubResource("choice_v1"), SubResource("choice_v2"), SubResource("choice_v3")]

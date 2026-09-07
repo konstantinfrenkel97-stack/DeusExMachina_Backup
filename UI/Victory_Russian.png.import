@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c00kjfymlqgc3"
-path="res://.godot/imported/Victory_Russian.png-295978edca2e6c68a5ace70915e3a4fd.ctex"
+uid="uid://ixajf85xtevq"
+path="res://.godot/imported/Victory_Russian.png-63099deb0a7ee1ac708306fb98ae29ca.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Victory_Russian.png"
-dest_files=["res://.godot/imported/Victory_Russian.png-295978edca2e6c68a5ace70915e3a4fd.ctex"]
+source_file="res://UI/Victory_Russian.png"
+dest_files=["res://.godot/imported/Victory_Russian.png-63099deb0a7ee1ac708306fb98ae29ca.ctex"]
 
 [params]
 

@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Изгнать зло"
-description = "Наносит 50% урона."
+description = "Наносит 50% урона и снимает все баффы с цели. Если снято больше 2 баффов — цель оглушена на 1 ход."
 damage_modifier = 0.5
 majesty_gain = 0
 target_type = "Enemy"

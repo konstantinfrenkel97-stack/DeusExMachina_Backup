@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Асура"
-max_hp = 135
-damage = 32
-armor = 20
+max_hp = 94
+damage = 22
+armor = 14
 initiative = 8
 accuracy = 93
-evasion = 17
-crit_chance = 0.15
+evasion = 12
+crit_chance = 0.105
+danger_level = 8
 sprite_path = "res://Enemies/Forest/Jungle/Asura/Asura.png"
 face_sprite = "res://Enemies/Forest/Jungle/Asura/Asura_face.png"
 battle_sprite_scale_percent = 105.0

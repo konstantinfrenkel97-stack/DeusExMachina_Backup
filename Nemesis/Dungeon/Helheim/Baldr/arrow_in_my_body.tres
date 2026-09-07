@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Стрела в моём теле"
+description = "Ультимативная способность. На себя: 100% чистого урона. Снимает с себя все дебаффы — за каждый снятый противники получают 5 урона."
+damage_modifier = 0.0
+majesty_gain = 0
+majesty_cost = 100
+target_type = "Self"
+ability_marker = "baldr_arrow_in_my_body"
+usable_from_positions = Array[bool]([true, true, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

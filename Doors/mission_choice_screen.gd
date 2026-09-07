@@ -6,12 +6,14 @@ extends Control
 ## автоматически по маске "Mission_choice_background - White/<фон>_white.png":
 ## дизайнер закрашивает белым те места на копии фона, где должна быть кнопка,
 ## скрипт при загрузке сцены находит белые пятна и ставит поверх них прозрачные
-## кнопки нужного размера в нужном месте. Приветственная миссия локации
-## (CampaignState.LOCATION_TO_WELCOME_MISSION) привязывается к трафарету, ближайшему
-## к нижнему левому углу картинки (там обычно дверь входа) — см. _pick_welcome_region_index,
-## там же особый случай для Замка (у него путь вьётся вверх, поэтому берётся самый
-## нижний трафарет). Остальные трафареты пока не привязаны ни к одной миссии — клик
-## по ним ничего не делает, пока миссия для них не будет создана.
+## кнопки нужного размера в нужном месте. Трафареты выстраиваются в порядок вдоль
+## пути локации — см. _pick_path_order: по умолчанию от ближайшего к нижнему левому
+## углу картинки (там обычно дверь входа) к самому дальнему; для Замка отдельно —
+## от самого нижнего трафарета к самому верхнему (у него путь вьётся вверх, а не
+## идёт по диагонали от угла). Первый по этому порядку трафарет — приветственная
+## миссия локации (CampaignState.LOCATION_TO_WELCOME_MISSION), второй — вторая миссия
+## локации (CampaignState.LOCATION_TO_MISSION_2). Остальные трафареты пока не
+## привязаны ни к одной миссии — клик по ним ничего не делает.
 
 const DOORS_SCENE := "res://Doors/doors.tscn"
 const MISSION_SELECT_SCENE := "res://Missions/mission_select.tscn"
@@ -119,42 +121,46 @@ func _build_mission_click_regions() -> void:
 	var tex_size: Vector2 = _bg_texture_rect.texture.get_size()
 	var control_size: Vector2 = _bg_texture_rect.size
 	var welcome_mission_path: String = str(CampaignState.LOCATION_TO_WELCOME_MISSION.get(MissionState.pending_location, ""))
-	var welcome_index := _pick_welcome_region_index(regions, tex_size.y, MissionState.pending_location)
+	var mission_2_path: String = str(CampaignState.LOCATION_TO_MISSION_2.get(MissionState.pending_location, ""))
+	var path_order := _pick_path_order(regions, tex_size.y, MissionState.pending_location)
+	var welcome_index := path_order[0] if path_order.size() > 0 else -1
+	var mission_2_index := path_order[1] if path_order.size() > 1 else -1
 	for i in range(regions.size()):
 		var region: Dictionary = regions[i]
 		var img_rect: Rect2 = region["rect"]
 		var screen_rect := _image_rect_to_screen_rect(img_rect, tex_size, control_size)
-		var mission_path := welcome_mission_path if i == welcome_index else ""
+		var mission_path := ""
+		if i == welcome_index:
+			mission_path = welcome_mission_path
+		elif i == mission_2_index:
+			mission_path = mission_2_path
 		_add_click_region_button(screen_rect, region["bitmap"], mission_path)
 
 
-## Выбирает, к какому трафарету привязать приветственную миссию локации.
-## Правило по умолчанию — ближайший к нижнему левому углу картинки (там, где
-## обычно дверь входа); для Замка отдельно — самый нижний трафарет (его путь
-## вьётся вверх, а не идёт по диагонали от угла).
-func _pick_welcome_region_index(regions: Array, image_height: float, location: String) -> int:
-	if regions.is_empty():
-		return -1
-	if location == "Замок":
-		var best_bottom := -1
-		var best_bottom_y := -INF
-		for i in range(regions.size()):
-			var rect: Rect2 = regions[i]["rect"]
-			var bottom_y: float = rect.position.y + rect.size.y
-			if bottom_y > best_bottom_y:
-				best_bottom_y = bottom_y
-				best_bottom = i
-		return best_bottom
-	var best_corner := 0
-	var best_dist := INF
+## Выстраивает трафареты по порядку вдоль пути миссий локации: от нижнего левого
+## угла картинки (там, где обычно дверь входа) к верхнему правому. Индекс 0 —
+## приветственная миссия, индекс 1 — вторая миссия локации, и т.д.
+## Для Замка отдельно — путь вьётся вверх (а не идёт по диагонали от угла), поэтому
+## сортировка идёт по нижнему краю трафарета: от самого нижнего к самому верхнему.
+func _pick_path_order(regions: Array, image_height: float, location: String) -> Array[int]:
+	var indices: Array[int] = []
 	for i in range(regions.size()):
-		var rect: Rect2 = regions[i]["rect"]
-		var center: Vector2 = rect.position + rect.size * 0.5
-		var dist: float = center.distance_to(Vector2(0.0, image_height))
-		if dist < best_dist:
-			best_dist = dist
-			best_corner = i
-	return best_corner
+		indices.append(i)
+	if location == "Замок":
+		indices.sort_custom(func(a, b):
+			var ra: Rect2 = regions[a]["rect"]
+			var rb: Rect2 = regions[b]["rect"]
+			return (ra.position.y + ra.size.y) > (rb.position.y + rb.size.y)
+		)
+		return indices
+	indices.sort_custom(func(a, b):
+		var ra: Rect2 = regions[a]["rect"]
+		var rb: Rect2 = regions[b]["rect"]
+		var ca: Vector2 = ra.position + ra.size * 0.5
+		var cb: Vector2 = rb.position + rb.size * 0.5
+		return ca.distance_to(Vector2(0.0, image_height)) < cb.distance_to(Vector2(0.0, image_height))
+	)
+	return indices
 
 
 func _white_mask_path_for(location: String) -> String:

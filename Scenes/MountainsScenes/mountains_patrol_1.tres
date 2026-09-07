@@ -16,7 +16,7 @@
 script = ExtResource("formation_script")
 formation_name = "Лев - Циклоп"
 pos1 = ExtResource("enemy_lion")
-pos2 = ExtResource("enemy_cyclops")
+pos3 = ExtResource("enemy_cyclops")
 metadata/_custom_type_script = ExtResource("formation_script")
 
 [sub_resource type="Resource" id="buff_hero_init_minus3"]

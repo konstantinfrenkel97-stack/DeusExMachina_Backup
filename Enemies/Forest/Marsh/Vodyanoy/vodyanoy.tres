@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Водяной"
-max_hp = 95
-damage = 23
-armor = 13
+max_hp = 66
+damage = 16
+armor = 9
 initiative = 6
 accuracy = 87
-evasion = 13
-crit_chance = 0.1
+evasion = 9
+crit_chance = 0.07
+danger_level = 5
 sprite_path = "res://Enemies/Forest/Marsh/Vodyanoy/Vodyanoy.png"
 face_sprite = "res://Enemies/Forest/Marsh/Vodyanoy/Voidanoy_Face.png"
 battle_sprite_scale_percent = 95.0

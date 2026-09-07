@@ -9,13 +9,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Грифон"
-max_hp = 187
-damage = 79
-armor = 17
+max_hp = 131
+damage = 55
+armor = 12
 initiative = 8
 accuracy = 91
-evasion = 19
-crit_chance = 0.19
+evasion = 13
+crit_chance = 0.133
+danger_level = 8
 sprite_path = "res://Enemies/Sky/Clouds/Griffin/Рыцарь Грифон.png"
 face_sprite = "res://Enemies/Sky/Clouds/Griffin/Рыцарь Грифон_Face.png"
 battle_sprite_scale_percent = 140.0

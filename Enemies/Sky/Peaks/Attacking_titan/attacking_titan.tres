@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Атакующий титан"
-max_hp = 245
-damage = 72
-armor = 26
+max_hp = 172
+damage = 50
+armor = 18
 initiative = 6
 accuracy = 86
-evasion = 14
-crit_chance = 0.15
+evasion = 10
+crit_chance = 0.105
+danger_level = 8
 sprite_path = "res://Enemies/Sky/Peaks/Attacking_titan/Attacking_titan.png"
 face_sprite = "res://Enemies/Sky/Peaks/Attacking_titan/Attacking_titan_Face.png"
 battle_sprite_scale_percent = 88.0

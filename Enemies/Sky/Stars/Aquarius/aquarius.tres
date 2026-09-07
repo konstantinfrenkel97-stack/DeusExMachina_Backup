@@ -8,13 +8,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Водолей"
-max_hp = 86
-damage = 20
-armor = 11
+max_hp = 60
+damage = 14
+armor = 8
 initiative = 6
 accuracy = 85
-evasion = 12
-crit_chance = 0.08
+evasion = 8
+crit_chance = 0.056
+danger_level = 4
 sprite_path = "res://Enemies/Sky/Stars/Aquarius/Aquarius.png"
 face_sprite = "res://Enemies/Sky/Stars/Aquarius/Aquarius_face.png"
 battle_sprite_scale_percent = 95.0

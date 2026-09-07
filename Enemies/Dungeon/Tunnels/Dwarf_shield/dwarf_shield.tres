@@ -9,13 +9,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Гном щитовик"
-max_hp = 90
-damage = 17
-armor = 15
+max_hp = 63
+damage = 12
+armor = 10
 initiative = 4
 accuracy = 75
-evasion = 6
-crit_chance = 0.04
+evasion = 4
+crit_chance = 0.028
+danger_level = 3
 sprite_path = "res://Enemies/Dungeon/Tunnels/Dwarf_shield/Dwarf_Shield.png"
 face_sprite = "res://Enemies/Dungeon/Tunnels/Dwarf_shield/Dwarf_Shiled_Face.png"
 battle_sprite_scale_percent = 110.0

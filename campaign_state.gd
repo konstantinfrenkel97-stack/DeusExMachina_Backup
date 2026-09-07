@@ -16,6 +16,11 @@ extends Node
 ## Экран кампании слушает его и автоматически обновляет сетку портретов.
 signal roster_changed
 
+## Сигнал: количество какой-то валюты/эссенции изменилось (награда за миссию,
+## трата в Саду/Весах и т.д.). Экран кампании слушает его и обновляет полосу
+## ресурсов сразу, а не только как побочный эффект других локальных действий.
+signal currency_changed
+
 var available_gods: Array[String] = []
 
 ## Сокровищница — собранные артефакты (пути к ItemResource .tres).
@@ -77,6 +82,150 @@ const LOCATION_TO_WELCOME_MISSION := {
 	"Глубина": "res://Missions/Depth/welcome_to_depths.tres",
 	"Джунгли": "res://Missions/Jungle/welcome_to_jungle.tres",
 }
+
+## Локация → путь ко второй миссии локации (см. Doors/mission_choice_screen.gd —
+## привязывается ко второму трафарету по пути от нижнего левого угла к верхнему правому).
+const LOCATION_TO_MISSION_2 := {
+	"Хельхейм": "res://Missions/Helheim/helheim_mission_2.tres",
+	"Ад": "res://Missions/Hell/hell_mission_2.tres",
+	"Тоннели": "res://Missions/Tunnels/tunnels_mission_2.tres",
+	"Облака": "res://Missions/Clouds/clouds_mission_2.tres",
+	"Острова": "res://Missions/Islands/islands_mission_2.tres",
+	"Звезды": "res://Missions/Stars/stars_mission_2.tres",
+	"Пустыня": "res://Missions/Desert/desert_mission_2.tres",
+	"Арена": "res://Missions/Arena/Arena_Mission_2.tres",
+	"Замок": "res://Missions/Castle/castle_mission_2.tres",
+	"Корабли": "res://Missions/Ships/ships_mission_2.tres",
+	"Горы": "res://Missions/Peaks/mountains_mission_2.tres",
+	"Топь": "res://Missions/Marsh/marsh_mission_2.tres",
+	"Сад": "res://Missions/Garden/garden_mission_2.tres",
+	"Глубина": "res://Missions/Depth/depths_mission_2.tres",
+	"Джунгли": "res://Missions/Jungle/jungle_mission_2.tres",
+}
+
+# ════════════════════════════════════════════════════════════
+#  Немезиды локаций
+# ════════════════════════════════════════════════════════════
+
+## location_id (как в CombatManager.selected_location_id / battle_setup.gd::LOCATIONS)
+## → папка с врагами этой локации. Нужна, чтобы найти немезидов данной локации
+## (CharacterResource.is_nemesis) без обращения к battle_setup.gd (сценовый скрипт).
+const LOCATION_ENEMY_DIRS := {
+	"helheim": "res://Enemies/Dungeon/Hellheim/",
+	"hell": "res://Enemies/Dungeon/Hell/",
+	"tunnels": "res://Enemies/Dungeon/Tunnels/",
+	"clouds": "res://Enemies/Sky/Clouds/",
+	"stars": "res://Enemies/Sky/Stars/",
+	"mountains": "res://Enemies/Sky/Peaks/",
+	"arena": "res://Enemies/Civilization/Arena/",
+	"castle": "res://Enemies/Civilization/Castle/",
+	"desert": "res://Enemies/Civilization/Desert/",
+	"depths": "res://Enemies/Sea/Depth/",
+	"island": "res://Enemies/Sea/Islands/",
+	"ships": "res://Enemies/Sea/Ships/",
+	"jungle": "res://Enemies/Forest/Jungle/",
+	"garden": "res://Enemies/Forest/Garden/",
+	"swamp": "res://Enemies/Forest/Marsh/",
+}
+
+## location_id → отдельная папка с немезидами этой локации (заведена отдельно от
+## LOCATION_ENEMY_DIRS/Enemies — так их проще держать обособленно от обычных врагов;
+## названия и написание локаций здесь могут отличаться от Enemies, папки уже расставлены
+## художником). Локация без записи здесь просто не сканируется — не ошибка.
+const LOCATION_NEMESIS_DIRS := {
+	"helheim": "res://Nemesis/Dungeon/Helheim/",
+	"castle": "res://Nemesis/Civilization/Castle/",
+	"desert": "res://Nemesis/Civilization/Desert/",
+	"ships": "res://Nemesis/Sea/Ships/",
+}
+
+## Пути к CharacterResource побеждённых немезидов (бой выигран с ними во вражеской команде).
+var defeated_nemeses: Array[String] = []
+
+## Постоянные (на весь остаток игры, во всех локациях) дебаффы точности врагам по
+## unit_name — напр. {"Кобольд": -3}. Применяется при спавне вражеского юнита в бою
+## (см. battle_scene.gd::_spawn_teams_from_resources). Копится, если один и тот же
+## unit_name получает дебафф несколько раз за игру.
+var permanent_enemy_accuracy_debuffs: Dictionary = {}
+
+## Добавляет постоянный дебафф точности всем врагам с этим unit_name (сложение с уже
+## накопленным). amount обычно отрицательный (напр. -3).
+func add_permanent_enemy_accuracy_debuff(unit_name: String, amount: int) -> void:
+	if unit_name == "" or amount == 0:
+		return
+	permanent_enemy_accuracy_debuffs[unit_name] = int(permanent_enemy_accuracy_debuffs.get(unit_name, 0)) + amount
+
+## Отложенные баффы "на бой с немезисом": срабатывают автоматически, когда отряд в
+## следующий раз сразится с ближайшим непобеждённым немезидом указанной локации — не
+## привязаны к конкретному следующему бою, ждут сколько нужно и переживают сохранение.
+## Запись: {"location_id": String, "god_path": String, "majesty_delta": int,
+##          "buff_stat": int (BuffEntry.Stat, -1 = нет), "buff_value": int}.
+var pending_nemesis_buffs: Array = []
+
+func is_nemesis_defeated(path: String) -> bool:
+	return defeated_nemeses.has(path.strip_edges())
+
+## Отмечает немезида побеждённым (не повторяется, если уже отмечен).
+func mark_nemesis_defeated(path: String) -> void:
+	var clean := path.strip_edges()
+	if clean != "" and not defeated_nemeses.has(clean):
+		defeated_nemeses.append(clean)
+
+## Пути ко всем немезидам локации, отсортированные по nemesis_order (по возрастанию).
+func get_location_nemesis_paths(location_id: String) -> Array[String]:
+	var out: Array[String] = []
+	var found: Array = []
+	var enemy_dir: String = str(LOCATION_ENEMY_DIRS.get(location_id, ""))
+	if enemy_dir != "":
+		_collect_nemesis_entries(enemy_dir, found)
+	var nemesis_dir: String = str(LOCATION_NEMESIS_DIRS.get(location_id, ""))
+	if nemesis_dir != "":
+		_collect_nemesis_entries(nemesis_dir, found)
+	found.sort_custom(func(a, b): return int(a["order"]) < int(b["order"]))
+	for entry in found:
+		out.append(str(entry["path"]))
+	return out
+
+func _collect_nemesis_entries(dir_path: String, out: Array) -> void:
+	var dir := DirAccess.open(dir_path)
+	if dir == null:
+		return
+	dir.list_dir_begin()
+	var file_name := dir.get_next()
+	while file_name != "":
+		if not file_name.begins_with("."):
+			var child_path := dir_path.path_join(file_name)
+			if dir.current_is_dir():
+				_collect_nemesis_entries(child_path, out)
+			elif file_name.get_extension().to_lower() == "tres":
+				var res = load(child_path)
+				if res is CharacterResource and res.is_nemesis:
+					out.append({"path": child_path, "order": res.nemesis_order})
+		file_name = dir.get_next()
+	dir.list_dir_end()
+
+## Путь к ближайшему непобеждённому немезиду локации ("" если все побеждены или их нет).
+func get_next_nemesis_path(location_id: String) -> String:
+	for path in get_location_nemesis_paths(location_id):
+		if not is_nemesis_defeated(path):
+			return path
+	return ""
+
+## Регистрирует отложенный бафф (величие и/или характеристика по BuffEntry.Stat) для
+## бога god_path на бой с ближайшим непобеждённым немезидом локации location_id
+## (см. pending_nemesis_buffs). buff_stat = -1, если баффа характеристики нет.
+func add_pending_nemesis_buff(location_id: String, god_path: String, majesty_delta: int, buff_stat: int = -1, buff_value: int = 0) -> void:
+	if location_id.strip_edges() == "" or god_path.strip_edges() == "":
+		return
+	if majesty_delta == 0 and buff_stat < 0:
+		return
+	pending_nemesis_buffs.append({
+		"location_id": location_id.strip_edges(),
+		"god_path": god_path.strip_edges(),
+		"majesty_delta": majesty_delta,
+		"buff_stat": buff_stat,
+		"buff_value": buff_value,
+	})
 
 func open_location(location: String) -> void:
 	var clean := location.strip_edges()
@@ -240,6 +389,7 @@ func reset_all() -> void:
 	reset_currency_amounts()
 	library_max_fantasy_bonus = 0
 	spell_upgrade_levels.clear()
+	permanent_enemy_accuracy_debuffs.clear()
 	roster_changed.emit()
 
 func clear_god_state_overrides() -> void:
@@ -616,6 +766,7 @@ func add_currency_amount(path: String, amount: int) -> void:
 	_capture_default_currency_amounts()
 	_currency_amounts[path] = maxi(0, get_currency_amount(path) + amount)
 	_sync_currency_resource(path)
+	currency_changed.emit()
 
 # ════════════════════════════════════════════════════════════
 #  Прохождение миссий
@@ -623,6 +774,9 @@ func add_currency_amount(path: String, amount: int) -> void:
 
 ## Разовая награда мыслями за завершение ЛЮБОЙ миссии (только при первом прохождении).
 const MISSION_COMPLETION_THOUGHTS_REWARD := 700
+# Должно совпадать с Campaign/campaign_screen.gd::FIRST_BATTLE_MISSION_PATH.
+const _FIRST_BATTLE_MISSION_PATH := "res://Missions/First_battle.tres"
+const _AUTOSAVE_SLOT_NAME := "Автосохранение"
 
 func is_mission_completed(path: String) -> bool:
 	return completed_missions.has(path.strip_edges())
@@ -637,7 +791,26 @@ func complete_mission(path: String) -> bool:
 	completed_missions.append(clean_path)
 	add_currency_amount(THOUGHTS_PATH, MISSION_COMPLETION_THOUGHTS_REWARD)
 	add_pages(1)
+	var heal_percent := 100 if clean_path == _FIRST_BATTLE_MISSION_PATH else 10
+	_heal_mission_team(heal_percent)
+	SaveSystem.save_game(_AUTOSAVE_SLOT_NAME)
 	return true
+
+## Лечит отряд миссии (MissionState.selected_heroes) на heal_percent % от максимального
+## HP каждого живого бога — часть завершения миссии (100% только после вступительной,
+## 10% после любой другой, см. complete_mission).
+func _heal_mission_team(heal_percent: int) -> void:
+	if heal_percent <= 0:
+		return
+	for hero_path in MissionState.selected_heroes:
+		var clean_hero_path: String = str(hero_path).strip_edges()
+		if clean_hero_path == "" or is_god_dead(clean_hero_path):
+			continue
+		var max_hp := get_god_max_hp(clean_hero_path)
+		var heal_amount := int(round(float(max_hp) * float(heal_percent) / 100.0))
+		if heal_amount <= 0:
+			continue
+		set_god_current_hp(clean_hero_path, get_god_current_hp(clean_hero_path) + heal_amount, max_hp)
 
 func spend_currency_amounts(costs: Dictionary) -> bool:
 	for path_variant in costs.keys():
@@ -654,6 +827,7 @@ func spend_currency_amounts(costs: Dictionary) -> bool:
 			continue
 		_currency_amounts[path] = get_currency_amount(path) - cost
 		_sync_currency_resource(path)
+	currency_changed.emit()
 	return true
 
 func collect_currency_amounts() -> Dictionary:

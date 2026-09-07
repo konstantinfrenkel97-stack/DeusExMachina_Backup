@@ -9,13 +9,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Голем"
-max_hp = 210
-damage = 42
-armor = 26
+max_hp = 147
+damage = 29
+armor = 18
 initiative = 5
 accuracy = 81
-evasion = 9
-crit_chance = 0.08
+evasion = 6
+crit_chance = 0.056
+danger_level = 6
 sprite_path = "res://Enemies/Dungeon/Tunnels/Golem/Golem.png"
 face_sprite = "res://Enemies/Dungeon/Tunnels/Golem/Golem_Face.png"
 battle_sprite_scale_percent = 79.0

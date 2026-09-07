@@ -9,6 +9,7 @@ name = "Кукла вуду"
 description = "Метка на противника и стоящего за ним. 2 хода: копирование дебаффов и половины урона"
 damage_modifier = 0.0
 majesty_gain = 0
+majesty_cost = 100
 usable_from_positions = Array[bool]([false, true, true, true])
 targetable_positions = Array[bool]([true, true, true, false])
 ability_marker = "samdi_voodoo"

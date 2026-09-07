@@ -1,0 +1,92 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="1_scene"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="3_outcome"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="4_statcheck"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="5_reward"]
+[ext_resource type="Resource" path="res://Essence/essence_death.tres" id="6_death"]
+[ext_resource type="Resource" path="res://Items/Armor/Rare/sinners_cloak.tres" id="7_cloak"]
+
+[sub_resource type="Resource" id="out_v1"]
+script = ExtResource("3_outcome")
+result_text = "Вы останавливаетесь и слушаете песню обреченных. Ритмичное мрачное гудение. Вы покачиваетесь в такт, вспоминаете тяжелые моменты в жизни. Когда нет ни надежд, ни перспектив. Когда все что можно делать это идти дальше, да напевать, чтобы не было невыносимо. Песня придает вам новые силы.
+Но звучит удар кнута. Песня умолкает. Больше вам нечего здесь делать, вы продолжаете путь."
+hero_majesty_delta = 5
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="choice_v1"]
+script = ExtResource("2_choice")
+choice_text = "Послушать песню"
+outcome = SubResource("out_v1")
+metadata/_custom_type_script = ExtResource("2_choice")
+
+[sub_resource type="Resource" id="check_evasion"]
+script = ExtResource("4_statcheck")
+stat = 3
+metadata/_custom_type_script = ExtResource("4_statcheck")
+
+[sub_resource type="Resource" id="reward_cloak"]
+script = ExtResource("5_reward")
+kind = 0
+resource = ExtResource("7_cloak")
+metadata/_custom_type_script = ExtResource("5_reward")
+
+[sub_resource type="Resource" id="out_v2_success"]
+script = ExtResource("3_outcome")
+result_text = "Вы видите движение в окнах, и осознаете, что демоны не позволят пленникам долго распевать. Но вы хотите дать им такую возможность. Когда в одном из окон показывается рогатый силуэт, вы метаете туда заклинание. Магия ударяет о стену. Души останавливают пение и смотрят на вас, вы делаете им знак продолжать, и через какое-то время снова ударяете заклинанием в стену. Вскоре пленники понимают ваш замысел. Их песня начинает звучать более бойко. В вас из замка летят заостренные копья. Вы укрываетесь, продолжая обстрел. Не сильно, чтобы не мешало вам слушать песню. И что еще важнее, не мешало душам петь.
+Но наконец пение умолкает. Ни одна песня не может длиться бесконечно. Вы возобновляете путь, проходя под клетками, и в этот момент, вам что-то ложится на плечи. Это крупный кусок ткани. Вы разворачиваете и видите грубые пепельные рисунки, они изображают маленьких человечков повергающих огромные рогатые фигуры. Вы смотрите наверх, вам машут души грешников. Похоже первобытное искусство обитателей ада не остановилось на одном пении. Вы забираете ценный подарок и отправляетесь дальше в путь."
+rewards = Array[ExtResource("5_reward")]([SubResource("reward_cloak")])
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="out_v2_fail"]
+script = ExtResource("3_outcome")
+result_text = "Вы видите движение в окнах, и осознаете, что демоны не позволят пленникам долго распевать. Но вы хотите дать им такую возможность. Когда в одном из окон показывается рогатый силуэт, вы метаете туда заклинание. Магия ударяет о стену. Души останавливают пение и смотрят на вас, вы делаете им знак продолжать, и через какое-то время снова ударяете заклинанием в стену.
+Но души напуганные происходящим не возобновляют пение, а одно из зубчатых копий выпущенных защитниками ударяет бога в плечо. Похоже не все ваши идеи такие уж удачные."
+random_hero_hp_percent_delta = -5
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="choice_v2"]
+script = ExtResource("2_choice")
+choice_text = "Отвлечь демонов, чтобы души могли петь подольше"
+stat_check = SubResource("check_evasion")
+success_outcome = SubResource("out_v2_success")
+failure_outcome = SubResource("out_v2_fail")
+metadata/_custom_type_script = ExtResource("2_choice")
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("4_statcheck")
+stat = 4
+metadata/_custom_type_script = ExtResource("4_statcheck")
+
+[sub_resource type="Resource" id="reward_death_essence"]
+script = ExtResource("5_reward")
+kind = 1
+resource = ExtResource("6_death")
+metadata/_custom_type_script = ExtResource("5_reward")
+
+[sub_resource type="Resource" id="out_v3_success"]
+script = ExtResource("3_outcome")
+result_text = "Вы подхватываете песню. Без слов, только подражая ритмичному гудению. Песня течет. Вздымается и падает как огненная река. Вы все больше и больше с ней резонируете. И вдруг, вам приходят слова. Не стихи, скорее смыслы. О спокойствии найденном в отчаянии, о маленьком счастье среди бесконечной боли, о жизни после смерти и пытке что никогда не закончится. О надежде что когда-нибудь мы все перестанем существовать. Слова вырезают себя на ваших сердцах. Найдете ли вы в них отчаяние или надежду, каждый решит сам. Вы продолжаете путь неся в себе песню обреченных."
+rewards = Array[ExtResource("5_reward")]([SubResource("reward_death_essence")])
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="out_v3_fail"]
+script = ExtResource("3_outcome")
+result_text = "Вы начинаете подпевать песне. Без слов, только подражая ритмичному гудению. Но у вас не выходит. То ли вы не можете настроиться на ритм мертвых душ, то ли вы просто не можете почувствовать ритм. Получается бессвязная какафония. С ощущением страшной неловкости и под взглядом душ, вы отправляетесь дальше в путь."
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="choice_v3"]
+script = ExtResource("2_choice")
+choice_text = "Присоединиться к пению"
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_v3_success")
+failure_outcome = SubResource("out_v3_fail")
+metadata/_custom_type_script = ExtResource("2_choice")
+
+[resource]
+script = ExtResource("1_scene")
+scene_title = "Песнь обреченных"
+body_text = "Звуки ада - это крики боли. В месте где демоны бесконечно пытают души, вашего уха не касался другой звук. Но проходя мимо одного из бастионов вы слышите ритмичное гудение. Подняв голову, вы видите клетку, а внутри темная душа. Прямо сейчас ее не трогают, и она ритмично покачивается издавая звук. Вы уже успели выяснить, что души не могут издавать членораздельные звуки, но тем не менее, могут плакать кричать и гудеть. Вторая душа начинает также гудеть в ответ. Они подхватывают общий ритм. Потом еще и еще.
+В вас закралось подозрение, что души знают эту песню. Что умерев и попав в ад на вечные муки, не способные говорить души грешников начали писать свои песни. Есть ли у них своя культура, свое общество и иерархия? Ведь после смерти в старом мире души продолжили существовать. Печальная ритмичная песня продолжает звучать."
+choices = Array[ExtResource("2_choice")]([SubResource("choice_v1"), SubResource("choice_v2"), SubResource("choice_v3")])

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://qbc2lnvui8e3"
+path="res://.godot/imported/Will_be_helheim_once i make it shorter and loop.mp3-086b5ee3c0ac415386892fe2d7c68500.mp3str"
+
+[deps]
+
+source_file="res://Sounds/Music/Will_be_helheim_once i make it shorter and loop.mp3"
+dest_files=["res://.godot/imported/Will_be_helheim_once i make it shorter and loop.mp3-086b5ee3c0ac415386892fe2d7c68500.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

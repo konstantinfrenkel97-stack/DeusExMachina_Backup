@@ -17,7 +17,6 @@ formation_name = "Бессмертная армия"
 pos1 = ExtResource("ext_1")
 pos2 = ExtResource("ext_1")
 pos3 = ExtResource("ext_1")
-pos4 = ExtResource("ext_1")
 metadata/_custom_type_script = ExtResource("formation_script")
 
 [sub_resource type="Resource" id="sr_002"]

@@ -1,0 +1,146 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Resource" uid="uid://cc1h72p42isqo" path="res://Enemies/Dungeon/Tunnels/Kobold/kobold.tres" id="enemy_kobold"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Resource" uid="uid://48sgdok10cjj" path="res://Gods/Thor/thor.tres" id="god_thor"]
+
+[sub_resource type="Resource" id="form_kobolds"]
+script = ExtResource("formation_script")
+formation_name = "Кобольд - Кобольд - Кобольд - Кобольд"
+pos1 = ExtResource("enemy_kobold")
+pos2 = ExtResource("enemy_kobold")
+pos3 = ExtResource("enemy_kobold")
+pos4 = ExtResource("enemy_kobold")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_kobolds"]
+script = ExtResource("battle_script")
+formation = SubResource("form_kobolds")
+location_id = "tunnels"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_persuade_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы обращаетесь к кобольдам. Вам самим этот завал не разобрать, а там явно ещё остались живые. Безразличные жёлтые глаза смотрят на вас.
+
+«Да нам ещё норму выполнять... Нужно силы поберечь... Да я никого из тех и не знаю...»
+
+Кто-то отводит глаза, кто-то игнорирует, кто-то злобно сплёвывает. Похоже, их сердца давно поросли коркой из каменной пыли.
+
+Не желая оставлять всё как есть, вы идёте к завалу и начинаете сами отодвигать камни. Работа идёт медленно, да и у вас нет инструментов. Вчетвером вы откатываете один камень. Бесполезно.
+
+И в этот момент рядом с вами раздаётся стук кирки. Один маленький кобольд стучит инструментом по каменной глыбе. Ещё двое подходят с верёвками. Совсем мало, но что-то. Работа постепенно ускоряется. Ещё несколько кобольдов начинают разбирать завал. Ещё и ещё, и ещё, и ещё. Наконец организовывается цепочка из тех, кто раскалывает камни, и тех, кто оттаскивает обломки. Вы работаете в первых рядах. Крики становятся ближе, наконец на самой верхушке вы убираете камни, и за ними — пара жёлтых глаз.
+
+Оттолкнув вас в сторону, кобольд бросается на свободу. А за ним — целая орда. Как муравьи, они выползают, расширяя отверстие. И через несколько минут толпа кобольдов вокруг вас удваивается, а затем утраивается. Они торжественно кричат и машут кирками.
+
+«Спасли! Спасли! Герои! Герои кобольдов!»
+
+Они кричат и показывают на вас пальцем.
+
+«Герои! Герои! Герои подземного народа!»"
+permanent_enemy_debuff_unit_name = "Кобольд"
+permanent_enemy_debuff_accuracy = -3
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_persuade_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы обращаетесь к кобольдам. Вам самим этот завал не разобрать, а там явно ещё остались живые. Безразличные жёлтые глаза смотрят на вас.
+
+«Да нам ещё норму выполнять... Нужно силы поберечь... Да я никого из тех и не знаю...»
+
+Кто-то отводит глаза, кто-то игнорирует, кто-то злобно сплёвывает. Похоже, их сердца давно поросли коркой из каменной пыли.
+
+Не желая оставлять всё как есть, вы идёте к завалу и начинаете сами отодвигать камни. Работа идёт медленно, да и у вас нет инструментов. Вчетвером вы откатываете один камень. Бесполезно.
+
+К вам подходит группа кобольдов.
+
+«Ну всё, хватит. Это бессмысленно.»
+
+Вы игнорируете голоса и продолжаете работать.
+
+«Эй! Сказал, оставьте их. Не спасти уже!»
+
+Но вы продолжаете работать. И тогда один из них опускает кирку прямо на согнутую спину одного из богов. Вы успеваете отскочить, но, обернувшись, видите толпу шахтёров, глядящих на вас. В их руках инструменты, а в глазах — ненависть, которую вам редко доводилось видеть."
+battle = SubResource("battle_kobolds")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_persuade"]
+script = ExtResource("choice_script")
+choice_text = "Уговорить кобольдов разобрать завал"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_persuade_success")
+failure_outcome = SubResource("out_persuade_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="out_nothing"]
+script = ExtResource("outcome_script")
+result_text = "Мир жесток, ничего нового. Вы отправляетесь дальше."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_nothing"]
+script = ExtResource("choice_script")
+choice_text = "Тут ничего нельзя сделать"
+outcome = SubResource("out_nothing")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_attack"]
+script = ExtResource("stat_check_script")
+stat = 0
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_thor_success"]
+script = ExtResource("outcome_script")
+result_text = "«Что вы стоите? Совсем сдурели? Там же ваши товарищи живые! А ну разойтись!»
+
+Бог грома в одиночку бросается на груду камней. Он заносит свой легендарный молот и обрушивает на булыжник. Тот рассыпается от удара. Он снова бьёт. Разрушается второй камень. Гром земли резонирует с громом неба, когда бог удар за ударом сокрушает каменную породу. Наконец, с новым ударом, электрические языки скользят по камням, и гора обломков рассыпается. Кобольды валят в пролом и видят своего спасителя, покрытого потом и пылью. Маленькие люди подхватывают могучего бога на руки.
+
+«Спаситель! Спаситель! Друг подземного народа! Друг подземного народа!»
+
+Тор торжествующе улыбается на руках маленьких человечков, когда внезапно, под общее ликование, его куда-то понесли. Вы бросаетесь в погоню, прежде чем друга подземного народа унесли прочь от отряда."
+target_god_immediate = ExtResource("god_thor")
+target_god_immediate_majesty_delta = 40
+permanent_enemy_debuff_unit_name = "Кобольд"
+permanent_enemy_debuff_accuracy = -5
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_thor_fail"]
+script = ExtResource("outcome_script")
+result_text = "«Что вы стоите? Совсем сдурели? Там же ваши товарищи живые! А ну разойтись!»
+
+Бог грома в одиночку бросается на груду камней. Он заносит свой легендарный молот и обрушивает на булыжник. Тот рассыпается от удара. Он снова бьёт. Разрушается второй камень. Гром земли резонирует с громом неба, когда бог удар за ударом сокрушает каменную породу.
+
+И тут гора ударила в ответ. По каменной стене пошли трещины, и внезапно несколько крупных камней обрушилось прямо на бога. Не успели вы отреагировать, как Тор оказался погребён под булыжниками. Кобольды начинают хохотать, когда вы раскапываете своего незадачливого спутника.
+
+Он жив, но сильно потрёпан и ещё более зол. Вы забираете Тора. Ни о каком завале речь больше не идёт."
+target_god_immediate = ExtResource("god_thor")
+target_god_immediate_hp_percent_delta = -50
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_thor"]
+script = ExtResource("choice_script")
+choice_text = "Броситься разбирать завал самим"
+required_god = ExtResource("god_thor")
+stat_check = SubResource("check_attack")
+success_outcome = SubResource("out_thor_success")
+failure_outcome = SubResource("out_thor_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Дрожь земли"
+body_text = "Дальнейший путь по резному украшенному тоннелю охраняется так сильно, что вы решаете попытать удачу в грубых и неотёсанных шахтёрских тоннелях.
+
+Вы идёте по привычному холодному камню, до вас доносится мерный стук кирки о скалу. Иногда в темноте загораются жёлтые глаза кобольдов. Но вас они игнорируют, занятые своей работой. Вы углубляетесь глубже и глубже, стук уже со всех сторон, как вдруг вы слышите другой звук. Тоже глухой звук камня, но какой-то более далёкий и раскатистый. Песня кирки мгновенно останавливается, и в следующую секунду кобольды вокруг вас пускаются в бег. Вы мчитесь за ними, а каменная твердь над головами угрожающе рычит. Вы слышите, как падают на землю камешки с потолка. Кобольды убегают и сталкиваются друг с другом, вы стараетесь продвинуться сквозь толпу к свету более укреплённых тоннелей, пока своей массой вас не придавила огромная гора наверху. Вы осознаёте, где именно вы заперты. Вы пробиваетесь через кобольдов к выходу, видя, как идёт трещинами каменная твердь. Маленькие камни начинают осыпаться, и выход заваливает. Но вы успели оказаться снаружи.
+
+Тут же вас встречает толпа кобольдов, из тех, кто уже добрался до безопасности. Они раздражённо обсуждают потраченное время и невыполненную норму. Из-за камней заваленного прохода слышатся крики и удары о камень. Но рудокопы, что стоят рядом с вами, не обращают внимания. А гора продолжает рычать."
+choices = [SubResource("choice_persuade"), SubResource("choice_nothing"), SubResource("choice_thor")]

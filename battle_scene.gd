@@ -3,7 +3,7 @@ extends Node2D
 const COMBATANT_VISUAL = preload("res://combatant_visual.tscn")
 const STAT_ICON_TOOLTIP_BUTTON_SCRIPT := preload("res://stat_icon_tooltip_button.gd")
 const UNIT_DISPLAY = preload("res://unit_display.tscn")
-const ENEMY_TURN_DELAY_SEC = 2.5
+const ENEMY_TURN_DELAY_SEC = 1.2
 const MAX_LOG_LINES = 80
 const ABILITY_ICON_BUTTON_SIZE := Vector2(58.0, 58.0)
 const BOTTOM_UI_MARGIN := 12.0
@@ -116,6 +116,11 @@ var _help_showing_topic: bool = false
 # Позиционные марки вынесены в battle_marks.gd (класс BattleMarks).
 # Состояние и логика доступны через объект `marks` (инициализируется в _ready()).
 var marks: BattleMarks
+# Эффекты локаций вынесены в battle_locations.gd (класс BattleLocations), тем же приёмом.
+var locations: BattleLocations
+# Общая система баффов/дебаффов (_apply_effect_to_target и т.п.) вынесена в
+# battle_effects.gd (класс BattleEffects), тем же приёмом.
+var effects: BattleEffects
 
 # ═══ Состояние локационных эффектов ═══
 var _is_fog_round: bool = false                  # Хельхейм: текущий раунд туманный
@@ -141,6 +146,8 @@ func _ready():
 	max_fantasy += CampaignState.library_max_fantasy_bonus
 	current_fantasy = max_fantasy
 	marks = BattleMarks.new(self)
+	locations = BattleLocations.new(self)
+	effects = BattleEffects.new(self)
 	_create_background_node()
 	get_viewport().size_changed.connect(_on_viewport_size_changed)
 	_apply_background()
@@ -164,6 +171,7 @@ func _ready():
 	if CombatManager.selected_location_id != "":
 		var effect_name = DataTables.get_battle_effect_name(CombatManager.selected_location_id)
 		_log_combat("⚔ Локация: %s" % effect_name)
+	locations._location_mountains_label()
 	_apply_pending_mission_modifiers()
 	_start_new_round()
 
@@ -179,10 +187,55 @@ func _apply_pending_mission_modifiers() -> void:
 	_apply_modifier_list(CombatManager.pending_enemy_modifiers, enemies_team)
 	_apply_modifier_list(CombatManager.pending_hero_modifiers, heroes_team)
 	_apply_pending_mission_party_effects()
+	_apply_pending_nemesis_buffs()
 	_rum_spell_whole_team_active = CombatManager.pending_rum_spell_whole_team
 	CombatManager.pending_rum_spell_whole_team = false
 	CombatManager.pending_enemy_modifiers = []
 	CombatManager.pending_hero_modifiers = []
+
+## Немезис: если этот бой — против ближайшего непобеждённого немезида выбранной
+## локации, применяет все отложенные баффы (CampaignState.pending_nemesis_buffs),
+## зарегистрированные для этой пары (локация, бог), и снимает их из очереди —
+## это одноразовые сюжетные бонусы, не повторяющиеся на будущих боях.
+func _apply_pending_nemesis_buffs() -> void:
+	if CampaignState.pending_nemesis_buffs.is_empty():
+		return
+	var location_id: String = CombatManager.selected_location_id
+	if location_id == "":
+		return
+	var next_nemesis_path := CampaignState.get_next_nemesis_path(location_id)
+	if next_nemesis_path == "":
+		return
+	var fighting_nemesis := false
+	for enemy_value in enemies_team:
+		var enemy: Combatant = enemy_value as Combatant
+		if enemy != null and enemy.source_resource_path == next_nemesis_path:
+			fighting_nemesis = true
+			break
+	if not fighting_nemesis:
+		return
+	var consumed: Array = []
+	for entry_value in CampaignState.pending_nemesis_buffs:
+		if not (entry_value is Dictionary):
+			continue
+		var entry: Dictionary = entry_value
+		if str(entry.get("location_id", "")) != location_id:
+			continue
+		var god_path: String = str(entry.get("god_path", ""))
+		var hero: Combatant = _find_hero_by_resource_path(god_path) if god_path != "" else null
+		if hero == null or hero.current_hp <= 0:
+			continue
+		var majesty_delta: int = int(entry.get("majesty_delta", 0))
+		if majesty_delta != 0:
+			hero.modify_majesty(majesty_delta)
+			_log_combat("✨ [Немезис] %s: %+d величия за грядущую встречу с немезидом." % [hero.unit_name, majesty_delta])
+		var buff_stat: int = int(entry.get("buff_stat", -1))
+		if buff_stat >= 0:
+			_apply_mission_buff({"stat": buff_stat, "value": int(entry.get("buff_value", 0)), "duration": -1}, hero)
+			_log_combat("✨ [Немезис] %s получает бафф перед встречей с немезидом." % hero.unit_name)
+		consumed.append(entry)
+	for entry in consumed:
+		CampaignState.pending_nemesis_buffs.erase(entry)
 
 
 func _apply_pending_mission_party_effects() -> void:
@@ -191,7 +244,11 @@ func _apply_pending_mission_party_effects() -> void:
 		for unit_value in heroes_team:
 			var hero: Combatant = unit_value as Combatant
 			if hero != null and hero.current_hp > 0:
-				var heal_amount: int = int(float(hero.max_hp) * float(heal_percent) / 100.0)
+				# Камень с мордочкой: +2% к любому вне-боевому лечению миссии (пляжи, привалы и т.п.).
+				var hero_heal_percent := heal_percent
+				if hero.has_item_effect("stone_face_bonus_heal"):
+					hero_heal_percent += 2
+				var heal_amount: int = int(float(hero.max_hp) * float(hero_heal_percent) / 100.0)
 				if heal_amount != 0:
 					hero.apply_stat_change("hp", heal_amount)
 	var majesty_delta: int = int(CombatManager.pending_mission_hero_majesty_delta)
@@ -315,6 +372,9 @@ func _apply_modifier_list(mods: Array, team: Array) -> void:
 			if idx >= 0 and idx < team.size() and team[idx] != null and team[idx].current_hp > 0:
 				targets = [team[idx]]
 		for unit in targets:
+			if int(m.max_hp_delta) != 0:
+				unit.max_hp = maxi(1, unit.max_hp + int(m.max_hp_delta))
+				unit.current_hp = maxi(1, unit.current_hp + int(m.max_hp_delta))
 			if int(m.hp_percent) > 0:
 				unit.current_hp = maxi(1, int(unit.max_hp * int(m.hp_percent) / 100.0))
 			if int(m.passive_charges) >= 0:
@@ -329,11 +389,12 @@ func _apply_modifier_list(mods: Array, team: Array) -> void:
 				_log_combat("✨ [Благословение] %s получает благословение от своего кумира." % unit.unit_name)
 
 
-## Бафф миссии на юнита (по enum BuffEntry.Stat: 0=урон,1=удача,2=точность,3=уклонение,4=броня,5=крит,6=инициатива).
+## Бафф миссии на юнита (по enum BuffEntry.Stat: 0=урон,1=удача,2=точность,3=уклонение,4=броня,5=крит,6=инициатива,7=стан,8=регенерация,9=периодический урон).
+## b — либо ресурс BuffEntry, либо словарь {"stat","value","duration"} (напр. из pending_nemesis_buffs).
 func _apply_mission_buff(b, unit: Combatant) -> void:
-	var stat: int = int(b.stat)
-	var val: int = int(b.value)
-	var dur: int = int(b.duration)
+	var stat: int = int(b.stat) if b is Resource else int(b.get("stat", 0))
+	var val: int = int(b.value) if b is Resource else int(b.get("value", 0))
+	var dur: int = int(b.duration) if b is Resource else int(b.get("duration", -1))
 	var effect_stat: String = "mission_buff"
 	match stat:
 		0:
@@ -362,6 +423,11 @@ func _apply_mission_buff(b, unit: Combatant) -> void:
 			effect_stat = "stun"
 		8:
 			effect_stat = "regeneration"
+		9:
+			effect_stat = "periodic_damage"
+			var percent_flag: bool = bool(b.percent_of_max_hp) if b is Resource else bool(b.get("percent_of_max_hp", false))
+			if percent_flag:
+				val = int(unit.max_hp * val / 100.0)
 	unit.active_effects.append({"stat": effect_stat, "value": val, "duration": dur, "source_ability": "Заклинание"})
 
 ## Обработка правого клика: ВСЕГДА отменяет текущее выделение (способность / заклинание / марка).
@@ -381,6 +447,8 @@ func _cancel_selection() -> void:
 	_waiting_for_spell_target = false
 	_selected_spell = null
 	selected_mark_position = -1
+	if had_selection:
+		_update_target_highlights()
 	if active_unit and waiting_for_player:
 		_show_player_interface(active_unit)
 	elif had_selection:
@@ -398,6 +466,7 @@ func _setup_settings_button():
 	var popup = mb.get_popup()
 	popup.add_item("Настройки", 0)
 	popup.add_item("Помощь", 1)
+	popup.add_item("Загрузить", 3)
 	popup.add_item("Сдаться", 2)
 	popup.id_pressed.connect(_on_settings_menu_item)
 	$BattleUI.add_child(mb)
@@ -411,12 +480,101 @@ func _on_settings_menu_item(id: int) -> void:
 			_show_help_topics()
 		2:
 			_surrender()
+		3:
+			_show_battle_load_dialog()
 
 func _show_settings_panel() -> void:
 	var panel := SettingsPanel.new()
 	panel.close_requested.connect(panel.queue_free)
 	panel.z_index = 1500
 	$BattleUI.add_child(panel)
+
+## Загрузка сохранения прямо из боя: список слотов (как в кампании/главном меню),
+## после загрузки — переход на экран кампании (в бою нет смысла обновлять UI на месте).
+func _show_battle_load_dialog() -> void:
+	var overlay := ColorRect.new()
+	overlay.name = "BattleLoadOverlay"
+	overlay.color = Color(0.0, 0.0, 0.0, 0.74)
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	overlay.z_index = 1500
+	$BattleUI.add_child(overlay)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(center)
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(500, 400)
+	center.add_child(panel)
+
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 12)
+	vb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.add_child(vb)
+
+	var title := Label.new()
+	title.text = "Загрузить сохранение"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 24)
+	vb.add_child(title)
+	vb.add_child(HSeparator.new())
+
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.custom_minimum_size = Vector2(460, 260)
+	vb.add_child(scroll)
+
+	var list := VBoxContainer.new()
+	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	list.add_theme_constant_override("separation", 6)
+	scroll.add_child(list)
+
+	var slots := SaveSystem.get_save_slots()
+	if slots.is_empty():
+		var empty_lbl := Label.new()
+		empty_lbl.text = "Нет сохранений"
+		empty_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		empty_lbl.add_theme_font_size_override("font_size", 20)
+		list.add_child(empty_lbl)
+	else:
+		for slot_info in slots:
+			var row := HBoxContainer.new()
+			row.add_theme_constant_override("separation", 10)
+
+			var info_btn := Button.new()
+			info_btn.text = "«%s»\n%s | Богов: %d" % [slot_info["slot"], slot_info["timestamp"], slot_info["gods_count"]]
+			info_btn.add_theme_font_size_override("font_size", 16)
+			info_btn.custom_minimum_size = Vector2(320, 50)
+			info_btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
+
+			var load_btn := Button.new()
+			load_btn.text = "Загрузить"
+			load_btn.custom_minimum_size = Vector2(110, 50)
+			load_btn.add_theme_font_size_override("font_size", 16)
+
+			row.add_child(info_btn)
+			row.add_child(load_btn)
+			list.add_child(row)
+
+			var slot_name: String = slot_info["slot"]
+			var do_load := func():
+				var ok := SaveSystem.load_game(slot_name)
+				if ok:
+					get_tree().change_scene_to_file("res://Campaign/campaign_screen.tscn")
+				else:
+					push_warning("Не удалось загрузить: " + slot_name)
+			load_btn.pressed.connect(do_load)
+			info_btn.pressed.connect(load_btn.pressed.emit)
+
+	var cancel_btn := Button.new()
+	cancel_btn.text = "Отмена"
+	cancel_btn.custom_minimum_size = Vector2(140, 44)
+	cancel_btn.add_theme_font_size_override("font_size", 18)
+	cancel_btn.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	cancel_btn.pressed.connect(overlay.queue_free)
+	vb.add_child(cancel_btn)
 
 func _help_topics() -> Dictionary:
 	return {
@@ -888,6 +1046,9 @@ func _spawn_teams_from_resources():
 			hero.position_index = i
 			heroes_team[i] = hero
 			hero.damage_taken.connect(_on_unit_damaged.bind(hero))
+			hero.healed.connect(_on_unit_healed.bind(hero))
+			hero.died.connect(_on_unit_died.bind(hero))
+			hero.phoenix_feather_shield_triggered.connect(_on_phoenix_shield_triggered.bind(hero))
 			
 			var pos_node_name = "HeroPositions/Pos" + str(i + 1)
 			if has_node(pos_node_name):
@@ -903,8 +1064,13 @@ func _spawn_teams_from_resources():
 			var enemy = Combatant.new(res)
 			enemy.is_enemy = true
 			enemy.position_index = i
+			var _perm_debuff: int = int(CampaignState.permanent_enemy_accuracy_debuffs.get(enemy.unit_name, 0))
+			if _perm_debuff != 0:
+				enemy.accuracy_modifier += _perm_debuff
 			enemies_team[i] = enemy
 			enemy.damage_taken.connect(_on_unit_damaged.bind(enemy))
+			enemy.died.connect(_on_unit_died.bind(enemy))
+			enemy.phoenix_feather_shield_triggered.connect(_on_phoenix_shield_triggered.bind(enemy))
 			
 			var pos_node_name = "EnemyPositions/Pos" + str(i + 1)
 			if has_node(pos_node_name):
@@ -1069,6 +1235,31 @@ func _trigger_centaur_suppressive_fire(active_unit: Combatant):
 					_apply_kappa_auras()
 			break  # срабатывает только один Кентавр за ход
 
+## Оборотень: «Засада» — следующий враг (с точки зрения оборотня), совершивший
+## действие, получает 150% урона оборотня. В отличие от «Подавляющего обстрела»
+## Кентавра — одноразово: после срабатывания стойка снимается.
+func _trigger_oboroten_ambush(active_unit: Combatant):
+	if active_unit == null or active_unit.current_hp <= 0:
+		return
+	var foe_team = heroes_team if active_unit.is_enemy else enemies_team
+	for foe in foe_team:
+		if foe == null or foe.current_hp <= 0 or foe.active_stance == null:
+			continue
+		if foe.active_stance.stance_effect_type == "oboroten_ambush":
+			var _oa_dmg = int(foe.damage * 1.5)
+			if _oa_dmg > 0:
+				var _oa_hp_before = active_unit.current_hp
+				active_unit.take_damage(_oa_dmg)
+				_log_combat("🐺 [Засада] %s наносит %d урона %s (150%% атаки). HP: %d → %d" % [foe.unit_name, _oa_dmg, active_unit.unit_name, _oa_hp_before, active_unit.current_hp])
+				if active_unit.current_hp <= 0:
+					_log_combat("  → %s повержен засадой оборотня!" % active_unit.unit_name)
+					_on_unit_killed(active_unit)
+					var _oa_team = heroes_team if not active_unit.is_enemy else enemies_team
+					_compact_team(_oa_team)
+					_apply_kappa_auras()
+			foe.break_stance()
+			break  # срабатывает только один оборотень за ход
+
 ## Новичок: на 3-м раунде превращается в Гладиатора (позиции 1-2) или Гоплита (позиции 3-4).
 ## target_type позволяет отдельно триггерить "благословлённых" (novice_transformation_blessed) —
 ## они превращаются на 2-м раунде, на 1 ход раньше обычных новичков (см. вызов ниже).
@@ -1102,6 +1293,8 @@ func _apply_novice_transformation(target_type: String = "novice_transformation")
 			new_unit.base_damage = int(new_unit.base_damage * 1.2)
 			new_unit.base_accuracy = int(new_unit.base_accuracy * 1.2)
 			new_unit.damage_taken.connect(_on_unit_damaged.bind(new_unit))
+			new_unit.died.connect(_on_unit_died.bind(new_unit))
+			new_unit.phoenix_feather_shield_triggered.connect(_on_phoenix_shield_triggered.bind(new_unit))
 			# Удаляем визуал старого Новичка
 			_remove_visual_for_unit(unit)
 			# Заменяем слот команды
@@ -1171,6 +1364,8 @@ func _summon_boulder(summoner: Combatant, log_lines: Array):
 	boulder.position_index = empty_pos
 	team[empty_pos] = boulder
 	boulder.damage_taken.connect(_on_unit_damaged.bind(boulder))
+	boulder.died.connect(_on_unit_died.bind(boulder))
+	boulder.phoenix_feather_shield_triggered.connect(_on_phoenix_shield_triggered.bind(boulder))
 	# Постоянная метка провокации
 	boulder.active_effects.append({"stat": "provocation_mark", "value": 1, "duration": -1, "effect_id": "provocation_mark", "source_ability": "Валун"})
 	# Создать визуал
@@ -1180,6 +1375,35 @@ func _summon_boulder(summoner: Combatant, log_lines: Array):
 	_update_all_visuals()
 	_recalculate_turn_order()
 	log_lines.append("  → [Каменная стена] Призван Валун на позицию %d!" % (empty_pos + 1))
+
+## Артефакт «Красивый камень»: пока есть свободное место в отряде героев, призывает союзного Булыжника.
+func _summon_beautiful_stone_boulder() -> void:
+	var empty_pos = -1
+	for i in range(4):
+		if heroes_team[i] == null:
+			empty_pos = i
+			break
+	if empty_pos == -1:
+		return
+	var res = load("res://Enemies/Dungeon/Tunnels/Bolder/Bolder.tres") as CharacterResource
+	if res == null:
+		return
+	res = res.duplicate()
+	res.unit_name = "Булыжник"
+	var boulder = Combatant.new(res)
+	boulder.is_enemy = false
+	boulder.position_index = empty_pos
+	heroes_team[empty_pos] = boulder
+	boulder.damage_taken.connect(_on_unit_damaged.bind(boulder))
+	boulder.died.connect(_on_unit_died.bind(boulder))
+	boulder.phoenix_feather_shield_triggered.connect(_on_phoenix_shield_triggered.bind(boulder))
+	boulder.active_effects.append({"stat": "provocation_mark", "value": 1, "duration": -1, "effect_id": "provocation_mark", "source_ability": "Красивый камень"})
+	var pos_node_name = "HeroPositions/Pos" + str(empty_pos + 1)
+	if has_node(pos_node_name):
+		_create_visual(boulder, pos_node_name, hero_visuals, empty_pos)
+	_update_all_visuals()
+	_recalculate_turn_order()
+	_log_combat("🪨 [Красивый камень] Призван союзный Булыжник на позицию %d!" % (empty_pos + 1))
 
 # ══════════════════════════════════════════════
 #  РАУНДЫ И ОЧЕРЕДЬ ХОДОВ
@@ -1202,7 +1426,7 @@ func _start_new_round():
 	for unit_aq in heroes_team + enemies_team:
 		if unit_aq and unit_aq.current_hp > 0 and unit_aq.special_effect_type == "aquarius_no_move_attack":
 			if current_round > 0 and not unit_aq.moved_this_round:
-				_apply_buff_to_unit(unit_aq, "damage", 15, -1, "aquarius_no_move_attack", "Пассивка")
+				effects._apply_buff_to_unit(unit_aq, "damage", 15, -1, "aquarius_no_move_attack", "Пассивка")
 				_log_combat("💧 [Водолей] %s: +15 урона за отсутствие перемещений (навсегда)." % unit_aq.unit_name)
 
 	# ═══ Сад — Альрауне: каждый ход восстанавливает 30% здоровья; периодический урон отключает пассивку ═══
@@ -1282,6 +1506,12 @@ func _start_new_round():
 				hero_reg.apply_stat_change("hp", _hp_regen_amount)
 				if hero_reg.current_hp != _hp_before_reg:
 					_log_combat("✨ [Артефакт] %s восстанавливает %d HP (%d → %d)." % [hero_reg.unit_name, _hp_regen_amount, _hp_before_reg, hero_reg.current_hp])
+
+	# ═══ Артефакт «Красивый камень»: свободное место в отряде героев — призыв Булыжника ═══
+	for hero_bs in heroes_team:
+		if hero_bs and hero_bs.current_hp > 0 and hero_bs.has_item_effect("beautiful_stone_summon_boulder"):
+			_summon_beautiful_stone_boulder()
+			break
 
 	for unit in heroes_team + enemies_team:
 		if unit and unit.current_hp > 0:
@@ -1378,14 +1608,14 @@ func _start_new_round():
 	_log_combat("--- Раунд %d ---" % current_round)
 	
 	# ═══ ЭФФЕКТЫ ЛОКАЦИЙ (начало раунда) ═══
-	_location_helheim()
-	_location_hell()
-	_location_tunnels()
-	_location_desert()
-	_location_stars()
-	_location_depths_label()
-	_location_island()
-	_location_swamp()
+	locations._location_helheim()
+	locations._location_hell()
+	locations._location_tunnels()
+	locations._location_desert()
+	locations._location_stars()
+	locations._location_depths_label()
+	locations._location_island()
+	locations._location_swamp()
 	_update_all_visuals()
 	
 	if _check_battle_end():
@@ -1631,6 +1861,12 @@ func _next_turn():
 	if active_unit.current_hp <= 0:
 		call_deferred("_next_turn")
 		return
+
+	# === Оборотень: «Засада» — следующий враг, совершивший действие, получает урон ===
+	_trigger_oboroten_ambush(active_unit)
+	if active_unit.current_hp <= 0:
+		call_deferred("_next_turn")
+		return
 	
 	# === Марки: срабатывание "once" в начале хода владельца ===
 	marks.trigger_once_for_caster(active_unit)
@@ -1644,6 +1880,21 @@ func _next_turn():
 	# === Посейдон: лечение за каждый уникальный бафф в начале хода ===
 	if active_unit.special_effect_type == "poseidon_buff_heal":
 		_trigger_poseidon_heal(active_unit)
+
+	# ═══ Перо феникса: -5% максимального здоровья в начале хода носителя ═══
+	if active_unit.has_item_effect("phoenix_feather") and active_unit.current_hp > 0:
+		var _pf_dmg = int(active_unit.max_hp * 0.05)
+		if _pf_dmg > 0:
+			var _pf_hp_b = active_unit.current_hp
+			active_unit.take_damage(_pf_dmg)
+			_log_combat("🔥 [Перо феникса] %s теряет %d HP в начале хода (%d → %d)." % [active_unit.unit_name, _pf_dmg, _pf_hp_b, active_unit.current_hp])
+
+	# Марки могли убить владельца хода (например, персистентная марка на его позиции)
+	# ещё до того, как ему дали действовать — без этой проверки waiting_for_player
+	# взводился бы для уже мёртвого юнита, и все следующие ходы молча блокировались бы.
+	if active_unit.current_hp <= 0:
+		call_deferred("_next_turn")
+		return
 
 	# Подсветка HP-бара юнита, чей сейчас ход.
 	_update_active_highlight()
@@ -1678,7 +1929,10 @@ func _run_enemy_turn(monster: Combatant) -> void:
 		return
 	var decision = _get_ai_decision(monster)
 	if decision.has("ability") and decision.ability and decision.has("target") and decision.target:
-		_use_ability(monster, decision.target, decision.ability)
+		var _used_ability: AbilityResource = decision.ability
+		if _used_ability.majesty_cost > 0:
+			monster.modify_majesty(-_effective_majesty_cost(monster, _used_ability))
+		_use_ability(monster, decision.target, _used_ability)
 	else:
 		_log_combat("%s не нашёл подходящего действия и пропускает ход." % monster.unit_name)
 	await get_tree().create_timer(ENEMY_TURN_DELAY_SEC).timeout
@@ -2050,7 +2304,10 @@ func _log_combat(message: String):
 func _on_wait_button_pressed():
 	if active_unit == null or active_unit.has_acted_this_round:
 		return
+	if not waiting_for_player or not _is_player_hero(active_unit):
+		return
 	_clear_pinned_unit_info()
+	_hide_ability_controls()
 	_defer_active_unit_turn()
 	waiting_for_player = false
 	waiting_for_target = false
@@ -2060,6 +2317,9 @@ func _on_wait_button_pressed():
 func _on_skip_turn_pressed():
 	if active_unit == null:
 		return
+	if not waiting_for_player or not _is_player_hero(active_unit):
+		return
+	_hide_ability_controls()
 	_log_combat("%s пропускает ход." % active_unit.unit_name)
 	_finish_unit_turn(active_unit)
 
@@ -2086,6 +2346,8 @@ func _defer_active_unit_turn():
 func _on_ability_clicked(ability_index: int):
 	if active_unit == null:
 		return
+	if not waiting_for_player or not _is_player_hero(active_unit):
+		return
 	_waiting_for_ultimate_target = false
 	selected_ability = active_unit.active_abilities[ability_index]
 	if selected_ability == null:
@@ -2105,6 +2367,7 @@ func _on_ability_clicked(ability_index: int):
 		waiting_for_target = true
 		_hide_ability_controls()
 		_set_status("Выберите позицию для марки: " + selected_ability.get_display_name())
+		_update_target_highlights()
 		return
 	
 	if selected_ability.target_type == "All_Enemies" or selected_ability.target_type == "All_Allies":
@@ -2119,31 +2382,17 @@ func _on_ability_clicked(ability_index: int):
 	waiting_for_target = true
 	_hide_ability_controls()
 	_set_status("Выберите цель для: " + selected_ability.get_display_name())
+	_update_target_highlights()
 
 func _on_unit_selected(target: Combatant):
 	if target != null:
 		_pinned_hover_unit = target
 		_show_unit_info_panel(target)
+	if active_unit == null or not waiting_for_player or not _is_player_hero(active_unit):
+		return
 	# === Выбор цели для заклинания ===
 	if _waiting_for_spell_target and _selected_spell != null:
-		var can_target = false
-		if _selected_spell.target_type == "Any":
-			# «Ром» и аналогичные — можно на любого живого юнита
-			can_target = target.current_hp > 0
-		else:
-			if _selected_spell.target_type == "Enemy" and _is_on_enemies_team(target):
-				can_target = true
-			if _selected_spell.target_type == "Ally" and _is_player_hero(target):
-				can_target = true
-		if can_target and target.current_hp > 0:
-			var tp = _selected_spell.targetable_positions
-			# Крупный юнит занимает 2 клетки — достаточно совпадения по любой из них
-			# (аналогично Combatant.can_be_targeted_at для способностей).
-			var pos_ok = tp.size() > target.position_index and tp[target.position_index]
-			if target.is_large and target.position_index + 1 < tp.size() and tp[target.position_index + 1]:
-				pos_ok = true
-			if not pos_ok:
-				can_target = false
+		var can_target = _can_target_unit_for_spell(_selected_spell, target)
 		if can_target:
 			if _rum_spell_whole_team_active and _selected_spell.spell_name == "Ром":
 				# Чарка рома взята с собой: заклинание бьёт не только цель, но и всю её команду.
@@ -2159,6 +2408,7 @@ func _on_unit_selected(target: Combatant):
 			_waiting_for_spell_target = false
 			_selected_spell = null
 			_set_status("")
+			_update_target_highlights()
 		else:
 			_set_status("Нельзя выбрать эту цель для заклинания: %s" % _selected_spell.get_display_name())
 		return
@@ -2207,6 +2457,8 @@ func _on_unit_selected(target: Combatant):
 func _on_ultimate_clicked():
 	if active_unit == null or active_unit.ultimate_ability == null:
 		return
+	if not waiting_for_player or not _is_player_hero(active_unit):
+		return
 	# ═══ Мрачная сделка: блокировка ультимативной способности ═══
 	var _ub_blocked = false
 	for _ub_e in active_unit.active_effects:
@@ -2225,6 +2477,7 @@ func _on_ultimate_clicked():
 		_waiting_for_ultimate_target = true
 		_hide_ability_controls()
 		_set_status("Выберите цель для ульты: " + ultimate.name)
+		_update_target_highlights()
 		return
 	var target = _find_valid_target(ultimate)
 	if target:
@@ -2237,6 +2490,31 @@ func _on_ultimate_clicked():
 func _ultimate_requires_manual_target(ability: AbilityResource) -> bool:
 	return ability.target_type == "Enemy" or ability.target_type == "Ally"
 
+
+## Проверка допустимости цели для заклинания (вынесена из _on_unit_selected,
+## чтобы одной и той же логикой пользовались и разрешение выбора, и подсветка целей).
+func _can_target_unit_for_spell(spell: SpellResource, target: Combatant) -> bool:
+	if target == null or target.current_hp <= 0:
+		return false
+	var can_target = false
+	if spell.target_type == "Any":
+		# «Ром» и аналогичные — можно на любого живого юнита
+		can_target = true
+	else:
+		if spell.target_type == "Enemy" and _is_on_enemies_team(target):
+			can_target = true
+		if spell.target_type == "Ally" and _is_player_hero(target):
+			can_target = true
+	if can_target:
+		var tp = spell.targetable_positions
+		# Крупный юнит занимает 2 клетки — достаточно совпадения по любой из них
+		# (аналогично Combatant.can_be_targeted_at для способностей).
+		var pos_ok = tp.size() > target.position_index and tp[target.position_index]
+		if target.is_large and target.position_index + 1 < tp.size() and tp[target.position_index + 1]:
+			pos_ok = true
+		if not pos_ok:
+			can_target = false
+	return can_target
 
 func _can_user_target_unit(user: Combatant, target: Combatant, ability: AbilityResource) -> bool:
 	if user == null or target == null or ability == null or target.current_hp <= 0:
@@ -2261,6 +2539,38 @@ func _has_set_usurp_target(user: Combatant, ability: AbilityResource) -> bool:
 	return false
 
 
+## Подсвечивает допустимые цели (красным — врагов, синим — союзников) во время выбора
+## цели способности/ульты/заклинания, до того как игрок применит выбор. Снимает
+## подсветку со всех, если сейчас цель не выбирается.
+func _update_target_highlights() -> void:
+	var mode := ""
+	if waiting_for_target and selected_ability != null and active_unit != null:
+		mode = "ability"
+	elif _waiting_for_spell_target and _selected_spell != null:
+		mode = "spell"
+	for v in hero_visuals + enemy_visuals:
+		if v == null or v.data == null:
+			continue
+		var unit: Combatant = v.data
+		var highlight := ""
+		if mode != "" and unit.current_hp > 0:
+			var is_valid := false
+			if mode == "ability":
+				if selected_ability.target_type == "Position":
+					if selected_ability.mark_target_team == "ally":
+						is_valid = _is_player_hero(unit)
+					else:
+						is_valid = _is_on_enemies_team(unit)
+				else:
+					is_valid = _can_user_target_unit(active_unit, unit, selected_ability)
+			else:
+				is_valid = _can_target_unit_for_spell(_selected_spell, unit)
+			if is_valid:
+				highlight = "enemy" if unit.is_enemy else "ally"
+		if v.has_method("set_target_highlight"):
+			v.set_target_highlight(highlight)
+
+
 func _restore_usurped_ultimate_after_use(unit: Combatant, used_ultimate: AbilityResource) -> void:
 	if unit == null or not unit.has_usurped_ultimate:
 		return
@@ -2276,7 +2586,16 @@ func _finish_unit_turn(unit: Combatant):
 		waiting_for_player = false
 		call_deferred("_next_turn")
 		return
+	# Идемпотентность: если для этого юнита ход уже завершался в этом раунде (гонка
+	# между ожидающей AI-корутиной и случайным повторным кликом — см. баг-репорт про
+	# "боги ходят сами"), повторный вызов не должен снова тикать эффекты/двигать очередь.
+	if unit.has_acted_this_round:
+		return
 	unit.tick_effects()
+	if unit.current_hp <= 0:
+		_log_combat("☠ %s погибает от периодического урона в конце хода." % unit.unit_name)
+		_on_unit_killed(unit)
+		_compact_team(heroes_team if not unit.is_enemy else enemies_team)
 	# ═══ Трезубец Посейдона: в конце хода +7 к случайной характеристике на 1 ход ═══
 	if unit.current_hp > 0 and unit.has_item_effect("poseidon_trident_end_turn_buff"):
 		var _pt_stats = ["damage", "armor", "accuracy", "evasion", "initiative"]
@@ -2306,10 +2625,14 @@ func _finish_unit_turn(unit: Combatant):
 	_update_all_visuals()
 	unit.has_acted_this_round = true
 	waiting_for_player = false
+	waiting_for_target = false
 	_waiting_for_spell_target = false
 	_selected_spell = null
+	_update_target_highlights()
 	if _spell_panel:
 		_spell_panel.hide()
+	if _check_battle_end():
+		return
 	call_deferred("_next_turn")
 
 func _find_valid_target(ability: AbilityResource) -> Combatant:
@@ -2357,7 +2680,10 @@ func _get_all_targets(ability: AbilityResource, attacker: Combatant = null) -> A
 func _enemy_ai_turn(monster: Combatant):
 	var decision = _get_ai_decision(monster)
 	if decision.has("ability") and decision.ability and decision.has("target") and decision.target:
-		_use_ability(monster, decision.target, decision.ability)
+		var _used_ability: AbilityResource = decision.ability
+		if _used_ability.majesty_cost > 0:
+			monster.modify_majesty(-_effective_majesty_cost(monster, _used_ability))
+		_use_ability(monster, decision.target, _used_ability)
 	else:
 		_log_combat("%s не нашёл подходящего действия и пропускает ход." % monster.unit_name)
 	_finish_unit_turn(monster)
@@ -2399,6 +2725,8 @@ func _get_ai_decision(monster: Combatant) -> Dictionary:
 	# Состояние локации Глубина: Бурные потоки = нечётный раунд (урон при перемещении)
 	var is_raging: bool = (current_round % 2 == 1) and CombatManager.selected_location_id == "depths"
 	match monster.ai_script.resource_path.get_file():
+		"baldr_logic.gd":
+			return BaldrLogic.get_decision(monster, heroes_team)
 		"cyclops_logic.gd":
 			return CyclopsLogic.get_decision(monster, heroes_team)
 		"draugr_juggernaut_logic.gd":
@@ -2612,7 +2940,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 
 	# ═══ Метка невинности: 50% перенаправление одиночной атаки на случайного союзника цели ═══
 	if ability.target_type != "Self" and ability.target_type != "All_Enemies" and ability.target_type != "All_Allies":
-		if attacker.is_enemy != defender.is_enemy and _has_innocence(defender):
+		if attacker.is_enemy != defender.is_enemy and effects._has_innocence(defender):
 			var innocence_team: Array = heroes_team if not defender.is_enemy else enemies_team
 			var innocence_allies: Array = _get_living_team_members(innocence_team).filter(func(unit): return unit != defender)
 			if not innocence_allies.is_empty() and randf() < 0.5:
@@ -2635,7 +2963,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 		if attacker.is_enemy != defender.is_enemy:
 			var target_team = enemies_team if defender.is_enemy else heroes_team
 			for ally in target_team:
-				if ally and ally.current_hp > 0 and ally != defender and _has_provocation(ally):
+				if ally and ally.current_hp > 0 and ally != defender and effects._has_provocation(ally):
 					if randf() < 0.5:
 						log_lines.append("  → [Провокация] %s перенаправляет атаку на себя!" % ally.unit_name)
 						defender = ally
@@ -2656,7 +2984,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 				attacker.active_effects.filter(func(e): return Combatant._effect_get(e, "effect_id", "") == "neverending_storm_mark").size()
 			])
 		elif effect.begins_with("self_"):
-			var note = _apply_effect_to_target(attacker, attacker, effect, ability)
+			var note = effects._apply_effect_to_target(attacker, attacker, effect, ability)
 			if note != "":
 				log_lines.append("  → " + note)
 			
@@ -2677,19 +3005,32 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 						targets.append(unit)
 						break
 
-	for target in targets:
+	# ═══ Посейдон: «ШТОРМ» — реверс позиций противников, независимо от попадания/промаха ═══
+	if ability.ability_marker == "poseidon_storm":
+		var storm_lines = _swap_enemy_positions(attacker)
+		for sl in storm_lines:
+			log_lines.append(sl)
+
+	for target_idx in range(targets.size()):
+		var target = targets[target_idx]
 		if target == null or target.current_hp <= 0:
 			continue
-		
+
 		var deals_damage = ability.damage_modifier > 0
 		# Флибустьер «Я знаю что делаю» / Матрос с бомбой «Бомбардировка»: damage_modifier
 		# здесь используется только отложенным триггером стойки (2/4 удара в начале след. хода) —
 		# сам момент входа в стойку не должен наносить немедленный удар по цели.
 		if ability.stance_effect_type == "filibuster_double_hit" or ability.stance_effect_type == "bombardment_stance":
 			deals_damage = false
-		# Применять ли эффекты/дебаффы по цели: способности без урона — всегда;
-		# наносящие урон — только при попадании (не на промахе).
+		# Применять ли эффекты/дебаффы по цели: на союзника (или себя) — всегда;
+		# на врага — по проверке точности vs уклонения, даже если способность не наносит
+		# урон напрямую (иначе дебафф накладывался бы гарантированно, минуя промах).
+		# Наносящие урон способности сами проверяют попадание чуть ниже.
 		var attack_landed: bool = not deals_damage
+		if not deals_damage and target.is_enemy != attacker.is_enemy:
+			attack_landed = CombatCalculator.check_hit(attacker.accuracy, target.evasion)
+			if not attack_landed:
+				log_lines.append("  → %s промахивается мимо %s." % [attacker.unit_name, target.unit_name])
 		var is_crit_landed: bool = false
 
 		if deals_damage:
@@ -2783,8 +3124,19 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 				log_lines.append("  → %s промахивается по %s." % [attacker.unit_name, target.unit_name])
 				# ═══ OnMiss: способность «Подлая заточка» и аналогичные ═══
 				if "condition" in ability and ability.condition == "OnMiss":
-					_apply_effect_to_target(attacker, attacker, ability.condition_effect, ability)
+					effects._apply_effect_to_target(attacker, attacker, ability.condition_effect, ability)
 					log_lines.append("  → [Промах] %s: срабатывает эффект %s." % [attacker.unit_name, ability.condition_effect])
+				# Сусаноо «Отражение»: контратакует и промахнувшихся по нему
+				if target.active_stance != null and target.active_stance.stance_effect_type == "susanoo_reflection" and target.current_hp > 0 and attacker.current_hp > 0:
+					var _refl_miss_result = CombatCalculator.calculate_fixed_damage(target, attacker, 0.4)
+					if _refl_miss_result.is_hit:
+						var _refl_miss_hp_b = attacker.current_hp
+						attacker.take_damage(_refl_miss_result.final_damage)
+						log_lines.append("  → [Отражение] %s контратакует %s на %d урона. HP: %d → %d" % [target.unit_name, attacker.unit_name, _refl_miss_result.final_damage, _refl_miss_hp_b, attacker.current_hp])
+						if attacker.current_hp <= 0:
+							log_lines.append("  → %s повержен Отражением!" % attacker.unit_name)
+							_on_unit_killed(attacker, log_lines)
+							_compact_team(heroes_team if not attacker.is_enemy else enemies_team)
 			else:
 				attack_landed = true
 				var is_crit: bool = dmg_result.is_crit
@@ -2796,6 +3148,15 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 				if attacker.special_effect_type == "kobold_hp_advantage" and target.current_hp > attacker.current_hp:
 					final_damage = int(final_damage * 1.3)
 					log_lines.append("  → [Преимущество HP] +30%% урона (цель здоровее).")
+
+				# ═══ Топь — Леший: наносит дополнительный урон за каждый дебафф на цели ═══
+				if attacker.special_effect_type == "leshy_damage_per_debuff":
+					var _lsh_debuffs = _count_debuffs_on_unit(target)
+					if _lsh_debuffs > 0:
+						var _lsh_bonus = int(raw_damage * 0.1 * _lsh_debuffs)
+						if _lsh_bonus > 0:
+							final_damage += _lsh_bonus
+							log_lines.append("  → [Леший] +%d урона за %d дебафф(ов) на цели." % [_lsh_bonus, _lsh_debuffs])
 				
 				# ═══ Туннели — Дварф-щитовик: -50% урона от атакующих на позициях 3-4 ═══
 				if target.special_effect_type == "dwarf_shield_back_protect" and attacker.position_index >= 2:
@@ -2952,20 +3313,11 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 					final_damage = raw_damage
 					log_lines.append("  → [Чёрная молния] Заклинание использовано — чистый урон!")
 				
-				# ═══ Сусаноо: «Расчитанный удар» — марка всегда попадает (forced hit уже выше) ═══
-					# susanoo_calculated_strike: эффект марки обрабатывается в marks.apply_mark_to_unit
-				
-				# ═══ Пушка: урон зависит от ПОЗИЦИИ цели — -20% на позиции 1, +20% на позиции 3, +50% на позиции 4 ═══
+				# ═══ Пушка: урон по цепочке целей — 150% первой цели, 120% второй, 90% третьей и далее ═══
 				if attacker.special_effect_type == "cannon_position_damage":
-					var _cannon_mult = 1.0
-					match target.position_index:
-						0: _cannon_mult = 0.8
-						2: _cannon_mult = 1.2
-						3: _cannon_mult = 1.5
-						_: _cannon_mult = 1.0
-					if _cannon_mult != 1.0:
-						final_damage = int(final_damage * _cannon_mult)
-						log_lines.append("  → [Пушка] Цель на позиции %d: урон %d%% (%d)." % [target.position_index + 1, int(_cannon_mult * 100), final_damage])
+					var _cannon_mult = maxf(0.3, 1.5 - 0.3 * target_idx)
+					final_damage = int(final_damage * _cannon_mult)
+					log_lines.append("  → [Пушка] Цель %d по цепочке: урон %d%% (%d)." % [target_idx + 1, int(_cannon_mult * 100), final_damage])
 				
 				# ═══ Шива: «Доверься судьбе» — урон режется на случайный 0-30% ═══
 				if ability.ability_marker == "shiva_trust_fate":
@@ -3017,6 +3369,10 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 							log_lines.append("  → %s повержен Кармой!" % attacker.unit_name)
 							_on_unit_killed(attacker, log_lines)
 							_compact_team(heroes_team if not attacker.is_enemy else enemies_team)
+							if _check_battle_end():
+								for line in log_lines:
+									_log_combat(line)
+								return
 					if attacker.current_hp > 0:
 						for _km_eff in target.active_effects:
 							var _km_st = Combatant._effect_get(_km_eff, "stat", "")
@@ -3038,6 +3394,10 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 							log_lines.append("  → %s повержен Отражением!" % attacker.unit_name)
 							_on_unit_killed(attacker, log_lines)
 							_compact_team(heroes_team if not attacker.is_enemy else enemies_team)
+							if _check_battle_end():
+								for line in log_lines:
+									_log_combat(line)
+								return
 				# Самди «Кукла вуду»: связанный (позади) юнит получает 50% урона и копии дебаффов меченой цели
 				if final_damage > 0:
 					for _vd_e in target.active_effects:
@@ -3064,6 +3424,10 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 									log_lines.append("  → %s повержен шипами корней!" % attacker.unit_name)
 									_on_unit_killed(attacker, log_lines)
 									_compact_team(heroes_team if not attacker.is_enemy else enemies_team)
+									if _check_battle_end():
+										for line in log_lines:
+											_log_combat(line)
+										return
 							break
 				# Один «Стая воронов»: атаковавший меченую позицию получает +15 точности (1 ход)
 				if final_damage > 0 and attacker.current_hp > 0:
@@ -3147,6 +3511,10 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 						_on_unit_killed(attacker, log_lines)
 						var _gs_team = heroes_team if not attacker.is_enemy else enemies_team
 						_compact_team(_gs_team)
+						if _check_battle_end():
+							for line in log_lines:
+								_log_combat(line)
+							return
 				# ═══ Птица: при смерти от атаки наносит 0,8 урона убийце ═══
 				if final_damage > 0 and target.current_hp <= 0 and target.special_effect_type == "bird_death_damage" and attacker.current_hp > 0:
 					var _bd_dmg = int(target.damage * 0.8)
@@ -3158,6 +3526,10 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 						_on_unit_killed(attacker, log_lines)
 						var _bd_team = heroes_team if not attacker.is_enemy else enemies_team
 						_compact_team(_bd_team)
+						if _check_battle_end():
+							for line in log_lines:
+								_log_combat(line)
+							return
 				
 				# Джаггернаут и берсерк — только при реальном уроне
 				if final_damage > 0:
@@ -3376,7 +3748,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 									log_lines.append("  → [Переиграть/Крит] %s (за %s) получает периодический урон (%d) на 2 хода." % [behind_unit.unit_name, target.unit_name, pdmg])
 								break
 					else:
-						_apply_effect_to_target(attacker, attacker, ability.condition_effect, ability)
+						effects._apply_effect_to_target(attacker, attacker, ability.condition_effect, ability)
 						log_lines.append("  → [Крит] %s: срабатывает условие %s." % [attacker.unit_name, ability.condition_effect])
 				
 				# ═══ Локация: Облака — после попадания по врагу (не богу) ═══
@@ -3388,7 +3760,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 						"effect_id": "clouds_evasion", "source_ability": "Облака"
 					})
 					log_lines.append("  → [Облака] %s получает +%d уклонения на 1 ход (складывается)." % [target.unit_name, _clouds_val])
-					_check_pegasus_ally_buff(target, log_lines)
+					effects._check_pegasus_ally_buff(target, log_lines)
 				
 				if final_damage > 0:
 					var crit_text = " (крит!)" if is_crit else ""
@@ -3413,7 +3785,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 					])
 		
 		if "condition" in ability and ability.condition == "OnKill" and target.current_hp <= 0:
-			_apply_effect_to_target(attacker, attacker, ability.condition_effect, ability)
+			effects._apply_effect_to_target(attacker, attacker, ability.condition_effect, ability)
 		
 		# ═══ Кощей: заряды жизни — при смерти восстановить 50% HP вместо гибели ═══
 		if target.current_hp <= 0 and target.special_effect_type == "koschei_life_charges" and target.life_charges > 0:
@@ -3455,7 +3827,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 				
 			for effect in ability.effect_types:
 				if not effect.begins_with("self_"):
-					var effect_note = _apply_effect_to_target(attacker, target, effect, ability, is_crit_landed)
+					var effect_note = effects._apply_effect_to_target(attacker, target, effect, ability, is_crit_landed)
 					if effect_note != "":
 						log_lines.append("  → " + effect_note)
 		
@@ -3585,7 +3957,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 		# Кощей: «Чахнуть над златом» — восстановить 15 фантазии, снять дебаффы
 		if ability.ability_marker == "koschei_hoard_gold":
 			current_fantasy = mini(max_fantasy, current_fantasy + 15)
-			_dispel_effects(attacker, "debuff")
+			effects._dispel_effects(attacker, "debuff")
 			_update_spell_ui()
 			log_lines.append("  → [Чахнуть над златом] %s восстанавливает 15 фантазии (итого: %d) и снимает дебаффы." % [
 				attacker.unit_name, current_fantasy])
@@ -3751,7 +4123,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 			var _ht_dot = int(attacker.damage * 0.3)
 			if _ht_dot > 0:
 				target.active_effects.append({"stat": "periodic_damage", "value": _ht_dot, "duration": 3, "source_ability": "Пылающие зубы"})
-				_apply_tormentor_regen(attacker, _ht_dot, 3)
+				effects._apply_tormentor_regen(attacker, _ht_dot, 3)
 				log_lines.append("  → [Пылающие зубы] %s получает периодический урон (%d) на 3 хода." % [target.unit_name, _ht_dot])
 
 		# Дварф кузнец: «Пламя горнила» — периодический урон 0.15 от урона на 2 хода
@@ -3759,7 +4131,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 			var _df_dot = int(attacker.damage * 0.15)
 			if _df_dot > 0:
 				target.active_effects.append({"stat": "periodic_damage", "value": _df_dot, "duration": 2, "source_ability": "Пламя горнила"})
-				_apply_tormentor_regen(attacker, _df_dot, 2)
+				effects._apply_tormentor_regen(attacker, _df_dot, 2)
 				log_lines.append("  → [Пламя горнила] %s получает периодический урон (%d) на 2 хода." % [target.unit_name, _df_dot])
 		# Адская гончая: «Не бояться смерти» — -20 броня +20 урон на 3 хода
 		if ability.ability_marker == "hellhound_no_fear":
@@ -3788,7 +4160,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 			var _trt_dot = int(attacker.damage * 0.3)
 			if _trt_dot > 0:
 				target.active_effects.append({"stat": "periodic_damage", "value": _trt_dot, "duration": 2, "source_ability": "Зазубренный трезубец"})
-				_apply_tormentor_regen(attacker, _trt_dot, 2)
+				effects._apply_tormentor_regen(attacker, _trt_dot, 2)
 			if not target.is_large:
 				_apply_shift_effect(target, -1, not target.is_enemy)
 			log_lines.append("  → [Зазубренный трезубец] %s: -10 брони (2), DoT (%d) (2), вперёд 1." % [target.unit_name, _trt_dot])
@@ -3798,7 +4170,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 			if _ch_dot > 0:
 				if target.current_hp > 0:
 					target.active_effects.append({"stat": "periodic_damage", "value": _ch_dot, "duration": 4, "source_ability": "Лязг цепей"})
-					_apply_tormentor_regen(attacker, _ch_dot, 4)
+					effects._apply_tormentor_regen(attacker, _ch_dot, 4)
 				for _ch_t in targets:
 					if _ch_t != null and _ch_t.current_hp > 0 and not _ch_t.is_large:
 						_apply_shift_effect(_ch_t, -1, not _ch_t.is_enemy)
@@ -3862,7 +4234,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 		# ════ ДЖУНГЛИ: ability_marker обработчики ════
 		# Сару: «Обезьяньи трюки» — снять баффы + сбить стойку
 		if ability.ability_marker == "saru_tricks" and target.current_hp > 0:
-			_dispel_effects(target, "buff")
+			effects._dispel_effects(target, "buff")
 			if target.active_stance != null:
 				target.break_stance()
 				log_lines.append("  → [Обезьяньи трюки] Стойка %s сбита." % target.unit_name)
@@ -4026,12 +4398,6 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 				target.take_damage(bonus_dmg)
 				log_lines.append("  → [Удар трезубцем] +%d доп. урона за %d баффов. HP %s: %d." % [bonus_dmg, buff_count, target.unit_name, target.current_hp])
 
-		# ═══ Посейдон: «ШТОРМ» — реверс позиций противников + 50% урона (урон уже нанесён, один раз за каст) ═══
-		if ability.ability_marker == "poseidon_storm" and target == targets[0]:
-			var storm_lines = _swap_enemy_positions(attacker)
-			for sl in storm_lines:
-				log_lines.append(sl)
-
 		# ═══ Самди: «Выпей со смертью» — периодический урон себе и цели ═══
 		if ability.ability_marker == "samdi_drink_with_death":
 			var dot_self = int(attacker.damage * 0.5)
@@ -4083,6 +4449,8 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 				if t.current_hp <= 0:
 					log_lines.append("  → %s повержен!" % t.unit_name)
 					_on_unit_killed(t, log_lines)
+					var _ff_team = heroes_team if not t.is_enemy else enemies_team
+					_compact_team(_ff_team)
 					enemies.erase(t)
 			_update_all_visuals()
 
@@ -4208,7 +4576,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 						var eff_val = eff.get("value", 0)
 						if eff_val > 0 and eff_stat != "stun" and eff_stat != "periodic_damage":
 							buff_count += 1
-					_dispel_effects(u, "buff")
+					effects._dispel_effects(u, "buff")
 					if buff_count > 0 and u.is_enemy == false:
 						u.damage_modifier_flat += buff_count * 7
 						u.active_effects.append({"stat": "damage", "value": buff_count * 7, "duration": -1, "effect_id": "odin_last_battle", "source_ability": "Последняя битва"})
@@ -4219,8 +4587,8 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 		# ═══ Один: «Отец богов» — текущий союзник +1 инициативы и +10 брони на 2 хода (цикл по All_Allies) ═══
 		if ability.ability_marker == "odin_father_of_gods" and target.current_hp > 0:
 			var _fog_duration = _compute_effect_duration(attacker, target, 2, false)
-			_apply_buff_to_unit(target, "initiative", 1, _fog_duration, "odin_father_of_gods", "Отец богов", log_lines)
-			_apply_buff_to_unit(target, "armor", 10, _fog_duration, "odin_father_of_gods", "Отец богов", log_lines)
+			effects._apply_buff_to_unit(target, "initiative", 1, _fog_duration, "odin_father_of_gods", "Отец богов", log_lines)
+			effects._apply_buff_to_unit(target, "armor", 10, _fog_duration, "odin_father_of_gods", "Отец богов", log_lines)
 			if target == targets[0]:
 				log_lines.append("  → [Отец богов] Все союзники получают +1 инициативы и +10 брони на %d ход(ов)." % _fog_duration)
 
@@ -4268,7 +4636,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 		# ═══ Замок — Рыцарь: «Изгнать зло» — снять все баффы; если >2 уникальных → стан ═══
 		if ability.ability_marker == "knight_banish_evil" and target.current_hp > 0:
 			var _be_buffs = _count_buffs_on_unit(target)
-			_dispel_effects(target, "buff")
+			effects._dispel_effects(target, "buff")
 			log_lines.append("  → [Изгнать зло] Снято %d бафф(ов) с %s." % [_be_buffs, target.unit_name])
 			if _be_buffs > 2 and not target.is_stunned:
 				target.is_stunned = true
@@ -4313,7 +4681,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 		# ═══ Замок — Инквизитор: «Исповедь» — снять дебаффы, +5% HP за каждый ═══
 		if ability.ability_marker == "inquisitor_confession" and target.current_hp > 0:
 			var _cf_debuffs = _count_debuffs_on_unit(target)
-			_dispel_effects(target, "debuff")
+			effects._dispel_effects(target, "debuff")
 			if _cf_debuffs > 0:
 				var _cf_heal = int(target.max_hp * 0.05 * _cf_debuffs)
 				var _cf_hp_b = target.current_hp
@@ -4408,7 +4776,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 					attacker.take_damage(self_dmg)
 					log_lines.append("  → %s получает %d ответного урона (%d%% от нанесённого)." % [attacker.unit_name, self_dmg, pct])
 		
-		if not attacker.is_enemy and ability.majesty_gain > 0:
+		if (not attacker.is_enemy or attacker.is_nemesis) and ability.majesty_gain > 0:
 			if not _redirect_majesty_to_set_true_king(attacker, ability.majesty_gain, log_lines):
 				attacker.modify_majesty(ability.majesty_gain)
 				log_lines.append("  → %s получает %d величия." % [attacker.unit_name, ability.majesty_gain])
@@ -4472,7 +4840,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 					continue
 				var _cr_buff_duration = _compute_effect_duration(attacker, _cr_u, 1, false)
 				var _cr_debuff_duration = _compute_effect_duration(attacker, _cr_u, 1, true)
-				_apply_buff_to_unit(_cr_u, "damage", 10, _cr_buff_duration, "scorpio_cruelty", "Жестокость")
+				effects._apply_buff_to_unit(_cr_u, "damage", 10, _cr_buff_duration, "scorpio_cruelty", "Жестокость")
 				_cr_u.apply_stat_change("armor", -10)
 				_cr_u.active_effects.append({"stat": "armor", "value": -10, "duration": _cr_debuff_duration, "effect_id": "scorpio_cruelty", "source_ability": "Жестокость"})
 			log_lines.append("  → [Жестокость] Все юниты: +10 урона, -10 брони (1 ход).")
@@ -4483,17 +4851,17 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 				if _sf_u == null or _sf_u.current_hp <= 0:
 					continue
 				var _sf_duration = _compute_effect_duration(attacker, _sf_u, 2, false)
-				_apply_buff_to_unit(_sf_u, "crit", 10, _sf_duration, "virgo_starfall", "Звездопад")
+				effects._apply_buff_to_unit(_sf_u, "crit", 10, _sf_duration, "virgo_starfall", "Звездопад")
 			log_lines.append("  → [Звездопад] Все юниты: +10 крита (2 хода).")
 
 		# Дева: «Невинное касание» — теряет все свои баффы, +10 урона за каждый снятый эффект
 		if ability.ability_marker == "virgo_innocent_touch" and _stars_run_once:
 			var _it_count = _count_buffs_on_unit(attacker)
-			_dispel_effects(attacker, "buff")
+			effects._dispel_effects(attacker, "buff")
 			var _it_bonus = _it_count * 10
 			if _it_bonus > 0:
 				var _it_duration = _compute_effect_duration(attacker, attacker, 2, false)
-				_apply_buff_to_unit(attacker, "damage", _it_bonus, _it_duration, "virgo_innocent_touch", "Невинное касание")
+				effects._apply_buff_to_unit(attacker, "damage", _it_bonus, _it_duration, "virgo_innocent_touch", "Невинное касание")
 			log_lines.append("  → [Невинное касание] %s теряет %d бафф(ов), +%d урона." % [attacker.unit_name, _it_count, _it_bonus])
 
 		# Дева: «Как повелели звёзды» — союзники получают эффект своей клетки как бафф на 2 хода
@@ -4503,7 +4871,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 				var _asd_u = _asd_team[_asd_i]
 				if _asd_u == null or _asd_u.current_hp <= 0:
 					continue
-				_apply_star_cell_buff(_asd_u, _asd_i, 2)
+				locations._apply_star_cell_buff(_asd_u, _asd_i, 2)
 			log_lines.append("  → [Как повелели звёзды] Союзники получают эффект своих клеток (2 хода).")
 
 		# Близнецы: «Разделиться» — лечит 50% макс. HP, -50% урона до конца боя
@@ -4552,7 +4920,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 
 		# Друид: «Стимулировать рост» — союзник +4 урона навсегда
 		if ability.ability_marker == "druid_stimulate_growth" and target and target.current_hp > 0:
-			_apply_buff_to_unit(target, "damage", 4, -1, "druid_stimulate_growth", "Стимулировать рост")
+			effects._apply_buff_to_unit(target, "damage", 4, -1, "druid_stimulate_growth", "Стимулировать рост")
 			log_lines.append("  → [Стимулировать рост] %s: +4 урона до конца боя." % target.unit_name)
 
 		# Друид: «Гнев природы» — +1 к длительности всех дебаффов цели
@@ -4583,6 +4951,31 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 			var _ub_hp_b = target.current_hp
 			target.apply_stat_change("hp", target.max_hp)
 			log_lines.append("  → [Кровь единорога] %s теряет %d HP, %s восстанавливает полное HP (%d → %d)." % [attacker.unit_name, _ub_cost, target.unit_name, _ub_hp_b, target.current_hp])
+
+		# ═══ Бальдр: «Стрела в моём теле» — 100% чистого урона себе, снимает свои дебаффы,
+		# за каждый снятый противники получают 5 урона ═══
+		if ability.ability_marker == "baldr_arrow_in_my_body" and target == attacker and attacker.current_hp > 0:
+			var _bal_self_dmg = int(attacker.damage)
+			var _bal_hp_before = attacker.current_hp
+			attacker.take_damage(_bal_self_dmg)
+			log_lines.append("  → [Стрела в моём теле] %s получает %d чистого урона. HP: %d → %d" % [attacker.unit_name, _bal_self_dmg, _bal_hp_before, attacker.current_hp])
+			if attacker.current_hp > 0:
+				var _bal_debuff_count = _count_debuffs_on_unit(attacker)
+				effects._dispel_effects(attacker, "debuff")
+				if _bal_debuff_count > 0:
+					var _bal_dmg_each = 5 * _bal_debuff_count
+					log_lines.append("  → [Стрела в моём теле] %s снимает с себя %d дебафф(ов) — противники получают по %d урона." % [attacker.unit_name, _bal_debuff_count, _bal_dmg_each])
+					for _bal_h in heroes_team:
+						if _bal_h and _bal_h.current_hp > 0:
+							var _bal_h_hp_b = _bal_h.current_hp
+							_bal_h.take_damage(_bal_dmg_each)
+							log_lines.append("    %s получает %d урона. HP: %d → %d" % [_bal_h.unit_name, _bal_dmg_each, _bal_h_hp_b, _bal_h.current_hp])
+							if _bal_h.current_hp <= 0:
+								_on_unit_killed(_bal_h, log_lines)
+					_compact_team(heroes_team)
+			else:
+				_on_unit_killed(attacker, log_lines)
+				_compact_team(enemies_team)
 	
 			# ═══ Стойка: войти в стойку после применения способности ═══
 	if ability.is_stance:
@@ -4877,31 +5270,6 @@ func _trigger_bombardment_stance(attacker: Combatant):
 			_compact_team(team)
 	_update_all_visuals()
 
-## Сусаноо: «Отражение» — контратака по всем врагам (0.4x множитель).
-func _trigger_susanoo_reflection(attacker: Combatant):
-	var enemies = _get_living_team_members(enemies_team if _is_player_hero(attacker) else heroes_team)
-	if enemies.is_empty():
-		return
-	_log_combat("⚔ [Сусаноо] Отражение! Контратака по всем врагам!")
-	for target in enemies:
-		if _check_battle_end():
-			return
-		var dmg_result = CombatCalculator.calculate_fixed_damage(attacker, target, 0.4)
-		if not dmg_result.is_hit:
-			_log_combat("  → Промах по %s." % target.unit_name)
-			continue
-		_deal_damage(target, dmg_result.final_damage, dmg_result.is_crit)
-		var crit_text = " (крит!)" if dmg_result.is_crit else ""
-		_log_combat("  → %s получает %d урона%s. HP: %d → %d" % [
-			target.unit_name, dmg_result.final_damage, crit_text, dmg_result.hp_before, target.current_hp])
-		if target.current_hp <= 0:
-			_log_combat("  → %s повержен!" % target.unit_name)
-			_on_unit_killed(target)
-			var team = heroes_team if target.is_enemy == false else enemies_team
-			_compact_team(team)
-	_update_all_visuals()
-
-
 func _redirect_majesty_to_set_true_king(unit: Combatant, amount: int, log_lines: Array) -> bool:
 	if unit == null or amount <= 0 or unit.current_hp <= 0 or unit.is_enemy:
 		return false
@@ -5160,21 +5528,8 @@ func _trigger_titan_born_to_battle(unit: Combatant):
 			_compact_team(enemy_team)
 	_update_all_visuals()
 
-## Проверяет, есть ли у юнита активная метка провокации.
-func _has_provocation(unit: Combatant) -> bool:
-	for eff in unit.active_effects:
-		if Combatant._effect_get(eff, "stat", "") == "provocation_mark":
-			return true
-	return false
-
-## Проверяет, есть ли у юнита активная метка невинности.
-func _has_innocence(unit: Combatant) -> bool:
-	for eff in unit.active_effects:
-		if Combatant._effect_get(eff, "effect_id", "") == "cupid_innocence":
-			return true
-	return false
-
-
+## _has_provocation/_has_innocence/_remove_effect_id перенесены в battle_effects.gd
+## (BattleEffects) — см. effects._has_provocation() и т.п.
 func _has_effect_id(unit: Combatant, effect_id: String) -> bool:
 	if unit == null:
 		return false
@@ -5182,13 +5537,6 @@ func _has_effect_id(unit: Combatant, effect_id: String) -> bool:
 		if Combatant._effect_get(eff, "effect_id", "") == effect_id:
 			return true
 	return false
-
-func _remove_effect_id(unit: Combatant, effect_id: String) -> void:
-	if unit == null:
-		return
-	for i in range(unit.active_effects.size() - 1, -1, -1):
-		if Combatant._effect_get(unit.active_effects[i], "effect_id", "") == effect_id:
-			unit.active_effects.remove_at(i)
 
 func _trigger_thor_fight_me_heal(unit: Combatant) -> String:
 	if unit == null or unit.current_hp <= 0:
@@ -5301,6 +5649,11 @@ func _apply_shift_effect(target: Combatant, distance: int, is_hero: bool):
 					if calm_dmg.is_hit and calm_dmg.final_damage > 0:
 						_deal_damage(target, calm_dmg.final_damage, calm_dmg.is_crit)
 						_log_combat("  → [Штиль] %s наносит %d урона за движение %s." % [enemy.unit_name, calm_dmg.final_damage, target.unit_name])
+						if target.current_hp <= 0:
+							_log_combat("  → %s повержен Штилем!" % target.unit_name)
+							_on_unit_killed(target)
+							_compact_team(heroes_team if not target.is_enemy else enemies_team)
+							_check_battle_end()
 						break
 	marks.check_on_move(target)
 	# Нага воин: пассивка — при перемещении +7 удачи на 2 хода
@@ -5325,11 +5678,11 @@ func _apply_shift_effect(target: Combatant, distance: int, is_hero: bool):
 	# ═══ Звёзды — Овен: при перемещении получает бафф каждой пройденной клетки (1 ход) ═══
 	if target.special_effect_type == "aries_path_buffs" and CombatManager.selected_location_id == "stars":
 		for _ar_pos in range(mini(idx, new_idx), maxi(idx, new_idx) + 1):
-			_apply_star_cell_buff(target, _ar_pos, 1)
+			locations._apply_star_cell_buff(target, _ar_pos, 1)
 		_log_combat("🐏 [Овен] %s получает звёздные баффы пройденных клеток." % target.unit_name)
-	
+
 	# ═══ Локация: Глубина — урон/лечение при смене позиции ═══
-	_location_depths_on_move(target)
+	locations._location_depths_on_move(target)
 
 func _get_living_team_members(team: Array) -> Array:
 	var members: Array = []
@@ -5344,6 +5697,9 @@ func _apply_member_order_to_team(team: Array, members: Array) -> void:
 		team[i] = null
 	var pos = 0
 	for i in range(members.size()):
+		if pos >= 4:
+			push_warning("_apply_member_order_to_team: некорректное построение — не помещается в 4 позиции, юнит отброшен.")
+			break
 		var m = members[i]
 		m.position_index = pos
 		team[pos] = m
@@ -5400,20 +5756,7 @@ func _propagate_valkyrie_buff(source: Combatant, source_type: String, target_typ
 ## Пегас: когда союзник получает бафф — +5 атаки навсегда.
 ## log_lines необязателен — если не передан (или вызов идёт из места без пакетного лога),
 ## строка сразу уходит в _log_combat.
-func _check_pegasus_ally_buff(buffed_unit: Combatant, log_lines = null):
-	if buffed_unit == null:
-		return
-	var team = enemies_team if buffed_unit.is_enemy else heroes_team
-	for pegasus in team:
-		if pegasus and pegasus.current_hp > 0 and pegasus != buffed_unit and pegasus.special_effect_type == "pegasus_ally_buff":
-			pegasus.apply_stat_change("damage", 5)
-			pegasus.active_effects.append({"stat": "damage", "value": 5, "duration": -1, "effect_id": "pegasus_ally_buff_stack", "source_ability": "Пассивка Пегаса"})
-			var _pg_line = "  → [Пегас] %s: +5 атаки (союзник получил бафф)." % pegasus.unit_name
-			if log_lines != null:
-				log_lines.append(_pg_line)
-			else:
-				_log_combat(_pg_line)
-			break
+## _check_pegasus_ally_buff перенесена в battle_effects.gd (см. effects._check_pegasus_ally_buff()).
 
 ## Морская ведьма: «Водоворот» — разворот позиций противников (1↔4, 2↔3), считается 4 перемещениями для локации.
 func _swap_enemy_positions(caster: Combatant) -> Array[String]:
@@ -5436,7 +5779,7 @@ func _swap_enemy_positions(caster: Combatant) -> Array[String]:
 	for u in reversed_members:
 		if u and u.current_hp > 0:
 			_on_unit_moved(u)
-			_location_depths_on_move(u)
+			locations._location_depths_on_move(u)
 	_update_all_visuals()
 	return lines
 	_sync_visual_positions()
@@ -5516,9 +5859,21 @@ func _remove_visual_for_unit(unit: Combatant):
 	for i in range(visuals.size()):
 		var v = visuals[i]
 		if v and v.data == unit:
-			v.queue_free()
+			# Слот освобождаем сразу (игровая логика видит место свободным немедленно),
+			# а сам узел лишь плавно растворяется и убирается из сцены чуть позже —
+			# чисто визуальный эффект, ни на что механическое не влияет.
 			visuals[i] = null
+			_fade_out_and_free_visual(v)
 			return
+
+## Растворяет спрайт погибшего юнита до полной прозрачности за 1 секунду, затем
+## удаляет узел. Вызывается вместо мгновенного queue_free() в _remove_visual_for_unit.
+func _fade_out_and_free_visual(visual: Node2D) -> void:
+	if visual == null or not is_instance_valid(visual):
+		return
+	var tween := create_tween()
+	tween.tween_property(visual, "modulate:a", 0.0, 1.0)
+	tween.tween_callback(visual.queue_free)
 
 ## Создаёт визуал юниту, если у него его нет (нужно при воскрешении Жрецом Анубиса).
 func _ensure_visual_for_unit(unit: Combatant):
@@ -5561,7 +5916,45 @@ func _on_unit_damaged(_amount: int, unit: Combatant):
 		vis = _find_visual_for_unit(unit, enemy_visuals)
 	if vis != null:
 		vis.flash_damage()
-		
+	_track_mission_damage_stats(unit, _amount)
+
+## Статистика урона за миссию (см. MissionState.hero_battle_stats), для итогового
+## экрана после её завершения. «Получено» — считаем прямо на пострадавшем боге.
+## «Нанесено» — приписываем текущему активному юниту хода, если это бог, а урон
+## получил враг (эвристика: не проходит per-source атрибуцию через все точки
+## take_damage(), но верно покрывает подавляющее большинство реального урона —
+## прямые попадания способностей/ульт/заклинаний — и не путает урон себе/от эффектов).
+func _track_mission_damage_stats(unit: Combatant, amount: int) -> void:
+	if not CombatManager.is_mission_battle or unit == null or amount <= 0:
+		return
+	if not unit.is_enemy and unit.source_resource_path != "":
+		MissionState.add_hero_damage_taken(unit.source_resource_path, amount)
+	elif unit.is_enemy and active_unit != null and not active_unit.is_enemy and active_unit.source_resource_path != "":
+		MissionState.add_hero_damage_dealt(active_unit.source_resource_path, amount)
+
+## Учёт исцеления за миссию (см. MissionState.hero_battle_stats) — только для героев,
+## считаем прямо на исцелённом боге (кто вылечил — не различаем, как и с уроном выше).
+func _on_unit_healed(amount: int, unit: Combatant) -> void:
+	if not CombatManager.is_mission_battle or unit == null or amount <= 0:
+		return
+	if not unit.is_enemy and unit.source_resource_path != "":
+		MissionState.add_hero_damage_healed(unit.source_resource_path, amount)
+
+## Подстраховка на случай, если какой-то конкретный источник урона забудет вручную
+## вызвать _on_unit_killed()/_compact_team()/_check_battle_end() (см. Combatant.died,
+## эмитится один раз при первом падении HP до 0). Намеренно НЕ вызывает
+## _compact_team()/_check_battle_end() отсюда — died эмитится синхронно изнутри
+## take_damage(), а вызывающий код по всему файлу часто ещё держит в работе
+## индексы/итераторы по heroes_team/enemies_team, которые компоновка команды
+## могла бы сломать. _on_unit_killed() же безопасен: он не меняет сами массивы
+## команд, только очередь ходов, визуал и «кладбище» — и теперь идемпотентен.
+func _on_unit_died(unit: Combatant) -> void:
+	_on_unit_killed(unit)
+
+func _on_phoenix_shield_triggered(unit: Combatant) -> void:
+	_log_combat("🔥 [Перо феникса] %s: гибель предотвращена, здоровье полностью восстановлено!" % unit.unit_name)
+	_update_all_visuals()
+
 func _show_miss_popup(unit: Combatant) -> void:
 	if unit == null:
 		return
@@ -5602,9 +5995,9 @@ func _compute_effect_duration(attacker: Combatant, target: Combatant, base_durat
 	if not is_debuff:
 		# Один + Нага монах: неуникальные баффы союзников (по стороне ЦЕЛИ) длятся на 1 ход дольше.
 		var target_team = heroes_team if not target.is_enemy else enemies_team
-		if _has_special_on_team(target_team, "odin_buff_duration"):
+		if effects._has_special_on_team(target_team, "odin_buff_duration"):
 			duration += 1
-		if _has_special_on_team(target_team, "naga_monk_buff_duration"):
+		if effects._has_special_on_team(target_team, "naga_monk_buff_duration"):
 			duration += 1
 		# Мысль и память: баффы на самого Одина длятся ещё на 1 ход дольше (сверх общей пассивки).
 		if attacker == target and target.has_item_effect("odin_self_buff_extend"):
@@ -5612,10 +6005,10 @@ func _compute_effect_duration(attacker: Combatant, target: Combatant, base_durat
 	else:
 		var caster_team = enemies_team if attacker.is_enemy else heroes_team
 		# Кикимора: дебафф её команды НА БОГА (не на своих союзников) — +1 ход.
-		if not target.is_enemy and _has_special_on_team(caster_team, "kikimora_extended_debuffs"):
+		if not target.is_enemy and effects._has_special_on_team(caster_team, "kikimora_extended_debuffs"):
 			duration += 1
 		# Самди: дебафф его команды НА ВРАГА (не на своих союзников) — 50% шанс +1 ход.
-		if target.is_enemy != attacker.is_enemy and _has_special_on_team(caster_team, "samdi_extend_debuffs") and randf() < 0.5:
+		if target.is_enemy != attacker.is_enemy and effects._has_special_on_team(caster_team, "samdi_extend_debuffs") and randf() < 0.5:
 			duration += 1
 		# ═══ Шляпа Самди: когда противник Самди получает дебафф, наносит ему 15% урона Самди ═══
 		if target.current_hp > 0:
@@ -5637,231 +6030,8 @@ func _compute_effect_duration(attacker: Combatant, target: Combatant, base_durat
 					_log_combat("🌸 [Цветок кикиморы] %s восстанавливает %d HP от дебаффа. HP: %d → %d" % [target.unit_name, _kf_heal, _kf_hp_before, target.current_hp])
 	return duration
 
-func _apply_effect_to_target(attacker: Combatant, target: Combatant, effect: String, ability: AbilityResource, is_crit: bool = false) -> String:
-	var val = ability.effect_values.get(effect, 0)
-	var duration = ability.effect_durations.get(effect, 1)
-	
-	# Продление длительности пассивками (Один/Нага монах — баффы; Кикимора/Самди — дебаффы) —
-	# см. _compute_effect_duration, единая точка входа для всей этой логики.
-	if effect.contains("debuff"):
-		duration = _compute_effect_duration(attacker, target, duration, true)
-	elif effect.contains("buff"):
-		duration = _compute_effect_duration(attacker, target, duration, false)
-
-	# Сфинкс / Чёрная маска Чернобога: иммунитет ко всем дебаффам
-	if target.special_effect_type == "sphinx_debuff_immune" or target.has_item_effect("chernobog_debuff_immune"):
-		if effect.contains("debuff") or effect == "stun" or effect == "periodic_damage" or effect == "dispel_buffs":
-			return "%s: иммунен к дебаффам." % target.unit_name
-	
-	if effect.ends_with("push_forward"):
-		var mover = attacker if effect.begins_with("self_") else target
-		if mover.is_large:
-			return "%s — слишком велик, чтобы его сдвинуть!" % mover.unit_name
-		var old_pos = mover.position_index
-		_apply_shift_effect(mover, -val, _is_player_hero(mover))
-		return "%s продвигается вперёд: линия %d → %d." % [mover.unit_name, old_pos + 1, mover.position_index + 1]
-	elif effect.ends_with("push_back"):
-		var mover = attacker if effect.begins_with("self_") else target
-		if mover.is_large:
-			return "%s — слишком велик, чтобы его сдвинуть!" % mover.unit_name
-		var old_pos = mover.position_index
-		_apply_shift_effect(mover, val, _is_player_hero(mover))
-		return "%s отталкивается назад: линия %d → %d." % [mover.unit_name, old_pos + 1, mover.position_index + 1]
-		
-	elif effect.ends_with("pull_forward") or effect.ends_with("pull_porward"):
-		var mover = attacker if effect.begins_with("self_") else target
-		if mover.is_large:
-			return "%s — слишком велик, чтобы его сдвинуть!" % mover.unit_name
-		var old_pos = mover.position_index
-		_apply_shift_effect(mover, -val, _is_player_hero(mover))
-		return "%s притягивается вперёд: линия %d → %d." % [mover.unit_name, old_pos + 1, mover.position_index + 1]
-	
-	elif effect == "periodic_damage":
-		var pd_duration = _compute_effect_duration(attacker, target, duration, true)
-		var dot_effect = {"stat": "periodic_damage", "value": val, "duration": pd_duration, "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name}
-		target.active_effects.append(dot_effect)
-		# Мучитель: пассивка — при наложении DoT союзником даёт регенерацию всем Мучителям в команде
-		_apply_tormentor_regen(attacker, val, pd_duration)
-		return "%s получает периодический урон (%d) на %d ход(ов)." % [target.unit_name, val, pd_duration]
-	
-	elif effect == "target_root":
-		# Леший «Ни шагу»: цель не может передвигаться N ходов
-		var root_duration = _compute_effect_duration(attacker, target, duration, true)
-		target.active_effects.append({"stat": "rooted", "value": val, "duration": root_duration, "effect_id": "rooted", "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name})
-		return "%s опутан корнями и не может передвигаться %d ход(ов)." % [target.unit_name, root_duration]
-	
-	elif effect == "stun":
-		target.is_stunned = true
-		var stun_duration = _compute_effect_duration(attacker, target, duration, true)
-		var stun_effect = {"stat": "stun", "value": 1, "duration": stun_duration, "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name}
-		target.active_effects.append(stun_effect)
-		target.check_stance_interruption("stun")
-		_notify_stun_applied(target)
-		return "%s оглушён на %d ход(ов)." % [target.unit_name, stun_duration]
-
-	elif effect == "crit_stun":
-		if not is_crit or target.is_stunned:
-			return ""
-		if target.special_effect_type == "sphinx_debuff_immune" or target.has_item_effect("chernobog_debuff_immune"):
-			return "%s: иммунен к дебаффам." % target.unit_name
-		target.is_stunned = true
-		var cs_duration = _compute_effect_duration(attacker, target, duration, true)
-		target.active_effects.append({"stat": "stun", "value": 1, "duration": cs_duration, "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name})
-		target.check_stance_interruption("stun")
-		_notify_stun_applied(target)
-		return "%s оглушён критическим ударом на %d ход(ов)." % [target.unit_name, cs_duration]
-
-	elif effect == "self_damage_hp_percent":
-		var self_dmg = int(target.max_hp * val / 100.0)
-		target.take_damage(self_dmg)
-		return "%s получает %d урона (%d%% от макс. HP)." % [target.unit_name, self_dmg, val]
-	elif effect == "self_heal_percent":
-		var heal_amount = int(target.max_hp * (val / 100.0))
-		target.apply_stat_change("hp", heal_amount)
-		return "%s восстанавливает %d HP." % [target.unit_name, heal_amount]
-	elif effect == "target_heal_percent":
-		var heal_amount = int(target.max_hp * (val / 100.0))
-		var _hp_before = target.current_hp
-		target.apply_stat_change("hp", heal_amount)
-		return "%s восстанавливает %d HP (%d → %d)." % [target.unit_name, heal_amount, _hp_before, target.current_hp]
-	elif effect == "heal_flat":
-		target.apply_stat_change("hp", val)
-		return "%s восстанавливает %d HP." % [target.unit_name, val]
-	elif effect == "dispel_buffs":
-		_dispel_effects(target, "buff")
-		return "С %s сняты положительные эффекты." % target.unit_name
-	elif effect == "all_allies_dispel_debuffs":
-		_dispel_effects(target, "debuff")
-		return "С %s сняты отрицательные эффекты." % target.unit_name
-	elif effect == "dispel_debuffs" or effect == "self_dispel_debuffs":
-		_dispel_effects(target, "debuff")
-		return "С %s сняты отрицательные эффекты." % target.unit_name
-	elif effect == "cleanse_all":
-		_dispel_effects(target, "all")
-		return "С %s сняты все эффекты." % target.unit_name
-	elif effect == "regeneration":
-		var regen_duration = _compute_effect_duration(attacker, target, duration, false)
-		target.active_effects.append({"stat": "regeneration", "value": val, "duration": regen_duration, "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name})
-		return "%s получает регенерацию (%d HP) на %d ход(ов)." % [target.unit_name, val, regen_duration]
-	elif effect == "self_fog_accuracy":
-		if _is_fog_round:
-			var fog_duration = _compute_effect_duration(attacker, target, duration, false)
-			target.apply_stat_change("accuracy", val)
-			target.active_effects.append({"stat": "accuracy", "value": val, "duration": fog_duration, "effect_id": "self_fog_accuracy", "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name})
-			return "%s: +%d точности (туманный раунд)." % [target.unit_name, val]
-		return "%s: тумана нет, бонус точности не применяется." % target.unit_name
-	elif effect == "self_provocation_mark":
-		var prov_duration = _compute_effect_duration(attacker, target, duration, false)
-		target.active_effects.append({"stat": "provocation_mark", "value": 1, "duration": prov_duration, "effect_id": "provocation_mark", "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name})
-		return "%s получает метку провокации на %d ход(ов)." % [target.unit_name, prov_duration]
-	elif effect == "self_thor_hammer_of_lightning":
-		_remove_effect_id(target, "thor_hammer_of_lightning")
-		var hol_mark_duration = _compute_effect_duration(attacker, target, duration, false)
-		# Мьёльнир: эффект ульты длится ещё на 1 ход дольше.
-		if attacker.has_item_effect("thor_mjolnir_extend_ult"):
-			hol_mark_duration += 1
-		target.active_effects.append({"stat": "trigger_marker", "value": 0, "duration": hol_mark_duration, "effect_id": "thor_hammer_of_lightning", "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name})
-		return "%s получает метку Hammer_of_lightning на %d ход(ов)." % [target.unit_name, hol_mark_duration]
-
-	elif effect == "self_thor_fight_me_heal":
-		_remove_effect_id(target, "thor_fight_me_heal")
-		var fmh_duration = _compute_effect_duration(attacker, target, duration, false)
-		target.active_effects.append({"stat": "trigger_marker", "value": 0, "duration": fmh_duration, "effect_id": "thor_fight_me_heal", "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name})
-		return "%s будет восстанавливать 7%% здоровья при атаках по нему." % target.unit_name
-
-	
-	elif effect == "dispel_accuracy_debuffs":
-		_dispel_stat_debuffs(target, "accuracy")
-		return "С %s сняты дебаффы точности." % target.unit_name
-	
-	elif effect == "siren_to_the_bottom_bonus":
-		# Обрабатывается отдельно в _use_ability через bonus damage
-		return ""
-	
-	elif effect == "steal_buffs":
-		return _steal_buffs_from_to(target, attacker)
-	
-	elif effect == "random_stat_buff":
-		# +val к случайной характеристике (перманентно). target == self.
-		var stats = ["damage", "armor", "initiative", "accuracy", "evasion", "crit"]
-		var chosen_stat = stats[randi() % stats.size()]
-		target.apply_stat_change(chosen_stat, val)
-		target.active_effects.append({"stat": chosen_stat, "value": val, "duration": -1, "effect_id": "crab_search_treasure_%s" % chosen_stat, "source_ability": "crab_search_treasure"})
-		return "%s: +%d к %s (перманентно)." % [target.unit_name, val, chosen_stat]
-	
-	elif effect == "target_extend_location_effect":
-		# Утопленница «Вниз»: цель помечена — когда она покинет позицию 1, эффект Топи
-		# держится на ней ещё val ходов (стек сохраняется, если она вернётся до истечения).
-		_remove_effect_id(target, "utoplennitsa_swamp_extend")
-		target.active_effects.append({"stat": "trigger_marker", "value": val, "duration": -1, "effect_id": "utoplennitsa_swamp_extend", "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name})
-		return "%s помечен(а): эффект локации будет держаться на %d ход(ов) дольше после ухода с позиции." % [target.unit_name, val]
-
-	elif effect == "medusa_curse_initiative":
-		target.apply_stat_change("initiative", -val)
-		target.active_effects.append({"stat": "initiative", "value": -val, "duration": duration, "effect_id": "medusa_curse_initiative", "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name})
-		var curse_note = "%s: -%d к инициативе на %d ход(ов)." % [target.unit_name, val, duration]
-		# Накопление: если суммарный дебафф инициативы <= -5 → стан
-		var total_init_debuff = 0
-		for e in target.active_effects:
-			if Combatant._effect_get(e, "stat", "") == "initiative" and Combatant._effect_get(e, "value", 0) < 0:
-				total_init_debuff += Combatant._effect_get(e, "value", 0)
-		if total_init_debuff <= -5 and not target.is_stunned:
-			target.is_stunned = true
-			target.active_effects.append({"stat": "stun", "value": 1, "duration": 1, "source_ability": "medusa_curse_initiative"})
-			target.check_stance_interruption("stun")
-			_notify_stun_applied(target)
-			curse_note += " Суммарный дебафф инициативы достиг -5 → %s оглушён!" % target.unit_name
-		return curse_note
-	
-	else:
-		var stat = _extract_stat_name(effect)
-		if effect.contains("debuff"):
-			target.apply_stat_change(stat, -val)
-			target.active_effects.append({"stat": stat, "value": -val, "duration": duration, "effect_id": effect, "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name})
-			# Кукла вуду: перенести дебафф на связанного (юнита позади) меченой цели
-			
-			# ═══ Локация: Сад — при дебаффе на союзника +15 чистого урона ═══
-			var garden_note = ""
-			if CombatManager.selected_location_id == "garden" and not target.is_enemy and target.current_hp > 0:
-				var hp_before_g = target.current_hp
-				target.take_damage(15)
-				garden_note = " [Сад] +15 чистого урона при дебаффе. HP: %d → %d" % [hp_before_g, target.current_hp]
-			
-			# ═══ Цветочная фея / Фея шипов: реакция на дебафф на противнике ═══
-			var _ft_foe_team = enemies_team if not target.is_enemy else heroes_team
-			if _has_special_on_team(_ft_foe_team, "flower_fairy_debuff_evasion"):
-				for _ff_ally in _ft_foe_team:
-					if _ff_ally and _ff_ally.current_hp > 0:
-						_ff_ally.apply_stat_change("evasion", 3)
-						_ff_ally.active_effects.append({"stat": "evasion", "value": 3, "duration": 1, "effect_id": "flower_fairy_debuff_evasion", "source_ability": "Пассивка цветочной феи"})
-			if _has_special_on_team(_ft_foe_team, "thorn_fairy_debuff_damage") and target.current_hp > 0:
-				var _tf_hp_b = target.current_hp
-				target.take_damage(5)
-				garden_note += " [Фея шипов] +5 чистого урона. HP: %d → %d" % [_tf_hp_b, target.current_hp]
-			
-			return "%s: -%d к %s на %d ход(ов).%s" % [target.unit_name, val, stat, duration, garden_note]
-		elif effect.contains("buff"):
-			target.apply_stat_change(stat, val)
-			target.active_effects.append({"stat": stat, "value": val, "duration": duration, "effect_id": effect, "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name})
-			_check_pegasus_ally_buff(target)
-			return "%s: +%d к %s на %d ход(ов)." % [target.unit_name, val, stat, duration]
-
-	return ""
-
-## Извлекает имя стата из названия эффекта.
-## Пример: "target_debuff_accuracy" → "accuracy", "self_buff_damage" → "damage"
-func _extract_stat_name(effect: String) -> String:
-	var stat = effect
-	var prefixes = ["All_Enemies_", "All_Allies_", "all_allies_", "all_enemies_", "self_", "target_", "enemy_", "ally_"]
-	for p in prefixes:
-		if stat.begins_with(p):
-			stat = stat.substr(p.length())
-			break
-	if stat.begins_with("buff_"):
-		stat = stat.substr(5)
-	elif stat.begins_with("debuff_"):
-		stat = stat.substr(7)
-	return stat
+## _apply_effect_to_target() и _extract_stat_name() перенесены в battle_effects.gd
+## (см. effects._apply_effect_to_target()).
 
 # ══════════════════════════════════════════════
 #  ПАССИВНЫЕ СПОСОБНОСТИ ПЕРСОНАЖЕЙ
@@ -5891,6 +6061,12 @@ func _trigger_poseidon_heal(unit: Combatant):
 
 ## Вызывается при смерти юнита. Обрабатывает пассивки, зависящие от убийства.
 func _on_unit_killed(victim: Combatant, log_lines: Array = []):
+	# Идемпотентность: обычный код и подстраховка через сигнал died могут оба
+	# попытаться обработать одну и ту же смерть — разово-смертные пассивки
+	# (Банши, проклятие Принцессы и т.п.) не должны сработать дважды.
+	if victim.death_processed:
+		return
+	victim.death_processed = true
 	# Замок: трекинг смертей в этом раунде (Рыцарь «Отважный удар»)
 	if victim.is_enemy:
 		_enemies_died_this_round = true
@@ -6039,6 +6215,7 @@ func _on_unit_killed(victim: Combatant, log_lines: Array = []):
 			revived.current_hp = revived.max_hp
 			revived.active_effects.clear()
 			revived.is_stunned = false
+			revived.death_processed = false
 			graveyard.erase(revived)
 			# Сначала компактируем команду: мёртвая жертва покинет свой слот,
 			# освободив место для воскрешённого (исключает коллизию позиций).
@@ -6064,11 +6241,7 @@ func _on_unit_killed(victim: Combatant, log_lines: Array = []):
 	_update_turn_order_display()
 
 ## Проверяет, есть ли живой юнит с указанной пассивкой в команде
-func _has_special_on_team(team: Array, effect_type: String) -> bool:
-	for unit in team:
-		if unit and unit.current_hp > 0 and unit.special_effect_type == effect_type:
-			return true
-	return false
+## _has_special_on_team перенесена в battle_effects.gd (см. effects._has_special_on_team()).
 
 func _check_battle_end() -> bool:
 	var heroes_alive = false
@@ -6120,13 +6293,18 @@ func _end_battle(victory: bool = false) -> void:
 	_battle_ending = true
 	_sync_campaign_hero_health()
 	_sync_mission_hero_majesty()
+	if victory:
+		_mark_defeated_nemeses()
 	# Забвение: боги, погибшие в бою миссии, получают +2.5 усталости.
 	if CombatManager.is_mission_battle:
 		_apply_death_fading()
 	var t = create_tween()
 	t.tween_interval(2.5)
-	if CombatManager.is_mission_battle and victory:
-		t.tween_callback(_return_to_mission_after_battle)
+	if CombatManager.is_mission_battle:
+		if victory:
+			t.tween_callback(_return_to_mission_after_battle)
+		else:
+			t.tween_callback(_return_to_mission_after_defeat)
 	else:
 		t.tween_callback(func():
 			CombatManager.is_mission_battle = false
@@ -6158,21 +6336,34 @@ func _sync_mission_hero_majesty() -> void:
 		if hero == null:
 			continue
 		MissionState.set_hero_majesty(hero_path, hero.current_majesty)
+
+## Отмечает побеждённым любого немезида (CharacterResource.is_nemesis), который был
+## в команде врагов этого выигранного боя.
+func _mark_defeated_nemeses() -> void:
+	for enemy_value in enemies_team:
+		var enemy: Combatant = enemy_value as Combatant
+		if enemy != null and enemy.is_nemesis and enemy.source_resource_path != "":
+			CampaignState.mark_nemesis_defeated(enemy.source_resource_path)
+
 func _return_to_mission_after_battle() -> void:
 	CombatManager.is_mission_battle = false
 	if MissionState.advance_after_battle():
-		get_tree().change_scene_to_file("res://Missions/mission_scene.tscn")
+		SceneTransition.change_scene_with_fade("res://Missions/mission_scene.tscn")
 		return
-	var return_path := MissionState.return_scene_path.strip_edges()
-	if return_path == "":
-		return_path = "res://Campaign/campaign_screen.tscn"
-	if MissionState.current_mission != null:
-		var finished_mission_path := MissionState.current_mission.resource_path
-		MissionState.last_completed_mission_path = finished_mission_path
-		CampaignState.complete_mission(finished_mission_path)
-	MissionState.clear_mission_run()
-	CombatManager.reset_mission()
-	get_tree().change_scene_to_file(return_path)
+	# Бой был последним действием миссии — экран победы/наград/статистики покажет
+	# сама mission_scene.gd (см. MissionState.pending_mission_end_kind), она же и
+	# завершит миссию (CampaignState.complete_mission и т.д.) в _finish_mission().
+	MissionState.pending_mission_end_kind = MissionState.MissionEndKind.VICTORY
+	SceneTransition.change_scene_with_fade("res://Missions/mission_scene.tscn")
+
+## Поражение в бою миссии: дальше сцены миссии не идут, независимо от того, был ли
+## у боя next_scene_after_battle — экран поражения/наград/статистики покажет
+## mission_scene.gd (см. MissionState.pending_mission_end_kind).
+func _return_to_mission_after_defeat() -> void:
+	CombatManager.is_mission_battle = false
+	MissionState.next_scene_after_battle = null
+	MissionState.pending_mission_end_kind = MissionState.MissionEndKind.DEFEAT
+	SceneTransition.change_scene_with_fade("res://Missions/mission_scene.tscn")
 
 ## Начисляет ровно 2 полных уровня забвения каждому богу, погибшему в текущем
 ## бою миссии. Если это не привело к окончательной смерти (5.0 забвения) —
@@ -6207,59 +6398,8 @@ func _apply_death_fading() -> void:
 				" (МЁРТВ)" if res.is_dead else ""
 			])
 
-func _dispel_effects(target: Combatant, type: String):
-	var i = 0
-	while i < target.active_effects.size():
-		var effect = target.active_effects[i]
-		var stat_name = Combatant._effect_get(effect, "stat")
-		var effect_value = Combatant._effect_get(effect, "value", 0)
-		var should_remove = false
-		
-		var effect_id = Combatant._effect_get(effect, "effect_id", "")
-		if Combatant._effect_get(effect, "dispellable", true) == false:
-			i += 1
-			continue
-		if effect_id == "neverending_storm_mark":
-			i += 1
-			continue
-		# Не снимаем локационные эффекты (swamp_debuff и helheim_fog)
-		if effect_id == "swamp_debuff" or effect_id == "helheim_fog":
-			i += 1
-			continue
-		var is_buff = effect_value > 0 and stat_name != "stun" and stat_name != "periodic_damage"
-		
-		if type == "all":
-			should_remove = true
-		elif type == "buff" and is_buff:
-			should_remove = true
-		elif type == "debuff" and !is_buff:
-			should_remove = true
-			
-		if should_remove:
-			if stat_name != "stun" and stat_name != "periodic_damage":
-				target.apply_stat_change(stat_name, -effect_value)
-			elif stat_name == "stun":
-				target.is_stunned = false
-				
-			target.active_effects.remove_at(i)
-		else:
-			i += 1
-	_update_all_visuals()
-
-## Снимает с юнита все дебаффы указанного стата (например, "accuracy").
-## Используется эффектом dispel_accuracy_debuffs (способность «Мотивация» Капитана).
-func _dispel_stat_debuffs(target: Combatant, stat_name: String):
-	var i = 0
-	while i < target.active_effects.size():
-		var effect = target.active_effects[i]
-		var e_stat = Combatant._effect_get(effect, "stat", "")
-		var e_val = Combatant._effect_get(effect, "value", 0)
-		if e_stat == stat_name and e_val < 0:
-			target.apply_stat_change(e_stat, -e_val)
-			target.active_effects.remove_at(i)
-		else:
-			i += 1
-	_update_all_visuals()
+## _dispel_effects/_dispel_stat_debuffs перенесены в battle_effects.gd
+## (см. effects._dispel_effects()/effects._dispel_stat_debuffs()).
 
 ## Считает количество уникальных дебаффов на юните (для «На дно» Сирены).
 func _count_debuffs_on_unit(unit: Combatant) -> int:
@@ -6298,34 +6438,7 @@ func _is_unit_invulnerable(unit: Combatant) -> bool:
 			return true
 	return false
 
-## Краб-коллектор: перенос всех баффов с source на dest (без изменения длительности).
-func _steal_buffs_from_to(source: Combatant, dest: Combatant) -> String:
-	var i = 0
-	var stolen = 0
-	while i < source.active_effects.size():
-		var e = source.active_effects[i]
-		var e_stat = Combatant._effect_get(e, "stat", "")
-		var e_val = Combatant._effect_get(e, "value", 0)
-		if Combatant._effect_get(e, "dispellable", true) == false:
-			i += 1
-			continue
-		var is_buff = e_val > 0 and e_stat != "stun" and e_stat != "periodic_damage"
-		if is_buff:
-			# Снимаем с источника (реверс стата)
-			source.apply_stat_change(e_stat, -e_val)
-			source.active_effects.remove_at(i)
-			# Переносим на получателя
-			dest.apply_stat_change(e_stat, e_val)
-			var _copy = e.duplicate()
-			_copy["source_ability"] = "crab_steal"
-			dest.active_effects.append(_copy)
-			stolen += 1
-		else:
-			i += 1
-	_update_all_visuals()
-	if stolen > 0:
-		return "%s крадёт %d бафф(ов) у %s." % [dest.unit_name, stolen, source.unit_name]
-	return "%s: нет баффов для кражи у %s." % [dest.unit_name, source.unit_name]
+## _steal_buffs_from_to перенесена в battle_effects.gd (см. effects._steal_buffs_from_to()).
 
 ## Медуза: при оглушении любого юнита — лечится на 15% HP.
 func _notify_stun_applied(stunned_unit: Combatant):
@@ -6373,21 +6486,21 @@ const LOCATION_DOOR_ICON_OPEN := {
 ## Текст уникальных правил локации — показывается во всплывающей подсказке
 ## над иконкой двери (верхний правый угол).
 const LOCATION_RULE_TEXT := {
-	"helheim": "30% шанс туманного раунда (60%, пока жив Йотун): все герои получают -20 урона на этот ход.",
+	"helheim": "30% шанс туманного раунда (60%, пока жив Йотун): у всех героев -20 к урону (атаке) на 1 ход.",
 	"hell": "Каждый раунд все боги теряют 5 величия, игрок теряет 5 фантазии.",
 	"tunnels": "Юнит с бронёй выше 50 получает регенерацию 7% HP на 1 ход.",
-	"clouds": "При попадании по врагу (не богу) атакующий получает +10 уклонения.",
+	"clouds": "Враг (не бог), получивший урон и оставшийся в живых, получает +10 уклонения на 1 ход (стакается; у Купидона — +20).",
 	"stars": "Враги на позициях 1-4 получают фиксированные бонусы клетки: +10 брони / регенерация 10% / +10% удачи / +10 урона.",
 	"mountains": "Уникальных боевых правил нет — только флейвор-текст в начале боя.",
-	"arena": "Весь наносимый урон увеличен на 20%.",
-	"castle": "Заклинания стоят x1.5 фантазии; за раунд можно применить до 2 заклинаний.",
-	"desert": "В начале раунда все юниты получают 10 чистого урона (герои — до 20 при «Славе солнцу»). Жрец Ра защищает своих союзников от этого урона.",
+	"arena": "Урон от способностей увеличен на 20% (не действует на периодический урон).",
+	"castle": "Заклинания стоят x1.5 фантазии; всего до 2 заклинаний за раунд на всю команду.",
+	"desert": "В начале раунда все юниты получают 5 чистого урона, но не ниже 1 HP (герои — до 10 при «Славе солнцу»). Жрец Ра защищает своих союзников от этого урона.",
 	"depths": "Смена позиции наносит 20 чистого урона в нечётные раунды («Бурные потоки») или лечит на 10% HP в чётные («Спокойные воды»).",
-	"island": "Каждый ход инициатива героев снижается на 1 (до 0).",
+	"island": "Каждый раунд инициатива героев снижается на 1 (до 0).",
 	"ships": "Героям доступно уникальное заклинание «Ром».",
 	"jungle": "Критический удар наносит x3 урона вместо обычного x2.",
-	"garden": "При наложении дебаффа на союзника атакующий получает +15 чистого урона.",
-	"swamp": "Бог на первой позиции копит дебафф (-1 инициатива, -5 брони за ход, суммируется, пока стоит). Утопленница «Вниз» может продлить дебафф на 1 ход после ухода с позиции — стек сохранится, если бог вернётся.",
+	"garden": "Если бог (герой) получает дебафф — он получает ещё 15 чистого урона.",
+	"swamp": "Бог на первой позиции копит дебафф (-1 инициатива, -5 брони и -5 уклонения за ход, суммируется, пока стоит). Утопленница «Вниз» может продлить дебафф на 1 ход после ухода с позиции — стек сохранится, если бог вернётся.",
 }
 
 ## Создаёт иконку двери текущей локации (верхний правый угол) с подсказкой её правил при наведении.
@@ -6927,6 +7040,7 @@ func _on_spell_clicked(spell_index: int):
 	_waiting_for_spell_target = true
 	_selected_spell = spell
 	_set_status("Выберите цель для заклинания: %s" % spell.get_display_name())
+	_update_target_highlights()
 
 ## Применение эффектов заклинания к одной цели
 func _apply_spell_to_target(target: Combatant, spell: SpellResource):
@@ -6969,7 +7083,7 @@ func _apply_spell_to_target(target: Combatant, spell: SpellResource):
 			_log_combat("⚡ %s: %s отталкивается назад (линия %d → %d)." % [spell.spell_name, target.unit_name, old_pos + 1, target.position_index + 1])
 		elif effect.contains("buff") or effect.contains("debuff"):
 			# Общий обработчик баффов/дебаффов для заклинаний
-			var stat = _extract_stat_name(effect)
+			var stat = effects._extract_stat_name(effect)
 			if effect.contains("debuff"):
 				var spell_debuff_duration = _compute_effect_duration(active_unit, target, duration, true)
 				target.apply_stat_change(stat, -val)
@@ -6981,11 +7095,13 @@ func _apply_spell_to_target(target: Combatant, spell: SpellResource):
 					_log_combat("  → [Сад] +15 чистого урона при дебаффе. HP: %d → %d" % [hp_before_g, target.current_hp])
 				_log_combat("⚡ %s: %s: -%d к %s на %d ход(ов)." % [spell.spell_name, target.unit_name, val, stat, spell_debuff_duration])
 			elif effect.contains("buff"):
+				if effects._block_buff_for_hopeless_stance(target):
+					return
 				var spell_buff_duration = _compute_effect_duration(active_unit, target, duration, false)
 				target.apply_stat_change(stat, val)
 				target.active_effects.append({"stat": stat, "value": val, "duration": spell_buff_duration, "source_ability": spell.spell_name})
 				_log_combat("⚡ %s: %s: +%d к %s на %d ход(ов)." % [spell.spell_name, target.unit_name, val, stat, spell_buff_duration])
-				_check_pegasus_ally_buff(target)
+				effects._check_pegasus_ally_buff(target)
 	
 	# Матрос: пассивка sailor_rum_heal — восстанавливает 10% HP при получении заклинания «Ром»
 	if spell.spell_name == "Ром" and target.special_effect_type == "sailor_rum_heal":
@@ -7017,9 +7133,11 @@ func _apply_spell_to_target(target: Combatant, spell: SpellResource):
 			if target.current_hp <= 0:
 				_log_combat("☠ %s погибает от заклинания %s!" % [target.unit_name, spell.spell_name])
 				_on_unit_killed(target)
+				_compact_team(heroes_team if not target.is_enemy else enemies_team)
 				if bool(spell.get_meta("refund_on_kill", false)):
 					_pending_spell_refund = true
 					_log_combat("⚡ %s: враг повержен — можно применить ещё одно заклинание в этот ход!" % spell.spell_name)
+				_check_battle_end()
 		else:
 			_log_combat("⚡ %s: %s неуязвим — урон поглощён." % [spell.spell_name, target.unit_name])
 
@@ -7049,6 +7167,12 @@ func _deduct_spell(spell: SpellResource):
 			if _exc_hero and _exc_hero.current_hp > 0 and _exc_hero.has_item_effect("excalibur_fantasy_spent_damage"):
 				_exc_hero.apply_stat_change("damage", cost)
 				_log_combat("⚔ [Экскалибур] %s: +%d урона (потрачена фантазия)." % [_exc_hero.unit_name, cost])
+	# ═══ Маска шута: +1% удачи до конца боя за каждую единицу потраченной фантазии ═══
+	if cost > 0:
+		for _jm_hero in heroes_team:
+			if _jm_hero and _jm_hero.current_hp > 0 and _jm_hero.has_item_effect("jesters_mask_fantasy_spent_luck"):
+				_jm_hero.apply_stat_change("crit", cost)
+				_log_combat("🎭 [Маска шута] %s: +%d%% удачи (потрачена фантазия)." % [_jm_hero.unit_name, cost])
 	# ═══ Замок — Волшебник: восстановление HP = потраченной фантазии ═══
 	if active_unit and active_unit.current_hp > 0 and active_unit.special_effect_type == "wizard_fantasy_heal":
 		var _wh_hp_b = active_unit.current_hp
@@ -7057,137 +7181,11 @@ func _deduct_spell(spell: SpellResource):
 		_update_all_visuals()
 
 # ══════════════════════════════════════════════════════════════
-#  ЭФФЕКТЫ ЛОКАЦИЙ
-#  Каждый эффект — отдельная функция, вызываемая в нужный момент.
+#  ЭФФЕКТЫ ЛОКАЦИЙ — вынесены в battle_locations.gd (класс BattleLocations,
+#  объект `locations`, инициализируется в _ready()). Хельхейм/Ад/Тоннели/Звёзды/
+#  Горы/Пустыня/Глубина/Остров/Топь — там; Облака/Арена/Замок/Корабли/Джунгли/Сад
+#  без выделенной функции (комментарии-указатели остались в battle_locations.gd).
 # ══════════════════════════════════════════════════════════════
-
-# ─── 1) ХЕЛЬХЕЙМ ─────────────────────────────────────────────
-# 30% шанс туманного раунда. Сменяется фон, герои получают -20 урона на 1 раунд.
-func _location_helheim():
-	if CombatManager.selected_location_id != "helheim":
-		if _is_fog_round:
-			_is_fog_round = false
-			_swap_background("")
-		return
-	
-	# Восстанавливаем фон после предыдущего туманного раунда
-	if _is_fog_round:
-		_is_fog_round = false
-		_swap_background("")
-	
-	# Йотун: удваивает шанс тумана, пока жив хотя бы 1 йотун
-	if CombatManager.pending_helheim_skip_fog_rounds > 0:
-		CombatManager.pending_helheim_skip_fog_rounds -= 1
-		_log_combat("[" + "Хельхейм" + "] " + "Туман не появляется в этот раунд.")
-		return
-
-	var fog_chance := 0.30
-	for unit in enemies_team:
-		if unit and unit.current_hp > 0 and unit.special_effect_type == "jotun_fog":
-			fog_chance = 0.60
-			break
-	
-	# Бросок тумана
-	var fog_roll = randf()
-	if fog_roll < fog_chance:
-		_is_fog_round = true
-		# Сменить фон на туманный
-		if CombatManager.selected_fog_background != "":
-			_swap_background(CombatManager.selected_fog_background)
-		var fog_chance_text = " (шанс %d%% — живёт Йотун!)" % int(fog_chance * 100) if fog_chance > 0.30 else ""
-		_log_combat("🌫 [Хельхейм] ТУМАННЫЙ РАУНД!%s Герои получают -20 к урону на этот ход." % fog_chance_text)
-		_set_status("🌫 ТУМАННЫЙ РАУНД! Все герои получают -20 к урону.")
-		# Дебафф -20 урона на всех живых героев (не врагов)
-		for hero in heroes_team:
-			if hero and hero.current_hp > 0:
-				hero.apply_stat_change("damage", -20)
-				hero.active_effects.append({
-					"stat": "damage", "value": -20, "duration": 1,
-					"effect_id": "helheim_fog", "dispellable": false,
-					"source_ability": "Хельхейм"
-				})
-		# Индиго: +25 уклонения в туманный раунд
-		for enemy in enemies_team:
-			if enemy and enemy.current_hp > 0 and enemy.special_effect_type == "indigo_fog_evasion":
-				enemy.apply_stat_change("evasion", 25)
-				enemy.active_effects.append({
-					"stat": "evasion", "value": 25, "duration": 1,
-					"effect_id": "indigo_fog", "source_ability": "Хельхейм"
-				})
-				_log_combat("  → [Индиго] %s: +25 уклонения в тумане (итого %d)." % [enemy.unit_name, enemy.evasion])
-
-# ─── 2) ТАРТАР ───────────────────────────────────────────────
-# Боги теряют 5 величия, игрок теряет 5 маны каждый раунд.
-func _location_hell():
-	if CombatManager.selected_location_id != "hell":
-		return
-	for hero in heroes_team:
-		if hero and hero.current_hp > 0:
-			hero.modify_majesty(-5)
-	current_fantasy = maxi(current_fantasy - 5, 0)
-	_log_combat("🔥 [Ад] Все боги теряют 5 величия. Игрок теряет 5 маны. Фантазия: %d/%d" % [current_fantasy, max_fantasy])
-
-# ─── 3) ТОННЕЛИ ──────────────────────────────────────────────
-# Если текущая броня выше 50%, регенерация 7% на 1 ход.
-func _location_tunnels():
-	if CombatManager.selected_location_id != "tunnels":
-		return
-	for unit in heroes_team + enemies_team:
-		if unit and unit.current_hp > 0:
-			if unit.armor > 50:
-				unit.active_effects.append({
-					"stat": "regeneration", "value": 7, "duration": 1,
-					"source_ability": "Тоннели"
-				})
-				_log_combat("🪨 [Тоннели] %s получает регенерацию 7%% (броня %d > 50)." % [unit.unit_name, unit.armor])
-
-# ─── 4) ОБЛАКА ───────────────────────────────────────────────
-# Эффект встроен в _use_ability() — после попадания по врагу (не богу) даётся +10 уклонения.
-
-# ─── 5) ЗВЁЗДЫ ───────────────────────────────────────────────
-# Враги получают бонусы по позициям: 0=+10 брони, 1=реген 10%, 2=+10% удачи, 3=+10 урона.
-func _location_stars():
-	if CombatManager.selected_location_id != "stars":
-		return
-	# Удаляем старые баффы Звёзд
-	for unit in enemies_team:
-		if unit == null: continue
-		var i = 0
-		while i < unit.active_effects.size():
-			var eid = Combatant._effect_get(unit.active_effects[i], "effect_id", "")
-			if eid == "stars_bonus":
-				var stat = Combatant._effect_get(unit.active_effects[i], "stat", "")
-				var val = Combatant._effect_get(unit.active_effects[i], "value", 0)
-				if stat != "regeneration":
-					unit.apply_stat_change(stat, -val)
-				unit.active_effects.remove_at(i)
-			else:
-				i += 1
-	# Накладываем новые баффы по позициям
-	for i in range(enemies_team.size()):
-		var unit = enemies_team[i]
-		if unit == null or unit.current_hp <= 0:
-			continue
-		match i:
-			0: # +10 брони
-				_apply_buff_to_unit(unit, "armor", 10, -1, "stars_bonus", "Звёзды")
-			1: # регенерация 10%
-				unit.active_effects.append({"stat": "regeneration", "value": 10, "duration": -1, "effect_id": "stars_bonus", "source_ability": "Звёзды"})
-			2: # +10% крит (удача)
-				_apply_buff_to_unit(unit, "crit", 10, -1, "stars_bonus", "Звёзды")
-			3: # +10 урона
-				_apply_buff_to_unit(unit, "damage", 10, -1, "stars_bonus", "Звёзды")
-	# ═══ Звёзды — Весы: союзники на соседних клетках получают звёздный бафф Весов ═══
-	for li in range(enemies_team.size()):
-		var _lib_u = enemies_team[li]
-		if _lib_u == null or _lib_u.current_hp <= 0 or _lib_u.special_effect_type != "libra_adjacent_buff":
-			continue
-		for _adj in [li - 1, li + 1]:
-			if _adj >= 0 and _adj < enemies_team.size():
-				var _adj_u = enemies_team[_adj]
-				if _adj_u != null and _adj_u.current_hp > 0 and _adj_u != _lib_u:
-					_apply_star_cell_buff(_adj_u, li, -1)
-					_log_combat("⚖️ [Весы] %s делится звёздным баффом клетки %d с %s." % [_lib_u.unit_name, li + 1, _adj_u.unit_name])
 
 ## Снимок ссылок на эффекты нужен, чтобы после действия отличить новые эффекты
 ## от уже находившихся на юните до применения способности или заклинания.
@@ -7265,352 +7263,7 @@ func _propagate_new_voodoo_debuffs(snapshot: Array, log_arr: Array) -> void:
 
 		if copied_count > 0:
 			log_arr.append("  → [Кукла вуду] %s копирует %d дебафф(ов) с %s." % [linked.unit_name, copied_count, target.unit_name])
-## Мучитель: пассивка — при наложении периодического урона ЛЮБЫМ союзником, каждый Мучитель в команде получает регенерацию с тем же % и длительностью
-func _apply_tormentor_regen(caster: Combatant, dot_value: int, dot_duration: int) -> void:
-	if caster == null or dot_value <= 0:
-		return
-	var team = enemies_team if caster.is_enemy else heroes_team
-	for _t_u in team:
-		if _t_u != null and _t_u.current_hp > 0 and _t_u.special_effect_type == "tormentor_dot_regen":
-			_t_u.active_effects.append({"stat": "regeneration", "value": dot_value, "duration": dot_duration, "effect_id": "tormentor_regen", "source_ability": "Пассивка Мучителя"})
-			_log_combat("⛓ [Мучитель] %s получает регенерацию %d%% на %d ход(ов) за наложение DoT союзником." % [_t_u.unit_name, dot_value, dot_duration])
-	return
+## _apply_tormentor_regen / _block_buff_for_hopeless_stance / _apply_buff_to_unit
+## перенесены в battle_effects.gd (см. effects._apply_buff_to_unit() и т.п.).
 
-## Применяет стат и добавляет эффект, при необходимости усиливая/копируя его.
-func _apply_buff_to_unit(target: Combatant, stat: String, value: int, duration: int, effect_id: String, source: String, log_arr: Array = []) -> void:
-	if target == null or target.current_hp <= 0:
-		return
-	var is_buff = value > 0 and stat in ["accuracy", "damage", "armor", "evasion", "crit", "initiative"]
-	var team = enemies_team if target.is_enemy else heroes_team
-	# Нага монах: «Часть вселенной» — при получении баффа союзником, +7 удачи 1 ход + heal 7%
-	if is_buff:
-		for _nu_u in team:
-			if _nu_u != null and _nu_u.current_hp > 0 and _nu_u != target and _nu_u.active_stance != null and _nu_u.active_stance.stance_effect_type == "naga_universe":
-				target.apply_stat_change("crit", 7)
-				target.active_effects.append({"stat": "crit", "value": 7, "duration": 1, "effect_id": "naga_universe", "source_ability": "Часть вселенной"})
-				var _nu_heal = int(target.max_hp * 0.07)
-				if _nu_heal > 0:
-					target.apply_stat_change("hp", _nu_heal)
-				break
-	# Дуна: «В гармонии с природой» — союзники иммунны к дебаффам
-	if not is_buff and value < 0:
-		for eff in target.active_effects:
-			if eff.get("effect_id", "") == "duna_harmony_immune":
-				var _dh_heal = int(target.max_hp * 0.10)
-				if _dh_heal > 0:
-					target.apply_stat_change("hp", _dh_heal)
-				if log_arr != null:
-					log_arr.append("%s защищён природой — дебафф отменён, восстановлено %d HP (10%%)." % [target.unit_name, _dh_heal])
-				return
-	# Чернобог: «Надежды нет» — противники не могут получать баффы
-	if is_buff:
-		var enemy_team_of_buffed = heroes_team if target.is_enemy else enemies_team
-		for u in enemy_team_of_buffed:
-			if u != null and u.current_hp > 0 and u.active_stance != null:
-				if u.active_stance.stance_effect_type == "chernobog_no_hope":
-					var d = CombatCalculator.calculate_fixed_damage(u, target, 0.8)
-					if d.is_hit:
-						_deal_damage(target, d.final_damage, d.is_crit)
-						_log_combat("  → [Надежды нет] %s не может получить бафф! Получает %d урона." % [target.unit_name, d.final_damage])
-					else:
-						_log_combat("  → [Надежды нет] %s не может получить бафф (промах)." % target.unit_name)
-					return
-				# Дьявол: «Оставь надежду» — противники не могут получать баффы; 0.15 урона + -10 величия
-				elif u.active_stance.stance_effect_type == "devil_abandon_hope":
-					var dd = CombatCalculator.calculate_fixed_damage(u, target, 0.15)
-					if dd.is_hit:
-						_deal_damage(target, dd.final_damage, dd.is_crit)
-					target.modify_majesty(-10)
-					_log_combat("  → [Оставь надежду] %s не может получить бафф! Получает %d урона, -10 величия." % [target.unit_name, dd.final_damage])
-					return
-		# Дева: удвоение баффа за каждую живую Деву в команде цели
-		var virgo_count = 0
-		for u in team:
-			if u and u.current_hp > 0 and u.special_effect_type == "virgo_buff_amplify":
-				virgo_count += 1
-		if virgo_count > 0:
-			value *= int(pow(2, virgo_count))
-			if not log_arr.is_empty():
-				log_arr.append("  → [Дева] Бафф %s усилен x%d (%d)." % [target.unit_name, int(pow(2, virgo_count)), value])
-	target.apply_stat_change(stat, value)
-	target.active_effects.append({"stat": stat, "value": value, "duration": duration, "effect_id": effect_id, "source_ability": source})
-	if is_buff:
-		# Близнецы: копия баффа на каждого живого Близнеца в команде цели
-		for u in team:
-			if u and u.current_hp > 0 and u != target and u.special_effect_type == "gemini_buff_copy":
-				u.apply_stat_change(stat, value)
-				u.active_effects.append({"stat": stat, "value": value, "duration": duration, "effect_id": effect_id + "_gemini_copy", "source_ability": source + " (копия Близнецов)"})
-				if not log_arr.is_empty():
-					log_arr.append("  → [Близнецы] %s получает копию: +%d %s." % [u.unit_name, value, stat])
-
-# Применяет звёздный бонус клетки (0=броня,1=реген,2=крит,3=урон) юниту как бафф на duration ходов.
-func _apply_star_cell_buff(unit: Combatant, pos_index: int, duration: int):
-	if unit == null or unit.current_hp <= 0:
-		return
-	var _sc_duration = _compute_effect_duration(unit, unit, duration, false)
-	match pos_index:
-		0:
-			_apply_buff_to_unit(unit, "armor", 10, _sc_duration, "stars_bonus", "Звёзды")
-		1:
-			unit.active_effects.append({"stat": "regeneration", "value": 10, "duration": _sc_duration, "effect_id": "stars_bonus", "source_ability": "Звёзды"})
-		2:
-			_apply_buff_to_unit(unit, "crit", 10, _sc_duration, "stars_bonus", "Звёзды")
-		3:
-			_apply_buff_to_unit(unit, "damage", 10, _sc_duration, "stars_bonus", "Звёзды")
-
-# ─── 6) ГОРЫ ─────────────────────────────────────────────────
-# Только флейвор текст — выводится при старте боя (в _ready).
-
-# ─── 7) АРЕНА ────────────────────────────────────────────────
-# +20% урона всем — обрабатывается через CombatManager.get_damage_multiplier().
-
-# ─── 8) ЗАМОК ────────────────────────────────────────────────
-# Заклинания x1.5 дороже, 2 за ход — обрабатывается через spell cost multiplier и max_spells_per_round.
-
-# ─── 9) ПУСТЫНЯ ──────────────────────────────────────────────
-# В начале раунда все (герои и враги) получают 10 чистого урона.
-# Жрец Ра защищает всех союзников-врагов от урона локации.
-func _location_desert():
-	if CombatManager.selected_location_id != "desert":
-		return
-	# Жрец Ра: пока он жив, его союзники не получают урон от локации
-	var ra_protects_enemies = _has_special_on_team(enemies_team, "ra_no_location_damage")
-	# «Слава солнцу»: пока жив Жрец Ра со стойкой — урон Пустыни по героям удвоен
-	var sun_glory = _ra_sun_glory_active and ra_protects_enemies
-	var hero_dmg = 20 if sun_glory else 10
-	if sun_glory:
-		_log_combat("☀ [Пустыня] Слава солнцу: герои получают удвоенный зной (%d)." % hero_dmg)
-	for hero in heroes_team:
-		if hero and hero.current_hp > 0:
-			var hp_before = hero.current_hp
-			var actual_hero_dmg = int(min(hero_dmg, hero.current_hp - 1))
-			if actual_hero_dmg > 0:
-				hero.current_hp = maxi(hero.current_hp - actual_hero_dmg, 1)
-				hero.damage_taken.emit(actual_hero_dmg)
-			_log_combat("☀ [Пустыня] %s получает %d чистого урона. HP: %d → %d" % [hero.unit_name, actual_hero_dmg, hp_before, hero.current_hp])
-	if not ra_protects_enemies:
-		for enemy in enemies_team:
-			if enemy and enemy.current_hp > 0:
-				var hp_before = enemy.current_hp
-				var actual_enemy_dmg = int(min(10, enemy.current_hp - 1))
-				if actual_enemy_dmg > 0:
-					enemy.current_hp = maxi(enemy.current_hp - actual_enemy_dmg, 1)
-					enemy.damage_taken.emit(actual_enemy_dmg)
-				_log_combat("☀ [Пустыня] %s получает %d чистого урона. HP: %d → %d" % [enemy.unit_name, actual_enemy_dmg, hp_before, enemy.current_hp])
-	else:
-		_log_combat("☀ [Пустыня] Жрец Ра защищает всех союзников от зноя Пустыни.")
-
-# ─── 10) ГЛУБИНА — надпись в начале раунда ────────────────────
-func _location_depths_label():
-	if CombatManager.selected_location_id != "depths":
-		return
-	if current_round % 2 == 1:
-		_log_combat("🌊 [Глубина] Бурные потоки — смена позиции: 20 чистого урона.")
-	else:
-		_log_combat("🌊 [Глубина] Спокойные воды — смена позиции: восстановление 10%% HP.")
-
-# ─── 10) ГЛУБИНА — эффект при перемещении ────────────────────
-func _location_depths_on_move(target: Combatant):
-	if CombatManager.selected_location_id != "depths":
-		return
-	if current_round % 2 == 1:
-		# Нечётный: Бурные потоки — 20 чистого урона
-		var _dep_eff = _apply_depths_effect_on_unit(target, 20, 0)
-		for line in _dep_eff:
-			_log_combat(line)
-		if target.current_hp <= 0:
-			_log_combat("  → %s повержен водами Глубины!" % target.unit_name)
-			_on_unit_killed(target)
-			var team = heroes_team if not target.is_enemy else enemies_team
-			_compact_team(team)
-	else:
-		# Чётный: Спокойные воды — восстановление 10% HP
-		var _dep_heal = int(target.max_hp * 0.10)
-		var _dep_eff2 = _apply_depths_effect_on_unit(target, 0, _dep_heal)
-		for line in _dep_eff2:
-			_log_combat(line)
-	_update_all_visuals()
-
-## Применяет эффект Глубины к юниту с учётом пассивок (Русалка-волшебница инвертирует урон в лечение,
-## Морская ведьма удваивает эффект). raw_dmg — чистый урон, heal — лечение.
-func _apply_depths_effect_on_unit(target: Combatant, raw_dmg: int, heal: int) -> Array[String]:
-	var lines: Array[String] = []
-	if target == null or target.current_hp <= 0:
-		return lines
-	var is_raging = (current_round % 2 == 1)
-	var doubled = target.special_effect_type == "seawitch_double_depth"
-	# Русалка-волшебница: вместо урона от Бурных потоков союзники лечатся на столько же
-	if is_raging and target.special_effect_type == "mermaid_depth_heal":
-		var inv_heal = raw_dmg * (2 if doubled else 1)
-		var hp_b = target.current_hp
-		target.apply_stat_change("hp", inv_heal)
-		lines.append("🌊 [Глубина] Спокойные воды (инверсия): %s восстанавливает %d HP. HP: %d → %d" % [target.unit_name, inv_heal, hp_b, target.current_hp])
-		return lines
-	if is_raging:
-		var dmg = raw_dmg * (2 if doubled else 1)
-		var hp_b = target.current_hp
-		target.take_damage(dmg)
-		lines.append("🌊 [Глубина] Бурные потоки: %s получает %d чистого урона при смене позиции%s. HP: %d → %d" % [target.unit_name, dmg, " (x2)" if doubled else "", hp_b, target.current_hp])
-		if target.current_hp <= 0:
-			lines.append("  → %s повержен водами Глубины!" % target.unit_name)
-			_on_unit_killed(target)
-			var team = heroes_team if not target.is_enemy else enemies_team
-			_compact_team(team)
-	else:
-		var h = heal * (2 if doubled else 1)
-		var hp_b = target.current_hp
-		target.apply_stat_change("hp", h)
-		lines.append("🌊 [Глубина] Спокойные воды: %s восстанавливает %d HP при смене позиции%s. HP: %d → %d" % [target.unit_name, h, " (x2)" if doubled else "", hp_b, target.current_hp])
-	return lines
-
-# ─── 11) ОСТРОВ ──────────────────────────────────────────────
-# Каждый ход герои получают -1 инициативу (до 0).
-func _location_island():
-	if CombatManager.selected_location_id != "island":
-		return
-	for hero in heroes_team:
-		if hero and hero.current_hp > 0 and hero.initiative > 0:
-			hero.initiative = maxi(hero.initiative - 1, 0)
-			_log_combat("🏝 [Остров] %s: инициатива снижена до %d." % [hero.unit_name, hero.initiative])
-
-# ─── 12) КОРАБЛИ ─────────────────────────────────────────────
-# Уникальное заклинание «Ром» — добавляется в _load_spells().
-
-# ─── 13) ДЖУНГЛИ ─────────────────────────────────────────────
-# Крит x3 вместо x2 — обрабатывается через CombatManager.get_crit_multiplier().
-
-# ─── 14) САД ─────────────────────────────────────────────────
-# При наложении дебаффа на союзника: +15 чистого урона.
-# Эффект встроен в _apply_effect_to_target() и _apply_spell_to_target().
-
-# ─── 15) ТОПЬ ────────────────────────────────────────────────
-# Бог на первой позиции получает -1 инициативу и -5 брони (суммируется, пока стоит).
-# Утопленница «Вниз»: помечает жертву — покинув позицию 1, она держит дебафф ещё N ходов,
-# а вернувшись до истечения этого срока, продолжает копить стек, а не начинает заново.
-func _location_swamp():
-	if CombatManager.selected_location_id != "swamp":
-		# Очистка при смене локации
-		if _swamp_tracked_unit != null:
-			_remove_swamp_debuff(_swamp_tracked_unit)
-			_swamp_tracked_unit = null
-		if _swamp_grace_unit != null:
-			_remove_swamp_debuff(_swamp_grace_unit)
-			_swamp_grace_unit = null
-			_swamp_grace_turns_left = 0
-		return
-
-	# Кто стоит на первой позиции?
-	var first_hero = heroes_team[0] if heroes_team.size() > 0 and heroes_team[0] != null and heroes_team[0].current_hp > 0 else null
-
-	# Тикаем грацию для юнита, который уже покинул позицию 1, но помечен Утопленницей
-	if _swamp_grace_unit != null and _swamp_grace_unit != first_hero:
-		if _swamp_grace_unit.current_hp <= 0:
-			_swamp_grace_unit = null
-			_swamp_grace_turns_left = 0
-		else:
-			_swamp_grace_turns_left -= 1
-			if _swamp_grace_turns_left <= 0:
-				_log_combat("🌿 [Топь] %s: время действия эффекта Топи истекло — дебафф снят." % _swamp_grace_unit.unit_name)
-				_remove_swamp_debuff(_swamp_grace_unit)
-				_swamp_grace_unit = null
-
-	if first_hero != _swamp_tracked_unit:
-		var _departing = _swamp_tracked_unit
-		if _departing != null and _departing != first_hero and _departing != _swamp_grace_unit:
-			var _extend_val = _get_effect_value(_departing, "utoplennitsa_swamp_extend")
-			if _extend_val > 0 and _swamp_grace_unit == null:
-				_remove_effect_id(_departing, "utoplennitsa_swamp_extend")
-				_swamp_grace_unit = _departing
-				_swamp_grace_turns_left = _extend_val
-				_log_combat("🌿 [Топь/Утопленница] %s покидает первую позицию — дебафф Топи держится ещё %d ход(ов)." % [_departing.unit_name, _extend_val])
-			else:
-				_remove_swamp_debuff(_departing)
-		if first_hero != null and first_hero == _swamp_grace_unit:
-			# Вернулся, пока действовала грация — стек не теряется, грация снимается.
-			_swamp_grace_unit = null
-			_swamp_grace_turns_left = 0
-			_log_combat("🌿 [Топь] %s вернулся на первую позицию до истечения — накопленный стек сохранён." % first_hero.unit_name)
-		_swamp_tracked_unit = first_hero
-		_swamp_consecutive_rounds = 0
-
-	if first_hero == null:
-		return
-
-	# Утопленница: за каждую живую Утопленницу в команде эффект локации усиливается на 5%
-	var _ut_count = 0
-	for _ut_u in enemies_team:
-		if _ut_u and _ut_u.current_hp > 0 and _ut_u.special_effect_type == "utoplennitsa_location_amplify":
-			_ut_count += 1
-	var _swamp_mult = 1.0 + 0.05 * _ut_count
-	var _armor_step = int(round(5 * _swamp_mult))
-	var _evasion_step = int(round(5 * _swamp_mult))
-
-	_swamp_consecutive_rounds += 1
-
-	first_hero.initiative = maxi(first_hero.initiative - 1, 0)
-	first_hero.apply_stat_change("armor", -_armor_step)
-	first_hero.apply_stat_change("evasion", -_evasion_step)
-
-	# Копим дебафф прямо на эффекте юнита (не в глобальных переменных — так стек переживает
-	# уход/возврат на позицию 1 независимо от того, кто ещё сменяется на этой позиции).
-	var _sd_effect = null
-	for e in first_hero.active_effects:
-		if Combatant._effect_get(e, "effect_id", "") == "swamp_debuff":
-			_sd_effect = e
-			break
-	if _sd_effect == null:
-		_sd_effect = {"stat": "location_debuff", "value": 0, "duration": -1, "effect_id": "swamp_debuff",
-			"stacks": 0, "init_loss": 0, "armor_loss": 0, "evasion_loss": 0, "source_ability": "Топь"}
-		first_hero.active_effects.append(_sd_effect)
-	_sd_effect["stacks"] = int(_sd_effect.get("stacks", 0)) + 1
-	_sd_effect["init_loss"] = int(_sd_effect.get("init_loss", 0)) + 1
-	_sd_effect["armor_loss"] = int(_sd_effect.get("armor_loss", 0)) + _armor_step
-	_sd_effect["evasion_loss"] = int(_sd_effect.get("evasion_loss", 0)) + _evasion_step
-
-	_log_combat("🌿 [Топь] %s на первой позиции: стек x%d (итого -%d инициатива, -%d брони, -%d уклонения)." % [
-		first_hero.unit_name, _sd_effect["stacks"], _sd_effect["init_loss"], _sd_effect["armor_loss"], _sd_effect["evasion_loss"]
-	])
-
-	# Водяной: если противник получает эффект локации 3 хода подряд — стан
-	if _swamp_consecutive_rounds >= 3:
-		if _has_special_on_team(enemies_team, "vodyanoy_location_stun"):
-			var _vd_caster: Combatant = null
-			for _vd_u in enemies_team:
-				if _vd_u and _vd_u.current_hp > 0 and _vd_u.special_effect_type == "vodyanoy_location_stun":
-					_vd_caster = _vd_u
-					break
-			first_hero.is_stunned = true
-			var _vd_stun_duration = _compute_effect_duration(_vd_caster, first_hero, 1, true)
-			first_hero.active_effects.append({"stat": "stun", "value": 1, "duration": _vd_stun_duration, "source_ability": "Болотное царство (Водяной)"})
-			first_hero.check_stance_interruption("stun")
-			_notify_stun_applied(first_hero)
-			_log_combat("🌿 [Водяной] %s: 3 хода подряд под эффектом Топи — оглушён!" % first_hero.unit_name)
-		_swamp_consecutive_rounds = 0
-
-## Возвращает value эффекта с данным effect_id на юните (0, если такого эффекта нет).
-func _get_effect_value(unit: Combatant, effect_id: String) -> int:
-	if unit == null:
-		return 0
-	for e in unit.active_effects:
-		if Combatant._effect_get(e, "effect_id", "") == effect_id:
-			return int(Combatant._effect_get(e, "value", 0))
-	return 0
-
-## Снимает накопленный дебафф Топи с юнита (по данным, хранящимся прямо на эффекте).
-func _remove_swamp_debuff(unit: Combatant) -> void:
-	if unit == null or unit.current_hp <= 0:
-		return
-	for i in range(unit.active_effects.size() - 1, -1, -1):
-		var e = unit.active_effects[i]
-		if Combatant._effect_get(e, "effect_id", "") == "swamp_debuff":
-			var _init_loss = int(e.get("init_loss", 0))
-			var _armor_loss = int(e.get("armor_loss", 0))
-			var _evasion_loss = int(e.get("evasion_loss", 0))
-			unit.initiative += _init_loss
-			unit.apply_stat_change("armor", _armor_loss)
-			unit.apply_stat_change("evasion", _evasion_loss)
-			unit.active_effects.remove_at(i)
-			_log_combat("🌿 [Топь] %s покинул первую позицию — дебаффы сняты (+%d инициатива, +%d брони, +%d уклонения)." % [
-				unit.unit_name, _init_loss, _armor_loss, _evasion_loss
-			])
-			return
+# (Звёзды-Горы-Пустыня-Глубина-Остров-Топь — см. battle_locations.gd, BattleLocations.)

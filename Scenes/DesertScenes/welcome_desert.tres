@@ -16,7 +16,7 @@ metadata/_custom_type_script = ExtResource("reward_script")
 
 [sub_resource type="Resource" id="sr_001"]
 script = ExtResource("outcome_script")
-result_text = "«Идемте! Именем Осириса, царя царей, я выясню, что случилось на моих землях, и верну ей процветание! Египет заждался своего повелителя!» Неохотно ваш отряд покидает тень и выступает вперед."
+result_text = ""
 rewards = Array[ExtResource("reward_script")]([SubResource("reward_essence")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 

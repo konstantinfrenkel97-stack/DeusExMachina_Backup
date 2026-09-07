@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Нанауэ"
-max_hp = 99
-damage = 41
-armor = 13
+max_hp = 69
+damage = 29
+armor = 9
 initiative = 7
 accuracy = 87
-evasion = 16
-crit_chance = 0.15
+evasion = 11
+crit_chance = 0.105
+danger_level = 6
 sprite_path = "res://Enemies/Sea/Depth/Nanahue/Nanahue.png"
 face_sprite = "res://Enemies/Sea/Depth/Nanahue/Nanahue_Face.png"
 battle_sprite_scale_percent = 114.0

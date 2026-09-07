@@ -1,17 +1,16 @@
-[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3 uid="uid://bcldhssy7q31m"]
 
-[ext_resource type="Resource" path="res://Enemies/Civilization/Castle/Guardsman/Guardsman.tres" id="ext_1"]
-[ext_resource type="Resource" path="res://Enemies/Civilization/Castle/Princess/Princess.tres" id="ext_2"]
-[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
-[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
-[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
-[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
-[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
-[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
-[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
-[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
-[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
-[ext_resource type="Resource" path="res://Essence/essence_power.tres" id="essence_reward"]
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Resource" uid="uid://1x2q7ynihq6c" path="res://Essence/essence_power.tres" id="essence_reward"]
+[ext_resource type="Resource" uid="uid://cypvhqrhhfuqx" path="res://Enemies/Civilization/Castle/Guardsman/Guardsman.tres" id="ext_1"]
+[ext_resource type="Resource" uid="uid://ckc2sghbq7nkw" path="res://Enemies/Civilization/Castle/Princess/Princess.tres" id="ext_2"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://dutn5fch4d8b5" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
 
 [sub_resource type="Resource" id="sr_001"]
 script = ExtResource("formation_script")
@@ -19,7 +18,6 @@ formation_name = "Стража замка"
 pos1 = ExtResource("ext_1")
 pos2 = ExtResource("ext_1")
 pos3 = ExtResource("ext_2")
-pos4 = null
 metadata/_custom_type_script = ExtResource("formation_script")
 
 [sub_resource type="Resource" id="sr_002"]
@@ -32,12 +30,10 @@ metadata/_custom_type_script = ExtResource("battle_script")
 script = ExtResource("reward_script")
 kind = 1
 resource = ExtResource("essence_reward")
-amount = 1
 metadata/_custom_type_script = ExtResource("reward_script")
 
 [sub_resource type="Resource" id="sr_003"]
 script = ExtResource("outcome_script")
-result_text = "Моргана поджигает картину с рыцарем, пронзающим крылатую женщину, — но мир не дает себя игнорировать: перед отрядом встает стража замка вместе с капризной принцессой во главе."
 battle = SubResource("sr_002")
 rewards = Array[ExtResource("reward_script")]([SubResource("reward_essence")])
 metadata/_custom_type_script = ExtResource("outcome_script")
@@ -51,5 +47,7 @@ metadata/_custom_type_script = ExtResource("choice_script")
 [resource]
 script = ExtResource("scene_script")
 scene_title = "Добро пожаловать в Замок"
-body_text = "Зеленые леса, высокие холмы и огромный серый замок с фиолетовыми знаменами. Ворота распахнуты, стража делает арку из копий. Моргана проходит первой, не одарив охранников взглядом.\n\nВ богато освещенном зале танцуют пары. Моргана останавливается у картины: рыцарь пронзает мечом женщину с крыльями в черных одеждах. Она щелкает пальцами — и холст занимается черным пламенем. Однако в этот раз мир не дает себя игнорировать: перед ней встает отряд стражи."
-choices = [SubResource("sr_004")]
+body_text = "Зеленые леса, высокие холмы и огромный серый замок с фиолетовыми знаменами. Ворота распахнуты, стража делает арку из копий. Моргана проходит первой, не одарив охранников взглядом.
+
+В богато освещенном зале танцуют пары. Моргана останавливается у картины: рыцарь пронзает мечом женщину с крыльями в черных одеждах. Она щелкает пальцами — и холст занимается черным пламенем. Однако в этот раз мир не дает себя игнорировать: перед ней встает отряд стражи."
+choices = Array[ExtResource("choice_script")]([SubResource("sr_004")])

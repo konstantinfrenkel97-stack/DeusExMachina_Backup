@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Clouds/Phoenix/fiery_feather.tres" id="3_a1"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Clouds/Phoenix/rebirth_from_ashes.tres" id="4_a2"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Clouds/Phoenix/solar_flame.tres" id="5_ult"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Феникс"
+max_hp = 190
+damage = 65
+armor = 15
+initiative = 7
+accuracy = 92
+evasion = 15
+crit_chance = 0.18
+danger_level = 10
+is_boss = true
+is_nemesis = true
+nemesis_order = 1
+sprite_path = "res://Enemies/Sky/Clouds/Phoenix/Phoenix.png"
+face_sprite = "res://Enemies/Sky/Clouds/Phoenix/Phoenix_Face.png"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("3_a1"), ExtResource("4_a2")])
+ultimate_ability = ExtResource("5_ult")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Каппа шаман"
-max_hp = 83
-damage = 17
-armor = 12
+max_hp = 58
+damage = 12
+armor = 8
 initiative = 6
 accuracy = 82
-evasion = 13
-crit_chance = 0.08
+evasion = 9
+crit_chance = 0.056
+danger_level = 4
 sprite_path = "res://Enemies/Sea/Islands/Cappa_shaman/Каппа шаман.png"
 face_sprite = "res://Enemies/Sea/Islands/Cappa_shaman/Каппа Шаман_Face.png"
 battle_sprite_scale_percent = 90.0

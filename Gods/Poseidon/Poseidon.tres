@@ -19,6 +19,7 @@ dialogue_sprite_y_offset_percent = 4.0
 max_hp = 140
 armor = 15
 initiative = 4
+accuracy = 100
 evasion = 5
 is_enemy = false
 special_effect_type = "poseidon_buff_heal"

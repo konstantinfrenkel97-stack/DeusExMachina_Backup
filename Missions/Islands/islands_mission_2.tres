@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MissionResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_resource.gd" id="mission_script"]
+[ext_resource type="Resource" path="res://Scenes/IslandsScenes/islands_patrol_1.tres" id="scene_patrol"]
+[ext_resource type="Resource" path="res://Scenes/IslandsScenes/beach_bliss.tres" id="scene_noncombat"]
+[ext_resource type="Resource" path="res://Scenes/IslandsScenes/islands_ambush.tres" id="scene_ambush"]
+[ext_resource type="Resource" path="res://Scenes/IslandsScenes/islands_beauty.tres" id="scene_beauty"]
+[ext_resource type="Resource" path="res://Scenes/IslandsScenes/fishermen_in_trouble.tres" id="scene_combat"]
+
+[resource]
+script = ExtResource("mission_script")
+mission_name = "Возвращение на Острова"
+scenes = [ExtResource("scene_patrol"), ExtResource("scene_noncombat"), ExtResource("scene_ambush"), ExtResource("scene_beauty"), ExtResource("scene_combat"), ExtResource("scene_patrol")]
+location = 10
+required_god = 13

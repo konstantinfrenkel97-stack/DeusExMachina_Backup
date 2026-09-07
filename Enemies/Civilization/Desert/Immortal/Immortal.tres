@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Бессмертный"
-max_hp = 103
-damage = 29
-armor = 15
+max_hp = 72
+damage = 20
+armor = 10
 initiative = 4
 accuracy = 78
-evasion = 9
-crit_chance = 0.08
+evasion = 6
+crit_chance = 0.056
+danger_level = 4
 sprite_path = "res://Enemies/Civilization/Desert/Immortal/Immortal.png"
 face_sprite = "res://Enemies/Civilization/Desert/Immortal/Immortal_Face.png"
 special_effect_type = "immortal_death_shield"

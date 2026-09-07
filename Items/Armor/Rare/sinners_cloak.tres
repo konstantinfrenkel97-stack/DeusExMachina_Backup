@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3]
+
+[ext_resource type="Script" path="res://Items/item_resource.gd" id="item_script"]
+
+[resource]
+script = ExtResource("item_script")
+metadata/_custom_type_script = ExtResource("item_script")
+item_name = "Плащ грешника"
+item_type = 1
+rarity = 1
+description = "Редкая броня. Подарок душ грешников из Ада. Даёт 15 уклонения, но бог теряет 1 величие в начале каждого хода."
+bonus_evasion = 15
+majesty_regen_per_turn = -1

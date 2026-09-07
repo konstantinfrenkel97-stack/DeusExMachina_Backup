@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Гоплит"
-max_hp = 113
-damage = 21
-armor = 20
+max_hp = 79
+damage = 15
+armor = 14
 initiative = 4
 accuracy = 77
-evasion = 7
-crit_chance = 0.05
+evasion = 5
+crit_chance = 0.035
+danger_level = 4
 sprite_path = "res://Enemies/Civilization/Arena/Hoplite/Goplit.png"
 face_sprite = "res://Enemies/Civilization/Arena/Hoplite/Hoplite_Face.png"
 battle_sprite_scale_percent = 115.0

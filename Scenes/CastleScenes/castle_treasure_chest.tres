@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3 uid="uid://de01y3jks7qc3"]
 
 [ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="battle_script"]
 [ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
@@ -92,6 +92,13 @@ success_outcome = SubResource("out_break_success")
 failure_outcome = SubResource("out_break_fail")
 metadata/_custom_type_script = ExtResource("choice_script")
 
+[sub_resource type="Resource" id="reward_take_thoughts_600"]
+script = ExtResource("reward_script")
+kind = 3
+resource = ExtResource("thoughts")
+amount = 600
+metadata/_custom_type_script = ExtResource("reward_script")
+
 [sub_resource type="Resource" id="buff_strongest_init_minus1"]
 script = ExtResource("buff_script")
 stat = 6
@@ -101,6 +108,7 @@ metadata/_custom_type_script = ExtResource("buff_script")
 [sub_resource type="Resource" id="out_take"]
 script = ExtResource("outcome_script")
 result_text = "Сильнейший из ваших богов берет сундук с собой, чтобы открыть в безопасной обстановке убежища. К сожалению, даже для бога сундучишко весьма тяжел. Драться с ним будет совсем несподручно. Персонаж с наибольшей атакой получает штраф 1 инициативы до конца миссии."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_take_thoughts_600")])
 strongest_hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_strongest_init_minus1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
@@ -114,4 +122,4 @@ metadata/_custom_type_script = ExtResource("choice_script")
 script = ExtResource("scene_script")
 scene_title = "Сундук с сокровищами (Замок)"
 body_text = "Сундук. Он стоит на видном месте. Выглядит так, будто он полон сокровищ, но так ли это?"
-choices = [SubResource("choice_open"), SubResource("choice_break"), SubResource("choice_take")]
+choices = Array[ExtResource("choice_script")]([SubResource("choice_open"), SubResource("choice_break"), SubResource("choice_take")])

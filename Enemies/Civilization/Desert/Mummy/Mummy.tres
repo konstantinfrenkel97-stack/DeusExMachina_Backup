@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Мумия"
-max_hp = 125
-damage = 25
-armor = 23
+max_hp = 88
+damage = 18
+armor = 16
 initiative = 4
 accuracy = 79
-evasion = 8
-crit_chance = 0.07
+evasion = 6
+crit_chance = 0.049
+danger_level = 5
 sprite_path = "res://Enemies/Civilization/Desert/Mummy/Mummy.png"
 face_sprite = "res://Enemies/Civilization/Desert/Mummy/Mummy_face.png"
 special_effect_type = "mummy_hit_max_hp_reduce"

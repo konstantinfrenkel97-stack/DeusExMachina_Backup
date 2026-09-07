@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Звездопад"
-description = "Наносит 70% урона."
+description = "Наносит 70% урона. Все юниты на поле боя получают +10% удачи на 2 хода."
 damage_modifier = 0.7
 majesty_gain = 0
 extra_targets_count = 1

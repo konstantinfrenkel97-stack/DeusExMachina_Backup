@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Каменный великан воин"
-max_hp = 217
-damage = 64
-armor = 23
+max_hp = 152
+damage = 45
+armor = 16
 initiative = 5
 accuracy = 84
-evasion = 12
-crit_chance = 0.13
+evasion = 8
+crit_chance = 0.091
+danger_level = 7
 sprite_path = "res://Enemies/Dungeon/Tunnels/Stone_giant_warrior/Stone_Giant_warrior.png"
 face_sprite = "res://Enemies/Dungeon/Tunnels/Stone_giant_warrior/Stone_Giant_warrior_Face.png"
 battle_sprite_scale_percent = 75.0

@@ -8,6 +8,10 @@ class_name DialogueResource
 @export_group("")
 @export var start_line_id: String = ""
 @export var lines: Array[DialogueLine] = []
+# Если true — когда ветка (next_dialogue), запущенная из этого диалога, естественно
+# заканчивается (или её явно закрывают кнопкой ✕), окно не закрывается, а возвращается
+# к ЭТОМУ диалогу (обычно — к меню выбора темы), а не пропадает совсем.
+@export var loop_to_root_when_finished: bool = false
 
 func get_start_index() -> int:
 	if lines.is_empty():

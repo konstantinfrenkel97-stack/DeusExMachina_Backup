@@ -1,0 +1,80 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="1_scene"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="3_outcome"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="4_statcheck"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="5_reward"]
+[ext_resource type="Resource" path="res://Essence/essence_power.tres" id="6_power"]
+[ext_resource type="Resource" path="res://Items/Trinkets/Rare/phoenix_feather.tres" id="7_feather"]
+[ext_resource type="Resource" path="res://Gods/Chernobog/Chernobog.tres" id="8_chernobog"]
+
+
+
+[sub_resource type="Resource" id="reward_power"]
+script = ExtResource("5_reward")
+kind = 1
+resource = ExtResource("6_power")
+metadata/_custom_type_script = ExtResource("5_reward")
+
+[sub_resource type="Resource" id="out_v1"]
+script = ExtResource("3_outcome")
+result_text = "Небесному перу место на небе. К тому же вы уважаете подвиг безумца, что отдал жизнь за то, чтобы коснуться солнца. Вы закрываете футляр, и кладете его на грудь человеку. Тело медленно опускаете на мягкую белую поверхность. Облака поглощают тело. Небо принимает того кто заплатил жизнью за одно касание.
+
+Вам известен ваш Немезис."
+rewards = Array[ExtResource("5_reward")]([SubResource("reward_power")])
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="choice_v1"]
+script = ExtResource("2_choice")
+choice_text = "Похоронить перо вместе с покойником"
+outcome = SubResource("out_v1")
+metadata/_custom_type_script = ExtResource("2_choice")
+
+[sub_resource type="Resource" id="reward_feather"]
+script = ExtResource("5_reward")
+kind = 0
+resource = ExtResource("7_feather")
+metadata/_custom_type_script = ExtResource("5_reward")
+
+[sub_resource type="Resource" id="out_v2"]
+script = ExtResource("3_outcome")
+result_text = "Вы кладете тело на мягкую белую поверхность. Небо поглощает наглеца, а вам достается перо жарптицы. Его тяжело держать в руках, оно не просто обжигает, опаляет. Но вы уверены что артефакт обладает свойствами которые стоят подобной жертвы.
+
+Вам известен ваш Немезис."
+rewards = Array[ExtResource("5_reward")]([SubResource("reward_feather")])
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="choice_v2"]
+script = ExtResource("2_choice")
+choice_text = "Забрать перо себе"
+outcome = SubResource("out_v2")
+metadata/_custom_type_script = ExtResource("2_choice")
+
+[sub_resource type="Resource" id="out_v3"]
+script = ExtResource("3_outcome")
+result_text = "Чернобог берет перо в два обсидиановых пальца и подносит к лицу. Тьма начинает всасывать свет и пламя. Но оно все не гаснет и не гаснет. Вы впервые видите, как пустота не может что-то поглотить.
+Даже Чернобог выглядит растерянным. Он убирает перо от лица и смотрит на него молча. После чего по самое запястье погружает руку с пером себе в лицо. Рука возвращается пустой.
+Вы с любопытством смотрите на недвижимую черную горгулию. Он не выражает ни одной эмоции. Наконец вы слышите тихий голос из глубины обсидианового тела.
+«ТЕПЛО...»"
+nemesis_buff_god = ExtResource("8_chernobog")
+nemesis_buff_majesty = 20
+nemesis_buff_location_id = "clouds"
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="choice_v3"]
+script = ExtResource("2_choice")
+choice_text = "Поглотить перо"
+required_god = ExtResource("8_chernobog")
+outcome = SubResource("out_v3")
+metadata/_custom_type_script = ExtResource("2_choice")
+
+[resource]
+script = ExtResource("1_scene")
+scene_title = "Он дотронется до солнца"
+body_text = "Вы слышите крик. Кто-то падает сверху, крылатый силуэт. При помощи божественных чар вы замедляете падение и вам удаётся поймать падающего.
+
+Это человек, он весь покрыт ожогами, кожа слезает с тела. В плечи плавился аппарат с крыльями. Перья обгорели, но вы можете различить остатки воска. Он мертв. Особенно пострадала правая рука, она сжимает какой-то железный футляр. Разогнув хрупкие пальцы вы вынимаете футляр.
+Внутри, оплавляя металл лежит пылающее и переливающееся перо. Сверху вы слышите крик. Высоко над облаками вы видите какой-то крылатый силуэт. Он сияет словно второе солнце.
+Но вскоре, солнечная птица улетает, оставляя вам тело и перо. Его тело вы предадите облакам, но что делать со злополучным предметом?"
+choices = Array[ExtResource("2_choice")]([SubResource("choice_v1"), SubResource("choice_v2"), SubResource("choice_v3")])

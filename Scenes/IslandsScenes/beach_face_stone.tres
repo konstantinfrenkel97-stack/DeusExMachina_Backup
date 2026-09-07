@@ -1,0 +1,58 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="1_scene"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="3_outcome"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="4_reward"]
+[ext_resource type="Resource" path="res://Scenes/IslandsScenes/beach_bliss.tres" id="5_bliss"]
+[ext_resource type="Resource" path="res://Items/Weapons/Rare/stone_face.tres" id="6_stone"]
+
+[sub_resource type="Resource" id="out_v1"]
+script = ExtResource("3_outcome")
+result_text = "Вы ложитесь на лежанки, откупориваете вино, улыбаетесь камню. Но ваши мысли настороже, вы притворяетесь что отдыхаете, но ждете нападения. Но оно так и не наступает. Постепенно вы расслабляетесь.
+Солнце ласкает кожу, а море слух. Вы проваливаетесь в сон."
+hero_heal_percent = 5
+next_scene = ExtResource("5_bliss")
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="choice_v1"]
+script = ExtResource("2_choice")
+choice_text = "Мир хочет чтобы мы отдохнули"
+outcome = SubResource("out_v1")
+metadata/_custom_type_script = ExtResource("2_choice")
+
+[sub_resource type="Resource" id="out_v2"]
+script = ExtResource("3_outcome")
+result_text = "Это все крайне подозрительно. Вы минуете странное место, и продолжаете путь невзирая на усталость."
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="choice_v2"]
+script = ExtResource("2_choice")
+choice_text = "Слишком все подозрительно"
+outcome = SubResource("out_v2")
+metadata/_custom_type_script = ExtResource("2_choice")
+
+[sub_resource type="Resource" id="reward_stone"]
+script = ExtResource("4_reward")
+kind = 0
+resource = ExtResource("6_stone")
+metadata/_custom_type_script = ExtResource("4_reward")
+
+[sub_resource type="Resource" id="out_v3"]
+script = ExtResource("3_outcome")
+result_text = "Прикольный камень. Вы берете его себе и продолжаете путь. Он у вас ассоциируется с уютным пляжем."
+rewards = Array[ExtResource("4_reward")]([SubResource("reward_stone")])
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="choice_v3"]
+script = ExtResource("2_choice")
+choice_text = "Взять себе камень"
+outcome = SubResource("out_v3")
+metadata/_custom_type_script = ExtResource("2_choice")
+
+[resource]
+script = ExtResource("1_scene")
+scene_title = "Пляж, вино и лицо на камне"
+body_text = "Вы уже довольно долго месите ногами песок. Солнце опаляет плечи, ритмичные волны убаюкивают, что только раздражает, ведь вам нужно продолжать идти вперед.
+И тут соблазн становится еще сильнее. Вам попадается несколько бамбуковых лежанок, рядом в песок вкопано несколько бутылок. Ни людей, ни монстров не видно. Кто-то словно приглашает вас отдохнуть на пляжу. Только большой круглый камень, на котором примитивными линиями, каким-то красным соком нарисовано человеческое лицо."
+choices = Array[ExtResource("2_choice")]([SubResource("choice_v1"), SubResource("choice_v2"), SubResource("choice_v3")])

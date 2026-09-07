@@ -97,9 +97,17 @@ stat = 6
 value = -1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="reward_take_thoughts_600"]
+script = ExtResource("reward_script")
+kind = 3
+resource = ExtResource("thoughts")
+amount = 600
+metadata/_custom_type_script = ExtResource("reward_script")
+
 [sub_resource type="Resource" id="out_take"]
 script = ExtResource("outcome_script")
 result_text = "Сильнейший из ваших богов берет сундук с собой, чтобы открыть в безопасной обстановке убежища. К сожалению, даже для бога сундучишко весьма тяжел. Драться с ним будет совсем несподручно. Персонаж с наибольшей атакой получает штраф 1 инициативы до конца миссии."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_take_thoughts_600")])
 strongest_hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_strongest_init_minus1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 

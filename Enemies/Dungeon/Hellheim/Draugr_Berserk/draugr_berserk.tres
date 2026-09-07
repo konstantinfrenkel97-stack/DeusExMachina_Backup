@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Драугр берсерк"
-max_hp = 88
-damage = 37
-armor = 11
+max_hp = 62
+damage = 26
+armor = 8
 initiative = 6
 accuracy = 85
-evasion = 15
-crit_chance = 0.14
+evasion = 10
+crit_chance = 0.098
+danger_level = 5
 sprite_path = "res://Enemies/Dungeon/Hellheim/Draugr_Berserk/Драугр Берсерк.png"
 face_sprite = "res://Enemies/Dungeon/Hellheim/Draugr_Berserk/Драугр Берсерк_Face.png"
 battle_sprite_scale_percent = 105.0

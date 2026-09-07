@@ -1,7 +1,7 @@
 extends RefCounted
 class_name FlowerFairyLogic
 
-## Цветочная фея: 30% шанс применить «Неудержимое цветение», если доступно. Иначе другой навык.
+## Фея лепестков: 30% шанс применить «Неудержимое цветение», если доступно. Иначе другой навык.
 
 static func get_decision(monster: Combatant, heroes: Array) -> Dictionary:
 	var usable: Array = []

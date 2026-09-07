@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("2_i2ty1")
 unit_name = "Циклоп"
-max_hp = 124
-damage = 35
-armor = 12
+max_hp = 87
+damage = 24
+armor = 8
 initiative = 4
 accuracy = 76
-evasion = 8
-crit_chance = 0.07
+evasion = 6
+crit_chance = 0.049
+danger_level = 3
 sprite_path = "res://Enemies/Sky/Peaks/Cyclopes/Cyclopes.png"
 face_sprite = "res://Enemies/Sky/Peaks/Cyclopes/Cyclopes_Face.png"
 battle_sprite_scale_percent = 58.0

@@ -22,7 +22,7 @@ metadata/_custom_type_script = ExtResource("5_reward")
 
 [sub_resource type="Resource" id="out_welcome_ships"]
 script = ExtResource("3_outcome")
-result_text = "Начинается бой."
+result_text = ""
 battle = SubResource("battle_welcome_ships")
 rewards = Array[ExtResource("5_reward")]([SubResource("reward_essence")])
 metadata/_custom_type_script = ExtResource("3_outcome")

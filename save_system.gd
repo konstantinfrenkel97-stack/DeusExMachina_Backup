@@ -106,8 +106,11 @@ func _collect_state() -> Dictionary:
 		"first_battle_completed": CampaignState.first_battle_completed,
 		"before_doors_played": CampaignState.before_doors_played,
 		"opened_locations": CampaignState.opened_locations.duplicate(),
+		"defeated_nemeses": CampaignState.defeated_nemeses.duplicate(),
+		"pending_nemesis_buffs": CampaignState.pending_nemesis_buffs.duplicate(true),
 		"library_max_fantasy_bonus": CampaignState.library_max_fantasy_bonus,
 		"spell_upgrade_levels": CampaignState.spell_upgrade_levels.duplicate(),
+		"permanent_enemy_accuracy_debuffs": CampaignState.permanent_enemy_accuracy_debuffs.duplicate(),
 	}
 
 	# — Состояние миссии (CombatManager) —
@@ -148,9 +151,14 @@ func _apply_state(data: Dictionary) -> void:
 	CampaignState.first_battle_completed = bool(campaign.get("first_battle_completed", false))
 	CampaignState.before_doors_played = bool(campaign.get("before_doors_played", false))
 	CampaignState.opened_locations = _to_string_array(campaign.get("opened_locations", []))
+	CampaignState.defeated_nemeses = _to_string_array(campaign.get("defeated_nemeses", []))
+	var loaded_nemesis_buffs: Variant = campaign.get("pending_nemesis_buffs", [])
+	CampaignState.pending_nemesis_buffs = (loaded_nemesis_buffs as Array) if loaded_nemesis_buffs is Array else []
 	CampaignState.library_max_fantasy_bonus = int(campaign.get("library_max_fantasy_bonus", 0))
 	var loaded_spell_upgrades: Variant = campaign.get("spell_upgrade_levels", {})
 	CampaignState.spell_upgrade_levels = (loaded_spell_upgrades as Dictionary) if loaded_spell_upgrades is Dictionary else {}
+	var loaded_enemy_debuffs: Variant = campaign.get("permanent_enemy_accuracy_debuffs", {})
+	CampaignState.permanent_enemy_accuracy_debuffs = (loaded_enemy_debuffs as Dictionary) if loaded_enemy_debuffs is Dictionary else {}
 
 	# — Состояние миссии —
 	var mission: Dictionary = data.get("mission", {})

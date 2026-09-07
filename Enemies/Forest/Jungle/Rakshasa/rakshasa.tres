@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Ракшас"
-max_hp = 95
-damage = 49
-armor = 11
+max_hp = 66
+damage = 34
+armor = 8
 initiative = 8
 accuracy = 92
-evasion = 21
-crit_chance = 0.2
+evasion = 15
+crit_chance = 0.14
+danger_level = 7
 sprite_path = "res://Enemies/Forest/Jungle/Rakshasa/Rakshasa.png"
 face_sprite = "res://Enemies/Forest/Jungle/Rakshasa/Rakshasa_face.png"
 special_effect_type = "rakshasa_crit_aura"

@@ -1,0 +1,193 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Stars/Aries/aries.tres" id="aries"]
+[ext_resource type="Resource" path="res://Essence/thoughts.tres" id="thoughts"]
+[ext_resource type="Resource" path="res://Gods/Odin/Odin.tres" id="odin"]
+
+[sub_resource type="Resource" id="form_two_rams"]
+script = ExtResource("formation_script")
+formation_name = "Дуэль овнов"
+pos1 = ExtResource("aries")
+pos2 = ExtResource("aries")
+pos3 = null
+pos4 = null
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="buff_one_ram_attack"]
+script = ExtResource("buff_script")
+stat = 0
+value = 20
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_one_ram"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+max_hp_delta = 30
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_one_ram_attack")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_disrupt_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_two_rams")
+location_id = "stars"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_one_ram")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="buff_both_rams_attack_40"]
+script = ExtResource("buff_script")
+stat = 0
+value = 25
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_both_rams_40"]
+script = ExtResource("unit_modifier_script")
+target_position = 0
+max_hp_delta = 40
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_both_rams_attack_40")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_disrupt_failure"]
+script = ExtResource("battle_script")
+formation = SubResource("form_two_rams")
+location_id = "stars"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_both_rams_40")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("stat_check_script")
+stat = 4
+stat_label = "Точность"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_disrupt_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы решаете воспользоваться их ритуалом, чтобы получить преимущество. Вы ждёте, пока пройдёт ослепление от вспышки и противники снова разбегутся, и бросаетесь на одного из овнов. Вы сбиваете его на бегу, и второй влетает рогами прямо тому в грудь. Жертва отлетает и вскоре встаёт. Не похоже, что он понёс большой урон. Оба овна оборачиваются к вам."
+battle = SubResource("battle_disrupt_success")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_disrupt_failure"]
+script = ExtResource("outcome_script")
+result_text = "Вы решаете воспользоваться их ритуалом, чтобы получить преимущество. Вы ждёте, пока пройдёт ослепление от вспышки и противники снова разбегутся, и бросаетесь на одного из овнов. Но когда вы пытаетесь его сбить, оба овна одновременно замирают, мгновенно погасив скорость. Они одновременно оборачиваются и бросаются на вас, словно в отместку за вмешательство в ритуал."
+battle = SubResource("battle_disrupt_failure")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_disrupt"]
+script = ExtResource("choice_script")
+choice_text = "Помешать одному овну, дисбалансировать битву"
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_disrupt_success")
+failure_outcome = SubResource("out_disrupt_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_evasion"]
+script = ExtResource("stat_check_script")
+stat = 3
+stat_label = "Уклонение"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_slip_success"]
+script = ExtResource("outcome_script")
+result_text = "Вам приходит в голову невероятно рискованная мысль. Но это может сработать. Вы дожидаетесь удара и вспышки, и пока противники расходятся, резко бежите между ними. Овны резко ускоряются и идут на сближение.
+
+Удар и вспышка происходят прямо у вас за спиной. Вы идёте на невероятный риск, и вам удаётся провернуть этот трюк. Вы оставляете овнов позади, наедине с их дуэлью."
+hero_majesty_delta = 10
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="buff_both_rams_attack_22"]
+script = ExtResource("buff_script")
+stat = 0
+value = 22
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_both_rams_35"]
+script = ExtResource("unit_modifier_script")
+target_position = 0
+max_hp_delta = 35
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_both_rams_attack_22")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_slip_failure"]
+script = ExtResource("battle_script")
+formation = SubResource("form_two_rams")
+location_id = "stars"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_both_rams_35")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_slip_failure"]
+script = ExtResource("outcome_script")
+result_text = "Вам приходит в голову невероятно рискованная мысль. Но это может сработать. Вы дожидаетесь удара и вспышки, и пока противники расходятся, резко бежите между ними. Овны резко ускоряются и идут на сближение.
+
+Вы оказываетесь между молотом и наковальней. С обеих сторон в вас влетают твёрдые, как камни, рога. Вас вжимает друг в друга. Слышится хруст. Овны расходятся и готовятся броситься, но уже не друг на друга, а на вас."
+battle = SubResource("battle_slip_failure")
+hero_heal_percent = -15
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_slip"]
+script = ExtResource("choice_script")
+choice_text = "Проскочить в момент разбега"
+stat_check = SubResource("check_evasion")
+success_outcome = SubResource("out_slip_success")
+failure_outcome = SubResource("out_slip_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="battle_plain"]
+script = ExtResource("battle_script")
+formation = SubResource("form_two_rams")
+location_id = "stars"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="reward_thoughts"]
+script = ExtResource("reward_script")
+kind = 3
+resource = ExtResource("thoughts")
+amount = 250
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_meaning"]
+script = ExtResource("outcome_script")
+result_text = "Один делает вам знак остановиться. И какое-то время наблюдает за дуэлью, бормоча себе под нос.
+
+«Снова и снова… И ничего не меняется, силы равны. Ты не знаешь, был ли слишком упрям… Или недостаточно настойчив… Но тогда…»
+
+Он идёт вперёд и обнажает свой меч. Подходит к той точке, где сталкиваются овны. Когда они оба, разогнавшись, ударяются рогами, в тот же момент Один обрушивает свой меч на место соприкосновения. Вспышка. Все трое разлетаются.
+
+С ловкостью, которой не ожидаешь от его возраста, Один вскакивает и бежит к месту столкновения. Две пары рогов и меч снова сталкиваются. Снова все трое разлетаются.
+
+Ритуал повторяется вновь и вновь. Удар, вспышка, новый удар. И когда вам кажется, что старый бог сошёл с ума, во время одного из ударов не происходит вспышки. Один остаётся стоять с мечом в руке. Оба овна на коленях, их звёздные рога рассыпаются в пыль. Отец богов торжественно убирает меч в ножны.
+
+«Я знал, что прав. Если две силы находятся в идеальном балансе, нужен третий элемент. Не чтобы победить кого-то из двух. Достаточно просто нарушить равновесие.»
+
+Вы не особо понимаете, что произошло, но Один что-то понял, а вы рады, что проблема так или иначе решилась.
+
+В награду вы получаете «Осколок истины овна» (250 мыслей)."
+battle = SubResource("battle_plain")
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_thoughts")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_meaning"]
+script = ExtResource("choice_script")
+choice_text = "Найти смысл в происходящем"
+required_god = ExtResource("odin")
+outcome = SubResource("out_meaning")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Испытание овна"
+body_text = "Впереди вспышка. Она повторяется снова и снова, с медленной периодичностью. При приближении оказывается, что это две человеческие фигуры с головами барана. Они разбегаются, бросаются друг на друга и ударяются лбами. Происходит вспышка света, после чего они снова расходятся и снова бросаются друг на друга. Пройти мимо, избежав их, не представляется возможным."
+choices = Array[ExtResource("choice_script")]([SubResource("choice_disrupt"), SubResource("choice_slip"), SubResource("choice_meaning")])
+metadata/_custom_type_script = ExtResource("scene_script")

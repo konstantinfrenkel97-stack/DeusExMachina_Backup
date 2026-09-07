@@ -2,8 +2,24 @@
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
 [ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" uid="uid://cm377qsbtits3" path="res://Enemy_logic/hellhound_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Hellhound/dash.tres" id="4_a1"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Hellhound/teeth.tres" id="5_a2"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Hellhound/no_fear.tres" id="6_a3"]
 
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Цербер"
+max_hp = 49
+damage = 18
+armor = 6
+initiative = 6
+accuracy = 80
+evasion = 10
+crit_chance = 0.105
+sprite_path = "res://Enemies/Dungeon/Hell/Hellhound/Hellhound.png"
+face_sprite = "res://Enemies/Dungeon/Hell/Hellhound/Hellhound_face.png"
+battle_sprite_scale_percent = 81.0
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2"), ExtResource("6_a3")])
+ai_script = ExtResource("3_ai")
 metadata/_custom_type_script = "uid://briall6wwu3rx"

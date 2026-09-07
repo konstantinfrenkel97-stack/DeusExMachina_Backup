@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Нага монах"
-max_hp = 92
-damage = 20
-armor = 14
+max_hp = 64
+damage = 14
+armor = 10
 initiative = 6
 accuracy = 84
-evasion = 14
-crit_chance = 0.1
+evasion = 10
+crit_chance = 0.07
+danger_level = 5
 sprite_path = "res://Enemies/Forest/Jungle/Naga_Monk/Naga_monk.png"
 face_sprite = "res://Enemies/Forest/Jungle/Naga_Monk/Naga_monk_Face.png"
 special_effect_type = "naga_monk_buff_duration"

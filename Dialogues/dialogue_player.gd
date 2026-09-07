@@ -14,6 +14,7 @@ const MIRRORED_EDGE_HIDE := 24.0
 const CHOICES_PANEL_WIDTH := 680.0
 const CHOICE_BUTTON_HEIGHT := 54.0
 const CHOICE_BUTTON_FONT_SIZE := 22
+const _CURSOR_TEXTURE := preload("res://Icons/Cursor/cursor.png")
 
 @onready var close_button: Button = $CloseButton
 @onready var portrait_anchor: Control = $PortraitAnchor
@@ -23,6 +24,9 @@ const CHOICE_BUTTON_FONT_SIZE := 22
 @onready var choices_container: VBoxContainer = $Panel/Margin/VBox/Choices
 
 var _dialogue = null
+# Диалог, с которого началось общение (до любых переходов по next_dialogue). Нужен
+# для DialogueResource.loop_to_root_when_finished — возврата к меню тем вместо закрытия.
+var _root_dialogue = null
 var _current_index: int = -1
 var _speaker_registry: DialogueSpeakerRegistry = null
 var _choices_center: Control = null
@@ -67,6 +71,8 @@ func _load_speaker_registry() -> void:
 	_speaker_registry = loaded as DialogueSpeakerRegistry
 
 func start_dialogue(dialogue) -> void:
+	if _root_dialogue == null:
+		_root_dialogue = dialogue
 	_dialogue = dialogue
 	_current_index = dialogue.get_start_index() if dialogue != null else -1
 	_show_current_line()
@@ -129,6 +135,8 @@ func _show_current_line() -> void:
 		button.custom_minimum_size = Vector2(CHOICES_PANEL_WIDTH, CHOICE_BUTTON_HEIGHT)
 		button.add_theme_font_size_override("font_size", CHOICE_BUTTON_FONT_SIZE)
 		button.pressed.connect(_on_choice_pressed.bind(choice))
+		button.mouse_entered.connect(_on_choice_button_mouse_entered)
+		button.mouse_exited.connect(_on_choice_button_mouse_exited)
 		choices_container.add_child(button)
 	if _choices_center != null:
 		_layout_choices_overlay()
@@ -234,6 +242,14 @@ func _on_text_gui_input(event: InputEvent) -> void:
 		_advance()
 		get_viewport().set_input_as_handled()
 
+## Курсор над кнопками вариантов диалога всегда должен быть стандартным (не кастомной
+## стрелкой игры) — временно снимаем переопределение курсора и возвращаем при уходе мыши.
+func _on_choice_button_mouse_entered() -> void:
+	Input.set_custom_mouse_cursor(null)
+
+func _on_choice_button_mouse_exited() -> void:
+	Input.set_custom_mouse_cursor(_CURSOR_TEXTURE)
+
 func _on_choice_pressed(choice) -> void:
 	emit_signal("choice_selected", _get_dialogue_id(), choice.choice_id)
 	if choice.end_dialogue:
@@ -295,6 +311,9 @@ func _clear_choices() -> void:
 		child.queue_free()
 
 func _finish_dialogue() -> void:
+	if _root_dialogue != null and _dialogue != _root_dialogue and bool(_root_dialogue.loop_to_root_when_finished):
+		start_dialogue(_root_dialogue)
+		return
 	var dialogue_id := _get_dialogue_id()
 	emit_signal("dialogue_closed", dialogue_id)
 	queue_free()

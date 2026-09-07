@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Нага воин"
-max_hp = 79
-damage = 27
-armor = 10
+max_hp = 55
+damage = 19
+armor = 7
 initiative = 7
 accuracy = 84
-evasion = 18
-crit_chance = 0.11
+evasion = 13
+crit_chance = 0.077
+danger_level = 4
 sprite_path = "res://Enemies/Forest/Jungle/Naga_warrior/Naga_warrior.png"
 face_sprite = "res://Enemies/Forest/Jungle/Naga_warrior/Naga_warrior_face.png"
 battle_sprite_scale_percent = 104.0

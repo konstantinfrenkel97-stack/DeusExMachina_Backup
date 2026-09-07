@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Сфинкс"
-max_hp = 120
-damage = 29
-armor = 17
+max_hp = 84
+damage = 20
+armor = 12
 initiative = 7
 accuracy = 91
-evasion = 15
-crit_chance = 0.13
+evasion = 10
+crit_chance = 0.091
+danger_level = 7
 sprite_path = "res://Enemies/Civilization/Desert/Sphinx/Sphinx.png"
 face_sprite = "res://Enemies/Civilization/Desert/Sphinx/Sphinx_face.png"
 battle_sprite_scale_percent = 142.0

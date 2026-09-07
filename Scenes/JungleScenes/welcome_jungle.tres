@@ -33,7 +33,7 @@ metadata/_custom_type_script = ExtResource("reward_script")
 
 [sub_resource type="Resource" id="out_welcome"]
 script = ExtResource("outcome_script")
-result_text = "Золотая обезьяна спрыгивает с головы Шивы обратно в листву, а из кустов выскальзывают вооруженные наги. Джунгли решили встретить вас без лишних церемоний."
+result_text = ""
 battle = SubResource("battle_welcome")
 rewards = Array[ExtResource("reward_script")]([SubResource("reward_essence")])
 metadata/_custom_type_script = ExtResource("outcome_script")

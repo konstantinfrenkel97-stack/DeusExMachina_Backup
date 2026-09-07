@@ -235,7 +235,7 @@ func apply_mark_to_unit(mark: Dictionary, target: Combatant, is_placement: bool 
 		var _mk_durs: Dictionary[String, int] = {}
 		_mk_durs[mark["effect_type"]] = int(mark["effect_duration"])
 		fake_ab.effect_durations = _mk_durs
-		var note = _scene._apply_effect_to_target(caster, target, mark["effect_type"], fake_ab)
+		var note = _scene.effects._apply_effect_to_target(caster, target, mark["effect_type"], fake_ab)
 		if note != "":
 			_scene._log_combat("%s %s" % [log_prefix, note])
 

@@ -9,13 +9,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Гладиатор"
-max_hp = 79
-damage = 32
-armor = 10
+max_hp = 55
+damage = 22
+armor = 7
 initiative = 6
 accuracy = 83
-evasion = 14
-crit_chance = 0.12
+evasion = 10
+crit_chance = 0.084
+danger_level = 4
 sprite_path = "res://Enemies/Civilization/Arena/Gladiator/Gladiator.png"
 face_sprite = "res://Enemies/Civilization/Arena/Gladiator/Gladiator_Face.png"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2")])

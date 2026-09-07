@@ -1,0 +1,152 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Enemies/Sky/Clouds/Cupid/cupid.tres" id="ext_cupid"]
+[ext_resource type="Resource" path="res://Gods/Chernobog/Chernobog.tres" id="ext_chernobog"]
+[ext_resource type="Resource" path="res://Essence/essence_nature.tres" id="ext_essence_nature"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+
+[sub_resource type="Resource" id="form_cupids"]
+script = ExtResource("formation_script")
+formation_name = "Отряд купидонов"
+pos1 = ExtResource("ext_cupid")
+pos2 = ExtResource("ext_cupid")
+pos3 = ExtResource("ext_cupid")
+pos4 = ExtResource("ext_cupid")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="reward_essence_nature"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("ext_essence_nature")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_v1_success"]
+script = ExtResource("outcome_script")
+result_text = "Перед вами открывается какая-то странная и неожиданная истина. Вы слушаете рассуждения команды купидонов и стараетесь не упустить ни одной детали.
+Вы узнаёте о любви, отношениях, кого они планируют с кем сводить. Вам открывается неожиданная статистика, подробности о размножении и прагматичный взгляд на то, что казалось более романтичным. Никогда вы больше не сможете смотреть на отношения так, как раньше."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_essence_nature")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="buff_heroes_damage_minus5"]
+script = ExtResource("buff_script")
+stat = 0
+value = -5
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_heroes_damage_minus5"]
+script = ExtResource("unit_modifier_script")
+target_position = 0
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_heroes_damage_minus5")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v1_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_cupids")
+hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_heroes_damage_minus5")])
+location_id = "clouds"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v1_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы настраиваетесь на то, чтобы впитывать тайны купидонов. Вы познаёте неожиданные и даже тайные свойства человеческих отношений. Голова идёт кругом, и тут среди купидонов разгорается жаркий спор, в ходе которого указка отлетает в сторону и ударяет одному из богов в глаз. Он вскрикивает, и купидоны замирают.
+«Тут кто-то есть... Они всё слышали... Они узнали про план «Тёплое и мягкое»... Нельзя, чтобы эта информация достигла ИХ...»
+Купидоны бросаются на вас с нетипичной яростью. В вашей голове всё ещё шум из-за статистики распавшихся браков."
+battle = SubResource("battle_v1_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v1"]
+script = ExtResource("choice_script")
+choice_text = "Слушать и запоминать"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_v1_success")
+failure_outcome = SubResource("out_v1_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_evasion"]
+script = ExtResource("stat_check_script")
+stat = 3
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_v2_success"]
+script = ExtResource("outcome_script")
+result_text = "Вам, наверное, не стоит слышать то, что тут обсуждают. Тихонько, как пришли, вы возвращаетесь обратно в облака и тем же путём удаляетесь, после чего продолжаете двигаться."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="battle_v2_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_cupids")
+location_id = "clouds"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v2_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вам, наверное, не стоит слышать того, что здесь обсуждают. Вы пытаетесь уйти обратно в облака, когда пространство под вами неожиданно проминается, и один из богов летит вниз. Вы успеваете схватить его и вытащить, но облака расступаются, и вы видите отряд купидонов, наводящий на вас свои золотые луки."
+battle = SubResource("battle_v2_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v2"]
+script = ExtResource("choice_script")
+choice_text = "Оставить их заниматься своими делами"
+stat_check = SubResource("check_evasion")
+success_outcome = SubResource("out_v2_success")
+failure_outcome = SubResource("out_v2_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_enemies_accuracy_minus15_1turn"]
+script = ExtResource("buff_script")
+stat = 2
+value = -15
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_enemies_accuracy_minus15_1turn"]
+script = ExtResource("unit_modifier_script")
+target_position = 0
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_enemies_accuracy_minus15_1turn")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v3"]
+script = ExtResource("battle_script")
+formation = SubResource("form_cupids")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_enemies_accuracy_minus15_1turn")])
+location_id = "clouds"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v3"]
+script = ExtResource("outcome_script")
+result_text = "Вы слушаете разговоры ангелочков, а свист пустоты Чернобога становится немного громче, и ещё громче. Наконец приглушённый рокот его голоса доходит до ваших ушей.
+«НЕ ПОНЯТНО... УБИВАТЬ...»
+Его огромная фигура выдвигается вперёд. Разочарованные, вы следуете за ним.
+Купидоны видят, как из белой горы выходит чёрная громадная крылатая фигура. Юноши начинают в панике метаться, во все стороны летят стрелы."
+battle = SubResource("battle_v3")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v3"]
+script = ExtResource("choice_script")
+choice_text = "УБИВАТЬ"
+required_god = ExtResource("ext_chernobog")
+outcome = SubResource("out_v3")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Проблемы демографии"
+body_text = "Есть у облаков один огромный плюс. В них очень легко передвигаться незаметно, всего-то и требуется, что погрузиться под белую поверхность и продвигаться под ней. Когда вы заметили издалека отряд купидонов, именно этой хитростью вы воспользовались, чтобы незаметно к ним приблизиться.
+Собрание из нескольких юношей сидит на облаке, один выступает перед другими и что-то чертит длинной золотой палкой на облаке. Вы слышите часть разговора.
+«Падение эффективности... Высокая доля расставаний... Низкая рождаемость... Старение населения... Проект «Тёплое и мягкое»... У кого-то есть предложения?»"
+choices = [SubResource("choice_v1"), SubResource("choice_v2"), SubResource("choice_v3")]

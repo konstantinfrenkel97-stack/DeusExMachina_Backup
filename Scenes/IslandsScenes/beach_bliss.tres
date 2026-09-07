@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="1_scene"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="out_a"]
+script = ExtResource("3_outcome")
+result_text = "Мир никуда от вас не денется. Отдохнем еще немного."
+hero_heal_percent = 5
+rest_counter_delta = 1
+rest_counter_fail_threshold = 6
+rest_counter_fail_dialogue_path = "res://Dialogues/Instructions/Myth_beach_oversleep.tres"
+restart_current_scene = true
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="choice_a"]
+script = ExtResource("2_choice")
+choice_text = "Отдохнуть еще немного"
+outcome = SubResource("out_a")
+metadata/_custom_type_script = ExtResource("2_choice")
+
+[sub_resource type="Resource" id="out_b"]
+script = ExtResource("3_outcome")
+result_text = "Ну ладно, еще работа ждет.
+Но манящий пляж словно привязал вас к себе, и уходя дальше вы чувствуете как вязкие ленты расслабления тянут назад. Жаль что у вас есть цель."
+apply_rest_counter_initiative_penalty = true
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="choice_b"]
+script = ExtResource("2_choice")
+choice_text = "Пора двигаться"
+outcome = SubResource("out_b")
+metadata/_custom_type_script = ExtResource("2_choice")
+
+[resource]
+script = ExtResource("1_scene")
+scene_title = "Пляжная нега"
+body_text = "Вскоре вы просыпаетесь. Вокруг вас все тот же пляж. Никто ничего не украл, никто тайком не напал. Вы можете продолжать отдых."
+choices = Array[ExtResource("2_choice")]([SubResource("choice_a"), SubResource("choice_b")])

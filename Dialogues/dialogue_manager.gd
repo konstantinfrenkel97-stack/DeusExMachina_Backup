@@ -32,7 +32,9 @@ func show_dialogue(dialogue, bg_path: String = "") -> void:
 	_dim_layer.name = "DialogueDim"
 	_dim_layer.color = DIALOGUE_DIM_COLOR
 	_dim_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_dim_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# STOP, не IGNORE — иначе клики проходят сквозь затемнение прямо на экран
+	# кампании, и игрок может случайно нажать на комнату во время диалога.
+	_dim_layer.mouse_filter = Control.MOUSE_FILTER_STOP
 	_player_layer.add_child(_dim_layer)
 	# Фон устанавливаем ПОСЛЕ создания слоя (раньше это делалось до создания слоя,
 	# поэтому фон сразу терялся — для первого диалога слой был null, для следующих

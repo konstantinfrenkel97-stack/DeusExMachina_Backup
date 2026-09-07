@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3]
+
+[ext_resource type="Script" path="res://Items/item_resource.gd" id="item_script"]
+
+[resource]
+script = ExtResource("item_script")
+metadata/_custom_type_script = ExtResource("item_script")
+item_name = "Маска шута"
+item_type = 1
+rarity = 1
+description = "Редкая броня. Даёт 6 уклонения и 10 точности, а также +1 удачи за каждую единицу фантазии, потраченную в течение боя."
+bonus_evasion = 6
+bonus_accuracy = 10
+effect = "jesters_mask_fantasy_spent_luck"

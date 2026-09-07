@@ -1,0 +1,73 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Resource" uid="uid://cc1h72p42isqo" path="res://Enemies/Dungeon/Tunnels/Kobold/kobold.tres" id="enemy_1"]
+[ext_resource type="Resource" uid="uid://cbt463m8wasn5" path="res://Enemies/Dungeon/Tunnels/Dwarf_shield/dwarf_shield.tres" id="enemy_2"]
+[ext_resource type="Resource" uid="uid://b3jkkyw5dvodp" path="res://Enemies/Dungeon/Tunnels/Dwarf_smith/dwarf_smith.tres" id="enemy_3"]
+
+[sub_resource type="Resource" id="form_ambush"]
+script = ExtResource("formation_script")
+formation_name = "Кобольд - Гном щитовик - Кобольд - Гном кузнец"
+pos1 = ExtResource("enemy_1")
+pos2 = ExtResource("enemy_2")
+pos3 = ExtResource("enemy_1")
+pos4 = ExtResource("enemy_3")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_ambush"]
+script = ExtResource("battle_script")
+formation = SubResource("form_ambush")
+location_id = "tunnels"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_success"]
+script = ExtResource("outcome_script")
+result_text = "Вас окружают, точнее говоря уже окружили. Вы в засаде. Не дожидаясь нападения, отряд встаёт спина к спине, готовый держать оборону. Враги не заставляют долго себя ждать."
+battle = SubResource("battle_ambush")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="buff_evasion_minus10"]
+script = ExtResource("buff_script")
+stat = 3
+value = -10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="buff_initiative_minus10"]
+script = ExtResource("buff_script")
+stat = 6
+value = -10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_fail"]
+script = ExtResource("outcome_script")
+result_text = "На вас бросаются со всех сторон. Вы в засаде и нет времени вставать в построение. Уязвимые, вы стараетесь отбиваться с минимальным ущербом."
+battle = SubResource("battle_ambush")
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_evasion_minus10"), SubResource("buff_initiative_minus10")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="check_initiative"]
+script = ExtResource("stat_check_script")
+stat = 1
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="choice_hmm"]
+script = ExtResource("choice_script")
+choice_text = "Хм?"
+stat_check = SubResource("check_initiative")
+success_outcome = SubResource("out_success")
+failure_outcome = SubResource("out_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Засада"
+body_text = "*Шурх-шурх*"
+choices = [SubResource("choice_hmm")]

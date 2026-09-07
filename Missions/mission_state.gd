@@ -15,6 +15,11 @@ var pending_location: String = ""
 ## Устанавливается в mission_scene.gd перед clear_mission_run(), читается и
 ## сбрасывается тем экраном, который на это реагирует.
 var last_completed_mission_path: String = ""
+## Путь к диалогу, который надо показать на экране кампании один раз после
+## возврата туда (напр. реплика Мифа при провале миссии из-за пересыпа на пляже).
+## Тем же приёмом, что last_completed_mission_path — намеренно НЕ сбрасывается в
+## clear_mission_run(), читается и сбрасывается экраном кампании.
+var pending_campaign_dialogue_path: String = ""
 var hero_majesty: Dictionary = {}
 var granted_rewards: Array[Dictionary] = []
 ## Одноразовая скидка сложности для СЛЕДУЮЩЕЙ проверки характеристики в миссии.
@@ -25,6 +30,22 @@ var pending_check_difficulty_delta: int = 0
 ## через MissionChoice.flag_outcomes, чтобы выбрать другой итог. Сбрасываются при
 ## старте и при завершении миссии — флаги не переживают саму миссию.
 var mission_flags: Dictionary = {}
+## Общий "счётчик отдыха" для сцен-циклов вроде "Отдохнуть ещё немного" (см.
+## MissionOutcome.rest_counter_delta и mission_scene.gd::_apply_outcome_mission_effects).
+## Мисси-скоуп: сбрасывается вместе с остальным прохождением.
+var rest_counter: int = 0
+## Статистика урона/лечения за миссию, по каждому богу отряда — для итогового экрана
+## после завершения миссии (см. mission_scene.gd::_show_mission_stats_summary).
+## hero_path -> {"dealt": int, "taken": int, "healed": int}. Копится во всех боях
+## миссии, сбрасывается вместе с остальным прохождением.
+var hero_battle_stats: Dictionary = {}
+## Взводится battle_scene.gd перед возвратом на mission_scene.tscn, когда бой был
+## ПОСЛЕДНИМ действием миссии (победа без дальнейших сцен, или поражение — после
+## поражения дальше сцены миссии не идут). mission_scene.gd::_ready() проверяет этот
+## флаг первым делом и, если он взведён, сразу показывает итоговый экран победы/
+## поражения вместо обычной сцены — не переживает сохранение, одноразовый сигнал.
+enum MissionEndKind { NONE, VICTORY, DEFEAT }
+var pending_mission_end_kind: int = MissionEndKind.NONE
 
 func start_mission(mission_res: MissionResource, heroes: Array[String]) -> bool:
 	if mission_res == null or mission_res.scenes.is_empty():
@@ -38,6 +59,9 @@ func start_mission(mission_res: MissionResource, heroes: Array[String]) -> bool:
 	granted_rewards.clear()
 	pending_check_difficulty_delta = 0
 	mission_flags.clear()
+	rest_counter = 0
+	hero_battle_stats.clear()
+	pending_mission_end_kind = MissionEndKind.NONE
 	for hero_path in selected_heroes:
 		var clean_path: String = str(hero_path).strip_edges()
 		if clean_path != "":
@@ -84,6 +108,40 @@ func add_majesty_to_selected_heroes(delta: int) -> void:
 		if clean_path != "":
 			add_hero_majesty(clean_path, delta)
 
+## Возвращает (создавая при необходимости) запись статистики бога hero_path.
+## Словарь — по ссылке, поэтому правки через возвращённый объект сохраняются в hero_battle_stats.
+func _hero_stats_entry(hero_path: String) -> Dictionary:
+	var clean_path: String = hero_path.strip_edges()
+	if clean_path == "":
+		return {}
+	if not hero_battle_stats.has(clean_path):
+		hero_battle_stats[clean_path] = {"dealt": 0, "taken": 0, "healed": 0}
+	return hero_battle_stats[clean_path]
+
+func add_hero_damage_dealt(hero_path: String, amount: int) -> void:
+	if amount <= 0:
+		return
+	var entry := _hero_stats_entry(hero_path)
+	if entry.is_empty():
+		return
+	entry["dealt"] = int(entry.get("dealt", 0)) + amount
+
+func add_hero_damage_taken(hero_path: String, amount: int) -> void:
+	if amount <= 0:
+		return
+	var entry := _hero_stats_entry(hero_path)
+	if entry.is_empty():
+		return
+	entry["taken"] = int(entry.get("taken", 0)) + amount
+
+func add_hero_damage_healed(hero_path: String, amount: int) -> void:
+	if amount <= 0:
+		return
+	var entry := _hero_stats_entry(hero_path)
+	if entry.is_empty():
+		return
+	entry["healed"] = int(entry.get("healed", 0)) + amount
+
 func set_current_scene(scene_res: MissionSceneResource) -> void:
 	current_scene = scene_res
 	if current_mission == null or scene_res == null:
@@ -121,3 +179,6 @@ func clear_mission_run() -> void:
 	granted_rewards.clear()
 	pending_check_difficulty_delta = 0
 	mission_flags.clear()
+	rest_counter = 0
+	hero_battle_stats.clear()
+	pending_mission_end_kind = MissionEndKind.NONE

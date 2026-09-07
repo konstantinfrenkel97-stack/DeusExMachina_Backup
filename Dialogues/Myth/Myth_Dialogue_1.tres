@@ -807,4 +807,5 @@ metadata/_custom_type_script = "uid://bdppjbkvrapob"
 [resource]
 script = ExtResource("2_qpvl7")
 lines = Array[ExtResource("1_vkhix")]([SubResource("Resource_nnw5p"), SubResource("Resource_gjw3y"), SubResource("Resource_bj1m1"), SubResource("Resource_51lc6"), null, null])
+loop_to_root_when_finished = true
 metadata/_custom_type_script = "uid://c3g5x3dcif30x"

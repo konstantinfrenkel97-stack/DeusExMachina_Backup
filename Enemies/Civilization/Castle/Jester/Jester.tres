@@ -10,16 +10,17 @@
 [resource]
 script = ExtResource("2_ch")
 unit_name = "Мистический шут"
-max_hp = 54
-damage = 27
-armor = 6
-initiative = 7
-accuracy = 84
-evasion = 17
-crit_chance = 0.14
 sprite_path = "res://Enemies/Civilization/Castle/Jester/Jester.png"
 face_sprite = "res://Enemies/Civilization/Castle/Jester/Jester_Face.png"
 battle_sprite_scale_percent = 95.0
+max_hp = 38
+damage = 19
+armor = 4
+initiative = 7
+accuracy = 84
+evasion = 12
+crit_chance = 0.098
+danger_level = 3
 special_effect_type = "jester_fantasy_luck"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2"), ExtResource("6_a3")])
 ai_script = ExtResource("3_ai")

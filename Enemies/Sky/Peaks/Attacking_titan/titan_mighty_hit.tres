@@ -6,7 +6,7 @@
 majesty_gain = 0
 script = ExtResource("1_ab")
 name = "Могучий удар"
-description = "Наносит 100% урона."
+description = "Наносит 100% урона. Каждое использование даёт +5 урона себе навсегда."
 usable_from_positions = Array[bool]([true, true, false, false])
 targetable_positions = Array[bool]([true, true, true, false])
 ability_marker = "titan_mighty_hit"

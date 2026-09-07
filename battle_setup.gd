@@ -16,12 +16,13 @@ const SHOW_SETUP_BACKGROUND := false
 # Навy — та же палитра, что в остальном интерфейсе (кампания, Библиотека, Сад, Весы), с единой
 # золотой рамкой во всех состояниях (только фон и толщина рамки меняются при наведении/выборе).
 # Панели (окна) — полупрозрачные; кнопки внутри них — непрозрачные и темнее, чтобы не сливаться с фоном.
-const SETUP_PANEL_BG := Color(0.09, 0.11, 0.20, 0.82)
-const SETUP_BUTTON_BG := Color(0.05, 0.06, 0.11, 1.0)
-const SETUP_BUTTON_BG_HOVER := Color(0.08, 0.10, 0.17, 1.0)
-const SETUP_BUTTON_BG_PRESSED := Color(0.03, 0.04, 0.07, 1.0)
-const SETUP_BUTTON_BG_DISABLED := Color(0.04, 0.05, 0.08, 1.0)
-const SETUP_ACCENT := Color(0.83, 0.72, 0.45, 1.0)
+# Общий источник палитры — Scripts/campaign_theme.gd (тот же campaign_screen.gd и mission_select.gd).
+const SETUP_PANEL_BG := CampaignTheme.PANEL_BG
+const SETUP_BUTTON_BG := CampaignTheme.BUTTON_BG
+const SETUP_BUTTON_BG_HOVER := CampaignTheme.BUTTON_BG_HOVER
+const SETUP_BUTTON_BG_PRESSED := CampaignTheme.BUTTON_BG_PRESSED
+const SETUP_BUTTON_BG_DISABLED := CampaignTheme.BUTTON_BG_DISABLED
+const SETUP_ACCENT := CampaignTheme.ACCENT
 const SETUP_ACCENT_DISABLED := Color(0.83, 0.72, 0.45, 0.4)
 # Фон всего экрана — темнее основной navy-палитры интерфейса (вместо серого фона по умолчанию).
 const SETUP_SCREEN_BG_COLOR := Color(0.035, 0.042, 0.075, 1.0)

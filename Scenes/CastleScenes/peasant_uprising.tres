@@ -1,0 +1,163 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Resource" uid="uid://cypvhqrhhfuqx" path="res://Enemies/Civilization/Castle/Guardsman/Guardsman.tres" id="enemy_guardsman"]
+[ext_resource type="Resource" uid="uid://c81o031u75q0w" path="res://Enemies/Civilization/Castle/Knight/Knight.tres" id="enemy_knight"]
+[ext_resource type="Resource" uid="uid://1x2q7ynihq6c" path="res://Essence/essence_power.tres" id="essence_power"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+
+[sub_resource type="Resource" id="form_baron_guard"]
+script = ExtResource("formation_script")
+formation_name = "Стража барона: Стражник - Стражник - Стражник - Рыцарь"
+pos1 = ExtResource("enemy_guardsman")
+pos2 = ExtResource("enemy_guardsman")
+pos3 = ExtResource("enemy_guardsman")
+pos4 = ExtResource("enemy_knight")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_baron_guard"]
+script = ExtResource("battle_script")
+formation = SubResource("form_baron_guard")
+location_id = "castle"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="form_garrison"]
+script = ExtResource("formation_script")
+formation_name = "Гарнизон замка: Стражник - Стражник - Стражник - Стражник"
+pos1 = ExtResource("enemy_guardsman")
+pos2 = ExtResource("enemy_guardsman")
+pos3 = ExtResource("enemy_guardsman")
+pos4 = ExtResource("enemy_guardsman")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_garrison"]
+script = ExtResource("battle_script")
+formation = SubResource("form_garrison")
+location_id = "castle"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="reward_essence_power"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_power")
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_persuade_peasants_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы убеждаете барона выпустить вас и позволить переговорить с крестьянами, дабы избежать кровопролития. Ворота ради вас не открывают, и вы вынуждены спускаться со стены по верёвочной лестнице. По дороге к замку поднимается крупная толпа, с вилами и косами. Одного взгляда достаточно, чтобы понять — против укреплений замка у них ничего нет. Если крестьяне пойдут на штурм, их попросту перебьют.
+
+Вы выходите к толпе и обращаетесь с просьбой отступить. Замок им не взять. Голод не оставляет им особо вариантов, но боевое столкновение окончится верной смертью.
+
+Ваши слова встречаются агрессией, спорами. Тощие крестьяне с впалыми щеками трясут инструментами. На вас почти нападают, но чем дольше вы говорите, тем холоднее становится огонь. Всё больше сомнения в глазах, потом печали, потом пустого отчаяния. Вам удаётся развернуть крестьян. Они уходят, понурив головы, у кого-то на глазах вы видите слёзы.
+
+Реальность сурова, но вы предотвратили их смерть прямо сейчас."
+rewards = [SubResource("reward_essence_power")]
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="buff_luck_minus12"]
+script = ExtResource("buff_script")
+stat = 1
+value = -12
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_persuade_peasants_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы убеждаете барона выпустить вас и позволить переговорить с крестьянами, дабы избежать кровопролития. Ворота ради вас не открывают, и вы вынуждены спускаться со стены по верёвочной лестнице. По дороге к замку поднимается крупная толпа, с вилами и косами. Одного взгляда достаточно, чтобы понять — против укреплений замка у них ничего нет. Если крестьяне пойдут на штурм, их попросту перебьют.
+
+Вы выходите к толпе и обращаетесь с просьбой отступить. Замок им не взять. Голод не оставляет им особо вариантов, но боевое столкновение окончится верной смертью.
+
+Ваши слова встречаются агрессией, спорами. Тощие крестьяне с впалыми щеками трясут инструментами. На вас почти нападают, но чем дольше вы говорите, тем холоднее становится огонь. Всё больше сомнения в глазах, потом печали, потом пустого отчаяния.
+
+И в этот момент ворота открываются. К вашему общему удивлению, ряды солдат выходят из замка и движутся к толпе крестьян. Впереди, одетый в доспех, на лошади едет сам барон. Их намерения становятся ясны, как только две группы сближаются. Барон взмахивает мечом, и ряды солдат бросаются вперёд. Крестьяне только растерянно смотрят. Вы лишили их воли к сражению. Вы пытаетесь сами дать отпор, когда толпа солдат врезается в вас."
+battle = SubResource("battle_baron_guard")
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_luck_minus12")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_persuade_peasants"]
+script = ExtResource("choice_script")
+choice_text = "Отговорить крестьян идти на штурм"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_persuade_peasants_success")
+failure_outcome = SubResource("out_persuade_peasants_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("stat_check_script")
+stat = 4
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_persuade_baron_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы обращаетесь к барону. Аргументируете, что перебить крестьян не будет проблемой. Проблемой будет потом возделать землю. В его силе и благородстве никто не сомневается, лишь голод заставил крестьян забыть своё место. Если сейчас дать им немного еды, это укрепит его репутацию и благосостояние баронства.
+
+Он смотрит на вас сверху вниз. Высокомерно вскидывает брови, и иногда вставляет «неужели...».
+
+Наконец он разочарованно вздыхает и отдаёт приказ. Слуги бегут в подвал и возвращаются с мешками зерна. Вы перехватываете взгляд старой служанки, она улыбается, и по лицу стекают слёзы. Вас ждёт дальнейший путь, но пока вы идёте через замок, многие слуги ловят ваш взгляд и благодарно кланяются."
+hero_majesty_delta = 10
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_persuade_baron_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы обращаетесь к барону. Говорите о чести, призываете проявить благоразумие и милосердие. Десятки людей погибнут, если он проявит упрямство.
+
+Вы смотрите в его глаза как в мутную воду. Ни одной мысли или чувства под плёнкой высокомерия. Он раздражённо делает знак рукой.
+
+«Убить.»"
+battle = SubResource("battle_baron_guard")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_persuade_baron"]
+script = ExtResource("choice_script")
+choice_text = "Уговорить барона поделиться едой"
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_persuade_baron_success")
+failure_outcome = SubResource("out_persuade_baron_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_damage_plus10"]
+script = ExtResource("buff_script")
+stat = 0
+value = 10
+duration = 2
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_attack_garrison"]
+script = ExtResource("outcome_script")
+result_text = "Вы принимаете решение встать на сторону крестьян. Вы дожидаетесь, когда со стороны ворот раздаются крики, и бросаетесь на стражу, пробиваясь к механизму, открывающему ворота."
+battle = SubResource("battle_garrison")
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_damage_plus10")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_attack_garrison"]
+script = ExtResource("choice_script")
+choice_text = "Атаковать гарнизон вместе с крестьянами"
+outcome = SubResource("out_attack_garrison")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Крестьянское восстание"
+body_text = "Люди вокруг вас начали бегать в суматохе, звучат взволнованные крики, лязг железа, топот, топот, топот. Вы долго пытаетесь выяснить, что происходит, и наконец один из пробегающих стражников отмахивается от вас рукой и говорит:
+
+«Чернь взбунтовалась, идут на замок.»
+
+Вы устремляетесь к главным воротам. Там уже построились неровные ряды стражи. Эта армия не выглядит ни устрашающей, ни желающей драться. Перед ними на коне разъезжает широкоплечий дворянин, который больше ругается и оскорбляет, чем мотивирует.
+
+Вы пересекаетесь взглядом с пожилой служанкой. Когда вы подходите к ней, она со страхом смотрит на вас снизу вверх.
+
+«Оххх, что делается... В деревне-то голодуха, чай в голову ударила неразумным. А у меня сынок там, в толпе. Больше всех всегда говорил, что надо с барона спросить, дабы еды дал, но куда там. Перебьют их всех...»
+
+Она шмыгает носом и в отчаянии опускает голову."
+choices = [SubResource("choice_persuade_peasants"), SubResource("choice_persuade_baron"), SubResource("choice_attack_garrison")]

@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Мучитель"
-max_hp = 86
-damage = 20
-armor = 11
+max_hp = 60
+damage = 14
+armor = 8
 initiative = 6
 accuracy = 85
-evasion = 12
-crit_chance = 0.08
+evasion = 8
+crit_chance = 0.056
+danger_level = 4
 sprite_path = "res://Enemies/Dungeon/Hell/Tormentor/Tormentor.png"
 face_sprite = "res://Enemies/Dungeon/Hell/Tormentor/Tormentor_Face.png"
 battle_sprite_scale_percent = 105.0

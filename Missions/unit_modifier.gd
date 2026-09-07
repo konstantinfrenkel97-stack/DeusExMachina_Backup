@@ -8,6 +8,10 @@ class_name UnitModifier
 @export var target_position: int = 0
 # 0 = не менять; 80 = установить текущее HP в 80% от максимума.
 @export_range(0, 100) var hp_percent: int = 0
+# Прибавляет (или отнимает, если отрицательное) к максимальному HP юнита на этот бой.
+# В отличие от hp_percent — увеличивает сам запас здоровья, а не долю от него; юнит
+# выходит в бой с полным увеличенным HP.
+@export var max_hp_delta: int = 0
 # -1 = не менять; 7 = установить 7 «зарядов пассивки».
 @export var passive_charges: int = -1
 # Array[BuffEntry] — баффы/дебаффы.

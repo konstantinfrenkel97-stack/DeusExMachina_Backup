@@ -14,7 +14,7 @@
 
 [sub_resource type="Resource" id="form_patrol"]
 script = ExtResource("formation_script")
-formation_name = "Фея цветов - Фея шипов - Фея цветов"
+formation_name = "Фея лепестков - Фея шипов - Фея лепестков"
 pos1 = ExtResource("enemy_flower_fairy")
 pos2 = ExtResource("enemy_thorn_fairy")
 pos3 = ExtResource("enemy_flower_fairy")

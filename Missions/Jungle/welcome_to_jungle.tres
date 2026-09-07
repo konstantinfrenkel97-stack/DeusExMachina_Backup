@@ -6,12 +6,10 @@
 [ext_resource type="Resource" path="res://Scenes/JungleScenes/jungle_patrol_1.tres" id="scene_patrol"]
 [ext_resource type="Resource" path="res://Scenes/rest.tres" id="scene_rest"]
 [ext_resource type="Resource" path="res://Scenes/JungleScenes/snake_dance.tres" id="scene_snake_dance"]
-[ext_resource type="Resource" path="res://Scenes/JungleScenes/wolf_boy.tres" id="scene_wolf_boy"]
-[ext_resource type="Resource" path="res://Scenes/JungleScenes/monkey_statue.tres" id="scene_monkey_statue"]
 
 [resource]
 script = ExtResource("mission_script")
 mission_name = "Добро пожаловать в Джунгли"
-scenes = [ExtResource("scene_welcome"), ExtResource("scene_chest"), ExtResource("scene_patrol"), ExtResource("scene_rest"), ExtResource("scene_snake_dance"), ExtResource("scene_wolf_boy"), ExtResource("scene_monkey_statue")]
+scenes = [ExtResource("scene_welcome"), ExtResource("scene_chest"), ExtResource("scene_patrol"), ExtResource("scene_rest"), ExtResource("scene_snake_dance")]
 location = 12
 required_god = 12

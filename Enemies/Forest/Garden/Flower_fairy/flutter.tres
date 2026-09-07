@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_ab")
-name = "Пархать над цветами"
+name = "Порхать над цветами"
 description = "На себя. +15 уклонения и +15 удачи на 3 хода. Продвигается вперёд на 1."
 damage_modifier = 0.0
 majesty_gain = 0

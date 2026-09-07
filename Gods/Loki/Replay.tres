@@ -6,7 +6,7 @@
 script = ExtResource("1_rp")
 icon_path = "uid://emqc6bbdi10j"
 name = "Переиграть"
-description = "Наносит 70% урона; Локи отходит назад."
+description = "Наносит 70% урона; Локи отходит назад. При критическом ударе юнит позади цели получает периодический урон (15% от урона Локи) на 2 хода."
 damage_modifier = 0.7
 majesty_gain = 15
 effect_types = Array[String](["self_push_back"])

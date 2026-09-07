@@ -1,0 +1,164 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Resource" uid="uid://c7eum4hnhdry3" path="res://Essence/essence_chaos.tres" id="essence_chaos"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" uid="uid://dt1jqjwb7cxkx" path="res://Gods/Samdi/Samdi.tres" id="samdi"]
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="reward_essence_chaos"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_chaos")
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="buff_luck_plus20"]
+script = ExtResource("buff_script")
+stat = 1
+value = 20
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="buff_accuracy_minus20"]
+script = ExtResource("buff_script")
+stat = 2
+value = -20
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_drink_success"]
+script = ExtResource("outcome_script")
+result_text = "Что же делать на пиратском острове, как не пить. Найти подходящее заведение оказывается несложно. Сложнее найти здание, где бы не наливали. Вы знакомитесь с местными сортами. На вкус отвратительно, но в голову даёт. Вы быстро напиваетесь.
+
+Ваш отряд, то в унисон, то в какофонию, начинает петь, танцевать и показывать волшебные трюки. Вы идёте от таверны к таверне, неся веселье и волшебство. Даже алкоголь становится лучше. То ли вам наливают из бутылок «для своих», то ли вы попросту привыкли. Куда бы вы ни шли, вы приносите праздник и движение. За вами уже ходит целая толпа. Ваша попойка приобретает масштабы маленького фестиваля.
+
+Пираты орут, танцуют, дерутся, запускают фейерверки, а в центре всего этого — вы.
+
+Утром вы возвращаетесь на корабль. Матросня озорно вам подмигивает, а вы стараетесь улыбаться через треск в голове. Капитан встречает вас словами:
+
+«Такого праздничка в этой дыре давно не было. Поздравляю, чудаки, вы стали местными легендами.»"
+rewards = [SubResource("reward_essence_chaos")]
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_luck_plus20"), SubResource("buff_accuracy_minus20")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_drink_fail"]
+script = ExtResource("outcome_script")
+result_text = "Что же делать на пиратском острове, как не пить. Найти подходящее заведение оказывается несложно. Сложнее найти здание, где бы не наливали. Вы знакомитесь с местными сортами. На вкус отвратительно, но в голову даёт. Вы быстро напиваетесь.
+
+Ваш отряд, то в унисон, то в какофонию, начинает петь, танцевать и показывать волшебные трюки. Вы идёте от таверны к таверне, неся веселье и волшебство.
+
+А потом просыпаетесь от того, что морские волны омывают ноги. Вы на пляже. В голове гудит, и вы без понятия, как сюда попали. Найдя путь на пристань, вы обнаруживаете, что ваш корабль ушёл без вас. В пиратской бухте несложно найти замену. Но этот вечер вам не сильно хочется повторять."
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_luck_plus20"), SubResource("buff_accuracy_minus20")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_drink"]
+script = ExtResource("choice_script")
+choice_text = "Пойти напиться"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_drink_success")
+failure_outcome = SubResource("out_drink_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_evasion"]
+script = ExtResource("stat_check_script")
+stat = 3
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_talk_success"]
+script = ExtResource("outcome_script")
+result_text = "Самое интересное в любом месте — это люди. Вы решаете походить по улицам и заведениям, пообщаться с местными.
+
+И вы отлично проводите время. Лавочники с удовольствием делятся историями. Каждая побрякушка на прилавке сопровождается историями. Вы находите местную школу, здание совета. Вам попадаются приветливые жители, и вы многое узнаёте об этой маленькой общине. Ваши тела постепенно украшаются разными безделушками — подарками от тех, кто хотел показать своё доброе отношение. Под вечер вы забрели отдохнуть в небольшой парк. Смеркается, и на ваших глазах собираются люди, пожилые пираты и пиратки. Приносят музыкальные инструменты, и начинаются пляски. Причём пираты танцуют не абы как — настоящие сложные па. Вскоре вас замечают и тоже втягивают в танцы.
+
+Когда на следующий день вы покидаете это место, в сердце у вас живёт тоска и ностальгия."
+thoughts_delta = 300
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_talk_fail"]
+script = ExtResource("outcome_script")
+result_text = "Самое интересное в любом месте — это люди. Вы решаете походить по улицам и заведениям, пообщаться с местными.
+
+И вы отвратительно проводите время. Вам попадаются пьяные орущие матросы, шарлатаны и просто грубияны. Вам плюют на обувь, толкают. Еда в заведениях отвратительная, а на выходе вы замечаете, что вас успели обворовать, после чего начинается драка с толпой пьяной матросни.
+
+Возвращаясь на корабль, вы обещаете себе больше ни шагу не ступать на землю пиратских городов."
+hero_hp_percent_delta = -3
+thoughts_delta = -200
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_talk"]
+script = ExtResource("choice_script")
+choice_text = "Пообщаться с местным населением"
+stat_check = SubResource("check_evasion")
+success_outcome = SubResource("out_talk_success")
+failure_outcome = SubResource("out_talk_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("stat_check_script")
+stat = 4
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_brothel_success"]
+script = ExtResource("outcome_script")
+result_text = "«Скажите, что я не прав.»
+
+Боги с удивлением смотрят на Самди. Не то чтобы то, что он предлагал, было совсем чуждо, но затхлый пиратский городишко... А они всё-таки божества.
+
+«Ну что ж, может, это и к лучшему. Богам к лицу невинность» — и, вращая тростью, он в одиночку спускается по трапу. Вам остаётся лишь пожать плечами. До вечера вы гуляете по местным улицам и знакомитесь с людьми. На обратной дороге вам попадается относительно ухоженный двухэтажный дом, на входе у которого горит фонарь в красном стекле. Иронично.
+
+В этот момент двери широко распахиваются, и на улицу выходит Самди — да не один, а в компании весёлых куртизанок. Они улыбаются, смеются, вьются вокруг него, норовя провести рукой по руке или плечу. Вы с удивлением смотрите на него.
+
+Он замечает вас, раскланивается перед женщинами (и мужчинами, как вы не сразу замечаете) и направляется к вам.
+
+«Что, передумали? Лучше в другой раз. Если и идти, то передо мной. Поверьте, разочарованный взгляд, который вы бы увидели в постели, остался бы с вами навсегда.»
+
+У вас куча вопросов, но вы не решаетесь их задать. Он видимо считывает это по глазам.
+
+«Ну, скажем так — с меня не взяли денег.»"
+target_god_immediate = ExtResource("samdi")
+target_god_immediate_majesty_delta = 50
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_brothel_fail"]
+script = ExtResource("outcome_script")
+result_text = "«Скажите, что я не прав.»
+
+Боги с удивлением смотрят на Самди. Не то чтобы то, что он предлагал, было совсем чуждо, но затхлый пиратский городишко... А они всё-таки божества.
+
+«Ну что ж, может, это и к лучшему. Богам к лицу невинность» — и, вращая тростью, он в одиночку спускается по трапу. Вам остаётся лишь пожать плечами. До вечера вы гуляете по местным улицам и знакомитесь с людьми. На обратной дороге вам попадается относительно ухоженный двухэтажный дом, на входе у которого горит фонарь в красном стекле. Иронично.
+
+В этот момент двери распахиваются, и на улицу выбегает Самди. Он бежит в сторону пирса, а из борделя вслед за ним выбегает толпа куртизанок, женщин и мужчин. Они яростно кричат и бегут за ним. Вы тоже пытаетесь его догнать, и вам удаётся. Теперь вы всей группой убегаете от толпы.
+
+«О, это вы! Как удачно. Мы отплываем. Сейчас!»
+
+Вы на ходу бросаете ему вопросы о том, что произошло, на что он отвечает снисходительным выражением лица.
+
+«О трепетные весенние цветы. Я делаю вам одолжение, не рассказывая о том, чего вам не стоит знать. И запомните — мы отплываем сразу же.»
+
+Он заворачивает в переулок и исчезает среди теней."
+target_god_immediate = ExtResource("samdi")
+target_god_immediate_majesty_delta = -100
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_brothel"]
+script = ExtResource("choice_script")
+choice_text = "Все дороги ведут в бордель"
+required_god = ExtResource("samdi")
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_brothel_success")
+failure_outcome = SubResource("out_brothel_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Пиратский город"
+body_text = "Корабль, на котором вы шли, петляя между рифами, зашёл в бухту. Вашим удивлённым глазам открывается скрытое среди скал поселение. Дома из каркасов кораблей. Пирсы, суда, чёрные флаги. Вы прибыли на пиратский остров. Матросы радостно сходят на пирс — у вас тоже есть возможность осмотреться."
+choices = [SubResource("choice_drink"), SubResource("choice_talk"), SubResource("choice_brothel")]

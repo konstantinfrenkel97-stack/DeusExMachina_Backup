@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Друид"
-max_hp = 92
-damage = 20
-armor = 14
+max_hp = 64
+damage = 14
+armor = 10
 initiative = 6
 accuracy = 84
-evasion = 14
-crit_chance = 0.1
+evasion = 10
+crit_chance = 0.07
+danger_level = 5
 sprite_path = "res://Enemies/Forest/Garden/Druid/Druid.png"
 face_sprite = "res://Enemies/Forest/Garden/Druid/Druid_face.png"
 battle_sprite_scale_percent = 88.0

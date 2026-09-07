@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Единорог"
-max_hp = 202
-damage = 35
-armor = 22
+max_hp = 141
+damage = 24
+armor = 15
 initiative = 8
 accuracy = 89
-evasion = 17
-crit_chance = 0.14
+evasion = 12
+crit_chance = 0.098
+danger_level = 8
 sprite_path = "res://Enemies/Forest/Garden/Unicorn/Unicorn.png"
 face_sprite = "res://Enemies/Forest/Garden/Unicorn/Unicorn_face.png"
 battle_sprite_scale_percent = 113.0

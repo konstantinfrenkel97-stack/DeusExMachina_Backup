@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" path="res://Enemy_logic/baldr_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Nemesis/Dungeon/Helheim/Baldr/immortal_fist.tres" id="4_a1"]
+[ext_resource type="Resource" path="res://Nemesis/Dungeon/Helheim/Baldr/cry_of_pain.tres" id="5_a2"]
+[ext_resource type="Resource" path="res://Nemesis/Dungeon/Helheim/Baldr/arrow_in_my_body.tres" id="6_ult"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Бальдр"
+max_hp = 130
+damage = 30
+armor = 100
+initiative = 5
+accuracy = 85
+evasion = 0
+danger_level = 10
+is_boss = true
+is_nemesis = true
+nemesis_order = 1
+special_effect_type = "baldr_armor_to_attack"
+sprite_path = "res://Nemesis/Dungeon/Helheim/Baldr/Baldr.png"
+face_sprite = "res://Nemesis/Dungeon/Helheim/Baldr/Baldr.png"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2")])
+ultimate_ability = ExtResource("6_ult")
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

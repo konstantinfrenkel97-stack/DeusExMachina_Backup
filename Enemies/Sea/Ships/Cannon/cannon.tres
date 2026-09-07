@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Пушка"
-max_hp = 147
-damage = 71
-armor = 13
+max_hp = 103
+damage = 50
+armor = 9
 initiative = 6
 accuracy = 93
-evasion = 12
-crit_chance = 0.17
+evasion = 8
+crit_chance = 0.119
+danger_level = 7
 sprite_path = "res://Enemies/Sea/Ships/Cannon/ПУшка_nobg.png"
 face_sprite = "res://Enemies/Sea/Ships/Cannon/ПУшка_Face.png"
 battle_sprite_scale_percent = 85.0

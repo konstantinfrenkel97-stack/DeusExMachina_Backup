@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_tb")
 name = "На дно"
-description = "Наносит 100% урона."
+description = "Наносит 100% урона плюс 50% урона атакующего за каждый дебафф на цели."
 damage_modifier = 1.0
 majesty_gain = 0
 ability_marker = "siren_to_the_bottom"

@@ -8,8 +8,8 @@
 
 [sub_resource type="Resource" id="out_heal"]
 script = ExtResource("1_vhdj0")
-result_text = "Вы используете отведенное время, чтобы подлечить раны, полученные в сражениях до этого. Боль отступает, возвращаются силы. Все боги восстанавливают 10% здоровья."
-hero_heal_percent = 10
+result_text = "Вы используете отведенное время, чтобы подлечить раны, полученные в сражениях до этого. Боль отступает, возвращаются силы. Все боги восстанавливают 20% здоровья."
+hero_heal_percent = 20
 metadata/_custom_type_script = ExtResource("1_vhdj0")
 
 [sub_resource type="Resource" id="choice_heal"]

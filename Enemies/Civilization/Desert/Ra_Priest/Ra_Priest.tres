@@ -9,13 +9,14 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Жрец Ра"
-max_hp = 87
-damage = 43
-armor = 11
+max_hp = 61
+damage = 30
+armor = 8
 initiative = 6
 accuracy = 91
-evasion = 11
-crit_chance = 0.15
+evasion = 8
+crit_chance = 0.105
+danger_level = 6
 sprite_path = "res://Enemies/Civilization/Desert/Ra_Priest/Priestess of Ra.png"
 face_sprite = "res://Enemies/Civilization/Desert/Ra_Priest/Priestess of Ra_Face.png"
 special_effect_type = "ra_no_location_damage"

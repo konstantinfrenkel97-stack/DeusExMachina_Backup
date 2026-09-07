@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Кирин"
-max_hp = 187
-damage = 68
-armor = 17
+max_hp = 131
+damage = 48
+armor = 12
 initiative = 9
 accuracy = 92
-evasion = 23
-crit_chance = 0.18
+evasion = 16
+crit_chance = 0.126
+danger_level = 8
 sprite_path = "res://Enemies/Sea/Islands/Kirin/Кирин.png"
 face_sprite = "res://Enemies/Sea/Islands/Kirin/Кирин_Face.png"
 battle_sprite_scale_percent = 89.0

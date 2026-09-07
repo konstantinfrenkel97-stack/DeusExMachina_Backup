@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Йотун"
-max_hp = 266
-damage = 53
-armor = 35
+max_hp = 186
+damage = 37
+armor = 24
 initiative = 6
 accuracy = 85
-evasion = 12
-crit_chance = 0.12
+evasion = 8
+crit_chance = 0.084
+danger_level = 8
 sprite_path = "res://Enemies/Dungeon/Hellheim/Jotun/Йотун.png"
 face_sprite = "res://Enemies/Dungeon/Hellheim/Jotun/Йотун_Face.png"
 battle_sprite_scale_percent = 75.0

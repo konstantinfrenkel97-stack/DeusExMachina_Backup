@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Кикимора"
-max_hp = 86
-damage = 20
-armor = 11
+max_hp = 60
+damage = 14
+armor = 8
 initiative = 6
 accuracy = 85
-evasion = 12
-crit_chance = 0.08
+evasion = 8
+crit_chance = 0.056
+danger_level = 4
 sprite_path = "res://Enemies/Forest/Marsh/Kikimora/Kikimora.png"
 face_sprite = "res://Enemies/Forest/Marsh/Kikimora/Kikimora_Face.png"
 battle_sprite_scale_percent = 74.0

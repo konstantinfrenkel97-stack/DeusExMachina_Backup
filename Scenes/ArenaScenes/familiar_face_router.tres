@@ -1,0 +1,56 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Resource" path="res://Scenes/ArenaScenes/familiar_face_blessing.tres" id="scene_blessing"]
+[ext_resource type="Resource" path="res://Scenes/ArenaScenes/familiar_face_peace.tres" id="scene_peace"]
+[ext_resource type="Resource" path="res://Scenes/ArenaScenes/familiar_face_traitor.tres" id="scene_traitor"]
+[ext_resource type="Resource" path="res://Scenes/ArenaScenes/familiar_face_weak_traitor.tres" id="scene_weak_traitor"]
+
+[sub_resource type="Resource" id="out_default"]
+script = ExtResource("outcome_script")
+result_text = "Диктор объявляет следующую пару бойцов. Пока помощники готовят арену, вы обводите взглядом собравшихся бойцов и зрителей."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_blessing"]
+script = ExtResource("outcome_script")
+result_text = "Диктор объявляет следующую пару бойцов. Пока помощники готовят арену, вы обводите взглядом собравшихся бойцов и зрителей."
+next_scene = ExtResource("scene_blessing")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_peace"]
+script = ExtResource("outcome_script")
+result_text = "Диктор объявляет следующую пару бойцов. Пока помощники готовят арену, вы обводите взглядом собравшихся бойцов и зрителей."
+next_scene = ExtResource("scene_peace")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_traitor"]
+script = ExtResource("outcome_script")
+result_text = "Диктор объявляет следующую пару бойцов. Пока помощники готовят арену, вы обводите взглядом собравшихся бойцов и зрителей."
+next_scene = ExtResource("scene_traitor")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_weak_traitor"]
+script = ExtResource("outcome_script")
+result_text = "Диктор объявляет следующую пару бойцов. Пока помощники готовят арену, вы обводите взглядом собравшихся бойцов и зрителей."
+next_scene = ExtResource("scene_weak_traitor")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_look"]
+script = ExtResource("choice_script")
+choice_text = "Оглядеться"
+outcome = SubResource("out_default")
+flag_outcomes = {
+"arena_fan_blessing": SubResource("out_blessing"),
+"arena_fan_peace": SubResource("out_peace"),
+"arena_fan_traitor": SubResource("out_traitor"),
+"arena_fan_weak_traitor": SubResource("out_weak_traitor")
+}
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Знакомое лицо"
+body_text = "Между боями зрители расходятся размяться, а бойцы готовятся к следующим поединкам. В этой суете что-то — или кто-то — кажется вам смутно знакомым."
+choices = [SubResource("choice_look")]

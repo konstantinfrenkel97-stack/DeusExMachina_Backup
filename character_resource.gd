@@ -28,6 +28,16 @@ class_name CharacterResource
 @export var evasion: int = 10
 @export var crit_chance: float = 0.05
 @export var is_enemy: bool = true
+# Уровень опасности врага (1-10, по дизайнерской таблице). Не используется игровой
+# логикой напрямую — справочное поле для балансировки. 0 = не назначен (боги и т.п.).
+@export_range(0, 10, 1) var danger_level: int = 0
+
+# Немезис: особый враг локации (см. CampaignState.get_next_nemesis_path). У каждой
+# локации может быть несколько немезидов — nemesis_order задаёт очередность, с кем
+# отряд сражается сначала (1), потом (2) и т.д. Не связано с обычным боевым ростером —
+# немезиды встречаются только в специально подготовленных сюжетных боях.
+@export var is_nemesis: bool = false
+@export var nemesis_order: int = 0
 
 @export_group("Забвение (усталость)")
 ## Текущий уровень забвения (0.0 – 5.0).

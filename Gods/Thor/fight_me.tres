@@ -16,8 +16,8 @@ effect_values = Dictionary[String, int]({
 "self_thor_fight_me_heal": 7
 })
 effect_durations = Dictionary[String, int]({
-"self_provocation_mark": 2,
-"self_thor_fight_me_heal": 2
+"self_provocation_mark": 1,
+"self_thor_fight_me_heal": 1
 })
 usable_from_positions = Array[bool]([true, true, true, false])
 ability_marker = "thor_fight_me"

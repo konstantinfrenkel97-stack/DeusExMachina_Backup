@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Наставник"
-max_hp = 103
-damage = 22
-armor = 15
+max_hp = 72
+damage = 15
+armor = 10
 initiative = 7
 accuracy = 86
-evasion = 15
-crit_chance = 0.11
+evasion = 10
+crit_chance = 0.077
+danger_level = 6
 sprite_path = "res://Enemies/Civilization/Arena/Mentor/Mentor.png"
 face_sprite = "res://Enemies/Civilization/Arena/Mentor/Mentor_Face.png"
 special_effect_type = "mentor_accuracy_aura"

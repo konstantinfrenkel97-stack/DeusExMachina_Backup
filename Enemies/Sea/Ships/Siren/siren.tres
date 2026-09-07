@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Сирена"
-max_hp = 95
-damage = 23
-armor = 13
+max_hp = 66
+damage = 16
+armor = 9
 initiative = 6
 accuracy = 87
-evasion = 13
-crit_chance = 0.1
+evasion = 9
+crit_chance = 0.07
+danger_level = 5
 sprite_path = "res://Enemies/Sea/Ships/Siren/Сирена_nobg.png"
 face_sprite = "res://Enemies/Sea/Ships/Siren/Сирена_Face.png"
 battle_sprite_scale_percent = 98.0

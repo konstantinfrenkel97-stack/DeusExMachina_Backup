@@ -30,14 +30,16 @@ const GATES_WRONG_DIALOGUE_PATH := "res://Dialogues/Instructions/Gates_wrong.tre
 const WRONG_LOCATION_DIALOGUE_PATH := "res://Dialogues/Instructions/Wrong_location.tres"
 const OPEN_DOOR_CHOICE_ID := "open_door"
 const _ABILITY_ICON_BUTTON_SIZE := Vector2(58.0, 58.0)
-const GOD_DETAIL_BG_COLOR := Color(0.09, 0.11, 0.20, 0.75)
-const GOD_DETAIL_ACCENT_COLOR := Color(0.83, 0.72, 0.45, 1.0)
-const GOD_DETAIL_ACCENT_DIM_COLOR := Color(0.55, 0.48, 0.32, 1.0)
+## Общая палитра — см. Scripts/campaign_theme.gd (единый источник для этого экрана,
+## battle_setup.gd и mission_select.gd).
+const GOD_DETAIL_BG_COLOR := CampaignTheme.PANEL_BG
+const GOD_DETAIL_ACCENT_COLOR := CampaignTheme.ACCENT
+const GOD_DETAIL_ACCENT_DIM_COLOR := CampaignTheme.ACCENT_DIM
 # Кнопки внутри полупрозрачных окон — непрозрачные и чуть темнее панели, чтобы не сливаться с фоном.
-const BUTTON_OPAQUE_BG_COLOR := Color(0.05, 0.06, 0.11, 1.0)
-const BUTTON_OPAQUE_BG_HOVER_COLOR := Color(0.08, 0.10, 0.17, 1.0)
-const BUTTON_OPAQUE_BG_PRESSED_COLOR := Color(0.03, 0.04, 0.07, 1.0)
-const BUTTON_OPAQUE_BG_DISABLED_COLOR := Color(0.04, 0.05, 0.08, 1.0)
+const BUTTON_OPAQUE_BG_COLOR := CampaignTheme.BUTTON_BG
+const BUTTON_OPAQUE_BG_HOVER_COLOR := CampaignTheme.BUTTON_BG_HOVER
+const BUTTON_OPAQUE_BG_PRESSED_COLOR := CampaignTheme.BUTTON_BG_PRESSED
+const BUTTON_OPAQUE_BG_DISABLED_COLOR := CampaignTheme.BUTTON_BG_DISABLED
 
 ## ПРАВИЛО: картинка на кнопке-иконке НИКОГДА не должна вылезать за её границы.
 ## Используем только нативный Button.icon/expand_icon (не самодельный дочерний
@@ -168,8 +170,8 @@ var _menu_button: Button
 var _menu_popup: PopupPanel
 # Диалог сохранения/загрузки (оверлей).
 var _dialog_overlay: Control
-var _help_overlay: Control
-var _help_showing_topic: bool = false
+# Справка вынесена в campaign_help.gd (класс CampaignHelp). Инициализируется в _ready().
+var help: CampaignHelp
 
 # ── Страница бога ──
 var _god_overlay: Control
@@ -209,6 +211,8 @@ var _creation_name_label: Label
 var _creation_create_btn: Button
 var _creation_popup: PopupPanel
 var _creation_active_slot: int = 0
+var _creation_essence_count_labels: Array[Label] = []
+var _creation_essence_count_paths: Array[String] = []
 const SUMMON_DIALOGUE_DIR := "res://Dialogues/Gods_dialogue"
 
 # ── Весы переосмысления ──
@@ -297,17 +301,23 @@ var _roster_order: Array[String] = []   # Расположение: путь б�
 
 
 func _ready() -> void:
+	help = CampaignHelp.new(self)
 	_build_ui()
 	_build_menu()
 	# По умолчанию ни одна кнопка-раздел не активна (содержимое пустое).
 	# Ростер богов обновляется автоматически при изменении CampaignState.
 	if not CampaignState.roster_changed.is_connected(_refresh_roster):
 		CampaignState.roster_changed.connect(_refresh_roster)
+	if not CampaignState.currency_changed.is_connected(_refresh_currencies):
+		CampaignState.currency_changed.connect(_refresh_currencies)
+	if not CampaignState.currency_changed.is_connected(_refresh_creation_essence_counts):
+		CampaignState.currency_changed.connect(_refresh_creation_essence_counts)
 	if not DialogueManager.dialogue_choice_selected.is_connected(_on_dialogue_choice_selected):
 		DialogueManager.dialogue_choice_selected.connect(_on_dialogue_choice_selected)
 	_refresh_roster()
 	_check_first_battle_mission_return()
 	_flush_pending_before_first_battle_dialogue()
+	_flush_pending_campaign_dialogue()
 
 
 # ════════════════════════════════════════════════════════════
@@ -3962,19 +3972,11 @@ func _update_campaign_hover(position: Vector2) -> void:
 		_clear_campaign_hover()
 		return
 	var section: String = str(room["section"])
-	var pixel_rect: Rect2 = room["rect"]
 	_campaign_hover_section = section
 	_campaign_hover_fill.visible = true
 	_campaign_hover_fill.texture = load(str(room.get("mask", ""))) as Texture2D
-	_campaign_hover_label.visible = true
-	_campaign_hover_label.text = section
-	var label_width: float = clamp(pixel_rect.size.x, 180.0, 420.0)
-	var label_size := Vector2(label_width, 44.0)
-	_campaign_hover_label.size = label_size
-	_campaign_hover_label.position = Vector2(
-		pixel_rect.position.x + (pixel_rect.size.x - label_size.x) * 0.5,
-		max(8.0, pixel_rect.position.y + 18.0)
-	)
+	# Название комнаты на карте больше не показываем — только подсветка (см. выше).
+	_campaign_hover_label.visible = false
 
 
 func _clear_campaign_hover() -> void:
@@ -4008,7 +4010,10 @@ func _build_currency_bar(parent: Node) -> void:
 		var pair := HBoxContainer.new()
 		pair.add_theme_constant_override("separation", 6)
 		var icon := TextureRect.new()
-		icon.custom_minimum_size = Vector2(72, 72)
+		# Иконки эссенций обрезаны почти впритык к рисунку (без полей), а иконка мыслей —
+		# нет, поэтому в общем боксе одинакового размера эссенции выглядели бы крупнее.
+		# Уменьшаем именно эссенции, чтобы визуально совпадали по размеру с мыслями.
+		icon.custom_minimum_size = Vector2(72, 72) if path == THOUGHTS_PATH else Vector2(44, 44)
 		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		if res and res.icon:
@@ -4230,6 +4235,16 @@ func _flush_pending_before_first_battle_dialogue() -> void:
 	_before_first_battle_dialogue_pending = false
 	DialogueManager.show_dialogue_path(BEFORE_FIRST_BATTLE_DIALOGUE_PATH)
 
+## Показывает одноразовую реплику, поставленную в очередь сценой миссии перед
+## возвратом на экран кампании (см. MissionState.pending_campaign_dialogue_path).
+func _flush_pending_campaign_dialogue() -> void:
+	var path := MissionState.pending_campaign_dialogue_path.strip_edges()
+	if path == "":
+		return
+	MissionState.pending_campaign_dialogue_path = ""
+	if ResourceLoader.exists(path):
+		DialogueManager.show_dialogue_path(path)
+
 ## DEBUG-хоткей (Ctrl+Shift+F9, только в debug-сборке): отмечает First_battle
 ## пройденной, чтобы проверять диалоги/двери ПОСЛЕ неё, не переигрывая бой
 ## каждый раз. before_doors_played сбрасывается в false, чтобы Before_doors
@@ -4402,6 +4417,11 @@ func _show_scales_window() -> void:
 	title.add_theme_font_size_override("font_size", 26)
 	root.add_child(title)
 
+	var back_btn := _make_scales_button("Назад", Vector2(120, 40))
+	back_btn.add_theme_font_size_override("font_size", 16)
+	back_btn.pressed.connect(_close_scales_window)
+	root.add_child(back_btn)
+
 	_scales_tab_row = _add_room_tab_bar(root, [
 		{"text": "Додумать", "callback": _set_scales_mode.bind("improve")},
 		{"text": "Передумать", "callback": _set_scales_mode.bind("rethink")},
@@ -4475,6 +4495,11 @@ func _show_memory_well_window() -> void:
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_size_override("font_size", 26)
 	root.add_child(title)
+
+	var back_btn := _make_scales_button("Назад", Vector2(120, 40))
+	back_btn.add_theme_font_size_override("font_size", 16)
+	back_btn.pressed.connect(_close_memory_well_window)
+	root.add_child(back_btn)
 
 	var hint := Label.new()
 	hint.text = "Выберите бога"
@@ -5273,7 +5298,10 @@ func _show_menu_popup() -> void:
 	_menu_popup.popup()
 
 
-## Правый щелчок мыши закрывает всплывающее меню и страницу бога.
+## Клик по комнате, не поглощённый ни одним Control — фоллбэк для левой кнопки мыши.
+## Правый клик сюда практически никогда не доходит: _input() выполняется раньше и уже
+## закрывает любой открытый оверлей через _try_close_top_overlay() (тот же приоритетный
+## список, что здесь проверялся раньше отдельной копией).
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		if not _campaign_room_input_is_blocked():
@@ -5284,12 +5312,38 @@ func _unhandled_input(event: InputEvent) -> void:
 				if viewport != null:
 					viewport.set_input_as_handled()
 		return
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-		if _menu_popup != null and is_instance_valid(_menu_popup) and _menu_popup.visible:
-			_menu_popup.hide()
-		if _dialog_overlay != null and is_instance_valid(_dialog_overlay):
-			_close_dialog()
-		# Страница бога закрывается правым кликом в любом месте — см. _input() ниже.
+
+
+## Закрывает самый верхний открытый оверлей/попап кампании (в порядке приоритета) —
+## единая точка входа для ПКМ, ESC и трёх точечных background-обработчиков ниже
+## (Весы/Колодец памяти/страница бога), вместо пяти отдельных копий одного и того же
+## списка "что считается открытым оверлеем".
+## Возвращает true, если что-то было закрыто.
+func _try_close_top_overlay() -> bool:
+	if help.handle_back():
+		return true
+	elif _dialog_overlay != null and is_instance_valid(_dialog_overlay):
+		_close_dialog()
+		return true
+	elif _menu_popup != null and is_instance_valid(_menu_popup) and _menu_popup.visible:
+		_menu_popup.hide()
+		return true
+	elif _creation_overlay != null and is_instance_valid(_creation_overlay):
+		_close_creation_window()
+		return true
+	elif _scales_overlay != null and is_instance_valid(_scales_overlay):
+		_close_scales_window()
+		return true
+	elif _library_overlay != null and is_instance_valid(_library_overlay):
+		_close_library_window()
+		return true
+	elif _memory_well_overlay != null and is_instance_valid(_memory_well_overlay):
+		_close_memory_well_window()
+		return true
+	elif _god_overlay != null and is_instance_valid(_god_overlay):
+		_close_god_detail()
+		return true
+	return false
 
 
 ## Правый щелчок закрывает страницу бога ВЕЗДЕ (в т.ч. по контенту панели):
@@ -5301,6 +5355,13 @@ func _input(event: InputEvent) -> void:
 			_debug_skip_first_battle()
 			get_viewport().set_input_as_handled()
 			return
+	## ESC: закрывает открытый оверлей/попап (тот же приоритет, что и ПКМ ниже),
+	## а если ничего не открыто — открывает главное меню (как кнопка "☰ Меню").
+	if event is InputEventKey and event.keycode == KEY_ESCAPE and event.pressed and not event.echo:
+		if not _try_close_top_overlay():
+			_show_menu_popup()
+		get_viewport().set_input_as_handled()
+		return
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		if not _campaign_room_input_is_blocked() and not _campaign_click_hits_real_button():
 			var section := _campaign_section_at_position(event.position)
@@ -5311,30 +5372,7 @@ func _input(event: InputEvent) -> void:
 					viewport.set_input_as_handled()
 				return
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-		var cancelled := false
-		if _handle_help_back():
-			cancelled = true
-		elif _dialog_overlay != null and is_instance_valid(_dialog_overlay):
-			_close_dialog()
-			cancelled = true
-		elif _menu_popup != null and is_instance_valid(_menu_popup) and _menu_popup.visible:
-			_menu_popup.hide()
-			cancelled = true
-		elif _creation_overlay != null and is_instance_valid(_creation_overlay):
-			_close_creation_window()
-			cancelled = true
-		elif _scales_overlay != null and is_instance_valid(_scales_overlay):
-			_close_scales_window()
-			cancelled = true
-		elif _library_overlay != null and is_instance_valid(_library_overlay):
-			_close_library_window()
-			cancelled = true
-		elif _memory_well_overlay != null and is_instance_valid(_memory_well_overlay):
-			_close_memory_well_window()
-			cancelled = true
-		elif _god_overlay != null and is_instance_valid(_god_overlay):
-			_close_god_detail()
-			cancelled = true
+		var cancelled := _try_close_top_overlay()
 		if cancelled:
 			var viewport := get_viewport()
 			if viewport != null:
@@ -6128,6 +6166,45 @@ func _show_library_result(title_text: String, message: String) -> void:
 
 
 ## Открывает окно Сада творения: 2 слота эссенций, место спрайта бога, кнопка «Создать».
+## Строка "иконка эссенции + доступное количество" для всех 5 эссенций создания —
+## чтобы на странице Сада было видно, сколько чего есть, прежде чем выбирать слоты.
+func _build_creation_essence_counts_row() -> Control:
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 16)
+	_creation_essence_count_labels.clear()
+	_creation_essence_count_paths.clear()
+	for essence_name_variant in CREATION_ESSENCES.keys():
+		var essence_name := str(essence_name_variant)
+		var essence_path := str(CREATION_ESSENCES[essence_name])
+		var essence_res := load(essence_path)
+		var pair := HBoxContainer.new()
+		pair.add_theme_constant_override("separation", 4)
+		var icon := TextureRect.new()
+		icon.custom_minimum_size = Vector2(28, 28)
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		if essence_res != null and essence_res.icon != null:
+			icon.texture = essence_res.icon
+		icon.tooltip_text = essence_name
+		pair.add_child(icon)
+		var amt := Label.new()
+		amt.text = str(CampaignState.get_currency_amount(essence_path))
+		amt.add_theme_font_size_override("font_size", 16)
+		amt.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		pair.add_child(amt)
+		row.add_child(pair)
+		_creation_essence_count_labels.append(amt)
+		_creation_essence_count_paths.append(essence_path)
+	return row
+
+## Обновляет уже построенную строку количеств эссенций (после сотворения бога).
+func _refresh_creation_essence_counts() -> void:
+	for i in range(_creation_essence_count_labels.size()):
+		if not is_instance_valid(_creation_essence_count_labels[i]):
+			continue
+		_creation_essence_count_labels[i].text = str(CampaignState.get_currency_amount(_creation_essence_count_paths[i]))
+
 func _show_creation_window() -> void:
 	_close_creation_window()
 	_creation_slots = ["", ""]
@@ -6184,6 +6261,8 @@ func _show_creation_window() -> void:
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hint.add_theme_font_size_override("font_size", 16)
 	main_vb.add_child(hint)
+
+	main_vb.add_child(_build_creation_essence_counts_row())
 
 	# Слева: два слота эссенций.
 	var slots_col := VBoxContainer.new()
@@ -6280,6 +6359,9 @@ func _build_creation_popup() -> void:
 	if _creation_popup != null and is_instance_valid(_creation_popup):
 		_creation_popup.queue_free()
 	_creation_popup = PopupPanel.new()
+	# Убираем общий фон/рамку попапа (из глобальной темы) — должны остаться только
+	# рамки вокруг каждой отдельной иконки эссенции (см. _apply_essence_button_style).
+	_creation_popup.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	add_child(_creation_popup)
 	var hbox := HBoxContainer.new()
 	hbox.add_theme_constant_override("separation", 8)
@@ -6416,6 +6498,7 @@ func _on_create_pressed() -> void:
 	_build_creation_popup()
 	_update_creation_view()
 	_refresh_currencies()
+	_refresh_creation_essence_counts()
 	_play_summon_dialogue_for_god(god_path)
 
 
@@ -6467,123 +6550,8 @@ func _menu_settings() -> void:
 
 func _menu_help() -> void:
 	_hide_menu_popup()
-	_show_help_topics()
+	help.show_topics()
 
-
-func _help_topics() -> Dictionary:
-	return {
-		"Кампания": "На экране кампании выбираются разделы замка, создаются и просматриваются боги, открываются миссии и проверяются ресурсы.",
-		"Миссии": "В миссиях выбирается отряд богов. Сцены идут по порядку: выбор, результат, возможный бой, затем следующая сцена.",
-		"Бой": "Бой идет по очереди хода. Выберите способность или заклинание, затем цель, если она нужна. Правая кнопка мыши отменяет текущий выбор.",
-		"Способности": "Способности имеют позиции применения, цели, стоимость величия и эффекты. Наведение показывает подробное описание.",
-		"Заклинания": "Заклинания тратят фантазию. Часть заклинаний зависит от выбранной локации.",
-		"Эффекты": "Баффы, дебаффы, стойки и уникальные метки отображаются иконками возле персонажа. Наведение на иконку показывает подробности."
-	}
-
-
-func _show_help_topics() -> void:
-	_clear_help_overlay()
-	_help_showing_topic = false
-	_help_overlay = _make_help_overlay()
-	var panel := _make_help_panel(_help_overlay)
-	var root := _make_help_root(panel)
-
-	var title := Label.new()
-	title.text = "Помощь"
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 36)
-	root.add_child(title)
-
-	for topic_name in _help_topics().keys():
-		var btn := Button.new()
-		btn.text = str(topic_name)
-		btn.custom_minimum_size = Vector2(640, 58)
-		btn.add_theme_font_size_override("font_size", 24)
-		btn.pressed.connect(_show_help_topic.bind(str(topic_name), str(_help_topics()[topic_name])))
-		root.add_child(btn)
-
-	var back_btn := Button.new()
-	back_btn.text = "Назад"
-	back_btn.custom_minimum_size = Vector2(220, 54)
-	back_btn.add_theme_font_size_override("font_size", 22)
-	back_btn.pressed.connect(_clear_help_overlay)
-	root.add_child(back_btn)
-
-
-func _show_help_topic(topic_title: String, topic_text: String) -> void:
-	_clear_help_overlay()
-	_help_showing_topic = true
-	_help_overlay = _make_help_overlay()
-	var panel := _make_help_panel(_help_overlay)
-	var root := _make_help_root(panel)
-
-	var title := Label.new()
-	title.text = topic_title
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 32)
-	root.add_child(title)
-
-	var body := RichTextLabel.new()
-	body.bbcode_enabled = true
-	body.fit_content = false
-	body.scroll_active = true
-	body.custom_minimum_size = Vector2(760, 390)
-	body.add_theme_font_size_override("normal_font_size", 24)
-	body.text = topic_text
-	root.add_child(body)
-
-	var back_btn := Button.new()
-	back_btn.text = "Назад"
-	back_btn.custom_minimum_size = Vector2(220, 54)
-	back_btn.add_theme_font_size_override("font_size", 22)
-	back_btn.pressed.connect(_show_help_topics)
-	root.add_child(back_btn)
-
-
-func _make_help_overlay() -> Control:
-	var overlay := ColorRect.new()
-	overlay.name = "HelpOverlay"
-	overlay.color = Color(0, 0, 0, 0.72)
-	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
-	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
-	overlay.z_index = 2000
-	add_child(overlay)
-	return overlay
-
-
-func _make_help_panel(parent: Control) -> PanelContainer:
-	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(900, 620)
-	panel.set_anchors_preset(Control.PRESET_CENTER)
-	panel.position = Vector2(-450, -310)
-	parent.add_child(panel)
-	return panel
-
-
-func _make_help_root(panel: PanelContainer) -> VBoxContainer:
-	var root := VBoxContainer.new()
-	root.alignment = BoxContainer.ALIGNMENT_CENTER
-	root.add_theme_constant_override("separation", 18)
-	root.custom_minimum_size = Vector2(840, 560)
-	panel.add_child(root)
-	return root
-
-
-func _handle_help_back() -> bool:
-	if _help_overlay == null or not is_instance_valid(_help_overlay):
-		return false
-	if _help_showing_topic:
-		_show_help_topics()
-	else:
-		_clear_help_overlay()
-	return true
-
-
-func _clear_help_overlay() -> void:
-	if _help_overlay != null and is_instance_valid(_help_overlay):
-		_help_overlay.queue_free()
-	_help_overlay = null
-	_help_showing_topic = false
 
 
 func _menu_exit() -> void:
@@ -6604,7 +6572,27 @@ func _show_save_dialog() -> void:
 	_close_dialog()
 	_dialog_overlay = _make_overlay()
 
-	var panel := _make_centered_panel("Сохранить кампанию", Vector2(400, 200))
+	var panel := _make_centered_panel("Сохранить кампанию", Vector2(500, 460))
+
+	var slots := SaveSystem.get_save_slots()
+	var slot_list: VBoxContainer = null
+	if not slots.is_empty():
+		var existing_lbl := Label.new()
+		existing_lbl.text = "Существующие сохранения (нажмите, чтобы перезаписать):"
+		existing_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		existing_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		existing_lbl.add_theme_font_size_override("font_size", 14)
+		panel.add_child(existing_lbl)
+
+		var scroll := ScrollContainer.new()
+		scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		scroll.custom_minimum_size = Vector2(460, 180)
+		panel.add_child(scroll)
+
+		slot_list = VBoxContainer.new()
+		slot_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		slot_list.add_theme_constant_override("separation", 6)
+		scroll.add_child(slot_list)
 
 	var name_edit := LineEdit.new()
 	name_edit.placeholder_text = "Введите название сохранения"
@@ -6635,6 +6623,26 @@ func _show_save_dialog() -> void:
 	btn_row.add_child(save_btn)
 	btn_row.add_child(cancel_btn)
 	panel.add_child(btn_row)
+
+	if slot_list != null:
+		for slot_info in slots:
+			var row := HBoxContainer.new()
+			row.add_theme_constant_override("separation", 10)
+
+			var info_btn := Button.new()
+			info_btn.text = "«%s»\n%s | Богов: %d" % [slot_info["slot"], slot_info["timestamp"], slot_info["gods_count"]]
+			info_btn.add_theme_font_size_override("font_size", 14)
+			info_btn.custom_minimum_size = Vector2(400, 44)
+			info_btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
+			row.add_child(info_btn)
+			slot_list.add_child(row)
+
+			var slot_name: String = slot_info["slot"]
+			info_btn.pressed.connect(func():
+				name_edit.text = slot_name
+				status_label.text = "«%s» будет перезаписано при сохранении." % slot_name
+				status_label.add_theme_color_override("font_color", Color(0.9, 0.7, 0.3))
+			)
 
 	save_btn.pressed.connect(func():
 		var slot := name_edit.text.strip_edges()

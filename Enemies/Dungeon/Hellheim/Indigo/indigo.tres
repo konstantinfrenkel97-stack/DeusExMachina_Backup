@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Индиго"
-max_hp = 95
-damage = 49
-armor = 11
+max_hp = 66
+damage = 34
+armor = 8
 initiative = 8
 accuracy = 92
-evasion = 21
-crit_chance = 0.2
+evasion = 15
+crit_chance = 0.14
+danger_level = 7
 sprite_path = "res://Enemies/Dungeon/Hellheim/Indigo/Виндиго_nobg.png"
 face_sprite = "res://Enemies/Dungeon/Hellheim/Indigo/Виндиго_Face.png"
 battle_sprite_scale_percent = 108.0

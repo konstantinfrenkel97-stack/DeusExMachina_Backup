@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Крошить кости"
-description = "Наносит 100% урона."
+description = "Наносит 100% урона. Пока активна ярость Они — 20% шанс превратить удар в критический."
 damage_modifier = 1.0
 majesty_gain = 0
 ability_marker = "oni_crush_bones"

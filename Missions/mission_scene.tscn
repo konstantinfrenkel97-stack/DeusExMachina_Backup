@@ -41,23 +41,28 @@ theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 24
 
-[node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
+[node name="Scroll" type="ScrollContainer" parent="Panel/Margin"]
 layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 18
 
-[node name="Title" type="Label" parent="Panel/Margin/VBox"]
+[node name="Title" type="Label" parent="Panel/Margin/Scroll/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Сцена"
 horizontal_alignment = 1
 
-[node name="Image" type="TextureRect" parent="Panel/Margin/VBox"]
+[node name="Image" type="TextureRect" parent="Panel/Margin/Scroll/VBox"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 260)
 expand_mode = 1
 stretch_mode = 5
 
-[node name="BodyText" type="RichTextLabel" parent="Panel/Margin/VBox"]
+[node name="BodyText" type="RichTextLabel" parent="Panel/Margin/Scroll/VBox"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 180)
 bbcode_enabled = true
@@ -65,6 +70,6 @@ text = "Текст сцены."
 fit_content = false
 scroll_active = true
 
-[node name="Choices" type="VBoxContainer" parent="Panel/Margin/VBox"]
+[node name="Choices" type="VBoxContainer" parent="Panel/Margin/Scroll/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 10

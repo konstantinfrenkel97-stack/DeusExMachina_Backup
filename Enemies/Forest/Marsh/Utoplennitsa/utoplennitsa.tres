@@ -9,13 +9,14 @@
 [resource]
 script = ExtResource("5_a7wqx")
 unit_name = "Утопленница"
-max_hp = 48
-damage = 18
-armor = 5
+max_hp = 34
+damage = 13
+armor = 4
 initiative = 6
 accuracy = 79
-evasion = 16
-crit_chance = 0.09
+evasion = 11
+crit_chance = 0.063
+danger_level = 2
 sprite_path = "res://Enemies/Forest/Marsh/Utoplennitsa/Utoplennitsa.png"
 face_sprite = "res://Enemies/Forest/Marsh/Utoplennitsa/Utoplennitsa_Face.png"
 battle_sprite_scale_percent = 85.0

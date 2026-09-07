@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3 uid="uid://k3oaipidtif8"]
 
 [ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="battle_script"]
 [ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
@@ -148,4 +148,4 @@ metadata/_custom_type_script = "uid://djjvdhvrq6wkh"
 script = ExtResource("scene_script")
 scene_title = "Патруль Замок 1"
 body_text = "Пробираясь по каменным залам и открытым площадкам, вы вдруг обнаруживаете отряд агрессивно настроенных стражников. Они кричат, размахивают оружием и явно кого-то ищут. Вас они еще не заметили — это шанс устроить засаду."
-choices = [SubResource("choice_ambush"), SubResource("choice_avoid"), SubResource("choice_fair")]
+choices = Array[ExtResource("choice_script")]([SubResource("choice_ambush"), SubResource("choice_avoid"), SubResource("choice_fair")])

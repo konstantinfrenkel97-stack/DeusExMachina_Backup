@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Краб коллектор"
-max_hp = 40
-damage = 11
-armor = 4
+max_hp = 28
+damage = 8
+armor = 3
 initiative = 5
 accuracy = 77
-evasion = 9
-crit_chance = 0.05
+evasion = 6
+crit_chance = 0.035
+danger_level = 1
 sprite_path = "res://Enemies/Sea/Islands/Crab_collector/Золотой краб.png"
 face_sprite = "res://Enemies/Sea/Islands/Crab_collector/Золотой краб_Face.png"
 battle_sprite_scale_percent = 79.0

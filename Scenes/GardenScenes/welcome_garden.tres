@@ -12,7 +12,7 @@
 
 [sub_resource type="Resource" id="form_welcome"]
 script = ExtResource("formation_script")
-formation_name = "Сад приветствует: фея цветов-фея шипов-фея цветов"
+formation_name = "Сад приветствует: фея лепестков-фея шипов-фея лепестков"
 pos1 = ExtResource("enemy_flower")
 pos2 = ExtResource("enemy_thorn")
 pos3 = ExtResource("enemy_flower")
@@ -33,7 +33,7 @@ metadata/_custom_type_script = ExtResource("reward_script")
 
 [sub_resource type="Resource" id="out_welcome"]
 script = ExtResource("outcome_script")
-result_text = "На ее лице уверенность, и она, сжав кулаки, идёт вперед прямо на крылатые силуэты, идущие навстречу."
+result_text = ""
 battle = SubResource("battle_welcome")
 rewards = Array[ExtResource("reward_script")]([SubResource("reward_essence")])
 metadata/_custom_type_script = ExtResource("outcome_script")

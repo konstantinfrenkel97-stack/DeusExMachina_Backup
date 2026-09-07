@@ -9,14 +9,15 @@
 
 [resource]
 script = ExtResource("2_cr")
-unit_name = "Цветочная фея"
-max_hp = 51
-damage = 11
-armor = 6
+unit_name = "Фея лепестков"
+max_hp = 36
+damage = 8
+armor = 4
 initiative = 5
 accuracy = 77
-evasion = 11
-crit_chance = 0.06
+evasion = 8
+crit_chance = 0.042
+danger_level = 2
 sprite_path = "res://Enemies/Forest/Garden/Flower_fairy/Flower_fairy.png"
 face_sprite = "res://Enemies/Forest/Garden/Flower_fairy/Flower_fairy_face.png"
 battle_sprite_scale_percent = 93.0

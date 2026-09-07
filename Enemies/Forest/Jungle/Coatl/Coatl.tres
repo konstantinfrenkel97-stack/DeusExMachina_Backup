@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Коатль"
-max_hp = 228
-damage = 54
-armor = 22
+max_hp = 160
+damage = 38
+armor = 15
 initiative = 8
 accuracy = 95
-evasion = 19
-crit_chance = 0.17
+evasion = 13
+crit_chance = 0.119
+danger_level = 9
 sprite_path = "res://Enemies/Forest/Jungle/Coatl/Koatl.png"
 face_sprite = "res://Enemies/Forest/Jungle/Coatl/Koatl_face.png"
 battle_sprite_scale_percent = 90.0

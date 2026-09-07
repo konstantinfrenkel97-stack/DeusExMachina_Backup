@@ -9,13 +9,14 @@
 [resource]
 script = ExtResource("5_cr")
 unit_name = "Страдающая душа"
-max_hp = 56
-damage = 26
-armor = 7
+max_hp = 39
+damage = 18
+armor = 5
 initiative = 5
 accuracy = 85
-evasion = 8
-crit_chance = 0.11
+evasion = 6
+crit_chance = 0.077
+danger_level = 3
 sprite_path = "res://Enemies/Dungeon/Hell/Tormented_soul/Tormented_soul.png"
 face_sprite = "res://Enemies/Dungeon/Hell/Tormented_soul/Tormented_sould_face.png"
 special_effect_type = "soul_position_buff"

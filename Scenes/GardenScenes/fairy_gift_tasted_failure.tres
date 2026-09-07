@@ -1,0 +1,72 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Thorn_fairy/thorn_fairy.tres" id="ext_thorn_fairy"]
+[ext_resource type="Resource" path="res://Gods/Duna/Duna.tres" id="ext_duna"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+
+[sub_resource type="Resource" id="form_thorn_fairy"]
+script = ExtResource("formation_script")
+formation_name = "Одинокая фея шипов"
+pos1 = ExtResource("ext_thorn_fairy")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_v1"]
+script = ExtResource("battle_script")
+formation = SubResource("form_thorn_fairy")
+location_id = "garden"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v1"]
+script = ExtResource("outcome_script")
+result_text = "Существо перед вами больше не помнит, что было мальчиком. Не издав ни звука, оно бросается в атаку."
+battle = SubResource("battle_v1")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v1"]
+script = ExtResource("choice_script")
+choice_text = "Ни следа человека"
+outcome = SubResource("out_v1")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="out_v2"]
+script = ExtResource("outcome_script")
+result_text = "Вы решаете, что лучше прислушаться к предупреждению. Феи обступают ребёнка. Вы видите, как исчезает у него во рту фейский дар, как тело обрастает хитиновым покровом, как из ребёнка он превращается в насекомое.
+Вы отворачиваетесь и уходите, не в силах смотреть на торжество жестокой природы."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v2"]
+script = ExtResource("choice_script")
+choice_text = "Прислушаться к предупреждению"
+outcome = SubResource("out_v2")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="out_v3"]
+script = ExtResource("outcome_script")
+result_text = "Дуна выходит вперёд. На её лице гнев, который вам не доводилось видеть. Даже феи немного отступают назад.
+«Испробовавший фейский дар обязан служить феям пять лет, после чего может вернуться к людям!»
+«С каких пор вы превращаете людей в фей?! Откуда у вас вообще появилась эта магия?»
+«И что с её цветом и шипами? Я таких фей никогда не видела. Что происходит? Вы идёте против законов природы!»
+Дуна стоит, упёрев руки в бока, сердито хмурится. Феи выглядят подавленными, а ребёнок продолжает жевать, обрастая шипами и тёмным хитином. Раздаётся тихий колокольчик.
+«У природы новый закон, Великая мать. Раньше у нас была только ты. Теперь появился отец.»
+Дуна хмурит брови.
+«Отец? И кто же?»
+Феи испуганно прячутся за стволы деревьев. Вы видите, как дрожат крылья. Больше они ничего не говорят. Мальчик между тем доел. Последний кусок исчез во рту, и губы заросли коркой гладкого хитина. Он расправил стрекозьи крылья и улетел в чащу, с ним скрылись и остальные феи. Лес будто потемнел. Потемнело и лицо богини природы.
+«Отец... Ну посмотрим. Он мне ответит за то, что сделал с моими детьми.»"
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v3"]
+script = ExtResource("choice_script")
+choice_text = "Пусть вмешается Дуна"
+required_god = ExtResource("ext_duna")
+outcome = SubResource("out_v3")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Испробовавший фейский дар (провал)"
+body_text = "Вы прорываетесь сквозь рой фей, но уже слишком поздно. Вы видите, как расправляются длинные стрекозьи крылья, как последний кусок пирога исчезает во рту, и как рот покрывается гладким коричневым хитином. Перед вами коричневая шипастая фея — ни следа человека."
+choices = [SubResource("choice_v1"), SubResource("choice_v2"), SubResource("choice_v3")]

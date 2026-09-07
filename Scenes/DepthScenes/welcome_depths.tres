@@ -33,7 +33,7 @@ metadata/_custom_type_script = ExtResource("reward_script")
 
 [sub_resource type="Resource" id="out_welcome"]
 script = ExtResource("outcome_script")
-result_text = "Из синего сумрака бесшумно появляются русалы с трезубцами наперевес, а следом за ними — жрица, ее хвост мерцает в пробивающемся сверху свете. Похоже, чудесами моря дело не ограничится."
+result_text = ""
 battle = SubResource("battle_welcome")
 rewards = Array[ExtResource("reward_script")]([SubResource("reward_essence")])
 metadata/_custom_type_script = ExtResource("outcome_script")

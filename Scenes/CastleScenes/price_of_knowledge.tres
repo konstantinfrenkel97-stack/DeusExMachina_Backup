@@ -1,10 +1,11 @@
-[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3 uid="uid://bu0j7kevoxtg"]
 
-[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
-[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
-[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
-[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
-[ext_resource type="Resource" path="res://Essence/essence_death.tres" id="essence_death"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="2_b1fof"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Resource" uid="uid://bglbr7sxbyn23" path="res://Essence/essence_death.tres" id="essence_death"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
 
 [sub_resource type="Resource" id="out_guard"]
 script = ExtResource("outcome_script")
@@ -12,19 +13,18 @@ result_text = "Вы хватаете осквернителя под руки и
 Но вас его слова не трогают. Осквернение могил не имеет оправдания.
 Вы находите отряд стражи, сдаете им провинившегося и указываете как пройти в тайную комнату. Пусть весь мир знает, что боги стоят на страже естественного порядка."
 hero_majesty_delta = 15
-metadata/_custom_type_script = ExtResource("outcome_script")
+metadata/_custom_type_script = "uid://dvpdwqc5nh1vu"
 
 [sub_resource type="Resource" id="choice_guard"]
 script = ExtResource("choice_script")
 choice_text = "Сдать его страже"
 outcome = SubResource("out_guard")
-metadata/_custom_type_script = ExtResource("choice_script")
+metadata/_custom_type_script = "uid://djjvdhvrq6wkh"
 
 [sub_resource type="Resource" id="reward_death"]
 script = ExtResource("reward_script")
 kind = 1
 resource = ExtResource("essence_death")
-amount = 1
 metadata/_custom_type_script = ExtResource("reward_script")
 
 [sub_resource type="Resource" id="out_results"]
@@ -33,13 +33,13 @@ result_text = "Его знания могут быть ценными. В обм
 Мужчина приходит в восторг, и забыв о вскрытом теле на столе, бросается к шкафам и достает книги. Запинаясь и перебивая сам себя он показывает и рассказывает, создавая полную какофонию. Вы, наконец, просите его остановиться, и сами беретесь за изучение материала.
 Он делал страшные вещи, от многих проводимых экспериментов вас выворачивает, но важность знания неоценима. Вам открываются секреты человеческого тела, секреты жизни и секреты смерти. Это знание оставляет след, и теперь вы им обладаете."
 rewards = Array[ExtResource("reward_script")]([SubResource("reward_death")])
-metadata/_custom_type_script = ExtResource("outcome_script")
+metadata/_custom_type_script = "uid://dvpdwqc5nh1vu"
 
 [sub_resource type="Resource" id="choice_results"]
 script = ExtResource("choice_script")
 choice_text = "Пусть поделится результатами исследования"
 outcome = SubResource("out_results")
-metadata/_custom_type_script = ExtResource("choice_script")
+metadata/_custom_type_script = "uid://djjvdhvrq6wkh"
 
 [sub_resource type="Resource" id="out_help"]
 script = ExtResource("outcome_script")
@@ -53,7 +53,7 @@ metadata/_custom_type_script = ExtResource("outcome_script")
 script = ExtResource("choice_script")
 choice_text = "Помочь ему в исследованиях"
 outcome = SubResource("out_help")
-metadata/_custom_type_script = ExtResource("choice_script")
+metadata/_custom_type_script = "uid://djjvdhvrq6wkh"
 
 [resource]
 script = ExtResource("scene_script")
@@ -65,4 +65,4 @@ body_text = "Вы заблудились. В этом нет никакого с
 \"Клянусь, это не то что вы подумали! Я его не убивал! Я выкопал тело с кладбища! Тьфу, в смысле... Ну... Пожалуйста не выдавайте меня.\"
 Он нервно потирает руки.
 \"Я только занимался исследованиями. Я не хотел красить трупы... Знания о человеческом теле могут помочь... Спасти жизни тех кто еще жив...\""
-choices = [SubResource("choice_guard"), SubResource("choice_results"), SubResource("choice_help")]
+choices = Array[ExtResource("choice_script")]([SubResource("choice_guard"), SubResource("choice_results"), SubResource("choice_help")])

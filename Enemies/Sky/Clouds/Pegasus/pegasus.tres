@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Пегас"
-max_hp = 174
-damage = 37
-armor = 18
+max_hp = 122
+damage = 26
+armor = 13
 initiative = 7
 accuracy = 88
-evasion = 16
-crit_chance = 0.13
+evasion = 11
+crit_chance = 0.091
+danger_level = 7
 sprite_path = "res://Enemies/Sky/Clouds/Pegasus/Пегас.png"
 face_sprite = "res://Enemies/Sky/Clouds/Pegasus/Пегас_Face.png"
 battle_sprite_scale_percent = 140.0

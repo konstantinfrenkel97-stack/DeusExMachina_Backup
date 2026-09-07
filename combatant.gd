@@ -3,6 +3,13 @@ class_name Combatant
 
 signal damage_taken(amount: int)
 signal healed(amount: int)
+## Испускается ровно один раз, в момент когда HP впервые опускается до 0.
+## battle_scene.gd подписывается на него у каждого юнита в момент создания
+## (рядом с damage_taken.connect) — единая подстраховка на случай, если
+## какой-то конкретный путь урона забудет вручную вызвать _on_unit_killed().
+signal died
+## Перо феникса: сработал одноразовый щит от смерти (для боевого лога).
+signal phoenix_feather_shield_triggered
 
 
 var unit_name: String
@@ -33,10 +40,18 @@ var special_effect_type: String = ""
 var god_level: int = 1
 var is_large: bool = false
 var is_boss: bool = false
+var is_nemesis: bool = false
 var is_stunned: bool = false
 var pending_crit: bool = false  # Ð¤Ð»Ð°Ð³: ÑÐ»ÐµÐ´ÑƒÑŽÑ‰Ð¸Ð¹ Ð¿Ð¾Ð»ÑƒÑ‡ÐµÐ½Ð½Ñ‹Ð¹ ÑƒÑ€Ð¾Ð½ â€” ÐºÑ€Ð¸Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ (Ð´Ð»Ñ Ð²ÑÐ¿Ð»Ñ‹Ð²Ð°ÑŽÑ‰Ð¸Ñ… Ñ‡Ð¸ÑÐµÐ»)
 var active_stance: AbilityResource = null # Ð¡ÑÑ‹Ð»ÐºÐ° Ð½Ð° Ñ‚ÐµÐºÑƒÑ‰ÑƒÑŽ ÑÑ‚Ð¾Ð¹ÐºÑƒ
 var ai_script: GDScript
+## Взведён при первом вызове battle_scene.gd::_on_unit_killed() для этого юнита —
+## не даёт разово-смертным пассивкам (Банши, проклятие Принцессы и т.п.) сработать
+## дважды, если и обычный код, и подстраховка через сигнал died одновременно
+## обработают одну и ту же смерть.
+var death_processed: bool = false
+## Перо феникса: щит от смерти использован (одноразово за бой).
+var phoenix_feather_shield_used: bool = false
 var life_charges: int = 0  # ÐšÐ¾Ñ‰ÐµÐ¹: Ð·Ð°Ñ€ÑÐ´Ñ‹ Ð¶Ð¸Ð·Ð½Ð¸ (5 Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ)
 var mission_charges: int = -1  # Â«Ð—Ð°Ñ€ÑÐ´Ñ‹ Ð¿Ð°ÑÑÐ¸Ð²ÐºÐ¸Â» Ð¸Ð· Ð¼Ð¸ÑÑÐ¸Ð¸ (-1 = Ð½Ðµ Ð·Ð°Ð´Ð°Ð½Ð¾)
 var ultimate_blocked: bool = false  # Ð‘Ð»Ð¾ÐºÐ¸Ñ€Ð¾Ð²ÐºÐ° ÑƒÐ»ÑŒÑ‚Ð¸Ð¼Ð°Ñ‚Ð¸Ð²Ð½Ð¾Ð¹ ÑÐ¿Ð¾ÑÐ¾Ð±Ð½Ð¾ÑÑ‚Ð¸ (ÐœÑ€Ð°Ñ‡Ð½Ð°Ñ ÑÐ´ÐµÐ»ÐºÐ°)
@@ -95,6 +110,7 @@ func _init(resource: CharacterResource):
 	special_effect_type = resource.special_effect_type
 	is_large = resource.is_large
 	is_boss = resource.is_boss
+	is_nemesis = resource.is_nemesis
 	equipped_weapon = resource.equipped_weapon
 	equipped_armor = resource.equipped_armor
 	equipped_trinket = resource.equipped_trinket
@@ -238,6 +254,9 @@ func apply_stat_change(stat: String, amount: int):
 	# ÐÑ‚Ð°ÐºÑƒÑŽÑ‰Ð¸Ð¹ Ñ‚Ð¸Ñ‚Ð°Ð½: Ð²ÑÐµ ÑÑ„Ñ„ÐµÐºÑ‚Ñ‹ ÑƒÑ€Ð¾Ð½Ð° ÑƒÐ´Ð²Ð°Ð¸Ð²Ð°ÑŽÑ‚ÑÑ
 	if special_effect_type == "titan_damage_double" and stat == "damage":
 		value *= 2
+	# Бальдр: если броня уменьшается — атака растёт на ту же величину.
+	if special_effect_type == "baldr_armor_to_attack" and stat == "armor" and value < 0:
+		damage_modifier_flat += -value
 	match stat:
 		"hp":
 			current_hp = clampi(current_hp + value, 0, max_hp)
@@ -316,11 +335,24 @@ func get_front_position() -> int:
 	return position_index - 1
 
 func take_damage(amount: int):
+	var _was_alive := current_hp > 0
 	current_hp = clampi(current_hp - amount, 0, max_hp)
 	refresh_passive_auras()
 	if amount > 0:
 		damage_taken.emit(amount)
-func modify_majesty(amount: int): current_majesty = clampi(current_majesty + amount, 0, 100) if !is_enemy else 0
+	if _was_alive and current_hp <= 0:
+		# Перо феникса: один раз за бой погибель заменяется полным восстановлением HP.
+		# Проверяется прямо здесь (а не в конкретном месте нанесения урона), чтобы щит
+		# защищал от любого источника смерти — включая собственный урон предмета в начале хода.
+		if has_item_effect("phoenix_feather") and not phoenix_feather_shield_used:
+			phoenix_feather_shield_used = true
+			current_hp = max_hp
+			phoenix_feather_shield_triggered.emit()
+			return
+		died.emit()
+## Немезиды (is_nemesis) — единственные враги, которые копят и тратят величие, как герои;
+## обычные враги величия не имеют (см. "Отличительная особенность немезисов — у них есть величие").
+func modify_majesty(amount: int): current_majesty = clampi(current_majesty + amount, 0, 100) if (!is_enemy or is_nemesis) else 0
 func start_new_round(): has_waited_this_round = false; has_acted_this_round = false; round_wait_stamp = -1; moved_this_round = false; griffin_first_strike_used = false
 func wait_action(): has_waited_this_round = true
 

@@ -7,7 +7,7 @@
 script = ExtResource("1_rg")
 icon_path = "uid://cy8myu15wln56"
 name = "Лучи славы"
-description = "Марка союзника (2 хода). Осирис получает 15 величия, а союзник под маркой — +10 уклонения на 2 хода."
+description = "Марка союзника (2 хода). Осирис получает 15 величия, а союзник под маркой — +10 уклонения на 2 хода и тоже 15 величия."
 damage_modifier = 0.0
 majesty_gain = 15
 target_type = "Position"

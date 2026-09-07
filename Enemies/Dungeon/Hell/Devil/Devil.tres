@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Дьявол"
-max_hp = 310
-damage = 92
-armor = 35
+max_hp = 217
+damage = 64
+armor = 24
 initiative = 7
 accuracy = 90
-evasion = 18
-crit_chance = 0.2
+evasion = 13
+crit_chance = 0.14
+danger_level = 10
 sprite_path = "res://Enemies/Dungeon/Hell/Devil/Devil.png"
 face_sprite = "res://Enemies/Dungeon/Hell/Devil/Devil_face.png"
 battle_sprite_scale_percent = 69.0

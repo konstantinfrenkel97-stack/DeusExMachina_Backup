@@ -18,6 +18,17 @@ const HP_BAR_HEIGHT := 14.0
 const MAJESTY_BAR_HEIGHT := 6.0
 const EFFECT_ICON_GAP := 4
 const EFFECT_ICON_BAR_GAP := 4.0
+# Подсветка допустимой цели при выборе способности: чуть шире HP-бара, лежит
+# прямо над ним и своей верхней частью перекрывает низ спрайта (ноги персонажа).
+const TARGET_HIGHLIGHT_HEIGHT := 28.0
+const TARGET_HIGHLIGHT_GAP_ABOVE_HP := 6.0
+const TARGET_HIGHLIGHT_WIDTH_MULT := 1.3
+const TARGET_HIGHLIGHT_ENEMY_TEX := "res://UI/Red_highlight.png"
+# Крупные юниты вдвое шире (bar_width=260 против 130) — при таком растяжении
+# обычная картинка выглядит слишком растянутой, поэтому у неё есть отдельная
+# широкая версия с иначе расставленными "зубцами" под этот масштаб.
+const TARGET_HIGHLIGHT_ENEMY_TEX_WIDE := "res://UI/Red_highlight_wide.png"
+const TARGET_HIGHLIGHT_ALLY_TEX := "res://UI/Blue_highlight.png"
 const EFFECT_ICON_PATHS := {
 	"buff": "res://icons/Buff_icon.png",
 	"debuff": "res://icons/debuff_icon.png",
@@ -53,6 +64,7 @@ var majesty_bar: ProgressBar = null
 var flash_sprite: Sprite2D = null
 var flash_tween: Tween = null
 var _outline: Line2D = null
+var _target_highlight: TextureRect = null
 var _effect_icon_row: HBoxContainer = null
 var _sprite_opaque_bounds := Rect2()
 var _status_bar_width := 130.0
@@ -131,6 +143,7 @@ func setup(combatant_data: Combatant):
 		hp_bar.size = Vector2(bar_width, bar_h)
 		hp_bar.position = Vector2(-bar_width * 0.5, hp_y)
 		_ensure_effect_icon_row(bar_width, hp_y)
+		_ensure_target_highlight(bar_width * TARGET_HIGHLIGHT_WIDTH_MULT, hp_y)
 
 		# ÃÅ¾ÃÂ±ÃÂ²ÃÂ¾ÃÂ´ÃÂºÃÂ° ÃÂ°ÃÂºÃ‘â€šÃÂ¸ÃÂ²ÃÂ½ÃÂ¾ÃÂ³ÃÂ¾ Ã‘Å½ÃÂ½ÃÂ¸Ã‘â€šÃÂ° (Ã‘â€¡ÃÂµÃÂ¹ Ã‘â€¦ÃÂ¾ÃÂ´): ÃÂ·ÃÂ¾ÃÂ»ÃÂ¾Ã‘â€šÃÂ°Ã‘Â Ã‘â‚¬ÃÂ°ÃÂ¼ÃÂºÃÂ° ÃÂ²ÃÂ¾ÃÂºÃ‘â‚¬Ã‘Æ’ÃÂ³ HP-ÃÂ±ÃÂ°Ã‘â‚¬ÃÂ°.
 		# ÃÂ¦ÃÂ²ÃÂµÃ‘â€š ÃÂ·ÃÂ°ÃÂ»ÃÂ¸ÃÂ²ÃÂºÃÂ¸ HP-ÃÂ±ÃÂ°Ã‘â‚¬ÃÂ° ÃÂÃâ€¢ ÃÂ¼ÃÂµÃÂ½Ã‘ÂÃÂµÃ‘â€šÃ‘ÂÃ‘Â. Ãâ€™ÃÂ¸ÃÂ´ÃÂ½ÃÂ° Ã‘â€šÃÂ¾ÃÂ»Ã‘Å’ÃÂºÃÂ¾ ÃÂ´ÃÂ»Ã‘Â Ã‘â€¦ÃÂ¾ÃÂ´Ã‘ÂÃ‘â€°ÃÂµÃÂ³ÃÂ¾ Ã‘Å½ÃÂ½ÃÂ¸Ã‘â€šÃÂ° (Ã‘ÂÃÂ¼. set_active).
@@ -226,6 +239,7 @@ func _position_status_bars(hp_y: float) -> void:
 		majesty_bar.size = Vector2(bar_width, _status_majesty_height)
 		majesty_bar.position = Vector2(-bar_width * 0.5, hp_y + bar_h)
 	_ensure_effect_icon_row(bar_width, hp_y)
+	_ensure_target_highlight(bar_width * TARGET_HIGHLIGHT_WIDTH_MULT, hp_y)
 	if _outline:
 		var line_width: float = _outline.width
 		var half_width: float = line_width * 0.5
@@ -248,7 +262,7 @@ func update_visuals():
 		
 	# ÃÅ¾ÃÂ³ÃÂ»Ã‘Æ’Ã‘Ë†Ã‘â€˜ÃÂ½ÃÂ½Ã‘â€¹ÃÂ¹ Ã‘Å½ÃÂ½ÃÂ¸Ã‘â€š ÃÂ²ÃÂ¸ÃÂ·Ã‘Æ’ÃÂ°ÃÂ»Ã‘Å’ÃÂ½ÃÂ¾ Ã‘ÂÃÂµÃ‘â‚¬ÃÂµÃÂµÃ‘â€š ÃÂ¸ Ã‘ÂÃ‘â€šÃÂ°ÃÂ½ÃÂ¾ÃÂ²ÃÂ¸Ã‘â€šÃ‘ÂÃ‘Â ÃÂ¿ÃÂ¾ÃÂ»Ã‘Æ’ÃÂ¿Ã‘â‚¬ÃÂ¾ÃÂ·Ã‘â‚¬ÃÂ°Ã‘â€¡ÃÂ½Ã‘â€¹ÃÂ¼ (50%).
 	if data.is_stunned:
-		sprite.modulate = Color(0.5, 0.5, 0.5, 0.5)
+		sprite.modulate = Color(0.5, 0.5, 0.5, 1.0)
 	else:
 		sprite.modulate = Color(1, 1, 1, 1)
 
@@ -258,6 +272,40 @@ func update_visuals():
 	_update_hp_text()
 	_refresh_effect_icons()
 
+
+## Создаёт (при первом вызове) и позиционирует полоску подсветки допустимой цели.
+## Лежит чуть выше HP-бара и заходит вверх на низ спрайта, чтобы его перекрывать.
+func _ensure_target_highlight(highlight_width: float, hp_y: float) -> void:
+	if _target_highlight == null:
+		_target_highlight = TextureRect.new()
+		_target_highlight.stretch_mode = TextureRect.STRETCH_SCALE
+		# EXPAND_IGNORE_SIZE — иначе присвоение texture сбрасывает size обратно
+		# к исходному размеру картинки (2161x728), затирая наш ручной размер полоски.
+		_target_highlight.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		_target_highlight.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_target_highlight.z_index = 13
+		_target_highlight.visible = false
+		add_child(_target_highlight)
+	var bottom_y: float = hp_y - TARGET_HIGHLIGHT_GAP_ABOVE_HP
+	var top_y: float = bottom_y - TARGET_HIGHLIGHT_HEIGHT
+	_target_highlight.position = Vector2(-highlight_width * 0.5, top_y)
+	_target_highlight.size = Vector2(highlight_width, TARGET_HIGHLIGHT_HEIGHT)
+
+## kind: "" — скрыть, "enemy" — красная подсветка, "ally" — синяя.
+## Вызывается извне (battle_scene.gd) во время выбора цели способности/заклинания.
+func set_target_highlight(kind: String) -> void:
+	if _target_highlight == null:
+		return
+	if kind == "":
+		_target_highlight.visible = false
+		return
+	var path := TARGET_HIGHLIGHT_ALLY_TEX
+	if kind == "enemy":
+		var is_large: bool = data != null and data.is_large
+		path = TARGET_HIGHLIGHT_ENEMY_TEX_WIDE if is_large else TARGET_HIGHLIGHT_ENEMY_TEX
+	if _target_highlight.texture == null or _target_highlight.texture.resource_path != path:
+		_target_highlight.texture = load(path)
+	_target_highlight.visible = true
 
 func _ensure_effect_icon_row(bar_width: float, hp_y: float) -> void:
 	if _effect_icon_row == null:
@@ -523,7 +571,11 @@ func _get_texture_opaque_bounds(texture: Texture2D) -> Rect2:
 	if max_x < min_x or max_y < min_y:
 		return Rect2(Vector2.ZERO, texture.get_size())
 	return Rect2(Vector2(min_x, min_y), Vector2(max_x - min_x + 1, max_y - min_y + 1))
-func _apply_sprite_scale_keep_feet(new_scale: Vector2) -> void:
+## update_collision=false — двигает/масштабирует только спрайт (визуальный эффект,
+## например рост при наведении), не трогая Area2D-хитбокс. Так хитбокс при наведении
+## не "разрастается" на соседнюю позицию и не перехватывает её клики/наведение
+## (см. правило "наводка выбирает по юниту на позиции, а не по перекрывающему спрайту").
+func _apply_sprite_scale_keep_feet(new_scale: Vector2, update_collision: bool = true) -> void:
 	if sprite == null or sprite.texture == null:
 		return
 	sprite.scale = new_scale
@@ -539,7 +591,7 @@ func _apply_sprite_scale_keep_feet(new_scale: Vector2) -> void:
 	if data != null:
 		resource_vertical_offset = -bounds.size.y * absf(sprite.scale.y) * (data.battle_sprite_y_offset_percent / 100.0)
 	sprite.position = Vector2(0, SPRITE_FEET_Y - opaque_bottom_from_center * absf(sprite.scale.y) + osiris_set_vertical_offset + resource_vertical_offset)
-	if collision_shape != null:
+	if update_collision and collision_shape != null:
 		var opaque_center_from_texture_center := bounds.position + bounds.size * 0.5 - texture_size * 0.5
 		collision_shape.position = sprite.position + Vector2(opaque_center_from_texture_center.x * sprite.scale.x, opaque_center_from_texture_center.y * sprite.scale.y)
 		var shape := collision_shape.shape as RectangleShape2D
@@ -559,7 +611,7 @@ func set_active(active: bool) -> void:
 func set_hover(hovered: bool) -> void:
 	if sprite == null or sprite.texture == null:
 		return
-	_apply_sprite_scale_keep_feet(_base_sprite_scale * (1.15 if hovered else 1.0))
+	_apply_sprite_scale_keep_feet(_base_sprite_scale * (1.15 if hovered else 1.0), false)
 	if name_label:
 		name_label.visible = hovered
 

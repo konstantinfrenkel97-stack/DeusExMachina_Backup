@@ -10,6 +10,8 @@
 [ext_resource type="Script" path="res://Missions/formation_resource.gd" id="8_formation"]
 [ext_resource type="Resource" path="res://Enemies/Sky/Peaks/Cyclopes/cyclops.tres" id="9_cyclops"]
 [ext_resource type="Resource" path="res://Gods/Zeus/zeus.tres" id="10_zeus"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="11_reward"]
+[ext_resource type="Resource" path="res://Items/Weapons/Rare/beautiful_stone.tres" id="12_stone"]
 
 [sub_resource type="Resource" id="form_one_cyclops"]
 script = ExtResource("8_formation")
@@ -106,6 +108,12 @@ value = 15
 duration = -1
 metadata/_custom_type_script = ExtResource("6_buff")
 
+[sub_resource type="Resource" id="reward_beautiful_stone"]
+script = ExtResource("11_reward")
+kind = 0
+resource = ExtResource("12_stone")
+metadata/_custom_type_script = ExtResource("11_reward")
+
 [sub_resource type="Resource" id="out_v3_success"]
 script = ExtResource("3_outcome")
 result_text = "«Хмм, а ведь я когда-то имел дело с циклопами. Может и с этим смогу до чего договориться.»
@@ -121,6 +129,7 @@ result_text = "«Хмм, а ведь я когда-то имел дело с ц�
 Его прерывает циклоп-метатель. Опустившись на одно колено перед соперником, он торжественно вручает приз победителю. Это камень. Вы замечаете, что этот камень довольно красивый. А еще огромный. Когда Зевс берет его в руки, мышцы вздуваются и покрываются жилами. Циклопы аплодируют. Ваш отряд присоединяется к аплодисментам."
 target_god = ExtResource("10_zeus")
 target_buffs = Array[ExtResource("6_buff")]([SubResource("buff_zeus_accuracy15")])
+rewards = Array[ExtResource("11_reward")]([SubResource("reward_beautiful_stone")])
 metadata/_custom_type_script = ExtResource("3_outcome")
 
 [sub_resource type="Resource" id="out_v3_fail"]

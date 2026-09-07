@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Крик боли"
+description = "70% урона по цели на позиции 3 и ещё одной цели рядом с ней. Обе цели получают периодический урон (9) на 2 хода."
+damage_modifier = 0.7
+majesty_gain = 15
+target_type = "Enemy"
+extra_targets_count = 1
+effect_types = Array[String](["periodic_damage"])
+effect_values = Dictionary[String, int]({
+"periodic_damage": 9
+})
+effect_durations = Dictionary[String, int]({
+"periodic_damage": 2
+})
+usable_from_positions = Array[bool]([false, false, true, true])
+targetable_positions = Array[bool]([false, false, true, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

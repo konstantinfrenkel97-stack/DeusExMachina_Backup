@@ -1,9 +1,9 @@
 extends Control
 
-@onready var title_label: Label = $Panel/Margin/VBox/Title
-@onready var image_rect: TextureRect = $Panel/Margin/VBox/Image
-@onready var body_label: RichTextLabel = $Panel/Margin/VBox/BodyText
-@onready var choices_container: VBoxContainer = $Panel/Margin/VBox/Choices
+@onready var title_label: Label = $Panel/Margin/Scroll/VBox/Title
+@onready var image_rect: TextureRect = $Panel/Margin/Scroll/VBox/Image
+@onready var body_label: RichTextLabel = $Panel/Margin/Scroll/VBox/BodyText
+@onready var choices_container: VBoxContainer = $Panel/Margin/Scroll/VBox/Choices
 @onready var back_button: Button = $BackButton
 
 const BATTLE_SETUP_SCRIPT := preload("res://battle_setup.gd")
@@ -13,16 +13,30 @@ const MISSION_HERO_MAJESTY_BAR_HEIGHT := 5.0
 const MISSION_HERO_BAR_GAP := 2.0
 
 var _heroes_row: HBoxContainer = null
+var _heroes_row_parent: Control = null
 var _mission_hp_bars: Dictionary = {}
 var _mission_majesty_bars: Dictionary = {}
 var _mission_reward_overlay: Control = null
+var _mission_stats_overlay: Control = null
+var _mission_banner_overlay: Control = null
 var _pending_finish_return_path: String = ""
+## Взводится в _apply_outcome_mission_effects(), если счётчик отдыха только что
+## пересёк свой порог провала — читается сразу после в _apply_outcome_effects().
+var _rest_counter_forced_failure: bool = false
 
 func _ready() -> void:
 	back_button.pressed.connect(_on_back_pressed)
 	body_label.bbcode_enabled = true
 	_prepare_layout()
 	_build_mission_heroes_row()
+	# Бой (последний в миссии) только что решил её исход — сразу показываем экран
+	# победы/поражения вместо обычной сцены (см. battle_scene.gd::_return_to_mission_
+	# after_battle/_return_to_mission_after_defeat).
+	if MissionState.pending_mission_end_kind != MissionState.MissionEndKind.NONE:
+		var was_victory: bool = MissionState.pending_mission_end_kind == MissionState.MissionEndKind.VICTORY
+		MissionState.pending_mission_end_kind = MissionState.MissionEndKind.NONE
+		_finish_mission(was_victory, true)
+		return
 	if MissionState.current_scene == null and MissionState.current_mission != null and not MissionState.current_mission.scenes.is_empty():
 		MissionState.set_current_scene(MissionState.current_mission.scenes[0] as MissionSceneResource)
 	_load_scene(MissionState.current_scene)
@@ -33,6 +47,20 @@ func _prepare_layout() -> void:
 	body_label.custom_minimum_size = Vector2(0, 360)
 	body_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	choices_container.size_flags_vertical = Control.SIZE_SHRINK_END
+	# Портреты отряда раньше добавлялись последним элементом ВНУТРИ прокручиваемого
+	# текста сцены — при сколько-нибудь длинном тексте/выборах их обрезало снизу
+	# видимой области, пока не проскроллишь. Выносим прокрутку в обёртку и держим
+	# портреты отдельным, всегда видимым элементом над ней (фиксированная «шапка»).
+	var scroll: Control = $Panel/Margin/Scroll
+	var margin: Control = $Panel/Margin
+	margin.remove_child(scroll)
+	var wrapper := VBoxContainer.new()
+	wrapper.name = "MarginVBox"
+	wrapper.add_theme_constant_override("separation", 10)
+	margin.add_child(wrapper)
+	wrapper.add_child(scroll)
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_heroes_row_parent = wrapper
 
 func _build_mission_heroes_row() -> void:
 	if _heroes_row == null:
@@ -41,13 +69,20 @@ func _build_mission_heroes_row() -> void:
 		_heroes_row.alignment = BoxContainer.ALIGNMENT_CENTER
 		_heroes_row.add_theme_constant_override("separation", 10)
 		_heroes_row.custom_minimum_size = Vector2(0, MISSION_HERO_PORTRAIT_SIZE.y + MISSION_HERO_HP_BAR_HEIGHT + MISSION_HERO_BAR_GAP + MISSION_HERO_MAJESTY_BAR_HEIGHT + 4.0)
-		_heroes_row.size_flags_vertical = Control.SIZE_SHRINK_END
-		$Panel/Margin/VBox.add_child(_heroes_row)
+		_heroes_row.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+		_heroes_row_parent.add_child(_heroes_row)
+		_heroes_row_parent.move_child(_heroes_row, 0)
 	for child in _heroes_row.get_children():
 		child.queue_free()
 	_mission_hp_bars.clear()
 	_mission_majesty_bars.clear()
-	for hero_path in MissionState.selected_heroes:
+	# Pos1 (индекс 0) — ближайшая к врагам позиция на поле боя, т.е. самая ПРАВАЯ.
+	# Отображаем в том же порядке, что и на экране выбора отряда (mission_select.gd/
+	# battle_setup.gd), иначе портреты здесь оказываются зеркально перевёрнуты.
+	var selected_heroes: Array = MissionState.selected_heroes
+	for visual_index in range(selected_heroes.size()):
+		var hero_index: int = selected_heroes.size() - 1 - visual_index
+		var hero_path = selected_heroes[hero_index]
 		var clean_path: String = str(hero_path).strip_edges()
 		if clean_path == "":
 			continue
@@ -105,9 +140,9 @@ func _make_mission_majesty_bar() -> ProgressBar:
 	bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	bar.tooltip_text = "Величие"
 	var bg := StyleBoxFlat.new()
-	bg.bg_color = Color(0.08, 0.08, 0.08, 0.95)
+	bg.bg_color = Color(0.2, 0.2, 0.15, 0.6)
 	var fill := StyleBoxFlat.new()
-	fill.bg_color = Color(1.0, 0.62, 0.05, 1.0)
+	fill.bg_color = Color(1.0, 1.0, 0.6, 1.0)
 	bar.add_theme_stylebox_override("background", bg)
 	bar.add_theme_stylebox_override("fill", fill)
 	return bar
@@ -257,10 +292,15 @@ func _outcome_rewards_text(outcome) -> String:
 		var reward := reward_value as Reward
 		if reward == null:
 			continue
-		var display_name := reward.display_name() if reward.resource == null else _reward_display_name(reward.resource)
 		if reward.kind == Reward.Kind.ESSENCE or reward.kind == Reward.Kind.CURRENCY:
-			parts.append("%s x%d" % [display_name, int(reward.amount)])
+			var icon_bbcode := _reward_icon_bbcode(reward.resource)
+			if icon_bbcode != "":
+				parts.append("%s x%d" % [icon_bbcode, int(reward.amount)])
+			else:
+				var display_name := reward.display_name() if reward.resource == null else _reward_display_name(reward.resource)
+				parts.append("%s x%d" % [display_name, int(reward.amount)])
 		else:
+			var display_name := reward.display_name() if reward.resource == null else _reward_display_name(reward.resource)
 			parts.append(display_name)
 	if parts.is_empty():
 		return ""
@@ -273,9 +313,17 @@ func _apply_outcome_effects(outcome) -> void:
 		return
 	for reward in _array_prop(outcome, "rewards"):
 		_grant_and_record_reward(reward)
+	_rest_counter_forced_failure = false
 	_apply_outcome_mission_effects(outcome)
-	if bool(_res_prop(outcome, "end_mission_as_failure", false)):
-		_finish_mission(false)
+	if bool(_res_prop(outcome, "end_mission_as_failure", false)) or _rest_counter_forced_failure:
+		_finish_mission(false, true)
+		return
+	# Перезапустить текущую сцену (циклы вроде "Отдохнуть ещё немного" → та же сцена
+	# заново). MissionState.current_scene уже указывает на эту сцену — Godot не
+	# позволяет .tres ссылаться на самого себя через ext_resource (next_scene), поэтому
+	# цикл реализован кодом, а не данными: просто не меняем current_scene и перезагружаем.
+	if bool(_res_prop(outcome, "restart_current_scene", false)):
+		get_tree().reload_current_scene()
 		return
 	var next_scene = _res_prop(outcome, "next_scene", null) as MissionSceneResource
 	var battle = _res_prop(outcome, "battle", null)
@@ -306,6 +354,9 @@ func _apply_outcome_mission_effects(outcome) -> void:
 	var random_hp_delta: int = int(_res_prop(outcome, "random_hero_hp_percent_delta", 0))
 	if random_hp_delta != 0:
 		_apply_random_mission_hero_hp_delta(random_hp_delta)
+	var team_hp_delta: int = int(_res_prop(outcome, "hero_hp_percent_delta", 0))
+	if team_hp_delta != 0:
+		_apply_team_mission_hero_hp_delta(team_hp_delta)
 	var fantasy_delta: int = int(_res_prop(outcome, "fantasy_delta", 0))
 	if fantasy_delta != 0:
 		CombatManager.pending_mission_fantasy_delta += fantasy_delta
@@ -318,6 +369,24 @@ func _apply_outcome_mission_effects(outcome) -> void:
 	var majesty_delta: int = int(_res_prop(outcome, "hero_majesty_delta", 0))
 	if majesty_delta != 0:
 		MissionState.add_majesty_to_selected_heroes(majesty_delta)
+	var perm_debuff_unit: String = str(_res_prop(outcome, "permanent_enemy_debuff_unit_name", ""))
+	var perm_debuff_accuracy: int = int(_res_prop(outcome, "permanent_enemy_debuff_accuracy", 0))
+	if perm_debuff_unit != "" and perm_debuff_accuracy != 0:
+		CampaignState.add_permanent_enemy_accuracy_debuff(perm_debuff_unit, perm_debuff_accuracy)
+	var immediate_target_god: Resource = _res_prop(outcome, "target_god_immediate", null) as Resource
+	if immediate_target_god != null:
+		var immediate_target_path: String = str(_res_prop(immediate_target_god, "resource_path", ""))
+		if immediate_target_path != "" and not CampaignState.is_god_dead(immediate_target_path):
+			var immediate_hp_delta: int = int(_res_prop(outcome, "target_god_immediate_hp_percent_delta", 0))
+			var immediate_majesty_delta: int = int(_res_prop(outcome, "target_god_immediate_majesty_delta", 0))
+			if immediate_hp_delta != 0:
+				var immediate_max_hp: int = CampaignState.get_god_max_hp(immediate_target_path)
+				var immediate_hp_amount: int = int(round(float(immediate_max_hp) * float(immediate_hp_delta) / 100.0))
+				if immediate_hp_amount == 0:
+					immediate_hp_amount = 1 if immediate_hp_delta > 0 else -1
+				CampaignState.set_god_current_hp(immediate_target_path, CampaignState.get_god_current_hp(immediate_target_path) + immediate_hp_amount, immediate_max_hp)
+			if immediate_majesty_delta != 0:
+				MissionState.add_hero_majesty(immediate_target_path, immediate_majesty_delta)
 	var hero_buffs_until_mission_end: bool = bool(_res_prop(outcome, "hero_buffs_until_mission_end", false))
 	for buff in _array_prop(outcome, "hero_buffs"):
 		if buff != null:
@@ -356,6 +425,43 @@ func _apply_outcome_mission_effects(outcome) -> void:
 					"resource_path": target_path,
 					"buffs": target_buffs
 				})
+	var nemesis_god: Resource = _res_prop(outcome, "nemesis_buff_god", null) as Resource
+	var nemesis_majesty: int = int(_res_prop(outcome, "nemesis_buff_majesty", 0))
+	var nemesis_stat_entry: Resource = _res_prop(outcome, "nemesis_buff_stat", null) as Resource
+	var nemesis_location_id: String = str(_res_prop(outcome, "nemesis_buff_location_id", "")).strip_edges()
+	if nemesis_god != null and nemesis_location_id != "" and (nemesis_majesty != 0 or nemesis_stat_entry != null):
+		var nemesis_god_path: String = str(_res_prop(nemesis_god, "resource_path", ""))
+		if nemesis_god_path != "":
+			var nemesis_buff_stat: int = int(nemesis_stat_entry.stat) if nemesis_stat_entry != null else -1
+			var nemesis_buff_value: int = int(nemesis_stat_entry.value) if nemesis_stat_entry != null else 0
+			CampaignState.add_pending_nemesis_buff(nemesis_location_id, nemesis_god_path, nemesis_majesty, nemesis_buff_stat, nemesis_buff_value)
+	_apply_rest_counter_effects(outcome)
+
+## Счётчик отдыха (см. MissionOutcome — поля rest_counter_*). Порядок важен: сперва
+## прибавляем delta, потом проверяем порог провала, и только если он НЕ сработал —
+## учитываем reset/штраф инициативы (провал сам всё равно "сбрасывает" миссию).
+func _apply_rest_counter_effects(outcome) -> void:
+	var delta: int = int(_res_prop(outcome, "rest_counter_delta", 0))
+	if delta != 0:
+		MissionState.rest_counter += delta
+	var threshold: int = int(_res_prop(outcome, "rest_counter_fail_threshold", 0))
+	if threshold > 0 and MissionState.rest_counter >= threshold:
+		var fail_dialogue: String = str(_res_prop(outcome, "rest_counter_fail_dialogue_path", "")).strip_edges()
+		if fail_dialogue != "":
+			MissionState.pending_campaign_dialogue_path = fail_dialogue
+		_rest_counter_forced_failure = true
+		return
+	if bool(_res_prop(outcome, "apply_rest_counter_initiative_penalty", false)):
+		var penalty := MissionState.rest_counter
+		if penalty > 0:
+			var initiative_debuff := BuffEntry.new()
+			initiative_debuff.stat = BuffEntry.Stat.INITIATIVE
+			initiative_debuff.value = -penalty
+			initiative_debuff.duration = 1
+			CombatManager.pending_mission_hero_buffs.append(initiative_debuff)
+		MissionState.rest_counter = 0
+	elif bool(_res_prop(outcome, "rest_counter_reset", false)):
+		MissionState.rest_counter = 0
 
 func _apply_random_mission_hero_hp_delta(percent_delta: int) -> void:
 	var candidates: Array[String] = []
@@ -374,6 +480,22 @@ func _apply_random_mission_hero_hp_delta(percent_delta: int) -> void:
 	if delta == 0:
 		delta = 1 if percent_delta > 0 else -1
 	CampaignState.set_god_current_hp(target_path, CampaignState.get_god_current_hp(target_path) + delta, max_hp)
+
+## Немедленно меняет HP ВСЕХ живых богов миссии на percent_delta% от их max HP каждого
+## (см. MissionOutcome.hero_hp_percent_delta). В отличие от hero_heal_percent — не ждёт
+## следующего боя, применяется сразу (напр. ожог от лавы вне боя).
+func _apply_team_mission_hero_hp_delta(percent_delta: int) -> void:
+	for hero_path in CombatManager.mission_heroes:
+		var path: String = str(hero_path).strip_edges()
+		if path == "" or CombatManager.mission_dead_heroes.has(path):
+			continue
+		if CampaignState.get_god_current_hp(path) <= 0:
+			continue
+		var max_hp: int = CampaignState.get_god_max_hp(path)
+		var delta: int = int(round(float(max_hp) * float(percent_delta) / 100.0))
+		if delta == 0:
+			delta = 1 if percent_delta > 0 else -1
+		CampaignState.set_god_current_hp(path, CampaignState.get_god_current_hp(path) + delta, max_hp)
 
 ## Немедленно меняет уровень забвения у всех живых богов миссии (см.
 ## MissionOutcome.hero_forgetting_delta). Не привязано к следующему бою —
@@ -415,7 +537,7 @@ func _apply_random_or_preferred_hero_buffs(buffs: Array, preferred_god) -> void:
 
 func _launch_battle(battle) -> void:
 	_prepare_direct_battle(battle)
-	get_tree().change_scene_to_file("res://battle_scene.tscn")
+	SceneTransition.change_scene_with_fade("res://battle_scene.tscn")
 
 func _prepare_direct_battle(battle) -> void:
 	CombatManager.selected_heroes = ["", "", "", ""]
@@ -442,7 +564,12 @@ func _prepare_direct_battle(battle) -> void:
 	CombatManager.is_mission_battle = true
 	_apply_forgetting_to_selected_heroes()
 
+## Вступительная миссия не должна наказывать забвением — это ознакомительный бой.
+const _FIRST_BATTLE_MISSION_PATH := "res://Missions/First_battle.tres"
+
 func _apply_forgetting_to_selected_heroes() -> void:
+	if MissionState.current_mission != null and MissionState.current_mission.resource_path == _FIRST_BATTLE_MISSION_PATH:
+		return
 	for hero_path in CombatManager.selected_heroes:
 		if hero_path.strip_edges() == "":
 			continue
@@ -475,14 +602,14 @@ func _handle_legacy(choice) -> void:
 		_apply_mission_location()
 		CombatManager.is_mission_battle = true
 		_prepare_legacy_direct_battle(formation)
-		get_tree().change_scene_to_file("res://battle_scene.tscn")
+		SceneTransition.change_scene_with_fade("res://battle_scene.tscn")
 		return
 	if bool(_res_prop(choice, "launch_battle", false)):
 		MissionState.next_scene_after_battle = next_scene
 		_apply_mission_location()
 		CombatManager.is_mission_battle = true
 		_prepare_legacy_direct_battle(formation)
-		get_tree().change_scene_to_file("res://battle_scene.tscn")
+		SceneTransition.change_scene_with_fade("res://battle_scene.tscn")
 		return
 	if next_scene != null:
 		MissionState.set_current_scene(next_scene)
@@ -499,7 +626,10 @@ func _advance_or_finish_mission() -> void:
 		return
 	_finish_mission()
 
-func _finish_mission(show_rewards: bool = true) -> void:
+## victory — исход миссии (влияет на надпись «Победа»/«Поражение» и на бонус
+## завершения). show_summary=false — тихий выход без итоговых экранов (сейчас
+## только при добровольном выходе из миссии кнопкой «Назад»).
+func _finish_mission(victory: bool = true, show_summary: bool = true) -> void:
 	var return_path := MissionState.return_scene_path.strip_edges()
 	if return_path == "":
 		return_path = "res://Campaign/campaign_screen.tscn"
@@ -507,14 +637,14 @@ func _finish_mission(show_rewards: bool = true) -> void:
 	if MissionState.current_mission != null:
 		var finished_mission_path := MissionState.current_mission.resource_path
 		MissionState.last_completed_mission_path = finished_mission_path
-		if show_rewards and CampaignState.complete_mission(finished_mission_path):
+		if victory and CampaignState.complete_mission(finished_mission_path):
 			MissionState.granted_rewards.append({
 				"kind": Reward.Kind.CURRENCY,
 				"resource_path": CampaignState.THOUGHTS_PATH,
 				"amount": CampaignState.MISSION_COMPLETION_THOUGHTS_REWARD,
 			})
-	if show_rewards:
-		_show_mission_reward_summary()
+	if show_summary:
+		_show_mission_result_banner(victory)
 		return
 	_complete_mission_return()
 func _grant_and_record_reward(reward_value) -> void:
@@ -526,6 +656,224 @@ func _grant_and_record_reward(reward_value) -> void:
 		return
 	reward.grant_resolved(resolved_resource)
 	MissionState.record_resolved_reward(reward, resolved_resource)
+
+## Экран-заставка «Победа»/«Поражение» при завершении миссии (см. _finish_mission) —
+## первый из итоговых экранов. Клик/тап где угодно закрывает и открывает награды.
+func _show_mission_result_banner(victory: bool) -> void:
+	if _mission_banner_overlay != null and is_instance_valid(_mission_banner_overlay):
+		return
+	var overlay := ColorRect.new()
+	overlay.name = "MissionResultBanner"
+	overlay.color = Color(0.0, 0.0, 0.0, 0.8)
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	overlay.gui_input.connect(_on_mission_banner_input)
+	add_child(overlay)
+	_mission_banner_overlay = overlay
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(center)
+
+	var col := VBoxContainer.new()
+	col.alignment = BoxContainer.ALIGNMENT_CENTER
+	col.add_theme_constant_override("separation", 28)
+	col.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	center.add_child(col)
+
+	var banner_path := "res://UI/Victory_Russian.png" if victory else "res://UI/Defeat_Russian.png"
+	var img := TextureRect.new()
+	img.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if ResourceLoader.exists(banner_path):
+		img.texture = load(banner_path) as Texture2D
+	img.custom_minimum_size = Vector2(760, 500)
+	img.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	col.add_child(img)
+
+	var hint := Label.new()
+	hint.text = "Нажмите, чтобы продолжить"
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint.add_theme_font_size_override("font_size", 22)
+	hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	col.add_child(hint)
+
+func _on_mission_banner_input(event: InputEvent) -> void:
+	if not (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT):
+		return
+	if _mission_banner_overlay != null and is_instance_valid(_mission_banner_overlay):
+		_mission_banner_overlay.queue_free()
+		_mission_banner_overlay = null
+	_show_mission_reward_summary()
+
+## Экран статистики миссии — урон нанесён/получен/исцелён за всю миссию по каждому
+## богу отряда (MissionState.hero_battle_stats). Последний из итоговых экранов, после
+## наград (см. _finish_mission).
+func _show_mission_stats_summary() -> void:
+	if _mission_stats_overlay != null and is_instance_valid(_mission_stats_overlay):
+		return
+	var overlay := ColorRect.new()
+	overlay.name = "MissionStatsSummary"
+	overlay.color = Color(0.0, 0.0, 0.0, 0.72)
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(overlay)
+	_mission_stats_overlay = overlay
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(760, 520)
+	panel.anchor_left = 0.5
+	panel.anchor_top = 0.5
+	panel.anchor_right = 0.5
+	panel.anchor_bottom = 0.5
+	panel.offset_left = -380
+	panel.offset_top = -260
+	panel.offset_right = 380
+	panel.offset_bottom = 260
+	overlay.add_child(panel)
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 24)
+	margin.add_theme_constant_override("margin_top", 20)
+	margin.add_theme_constant_override("margin_right", 24)
+	margin.add_theme_constant_override("margin_bottom", 20)
+	panel.add_child(margin)
+
+	var root := VBoxContainer.new()
+	root.add_theme_constant_override("separation", 14)
+	margin.add_child(root)
+
+	var title := Label.new()
+	title.text = "Статистика миссии"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 34)
+	root.add_child(title)
+
+	var scroll := ScrollContainer.new()
+	scroll.custom_minimum_size = Vector2(700, 340)
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	root.add_child(scroll)
+
+	var content := VBoxContainer.new()
+	content.add_theme_constant_override("separation", 16)
+	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(content)
+	_populate_mission_stats_summary(content)
+
+	var ok_button := Button.new()
+	ok_button.text = "Далее"
+	ok_button.custom_minimum_size = Vector2(0, 58)
+	ok_button.add_theme_font_size_override("font_size", 24)
+	ok_button.pressed.connect(_on_mission_stats_continue_pressed)
+	root.add_child(ok_button)
+
+func _on_mission_stats_continue_pressed() -> void:
+	if _mission_stats_overlay != null and is_instance_valid(_mission_stats_overlay):
+		_mission_stats_overlay.queue_free()
+		_mission_stats_overlay = null
+	_complete_mission_return()
+
+func _populate_mission_stats_summary(content: VBoxContainer) -> void:
+	var hero_paths: Array[String] = []
+	for hero_path_value in MissionState.selected_heroes:
+		var clean_path: String = str(hero_path_value).strip_edges()
+		if clean_path != "" and not hero_paths.has(clean_path):
+			hero_paths.append(clean_path)
+	if hero_paths.is_empty():
+		var empty_label := Label.new()
+		empty_label.text = "Нет данных"
+		empty_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		empty_label.add_theme_font_size_override("font_size", 24)
+		content.add_child(empty_label)
+		return
+
+	# Максимумы по каждой категории — чтобы полоски были сопоставимы между богами
+	# (у кого больше всех урона нанёс — у того полоска полная).
+	var max_dealt := 1
+	var max_taken := 1
+	var max_healed := 1
+	for hero_path in hero_paths:
+		var entry: Dictionary = MissionState.hero_battle_stats.get(hero_path, {})
+		max_dealt = maxi(max_dealt, int(entry.get("dealt", 0)))
+		max_taken = maxi(max_taken, int(entry.get("taken", 0)))
+		max_healed = maxi(max_healed, int(entry.get("healed", 0)))
+
+	for hero_path in hero_paths:
+		var entry: Dictionary = MissionState.hero_battle_stats.get(hero_path, {})
+		_add_hero_stats_row(content, hero_path, int(entry.get("dealt", 0)), int(entry.get("taken", 0)), int(entry.get("healed", 0)), max_dealt, max_taken, max_healed)
+
+func _add_hero_stats_row(content: VBoxContainer, hero_path: String, dealt: int, taken: int, healed: int, max_dealt: int, max_taken: int, max_healed: int) -> void:
+	var god := CampaignState.load_character_resource(hero_path)
+
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 14)
+	content.add_child(row)
+
+	var portrait := TextureRect.new()
+	portrait.custom_minimum_size = Vector2(72, 72)
+	portrait.size = Vector2(72, 72)
+	portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	if god != null:
+		var face_path: String = str(_res_prop(god, "face_sprite", "")).strip_edges()
+		if face_path != "" and ResourceLoader.exists(face_path):
+			portrait.texture = load(face_path) as Texture2D
+	row.add_child(portrait)
+
+	var bars_col := VBoxContainer.new()
+	bars_col.add_theme_constant_override("separation", 4)
+	bars_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(bars_col)
+
+	var name_label := Label.new()
+	name_label.text = str(_res_prop(god, "unit_name", "?")) if god != null else "?"
+	name_label.add_theme_font_size_override("font_size", 20)
+	bars_col.add_child(name_label)
+
+	_add_stat_bar(bars_col, "Урон нанесён", dealt, max_dealt, Color(0.95, 0.72, 0.15))
+	_add_stat_bar(bars_col, "Урон получен", taken, max_taken, Color(0.85, 0.25, 0.2))
+	_add_stat_bar(bars_col, "Исцелено", healed, max_healed, Color(0.3, 0.8, 0.35))
+
+func _add_stat_bar(parent: VBoxContainer, label_text: String, value: int, max_value: int, fill_color: Color) -> void:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	parent.add_child(row)
+
+	var label := Label.new()
+	label.text = label_text
+	label.custom_minimum_size = Vector2(110, 0)
+	label.add_theme_font_size_override("font_size", 14)
+	row.add_child(label)
+
+	var bar := ProgressBar.new()
+	bar.custom_minimum_size = Vector2(0, 16)
+	bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	bar.max_value = max_value
+	bar.value = value
+	bar.show_percentage = false
+	var fill_style := StyleBoxFlat.new()
+	fill_style.bg_color = fill_color
+	fill_style.corner_radius_top_left = 3
+	fill_style.corner_radius_top_right = 3
+	fill_style.corner_radius_bottom_left = 3
+	fill_style.corner_radius_bottom_right = 3
+	bar.add_theme_stylebox_override("fill", fill_style)
+	var bg_style := StyleBoxFlat.new()
+	bg_style.bg_color = Color(0.15, 0.15, 0.17, 0.8)
+	bg_style.corner_radius_top_left = 3
+	bg_style.corner_radius_top_right = 3
+	bg_style.corner_radius_bottom_left = 3
+	bg_style.corner_radius_bottom_right = 3
+	bar.add_theme_stylebox_override("background", bg_style)
+	row.add_child(bar)
+
+	var value_label := Label.new()
+	value_label.text = str(value)
+	value_label.custom_minimum_size = Vector2(56, 0)
+	value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	value_label.add_theme_font_size_override("font_size", 14)
+	row.add_child(value_label)
 
 func _show_mission_reward_summary() -> void:
 	if _mission_reward_overlay != null and is_instance_valid(_mission_reward_overlay):
@@ -582,8 +930,14 @@ func _show_mission_reward_summary() -> void:
 	ok_button.text = "Продолжить"
 	ok_button.custom_minimum_size = Vector2(0, 58)
 	ok_button.add_theme_font_size_override("font_size", 24)
-	ok_button.pressed.connect(_complete_mission_return)
+	ok_button.pressed.connect(_on_mission_reward_continue_pressed)
 	root.add_child(ok_button)
+
+func _on_mission_reward_continue_pressed() -> void:
+	if _mission_reward_overlay != null and is_instance_valid(_mission_reward_overlay):
+		_mission_reward_overlay.queue_free()
+		_mission_reward_overlay = null
+	_show_mission_stats_summary()
 
 func _populate_reward_summary(content: VBoxContainer) -> void:
 	var currency_totals: Dictionary = {}
@@ -658,6 +1012,18 @@ func _reward_icon_from_resource(resource: Resource) -> Texture2D:
 			return load(image_path) as Texture2D
 	return null
 
+## BBCode-иконка ресурса (эссенция/мысли) для текста итога вместо текстового названия.
+## Пусто, если у ресурса нет иконки — тогда вызывающий код показывает текст как раньше.
+func _reward_icon_bbcode(resource: Resource) -> String:
+	if resource == null:
+		return ""
+	var icon_value = _res_prop(resource, "icon", null)
+	if icon_value is Texture2D:
+		var icon_path: String = (icon_value as Texture2D).resource_path
+		if icon_path != "" and ResourceLoader.exists(icon_path):
+			return "[img width=24 height=24]%s[/img]" % icon_path
+	return ""
+
 func _reward_display_name(resource: Resource) -> String:
 	if resource == null:
 		return "Награда"
@@ -692,9 +1058,15 @@ func _reward_tooltip(resource: Resource) -> String:
 	return "\n".join(lines)
 
 func _complete_mission_return() -> void:
+	if _mission_banner_overlay != null and is_instance_valid(_mission_banner_overlay):
+		_mission_banner_overlay.queue_free()
+		_mission_banner_overlay = null
 	if _mission_reward_overlay != null and is_instance_valid(_mission_reward_overlay):
 		_mission_reward_overlay.queue_free()
 		_mission_reward_overlay = null
+	if _mission_stats_overlay != null and is_instance_valid(_mission_stats_overlay):
+		_mission_stats_overlay.queue_free()
+		_mission_stats_overlay = null
 	var return_path := _pending_finish_return_path.strip_edges()
 	if return_path == "":
 		return_path = "res://Campaign/campaign_screen.tscn"
@@ -712,4 +1084,4 @@ func _array_prop(resource, prop: String) -> Array:
 	return value if value is Array else []
 
 func _on_back_pressed() -> void:
-	_finish_mission(false)
+	_finish_mission(false, false)

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MissionResource" format=3 uid="uid://g8ly1hl2fhmx"]
+
+[ext_resource type="Script" uid="uid://cgfjcbn8gssac" path="res://Missions/mission_resource.gd" id="2_47nmb"]
+[ext_resource type="Resource" path="res://Scenes/ArenaScenes/arena_battle.tres" id="scene_battle"]
+[ext_resource type="Resource" path="res://Scenes/ArenaScenes/young_fan.tres" id="scene_fan"]
+[ext_resource type="Resource" path="res://Scenes/ArenaScenes/training_battle.tres" id="scene_training"]
+[ext_resource type="Resource" path="res://Scenes/ArenaScenes/arena_beauty.tres" id="scene_beauty"]
+[ext_resource type="Resource" path="res://Scenes/ArenaScenes/familiar_face_router.tres" id="scene_familiar_face"]
+
+[resource]
+script = ExtResource("2_47nmb")
+mission_name = "Знакомые лица"
+scenes = [ExtResource("scene_battle"), ExtResource("scene_fan"), ExtResource("scene_training"), ExtResource("scene_beauty"), ExtResource("scene_familiar_face"), ExtResource("scene_battle")]
+location = 6
+required_god = 11
+metadata/_custom_type_script = "uid://cgfjcbn8gssac"

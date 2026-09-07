@@ -1,0 +1,224 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Resource" path="res://Enemies/Sea/Islands/Cappa_warrior/cappa_warrior.tres" id="ext_warrior"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Islands/Cappa_shaman/cappa_shaman.tres" id="ext_shaman"]
+[ext_resource type="Resource" path="res://Gods/Susanoo/Susanoo.tres" id="ext_susanoo"]
+[ext_resource type="Resource" path="res://Essence/essence_power.tres" id="ext_essence_power"]
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+
+[sub_resource type="Resource" id="form_full"]
+script = ExtResource("formation_script")
+formation_name = "Каппа: три воина и шаман"
+pos1 = ExtResource("ext_warrior")
+pos2 = ExtResource("ext_warrior")
+pos3 = ExtResource("ext_warrior")
+pos4 = ExtResource("ext_shaman")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="form_minus_one"]
+script = ExtResource("formation_script")
+formation_name = "Каппа: два воина и шаман"
+pos1 = ExtResource("ext_warrior")
+pos2 = ExtResource("ext_warrior")
+pos4 = ExtResource("ext_shaman")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="check_evasion"]
+script = ExtResource("stat_check_script")
+stat = 3
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="battle_v1_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_full")
+location_id = "island"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v1_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы собираетесь в путь, готовые перехватить каппа, прежде чем те доберутся до деревни. Когда вы уже готовы отправляться, к вам подходят крестьяне и передают большую чарку риса.
+«Это всё, что мы можем предложить. Пожалуйста, возьмите...»
+Вы с благодарностью принимаете дар и отправляетесь туда, где, как указали крестьяне, находится логово черепахолюдов.
+Вы идёте по песку, после чего углубляетесь в лес. Отточенные опытом боевые инстинкты — то, что уберегло вас от фиолетового дождя из яда. С деревьев и из кустов каппа плюют в вас тёмно-зелёными сгустками, но вы находите укрытие за большим деревом. Видя, что их уловка не сработала, каппа бросаются в ближний бой."
+battle = SubResource("battle_v1_success")
+thoughts_delta = 200
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="buff_ancient_poison"]
+script = ExtResource("buff_script")
+stat = 9
+value = 15
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_heroes_poison"]
+script = ExtResource("unit_modifier_script")
+target_position = 0
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_ancient_poison")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v1_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_full")
+hero_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_heroes_poison")])
+location_id = "island"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v1_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы собираетесь в путь, готовые перехватить каппа, прежде чем те доберутся до деревни. Когда вы уже готовы отправляться, к вам подходят крестьяне и передают большую чарку риса.
+«Это всё, что мы можем предложить. Пожалуйста, возьмите...»
+Вы с благодарностью принимаете дар и отправляетесь туда, где, как указали крестьяне, находится логово черепахолюдов.
+Вы идёте по песку, после чего углубляетесь в лес.
+Вдруг на вас обрушивается зелёный ливень. С деревьев, из кустов, кажется даже с самого неба каппа заплёвывают вас своим ядом. Вы встаёте в боевое построение, когда черепахолюды окружают вас и держат на расстоянии копья, видимо ожидая, пока яд, которым вы покрыты с головы до ног, сделает своё дело.
+Не имея другого выхода, вы бросаетесь в атаку."
+battle = SubResource("battle_v1_fail")
+thoughts_delta = 200
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v1"]
+script = ExtResource("choice_script")
+choice_text = "Мы займёмся каппами"
+stat_check = SubResource("check_evasion")
+success_outcome = SubResource("out_v1_success")
+failure_outcome = SubResource("out_v1_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="reward_essence_power"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("ext_essence_power")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_v2_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы решаете попробовать решить проблему мирным путём. Хотя крестьяне и относятся скептически, вы убеждаете их, что нужно хотя бы попробовать, и, взяв с собой старосту, отправляетесь туда, где по вашей информации находится логово черепахолюдов.
+Войдя в лес, вы поднимаете белую тряпку на палке, обозначая, что пришли вести переговоры. Вскоре ваш отряд подходит к пещере, украшенной черепашьими панцирями. Перед входом на широком пне сидит каппа, куда крупнее всех, кого вам доводилось видеть. На его широкие плечи накинут потёртый шёлковый плащ. Его окружает отряд воинов с копьями. Все они молча и неприветливо смотрят на вас.
+Вы приветствуете племя и объясняете, что крестьяне попросили вас о помощи, но вы хотите попробовать договориться.
+Главарь отвечает, что каппа — высший народ, избранный морем, и они имеют право на все его дары.
+Вы акцентируете внимание на том, что если рыбаки умрут голодной смертью, некому будет обеспечивать каппа едой. Этот аргумент, кажется, подействовал.
+Следующие два часа вы проводите в напряжённых переговорах, по итогам которых формируется своего рода соглашение. Каппа обязуются охранять деревню от посягательств других племён, а также помогать в охоте и рыбалке. Люди же будут отдавать часть добычи, но не такую, чтобы поставить собственное выживание под угрозу. В случае нарушения договора боги обязуются покарать нарушителя.
+Это хрупкий договор, вы видите много способов, как его можно эксплуатировать. Но в этот раз вам удалось решить проблему без кровопролития, а это уже чего-то стоит."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_essence_power")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="buff_kappa_dmg10"]
+script = ExtResource("buff_script")
+stat = 0
+value = 10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_kappa_warrior_buffed"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+max_hp_delta = 20
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_kappa_dmg10")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v2_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_full")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_kappa_warrior_buffed")])
+location_id = "island"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v2_fail"]
+script = ExtResource("outcome_script")
+result_text = "Вы решаете попробовать решить проблему мирным путём. Хотя крестьяне и относятся скептически, вы убеждаете их, что нужно хотя бы попробовать, и, взяв с собой старосту, отправляетесь туда, где по вашей информации находится логово черепахолюдов.
+Войдя в лес, вы поднимаете белую тряпку на палке, обозначая, что пришли вести переговоры. Вскоре ваш отряд подходит к пещере, украшенной черепашьими панцирями. Перед входом на широком пне сидит каппа, куда крупнее всех, кого вам доводилось видеть. На его широкие плечи накинут потёртый шёлковый плащ. Его окружает отряд воинов с копьями. Все они молча и неприветливо смотрят на вас.
+Вы приветствуете племя и объясняете, что крестьяне попросили вас о помощи, но вы хотите попробовать договориться.
+Главарь отвечает, что каппа — высший народ, избранный морем, и они имеют право на все его дары.
+Все ваши аргументы ложатся на глухие уши, если у каппа вообще есть таковые. Они не проявляют ничего, кроме упрямства и высокомерия, игнорируя любые призывы к здравому смыслу. Наконец вы делаете знак старосте укрыться и беретесь за оружие. Каппа словно этого и ждали. Но вы знаете, что сделали всё возможное, чтобы избежать боя."
+battle = SubResource("battle_v2_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v2"]
+script = ExtResource("choice_script")
+choice_text = "Попробуем договориться с каппами"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_v2_success")
+failure_outcome = SubResource("out_v2_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("stat_check_script")
+stat = 4
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="battle_v3_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_minus_one")
+location_id = "island"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v3_success"]
+script = ExtResource("outcome_script")
+result_text = "«Для начала мне нужна палка и белая холстина. А потом я научу вас быть воинами.»
+Удивлённые крестьяне приносят полотно, и бог меча уединяется в одной из хижин, предварительно раздав указания собрать всех в центре деревни.
+Когда растерянные крестьяне собрались, из хижины выходит Сусаноо. Из белой холстины он сделал некое подобие знамени. Тушью (откуда он её только взял) нарисованы четыре звезды и незнакомый вам иероглиф. Он пристраивает знамя к домику старейшины и выходит к людям.
+«Ну что, братцы. Времени у нас мало, а работы много. Нужно вырезать бамбуковые копья, вырыть укрепления и обучить вас минимальной тактике.»
+Его рука ложится на рукоять меча.
+«И пусть всё не закончится, как в прошлый раз.»
+Каппа атаковали яростно. Крестьяне кололи бамбуковыми копьями через наспех сооружённые укрепления. Боги переходили от одного укрепления к другому, помогая сдержать напор. Казалось, что деревня побеждает, пока в одном месте бамбуковый забор не разлетелся на куски, и в пролом не хлынули черепахолюды. Впереди несётся огромный каппа в шёлковом плаще — видимо, вожак. Ему навстречу выходит бог меча. И дальше всё произошло словно по сценарию. Бойцы с обеих сторон сформировали круг. Сусаноо и главарь каппа — посередине. Один держит катану, другой сжимает копьё. Время словно остановилось. Только одинокий лист, танцуя на ветру, медленно кружится и нежно касается земли. В этот момент оба противника срываются с места. Звон клинка. Голова каппа отлетает, окрашивая песок алой кровью. Каппа застыли в смятении, а рыбаки торжествующе затрясли бамбуковыми копьями. После чего два строя бросились друг на друга."
+battle = SubResource("battle_v3_success")
+target_god = ExtResource("ext_susanoo")
+target_majesty_delta = 30
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="battle_v3_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_full")
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_kappa_warrior_buffed")])
+location_id = "island"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v3_fail"]
+script = ExtResource("outcome_script")
+result_text = "«Для начала мне нужна палка и белая холстина. А потом я научу вас быть воинами.»
+Удивлённые крестьяне приносят полотно, и бог меча уединяется в одной из хижин, предварительно раздав указания собрать всех в центре деревни.
+Когда растерянные крестьяне собрались, из хижины выходит Сусаноо. Из белой холстины он сделал некое подобие знамени. Тушью (откуда он её только взял) нарисованы четыре звезды и незнакомый вам иероглиф. Он пристраивает знамя к домику старейшины и выходит к людям.
+«Ну что, братцы. Времени у нас мало, а работы много. Нужно вырезать бамбуковые копья, вырыть укрепления и обучить вас минимальной тактике.»
+Его рука ложится на рукоять меча.
+«И пусть всё не закончится, как в прошлый раз.»
+Каппа атаковали яростно. Крестьяне кололи бамбуковыми копьями через наспех сооружённые укрепления. Боги переходили от одного укрепления к другому, помогая сдержать напор. Казалось, что деревня побеждает, пока в одном месте бамбуковый забор не разлетелся на куски, и в пролом не хлынули черепахолюды. Впереди несётся огромный каппа в шёлковом плаще — видимо, вожак. Ему навстречу выходит бог меча. И дальше всё произошло словно по сценарию. Бойцы с обеих сторон сформировали круг. Сусаноо и главарь каппа — посередине. Один держит катану, другой сжимает копьё. Время словно остановилось. Только одинокий лист, танцуя на ветру, медленно кружится и нежно касается земли. В этот момент оба противника срываются с места. Звон клинка. Плащ каппы разлетается на ветру. Его уносит, и он падает, обвившись вокруг древка знамени с четырьмя звёздами. Вожак ревёт и яростно бросается на бога меча. Крестьяне торжественно ревут и бросаются в атаку на каппа."
+battle = SubResource("battle_v3_fail")
+target_god = ExtResource("ext_susanoo")
+target_majesty_delta = 30
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v3"]
+script = ExtResource("choice_script")
+choice_text = "Я бы в похожей ситуации знаю, что делать"
+required_god = ExtResource("ext_susanoo")
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_v3_success")
+failure_outcome = SubResource("out_v3_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Рыбаки в беде"
+body_text = "На одном из островов к вам подбегает бедно одетый человек с удочкой.
+«О герои, прошу, помогите моей деревне! Жестокое племя каппа изводит нас и отбирает припасы.»
+Рыбак отводит вас в деревню. Там вам вводят в курс дела: поселение живёт выращиванием риса и рыболовством, но в последнее время банда черепахолюдов повадилась собирать с них дань, и теперь крестьянам едва хватает еды. Опасаясь голодной смерти, они решили дать бой каппам, когда один из рыбаков встретил вас и попросил о помощи.
+Пока вам описывают проблему, со стороны деревни раздаются крики. Вы спешите туда и видите, как какого-то мужчину несут под руки. Его лицо бледное, а по губам стекает кровь. Вы слышите шёпот среди рыбаков:
+«Черепахи... Отравили...»
+Мужчина поднимает голову и хрипло произносит:
+«Они... Узнали о восстании... Готовят силы... Нам нужно бежать...»
+Глаза деревенских жителей со страхом и надеждой оборачиваются на вас."
+choices = [SubResource("choice_v1"), SubResource("choice_v2"), SubResource("choice_v3")]

@@ -1,0 +1,162 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Resource" path="res://Essence/essence_power.tres" id="essence_power"]
+[ext_resource type="Resource" path="res://Gods/Hades/Hades.tres" id="hades"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Cerberus/cerberus.tres" id="cerberus"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Hellhound/hellhound.tres" id="hellhound"]
+
+[sub_resource type="Resource" id="form_cerberus_pack"]
+script = ExtResource("formation_script")
+formation_name = "Немезис: Цербер и гончие"
+pos1 = ExtResource("cerberus")
+pos2 = ExtResource("hellhound")
+pos3 = ExtResource("hellhound")
+pos4 = null
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_pack_plain"]
+script = ExtResource("battle_script")
+formation = SubResource("form_cerberus_pack")
+location_id = "hell"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="buff_cerberus_luck"]
+script = ExtResource("buff_script")
+stat = 1
+value = 10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_cerberus_luck"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_cerberus_luck")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_pack_cerberus_lucky"]
+script = ExtResource("battle_script")
+formation = SubResource("form_cerberus_pack")
+location_id = "hell"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_cerberus_luck")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="reward_power"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_power")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_let_dog_feed"]
+script = ExtResource("outcome_script")
+result_text = "У ада есть законы, и души не попадают сюда просто так. Вы отступаете и позволяете древним механизмам идти своим чередом. Адская гончая быстро выслеживает чёрную душу среди камней и впивается горящими зубами. Вы слышите сдавленный крик. Набегают ещё собаки и стаей тащат душу в сторону одного из чёрных бастионов. Адская машина наказания продолжает крутиться."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_let_dog_feed"]
+script = ExtResource("choice_script")
+choice_text = "Позволить ей получить свою добычу"
+outcome = SubResource("out_let_dog_feed")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+stat_label = "Удача"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_confuse_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы привлекаете внимание собаки громкими криками и размашистыми движениями. Она полностью фокусирует внимание на вас. Вы медленно отступаете, но не даёте гончей переключиться. Вскоре к ней присоединяются ещё собаки. Похоже, что вся стая собралась вокруг вас. Вы окружены и в опасности, но одна вещь неизменна. Пусть ненадолго, но вы защитили душу, попавшую в ад. Механизм, древний как мир, прогнулся под вашу волю. Вы смогли хоть на мгновение принести в ад милосердие."
+battle = SubResource("battle_pack_plain")
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_power")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_confuse_failure"]
+script = ExtResource("outcome_script")
+result_text = "Вы привлекаете внимание собаки громкими криками и размашистыми движениями. Она полностью фокусирует внимание на вас. Вы медленно отступаете, но не даёте гончей переключиться.
+
+Она смотрит на вас и начинает громко рычать и издавать лающие звуки. Прибегают ещё гончие. Общаясь на низком лае, они разделяются на две группы. Одна бросается к скалам, где скрывается новая душа. Остальные бросаются на вас, ведомые изначальной гончей."
+battle = SubResource("battle_pack_cerberus_lucky")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_confuse"]
+script = ExtResource("choice_script")
+choice_text = "Попытаться запутать собаку"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_confuse_success")
+failure_outcome = SubResource("out_confuse_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("stat_check_script")
+stat = 4
+stat_label = "Точность"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="buff_hades_accuracy"]
+script = ExtResource("buff_script")
+stat = 2
+value = 10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_tame_success"]
+script = ExtResource("outcome_script")
+result_text = "«Она напоминает мне… Одного друга.»
+
+Аид выходит вперёд, убрав цепи и вытянув вперёд одну руку. Собака скалит зубы. Он опускается на одно колено, держа руку перед собой. По его чёрным одеждам поднимается струйка пепла и набирается в ладонь. Там она принимает силуэт адской гончей. Собака удивлённо смотрит на миниатюрную копию самой себя. Рычание затихает. Она прячет зубы, потом принюхивается. Пепельная копия повторяет движения. После чего игрушечная собака делает движение мордой вперёд, и уже адский пёс повторяет его, тыкаясь носом в ладонь Аида. Положив шлем на землю, он начинает второй рукой гладить собаку по макушке. Пламя демона становится тише, и тот будто сам удивлён своей податливости.
+
+«Я так и думал. Вы похожи… В конце концов, вы в первую очередь собаки.»
+
+Вдали раздаётся вой. Собака неохотно отстраняется и медленно семенит в сторону, исчезая в дыму. Аид встаёт с земли.
+
+«Идём. Нас ещё ждут дела.»"
+target_god = ExtResource("hades")
+target_buffs = Array[ExtResource("buff_script")]([SubResource("buff_hades_accuracy")])
+target_buffs_until_mission_end = true
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_tame_failure"]
+script = ExtResource("outcome_script")
+result_text = "«Она напоминает мне… Одного друга.»
+
+Аид выходит вперёд, убрав цепи и вытянув вперёд одну руку. Собака скалит зубы. Он опускается на одно колено, держа руку перед собой. По его чёрным одеждам поднимается струйка пепла и набирается в ладонь. Там она принимает силуэт адской гончей. Собака удивлённо смотрит на миниатюрную копию самой себя. А потом распахивает пасть и кусает пепельную копию вместе с рукой. Кожа шипит под огненными зубами.
+
+«Вот как… Значит вы всё-таки разные.»
+
+Из дыма выбегают ещё собаки. Из тени Аида начинают подниматься чёрные цепи. Его лицо выглядит ещё мрачнее, чем раньше."
+battle = SubResource("battle_pack_plain")
+target_god = ExtResource("hades")
+target_current_hp_percent_delta = -10
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_tame"]
+script = ExtResource("choice_script")
+choice_text = "Приручить собаку"
+required_god = ExtResource("hades")
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_tame_success")
+failure_outcome = SubResource("out_tame_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Механизм наказания"
+body_text = "Вы пробираетесь через ад. Вокруг вас огонь и дым, как вдруг вы замечаете, что один сгусток дыма становится плотнее. Всё чернее и чернее, обретает форму, примерно человеческие очертания. На ваших глазах чёрная душа попадает в преисподнюю. Как только угольно-чёрный силуэт окончательно формируется, у него появляются два светящихся глаза.
+
+Душа смотрит на вас, на окружающую обстановку и начинает дрожать. Её дымный силуэт колеблется, она закрывает лицо руками, и вы слышите тихие всхлипы.
+
+И тут раздаётся лай. Совсем близко, и с каждой секундой ещё ближе. Чёрный дух дёргается и летит к ближайшим камням, и там находит укрытие. Но вы уверены, что это не поможет. Из-за чёрной скалы появляется собака — горящие глаза и когти, эндоскелет, покрывающий тело. Она смотрит на вас глазами, в которых нет ничего, кроме огня. Опускает голову и скалится."
+choices = Array[ExtResource("choice_script")]([SubResource("choice_let_dog_feed"), SubResource("choice_confuse"), SubResource("choice_tame")])
+metadata/_custom_type_script = ExtResource("scene_script")

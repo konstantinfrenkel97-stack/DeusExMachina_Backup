@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("6_cr")
 unit_name = "Бронированный титан"
-max_hp = 266
-damage = 53
-armor = 35
+max_hp = 186
+damage = 37
+armor = 24
 initiative = 6
 accuracy = 85
-evasion = 12
-crit_chance = 0.12
+evasion = 8
+crit_chance = 0.084
+danger_level = 8
 sprite_path = "res://Enemies/Sky/Peaks/Armored_titan/Armored_titan.png"
 face_sprite = "res://Enemies/Sky/Peaks/Armored_titan/Armored_titan_face.png"
 battle_sprite_scale_percent = 95.0

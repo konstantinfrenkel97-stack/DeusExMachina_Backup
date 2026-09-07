@@ -24,6 +24,7 @@ SaveSystem="*res://save_system.gd"
 Localization="*res://Localization/localization.gd"
 DialogueManager="*res://Dialogues/dialogue_manager.gd"
 GameSettings="*res://game_settings.gd"
+SceneTransition="*res://scene_transition.gd"
 
 [display]
 

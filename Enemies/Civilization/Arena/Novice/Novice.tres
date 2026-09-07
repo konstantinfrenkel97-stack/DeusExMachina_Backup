@@ -9,13 +9,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Новичок"
-max_hp = 37
-damage = 15
-armor = 4
+max_hp = 26
+damage = 10
+armor = 3
 initiative = 6
 accuracy = 76
-evasion = 15
-crit_chance = 0.08
+evasion = 10
+crit_chance = 0.056
+danger_level = 1
 sprite_path = "res://Enemies/Civilization/Arena/Novice/Novice.png"
 face_sprite = "res://Enemies/Civilization/Arena/Novice/Novice_Face.png"
 battle_sprite_scale_percent = 90.0

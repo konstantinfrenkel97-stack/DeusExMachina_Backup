@@ -10,13 +10,14 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Кентавр"
-max_hp = 166
-damage = 60
-armor = 15
+max_hp = 116
+damage = 42
+armor = 10
 initiative = 8
 accuracy = 90
-evasion = 21
-crit_chance = 0.16
+evasion = 15
+crit_chance = 0.112
+danger_level = 7
 sprite_path = "res://Enemies/Civilization/Arena/Centaur/Centaur.png"
 face_sprite = "res://Enemies/Civilization/Arena/Centaur/Centaur_face.png"
 battle_sprite_scale_percent = 80.0

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="1_scene"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="2_choice"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="3_outcome"]
+
+[sub_resource type="Resource" id="out_v1"]
+script = ExtResource("3_outcome")
+result_text = "Слова феи ещё долго звучат у вас в ушах, пока вы покидаете поляну с телом мальчика на руках. Природа сада забрала своё."
+metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="choice_v1"]
+script = ExtResource("2_choice")
+choice_text = "Нет пути назад"
+outcome = SubResource("out_v1")
+metadata/_custom_type_script = ExtResource("2_choice")
+
+[resource]
+script = ExtResource("1_scene")
+scene_title = "Испробовавший фейский дар (успех)"
+body_text = "Вы прорываетесь сквозь строй фей и вырываете еду из рук мальчишки. Его тело покрыто шипастым хитином, а на месте суставов видны насекомообразные сочленения. Он бросается на вас, чтобы вернуть еду, но пара богов хватает его. Он вырывается и хрипло дышит, пока вы пробуете лечебную магию и развеивание чар. Но ничего не помогает. В его движениях всё меньше силы, а хрип звучит всё громче. Наконец он обмякает у вас на руках. Маленькое тело истончается, будто иссыхая, хрип прекращается. Он мёртв. Вы слышите колокольчик.
+«Для испробовавшего фейский дар нет пути назад.»"
+choices = [SubResource("choice_v1")]

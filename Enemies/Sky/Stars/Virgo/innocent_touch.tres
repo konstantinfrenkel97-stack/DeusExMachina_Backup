@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Невинное касание"
-description = "Наносит 100% урона."
+description = "Наносит 100% урона. Снимает все баффы с себя: за каждый снятый бафф получает +10 урона до конца боя."
 damage_modifier = 1.0
 majesty_gain = 0
 ability_marker = "virgo_innocent_touch"

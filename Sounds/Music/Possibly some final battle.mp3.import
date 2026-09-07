@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bdlogtycmxsxr"
+path="res://.godot/imported/Possibly some final battle.mp3-f001a86dbcf5b3176f17bca0ab91c235.mp3str"
+
+[deps]
+
+source_file="res://Sounds/Music/Possibly some final battle.mp3"
+dest_files=["res://.godot/imported/Possibly some final battle.mp3-f001a86dbcf5b3176f17bca0ab91c235.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
