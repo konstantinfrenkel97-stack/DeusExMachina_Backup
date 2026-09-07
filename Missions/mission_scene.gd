@@ -61,6 +61,11 @@ func _prepare_layout() -> void:
 	wrapper.add_child(scroll)
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_heroes_row_parent = wrapper
+	# Кнопки выбора точно так же обрезало прокруткой снизу при длинном тексте
+	# сцены — выносим их из прокручиваемого VBox в обёртку отдельным, всегда
+	# видимым нижним блоком; внутри скролла остаётся только текст сцены.
+	choices_container.get_parent().remove_child(choices_container)
+	wrapper.add_child(choices_container)
 
 func _build_mission_heroes_row() -> void:
 	if _heroes_row == null:
@@ -722,15 +727,19 @@ func _show_mission_stats_summary() -> void:
 	_mission_stats_overlay = overlay
 
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(760, 520)
+	# Высота 520 (было) оставляла на скролл ~340px — этого едва хватало на 3 из
+	# 4 героев (каждая строка ~90-100px), и четвёртый обрезался без видимого
+	# скроллбара. 640 (почти весь экран 720 по высоте, с запасом по 40px сверху/
+	# снизу) даёт скроллу ~460px — с запасом хватает на всех 4 без скролла.
+	panel.custom_minimum_size = Vector2(760, 640)
 	panel.anchor_left = 0.5
 	panel.anchor_top = 0.5
 	panel.anchor_right = 0.5
 	panel.anchor_bottom = 0.5
 	panel.offset_left = -380
-	panel.offset_top = -260
+	panel.offset_top = -320
 	panel.offset_right = 380
-	panel.offset_bottom = 260
+	panel.offset_bottom = 320
 	overlay.add_child(panel)
 
 	var margin := MarginContainer.new()
@@ -751,7 +760,7 @@ func _show_mission_stats_summary() -> void:
 	root.add_child(title)
 
 	var scroll := ScrollContainer.new()
-	scroll.custom_minimum_size = Vector2(700, 340)
+	scroll.custom_minimum_size = Vector2(700, 460)
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	root.add_child(scroll)
 

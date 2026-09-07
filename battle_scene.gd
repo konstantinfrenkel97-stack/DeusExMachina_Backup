@@ -1039,6 +1039,13 @@ func _spawn_teams_from_resources():
 		if hero_path != "":
 			var res = CampaignState.load_character_resource(hero_path)
 			var hero = Combatant.new(res)
+			# load_character_resource() дублирует ресурс (resource.duplicate()), а у
+			# дубликата Godot всегда очищает resource_path — из-за этого source_resource_path
+			# (выставляемый в Combatant._init() из resource.resource_path) у героев всегда
+			# оказывался пустым, что тихо ломало статистику урона/лечения за миссию и поиск
+			# героя по пути для баффов немезидов (_find_hero_by_resource_path). Проставляем
+			# явно из исходного пути выбора.
+			hero.source_resource_path = hero_path
 			hero.current_hp = clampi(CampaignState.get_god_current_hp(hero_path), 0, hero.max_hp)
 			if CombatManager.is_mission_battle:
 				hero.current_majesty = MissionState.get_hero_majesty(hero_path)

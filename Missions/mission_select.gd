@@ -45,8 +45,7 @@ func _ready() -> void:
 	title_label.add_theme_font_size_override("font_size", 18)
 	title_label.offset_top = 8
 	title_label.offset_bottom = 42
-	back_button.offset_top = 8
-	back_button.offset_bottom = 42
+	_reset_back_button_position()
 	$Scroll.offset_top = 48
 	$Scroll.offset_bottom = -20
 	var requested_path: String = MissionState.requested_mission_path.strip_edges()
@@ -62,6 +61,12 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED and _prep_panel != null:
 		_layout_prep_panel()
 
+
+func _reset_back_button_position() -> void:
+	back_button.offset_left = 20
+	back_button.offset_top = 8
+	back_button.offset_right = 160
+	back_button.offset_bottom = 42
 
 func _window_scale() -> float:
 	var transform_scale: Vector2 = get_viewport().get_screen_transform().get_scale()
@@ -188,6 +193,7 @@ func _load_and_open_mission(path: String) -> void:
 			_prep_panel.queue_free()
 		_prep_panel = null
 		_prep_root = null
+		_reset_back_button_position()
 		for child in grid.get_children():
 			child.queue_free()
 		title_label.text = "Миссия уже пройдена"
@@ -246,7 +252,11 @@ func _build_prep_panel(scene) -> void:
 	_start_button = Button.new()
 	_start_button.text = "Вперед"
 	_start_button.custom_minimum_size = _canvas_size(BUTTON_SIZE)
-	_start_button.add_theme_font_size_override("font_size", _canvas_font_size(16))
+	# Размер кнопки в _layout_prep_panel() берётся из back_button.size напрямую
+	# (нескейленные canvas-единицы), а не из _canvas_size(BUTTON_SIZE) — значит и
+	# шрифт должен браться из back_button, а не через _canvas_font_size(), иначе
+	# при window_scale > 1 текст оказывается мельче, чем позволяет размер кнопки.
+	_start_button.add_theme_font_size_override("font_size", back_button.get_theme_font_size("font_size"))
 	_start_button.pressed.connect(_start_selected_mission)
 	_prep_root.add_child(_start_button)
 
@@ -301,6 +311,10 @@ func _layout_prep_panel() -> void:
 	_start_button.size = button_size
 	_required_label.position = Vector2(panel_padding, panel_padding + header_height + _canvas_value(4.0))
 	_required_label.size = Vector2(content_width, required_height)
+	# «Назад» — обычно отдельная плавающая кнопка над рамкой панели подготовки;
+	# пока рамка открыта, переносим её внутрь, к левому краю, на ту же высоту,
+	# что и «Вперёд» справа (panel_padding от верхнего края панели).
+	back_button.position = _prep_panel.position + Vector2(panel_padding, panel_padding)
 
 	var slot_row_width: float = slot_size.x * 4.0 + slot_gap * 3.0
 	var cards_row_width: float = card_size.x * float(GRID_COLUMNS) + grid_gap * float(GRID_COLUMNS - 1)
@@ -523,6 +537,7 @@ func _cancel_mission_selection() -> void:
 		_prep_panel.queue_free()
 		_prep_panel = null
 		_prep_root = null
+		_reset_back_button_position()
 	if _show_mission_list:
 		title_label.text = "Выбор миссии"
 
