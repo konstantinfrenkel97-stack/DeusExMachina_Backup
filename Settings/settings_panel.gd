@@ -13,16 +13,19 @@ const LANGUAGE_OPTIONS: Array = [["ru", "Русский"], ["en", "English"], ["
 var _master_slider: HSlider
 var _music_slider: HSlider
 var _sfx_slider: HSlider
+var _voice_slider: HSlider
+var _window_size_option: OptionButton
+var _window_size_row: HBoxContainer
 
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	z_index = 500
 
 	var backdrop := ColorRect.new()
 	backdrop.color = Color(0, 0, 0, 0.72)
-	backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
+	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(backdrop)
 
@@ -30,7 +33,7 @@ func _ready() -> void:
 	panel.custom_minimum_size = Vector2(560, 0)
 	_apply_panel_style(panel)
 	var center := CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(center)
 	center.add_child(panel)
@@ -52,33 +55,79 @@ func _ready() -> void:
 	title.add_theme_font_size_override("font_size", 28)
 	vbox.add_child(title)
 
-	_add_section_label(vbox, "Звук")
-	_master_slider = _add_slider_row(vbox, "Общая громкость", GameSettings.master_volume, GameSettings.set_master_volume)
-	_add_checkbox_row(vbox, "Выключить звук", GameSettings.master_muted, GameSettings.set_master_muted)
-	_music_slider = _add_slider_row(vbox, "Музыка", GameSettings.music_volume, GameSettings.set_music_volume)
-	_sfx_slider = _add_slider_row(vbox, "Звуковые эффекты", GameSettings.sfx_volume, GameSettings.set_sfx_volume)
+	var tabs := TabContainer.new()
+	tabs.custom_minimum_size = Vector2(0, 300)
+	vbox.add_child(tabs)
 
-	_add_section_label(vbox, "Экран")
-	_add_checkbox_row(vbox, "Полноэкранный режим", GameSettings.fullscreen, GameSettings.set_fullscreen)
+	var sound_tab := _add_tab(tabs, "Звук")
+	_master_slider = _add_slider_row(sound_tab, "Общая громкость", GameSettings.master_volume, GameSettings.set_master_volume)
+	_add_checkbox_row(sound_tab, "Выключить звук", GameSettings.master_muted, GameSettings.set_master_muted)
+	_music_slider = _add_slider_row(sound_tab, "Музыка", GameSettings.music_volume, GameSettings.set_music_volume)
+	_sfx_slider = _add_slider_row(sound_tab, "Звуковые эффекты", GameSettings.sfx_volume, GameSettings.set_sfx_volume)
+	_voice_slider = _add_slider_row(sound_tab, "Голоса богов", GameSettings.voice_volume, GameSettings.set_voice_volume)
 
-	_add_section_label(vbox, "Геймплей")
-	_add_checkbox_row(vbox, "Подтверждать сдачу боя", GameSettings.confirm_before_surrender, GameSettings.set_confirm_before_surrender)
-	_add_checkbox_row(vbox, "Боевой лог развёрнут по умолчанию", GameSettings.combat_log_expanded_default, GameSettings.set_combat_log_expanded_default)
-	_add_battle_speed_row(vbox)
-	_add_language_row(vbox)
+	var video_tab := _add_tab(tabs, "Графика")
+	_window_size_row = _add_window_size_row(video_tab)
+	_add_checkbox_row(video_tab, "Полноэкранный режим", GameSettings.fullscreen, func(pressed: bool):
+		GameSettings.set_fullscreen(pressed)
+		_update_window_size_row_state()
+	)
+	_add_checkbox_row(video_tab, "Вертикальная синхронизация", GameSettings.vsync, GameSettings.set_vsync)
+	_add_max_fps_row(video_tab)
+	_update_window_size_row_state()
 
-	_add_section_label(vbox, "Обучение")
+	var game_tab := _add_tab(tabs, "Игра")
+	_add_language_row(game_tab)
+	_add_battle_speed_row(game_tab)
+	_add_checkbox_row(game_tab, "Подтверждать сдачу боя", GameSettings.confirm_before_surrender, GameSettings.set_confirm_before_surrender)
+	_add_checkbox_row(game_tab, "Боевой лог развёрнут по умолчанию", GameSettings.combat_log_expanded_default, GameSettings.set_combat_log_expanded_default)
 	# Инвертировано: чекбокс показывает "показывать подсказки", а хранится
 	# CampaignState.tutorial_disabled — так его можно снова включить после того, как
 	# игрок отключил все подсказки кнопкой "Убрать подсказки" в справке (кнопка "?").
-	_add_checkbox_row(vbox, "Показывать обучающие подсказки", not CampaignState.tutorial_disabled, func(pressed: bool): CampaignState.tutorial_disabled = not pressed)
+	_add_checkbox_row(game_tab, "Показывать обучающие подсказки", not CampaignState.tutorial_disabled, func(pressed: bool): CampaignState.tutorial_disabled = not pressed)
+
+	var buttons := HBoxContainer.new()
+	buttons.add_theme_constant_override("separation", 12)
+	vbox.add_child(buttons)
+
+	var reset_btn := Button.new()
+	reset_btn.text = "По умолчанию"
+	reset_btn.custom_minimum_size = Vector2(0, 48)
+	reset_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	reset_btn.add_theme_font_size_override("font_size", 20)
+	reset_btn.pressed.connect(_on_reset_pressed)
+	buttons.add_child(reset_btn)
 
 	var close_btn := Button.new()
 	close_btn.text = "Закрыть"
 	close_btn.custom_minimum_size = Vector2(0, 48)
+	close_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	close_btn.add_theme_font_size_override("font_size", 20)
 	close_btn.pressed.connect(func(): close_requested.emit())
-	vbox.add_child(close_btn)
+	buttons.add_child(close_btn)
+
+
+## Сбрасывает звук/экран/геймплей и перерисовывает панель с новыми значениями.
+func _on_reset_pressed() -> void:
+	GameSettings.reset_to_defaults()
+	for child in get_children():
+		remove_child(child)
+		child.queue_free()
+	_ready.call_deferred()
+
+
+func _add_tab(tabs: TabContainer, title: String) -> VBoxContainer:
+	var box := VBoxContainer.new()
+	box.name = title
+	box.add_theme_constant_override("separation", 14)
+	var margin := MarginContainer.new()
+	margin.name = title
+	margin.add_theme_constant_override("margin_top", 14)
+	margin.add_theme_constant_override("margin_left", 6)
+	margin.add_theme_constant_override("margin_right", 6)
+	margin.add_child(box)
+	tabs.add_child(margin)
+	return box
 
 
 func _apply_panel_style(panel: PanelContainer) -> void:
@@ -177,6 +226,65 @@ func _add_battle_speed_row(vbox: VBoxContainer) -> void:
 	option.selected = current_index
 	option.item_selected.connect(func(index: int):
 		GameSettings.set_battle_speed(GameSettings.BATTLE_SPEED_OPTIONS[index])
+	)
+	row.add_child(option)
+
+
+## Размер окна (только в оконном режиме): показываются только размеры, влезающие в экран.
+func _add_window_size_row(vbox: VBoxContainer) -> HBoxContainer:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 12)
+	vbox.add_child(row)
+
+	var label := Label.new()
+	label.text = "Размер окна"
+	label.custom_minimum_size = Vector2(200, 0)
+	row.add_child(label)
+
+	_window_size_option = OptionButton.new()
+	_window_size_option.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var available: Array[Vector2i] = GameSettings.get_available_window_sizes()
+	var current_index := 0
+	for i in range(available.size()):
+		_window_size_option.add_item("%d × %d" % [available[i].x, available[i].y])
+		_window_size_option.set_item_metadata(i, GameSettings.WINDOW_SIZES.find(available[i]))
+		if GameSettings.WINDOW_SIZES.find(available[i]) == GameSettings.window_size_index:
+			current_index = i
+	_window_size_option.selected = current_index
+	_window_size_option.item_selected.connect(func(index: int):
+		GameSettings.set_window_size_index(int(_window_size_option.get_item_metadata(index)))
+	)
+	row.add_child(_window_size_option)
+	return row
+
+
+## Размер окна имеет смысл только вне полноэкранного режима.
+func _update_window_size_row_state() -> void:
+	if _window_size_option != null:
+		_window_size_option.disabled = GameSettings.fullscreen
+
+
+func _add_max_fps_row(vbox: VBoxContainer) -> void:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 12)
+	vbox.add_child(row)
+
+	var label := Label.new()
+	label.text = "Лимит кадров"
+	label.custom_minimum_size = Vector2(200, 0)
+	row.add_child(label)
+
+	var option := OptionButton.new()
+	option.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var current_index := 0
+	for i in range(GameSettings.MAX_FPS_OPTIONS.size()):
+		var fps: int = GameSettings.MAX_FPS_OPTIONS[i]
+		option.add_item("Без ограничения" if fps == 0 else "%d FPS" % fps)
+		if fps == GameSettings.max_fps:
+			current_index = i
+	option.selected = current_index
+	option.item_selected.connect(func(index: int):
+		GameSettings.set_max_fps(GameSettings.MAX_FPS_OPTIONS[index])
 	)
 	row.add_child(option)
 

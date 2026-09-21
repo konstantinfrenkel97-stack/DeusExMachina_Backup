@@ -96,6 +96,7 @@ var _mission_non_battle_position: float = 0.0
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_player = AudioStreamPlayer.new()
+	_player.bus = "Music"
 	add_child(_player)
 
 func play_campaign() -> void:

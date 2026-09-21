@@ -932,6 +932,7 @@ func _ensure_voice_audio_player() -> void:
 	if _voice_audio_player != null:
 		return
 	_voice_audio_player = AudioStreamPlayer.new()
+	_voice_audio_player.bus = "Voice"
 	add_child(_voice_audio_player)
 
 ## Вспышка эффекта способности (напр. молния Зевса) поверх спрайта ЭТОГО юнита —

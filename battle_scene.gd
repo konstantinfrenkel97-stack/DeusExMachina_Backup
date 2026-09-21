@@ -3211,6 +3211,7 @@ func _ensure_attack_sfx_players() -> void:
 		return
 	for i in range(ATTACK_SFX_PLAYER_POOL_SIZE):
 		var p := AudioStreamPlayer.new()
+		p.bus = "SFX"
 		add_child(p)
 		_attack_sfx_players.append(p)
 

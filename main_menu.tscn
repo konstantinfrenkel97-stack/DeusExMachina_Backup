@@ -65,13 +65,13 @@ text = "Новая игра"
 layout_mode = 2
 text = "Загрузить"
 
-[node name="MissionButton" type="Button" parent="Center/VBoxContainer"]
-layout_mode = 2
-text = "Миссия"
-
-[node name="StartButton" type="Button" parent="Center/VBoxContainer"]
+[node name="BattleButton" type="Button" parent="Center/VBoxContainer"]
 layout_mode = 2
 text = "Битва"
+
+[node name="SettingsButton" type="Button" parent="Center/VBoxContainer"]
+layout_mode = 2
+text = "Настройки"
 
 [node name="ExitButton" type="Button" parent="Center/VBoxContainer"]
 layout_mode = 2

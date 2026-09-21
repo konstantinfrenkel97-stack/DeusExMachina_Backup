@@ -12,9 +12,14 @@ const MENU_BG_COLOR := Color(0.0, 0.0, 0.0, 1.0)
 const MENU_BTN_HOVER_COLOR := Color(0.02, 0.017, 0.012, 1.0)
 const MENU_BTN_PRESSED_COLOR := Color(0.045, 0.034, 0.018, 1.0)
 
+const SettingsPanel := preload("res://Settings/settings_panel.gd")
+
 var _dialog_overlay: Control
+var _settings_panel: Control
 
 func _ready() -> void:
+	# Музыка меню идёт по шине "Music" (её создаёт GameSettings), чтобы ползунок музыки работал.
+	$MusicPlayer.bus = "Music"
 	$MusicPlayer.finished.connect(func(): $MusicPlayer.play())
 	var menu = $Center/VBoxContainer
 	for btn in menu.get_children():
@@ -31,8 +36,8 @@ func _ready() -> void:
 	menu.add_theme_constant_override("separation", 1)
 	menu.get_node("NewGameButton").pressed.connect(_on_new_game_pressed)
 	menu.get_node("LoadButton").pressed.connect(_on_load_pressed)
-	menu.get_node("StartButton").pressed.connect(_on_start_button_pressed)
-	menu.get_node("MissionButton").pressed.connect(_on_mission_button_pressed)
+	menu.get_node("BattleButton").pressed.connect(_on_battle_button_pressed)
+	menu.get_node("SettingsButton").pressed.connect(_on_settings_button_pressed)
 	menu.get_node("ExitButton").pressed.connect(_on_exit_button_pressed)
 
 func _make_menu_btn_style(bg: Color) -> StyleBoxFlat:
@@ -110,13 +115,21 @@ func _open_campaign_screen() -> void:
 func _on_load_pressed() -> void:
 	_show_load_dialog()
 
-func _on_start_button_pressed() -> void:
+func _on_battle_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://battle_setup.tscn")
 
-func _on_mission_button_pressed() -> void:
-	MissionState.requested_mission_path = ""
-	MissionState.return_scene_path = ""
-	get_tree().change_scene_to_file("res://Missions/mission_select.tscn")
+func _on_settings_button_pressed() -> void:
+	if _settings_panel != null and is_instance_valid(_settings_panel):
+		return
+	_close_dialog()
+	_settings_panel = SettingsPanel.new()
+	_settings_panel.close_requested.connect(_close_settings)
+	add_child(_settings_panel)
+
+func _close_settings() -> void:
+	if _settings_panel != null and is_instance_valid(_settings_panel):
+		_settings_panel.queue_free()
+	_settings_panel = null
 
 func _on_exit_button_pressed() -> void:
 	get_tree().quit()
@@ -213,6 +226,10 @@ func _show_load_dialog() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+		if _settings_panel != null and is_instance_valid(_settings_panel):
+			_close_settings()
+			get_viewport().set_input_as_handled()
+			return
 		if _dialog_overlay != null and is_instance_valid(_dialog_overlay):
 			_close_dialog()
 			var viewport := get_viewport()
