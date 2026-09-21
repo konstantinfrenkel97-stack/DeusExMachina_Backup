@@ -438,6 +438,15 @@ func _apply_outcome_mission_effects(outcome) -> void:
 		var perm_crit_path: String = str(_res_prop(perm_crit_target, "resource_path", ""))
 		if perm_crit_path != "":
 			CampaignState.add_permanent_god_crit_bonus(perm_crit_path, perm_crit_amount)
+	var perm_hp_target: Resource = _res_prop(outcome, "permanent_god_max_hp_bonus_target", null) as Resource
+	var perm_hp_amount: int = int(_res_prop(outcome, "permanent_god_max_hp_bonus_amount", 0))
+	if perm_hp_target != null and perm_hp_amount != 0:
+		var perm_hp_path: String = str(_res_prop(perm_hp_target, "resource_path", ""))
+		if perm_hp_path != "":
+			CampaignState.add_permanent_god_max_hp_bonus(perm_hp_path, perm_hp_amount)
+	var story_flag_name: String = str(_res_prop(outcome, "set_story_flag", "")).strip_edges()
+	if story_flag_name != "":
+		CampaignState.set_story_flag(story_flag_name)
 	var immediate_target_god: Resource = _res_prop(outcome, "target_god_immediate", null) as Resource
 	if immediate_target_god != null:
 		var immediate_target_path: String = str(_res_prop(immediate_target_god, "resource_path", ""))

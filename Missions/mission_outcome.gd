@@ -109,6 +109,15 @@ class_name MissionOutcome
 @export var permanent_god_crit_bonus_target: CharacterResource
 @export var permanent_god_crit_bonus_amount: float = 0.0
 
+# Постоянный (на весь остаток игры) бонус максимального здоровья конкретному богу
+# (напр. Осирис получает +5 здоровья навсегда). Значение — очки здоровья.
+@export var permanent_god_max_hp_bonus_target: CharacterResource
+@export var permanent_god_max_hp_bonus_amount: int = 0
+
+# Постоянный сюжетный флаг кампании (не сбрасывается в конце миссии, в отличие от
+# set_mission_flag) — см. CampaignState.story_flags, напр. "Откровенность Локи".
+@export var set_story_flag: String = ""
+
 # Немедленные (не ждут следующего боя, в отличие от target_god/target_current_hp_percent_delta
 # /target_majesty_delta выше) HP/величие ОДНОМУ конкретному богу — для итогов без боя
 # (напр. "Тора придавило камнями, -50% здоровья", без последующей битвы в этой же сцене).

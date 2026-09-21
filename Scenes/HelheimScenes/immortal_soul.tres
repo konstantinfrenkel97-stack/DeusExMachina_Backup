@@ -1,0 +1,125 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="s_scene"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="s_choice"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="s_outcome"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="s_reward"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="s_check"]
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="s_battle"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="s_formation"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="s_buff"]
+[ext_resource type="Resource" path="res://Essence/essence_death.tres" id="r_death"]
+[ext_resource type="Resource" path="res://Essence/essence_chaos.tres" id="r_chaos"]
+[ext_resource type="Resource" path="res://Gods/Loki/Loki.tres" id="r_loki"]
+
+[sub_resource type="Resource" id="reward_1"]
+script = ExtResource("s_reward")
+kind = 1
+resource = ExtResource("r_death")
+metadata/_custom_type_script = ExtResource("s_reward")
+
+[sub_resource type="Resource" id="outcome_2"]
+script = ExtResource("s_outcome")
+result_text = "Он растерянно смотрит на вас.
+“Что значит нет выхода? А как же вы сами? Вы не выглядите мертвыми.”
+Вы пытаетесь объяснить юноше, что вы живые, и поэтому можете вернуться. Но у него такой возможности нет, потому что он мертв. Бальдр поднимает полупрозрачные руки.
+“Нет-нет-нет, вы не поняли. Я не могу быть мертв. Я не должен быть мертв. Меня ничего не может убить, мама договорилась..”
+Вы указываете на стрелу торчащую у него из сердца. Он обиженно отворачивается.
+“Ну и ладно! Не хотите помогать, и не надо! За мной еще придут, вот увидите, и заберут из этого проклятого места!”
+Вы пытаетесь его догнать, но он растворяется в тумане. Призрак бессмертного юноши, убитого по прихоти капризного бога обмана. Вы чувствуете, что еще встретитесь.
+
+Вам известен ваш Немезис."
+rewards = Array[ExtResource("s_reward")]([SubResource("reward_1")])
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_3"]
+script = ExtResource("s_choice")
+choice_text = "Из Хельхейма нет выхода"
+outcome = SubResource("outcome_2")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="reward_4"]
+script = ExtResource("s_reward")
+kind = 1
+resource = ExtResource("r_chaos")
+metadata/_custom_type_script = ExtResource("s_reward")
+
+[sub_resource type="Resource" id="outcome_5"]
+script = ExtResource("s_outcome")
+result_text = "Вы не понимаете как можно помочь, но страдания бедняги ранят сердце. Его глаза широко раскрываются, а на лице расцветает улыбка.
+“Спасибо! Спасибо большое! Я знал что кто-то придет и мне поможет!”
+Он заговорщически наклоняется вперед.
+“А у меня, кстати, есть вариант как отсюда выбраться. Я давным-давно видел как мертвецы улетели отсюда на корабле. Вы не поверите! Корабле из ногтей! Там был дядя Локи. Я ему кричал, он не слышал. Если мы достроим один из таких, я смогу выбраться!”
+Вы вспоминаете отвратительную конструкцию. Само ваше божественное нутро кричит, что если такой корабль будет достроен, это будет очень очень плохо.
+Вы говорите Бальдру, что поищете способ, но лучше не заигрывать с проклятыми кораблями. Юноша смотрит на вас с сомнением, и пожимает плечами.
+“Ну как хотите. Вы давайте подумайте как меня отсюда вытащить, я тоже пойду, поищу способы, посмотрю что можно сделать.”
+Не дожидаясь вашего ответа, он машет вам рукой и исчезает в тумане. Вы смотрите на молчаливую синеву. Вам жаль юношу, но словно сам безжалостный Хельхейм шепчет вам - вы еще встретитесь, и ничем хорошим это не кончится.
+
+Вам известен ваш Немезис."
+rewards = Array[ExtResource("s_reward")]([SubResource("reward_4")])
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_6"]
+script = ExtResource("s_choice")
+choice_text = "Мы постараемся тебе помочь"
+outcome = SubResource("outcome_5")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="buff_7"]
+script = ExtResource("s_buff")
+stat = 0
+value = 6
+duration = -1
+metadata/_custom_type_script = ExtResource("s_buff")
+
+[sub_resource type="Resource" id="outcome_8"]
+script = ExtResource("s_outcome")
+result_text = "Бальдр смотрит на Локи с удивленной улыбкой.
+“Дядя Локи, вы все это время были здесь! Я не заметил.”
+“Я сказал что убил тебя, Бальдр.”
+Тот лишь отмахивается.
+“Опять вы шутите дядя. За это вас и недолюбливают в Асгарде. Ой! Я обещал не говорить! Пожалуйста, не говорите никому что я проболтался!”
+“Слепой Хёд застрелил тебя и ты умер. Я сказал ему так сделать.”
+“Это и правда сделал Хёд, но я не должен был умереть. Мама договорилась со всем что есть в мире…”
+“Кроме омелы. Я дал ему стрелу из омелы.”
+“...”
+“...”
+Они молча смотрят друг на друга. Лицо Бальдра выражает только полный шок. Оно бледнеет, из под кожи виднеется череп.
+Лицо Локи не выражает ничего. Бог обмана умеет надевать маску, сквозь лед которой не проникает ни единая эмоция.
+“Вы… дядя…”
+“Ты понял? Да. Ты понял.”
+“Вы…”
+Бальдр начинает трястись. Он закрывает лицо руками, падает на колени. Локи смотрит на него сверху вниз. Постепенно белесое тело юноши растворяется. Становится все меньше и меньше и наконец полностью сливается с туманной дымкой. Вы смотрите на Локи. Его лицо все также ледяное, и только на лбу выступают пульсирующие вены.
+“Мы еще встретимся с ним. Он не может уйти из Хельхейма. Не в одиночку.”
+
+Вам известен ваш Немезис."
+nemesis_buff_god = ExtResource("r_loki")
+nemesis_buff_stat = SubResource("buff_7")
+nemesis_buff_location_id = "helheim"
+set_story_flag = "Откровенность Локи"
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_9"]
+script = ExtResource("s_choice")
+choice_text = "Это я тебя убил"
+required_god = ExtResource("r_loki")
+outcome = SubResource("outcome_8")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[resource]
+script = ExtResource("s_scene")
+scene_title = "Бессмертная душа"
+body_text = "“О, привет. Вы кажется живые.”
+Вы подпрыгиваете от неожиданности, услышав внятную человеческую речь среди безумия Хельхейма. В вашу сторону идет юноша, его белесое тело сливается с туманом, но даже так вы замечаете что он очень красив. Черты лица правильные до неестественности, развевающиеся волосы, стройная фигура. Из его груди торчит черная стрела, от которой расходятся красно черные трещины и темные лозы оплетающие тело и вросшие в кожу. Он улыбаясь идет вам навстречу, раскинув руки.
+Вы настороженно сжимаете рукояти оружия. Что за новую ловушку приготовил мир мертвых.
+“А, вы боитесь что я агрессивный? Не проблема, давайте я в стороне постою.”
+“Простите мою навязчивость, я просто здесь уже очень долгое время и не ожидал встретить кого-то… не безумного. Меня, кстати, Бальдр зовут.”
+“Я… Я столько хочу вам рассказать… И спросить. Вы видели мою мать? Фрею.”
+Он начинает нервно потирать руки.
+“Произошла ошибка, меня не должно здесь быть. Мама договорилась со всеми живыми существами, камнями и растениями что никто не причинит мне вред.”
+Он указывает на стрелу торчащую из груди.
+“Но вот эта стрела… Она ранила меня, и теперь я здесь. И я не могу выбраться!”
+“Как вы сюда попали? Вы можете уйти? Возьмите меня с собой!”
+“Ох, я столько болтаю. Простите меня пожалуйста… Просто я очень, очень хочу убраться отсюда.”"
+choices = Array[ExtResource("s_choice")]([SubResource("choice_3"), SubResource("choice_6"), SubResource("choice_9")])
+metadata/_custom_type_script = ExtResource("s_scene")

@@ -1,0 +1,107 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="s_scene"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="s_choice"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="s_outcome"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="s_reward"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="s_check"]
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="s_battle"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="s_formation"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="s_buff"]
+[ext_resource type="Resource" path="res://Essence/essence_chaos.tres" id="r_chaos"]
+[ext_resource type="Resource" path="res://Essence/essence_power.tres" id="r_power"]
+[ext_resource type="Resource" path="res://Gods/Osiris/Osiris.tres" id="r_osiris"]
+
+[sub_resource type="Resource" id="reward_1"]
+script = ExtResource("s_reward")
+kind = 1
+resource = ExtResource("r_chaos")
+metadata/_custom_type_script = ExtResource("s_reward")
+
+[sub_resource type="Resource" id="outcome_2"]
+script = ExtResource("s_outcome")
+result_text = "Вы возвращаете жрице пергамент и говорите что не придете. Маска скрывает ее лицо, но вы можете представить, что за выражение сейчас на нем.
+\"Но, я так долго здесь сидела, ждала... Вы не можете не прийти!\"
+Вы лишь пожимаете плечами. Вы боги и у вас нет причин подчиняться чьим-то требованиям, тем более таким грубым. Жрица нервно сжимает посох и смотрит на вас.
+\"Но, как же...\"
+Она опускает голову. Но быстро поднимает, сердито пиная песок.
+\"Ууу! Ладно! Я передам владыке, что передала сообщение. А уж явитесь вы или нет это не мое дело. Вот выдумщики! Нашли над кем смеяться! Можно подумать мне нравится торчать в голой пустыне, не зная придете ли вы вообще!\"
+Сердитым шагом, взбивая песок она отправляется восвояси. Вы улыбаетесь ей в след. Нам всем нелегко выполнять свои обязанности.
+
+Но призыв явиться от Анубиса - не шутка. Рано или поздно, но вам придется перед ним предстать.
+
+Вам известен ваш Немезис."
+rewards = Array[ExtResource("s_reward")]([SubResource("reward_1")])
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_3"]
+script = ExtResource("s_choice")
+choice_text = "Вернуть ей пергамент и сказать что вы не придете"
+outcome = SubResource("outcome_2")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="reward_4"]
+script = ExtResource("s_reward")
+kind = 1
+resource = ExtResource("r_power")
+metadata/_custom_type_script = ExtResource("s_reward")
+
+[sub_resource type="Resource" id="outcome_5"]
+script = ExtResource("s_outcome")
+result_text = "Вы убираете бумагу и глядя в лицо черной собачьей маске говорите что принимаете вызов и явитесь, дабы встретить свою судьбу.
+
+Жрица торжественно кивает. Она начинает медленно чертить в воздухе символы, оставляя светлый фиолетовый след.
+\"Именем вечного цикла! Именем черного песка и владыки смерти! Вызов принят вами! Идите же, ибо судьба зовёт вас! Погребут ли вас неумолимые пески, или пустыня будет милосердна - на все воля владыки смерти.\"
+
+Вам известен ваш Немезис."
+rewards = Array[ExtResource("s_reward")]([SubResource("reward_4")])
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_6"]
+script = ExtResource("s_choice")
+choice_text = "Ответить, что вы явитесь"
+outcome = SubResource("outcome_5")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="buff_7"]
+script = ExtResource("s_buff")
+stat = 10
+value = 3
+duration = -1
+metadata/_custom_type_script = ExtResource("s_buff")
+
+[sub_resource type="Resource" id="outcome_8"]
+script = ExtResource("s_outcome")
+result_text = "Осирис поднимает руку над пергаментом. Черный Ангх светлеет, и становится золотым. Он возвращает бумагу жрице.
+\"Передай своему хозяину, что я вернусь. Но не для того чтобы отчитываться перед ним, словно слуга. Но дабы самому вершить суд.\"
+Жрица молча принимает бумагу из рук бога, глядя ему прямо в лицо.
+\"Страдает народ египетский. Над барханами сухой ветер разносит слова лжи о смерти истинного царя. Но я вернулся! И я спасу свой народ от вашего гнета!\"
+Жрица убирает пергамент и повернувшись спиной начинает уходить, бросив через плечо.
+\"Как вам будет угодно. Владыка смерти ждет вас, бог Осирис.\"
+
+Вам известен ваш Немезис."
+nemesis_buff_god = ExtResource("r_osiris")
+nemesis_buff_stat = SubResource("buff_7")
+nemesis_buff_location_id = "desert"
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_9"]
+script = ExtResource("s_choice")
+choice_text = "Я являюсь и свершу суд над Анубисом"
+required_god = ExtResource("r_osiris")
+outcome = SubResource("outcome_8")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[resource]
+script = ExtResource("s_scene")
+scene_title = "Смерть призывает тебя"
+body_text = "Из пустыни торчит черный обелиск. Он привлекает внимание как черное пятно на белой одежде. Вы двигаетесь к нему, тем более, что замечаете человеческую фигуру рядом с постройкой.
+
+Она сидит в тени, на песке, но при вашем приближении встает в торжественную позу, оперевшись на посох. По характерной маске, вы понимаете что это жрица Анубиса.
+Когда вы подходите, она достает из одежд сложенный пергамент и передает вам. Вы замечаете как с ее руки на землю падает пот. Как долго она ждала вас у этого строения? И сколько бы ждала, если бы вы не решили направиться к черному обелиску?
+
+Вы разворачиваете пергамент. Там нарисован единственный черный Ангх, а также записан путь к какому-то месту.
+\"Владыка смерти, Анубис вызывает бога Осириса и всех вас явиться и предстать перед судом.\" изрекает жрица. Вы удивлённо смотрите на нее.
+\"Бог Осирис мертв. Его место в царстве смерти. Явитесь к великому Анубису, и пусть он вершит вашу судьбу.\""
+choices = Array[ExtResource("s_choice")]([SubResource("choice_3"), SubResource("choice_6"), SubResource("choice_9")])
+metadata/_custom_type_script = ExtResource("s_scene")

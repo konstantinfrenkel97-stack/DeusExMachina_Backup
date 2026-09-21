@@ -150,6 +150,12 @@ func _init(resource: CharacterResource):
 	# личная черта бога, а не снаряжение/уровень, поэтому тоже не зависит от забвения.
 	if not is_enemy:
 		base_crit_chance += float(CampaignState.permanent_god_crit_bonus.get(source_resource_path, 0.0))
+		# Постоянный бонус максимального здоровья из сюжетных исходов (напр. Осирис +5 навсегда).
+		var _perm_hp_bonus: int = int(CampaignState.permanent_god_max_hp_bonus.get(source_resource_path, 0))
+		if _perm_hp_bonus != 0:
+			var _was_full_hp_perm := current_hp >= max_hp
+			max_hp = maxi(1, max_hp + _perm_hp_bonus)
+			current_hp = max_hp if _was_full_hp_perm else clampi(current_hp, 0, max_hp)
 
 func _apply_level_bonuses(bonuses: Dictionary) -> void:
 	if bonuses.is_empty():

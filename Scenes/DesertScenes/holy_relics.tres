@@ -1,0 +1,177 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="s_scene"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="s_choice"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="s_outcome"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="s_reward"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="s_check"]
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="s_battle"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="s_formation"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="s_buff"]
+[ext_resource type="Resource" path="res://Essence/essence_power.tres" id="r_power"]
+[ext_resource type="Resource" path="res://Gods/Osiris/Osiris.tres" id="r_osiris"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Desert/Immortal/Immortal.tres" id="r_immortal"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Desert/Anubis_Priest/Anubis_Priest.tres" id="r_priest"]
+
+[sub_resource type="Resource" id="check_1"]
+script = ExtResource("s_check")
+stat = 5
+stat_label = "Удача"
+metadata/_custom_type_script = ExtResource("s_check")
+
+[sub_resource type="Resource" id="formation_2"]
+script = ExtResource("s_formation")
+formation_name = "Бессмертные и жрица Анубиса"
+pos1 = ExtResource("r_immortal")
+pos3 = ExtResource("r_immortal")
+pos4 = ExtResource("r_priest")
+metadata/_custom_type_script = ExtResource("s_formation")
+
+[sub_resource type="Resource" id="battle_3"]
+script = ExtResource("s_battle")
+formation = SubResource("formation_2")
+location_id = "desert"
+metadata/_custom_type_script = ExtResource("s_battle")
+
+[sub_resource type="Resource" id="reward_4"]
+script = ExtResource("s_reward")
+kind = 1
+resource = ExtResource("r_power")
+metadata/_custom_type_script = ExtResource("s_reward")
+
+[sub_resource type="Resource" id="outcome_5"]
+script = ExtResource("s_outcome")
+result_text = "\"Эти слова - ложь!\"
+Божественный голос разносится под потолком. Посетители начинают волноваться, даже жрица нервно поглядывает помещение в поисках источника звука. Вы окружаете себя магическим светом. Хотя зал и наполнен до упора, но они умудряются расступиться и проложить вам дорожку. Вы медленно и торжественно идете в сторону пьедестала. Жрица смотрит на вас. Под черной маской собачьей головы не видно выражения лица.
+\"Не противьтесь божественной воле, наглецы! Слово Анубиса нерушимо! Бог Осирис - мертв!\"
+Жрица ударяет посохом об пол. Ее окружает водоворот из черного праха. Из него восстают две фигуры с мечами. Посетители храма ахают.
+\"Мы и есть божественная воля!\"
+Вы воспаряете над землей. В глазах пылает пламя, а по коже гуляют молнии. Вы обращаетесь к людям.
+\"Услышь, народ Египта! Бог Осирис жив, и он идет к вам! Царь царей спешит восстановить справедливость! Ждите же его!\"
+Толпа заливается торжествующими криками. Не радуется только жрица.
+\"Богохульство!!!\"
+Она ударяет посохом о землю. На вас летит волна праха. Люди торопятся выбежать из храма, а вы летите прямо на черные силуэты."
+hero_majesty_delta = 5
+battle = SubResource("battle_3")
+rewards = Array[ExtResource("s_reward")]([SubResource("reward_4")])
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="outcome_6"]
+script = ExtResource("s_outcome")
+result_text = "\"Эти слова - ложь!\"
+Божественный голос разносится под потолком. Посетители начинают волноваться, даже жрица нервно поглядывает помещение в поисках источника звука. Вы окружаете себя магическим светом. Хотя зал и наполнен до упора, но они умудряются расступиться и проложить вам дорожку. Вы медленно и торжественно идете в сторону пьедестала. Жрица смотрит на вас. Под черной маской собачьей головы не видно выражения лица.
+\"Не противьтесь божественной воле, наглецы! Слово Анубиса нерушимо! Бог Осирис - мертв!\"
+Жрица ударяет посохом об пол. Ее окружает водоворот из черного праха. Из него восстают две фигуры с мечами. Посетители храма ахают и падают ниц. Свободное пространство смыкается. Вы теряете равновесие, и покачиваетесь стараясь не упасть. Властный голос жрицы торжественно обрушивается на вас.
+\"Глупцы! Безбожники! Вы думаете что можете приходить в храм великого божества и безнаказанно распространять ложь? Не бывать этому! Нет воли выше воли великого Анубиса! Покайтесь и примите наказание!\"
+Люди начинают постепенно вставать и выходить из храма, оставляя вас один на один с жрицей. Их тела сгорблены в полупоклоне.
+
+Вы не мешаете им. Жрица может запугивать их своими фокусами, но вы знаете что правда на вашей стороне, и вы за нее высказались. Пальцы ложатся на рукояти."
+hero_majesty_delta = 5
+battle = SubResource("battle_3")
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_7"]
+script = ExtResource("s_choice")
+choice_text = "Оспорить слова жреца"
+stat_check = SubResource("check_1")
+success_outcome = SubResource("outcome_5")
+failure_outcome = SubResource("outcome_6")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="outcome_8"]
+script = ExtResource("s_outcome")
+result_text = "Вы не вмешиваетесь в церемонию, хотя и знаете что ее слова - ложь. Смотрите как слова жрицы проникают в души людей. Это длится долго, и вы выдерживаете каждую секунду. Наконец, мощи уносят, люди уходят. К вам подходит жрица.
+\"Вы слушали?\"
+Вы киваете.
+\"Нам известно кто вы такие. Еретики распространяющие ложные слухи о возвращении царя царей. Так вот его время прошло. У нас его тело.\"
+Она поворачивается к вам спиной и чинно уходит, напоследок обернувшись и проговорив.
+\"У Египта есть свои боги. Вам здесь не место.\"
+К вам подходит тот же бритый служитель и проводит на улицу.
+
+По крайней мере, никто не пострадал."
+hero_majesty_delta = -5
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_9"]
+script = ExtResource("s_choice")
+choice_text = "Молча слушать"
+outcome = SubResource("outcome_8")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="check_10"]
+script = ExtResource("s_check")
+stat = 5
+stat_label = "Удача"
+metadata/_custom_type_script = ExtResource("s_check")
+
+[sub_resource type="Resource" id="formation_11"]
+script = ExtResource("s_formation")
+formation_name = "Бессмертные и жрица Анубиса (усиленное)"
+pos1 = ExtResource("r_immortal")
+pos2 = ExtResource("r_immortal")
+pos3 = ExtResource("r_immortal")
+pos4 = ExtResource("r_priest")
+metadata/_custom_type_script = ExtResource("s_formation")
+
+[sub_resource type="Resource" id="battle_12"]
+script = ExtResource("s_battle")
+formation = SubResource("formation_11")
+location_id = "desert"
+metadata/_custom_type_script = ExtResource("s_battle")
+
+[sub_resource type="Resource" id="outcome_13"]
+script = ExtResource("s_outcome")
+result_text = "Под мрачными сводами храма сияет солнце. Оно не обжигает и не слепит. Сияющий Осирис взлетает под потолок.
+\"Царь царей жив! И нет бога на земле египетской, чья воля была бы выше моей! Вы ничтожные лжецы! Склонитесь! И верните мне то, что по праву мое!\"
+Народ раскрыл рот в шоке и восхищении. Жрица Анубиса немного отворачивает голову, словно ее обжигает свет.
+\"Нет! Ты мертв! Ты мертв! Анубис сказал что ты умер и не вернешься!\"
+\"Разуй глаза, ничтожная! Не явилось ли перед тобой воплощение самого великолепия? Падай ниц!\"
+Жрица хватается обоими руками за посох и... преклоняет колени. Вы с удивлением смотрите на это зрелище. Пусть Осирис и являет собой впечатляющую и ужасающую картину, но чтобы жрец одного бога был сломлен величием другого. Вам как богам известно, насколько это невероятно.
+На своем золотом диске Осирис опускается к пьедесталу и берет то, что на нем лежит. Плоть мгновенно всасывается в его руки и исчезает.
+\"Бегите к своему хозяину, и передайте, что царству его лжи приходит конец!\""
+target_god_immediate = ExtResource("r_osiris")
+target_god_immediate_majesty_delta = 10
+permanent_god_max_hp_bonus_target = ExtResource("r_osiris")
+permanent_god_max_hp_bonus_amount = 5
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="outcome_14"]
+script = ExtResource("s_outcome")
+result_text = "Под мрачными сводами храма сияет солнце. Оно не обжигает и не слепит. Сияющий Осирис взлетает под потолок.
+\"Царь царей жив! И нет бога на земле египетской, чья воля была бы выше моей! Вы ничтожные лжецы! Склонитесь! И верните мне то, что по праву мое!\"
+Народ раскрыл рот в шоке и восхищении. Жрица Анубиса немного отворачивает голову, словно ее обжигает свет.
+\"Нет! Ты мертв! Ты мертв! Анубис сказал что ты умер и не вернешься!\"
+\"Разуй глаза, ничтожная! Не явилось ли перед тобой воплощение самого великолепия? Падай ниц!\"
+Жрица хватается обоими руками за посох и... ударяет им о землю. Вздымается столп пыли, из него выходят три черные фигуры с мечами.
+\"Нет! Это ложь! Это ложь, ложь ложь! Владыка не мог ошибиться! Ты самозванец! Я покараю тебя, от имени владыки смерти!\"
+Осирис лишь покачивает головой и опускается перед пьедесталом. Одну руку он кладет на кусок плоти, и тот словно всасывается в пальцы исчезая.
+\"Даже самое яркое солнце, не осветит путь тому кто слеп.\" он взмахивает рукой, в воздухе материализуется золотой хопеш. Жрица поднимает посох."
+battle = SubResource("battle_12")
+permanent_god_max_hp_bonus_target = ExtResource("r_osiris")
+permanent_god_max_hp_bonus_amount = 5
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_15"]
+script = ExtResource("s_choice")
+choice_text = "Я жив, и я забираю свою плоть"
+required_god = ExtResource("r_osiris")
+stat_check = SubResource("check_10")
+success_outcome = SubResource("outcome_13")
+failure_outcome = SubResource("outcome_14")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[resource]
+script = ExtResource("s_scene")
+scene_title = "Священные мощи"
+body_text = "\"Идите скорее, там сейчас в храме Анубиса мощи самого Осириса выставляют.\" - бросил вам человек на осле, торопливо спешащий через пустыню. Вы не смогли проигнорировать подобное заявление, и поспешили следом.
+
+Вскоре, вы пришли к мрачному пирамидальному зданию с черными занавесками. Туда стоит огромная длинная очередь. Пока вы думаете над тем, как попасть внутрь мирным путем, к вам подходит молодой человек в чёрной одежде с выбритой головой. Он жестами призывает следовать за ним.
+
+Вас проводят в здание храма, и вы оказываетесь в зале для представлений. Он полностью заполнен людьми, которые тихонько гудя смотрят на пьедестал, на котором лежит что-то темного телесного цвета, с золотой полоской. За пьедесталом стоит женщина в черном, на ее голове сплошная маска изображающая голову Анубиса, египетского бога смерти.
+\"... И тогда, коварный Сет разорвал тело Осириса на мелкие кусочки, и разбросал по всей земле египетской. Там где упала божественная плоть, возникли города. Его плоть вы можете наблюдать прямо сейчас.\"
+Из толпы раздается крик.
+\"Но Царь Царей вернулся! Его видели живым!\"
+Люди начинают шуметь, их толпа двигается подобно бурлящему морю. Жрица несколько раз ударяет посохом о пол. Звон эхом разносится по помещению. Толпа утихает.
+\"Бог Осирис мертв. Таково слово владыки смерти Анубиса. Бог Осирис мертв и никогда не вернется.\""
+choices = Array[ExtResource("s_choice")]([SubResource("choice_7"), SubResource("choice_9"), SubResource("choice_15")])
+metadata/_custom_type_script = ExtResource("s_scene")

@@ -203,6 +203,30 @@ func add_permanent_god_crit_bonus(god_path: String, amount: float) -> void:
 		return
 	permanent_god_crit_bonus[clean_path] = float(permanent_god_crit_bonus.get(clean_path, 0.0)) + amount
 
+## Постоянный (на весь остаток игры) бонус максимального здоровья конкретному богу по его
+## resource_path — напр. {"res://Gods/Osiris/Osiris.tres": 5}. Применяется при создании
+## Combatant для этого бога (см. combatant.gd::_init). Копится при повторных наградах.
+var permanent_god_max_hp_bonus: Dictionary = {}
+
+func add_permanent_god_max_hp_bonus(god_path: String, amount: int) -> void:
+	var clean_path: String = god_path.strip_edges()
+	if clean_path == "" or amount == 0:
+		return
+	permanent_god_max_hp_bonus[clean_path] = int(permanent_god_max_hp_bonus.get(clean_path, 0)) + amount
+
+## Постоянные сюжетные флаги кампании (в отличие от mission_flags не сбрасываются в конце
+## миссии): имя флага -> true. Выставляются через MissionOutcome.set_story_flag, читаются
+## через has_story_flag (напр. "Откровенность Локи" для будущих реплик/диалогов).
+var story_flags: Dictionary = {}
+
+func set_story_flag(flag_name: String) -> void:
+	var clean_name: String = flag_name.strip_edges()
+	if clean_name != "":
+		story_flags[clean_name] = true
+
+func has_story_flag(flag_name: String) -> bool:
+	return bool(story_flags.get(flag_name.strip_edges(), false))
+
 ## Отложенные баффы "на бой с немезисом": срабатывают автоматически, когда отряд в
 ## следующий раз сразится с ближайшим непобеждённым немезидом указанной локации — не
 ## привязаны к конкретному следующему бою, ждут сколько нужно и переживают сохранение.
@@ -449,6 +473,8 @@ func reset_all() -> void:
 	spell_upgrade_levels.clear()
 	permanent_enemy_accuracy_debuffs.clear()
 	permanent_god_crit_bonus.clear()
+	permanent_god_max_hp_bonus.clear()
+	story_flags.clear()
 	roster_changed.emit()
 
 func clear_god_state_overrides() -> void:

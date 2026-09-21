@@ -516,7 +516,7 @@ func _apply_modifier_list(mods: Array, team: Array) -> void:
 				_log_combat("✨ [Благословение] %s получает благословение от своего кумира." % unit.unit_name)
 
 
-## Бафф миссии на юнита (по enum BuffEntry.Stat: 0=урон,1=удача,2=точность,3=уклонение,4=броня,5=крит,6=инициатива,7=стан,8=регенерация,9=периодический урон).
+## Бафф миссии на юнита (по enum BuffEntry.Stat: 0=урон,1=удача,2=точность,3=уклонение,4=броня,5=крит,6=инициатива,7=стан,8=регенерация,9=периодический урон,10=величие за ход).
 ## b — либо ресурс BuffEntry, либо словарь {"stat","value","duration"} (напр. из pending_nemesis_buffs).
 func _apply_mission_buff(b, unit: Combatant) -> void:
 	var stat: int = int(b.stat) if b is Resource else int(b.get("stat", 0))
@@ -555,6 +555,8 @@ func _apply_mission_buff(b, unit: Combatant) -> void:
 			var percent_flag: bool = bool(b.percent_of_max_hp) if b is Resource else bool(b.get("percent_of_max_hp", false))
 			if percent_flag:
 				val = int(unit.max_hp * val / 100.0)
+		10:
+			effect_stat = "majesty_regen"
 	unit.active_effects.append({"stat": effect_stat, "value": val, "duration": dur, "source_ability": "Заклинание"})
 
 ## Обработка правого клика: ВСЕГДА отменяет текущее выделение (способность / заклинание / марка).
@@ -1738,6 +1740,10 @@ func _start_new_round():
 		for item_reg in hero_reg.get_equipped_items():
 			_item_majesty_regen += item_reg.majesty_regen_per_turn
 			_item_hp_regen_pct += item_reg.hp_regen_percent
+		# Баффы миссии «величие за ход» (BuffEntry.Stat.MAJESTY_PER_TURN, напр. бонус Осириса против немезиса).
+		for _mr_eff in hero_reg.active_effects:
+			if str(Combatant._effect_get(_mr_eff, "stat", "")) == "majesty_regen":
+				_item_majesty_regen += int(Combatant._effect_get(_mr_eff, "value", 0))
 		if _item_majesty_regen != 0:
 			var _majesty_before: int = hero_reg.current_majesty
 			hero_reg.modify_majesty(_item_majesty_regen)

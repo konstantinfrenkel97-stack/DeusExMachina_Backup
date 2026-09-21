@@ -119,6 +119,8 @@ func _collect_state() -> Dictionary:
 		"spell_upgrade_levels": CampaignState.spell_upgrade_levels.duplicate(),
 		"permanent_enemy_accuracy_debuffs": CampaignState.permanent_enemy_accuracy_debuffs.duplicate(),
 		"permanent_god_crit_bonus": CampaignState.permanent_god_crit_bonus.duplicate(),
+		"permanent_god_max_hp_bonus": CampaignState.permanent_god_max_hp_bonus.duplicate(),
+		"story_flags": CampaignState.story_flags.duplicate(),
 		"read_dialogue_choices": CampaignState.read_dialogue_choices.duplicate(),
 	}
 
@@ -177,6 +179,10 @@ func _apply_state(data: Dictionary) -> void:
 	CampaignState.permanent_enemy_accuracy_debuffs = (loaded_enemy_debuffs as Dictionary) if loaded_enemy_debuffs is Dictionary else {}
 	var loaded_god_crit_bonus: Variant = campaign.get("permanent_god_crit_bonus", {})
 	CampaignState.permanent_god_crit_bonus = (loaded_god_crit_bonus as Dictionary) if loaded_god_crit_bonus is Dictionary else {}
+	var loaded_god_max_hp_bonus: Variant = campaign.get("permanent_god_max_hp_bonus", {})
+	CampaignState.permanent_god_max_hp_bonus = (loaded_god_max_hp_bonus as Dictionary) if loaded_god_max_hp_bonus is Dictionary else {}
+	var loaded_story_flags: Variant = campaign.get("story_flags", {})
+	CampaignState.story_flags = (loaded_story_flags as Dictionary) if loaded_story_flags is Dictionary else {}
 	var loaded_read_dialogue_choices: Variant = campaign.get("read_dialogue_choices", {})
 	CampaignState.read_dialogue_choices = (loaded_read_dialogue_choices as Dictionary) if loaded_read_dialogue_choices is Dictionary else {}
 
