@@ -42,6 +42,8 @@ static func describe_effect(effect: String, val: int) -> String:
 		"target_debuff_damage": return "-%d к атаке цели" % val
 		"target_debuff_armor": return "-%d к броне цели" % val
 		"target_lose_majesty": return "Цель теряет %d величия" % val
+		"target_stun_chance": return "С вероятностью %d%% оглушает цель" % val
+		"target_push_back": return "Толкает цель назад на %d" % val
 		"target_debuff_evasion": return "-%d к уклонению цели" % val
 		"self_heal_percent": return "Лечение %d%% HP" % val
 		"heal_flat": return "Лечение %d HP" % val
@@ -213,6 +215,7 @@ static func describe_active_effect(effect_id: String, stat: String, value: int, 
 		key = stat
 	match key:
 		"cerberus_three_headed": return "Три действия за раунд (со следующего раунда), величие за них не начисляется."
+		"orochi_death_shields": return "Общий пул щитов смерти: %d из 8." % value
 		"thor_hammer_of_lightning": return "Громовой молот: после способности по противнику все враги получают чистый урон от атаки Тора и могут быть оглушены."
 		"thor_fight_me_heal": return "Тор лечится на 7% максимального здоровья каждый раз, когда по нему попадают атакой."
 		"neverending_storm_mark": return "Нескончаемый шторм: эффект активен до конца боя. В начале хода владельца метки молния бьёт случайного противника."
@@ -299,6 +302,11 @@ static func get_ability_marker_description(marker: String) -> String:
 	match marker:
 		"baldr_arrow_in_my_body": return "Бальдр получает 100% чистого урона и снимает с себя все дебаффы. За каждый снятый дебафф противники получают 5 урона."
 		"cerberus_three_headed": return "В следующем раунде Цербер совершает действия трижды, но не получает за них величия."
+		"orochi_snake_bite": return "Цель получает периодический урон, равный 25% атаки Орочи, на 3 хода."
+		"orochi_snake_king": return "У каждой цели немедленно срабатывает тик периодического урона; его длительность при этом уменьшается."
+		"orochi_endless_growth": return "Общий пул щитов смерти увеличивается на 1 (максимум 8)."
+		"kraken_ink_cloud": return "Если у Кракена нет живых щупалец, он дополнительно получает 30 величия."
+		"kraken_ocean_fury": return "За каждое живое щупальце случайный противник получает 150% урона Кракена. Если все щупальца мертвы, Кракен получает 150% урона."
 		"virgo_stars_decree": return "Все союзники получают бафф своей клетки звёзд на 2 хода."
 		"virgo_starfall": return "Атакует цель и следующую позицию на 70% урона; все живые юниты получают +10 удачи на 2 хода."
 		"virgo_innocent_touch": return "Атакует цель на 100% урона. Заклинатель теряет все свои баффы и получает +10 атаки на 1 ход за каждый снятый бафф."
@@ -335,6 +343,9 @@ static func get_passive_description(effect_type: String) -> String:
 	match effect_type:
 		"baldr_armor_to_attack": return "Если броня Бальдра уменьшается, его атака увеличивается на ту же величину"
 		"cerberus_miss_self_damage": return "Большой. Если Цербер промахнулся атакой, он получает 15 чистого урона."
+		"orochi_shared_shields": return "У всех союзников общий пул щитов смерти (изначально и максимум — 8). Когда щит спасает союзника от гибели, тот восстанавливает полное HP и теряет накопленное величие."
+		"kraken_stats_per_ally": return "+20 брони и уклонения за каждого живого союзника. Кракена и его союзников невозможно сдвинуть."
+		"kraken_tentacle": return "Всё получаемое величие получает и Кракен. Щупальце невозможно сдвинуть."
 		"thor_berserk": return "Урон и броня растут при потере HP"
 		"zeus_position_bonus": return "Множитель урона зависит от позиции цели"
 		"cyclops_sensitive_accuracy": return "Вдвойне чувствителен к изменениям точности"

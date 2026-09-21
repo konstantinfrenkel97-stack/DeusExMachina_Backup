@@ -177,6 +177,7 @@ const LOCATION_NEMESIS_DIRS := {
 	"desert": "res://Nemesis/Civilization/Desert/",
 	"ships": "res://Nemesis/Sea/Ships/",
 	"depths": "res://Nemesis/Sea/Depth/",
+	"island": "res://Nemesis/Sea/Islands/",
 }
 
 ## Пути к CharacterResource побеждённых немезидов (бой выигран с ними во вражеской команде).

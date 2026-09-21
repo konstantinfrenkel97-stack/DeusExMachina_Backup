@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Script" path="res://Enemy_logic/orochi_logic.gd" id="3_ai"]
+[ext_resource type="Resource" path="res://Nemesis/Sea/Islands/Yamatano Orochi/snake_bite.tres" id="4_a1"]
+[ext_resource type="Resource" path="res://Nemesis/Sea/Islands/Yamatano Orochi/snake_king.tres" id="5_a2"]
+[ext_resource type="Resource" path="res://Nemesis/Sea/Islands/Yamatano Orochi/endless_growth.tres" id="6_ult"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Яматано Орочи"
+is_nemesis = true
+nemesis_order = 1
+special_effect_type = "orochi_shared_shields"
+sprite_path = "res://Nemesis/Sea/Islands/Yamatano Orochi/Yamatano_orochi.png"
+face_sprite = "res://Nemesis/Sea/Islands/Yamatano Orochi/Yamatano_orochi.png"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1"), ExtResource("5_a2")])
+ultimate_ability = ExtResource("6_ult")
+ai_script = ExtResource("3_ai")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

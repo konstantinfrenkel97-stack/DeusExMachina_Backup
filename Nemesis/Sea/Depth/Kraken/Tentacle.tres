@@ -3,25 +3,16 @@
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
 [ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
 [ext_resource type="Script" path="res://Enemy_logic/nemesis_random_logic.gd" id="3_ai"]
-[ext_resource type="Resource" path="res://Nemesis/Sea/Depth/Kraken/ink_cloud.tres" id="4_a1"]
-[ext_resource type="Resource" path="res://Nemesis/Sea/Depth/Kraken/ocean_fury.tres" id="5_ult"]
+[ext_resource type="Resource" path="res://Nemesis/Sea/Depth/Kraken/squid_strike.tres" id="4_a1"]
+[ext_resource type="Resource" path="res://Nemesis/Sea/Depth/Kraken/tentacle_grip.tres" id="5_ult"]
 
 [resource]
 script = ExtResource("2_cr")
-unit_name = "Кракен"
-max_hp = 150
-damage = 28
-armor = 40
-initiative = 3
-accuracy = 80
-evasion = 5
-danger_level = 10
-is_boss = true
-is_nemesis = true
-nemesis_order = 1
-special_effect_type = "kraken_stats_per_ally"
-sprite_path = "res://Nemesis/Sea/Depth/Kraken/Kraken.png"
-face_sprite = "res://Nemesis/Sea/Depth/Kraken/Kraken.png"
+unit_name = "Щупальце кракена"
+uses_majesty = true
+special_effect_type = "kraken_tentacle"
+sprite_path = "res://Nemesis/Sea/Depth/Kraken/Tentacle.png"
+face_sprite = "res://Nemesis/Sea/Depth/Kraken/Tentacle.png"
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("4_a1")])
 ultimate_ability = ExtResource("5_ult")
 ai_script = ExtResource("3_ai")

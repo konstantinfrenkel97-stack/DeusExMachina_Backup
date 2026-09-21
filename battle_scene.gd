@@ -206,6 +206,8 @@ func _ready():
 			MusicManager.play_battle(CombatManager.selected_location_id)
 	locations._location_mountains_label()
 	_apply_pending_mission_modifiers()
+	_init_orochi_pool()
+	Combatant.shared_death_shield_provider = _try_shared_death_shield
 	_start_new_round()
 	_show_battle_intro_tutorial_if_needed()
 
@@ -302,6 +304,7 @@ func _adjust_attack_effect_count(delta: int) -> void:
 ## Возвращает глобальную скорость движка к норме при выходе из боя (см. GameSettings.battle_speed
 ## в _ready()) — иначе она "утекала" бы в меню и другие экраны после боя/сдачи.
 func _exit_tree() -> void:
+	Combatant.shared_death_shield_provider = Callable()
 	if GameSettings.settings_changed.is_connected(_refresh_battle_pause_time_scale):
 		GameSettings.settings_changed.disconnect(_refresh_battle_pause_time_scale)
 	Engine.time_scale = 1.0
@@ -3060,6 +3063,10 @@ func _get_ai_decision(monster: Combatant) -> Dictionary:
 	# Состояние локации Глубина: Бурные потоки = нечётный раунд (урон при перемещении)
 	var is_raging: bool = (current_round % 2 == 1) and CombatManager.selected_location_id == "depths"
 	match monster.ai_script.resource_path.get_file():
+		"orochi_logic.gd":
+			return OrochiLogic.get_decision(monster, heroes_team)
+		"nemesis_random_logic.gd":
+			return NemesisRandomLogic.get_decision(monster, heroes_team)
 		"cerberus_logic.gd":
 			return CerberusLogic.get_decision(monster, heroes_team)
 		"baldr_logic.gd":
@@ -3367,6 +3374,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 	var log_lines: Array[String] = []
 	log_lines.append("%s использует «%s»." % [attacker.unit_name, ability.name])
 	var total_damage_dealt: int = 0
+	var _kraken_ink_bonus_given: bool = false  # «Облако чернил»: +30 величия один раз за применение, не за каждую цель
 	var voodoo_effect_snapshot: Array = _snapshot_active_effects()
 
 	# ═══ Сердце природы: каждый раз, когда Дану применяет способность, бог с наименьшим
@@ -4272,6 +4280,25 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 		
 		# ═══ Специфичные обработчики маркеров способностей богов ═══
 		
+		# Яматано Орочи: «Укус змеи» — цель получает периодический урон 25% атаки на 3 хода
+		if ability.ability_marker == "orochi_snake_bite" and attack_landed and target.current_hp > 0:
+			var _sb_dot: int = int(round(attacker.damage * 0.25 * (1.0 + attacker.get_periodic_damage_bonus_percent() / 100.0)))
+			if _sb_dot > 0:
+				var _sb_duration: int = _compute_effect_duration(attacker, target, 3, true)
+				target.active_effects.append({"stat": "periodic_damage", "value": _sb_dot, "duration": _sb_duration, "source_ability": "Укус змеи"})
+				log_lines.append("  → [Укус змеи] %s получает %d периодического урона на %d хода." % [target.unit_name, _sb_dot, _sb_duration])
+
+		# Яматано Орочи: «Змеиный король» — у каждой цели немедленно срабатывает тик периодического урона
+		# (длительность при этом уменьшается)
+		if ability.ability_marker == "orochi_snake_king" and attack_landed and target.current_hp > 0:
+			var _sk_hp_b: int = target.current_hp
+			var _sk_total: int = target.trigger_periodic_damage_now()
+			if _sk_total > 0:
+				log_lines.append("  → [Змеиный король] У %s немедленно срабатывает периодический урон: %d. HP: %d → %d" % [target.unit_name, _sk_total, _sk_hp_b, target.current_hp])
+				if target.current_hp <= 0:
+					_on_unit_killed(target, log_lines)
+					_compact_team(heroes_team if not target.is_enemy else enemies_team)
+
 		# Осирис: «Опаляющий свет» — 0.3 от урона Осириса периодического урона на 3 хода
 		if ability.ability_marker == "osiris_scorching_light" and target.current_hp > 0:
 			var _sl_dot = int(attacker.damage * 0.3)
@@ -5215,10 +5242,22 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 					attacker.take_damage(self_dmg)
 					log_lines.append("  → %s получает %d ответного урона (%d%% от нанесённого)." % [attacker.unit_name, self_dmg, pct])
 		
-		if (not attacker.is_enemy or attacker.is_nemesis) and ability.majesty_gain > 0 and not attacker.has_meta("cerberus_three_active"):
+		if (not attacker.is_enemy or attacker.is_nemesis or attacker.uses_majesty) and ability.majesty_gain > 0 and not attacker.has_meta("cerberus_three_active"):
 			if not _redirect_majesty_to_set_true_king(attacker, ability.majesty_gain, log_lines):
 				attacker.modify_majesty(ability.majesty_gain)
 				log_lines.append("  → %s получает %d величия." % [attacker.unit_name, ability.majesty_gain])
+				# Щупальце кракена: всё полученное величие получает и Кракен.
+				if attacker.special_effect_type == "kraken_tentacle":
+					for _kr in enemies_team:
+						if _kr != null and _kr.current_hp > 0 and _kr.special_effect_type == "kraken_stats_per_ally":
+							_kr.modify_majesty(ability.majesty_gain)
+							log_lines.append("  → [Щупальце] %s тоже получает %d величия." % [_kr.unit_name, ability.majesty_gain])
+							break
+		# Кракен: «Облако чернил» — без живых щупалец дополнительно +30 величия.
+		if ability.ability_marker == "kraken_ink_cloud" and not _kraken_ink_bonus_given and attacker.special_effect_type == "kraken_stats_per_ally" and attacker.current_hp > 0 and _living_tentacles(attacker).is_empty():
+			_kraken_ink_bonus_given = true
+			attacker.modify_majesty(30)
+			log_lines.append("  → [Облако чернил] Нет живых щупалец: %s получает ещё 30 величия." % attacker.unit_name)
 		
 		# ═══ Туннели — Дварф-кузнец: «Улучшить снаряжение» — жетоны ковки удваивают эффект ═══
 		if ability.ability_marker == "dwarf_smith_upgrade":
@@ -5390,6 +5429,39 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 			var _ub_hp_b = target.current_hp
 			target.apply_stat_change("hp", target.max_hp)
 			log_lines.append("  → [Кровь единорога] %s теряет %d HP, %s восстанавливает полное HP (%d → %d)." % [attacker.unit_name, _ub_cost, target.unit_name, _ub_hp_b, target.current_hp])
+
+		# ═══ Яматано Орочи: «Нескончаемый рост» — общий пул щитов смерти +1 (максимум 8) ═══
+		if ability.ability_marker == "orochi_endless_growth" and target == attacker and attacker.current_hp > 0:
+			var _eg_before: int = _orochi_death_shields
+			_set_orochi_shields(_orochi_death_shields + 1)
+			log_lines.append("  → [Нескончаемый рост] Щитов смерти: %d → %d (максимум %d)." % [_eg_before, _orochi_death_shields, OROCHI_MAX_SHIELDS])
+
+		# ═══ Кракен: «Ярость океана» — за каждое живое щупальце случайный противник получает 150% урона;
+		# если все щупальца мертвы — 150% урона получает сам Кракен ═══
+		if ability.ability_marker == "kraken_ocean_fury" and target == attacker and attacker.current_hp > 0:
+			var _of_tentacles: Array = _living_tentacles(attacker)
+			var _of_raw: int = int(attacker.damage * 1.5)
+			if _of_tentacles.is_empty():
+				var _of_self_hp_b: int = attacker.current_hp
+				attacker.take_damage(_of_raw)
+				log_lines.append("  → [Ярость океана] Щупалец не осталось — %s получает %d урона (150%%). HP: %d → %d" % [attacker.unit_name, _of_raw, _of_self_hp_b, attacker.current_hp])
+			else:
+				var _of_foes: Array = heroes_team if attacker.is_enemy else enemies_team
+				for _of_t in _of_tentacles:
+					var _of_alive: Array = []
+					for _of_f in _of_foes:
+						if _of_f != null and _of_f.current_hp > 0 and not _of_alive.has(_of_f):
+							_of_alive.append(_of_f)
+					if _of_alive.is_empty():
+						break
+					var _of_victim: Combatant = _of_alive.pick_random()
+					var _of_dmg: int = CombatCalculator.apply_armor(_of_raw, _of_victim.armor)
+					var _of_hp_b: int = _of_victim.current_hp
+					_of_victim.take_damage(_of_dmg)
+					log_lines.append("  → [Ярость океана] %s бьёт %s на %d урона (150%%). HP: %d → %d" % [_of_t.unit_name, _of_victim.unit_name, _of_dmg, _of_hp_b, _of_victim.current_hp])
+					if _of_victim.current_hp <= 0:
+						_on_unit_killed(_of_victim, log_lines)
+				_compact_team(_of_foes)
 
 		# ═══ Цербер: «Трехголовый» — в СЛЕДУЮЩИЙ свой раунд совершает действия трижды ═══
 		# Число ходов переключается в _start_new_round(); пока активно, величие за способности не начисляется.
@@ -6110,6 +6182,11 @@ func _apply_shift_effect(target: Combatant, distance: int, is_hero: bool):
 			_log_combat("🌿 %s опутан корнями и не может двигаться." % target.unit_name)
 			return
 	
+	# Кракен и его щупальца: невозможно сдвинуть.
+	if target.is_immovable():
+		_log_combat("🐙 %s невозможно сдвинуть." % target.unit_name)
+		return
+
 	var new_idx = clampi(idx + distance, 0, members.size() - 1)
 	if new_idx == idx:
 		return
@@ -6268,6 +6345,87 @@ func _refresh_passive_auras_for_all_units() -> void:
 	for unit in heroes_team + enemies_team:
 		if unit != null:
 			unit.refresh_passive_auras()
+	_sync_kraken_passive()
+
+# ═══ Яматано Орочи: общий пул щитов смерти команды ═══
+const OROCHI_MAX_SHIELDS := 8
+var _orochi_death_shields: int = 0
+
+func _orochi_alive_on_field() -> bool:
+	for e in enemies_team:
+		if e != null and e.current_hp > 0 and e.special_effect_type == "orochi_shared_shields":
+			return true
+	return false
+
+## В начале боя, если у врагов есть Орочи, пул щитов смерти = 8 (это и максимум).
+func _init_orochi_pool() -> void:
+	for e in enemies_team:
+		if e != null and e.special_effect_type == "orochi_shared_shields":
+			_set_orochi_shields(OROCHI_MAX_SHIELDS)
+			return
+
+func _set_orochi_shields(value: int) -> void:
+	_orochi_death_shields = clampi(value, 0, OROCHI_MAX_SHIELDS)
+	var seen: Dictionary = {}
+	for e in enemies_team:
+		if e == null or seen.has(e) or e.special_effect_type != "orochi_shared_shields":
+			continue
+		seen[e] = true
+		e.set_meta("orochi_shields", _orochi_death_shields)
+		effects._remove_effect_id(e, "orochi_death_shields")
+		e.active_effects.append({"stat": "trigger_marker", "value": _orochi_death_shields, "duration": -1, "effect_id": "orochi_death_shields", "source_ability": "Щиты смерти", "dispellable": false})
+
+## Обработчик Combatant.shared_death_shield_provider: смертельный урон союзнику Орочи тратит
+## один общий щит — юнит восстанавливает полное HP и теряет накопленное величие.
+func _try_shared_death_shield(unit: Combatant) -> bool:
+	if unit == null or not unit.is_enemy or _orochi_death_shields <= 0:
+		return false
+	if unit.special_effect_type != "orochi_shared_shields" and not _orochi_alive_on_field():
+		return false
+	_set_orochi_shields(_orochi_death_shields - 1)
+	unit.current_hp = unit.max_hp
+	var _lost_majesty: int = unit.current_majesty
+	unit.current_majesty = 0
+	_log_combat("🐍 [Щит смерти] %s не погибает: полное HP (%d), величие потеряно (%d → 0). Щитов осталось: %d." % [unit.unit_name, unit.current_hp, _lost_majesty, _orochi_death_shields])
+	_update_all_visuals()
+	return true
+
+# ═══ Кракен: +20 брони и уклонения за каждого живого союзника ═══
+func _sync_kraken_passive() -> void:
+	var seen: Dictionary = {}
+	for unit in enemies_team + heroes_team:
+		if unit == null or seen.has(unit) or unit.special_effect_type != "kraken_stats_per_ally":
+			continue
+		seen[unit] = true
+		var team: Array = enemies_team if unit.is_enemy else heroes_team
+		var counted: Dictionary = {}
+		var allies := 0
+		if unit.current_hp > 0:
+			for a in team:
+				if a != null and a != unit and a.current_hp > 0 and not counted.has(a):
+					counted[a] = true
+					allies += 1
+		var bonus: int = 20 * allies
+		var applied: int = int(unit.get_meta("kraken_aura_bonus", 0))
+		if bonus == applied:
+			continue
+		unit.armor_modifier += bonus - applied
+		unit.evasion_modifier += bonus - applied
+		unit.set_meta("kraken_aura_bonus", bonus)
+		effects._remove_effect_id(unit, "kraken_aura_armor")
+		effects._remove_effect_id(unit, "kraken_aura_evasion")
+		if bonus > 0:
+			unit.active_effects.append({"stat": "armor", "value": bonus, "duration": -1, "effect_id": "kraken_aura_armor", "source_ability": "Пассивка Кракена", "dispellable": false})
+			unit.active_effects.append({"stat": "evasion", "value": bonus, "duration": -1, "effect_id": "kraken_aura_evasion", "source_ability": "Пассивка Кракена", "dispellable": false})
+
+## Живые щупальца кракена в команде этого юнита.
+func _living_tentacles(of_unit: Combatant) -> Array:
+	var team: Array = enemies_team if of_unit.is_enemy else heroes_team
+	var out: Array = []
+	for u in team:
+		if u != null and u.current_hp > 0 and u.special_effect_type == "kraken_tentacle" and not out.has(u):
+			out.append(u)
+	return out
 
 func _update_all_visuals():
 	_refresh_passive_auras_for_all_units()
@@ -7284,7 +7442,7 @@ func _get_ability_tooltip(ability: AbilityResource, user: Combatant) -> String:
 			var val: int = int(ability.effect_values.get(effect, 0))
 			var dur: int = int(ability.effect_durations.get(effect, 1))
 			var dur_text: String = "навсегда" if dur == -1 else "%d ход." % dur
-			if effect == "target_lose_majesty":
+			if effect == "target_lose_majesty" or effect == "target_push_back":
 				# Мгновенный эффект — длительность не показываем.
 				lines.append("  • %s" % DataTables.describe_effect(effect, val))
 			else:

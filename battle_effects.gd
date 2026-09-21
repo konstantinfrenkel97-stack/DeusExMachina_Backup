@@ -103,6 +103,8 @@ func _apply_effect_to_target(attacker: Combatant, target: Combatant, effect: Str
 
 	if effect.ends_with("push_forward"):
 		var mover = attacker if effect.begins_with("self_") else target
+		if mover.is_immovable():
+			return "%s: невозможно сдвинуть!" % mover.unit_name
 		if mover.is_large and not attacker.is_large:
 			return "%s — слишком велик, чтобы его сдвинуть!" % mover.unit_name
 		var old_pos = mover.position_index
@@ -110,6 +112,8 @@ func _apply_effect_to_target(attacker: Combatant, target: Combatant, effect: Str
 		return "%s продвигается вперёд: линия %d → %d." % [mover.unit_name, old_pos + 1, mover.position_index + 1]
 	elif effect.ends_with("push_back"):
 		var mover = attacker if effect.begins_with("self_") else target
+		if mover.is_immovable():
+			return "%s: невозможно сдвинуть!" % mover.unit_name
 		if mover.is_large and not attacker.is_large:
 			return "%s — слишком велик, чтобы его сдвинуть!" % mover.unit_name
 		var old_pos = mover.position_index
@@ -118,6 +122,8 @@ func _apply_effect_to_target(attacker: Combatant, target: Combatant, effect: Str
 
 	elif effect.ends_with("pull_forward") or effect.ends_with("pull_porward"):
 		var mover = attacker if effect.begins_with("self_") else target
+		if mover.is_immovable():
+			return "%s: невозможно сдвинуть!" % mover.unit_name
 		if mover.is_large and not attacker.is_large:
 			return "%s — слишком велик, чтобы его сдвинуть!" % mover.unit_name
 		var old_pos = mover.position_index
@@ -218,6 +224,19 @@ func _apply_effect_to_target(attacker: Combatant, target: Combatant, effect: Str
 		target.active_effects.append({"stat": "trigger_marker", "value": 0, "duration": fmh_duration, "effect_id": "thor_fight_me_heal", "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name})
 		return "%s будет восстанавливать 7%% здоровья при атаках по нему." % target.unit_name
 
+
+	elif effect == "target_stun_chance":
+		# Щупальце кракена «Захват щупальцем»: с вероятностью val% цель оглушена.
+		if target.special_effect_type == "sphinx_debuff_immune" or target.has_item_effect("chernobog_debuff_immune"):
+			return "%s: иммунен к дебаффам." % target.unit_name
+		if randi() % 100 >= val:
+			return "%s: оглушение не сработало (шанс %d%%)." % [target.unit_name, val]
+		target.is_stunned = true
+		var sc_duration = _scene._compute_effect_duration(attacker, target, duration, true)
+		target.active_effects.append({"stat": "stun", "value": 1, "duration": sc_duration, "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name})
+		target.check_stance_interruption("stun")
+		_scene._notify_stun_applied(target)
+		return "%s оглушён на %d ход(ов)." % [target.unit_name, sc_duration]
 
 	elif effect == "target_lose_majesty":
 		# Цербер «Трое на одного»: цель теряет величие (у обычных врагов величия нет).

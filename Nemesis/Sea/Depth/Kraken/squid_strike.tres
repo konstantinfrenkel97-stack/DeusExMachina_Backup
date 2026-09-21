@@ -4,20 +4,19 @@
 
 [resource]
 script = ExtResource("1_ab")
-name = "Облако чернил"
+name = "Удар кальмара"
 description = ""
-damage_modifier = 0.3
+damage_modifier = 1.0
 majesty_gain = 20
-ability_marker = "kraken_ink_cloud"
+ability_marker = "kraken_squid_strike"
 target_type = "Enemy"
-extra_targets_count = 1
-effect_types = Array[String](["target_debuff_accuracy"])
+effect_types = Array[String](["target_push_back"])
 effect_values = Dictionary[String, int]({
-"target_debuff_accuracy": 15
+"target_push_back": 1
 })
 effect_durations = Dictionary[String, int]({
-"target_debuff_accuracy": 2
+"target_push_back": 1
 })
-usable_from_positions = Array[bool]([true, true, true, true])
-targetable_positions = Array[bool]([true, true, true, false])
+usable_from_positions = Array[bool]([true, true, true, false])
+targetable_positions = Array[bool]([true, true, true, true])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

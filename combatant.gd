@@ -51,6 +51,11 @@ var has_acted_this_round: bool = false
 # has_acted_this_round становится true только после ПОСЛЕДНЕГО хода раунда.
 var actions_per_round: int = 1
 var large_uses_any_slot_for_abilities: bool = false
+var uses_majesty: bool = false
+## Общий для боя обработчик «щита вместо смерти» (Callable(unit) -> bool): ставится сценой боя
+## (battle_scene.gd), сейчас — общий пул щитов смерти Яматано Орочи. Вызывается при смертельном
+## уроне после личных щитов юнита; true = смерть отменена.
+static var shared_death_shield_provider: Callable = Callable()
 var actions_taken_this_round: int = 0
 var turn_open: bool = false
 var round_wait_stamp: int = -1
@@ -124,6 +129,7 @@ func _init(resource: CharacterResource):
 	initiative = resource.initiative
 	actions_per_round = maxi(1, resource.actions_per_round)
 	large_uses_any_slot_for_abilities = resource.large_uses_any_slot_for_abilities
+	uses_majesty = resource.uses_majesty
 	is_enemy = resource.is_enemy
 	active_abilities = resource.active_abilities
 	ultimate_ability = resource.ultimate_ability
@@ -419,10 +425,40 @@ func take_damage(amount: int):
 				active_effects.append({"stat": "trigger_marker", "value": 0, "duration": -1, "effect_id": "immortal_shield_used"})
 				immortal_death_shield_triggered.emit()
 				return
+		# Общий пул щитов смерти команды (Яматано Орочи и его союзники).
+		if shared_death_shield_provider.is_valid() and shared_death_shield_provider.call(self):
+			return
 		died.emit()
 ## Немезиды (is_nemesis) — единственные враги, которые копят и тратят величие, как герои;
 ## обычные враги величия не имеют (см. "Отличительная особенность немезисов — у них есть величие").
-func modify_majesty(amount: int): current_majesty = clampi(current_majesty + amount, 0, 100) if (!is_enemy or is_nemesis) else 0
+func modify_majesty(amount: int): current_majesty = clampi(current_majesty + amount, 0, 100) if (!is_enemy or is_nemesis or uses_majesty) else 0
+## Кракен и его щупальца: сдвинуть их нельзя (см. battle_scene.gd::_apply_shift_effect).
+func is_immovable() -> bool: return special_effect_type == "kraken_stats_per_ally" or special_effect_type == "kraken_tentacle"
+## Яматано Орочи «Змеиный король»: немедленно срабатывает тик каждого периодического урона,
+## длительность при этом уменьшается (как при обычном тике в конце хода). Возвращает сумму урона.
+func trigger_periodic_damage_now() -> int:
+	var total := 0
+	var i := 0
+	while i < active_effects.size() and current_hp > 0:
+		var effect = active_effects[i]
+		if _effect_get(effect, "stat", "") == "periodic_damage":
+			var is_invuln := false
+			for e in active_effects:
+				if _effect_get(e, "stat", "") == "invulnerable":
+					is_invuln = true
+					break
+			var dot_value := int(_effect_get(effect, "value", 0))
+			if not is_invuln and dot_value > 0:
+				take_damage(dot_value)
+				total += dot_value
+			var dot_duration := int(_effect_get(effect, "duration", 0))
+			if dot_duration != -1:
+				effect["duration"] = dot_duration - 1
+				if int(effect["duration"]) <= 0:
+					active_effects.remove_at(i)
+					continue
+		i += 1
+	return total
 ## Можно ли применить способность с текущей позиции юнита (usable_from_positions).
 ## Большой юнит с large_uses_any_slot_for_abilities проверяется по обеим занимаемым клеткам.
 func can_use_ability_from_position(ability: AbilityResource) -> bool:
