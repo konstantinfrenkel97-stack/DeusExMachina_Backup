@@ -50,6 +50,7 @@ var has_acted_this_round: bool = false
 # сколько уже завершено, и идёт ли сейчас чей-то ход этого юнита (см. battle_scene.gd::_next_turn).
 # has_acted_this_round становится true только после ПОСЛЕДНЕГО хода раунда.
 var actions_per_round: int = 1
+var large_uses_any_slot_for_abilities: bool = false
 var actions_taken_this_round: int = 0
 var turn_open: bool = false
 var round_wait_stamp: int = -1
@@ -122,6 +123,7 @@ func _init(resource: CharacterResource):
 	base_crit_chance = resource.crit_chance
 	initiative = resource.initiative
 	actions_per_round = maxi(1, resource.actions_per_round)
+	large_uses_any_slot_for_abilities = resource.large_uses_any_slot_for_abilities
 	is_enemy = resource.is_enemy
 	active_abilities = resource.active_abilities
 	ultimate_ability = resource.ultimate_ability
@@ -421,6 +423,14 @@ func take_damage(amount: int):
 ## Немезиды (is_nemesis) — единственные враги, которые копят и тратят величие, как герои;
 ## обычные враги величия не имеют (см. "Отличительная особенность немезисов — у них есть величие").
 func modify_majesty(amount: int): current_majesty = clampi(current_majesty + amount, 0, 100) if (!is_enemy or is_nemesis) else 0
+## Можно ли применить способность с текущей позиции юнита (usable_from_positions).
+## Большой юнит с large_uses_any_slot_for_abilities проверяется по обеим занимаемым клеткам.
+func can_use_ability_from_position(ability: AbilityResource) -> bool:
+	var allowed: Array = ability.usable_from_positions
+	if allowed.size() <= position_index or allowed[position_index]:
+		return true
+	return is_large and large_uses_any_slot_for_abilities and position_index + 1 < allowed.size() and allowed[position_index + 1]
+
 ## Сколько ходов в этом раунде юниту ещё осталось (без учёта идущего прямо сейчас).
 func remaining_actions() -> int: return maxi(0, actions_per_round - actions_taken_this_round)
 func start_new_round(): actions_taken_this_round = 0; turn_open = false; has_waited_this_round = false; has_acted_this_round = false; round_wait_stamp = -1; moved_this_round = false; griffin_first_strike_used = false

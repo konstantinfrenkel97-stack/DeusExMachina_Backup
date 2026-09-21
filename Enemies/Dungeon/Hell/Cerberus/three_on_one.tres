@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Трое на одного"
+description = ""
+damage_modifier = 1.5
+majesty_gain = 30
+ability_marker = "cerberus_three_on_one"
+target_type = "Enemy"
+effect_types = Array[String](["target_lose_majesty"])
+effect_values = Dictionary[String, int]({
+"target_lose_majesty": 15
+})
+effect_durations = Dictionary[String, int]({
+"target_lose_majesty": 1
+})
+usable_from_positions = Array[bool]([false, false, true, true])
+targetable_positions = Array[bool]([true, true, false, false])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

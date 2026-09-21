@@ -41,6 +41,7 @@ static func describe_effect(effect: String, val: int) -> String:
 		"target_debuff_accuracy": return "-%d к точности цели" % val
 		"target_debuff_damage": return "-%d к атаке цели" % val
 		"target_debuff_armor": return "-%d к броне цели" % val
+		"target_lose_majesty": return "Цель теряет %d величия" % val
 		"target_debuff_evasion": return "-%d к уклонению цели" % val
 		"self_heal_percent": return "Лечение %d%% HP" % val
 		"heal_flat": return "Лечение %d HP" % val
@@ -190,6 +191,7 @@ static func get_stance_effect_description(stance_effect_type: String) -> String:
 		"bombardment_stance": return "В начале следующего хода наносит 4 удара по случайным врагам, каждый удар наносит 50% урона."
 		"filibuster_double_hit": return "В начале следующего хода наносит 2 удара по случайным врагам (не может промахнуться)."
 		"centaur_suppressive_fire": return "Пока стойка активна, каждый действующий противник получает 60% урона кентавра."
+		"cerberus_watchdog": return "Пока стойка активна, каждый раз, когда противник совершает действие, он получает 50% урона Цербера."
 		"duna_harmony": return "Пока стойка активна, союзники получают иммунитет к дебаффам; отменённый дебафф лечит цель на 10% HP."
 		"hoplite_shield_wall": return "При входе в стойку получает +20 брони. Когда по гоплиту атакуют, он наносит атакующему 60% ответного урона."
 		"koschei_immortal": return "При активации получает +30 брони и метку провокации на 1 ход."
@@ -210,6 +212,7 @@ static func describe_active_effect(effect_id: String, stat: String, value: int, 
 	if key == "":
 		key = stat
 	match key:
+		"cerberus_three_headed": return "Три действия за раунд (со следующего раунда), величие за них не начисляется."
 		"thor_hammer_of_lightning": return "Громовой молот: после способности по противнику все враги получают чистый урон от атаки Тора и могут быть оглушены."
 		"thor_fight_me_heal": return "Тор лечится на 7% максимального здоровья каждый раз, когда по нему попадают атакой."
 		"neverending_storm_mark": return "Нескончаемый шторм: эффект активен до конца боя. В начале хода владельца метки молния бьёт случайного противника."
@@ -295,6 +298,7 @@ static func describe_active_effect(effect_id: String, stat: String, value: int, 
 static func get_ability_marker_description(marker: String) -> String:
 	match marker:
 		"baldr_arrow_in_my_body": return "Бальдр получает 100% чистого урона и снимает с себя все дебаффы. За каждый снятый дебафф противники получают 5 урона."
+		"cerberus_three_headed": return "В следующем раунде Цербер совершает действия трижды, но не получает за них величия."
 		"virgo_stars_decree": return "Все союзники получают бафф своей клетки звёзд на 2 хода."
 		"virgo_starfall": return "Атакует цель и следующую позицию на 70% урона; все живые юниты получают +10 удачи на 2 хода."
 		"virgo_innocent_touch": return "Атакует цель на 100% урона. Заклинатель теряет все свои баффы и получает +10 атаки на 1 ход за каждый снятый бафф."
@@ -330,6 +334,7 @@ static func get_ability_marker_description(marker: String) -> String:
 static func get_passive_description(effect_type: String) -> String:
 	match effect_type:
 		"baldr_armor_to_attack": return "Если броня Бальдра уменьшается, его атака увеличивается на ту же величину"
+		"cerberus_miss_self_damage": return "Большой. Если Цербер промахнулся атакой, он получает 15 чистого урона."
 		"thor_berserk": return "Урон и броня растут при потере HP"
 		"zeus_position_bonus": return "Множитель урона зависит от позиции цели"
 		"cyclops_sensitive_accuracy": return "Вдвойне чувствителен к изменениям точности"

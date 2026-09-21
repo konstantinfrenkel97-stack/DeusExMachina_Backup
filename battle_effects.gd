@@ -219,6 +219,14 @@ func _apply_effect_to_target(attacker: Combatant, target: Combatant, effect: Str
 		return "%s будет восстанавливать 7%% здоровья при атаках по нему." % target.unit_name
 
 
+	elif effect == "target_lose_majesty":
+		# Цербер «Трое на одного»: цель теряет величие (у обычных врагов величия нет).
+		if target.is_enemy and not target.is_nemesis:
+			return ""
+		var _lm_before: int = target.current_majesty
+		target.modify_majesty(-val)
+		return "%s теряет %d величия (%d → %d)." % [target.unit_name, _lm_before - target.current_majesty, _lm_before, target.current_majesty]
+
 	elif effect == "dispel_accuracy_debuffs":
 		_dispel_stat_debuffs(target, "accuracy")
 		return "С %s сняты дебаффы точности." % target.unit_name

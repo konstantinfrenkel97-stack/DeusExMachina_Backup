@@ -1465,14 +1465,18 @@ func _trigger_centaur_suppressive_fire(active_unit: Combatant):
 	for foe in foe_team:
 		if foe == null or foe.current_hp <= 0 or foe.active_stance == null:
 			continue
-		if foe.active_stance.stance_effect_type == "centaur_suppressive_fire":
-			var _sf_dmg = int(foe.damage * 0.6)
+		# Та же стойка «урон за каждое действие противника» у Кентавра (60%) и Цербера (50%).
+		var _sf_type: String = foe.active_stance.stance_effect_type
+		if _sf_type == "centaur_suppressive_fire" or _sf_type == "cerberus_watchdog":
+			var _sf_is_dog: bool = _sf_type == "cerberus_watchdog"
+			var _sf_name: String = "Сторожевой пес" if _sf_is_dog else "Подавляющий обстрел"
+			var _sf_dmg = int(foe.damage * (0.5 if _sf_is_dog else 0.6))
 			if _sf_dmg > 0:
 				var _sf_hp_before = active_unit.current_hp
 				active_unit.take_damage(_sf_dmg)
-				_log_combat("🏹 [Подавляющий обстрел] %s наносит %d урона %s за действие. HP: %d → %d" % [foe.unit_name, _sf_dmg, active_unit.unit_name, _sf_hp_before, active_unit.current_hp])
+				_log_combat("%s [%s] %s наносит %d урона %s за действие. HP: %d → %d" % ["🐕" if _sf_is_dog else "🏹", _sf_name, foe.unit_name, _sf_dmg, active_unit.unit_name, _sf_hp_before, active_unit.current_hp])
 				if active_unit.current_hp <= 0:
-					_log_combat("  → %s повержен подавляющим обстрелом!" % active_unit.unit_name)
+					_log_combat("  → %s повержен (%s)!" % [active_unit.unit_name, _sf_name])
 					_on_unit_killed(active_unit)
 					var _sf_team = heroes_team if active_unit.is_enemy == false else enemies_team
 					_compact_team(_sf_team)
@@ -1772,6 +1776,25 @@ func _start_new_round():
 		if unit and unit.current_hp > 0:
 			unit.start_new_round()
 
+	# ═══ Цербер: «Трехголовый» — переключение числа ходов между раундами ═══
+	# Ульта, применённая в прошлом раунде, даёт ТРИ хода в этом; после него число ходов возвращается.
+	var _cb_seen: Dictionary = {}
+	for unit_cb in heroes_team + enemies_team:
+		# Большой юнит (Цербер) стоит в команде в двух клетках — обрабатываем один раз.
+		if unit_cb == null or unit_cb.current_hp <= 0 or _cb_seen.has(unit_cb):
+			continue
+		_cb_seen[unit_cb] = true
+		if unit_cb.has_meta("cerberus_three_active"):
+			unit_cb.actions_per_round = int(unit_cb.get_meta("cerberus_base_actions", 1))
+			unit_cb.remove_meta("cerberus_three_active")
+			effects._remove_effect_id(unit_cb, "cerberus_three_headed")
+		if unit_cb.has_meta("cerberus_three_pending"):
+			unit_cb.remove_meta("cerberus_three_pending")
+			unit_cb.set_meta("cerberus_base_actions", unit_cb.actions_per_round)
+			unit_cb.actions_per_round = 3
+			unit_cb.set_meta("cerberus_three_active", true)
+			_log_combat("🐕 [Трехголовый] %s совершает три действия в этом раунде (величия за них не получает)." % unit_cb.unit_name)
+
 	# Тик марок: сбрасываем triggered_units, уменьшаем rounds_left
 	marks.tick()
 	_apply_kappa_auras()
@@ -1887,7 +1910,8 @@ func _build_turn_order():
 	var _queue_units: Array = []
 	var _queue_index: Dictionary = {}
 	for u in heroes_team + enemies_team:
-		if u and u.current_hp > 0:
+		# Большой юнит (is_large) стоит в команде сразу в двух клетках — в очередь он попадает один раз.
+		if u and u.current_hp > 0 and not _queue_index.has(u):
 			_queue_index[u] = _queue_units.size()
 			_queue_units.append(u)
 	# При равной инициативе — порядок команд; заодно копии одного юнита всегда идут подряд.
@@ -2310,9 +2334,8 @@ func _effective_majesty_cost(user: Combatant, ability: AbilityResource) -> int:
 func _is_ability_usable(user: Combatant, ability: AbilityResource) -> bool:
 	if ability == null:
 		return false
-	if ability.usable_from_positions.size() > user.position_index:
-		if not ability.usable_from_positions[user.position_index]:
-			return false
+	if not user.can_use_ability_from_position(ability):
+		return false
 	if ability.majesty_cost > 0 and user.current_majesty < _effective_majesty_cost(user, ability):
 		return false
 	if ability.ability_marker == "set_usurp":
@@ -3037,6 +3060,8 @@ func _get_ai_decision(monster: Combatant) -> Dictionary:
 	# Состояние локации Глубина: Бурные потоки = нечётный раунд (урон при перемещении)
 	var is_raging: bool = (current_round % 2 == 1) and CombatManager.selected_location_id == "depths"
 	match monster.ai_script.resource_path.get_file():
+		"cerberus_logic.gd":
+			return CerberusLogic.get_decision(monster, heroes_team)
 		"baldr_logic.gd":
 			return BaldrLogic.get_decision(monster, heroes_team)
 		"cyclops_logic.gd":
@@ -3544,6 +3569,11 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 				attack_landed = false
 				_show_miss_popup(target)
 				log_lines.append("  → %s промахивается по %s." % [attacker.unit_name, target.unit_name])
+				# ═══ Цербер (пассивка «Большой»): промах атакой — 15 чистого урона себе ═══
+				if attacker.special_effect_type == "cerberus_miss_self_damage" and attacker.current_hp > 0:
+					var _cb_hp_b = attacker.current_hp
+					attacker.take_damage(15)
+					log_lines.append("  → [Большой] %s промахнулся и получает 15 чистого урона. HP: %d → %d" % [attacker.unit_name, _cb_hp_b, attacker.current_hp])
 				# ═══ OnMiss: способность «Подлая заточка» и аналогичные ═══
 				if "condition" in ability and ability.condition == "OnMiss":
 					effects._apply_effect_to_target(attacker, attacker, ability.condition_effect, ability)
@@ -5185,7 +5215,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 					attacker.take_damage(self_dmg)
 					log_lines.append("  → %s получает %d ответного урона (%d%% от нанесённого)." % [attacker.unit_name, self_dmg, pct])
 		
-		if (not attacker.is_enemy or attacker.is_nemesis) and ability.majesty_gain > 0:
+		if (not attacker.is_enemy or attacker.is_nemesis) and ability.majesty_gain > 0 and not attacker.has_meta("cerberus_three_active"):
 			if not _redirect_majesty_to_set_true_king(attacker, ability.majesty_gain, log_lines):
 				attacker.modify_majesty(ability.majesty_gain)
 				log_lines.append("  → %s получает %d величия." % [attacker.unit_name, ability.majesty_gain])
@@ -5360,6 +5390,14 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 			var _ub_hp_b = target.current_hp
 			target.apply_stat_change("hp", target.max_hp)
 			log_lines.append("  → [Кровь единорога] %s теряет %d HP, %s восстанавливает полное HP (%d → %d)." % [attacker.unit_name, _ub_cost, target.unit_name, _ub_hp_b, target.current_hp])
+
+		# ═══ Цербер: «Трехголовый» — в СЛЕДУЮЩИЙ свой раунд совершает действия трижды ═══
+		# Число ходов переключается в _start_new_round(); пока активно, величие за способности не начисляется.
+		if ability.ability_marker == "cerberus_three_headed" and target == attacker and attacker.current_hp > 0:
+			attacker.set_meta("cerberus_three_pending", true)
+			effects._remove_effect_id(attacker, "cerberus_three_headed")
+			attacker.active_effects.append({"stat": "trigger_marker", "value": 3, "duration": -1, "effect_id": "cerberus_three_headed", "source_ability": ability.name})
+			log_lines.append("  → [Трехголовый] %s в следующем раунде совершит три действия." % attacker.unit_name)
 
 		# ═══ Бальдр: «Стрела в моём теле» — 100% чистого урона себе, снимает свои дебаффы,
 		# за каждый снятый противники получают 5 урона ═══
@@ -7246,7 +7284,11 @@ func _get_ability_tooltip(ability: AbilityResource, user: Combatant) -> String:
 			var val: int = int(ability.effect_values.get(effect, 0))
 			var dur: int = int(ability.effect_durations.get(effect, 1))
 			var dur_text: String = "навсегда" if dur == -1 else "%d ход." % dur
-			lines.append("  • %s [%s]" % [DataTables.describe_effect(effect, val), dur_text])
+			if effect == "target_lose_majesty":
+				# Мгновенный эффект — длительность не показываем.
+				lines.append("  • %s" % DataTables.describe_effect(effect, val))
+			else:
+				lines.append("  • %s [%s]" % [DataTables.describe_effect(effect, val), dur_text])
 
 	var extra_lines: Array[String] = []
 	var extra_description: String = ability.get_display_extra_effect_description().strip_edges()
