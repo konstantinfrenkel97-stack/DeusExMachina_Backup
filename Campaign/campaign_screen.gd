@@ -158,10 +158,19 @@ var _campaign_background_rect: TextureRect
 var _campaign_room_hit_layer: Control
 var _campaign_hover_fill: TextureRect
 var _campaign_hover_label: Label
+var _campaign_hover_label_panel: PanelContainer
 var _campaign_bottom_bar: ColorRect
+var _help_button: Button
 var _campaign_pages_label: Label
 var _campaign_hover_section: String = ""
 var _campaign_room_mask_images: Dictionary = {}
+## Обучающая система: постоянно мигающий силуэт единственно доступной сейчас
+## комнаты (см. _tutorial_locked_room_section()/_update_tutorial_room_highlight()),
+## и счётчик открытых сейчас TutorialHint-подсказок (блокирует клики по комнатам,
+## как остальные полноэкранные оверлеи — см. _campaign_room_input_is_blocked()).
+var _tutorial_room_highlight: TextureRect
+var _tutorial_room_highlight_tween: Tween
+var _active_tutorial_hints: int = 0
 var _campaign_room_mask_bounds_cache: Dictionary = {}
 
 # Кнопка вызова меню (верхний левый угол).
@@ -192,7 +201,7 @@ const CREATION_RECIPES := {
 	"Власть|Сила": "res://Gods/Odin/Odin.tres",
 	"Сила|Смерть": "res://Gods/Chernobog/Chernobog.tres",
 	"Сила|Хаос": "res://Gods/Shiva/Shiva.tres",
-	"Природа|Природа": "res://Gods/Duna/Duna.tres",
+	"Природа|Природа": "res://Gods/Danu/Danu.tres",
 	"Власть|Природа": "res://Gods/Zeus/zeus.tres",
 	"Природа|Хаос": "res://Gods/Poseidon/Poseidon.tres",
 	"Власть|Власть": "res://Gods/Osiris/Osiris.tres",
@@ -301,6 +310,10 @@ var _roster_order: Array[String] = []   # Расположение: путь б�
 
 
 func _ready() -> void:
+	# Музыка кампании — всегда сначала, даже если это тот же трек, что уже играл
+	# (напр. вернулись из дверей, не выбрав локацию): просили именно перезапуск,
+	# а не бесшовное продолжение.
+	MusicManager.play_campaign()
 	help = CampaignHelp.new(self)
 	_build_ui()
 	_build_menu()
@@ -318,6 +331,7 @@ func _ready() -> void:
 	_check_first_battle_mission_return()
 	_flush_pending_before_first_battle_dialogue()
 	_flush_pending_campaign_dialogue()
+	_update_tutorial_room_highlight()
 
 
 # ════════════════════════════════════════════════════════════
@@ -384,17 +398,31 @@ func _build_campaign_room_hit_layer() -> void:
 	_campaign_hover_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_campaign_room_hit_layer.add_child(_campaign_hover_fill)
 
+	_campaign_hover_label_panel = PanelContainer.new()
+	_campaign_hover_label_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_campaign_hover_label_panel.visible = false
+	var hover_label_style := StyleBoxFlat.new()
+	hover_label_style.bg_color = GOD_DETAIL_BG_COLOR
+	hover_label_style.set_corner_radius_all(8)
+	hover_label_style.content_margin_left = 16.0
+	hover_label_style.content_margin_right = 16.0
+	hover_label_style.content_margin_top = 6.0
+	hover_label_style.content_margin_bottom = 6.0
+	hover_label_style.border_width_left = 1
+	hover_label_style.border_width_top = 1
+	hover_label_style.border_width_right = 1
+	hover_label_style.border_width_bottom = 1
+	hover_label_style.border_color = GOD_DETAIL_ACCENT_DIM_COLOR
+	_campaign_hover_label_panel.add_theme_stylebox_override("panel", hover_label_style)
+	_campaign_room_hit_layer.add_child(_campaign_hover_label_panel)
+
 	_campaign_hover_label = Label.new()
 	_campaign_hover_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_campaign_hover_label.visible = false
 	_campaign_hover_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_campaign_hover_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_campaign_hover_label.add_theme_font_size_override("font_size", 26)
-	_campaign_hover_label.add_theme_color_override("font_color", Color(1.0, 1.0, 1.0, 0.95))
-	_campaign_hover_label.add_theme_color_override("font_shadow_color", Color(0.0, 0.0, 0.0, 0.9))
-	_campaign_hover_label.add_theme_constant_override("shadow_offset_x", 2)
-	_campaign_hover_label.add_theme_constant_override("shadow_offset_y", 2)
-	_campaign_room_hit_layer.add_child(_campaign_hover_label)
+	_campaign_hover_label.add_theme_font_size_override("font_size", 24)
+	_campaign_hover_label.add_theme_color_override("font_color", GOD_DETAIL_ACCENT_COLOR)
+	_campaign_hover_label_panel.add_child(_campaign_hover_label)
 	call_deferred("_layout_campaign_map")
 
 func _build_campaign_bottom_bar() -> void:
@@ -404,6 +432,14 @@ func _build_campaign_bottom_bar() -> void:
 	_campaign_bottom_bar.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	_campaign_bottom_bar.z_index = 30
 	add_child(_campaign_bottom_bar)
+
+	# Круглая золотая кнопка "?" слева, сразу над чёрной областью снизу — позиция
+	# считается в _layout_campaign_bottom_bar() (там уже есть top/viewport_size).
+	_help_button = HelpButtonFactory.create()
+	_help_button.name = "HelpButton"
+	_help_button.z_index = 40
+	_help_button.pressed.connect(func(): help.show_topics())
+	add_child(_help_button)
 
 	var margin := MarginContainer.new()
 	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -3803,6 +3839,9 @@ func _layout_campaign_map() -> void:
 	if _campaign_hover_fill != null and is_instance_valid(_campaign_hover_fill):
 		_campaign_hover_fill.position = Vector2.ZERO
 		_campaign_hover_fill.size = Vector2(viewport_size.x, background_height)
+	if _tutorial_room_highlight != null and is_instance_valid(_tutorial_room_highlight):
+		_tutorial_room_highlight.position = Vector2.ZERO
+		_tutorial_room_highlight.size = Vector2(viewport_size.x, background_height)
 	_update_campaign_hover(get_viewport().get_mouse_position())
 
 
@@ -3820,6 +3859,8 @@ func _layout_campaign_bottom_bar(viewport_size: Vector2, top: float) -> void:
 	_campaign_bottom_bar.offset_top = top
 	_campaign_bottom_bar.offset_right = viewport_size.x
 	_campaign_bottom_bar.offset_bottom = viewport_size.y
+	if _help_button != null and is_instance_valid(_help_button):
+		_help_button.position = Vector2(16.0, top - HelpButtonFactory.DIAMETER - 10.0)
 
 
 func _notification(what: int) -> void:
@@ -3832,6 +3873,8 @@ func _process(_delta: float) -> void:
 
 
 func _campaign_room_input_is_blocked() -> bool:
+	if _active_tutorial_hints > 0:
+		return true
 	if _creation_overlay != null and is_instance_valid(_creation_overlay):
 		return true
 	if _scales_overlay != null and is_instance_valid(_scales_overlay):
@@ -3962,7 +4005,7 @@ func _update_campaign_hover(position: Vector2) -> void:
 		return
 	if _campaign_hover_fill == null or not is_instance_valid(_campaign_hover_fill):
 		return
-	if _campaign_hover_label == null or not is_instance_valid(_campaign_hover_label):
+	if _campaign_hover_label_panel == null or not is_instance_valid(_campaign_hover_label_panel):
 		return
 	if _campaign_room_input_is_blocked() or _campaign_click_hits_real_button():
 		_clear_campaign_hover()
@@ -3975,16 +4018,100 @@ func _update_campaign_hover(position: Vector2) -> void:
 	_campaign_hover_section = section
 	_campaign_hover_fill.visible = true
 	_campaign_hover_fill.texture = load(str(room.get("mask", ""))) as Texture2D
-	# Название комнаты на карте больше не показываем — только подсветка (см. выше).
-	_campaign_hover_label.visible = false
+	var room_rect: Rect2 = room.get("rect", Rect2())
+	var bg_size: Vector2 = _get_campaign_background_display_size()
+	_campaign_hover_label.text = section
+	# Ширина плашки — по фактической ширине текста (не по ширине зоны наведения,
+	# та бывает у'же длинных названий вроде "Весы переосмысления" — раньше текст
+	# из-за этого обрезался). Плашка также не должна вылезать за края экрана.
+	var label_font := _campaign_hover_label.get_theme_font("font")
+	var label_font_size := _campaign_hover_label.get_theme_font_size("font_size")
+	var text_width: float = label_font.get_string_size(section, HORIZONTAL_ALIGNMENT_LEFT, -1, label_font_size).x if label_font != null else 200.0
+	var panel_width: float = minf(bg_size.x - 16.0, text_width + 32.0)
+	var panel_height := 40.0
+	_campaign_hover_label_panel.size = Vector2(panel_width, panel_height)
+	var panel_x: float = room_rect.position.x + room_rect.size.x * 0.5 - panel_width * 0.5
+	panel_x = clampf(panel_x, 4.0, maxf(4.0, bg_size.x - panel_width - 4.0))
+	var panel_y: float = maxf(0.0, room_rect.position.y - panel_height - 8.0)
+	_campaign_hover_label_panel.position = Vector2(panel_x, panel_y)
+	_campaign_hover_label_panel.visible = true
 
+
+## Комната, единственно доступная сейчас в обучающей последовательности
+## ("" = свободный режим, все комнаты доступны). Полностью выводится из уже
+## существующего состояния — отдельного флага-стадии не требуется:
+## opened_locations пусто И < REQUIRED_GODS_FOR_FIRST_BATTLE богов → только Сад творения;
+## opened_locations пусто И богов достаточно → только Ворота (сначала чтобы дойти
+## до First_battle, потом чтобы наткнуться на диалог "Миф не может открыть ворота");
+## открыта хотя бы одна дверь → обучение полностью пройдено, свободный режим навсегда.
+func _tutorial_locked_room_section() -> String:
+	if not CampaignState.opened_locations.is_empty():
+		return ""
+	if CampaignState.available_gods.size() < REQUIRED_GODS_FOR_FIRST_BATTLE:
+		return "Сад творения"
+	return "Ворота"
+
+## Как _tutorial_locked_room_section(), но для одной вещи — мигающей подсветки:
+## как только показана подсказка "поговорите с богом", ворота перестают мигать
+## (следующий шаг игрока — портрет бога в отряде, а не сама комната), хотя клик
+## по воротам формально остаётся заблокирован (см. _tutorial_locked_room_section())
+## до тех пор, пока дверь не откроет бог.
+func _tutorial_highlighted_room_section() -> String:
+	var section := _tutorial_locked_room_section()
+	if section == "Ворота" and CampaignState.ask_a_god_hint_shown:
+		return ""
+	return section
+
+func _room_mask_path(section: String) -> String:
+	for room in _campaign_room_defs():
+		if str(room.get("section", "")) == section:
+			return str(room.get("mask", ""))
+	return ""
+
+## Белый мигающий силуэт единственно доступной сейчас комнаты — та же техника
+## маски по альфа-каналу, что и обычная подсветка при наведении курсора
+## (_update_campaign_hover), но отдельный узел: висит постоянно (не только при
+## наведении) и мигает по таймеру вместо реакции на мышь. Вызывается при любом
+## изменении, которое может сдвинуть эту стадию (роcтер богов, открытие двери,
+## изменение размера окна) — см. вызовы в _ready()/_refresh_roster()/
+## _on_dialogue_choice_selected()/_layout_campaign_map().
+func _update_tutorial_room_highlight() -> void:
+	if _tutorial_room_highlight_tween != null and _tutorial_room_highlight_tween.is_valid():
+		_tutorial_room_highlight_tween.kill()
+	_tutorial_room_highlight_tween = null
+	var section := _tutorial_highlighted_room_section()
+	if section == "":
+		if _tutorial_room_highlight != null and is_instance_valid(_tutorial_room_highlight):
+			_tutorial_room_highlight.visible = false
+		return
+	if _campaign_room_hit_layer == null or not is_instance_valid(_campaign_room_hit_layer):
+		return
+	var mask_path := _room_mask_path(section)
+	if mask_path == "" or not ResourceLoader.exists(mask_path):
+		return
+	if _tutorial_room_highlight == null or not is_instance_valid(_tutorial_room_highlight):
+		_tutorial_room_highlight = TextureRect.new()
+		_tutorial_room_highlight.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		_tutorial_room_highlight.stretch_mode = TextureRect.STRETCH_SCALE
+		_tutorial_room_highlight.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_campaign_room_hit_layer.add_child(_tutorial_room_highlight)
+		if _campaign_hover_fill != null and is_instance_valid(_campaign_hover_fill):
+			_tutorial_room_highlight.position = _campaign_hover_fill.position
+			_tutorial_room_highlight.size = _campaign_hover_fill.size
+	_tutorial_room_highlight.texture = load(mask_path) as Texture2D
+	_tutorial_room_highlight.visible = true
+	_tutorial_room_highlight.modulate = Color(1, 1, 1, 0.15)
+	_tutorial_room_highlight_tween = create_tween()
+	_tutorial_room_highlight_tween.set_loops()
+	_tutorial_room_highlight_tween.tween_property(_tutorial_room_highlight, "modulate:a", 0.9, 1.0).set_trans(Tween.TRANS_SINE)
+	_tutorial_room_highlight_tween.tween_property(_tutorial_room_highlight, "modulate:a", 0.15, 1.0).set_trans(Tween.TRANS_SINE)
 
 func _clear_campaign_hover() -> void:
 	_campaign_hover_section = ""
 	if _campaign_hover_fill != null and is_instance_valid(_campaign_hover_fill):
 		_campaign_hover_fill.visible = false
-	if _campaign_hover_label != null and is_instance_valid(_campaign_hover_label):
-		_campaign_hover_label.visible = false
+	if _campaign_hover_label_panel != null and is_instance_valid(_campaign_hover_label_panel):
+		_campaign_hover_label_panel.visible = false
 
 
 func _get_campaign_background_display_size() -> Vector2:
@@ -4212,6 +4339,7 @@ func _refresh_roster() -> void:
 		if _roster_slots[i]:
 			_roster_slots[i].set_god(_roster_order[i])
 	_check_first_battle_intro_dialogue()
+	_update_tutorial_room_highlight()
 
 ## Первый раз, когда в ростере оказалось REQUIRED_GODS_FOR_FIRST_BATTLE богов —
 ## помечает Before_first_battle как "ожидает показа". Флаг одноразовый, обратного
@@ -4283,7 +4411,7 @@ func _on_god_dialogue_requested(god_path: String) -> void:
 	var god_res := CampaignState.load_character_resource(god_path)
 	if god_res == null:
 		return
-	var dialogue_path := _campaign_dialogue_path_for_god(god_path, god_res)
+	var dialogue_path := CampaignState.dialogue_path_for_god(god_path)
 	if dialogue_path == "":
 		push_warning("Диалог бога не найден: " + god_res.unit_name)
 		return
@@ -4303,25 +4431,23 @@ func _on_dialogue_choice_selected(_dialogue_id: String, choice_id: String) -> vo
 	var location: String = str(CampaignState.GOD_FOLDER_TO_LOCATION.get(folder_name, ""))
 	if location == "":
 		return
+	var was_first_location_opened := CampaignState.opened_locations.is_empty()
 	CampaignState.open_location(location)
+	_update_tutorial_room_highlight()
+	if was_first_location_opened and not CampaignState.room_hints_shown:
+		CampaignState.room_hints_shown = true
+		# Не сразу — диалог с богом обычно продолжается после самого выбора "Открыть
+		# дверь" (реплики благодарности и т.п.). Показываем подсказки только когда
+		# ТЕКУЩИЙ диалог реально закроется, иначе они виснут под ним.
+		if DialogueManager.dialogue_finished.is_connected(_on_open_door_dialogue_finished):
+			DialogueManager.dialogue_finished.disconnect(_on_open_door_dialogue_finished)
+		DialogueManager.dialogue_finished.connect(_on_open_door_dialogue_finished, CONNECT_ONE_SHOT)
+
+func _on_open_door_dialogue_finished(_dialogue_id: String) -> void:
+	_active_tutorial_hints += 1
+	TutorialHint.show_sequence(self, TutorialTexts.room_hints(), "Понятно", func(): _active_tutorial_hints -= 1)
 
 
-func _campaign_dialogue_path_for_god(god_path: String, god_res: CharacterResource) -> String:
-	if god_res != null:
-		var explicit_path := god_res.campaign_dialogue_path.strip_edges()
-		if explicit_path != "" and ResourceLoader.exists(explicit_path):
-			return explicit_path
-	var folder_name := god_path.get_base_dir().get_file().strip_edges()
-	if folder_name == "":
-		return ""
-	var dialogue_candidates: Array[String] = [
-		"%s/%s_dialogue_1.tres" % [SUMMON_DIALOGUE_DIR, folder_name],
-		"%s/%s_dialogue_1.tres" % [SUMMON_DIALOGUE_DIR, folder_name.to_lower()],
-	]
-	for dialogue_path in dialogue_candidates:
-		if ResourceLoader.exists(dialogue_path):
-			return dialogue_path
-	return ""
 # ════════════════════════════════════════════════════════════
 #  Переключение вкладок
 # ════════════════════════════════════════════════════════════
@@ -4329,6 +4455,10 @@ func _campaign_dialogue_path_for_god(god_path: String, god_res: CharacterResourc
 ## Кнопка-раздел кампании (Ворота, Колодец памяти, и т.д.).
 ## Пока показывает заглушку; механики разделов добавляются позже.
 func _on_section_button(section: String) -> void:
+	var locked_section := _tutorial_locked_room_section()
+	if locked_section != "" and section != locked_section:
+		_show_notification("Пока недоступно")
+		return
 	if section == "Ворота":
 		_on_gates_clicked()
 		return
@@ -4349,9 +4479,11 @@ func _on_section_button(section: String) -> void:
 ## Ворота проходят несколько состояний по мере продвижения сюжета:
 ## 1) < REQUIRED_GODS_FOR_FIRST_BATTLE богов → Gates_wrong (каждый раз, это просто предупреждение).
 ## 2) богов достаточно, но First_battle ещё не пройдена → сразу запускается миссия First_battle.
-## 3) First_battle пройдена, Before_doors ещё не показан → открываются двери, и поверх
-##    них (уже на фоне самих дверей) сразу проигрывается Before_doors.
-## 4) Before_doors уже показан → двери открываются напрямую, без диалога.
+## 3) First_battle пройдена, ни одна дверь ещё не открыта → Миф объясняет, что не может
+##    открыть ворота сам (Before_doors), и игрок остаётся на экране кампании — см.
+##    _on_before_doors_finished(). Двери открываются только когда какой-то бог их откроет
+##    (CampaignState.open_location(), см. _on_dialogue_choice_selected).
+## 4) Хотя бы одна дверь уже открыта → ворота ведут прямо на экран дверей.
 func _on_gates_clicked() -> void:
 	# Если First_battle уже отмечена пройденной (в т.ч. через кнопку "Пропустить
 	# стартовую миссию"), ворота считают, что богов достаточно, и эту проверку не делают.
@@ -4361,10 +4493,41 @@ func _on_gates_clicked() -> void:
 	if not CampaignState.first_battle_completed:
 		_launch_first_battle_mission()
 		return
+	if CampaignState.opened_locations.is_empty():
+		if not CampaignState.before_doors_played:
+			CampaignState.before_doors_played = true
+			if DialogueManager.dialogue_finished.is_connected(_on_before_doors_finished):
+				DialogueManager.dialogue_finished.disconnect(_on_before_doors_finished)
+			DialogueManager.dialogue_finished.connect(_on_before_doors_finished, CONNECT_ONE_SHOT)
+			DialogueManager.show_dialogue_path(BEFORE_DOORS_DIALOGUE_PATH)
+		else:
+			_show_ask_a_god_hint()
+		return
 	get_tree().change_scene_to_file(DOORS_SCENE_PATH)
-	if not CampaignState.before_doors_played:
-		CampaignState.before_doors_played = true
-		DialogueManager.show_dialogue_path(BEFORE_DOORS_DIALOGUE_PATH)
+
+func _on_before_doors_finished(_dialogue_id: String) -> void:
+	_show_ask_a_god_hint()
+
+## Тот же формат, что и боевые подсказки: блокирует экран, требует "Всё понятно".
+## После показа — ворота перестают мигать (см. _tutorial_highlighted_room_section()),
+## хотя формально остаются заблокированы для клика, пока дверь не откроет бог.
+func _show_ask_a_god_hint() -> void:
+	CampaignState.ask_a_god_hint_shown = true
+	_update_tutorial_room_highlight()
+	_show_blocking_tutorial_hint(TutorialTexts.ASK_A_GOD_HINT, "Всё понятно")
+
+## Обёртка над TutorialHint.present() для одиночных (не-последовательных) подсказок
+## на экране кампании — держит _active_tutorial_hints синхронизированным, чтобы
+## клики по комнатам оставались заблокированы, пока подсказка на экране (см.
+## _campaign_room_input_is_blocked()). show_sequence() в _on_dialogue_choice_selected
+## делает то же самое сама, отдельным колбэком on_all_dismissed.
+func _show_blocking_tutorial_hint(text: String, button_text: String = "Понятно") -> void:
+	_active_tutorial_hints += 1
+	var hint := TutorialHint.present(self, text, button_text)
+	if hint == null:
+		_active_tutorial_hints -= 1
+		return
+	hint.dismissed.connect(func(): _active_tutorial_hints -= 1)
 
 func _launch_first_battle_mission() -> void:
 	MissionState.requested_mission_path = FIRST_BATTLE_MISSION_PATH
@@ -4443,7 +4606,7 @@ func _close_scales_window() -> void:
 	_scales_picker_visible = false
 
 func _on_scales_background_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+	if event is InputEventMouseButton and event.pressed:
 		_close_scales_window()
 		var viewport := get_viewport()
 		if viewport != null:
@@ -4522,7 +4685,7 @@ func _close_memory_well_window() -> void:
 	_memory_well_body = null
 
 func _on_memory_well_background_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+	if event is InputEventMouseButton and event.pressed:
 		_close_memory_well_window()
 		var viewport := get_viewport()
 		if viewport != null:
@@ -5386,6 +5549,9 @@ func _add_room_tab_bar(vb: VBoxContainer, tabs: Array, active_index: int) -> HBo
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	# Крафт артефактов открывается одновременно с комнатами (когда какой-то бог
+	# открыл первую дверь) — до этого вкладка "Артефакт" видна, но неактивна.
+	var artifacts_locked: bool = _tutorial_locked_room_section() != ""
 	for i in range(tabs.size()):
 		var tab_data: Dictionary = tabs[i]
 		var btn := Button.new()
@@ -5393,7 +5559,10 @@ func _add_room_tab_bar(vb: VBoxContainer, tabs: Array, active_index: int) -> HBo
 		btn.custom_minimum_size = Vector2(180, 40)
 		btn.add_theme_font_size_override("font_size", 16)
 		btn.toggle_mode = true
-		if i == active_index:
+		if artifacts_locked and str(tab_data["text"]) == "Артефакт":
+			btn.disabled = true
+			btn.tooltip_text = "Станет доступно, когда откроете первую дверь"
+		elif i == active_index:
 			btn.button_pressed = true
 			btn.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		else:
@@ -5405,6 +5574,9 @@ func _add_room_tab_bar(vb: VBoxContainer, tabs: Array, active_index: int) -> HBo
 
 ## Шаг 1 создания артефакта: выбор типа (Оружие / Доспехи / Безделушка), с ценой на карточке.
 func _show_artifact_type_window() -> void:
+	if _tutorial_locked_room_section() != "":
+		_show_notification("Пока недоступно")
+		return
 	_close_creation_window()
 	_creation_overlay = Control.new()
 	_creation_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -6208,6 +6380,9 @@ func _refresh_creation_essence_counts() -> void:
 func _show_creation_window() -> void:
 	_close_creation_window()
 	_creation_slots = ["", ""]
+	if not CampaignState.god_creation_hint_shown:
+		CampaignState.god_creation_hint_shown = true
+		_show_blocking_tutorial_hint(TutorialTexts.GOD_CREATION_HINT)
 	_creation_overlay = Control.new()
 	_creation_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_creation_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -7238,6 +7413,26 @@ func _build_god_center_column() -> Control:
 	fade_bar.custom_minimum_size = Vector2(300, 26)
 	fade_bar.show_percentage = false
 	vb.add_child(_make_bar_with_label("Забвение", fade_bar, "%.1f / 5.0" % res.forgetting_level, Color(0.28, 0.08, 0.4)))
+
+	# Ролевая подсказка — в свободном месте под полосками, только если задана
+	# (у врагов CharacterResource.role_description всегда пусто).
+	if res.role_description.strip_edges() != "":
+		vb.add_child(_make_god_separator())
+		var role_lbl := Label.new()
+		role_lbl.text = res.role_description
+		role_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		role_lbl.custom_minimum_size = Vector2(300, 0)
+		role_lbl.add_theme_font_size_override("font_size", 14)
+		vb.add_child(role_lbl)
+		if not res.priority_positions.is_empty():
+			var positions: Array[String] = []
+			for pos in res.priority_positions:
+				positions.append(str(pos))
+			var priority_lbl := Label.new()
+			priority_lbl.text = "Приоритетные позиции: %s" % " / ".join(positions)
+			priority_lbl.add_theme_font_size_override("font_size", 14)
+			priority_lbl.add_theme_color_override("font_color", GOD_DETAIL_ACCENT_DIM_COLOR)
+			vb.add_child(priority_lbl)
 
 	return vb
 

@@ -1,0 +1,98 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Resource" path="res://Gods/Hades/Hades.tres" id="hades"]
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("stat_check_script")
+stat = 4
+stat_label = "Точность"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="buff_evasion_first_turn"]
+script = ExtResource("buff_script")
+stat = 3
+value = 10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_avoid_gaze"]
+script = ExtResource("outcome_script")
+result_text = "Вы решаете проявить осторожность. Существо могло вас заметить, а для вас важнее собственная безопасность. Вы еще одолеете трехголового пса, но не хотите дать ему возможность изучать вас."
+nemesis_buff_all_heroes = true
+nemesis_buff_stat = SubResource("buff_evasion_first_turn")
+nemesis_buff_location_id = "hell"
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_avoid_gaze"]
+script = ExtResource("choice_script")
+choice_text = "Избегать его взгляда"
+outcome = SubResource("out_avoid_gaze")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_accuracy_whole_battle"]
+script = ExtResource("buff_script")
+stat = 2
+value = 10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_study_success"]
+script = ExtResource("outcome_script")
+result_text = "Этот противник выглядит опаснее чем все с кем вы связывались до этого. Вы внимательно изучаете его. Повадки, движения. Вы все еще не уверены как он вас заметил, но немного подготовились к будущей встрече."
+nemesis_buff_all_heroes = true
+nemesis_buff_stat = SubResource("buff_accuracy_whole_battle")
+nemesis_buff_location_id = "hell"
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_study_failure"]
+script = ExtResource("outcome_script")
+result_text = "Этот противник выглядит опаснее чем все с кем вы связывались до этого. Вы внимательно изучаете его. Повадки, движения. Вы все еще не уверены как он вас заметил, но немного подготовились к будущей встрече."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_study_enemy"]
+script = ExtResource("choice_script")
+choice_text = "Изучить своего врага"
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_study_success")
+failure_outcome = SubResource("out_study_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_hades_damage"]
+script = ExtResource("buff_script")
+stat = 0
+value = 5
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_what_did_they_do"]
+script = ExtResource("outcome_script")
+result_text = "На обычно безэмоциональном лице Аида проявляются эмоции. Бурлящая смесь самых разных чувств.
+\"Цербер? Это цербер? Это ведь он, да?\"
+\"Как он сюда попал? Что они с ним сделали.\"
+Его глаза бегают с одного вашего лица на другое. Он выглядит потерянным, и словно ищет опоры. Наконец брови сходятся в решимости.
+\"Мы пойдем за ним. Я не знаю что произошло, но для меня он член семьи. И я его забираю.\""
+nemesis_buff_god = ExtResource("hades")
+nemesis_buff_stat = SubResource("buff_hades_damage")
+nemesis_buff_location_id = "hell"
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_what_did_they_do"]
+script = ExtResource("choice_script")
+choice_text = "Что они с ним сделали?"
+required_god = ExtResource("hades")
+outcome = SubResource("out_what_did_they_do")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Страж нижнего круга"
+body_text = "Ваш путь лежит в самый низ ада, на самый глубокий уровень. Вы проделали немалый путь. Сейчас вы на горе, и отсюда вам видны огромные черные ворота и мост ведущий к ним. Но на мосту вы замечаете силуэт. Животное в пылающих доспехах. Оно стоит на четвереньках и у него три головы. Мимо него проходит цепочка из душ, над которой он возвышается как исполин. Одна из голов поворачивается в вашу сторону. На таком расстоянии он не может вас видеть. Или может?
+В любом случае, страж адских ворот точно встанет у вас на пути."
+choices = Array[ExtResource("choice_script")]([SubResource("choice_avoid_gaze"), SubResource("choice_study_enemy"), SubResource("choice_what_did_they_do")])
+metadata/_custom_type_script = ExtResource("scene_script")

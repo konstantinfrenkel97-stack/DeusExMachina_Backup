@@ -1,0 +1,117 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" path="res://Essence/essence_nature.tres" id="essence_nature"]
+[ext_resource type="Resource" path="res://Essence/essence_strength.tres" id="essence_strength"]
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("stat_check_script")
+stat = 4
+stat_label = "Точность"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="reward_nature"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_nature")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_enchant_success"]
+script = ExtResource("outcome_script")
+result_text = "В теории вы можете попытаться околдовать животное. Ни один из вас в этом не специалист, но и вариантов не так уж и много. На разный лад вы пытаетесь завернуть собственные привычные заклинания. Перевести их ритм на животный. Коснуться нутра огромной твари.
+
+Наконец, та громоздко вскидывает большие крылья. Неудачливый путешественник покрепче сжимает ее ногу. И птица ныряет под облока. Вы едва успеваете отпрыгнуть, когда в белой поверхности открывается зияющая бездна. Разноцветное пернатое тело устремилось к земле. Похоже ваш план удался. Но что еще важнее, вы смогли по настоящему узнать собственные возможности."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_nature")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_enchant_failure"]
+script = ExtResource("outcome_script")
+result_text = "В теории вы можете попытаться околдовать животное. Ни один из вас в этом не специалист, но и вариантов не так уж и много. На разный лад вы пытаетесь завернуть собственные привычные заклинания.
+
+Вы входите во вкус, и кажется вот вот сможете взять контроль над животным, когда птица взмахивает громоздкими крыльями и взлетает вверх. Не к земле, а дальше в небо. Вы слышите поток витиеватых и очень экспрессивных ругательств. Теперь бедолаге поможет только удача."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_enchant"]
+script = ExtResource("choice_script")
+choice_text = "Попытаться околдовать птицу"
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_enchant_success")
+failure_outcome = SubResource("out_enchant_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+stat_label = "Удача"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="reward_strength"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_strength")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_wound_success"]
+script = ExtResource("outcome_script")
+result_text = "В теории, ранение может заставить птицу сесть на землю. Но это представляет огромную опасность уже для вас.
+
+У вас нет желания убивать существо, просто ранить настолько, чтобы оно захотело приземлиться на твердую землю.
+
+Вы взбираетесь ей на крыло, и скрепя зубы и сердца аккуратно бьете по спине. Птица резко взлетает, разбросав вас по белизне и камнем падает вниз к земле. Вы смогли направить ее в нужном направлении. Остается надеяться, что ни она ни ее наездник сильно не пострадают."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_strength")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_wound_failure"]
+script = ExtResource("outcome_script")
+result_text = "В теории, ранение может заставить птицу сесть на землю. Но это представляет огромную опасность уже для вас.
+
+У вас нет желания убивать существо, просто ранить настолько, чтобы оно захотело приземлиться на твердую землю.
+
+Скрепя зубы и сердца, вы обрушиваете атаки птице на спину. Она вздрагивает, сбрасывая вас на белую поверхность. Вот только летит она не к земле, выбирает другую цель. Следующий час вы проводите уклоняясь от когтей и клюва, бегая в разные стороны и прячась в мокром пуху облаков. Наконец, животное успокаивается и отправляется вниз к земле. Так или иначе, но своей цели вы добились."
+hero_hp_percent_delta = -10
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_wound"]
+script = ExtResource("choice_script")
+choice_text = "Попытаться ранить ее"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_wound_success")
+failure_outcome = SubResource("out_wound_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="out_mock"]
+script = ExtResource("outcome_script")
+result_text = "Если помочь невозможно, хотя бы можно как следует подразнить. Боги начинают соревноваться в остроумии, высмеивая ситуацию в которую путешественник сам себя загнал.
+
+В ответ вам летит волна оскорблений. Вы используете их, переигрывая смыслы, искажая и формирую все более остроумные колкости.
+
+Ваш обмен любезностями длится довольно долго, и наконец птица, словно утомленная от перепалки ныряет сквозь облака и летит к земле.
+
+Едва ли в этом есть ваша заслуга, и вряд ли этот инцидент прибавит вам славы. Но иногда просто хочется подразнить человека. Боги, в конце концов тоже люди."
+hero_majesty_delta = -10
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_mock"]
+script = ExtResource("choice_script")
+choice_text = "Поиздеваться над беспомощным"
+outcome = SubResource("out_mock")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Небольшое затруднение"
+body_text = "Мимо вас пролетает огромная птица. Длинные радужные перья, выгнутый клюв, мощный корпус. Вы зачарованно любуетесь чудом природы, тем более что она не проявляет никакой враждебности. Птица широко расправляет крылья и ложится на белую поверхность облаков. Видимо распределение веса не дает ей упасть, вы определенно увидели что-то новое. Внезапно с ее стороны слышится человеческий голос.
+\"Эй! Вы мне не поможете?!\"
+Удивленные вы направились в сторону птицы, она лениво смотрит на вас одним глазом, видимо привыкшая к собственной неуязвимости. Подойдя ближе, вы обнаруживаете что к ее лапе привязан мужчина. Он машет вам.
+\"Эй! Господа! У меня тут небольшое затруднение. Меня забыли на острове и чтобы сбежать я привязал себя к огромной птице и потом... Ой да неважно! Важно то, что она упрямо не садиться на землю, только в облаках этих дурацких витает. Пожалуйста помогите мне!\"
+Вы и не против помочь бедолаге, но животное выглядит опасно. Да и что вы можете сделать"
+choices = Array[ExtResource("choice_script")]([SubResource("choice_enchant"), SubResource("choice_wound"), SubResource("choice_mock")])
+metadata/_custom_type_script = ExtResource("scene_script")

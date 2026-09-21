@@ -1,6 +1,23 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://qi23fy4c33s1"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_kn184"]
+[ext_resource type="AudioStream" path="res://Sounds/lightning-strike-cool.mp3" id="2_sfx"]
+[ext_resource type="Texture2D" path="res://Ability_pics/Lightning.png" id="3_fx"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="4_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Zeus/03_unworthy.mp3" id="5_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Zeus/04_pesky_mortal.mp3" id="6_v2"]
+
+[sub_resource type="Resource" id="voice_cast_down_1"]
+script = ExtResource("4_vl")
+audio = ExtResource("5_v1")
+text = "Недостоин!"
+metadata/_custom_type_script = ExtResource("4_vl")
+
+[sub_resource type="Resource" id="voice_cast_down_2"]
+script = ExtResource("4_vl")
+audio = ExtResource("6_v2")
+text = "Несносный смертный!"
+metadata/_custom_type_script = ExtResource("4_vl")
 
 [resource]
 script = ExtResource("1_kn184")
@@ -16,4 +33,10 @@ effect_values = Dictionary[String, int]({
 breaks_enemy_stances = true
 usable_from_positions = Array[bool]([true, true, false, false])
 targetable_positions = Array[bool]([true, false, false, false])
+voice_lines = Array[ExtResource("4_vl")]([SubResource("voice_cast_down_1"), SubResource("voice_cast_down_2")])
+attack_sfx = ExtResource("2_sfx")
+attack_sfx_max_length = 2.0
+attack_sfx_volume_db = -1.94
+attack_effect_texture = ExtResource("3_fx")
+attack_effect_scale = 2.0
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

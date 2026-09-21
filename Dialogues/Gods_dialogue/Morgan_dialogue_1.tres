@@ -60,6 +60,7 @@ script = ExtResource("2_choice")
 choice_id = "chosen_world"
 choice_text = "Выбранный мир"
 next_line_id = "chosen_world_1"
+required_mission_path = "res://Missions/Castle/welcome_to_castle.tres"
 
 [sub_resource type="Resource" id="Resource_morgan_line_10"]
 script = ExtResource("1_line")
@@ -180,7 +181,7 @@ next_line_id = "opinion_koschei_1"
 [sub_resource type="Resource" id="Resource_morgan_choice_26"]
 script = ExtResource("2_choice")
 choice_id = "opinion_duna"
-choice_text = "Дуна"
+choice_text = "Дану"
 next_line_id = "opinion_duna_1"
 
 [sub_resource type="Resource" id="Resource_morgan_line_27"]
@@ -335,7 +336,7 @@ next_line_id = "Morgan_choices_1"
 script = ExtResource("1_line")
 line_id = "opinion_duna_1"
 speaker_name = "Лена"
-text = "…Дуна."
+text = "…Дану."
 sprite = ExtResource("4_505pr")
 next_line_id = "opinion_duna_2"
 
@@ -387,7 +388,7 @@ next_line_id = "opinion_duna_8"
 script = ExtResource("1_line")
 line_id = "opinion_duna_8"
 speaker_name = "Лена"
-text = "Сомневаюсь, что Дуна так считает."
+text = "Сомневаюсь, что Дану так считает."
 sprite = ExtResource("4_505pr")
 next_line_id = "opinion_duna_9"
 

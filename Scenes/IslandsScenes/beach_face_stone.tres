@@ -1,18 +1,19 @@
-[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3 uid="uid://bbjqf8pdb8ake"]
 
-[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="1_scene"]
-[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="2_choice"]
-[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="3_outcome"]
-[ext_resource type="Script" path="res://Missions/reward.gd" id="4_reward"]
-[ext_resource type="Resource" path="res://Scenes/IslandsScenes/beach_bliss.tres" id="5_bliss"]
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="1_scene"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="2_4wqv7"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="2_choice"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="3_outcome"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="4_reward"]
+[ext_resource type="Resource" uid="uid://d4gtl5hfosid2" path="res://Scenes/IslandsScenes/beach_bliss.tres" id="5_bliss"]
 [ext_resource type="Resource" path="res://Items/Weapons/Rare/stone_face.tres" id="6_stone"]
 
 [sub_resource type="Resource" id="out_v1"]
 script = ExtResource("3_outcome")
 result_text = "Вы ложитесь на лежанки, откупориваете вино, улыбаетесь камню. Но ваши мысли настороже, вы притворяетесь что отдыхаете, но ждете нападения. Но оно так и не наступает. Постепенно вы расслабляетесь.
 Солнце ласкает кожу, а море слух. Вы проваливаетесь в сон."
-hero_heal_percent = 5
 next_scene = ExtResource("5_bliss")
+hero_heal_percent = 5
 metadata/_custom_type_script = ExtResource("3_outcome")
 
 [sub_resource type="Resource" id="choice_v1"]
@@ -34,7 +35,6 @@ metadata/_custom_type_script = ExtResource("2_choice")
 
 [sub_resource type="Resource" id="reward_stone"]
 script = ExtResource("4_reward")
-kind = 0
 resource = ExtResource("6_stone")
 metadata/_custom_type_script = ExtResource("4_reward")
 

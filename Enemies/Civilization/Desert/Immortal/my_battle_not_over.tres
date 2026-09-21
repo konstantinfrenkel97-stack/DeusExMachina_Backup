@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Мой бой не окончен"
-description = "Стойка: в начале след. хода восстанавливает щит смерти, если он утрачен. Иначе — 20 периодического урона на 2 хода."
+description = ""
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"

@@ -106,11 +106,20 @@ func _collect_state() -> Dictionary:
 		"first_battle_completed": CampaignState.first_battle_completed,
 		"before_doors_played": CampaignState.before_doors_played,
 		"opened_locations": CampaignState.opened_locations.duplicate(),
+		"battle_tutorial_intro_shown": CampaignState.battle_tutorial_intro_shown,
+		"battle_tutorial_targeting_shown": CampaignState.battle_tutorial_targeting_shown,
+		"room_hints_shown": CampaignState.room_hints_shown,
+		"god_creation_hint_shown": CampaignState.god_creation_hint_shown,
+		"ask_a_god_hint_shown": CampaignState.ask_a_god_hint_shown,
+		"tutorial_disabled": CampaignState.tutorial_disabled,
+		"visited_locations": CampaignState.visited_locations.duplicate(),
 		"defeated_nemeses": CampaignState.defeated_nemeses.duplicate(),
 		"pending_nemesis_buffs": CampaignState.pending_nemesis_buffs.duplicate(true),
 		"library_max_fantasy_bonus": CampaignState.library_max_fantasy_bonus,
 		"spell_upgrade_levels": CampaignState.spell_upgrade_levels.duplicate(),
 		"permanent_enemy_accuracy_debuffs": CampaignState.permanent_enemy_accuracy_debuffs.duplicate(),
+		"permanent_god_crit_bonus": CampaignState.permanent_god_crit_bonus.duplicate(),
+		"read_dialogue_choices": CampaignState.read_dialogue_choices.duplicate(),
 	}
 
 	# — Состояние миссии (CombatManager) —
@@ -151,6 +160,13 @@ func _apply_state(data: Dictionary) -> void:
 	CampaignState.first_battle_completed = bool(campaign.get("first_battle_completed", false))
 	CampaignState.before_doors_played = bool(campaign.get("before_doors_played", false))
 	CampaignState.opened_locations = _to_string_array(campaign.get("opened_locations", []))
+	CampaignState.battle_tutorial_intro_shown = bool(campaign.get("battle_tutorial_intro_shown", false))
+	CampaignState.battle_tutorial_targeting_shown = bool(campaign.get("battle_tutorial_targeting_shown", false))
+	CampaignState.room_hints_shown = bool(campaign.get("room_hints_shown", false))
+	CampaignState.god_creation_hint_shown = bool(campaign.get("god_creation_hint_shown", false))
+	CampaignState.ask_a_god_hint_shown = bool(campaign.get("ask_a_god_hint_shown", false))
+	CampaignState.tutorial_disabled = bool(campaign.get("tutorial_disabled", false))
+	CampaignState.visited_locations = _to_string_array(campaign.get("visited_locations", []))
 	CampaignState.defeated_nemeses = _to_string_array(campaign.get("defeated_nemeses", []))
 	var loaded_nemesis_buffs: Variant = campaign.get("pending_nemesis_buffs", [])
 	CampaignState.pending_nemesis_buffs = (loaded_nemesis_buffs as Array) if loaded_nemesis_buffs is Array else []
@@ -159,6 +175,10 @@ func _apply_state(data: Dictionary) -> void:
 	CampaignState.spell_upgrade_levels = (loaded_spell_upgrades as Dictionary) if loaded_spell_upgrades is Dictionary else {}
 	var loaded_enemy_debuffs: Variant = campaign.get("permanent_enemy_accuracy_debuffs", {})
 	CampaignState.permanent_enemy_accuracy_debuffs = (loaded_enemy_debuffs as Dictionary) if loaded_enemy_debuffs is Dictionary else {}
+	var loaded_god_crit_bonus: Variant = campaign.get("permanent_god_crit_bonus", {})
+	CampaignState.permanent_god_crit_bonus = (loaded_god_crit_bonus as Dictionary) if loaded_god_crit_bonus is Dictionary else {}
+	var loaded_read_dialogue_choices: Variant = campaign.get("read_dialogue_choices", {})
+	CampaignState.read_dialogue_choices = (loaded_read_dialogue_choices as Dictionary) if loaded_read_dialogue_choices is Dictionary else {}
 
 	# — Состояние миссии —
 	var mission: Dictionary = data.get("mission", {})

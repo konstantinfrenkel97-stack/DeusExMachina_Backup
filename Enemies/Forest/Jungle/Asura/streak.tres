@@ -3,6 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://d341t8ub4706n" path="res://Enemies/Forest/Jungle/Asura/Dark_streak.png" id="1_8emlj"]
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
 
+[ext_resource type="Texture2D" path="res://Ability_pics/dark_skull.png" id="anim_fx"]
+[ext_resource type="AudioStream" path="res://Ability_pics/scream_sound.wav" id="anim_sfx"]
+
 [resource]
 script = ExtResource("1_ab")
 name = "Чёрная полоса"
@@ -16,4 +19,6 @@ mark_effect_type = "asura_streak_debuff"
 mark_effect_value = 20
 mark_effect_duration = 3
 mark_icon = ExtResource("1_8emlj")
+attack_effect_texture = ExtResource("anim_fx")
+attack_sfx = ExtResource("anim_sfx")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

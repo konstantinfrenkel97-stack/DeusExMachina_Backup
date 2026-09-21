@@ -3,7 +3,7 @@ extends CanvasLayer
 ## Автозагрузчик — переживает change_scene_to_file, поэтому и оверлей, и сам переход
 ## (корутина ниже) не прерываются сменой сцены.
 
-const FADE_DURATION := 0.75
+const FADE_DURATION := 0.375
 
 var _fade_rect: ColorRect = null
 var _fade_id: int = 0
@@ -24,7 +24,12 @@ func change_scene_with_fade(scene_path: String, duration: float = FADE_DURATION)
 	var my_id := _fade_id
 	_fade_rect.mouse_filter = Control.MOUSE_FILTER_STOP
 	var fade_out := create_tween()
-	fade_out.tween_property(_fade_rect, "color:a", 1.0, duration)
+	# ignore_time_scale — иначе фейд дёргается/зависает на месте, если в момент
+	# перехода ещё держится пауза от boя (звук/вспышка способности, см.
+	# battle_scene.gd::_active_attack_effects) — Engine.time_scale=0 тогда морозит
+	# и сам тред фейда, а не только то, что его вызвало.
+	fade_out.set_ignore_time_scale(true)
+	fade_out.tween_property(_fade_rect, "color:a", 1.0, duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	await fade_out.finished
 	if my_id != _fade_id:
 		return
@@ -36,7 +41,8 @@ func change_scene_with_fade(scene_path: String, duration: float = FADE_DURATION)
 	if my_id != _fade_id:
 		return
 	var fade_in := create_tween()
-	fade_in.tween_property(_fade_rect, "color:a", 0.0, duration)
+	fade_in.set_ignore_time_scale(true)
+	fade_in.tween_property(_fade_rect, "color:a", 0.0, duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	await fade_in.finished
 	if my_id != _fade_id:
 		return

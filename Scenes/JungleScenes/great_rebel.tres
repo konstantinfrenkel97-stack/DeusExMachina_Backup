@@ -1,0 +1,108 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" uid="uid://bglbr7sxbyn23" path="res://Essence/essence_death.tres" id="essence_death"]
+[ext_resource type="Resource" path="res://Gods/Shiva/Shiva.tres" id="shiva"]
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("stat_check_script")
+stat = 4
+stat_label = "Точность"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="reward_essence_death"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_death")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_calm_success"]
+script = ExtResource("outcome_script")
+result_text = "Вам странно пытаться успокоить посланцев из мира смерти, но и оставлять их так не хочется. Вы говорите им что вы боги, что все будет хорошо, их миссия будет исполнена, и они смогут вернуться домой. Вы показываете им свои волшебные возможности, чтобы хоть немного отвлечь, и постепенно бледные люди успокаиваются. Тихонько хныкая, они благодарят вас и выходят из помещения. Когда они проходят мимо вас, вас окутывает холод и пустота. Вы замираете и не можете пошевелиться пока тени не вышли наружу и не растворились в зелени леса. И даже тогда, вы еще какое-то время просто стоите. Но сегодня вы узнали имя, и вы уверены что вам еще предстоит встретиться с ним.
+Вам известен ваш Немезис."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_essence_death")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_calm_failure"]
+script = ExtResource("outcome_script")
+result_text = "Вам странно пытаться успокоить посланцев из мира смерти, но и оставлять их так не хочется. Вы говорите им что вы боги, что все будет хорошо, их миссия будет исполнена, и они смогут вернуться домой.
+Но не похоже что ваши слова имеют эффект. Комната становится все темнее, все холоднее и как-будто даже теснее. Вы решаете оставить бедолаг с их горем.
+Но уходя вы размышляете о том что узнали. Об обезьяне что стерла свое имя из книги смерти. Что-то вам подсказывает, что вы еще встретитесь."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_calm"]
+script = ExtResource("choice_script")
+choice_text = "Постараться успокоить посланцев смерти"
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_calm_success")
+failure_outcome = SubResource("out_calm_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_accuracy_vs_monkey_king"]
+script = ExtResource("buff_script")
+stat = 2
+value = 5
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_promise"]
+script = ExtResource("outcome_script")
+result_text = "Как боги и хранители мирового порядка, вы не можете позволить, чтобы какая-то обезьяна бесчинствовала и попирала законы мироздания. Вы торжественно клянетесь темным людям, что восстановите гармонию и мировой порядок.
+Их лица не выражают радости, но хотя бы всхлипывания стали тише.
+«Да прибудет с вами удача, о могучие боги!»"
+nemesis_buff_all_heroes = true
+nemesis_buff_stat = SubResource("buff_accuracy_vs_monkey_king")
+nemesis_buff_location_id = "jungle"
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_promise"]
+script = ExtResource("choice_script")
+choice_text = "Пообещать им найти мятежную обезьяну"
+outcome = SubResource("out_promise")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_shiva_luck_vs_monkey_king"]
+script = ExtResource("buff_script")
+stat = 1
+value = 10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_send_home"]
+script = ExtResource("outcome_script")
+result_text = "Шива выходит вперед. Тени оплетают его ноги.
+«Возвращайтесь к своему господину. Возвращайтесь и доложите что Шива, высший бог разрушения узнал о произошедшем, и сам восстановит гармонию.»
+Люди-тени выпрямляются, они перестали плакать. Медленно словно змеи они начали двигаться вокруг него, не моргая глядя прямо на бога своими черными глазами. Их силуэты становятся все ниже и ниже, словно по ходу движения они уходят в пол. Шива стоит не двигаясь. Наконец остается только темнота, а вокруг него пять бледных лиц, словно утопающие кружатся.
+«Спасибо.»
+Они исчезают в черноту пола. А потом все заканчивается. Свежий воздух, тепло и свет проникают в комнату. Вы смотрите на бога разрушения, он кажется задумчивым.
+«Идем.»
+Он быстрым шагом выходит, устремляясь в джунгли. Вы горестно вздыхаете, ведь вы надеялись получить передышку. Он оборачивается.
+«Нельзя терять времени. Мы должны найти эту обезьяну и лишить бессмертия. Вычеркнул свое имя из книги… Нельзя терять время… Пока другие не узнали что так можно сделать…»"
+nemesis_buff_god = ExtResource("shiva")
+nemesis_buff_stat = SubResource("buff_shiva_luck_vs_monkey_king")
+nemesis_buff_location_id = "jungle"
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_send_home"]
+script = ExtResource("choice_script")
+choice_text = "Отправить посланцев смерти домой"
+required_god = ExtResource("shiva")
+outcome = SubResource("out_send_home")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Великий бунтарь"
+body_text = "Вы проходите мимо заброшенного храма. Он выглядит как-то более тихим и мрачным чем другие где вам доводилось быть. Пока вы любуетесь древними статуями, до уха доносится плач и причитание. Почему-то от этого звука у вас по спине проходит холодок. Вы идете на звук и в темном помещении руин обнаруживаете пять фигур. Бледная кожа, черная одежда. Они словно сливаются с тенью, прорастают из нее. В помещении холодно, а один их вид вселяет тревогу. Один из людей-теней поднимает глаза на вас.
+«О горе нам горе! *хнык* Изгнаны! Отвергнуты! Что нам делать ууууууууу….!»
+Вы пытаетесь успокоить плачущих, не подходя при этом слишком близко.
+«Вшивая, вонючая макака! Пробрался в царство смерти и вычеркнул свое имя из книги.. ууууууаааааа… И теперь *хнык* он стал бессмертным, и владыка смерти отправил нас искать эту глупую тварь, чтобы восстановить порядок… Но как же мы это сделаем *хнык* джунгли такие страшныыееееее….»"
+choices = Array[ExtResource("choice_script")]([SubResource("choice_calm"), SubResource("choice_promise"), SubResource("choice_send_home")])
+metadata/_custom_type_script = ExtResource("scene_script")

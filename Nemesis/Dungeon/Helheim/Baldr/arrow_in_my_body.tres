@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Стрела в моём теле"
-description = "Ультимативная способность. На себя: 100% чистого урона. Снимает с себя все дебаффы — за каждый снятый противники получают 5 урона."
+description = "Ультимативная способность."
 damage_modifier = 0.0
 majesty_gain = 0
 majesty_cost = 100

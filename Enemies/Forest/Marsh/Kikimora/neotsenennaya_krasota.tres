@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Неоценённая красота"
-description = "Стойка: пока активна, при получении урона кикимора наносит всем противникам 0.2 урона."
+description = ""
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"

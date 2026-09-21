@@ -17,7 +17,7 @@ static func get_decision(monster: Combatant, heroes: Array) -> Dictionary:
 					var est_raw := int(monster.damage * incin.damage_modifier * monster.get_damage_modifier(h.position_index))
 					var est := est_raw
 					if incin.damage_type == "Physical":
-						est = int(est_raw * (1.0 - clampf(float(h.armor) / 100.0, 0.0, 0.95)))
+						est = CombatCalculator.apply_armor(est_raw, h.armor)
 					# Применяем, только если урон опустит HP цели ниже 50%.
 					if float(h.current_hp - est) < threshold:
 						return {"ability": incin, "target": h}

@@ -11,6 +11,8 @@
 [resource]
 script = ExtResource("2_t3i2w")
 unit_name = "Шива"
+role_description = "Передовой боец, полагающийся на удачу"
+priority_positions = Array[int]([1, 2])
 sprite_path = "res://Gods/Shiva/Shiva.png"
 face_sprite = "res://Gods/Shiva/Shiva_Face.png"
 battle_sprite_scale_percent = 99.0

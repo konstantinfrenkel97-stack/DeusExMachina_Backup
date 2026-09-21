@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Ласка кнута"
-description = "0,8 урона. Дополнительно 0,1 урона за каждый дебафф на цели."
+description = ""
 damage_modifier = 0.8
 majesty_gain = 0
 target_type = "Enemy"

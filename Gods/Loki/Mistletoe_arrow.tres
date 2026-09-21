@@ -1,6 +1,28 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://lokimst0001"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ma"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Loki/08_dont_fail_me.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Loki/09_everyone_got_a_weakness.mp3" id="4_v2"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Loki/10_arrogant.mp3" id="5_v3"]
+
+[sub_resource type="Resource" id="voice_mistletoe_arrow_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "Не подведи меня."
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_mistletoe_arrow_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "У каждого есть слабое место."
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_mistletoe_arrow_3"]
+script = ExtResource("2_vl")
+audio = ExtResource("5_v3")
+text = "Высокомерный."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_ma")
@@ -16,4 +38,5 @@ effect_durations = Dictionary[String, int]({
 "target_debuff_armor": 2
 })
 usable_from_positions = Array[bool]([true, true, true, false])
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_mistletoe_arrow_1"), SubResource("voice_mistletoe_arrow_2"), SubResource("voice_mistletoe_arrow_3")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

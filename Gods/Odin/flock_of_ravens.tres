@@ -2,6 +2,28 @@
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
 [ext_resource type="Texture2D" uid="uid://dn3rwm4oljki8" path="res://Gods/Odin/Flock_of_ravens_icon.png" id="1_iiork"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Odin/07_hugin_and_munin.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Odin/08_fly_forth.mp3" id="4_v2"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Odin/09_bring_me_their_eyes.mp3" id="5_v3"]
+
+[sub_resource type="Resource" id="voice_flock_of_ravens_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "Хугин и Мунин!"
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_flock_of_ravens_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Летите!"
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_flock_of_ravens_3"]
+script = ExtResource("2_vl")
+audio = ExtResource("5_v3")
+text = "Принесите мне их глаза."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_ab")
@@ -17,4 +39,5 @@ mark_duration = 3
 mark_effect_type = "raven_mark_accuracy"
 mark_damage_percent = 10.0
 mark_icon = ExtResource("1_iiork")
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_flock_of_ravens_1"), SubResource("voice_flock_of_ravens_2"), SubResource("voice_flock_of_ravens_3")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

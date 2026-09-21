@@ -4,6 +4,11 @@ const COMBATANT_VISUAL = preload("res://combatant_visual.tscn")
 const STAT_ICON_TOOLTIP_BUTTON_SCRIPT := preload("res://stat_icon_tooltip_button.gd")
 const UNIT_DISPLAY = preload("res://unit_display.tscn")
 const ENEMY_TURN_DELAY_SEC = 1.2
+const HERO_TO_ENEMY_TURN_DELAY_SEC = 0.5
+## Шанс, что при применении способности прозвучит одна из AbilityResource.voice_lines.
+## ВРЕМЕННО 1.0 (100%) для тестирования по просьбе — вернуть на 0.3 (30%), когда
+## тестирование фраз будет закончено.
+const VOICE_LINE_CHANCE := 0.3
 const MAX_LOG_LINES = 80
 const ABILITY_ICON_BUTTON_SIZE := Vector2(58.0, 58.0)
 const BOTTOM_UI_MARGIN := 12.0
@@ -67,6 +72,22 @@ var waiting_for_target: bool = false
 var _waiting_for_ultimate_target: bool = false
 var selected_ability: AbilityResource = null
 var selected_mark_position: int = -1  # позиция выбранная для марки
+# Визуалы, на которых сейчас показан предпросмотр цели способности (шанс
+# попадания + мигание HP) — см. _update_ability_target_preview().
+var _preview_active_visuals: Array = []
+# Подсказки обучения показываются только в кампании (Campaign/campaign_screen.gd),
+# не в бою — см. _show_blocking_tutorial_hint()/_show_blocking_tutorial_sequence()
+# ниже, единственные две точки входа в TutorialHint из этого файла.
+const BATTLE_TUTORIALS_ENABLED := false
+# Обучающая система: пока > 0, любое игровое действие (выбор способности/цели,
+# ждать/пропустить ход, заклинания, отмена ПКМ) блокируется — см. TutorialHint
+# (сам оверлей уже блокирует клики визуально, это — защита от _input()/правого
+# клика, который идёт мимо обычной GUI-системы кликов Control).
+var _active_tutorial_hints: int = 0
+# Для паузы HERO_TO_ENEMY_TURN_DELAY_SEC — true, если последний закончивший ход
+# юнит был героем (см. _next_turn()); сбрасывается в false, как только пауза
+# перед следующим враждебным ходом использована.
+var _last_turn_was_hero: bool = false
 
 var turn_order = []
 var active_unit: Combatant = null
@@ -98,6 +119,9 @@ var _selected_spell: SpellResource = null
 ## Если true (см. CombatManager.pending_rum_spell_whole_team) — заклинание «Ром»
 ## в этом бою применяется не только к выбранной цели, но и ко всей её команде.
 var _rum_spell_whole_team_active: bool = false
+## Если true (см. CombatManager.pending_desert_immunity) — отряд героев не получает
+## урон локации "Пустыня" в этом бою целиком (см. battle_locations.gd::_location_desert()).
+var desert_immune_this_battle: bool = false
 
 # ═══ Баннер названия способности/заклинания (крупный текст сверху экрана) ═══
 var _ability_banner: Label
@@ -159,6 +183,7 @@ func _ready():
 	_setup_turn_order_display()
 	_setup_settings_button()
 	_setup_combat_log_toggle_button()
+	_setup_help_button()
 	# Добавляется последней, чтобы гарантированно оказаться выше полосы очереди ходов
 	# и прочих элементов верхней панели при наведении мыши (порядок узлов = порядок хит-теста).
 	_setup_location_door_icon()
@@ -171,15 +196,113 @@ func _ready():
 	if CombatManager.selected_location_id != "":
 		var effect_name = DataTables.get_battle_effect_name(CombatManager.selected_location_id)
 		_log_combat("⚔ Локация: %s" % effect_name)
+		_show_location_visited_hint_if_needed(CombatManager.selected_location_id)
+		# Боевая музыка локации — только для боёв внутри миссии (см. MusicManager);
+		# возврат к non_battle треку миссии — в _exit_tree() ниже.
+		if CombatManager.is_mission_battle:
+			MusicManager.play_battle(CombatManager.selected_location_id)
 	locations._location_mountains_label()
 	_apply_pending_mission_modifiers()
 	_start_new_round()
+	_show_battle_intro_tutorial_if_needed()
+
+## Первый бой игрока в его первом прохождении: показывает 3 подсказки подряд
+## (инициатива, способности/ждать/пропустить, заклинания) — см.
+## TutorialTexts.battle_intro_hints(). Одноразово, флаг не сбрасывается.
+## Вторая часть той же обучающей последовательности (цели/линии, характеристики,
+## величие) показывается позже, при первом выборе способности — см.
+## _show_battle_targeting_tutorial_if_needed().
+func _show_battle_intro_tutorial_if_needed() -> void:
+	if not BATTLE_TUTORIALS_ENABLED:
+		return
+	if CampaignState.battle_tutorial_intro_shown:
+		return
+	CampaignState.battle_tutorial_intro_shown = true
+	_show_blocking_tutorial_sequence(TutorialTexts.battle_intro_hints())
+
+## Вторая часть обучающей последовательности первого боя — при первом выборе
+## способности, требующей ручного выбора цели (обычная цель или позиция для
+## марки): цели/линии, характеристики, величие. См. TutorialTexts.battle_targeting_hints().
+func _show_battle_targeting_tutorial_if_needed() -> void:
+	if not BATTLE_TUTORIALS_ENABLED:
+		return
+	if CampaignState.battle_tutorial_targeting_shown:
+		return
+	CampaignState.battle_tutorial_targeting_shown = true
+	_show_blocking_tutorial_sequence(TutorialTexts.battle_targeting_hints())
+
+## Первая подсказка о новой локации за дверью — ТОЛЬКО в первом бою, который
+## реально проходит на такой локации (за дверью). Первый бой игрока вообще
+## (First_battle) для неё не считается, даже если он почему-то пришёл с
+## location_id (напр. если игрок пропустил Ад стартовую миссию кнопкой у
+## портрета Мифа — см. _on_skip_first_mission_button_pressed в campaign_screen.gd
+## — тогда battle_tutorial_intro_shown ещё false, и эта подсказка откладывается
+## до следующего реального боя за дверью, вместо того чтобы наложиться на
+## обучающую последовательность первого боя).
+func _show_location_visited_hint_if_needed(location_id: String) -> void:
+	if not BATTLE_TUTORIALS_ENABLED:
+		return
+	if not CampaignState.battle_tutorial_intro_shown:
+		return
+	if CampaignState.visited_locations.has(location_id):
+		return
+	CampaignState.visited_locations.append(location_id)
+	_show_blocking_tutorial_hint(TutorialTexts.LOCATION_PROPERTIES_HINT, "Всё понятно")
+
+## Обёртки над TutorialHint.present()/show_sequence(), которые держат
+## _active_tutorial_hints синхронизированным — см. объявление переменной выше
+## и все места, где она проверяется (ability/wait/skip/заклинания/ПКМ-отмена).
+func _show_blocking_tutorial_hint(text: String, button_text: String = "Понятно") -> void:
+	if not BATTLE_TUTORIALS_ENABLED:
+		return
+	_adjust_tutorial_hint_count(1)
+	var hint := TutorialHint.present(self, text, button_text)
+	if hint == null:
+		_adjust_tutorial_hint_count(-1)
+		return
+	hint.dismissed.connect(func(): _adjust_tutorial_hint_count(-1))
+
+func _show_blocking_tutorial_sequence(steps: Array, final_button_text: String = "Понятно") -> void:
+	if not BATTLE_TUTORIALS_ENABLED:
+		return
+	_adjust_tutorial_hint_count(1)
+	TutorialHint.show_sequence(self, steps, final_button_text, func(): _adjust_tutorial_hint_count(-1))
+
+## Пока хотя бы одна подсказка на экране ИЛИ доигрывает звук/вспышка способности —
+## игра буквально на паузе (иначе враги продолжали ходить/анимации крутились под
+## затемнённым экраном, пока игрок не может ничего сделать, или следующий удар
+## перекрывал ещё не доигравший предыдущий). Engine.time_scale=0 замораживает все
+## Tween/create_timer в проекте (в т.ч. паузу перед ходом врага — см.
+## ENEMY_TURN_DELAY_SEC — и саму AI-логику хода); кнопки подсказки не завязаны на
+## time_scale и продолжают работать, а сам твин вспышки способности явно помечен
+## set_ignore_time_scale(true) (см. CombatantVisual.show_attack_effect_flash),
+## иначе он тоже застрял бы на паузе, которую сам же и держит. Восстанавливаем не
+## 1.0, а GameSettings.battle_speed — то же значение, что стоит вне пауз (см.
+## _ready()/_exit_tree()).
+var _active_attack_effects: int = 0
+
+func _is_battle_paused() -> bool:
+	return _active_tutorial_hints > 0 or _active_attack_effects > 0
+
+func _refresh_battle_pause_time_scale() -> void:
+	Engine.time_scale = 0.0 if _is_battle_paused() else GameSettings.battle_speed
+
+func _adjust_tutorial_hint_count(delta: int) -> void:
+	_active_tutorial_hints = maxi(0, _active_tutorial_hints + delta)
+	_refresh_battle_pause_time_scale()
+
+func _adjust_attack_effect_count(delta: int) -> void:
+	_active_attack_effects = maxi(0, _active_attack_effects + delta)
+	_refresh_battle_pause_time_scale()
 
 
 ## Возвращает глобальную скорость движка к норме при выходе из боя (см. GameSettings.battle_speed
 ## в _ready()) — иначе она "утекала" бы в меню и другие экраны после боя/сдачи.
 func _exit_tree() -> void:
 	Engine.time_scale = 1.0
+	# Безусловно (не только для миссий) — если это был не миссионный бой, у
+	# MusicManager просто нечего возобновлять, вызов тогда ничего не делает.
+	MusicManager.resume_mission_non_battle()
 
 
 ## Применяет модификаторы боя миссии (HP%, заряды пассивки, баффы) к врагам и героям.
@@ -188,8 +311,11 @@ func _apply_pending_mission_modifiers() -> void:
 	_apply_modifier_list(CombatManager.pending_hero_modifiers, heroes_team)
 	_apply_pending_mission_party_effects()
 	_apply_pending_nemesis_buffs()
+	_apply_battle_start_item_effects()
 	_rum_spell_whole_team_active = CombatManager.pending_rum_spell_whole_team
 	CombatManager.pending_rum_spell_whole_team = false
+	desert_immune_this_battle = CombatManager.pending_desert_immunity
+	CombatManager.pending_desert_immunity = false
 	CombatManager.pending_enemy_modifiers = []
 	CombatManager.pending_hero_modifiers = []
 
@@ -231,26 +357,28 @@ func _apply_pending_nemesis_buffs() -> void:
 			_log_combat("✨ [Немезис] %s: %+d величия за грядущую встречу с немезидом." % [hero.unit_name, majesty_delta])
 		var buff_stat: int = int(entry.get("buff_stat", -1))
 		if buff_stat >= 0:
-			_apply_mission_buff({"stat": buff_stat, "value": int(entry.get("buff_value", 0)), "duration": -1}, hero)
+			var buff_duration: int = int(entry.get("buff_duration", -1))
+			_apply_mission_buff({"stat": buff_stat, "value": int(entry.get("buff_value", 0)), "duration": buff_duration}, hero)
 			_log_combat("✨ [Немезис] %s получает бафф перед встречей с немезидом." % hero.unit_name)
 		consumed.append(entry)
 	for entry in consumed:
 		CampaignState.pending_nemesis_buffs.erase(entry)
 
 
+## Друидическое зелье силы (Items/Trinkets/Rare/druidic_potion_of_strength.tres):
+## носитель получает +20 атаки на первый раунд боя. У предметов в этом проекте нет
+## общего движка эффектов — каждый обрабатывается отдельной проверкой has_item_effect(),
+## как и все остальные (см. соседние вызовы по всему файлу).
+func _apply_battle_start_item_effects() -> void:
+	for unit_value in heroes_team:
+		var hero: Combatant = unit_value as Combatant
+		if hero == null or hero.current_hp <= 0:
+			continue
+		if hero.has_item_effect("druidic_potion_of_strength"):
+			hero.apply_stat_change("damage", 20)
+			hero.active_effects.append({"stat": "damage", "value": 20, "duration": 1, "effect_id": "druidic_potion_of_strength", "source_ability": "Друидическое зелье силы"})
+
 func _apply_pending_mission_party_effects() -> void:
-	var heal_percent: int = int(CombatManager.pending_mission_hero_heal_percent)
-	if heal_percent != 0:
-		for unit_value in heroes_team:
-			var hero: Combatant = unit_value as Combatant
-			if hero != null and hero.current_hp > 0:
-				# Камень с мордочкой: +2% к любому вне-боевому лечению миссии (пляжи, привалы и т.п.).
-				var hero_heal_percent := heal_percent
-				if hero.has_item_effect("stone_face_bonus_heal"):
-					hero_heal_percent += 2
-				var heal_amount: int = int(float(hero.max_hp) * float(hero_heal_percent) / 100.0)
-				if heal_amount != 0:
-					hero.apply_stat_change("hp", heal_amount)
 	var majesty_delta: int = int(CombatManager.pending_mission_hero_majesty_delta)
 	if majesty_delta != 0:
 		for unit_value in heroes_team:
@@ -303,7 +431,6 @@ func _apply_pending_mission_party_effects() -> void:
 		for buff in (entry_raw_buffs if entry_raw_buffs is Array else []):
 			if buff != null:
 				_apply_mission_buff(buff, entry_hero)
-	CombatManager.pending_mission_hero_heal_percent = 0
 	CombatManager.pending_mission_fantasy_delta = 0
 	CombatManager.pending_mission_hero_majesty_delta = 0
 	CombatManager.pending_mission_hero_buffs = []
@@ -432,6 +559,8 @@ func _apply_mission_buff(b, unit: Combatant) -> void:
 
 ## Обработка правого клика: ВСЕГДА отменяет текущее выделение (способность / заклинание / марка).
 func _input(event: InputEvent):
+	if _is_battle_paused():
+		return
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 		if _handle_help_back():
 			get_viewport().set_input_as_handled()
@@ -449,6 +578,7 @@ func _cancel_selection() -> void:
 	selected_mark_position = -1
 	if had_selection:
 		_update_target_highlights()
+		_clear_ability_target_preview()
 	if active_unit and waiting_for_player:
 		_show_player_interface(active_unit)
 	elif had_selection:
@@ -470,6 +600,17 @@ func _setup_settings_button():
 	popup.add_item("Сдаться", 2)
 	popup.id_pressed.connect(_on_settings_menu_item)
 	$BattleUI.add_child(mb)
+
+## Круглая золотая кнопка "?" внизу слева (у самого левого героя, позиция 4) —
+## быстрый доступ к тем же подсказкам, что и пункт "Помощь" в меню настроек.
+func _setup_help_button() -> void:
+	var btn := HelpButtonFactory.create()
+	btn.name = "HelpButton"
+	var vp := get_viewport().get_visible_rect().size
+	btn.position = Vector2(16.0, vp.y - HelpButtonFactory.DIAMETER - 16.0)
+	btn.z_index = 200
+	btn.pressed.connect(_show_help_topics)
+	$BattleUI.add_child(btn)
 
 ## Обработка пунктов меню настроек.
 func _on_settings_menu_item(id: int) -> void:
@@ -583,7 +724,9 @@ func _help_topics() -> Dictionary:
 		"Бой": "Бой идет по очереди хода. Выберите способность или заклинание, затем цель. Если нужно отменить выбор, нажмите правую кнопку мыши.",
 		"Способности": "Способности богов и врагов имеют позиции применения, цель, стоимость и эффекты. Наведение на кнопку показывает подробное описание.",
 		"Заклинания": "Заклинания тратят фантазию. Некоторые доступны только в отдельных локациях. Лимит применений за раунд зависит от правил боя.",
-		"Эффекты": "Баффы, дебаффы, стойки и уникальные метки отображаются иконками около персонажа. Наведение на иконку показывает активные эффекты."
+		"Эффекты": "Баффы, дебаффы, стойки и уникальные метки отображаются иконками около персонажа. Наведение на иконку показывает активные эффекты.",
+		TutorialTexts.REQUIRED_GOD_HELP_TITLE: TutorialTexts.REQUIRED_GOD_HELP_TEXT,
+		TutorialTexts.POSITION_PRIORITY_HELP_TITLE: TutorialTexts.POSITION_PRIORITY_HELP_TEXT,
 	}
 
 
@@ -606,12 +749,71 @@ func _show_help_topics() -> void:
 		btn.add_theme_font_size_override("font_size", 22)
 		btn.pressed.connect(_show_help_topic.bind(str(topic_name), str(topics[topic_name])))
 		root.add_child(btn)
+	var disable_btn := Button.new()
+	disable_btn.text = "Убрать подсказки"
+	disable_btn.custom_minimum_size = Vector2(0, 54)
+	disable_btn.add_theme_font_size_override("font_size", 22)
+	disable_btn.pressed.connect(_confirm_disable_tutorial)
+	root.add_child(disable_btn)
 	var back_btn := Button.new()
 	back_btn.text = "Назад"
 	back_btn.custom_minimum_size = Vector2(0, 54)
 	back_btn.add_theme_font_size_override("font_size", 22)
 	back_btn.pressed.connect(_clear_help_overlay)
 	root.add_child(back_btn)
+
+
+## "Убрать подсказки" — то же подтверждение, что в Campaign/campaign_help.gd
+## ::_confirm_disable_tutorial() и Scripts/tutorial_hint.gd::_on_disable_pressed.
+func _confirm_disable_tutorial() -> void:
+	var confirm_root := ColorRect.new()
+	confirm_root.color = Color(0.0, 0.0, 0.0, 0.5)
+	confirm_root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	confirm_root.mouse_filter = Control.MOUSE_FILTER_STOP
+	confirm_root.z_index = 1600
+	$BattleUI.add_child(confirm_root)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	confirm_root.add_child(center)
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(460, 0)
+	center.add_child(panel)
+
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 16)
+	panel.add_child(vb)
+
+	var msg := Label.new()
+	msg.text = "Отключить все обучающие подсказки? Включить их обратно можно в Настройках."
+	msg.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	msg.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	msg.add_theme_font_size_override("font_size", 18)
+	vb.add_child(msg)
+
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 12)
+	vb.add_child(row)
+
+	var cancel_btn := Button.new()
+	cancel_btn.text = "Отмена"
+	cancel_btn.custom_minimum_size = Vector2(160, 46)
+	cancel_btn.add_theme_font_size_override("font_size", 16)
+	cancel_btn.pressed.connect(func(): confirm_root.queue_free())
+	row.add_child(cancel_btn)
+
+	var yes_btn := Button.new()
+	yes_btn.text = "Да, отключить"
+	yes_btn.custom_minimum_size = Vector2(160, 46)
+	yes_btn.add_theme_font_size_override("font_size", 16)
+	yes_btn.pressed.connect(func():
+		CampaignState.tutorial_disabled = true
+		confirm_root.queue_free()
+	)
+	row.add_child(yes_btn)
 
 
 func _show_help_topic(topic_title: String, topic_text: String) -> void:
@@ -730,10 +932,10 @@ func _position_combat_log_toggle_button() -> void:
 	if _combat_log_collapsed or combat_log_panel == null:
 		_combat_log_toggle_button.position = Vector2(56.0, 2.0)
 	else:
-		var panel_width: float = combat_log_panel.size.x
-		if panel_width <= 0.0:
-			panel_width = 400.0
-		_combat_log_toggle_button.position = Vector2(combat_log_panel.position.x + panel_width + 8.0, combat_log_panel.position.y)
+		var panel_height: float = combat_log_panel.size.y
+		if panel_height <= 0.0:
+			panel_height = 200.0
+		_combat_log_toggle_button.position = Vector2(combat_log_panel.position.x, combat_log_panel.position.y + panel_height + 8.0)
 ## Сдаться: немедленно окончить бой и вернуться в главное меню.
 func _surrender() -> void:
 	if GameSettings.confirm_before_surrender:
@@ -743,8 +945,30 @@ func _surrender() -> void:
 
 func _do_surrender() -> void:
 	battle_running = false
-	_log_combat("Игрок сдался. Бой окончен.")
-	get_tree().change_scene_to_file("res://main_menu.tscn")
+	waiting_for_player = false
+	active_unit = null
+	_update_active_highlight()
+	if CombatManager.is_mission_battle:
+		_apply_surrender_forgetting()
+		_set_status("Поражение! Отряд сдался. Возврат в главное меню...")
+		_log_combat("Игрок сдался. Бой окончен.")
+	else:
+		_log_combat("Игрок сдался. Бой окончен.")
+	_end_battle(false)
+
+## Сдача — не просто побег: весь ЖИВОЙ отряд миссии получает забвение за то, что бросил
+## бой (столько же, сколько получает погибший в бою герой — см. _apply_death_fading()).
+## Погибших к этому моменту героев не трогаем: им уже начислит своё _apply_death_fading(),
+## вызываемый следом из _end_battle() — иначе штраф удвоился бы.
+func _apply_surrender_forgetting() -> void:
+	for hero_value in heroes_team:
+		var hero: Combatant = hero_value as Combatant
+		if hero == null or hero.current_hp <= 0:
+			continue
+		if hero.source_resource_path == "":
+			continue
+		CampaignState.add_god_forgetting(hero.source_resource_path, 2.0)
+		MissionState.add_hero_forgetting_gained(hero.source_resource_path, 2.0)
 
 ## Диалог подтверждения сдачи (см. GameSettings.confirm_before_surrender).
 func _show_surrender_confirm() -> void:
@@ -1056,6 +1280,9 @@ func _spawn_teams_from_resources():
 			hero.healed.connect(_on_unit_healed.bind(hero))
 			hero.died.connect(_on_unit_died.bind(hero))
 			hero.phoenix_feather_shield_triggered.connect(_on_phoenix_shield_triggered.bind(hero))
+			hero.koschei_life_shield_triggered.connect(_on_koschei_life_shield_triggered.bind(hero))
+			hero.immortal_death_shield_triggered.connect(_on_immortal_death_shield_triggered.bind(hero))
+			hero.stance_broken.connect(_on_unit_stance_broken.bind(hero))
 			
 			var pos_node_name = "HeroPositions/Pos" + str(i + 1)
 			if has_node(pos_node_name):
@@ -1078,6 +1305,9 @@ func _spawn_teams_from_resources():
 			enemy.damage_taken.connect(_on_unit_damaged.bind(enemy))
 			enemy.died.connect(_on_unit_died.bind(enemy))
 			enemy.phoenix_feather_shield_triggered.connect(_on_phoenix_shield_triggered.bind(enemy))
+			enemy.koschei_life_shield_triggered.connect(_on_koschei_life_shield_triggered.bind(enemy))
+			enemy.immortal_death_shield_triggered.connect(_on_immortal_death_shield_triggered.bind(enemy))
+			enemy.stance_broken.connect(_on_unit_stance_broken.bind(enemy))
 			
 			var pos_node_name = "EnemyPositions/Pos" + str(i + 1)
 			if has_node(pos_node_name):
@@ -1302,6 +1532,9 @@ func _apply_novice_transformation(target_type: String = "novice_transformation")
 			new_unit.damage_taken.connect(_on_unit_damaged.bind(new_unit))
 			new_unit.died.connect(_on_unit_died.bind(new_unit))
 			new_unit.phoenix_feather_shield_triggered.connect(_on_phoenix_shield_triggered.bind(new_unit))
+			new_unit.koschei_life_shield_triggered.connect(_on_koschei_life_shield_triggered.bind(new_unit))
+			new_unit.immortal_death_shield_triggered.connect(_on_immortal_death_shield_triggered.bind(new_unit))
+			new_unit.stance_broken.connect(_on_unit_stance_broken.bind(new_unit))
 			# Удаляем визуал старого Новичка
 			_remove_visual_for_unit(unit)
 			# Заменяем слот команды
@@ -1373,6 +1606,8 @@ func _summon_boulder(summoner: Combatant, log_lines: Array):
 	boulder.damage_taken.connect(_on_unit_damaged.bind(boulder))
 	boulder.died.connect(_on_unit_died.bind(boulder))
 	boulder.phoenix_feather_shield_triggered.connect(_on_phoenix_shield_triggered.bind(boulder))
+	boulder.koschei_life_shield_triggered.connect(_on_koschei_life_shield_triggered.bind(boulder))
+	boulder.immortal_death_shield_triggered.connect(_on_immortal_death_shield_triggered.bind(boulder))
 	# Постоянная метка провокации
 	boulder.active_effects.append({"stat": "provocation_mark", "value": 1, "duration": -1, "effect_id": "provocation_mark", "source_ability": "Валун"})
 	# Создать визуал
@@ -1404,6 +1639,8 @@ func _summon_beautiful_stone_boulder() -> void:
 	boulder.damage_taken.connect(_on_unit_damaged.bind(boulder))
 	boulder.died.connect(_on_unit_died.bind(boulder))
 	boulder.phoenix_feather_shield_triggered.connect(_on_phoenix_shield_triggered.bind(boulder))
+	boulder.koschei_life_shield_triggered.connect(_on_koschei_life_shield_triggered.bind(boulder))
+	boulder.immortal_death_shield_triggered.connect(_on_immortal_death_shield_triggered.bind(boulder))
 	boulder.active_effects.append({"stat": "provocation_mark", "value": 1, "duration": -1, "effect_id": "provocation_mark", "source_ability": "Красивый камень"})
 	var pos_node_name = "HeroPositions/Pos" + str(empty_pos + 1)
 	if has_node(pos_node_name):
@@ -1916,9 +2153,17 @@ func _next_turn():
 	active_unit.snapshot_turn_start_effects()
 
 	if _is_player_hero(active_unit):
+		_last_turn_was_hero = true
 		waiting_for_player = true
 		_show_player_interface(active_unit)
 	else:
+		# Небольшая пауза именно на переходе "бог → враг" (не враг → враг), чтобы
+		# действие противника не читалось как мгновенное продолжение хода бога.
+		if _last_turn_was_hero:
+			_last_turn_was_hero = false
+			await get_tree().create_timer(HERO_TO_ENEMY_TURN_DELAY_SEC).timeout
+			if not battle_running:
+				return
 		_log_combat("Ход врага: %s" % active_unit.unit_name)
 		_run_enemy_turn(active_unit)
 
@@ -2283,6 +2528,7 @@ func _replace_stat_words_with_icons(text: String) -> String:
 		["Величие", "glory"], ["величия", "glory"], ["величие", "glory"],
 		["Броня", "armor"], ["брони", "armor"], ["броне", "armor"], ["броня", "armor"],
 		["Крит", "luck"], ["криту", "luck"], ["удачи", "luck"], ["Удача", "luck"], ["удача", "luck"],
+		["Урон", "attack"], ["урона", "attack"], ["урон", "attack"],
 	]
 	for item in replacements:
 		var word := str(item[0])
@@ -2309,6 +2555,8 @@ func _log_combat(message: String):
 	combat_log.append_text("\n".join(_combat_log_lines) + "\n")
 
 func _on_wait_button_pressed():
+	if _is_battle_paused():
+		return
 	if active_unit == null or active_unit.has_acted_this_round:
 		return
 	if not waiting_for_player or not _is_player_hero(active_unit):
@@ -2322,6 +2570,8 @@ func _on_wait_button_pressed():
 	call_deferred("_next_turn")
 
 func _on_skip_turn_pressed():
+	if _is_battle_paused():
+		return
 	if active_unit == null:
 		return
 	if not waiting_for_player or not _is_player_hero(active_unit):
@@ -2351,6 +2601,8 @@ func _defer_active_unit_turn():
 	])
 
 func _on_ability_clicked(ability_index: int):
+	if _is_battle_paused():
+		return
 	if active_unit == null:
 		return
 	if not waiting_for_player or not _is_player_hero(active_unit):
@@ -2375,6 +2627,7 @@ func _on_ability_clicked(ability_index: int):
 		_hide_ability_controls()
 		_set_status("Выберите позицию для марки: " + selected_ability.get_display_name())
 		_update_target_highlights()
+		_show_battle_targeting_tutorial_if_needed()
 		return
 	
 	if selected_ability.target_type == "All_Enemies" or selected_ability.target_type == "All_Allies":
@@ -2390,8 +2643,11 @@ func _on_ability_clicked(ability_index: int):
 	_hide_ability_controls()
 	_set_status("Выберите цель для: " + selected_ability.get_display_name())
 	_update_target_highlights()
+	_show_battle_targeting_tutorial_if_needed()
 
 func _on_unit_selected(target: Combatant):
+	if _is_battle_paused():
+		return
 	if target != null:
 		_pinned_hover_unit = target
 		_show_unit_info_panel(target)
@@ -2434,6 +2690,7 @@ func _on_unit_selected(target: Combatant):
 			_set_status("Марку можно поставить только на живого юнита нужной команды.")
 			return
 		waiting_for_target = false
+		_clear_ability_target_preview()
 		var mark_ab := selected_ability
 		selected_ability = null
 		_hide_ability_controls()
@@ -2448,6 +2705,7 @@ func _on_unit_selected(target: Combatant):
 		return
 	
 	waiting_for_target = false
+	_clear_ability_target_preview()
 	var used_ability := selected_ability
 	selected_ability = null
 	_hide_ability_controls()
@@ -2462,6 +2720,8 @@ func _on_unit_selected(target: Combatant):
 	_finish_unit_turn(active_unit)
 
 func _on_ultimate_clicked():
+	if _is_battle_paused():
+		return
 	if active_unit == null or active_unit.ultimate_ability == null:
 		return
 	if not waiting_for_player or not _is_player_hero(active_unit):
@@ -2620,14 +2880,14 @@ func _finish_unit_turn(unit: Combatant):
 			_log_combat("🪨 [Рост x2] %s: +%d урона, +%d брони («Вперёд» удвоил пассивку)." % [unit.unit_name, 5 * _g_mult, 3 * _g_mult])
 		else:
 			_log_combat("🪨 [Рост] %s: +5 урона, +3 брони (навсегда)." % unit.unit_name)
-	# Дуна: в конце своего хода получает +урон на 1 ход = половина всего HP, восстановленного кому-либо за её ход
+	# Дану: в конце своего хода получает +урон на 1 ход = половина всего HP, восстановленного кому-либо за её ход
 	if unit.current_hp > 0 and unit.special_effect_type == "duna_heal_damage" and _duna_turn_heal > 0:
 		var _dh_buff = int(_duna_turn_heal / 2)
 		if _dh_buff > 0:
 			var _dh_duration = _compute_effect_duration(unit, unit, 3, false)
 			unit.apply_stat_change("damage", _dh_buff)
-			unit.active_effects.append({"stat": "damage", "value": _dh_buff, "duration": _dh_duration, "effect_id": "duna_heal_damage", "source_ability": "Пассивка Дуны"})
-			_log_combat("🌿 [Дуна] %s восстановила %d HP за ход → +%d урона на %d хода." % [unit.unit_name, _duna_turn_heal, _dh_buff, _dh_duration])
+			unit.active_effects.append({"stat": "damage", "value": _dh_buff, "duration": _dh_duration, "effect_id": "duna_heal_damage", "source_ability": "Пассивка Дану"})
+			_log_combat("🌿 [Дану] %s восстановила %d HP за ход → +%d урона на %d хода." % [unit.unit_name, _duna_turn_heal, _dh_buff, _dh_duration])
 		_duna_turn_heal = 0
 	_update_all_visuals()
 	unit.has_acted_this_round = true
@@ -2636,6 +2896,7 @@ func _finish_unit_turn(unit: Combatant):
 	_waiting_for_spell_target = false
 	_selected_spell = null
 	_update_target_highlights()
+	_clear_ability_target_preview()
 	if _spell_panel:
 		_spell_panel.hide()
 	if _check_battle_end():
@@ -2919,17 +3180,126 @@ func _get_ai_decision(monster: Combatant) -> Dictionary:
 #  ИСПОЛЬЗОВАНИЕ СПОСОБНОСТЕЙ
 # ══════════════════════════════════════════════
 
+## С шансом VOICE_LINE_CHANCE проигрывает случайную фразу из ability.voice_lines —
+## только для богов игрока (не для врагов). Сам звук/облачко над головой рисует
+## CombatantVisual, подписанный на Combatant.voice_line_used (см. combatant_visual.gd).
+func _maybe_play_ability_voice_line(attacker: Combatant, ability: AbilityResource) -> void:
+	if attacker.is_enemy or ability.voice_lines.is_empty():
+		return
+	# Локи «Рагнарек»: реплика должна звучать в момент удара (_trigger_loki_ragnarok),
+	# а не при входе в стойку — иначе она проигрывалась бы за ход до самой атаки.
+	if ability.stance_effect_type == "loki_ragnarok":
+		return
+	if randf() >= VOICE_LINE_CHANCE:
+		return
+	var voice_line: VoiceLineResource = ability.voice_lines[randi() % ability.voice_lines.size()]
+	if voice_line != null and voice_line.audio != null:
+		attacker.voice_line_used.emit(voice_line.text, voice_line.audio)
+
+const ATTACK_SFX_PLAYER_POOL_SIZE := 6
+var _attack_sfx_players: Array[AudioStreamPlayer] = []
+var _next_attack_sfx_player_idx: int = 0
+
+func _ensure_attack_sfx_players() -> void:
+	if not _attack_sfx_players.is_empty():
+		return
+	for i in range(ATTACK_SFX_PLAYER_POOL_SIZE):
+		var p := AudioStreamPlayer.new()
+		add_child(p)
+		_attack_sfx_players.append(p)
+
+## Длительность вспышки способности (см. CombatantVisual.ATTACK_FLASH_FADE_DURATION:
+## 0.25 проявление + 0.25 исчезание) — держим отдельной константой здесь, т.к.
+## combatant_visual.gd не объявляет class_name и её нельзя прочитать напрямую.
+const ATTACK_FLASH_TOTAL_DURATION := 0.5
+
+## Звук анимации способности (attack_sfx) раньше почти всегда играл на полной
+## громкости (0 dB) — заметно перекрывал озвученную реплику. ATTACK_SFX_VOLUME_SCALE
+## снижает его примерно до громкости речи (голос играет как есть, без затухания —
+## см. CombatantVisual._voice_audio_player). Если у способности есть озвученные
+## фразы — звук анимации приглушается ещё на 30% (линейно) сверху, на случай если
+## реплика сейчас прозвучит (см. _maybe_play_ability_voice_line; вероятность —
+## VOICE_LINE_CHANCE, сейчас 30% — приглушение приблизительное, не привязано
+## к результату конкретного броска).
+const ATTACK_SFX_VOLUME_SCALE := 0.5
+const ATTACK_SFX_VOLUME_SCALE_WITH_VOICE := 0.7
+
+func _get_attack_sfx_volume_db(ability: AbilityResource) -> float:
+	var scale: float = ATTACK_SFX_VOLUME_SCALE
+	if not ability.voice_lines.is_empty():
+		scale *= ATTACK_SFX_VOLUME_SCALE_WITH_VOICE
+	return ability.attack_sfx_volume_db + linear_to_db(scale)
+
+## Проигрывает ability.attack_sfx (звук удара) — вызывается ровно в момент, когда
+## способность реально бьёт по цели, а не когда игрок нажал на неё. Небольшой пул
+## AudioStreamPlayer (не один on) — чтобы быстрые серии ударов (Гнев Бога Грома,
+## Нескончаемый шторм) не обрывали звук друг друга, доигрывая только последний.
+## Пока звук не доиграет (с учётом attack_sfx_max_length) — бой на паузе, см.
+## _adjust_attack_effect_count()/_is_battle_paused().
+func _play_ability_attack_sfx(ability: AbilityResource) -> void:
+	if ability == null or ability.attack_sfx == null:
+		return
+	_ensure_attack_sfx_players()
+	var player: AudioStreamPlayer = _attack_sfx_players[_next_attack_sfx_player_idx]
+	_next_attack_sfx_player_idx = (_next_attack_sfx_player_idx + 1) % _attack_sfx_players.size()
+	player.stream = ability.attack_sfx
+	player.volume_db = _get_attack_sfx_volume_db(ability)
+	player.play()
+	var sound_length: float = ability.attack_sfx.get_length()
+	var truncated: bool = ability.attack_sfx_max_length > 0.0
+	if truncated:
+		sound_length = minf(sound_length, ability.attack_sfx_max_length)
+	_adjust_attack_effect_count(1)
+	# RealTimeWait, не create_timer(ignore_time_scale=true) — этот параметр движка
+	# ломается ровно при time_scale=0.0 (проверено: запрошенные 300ms срабатывали
+	# за ~8ms), а именно это значение держит пауза, которую сам же этот таймер и
+	# обслуживает. См. Scripts/real_time_wait.gd.
+	await RealTimeWait.wait(self, sound_length)
+	if truncated and is_instance_valid(player) and player.stream == ability.attack_sfx:
+		player.stop()
+	_adjust_attack_effect_count(-1)
+
+## Показывает только вспышку (без звука) на визуале target — см.
+## CombatantVisual.show_attack_effect_flash: каждый вызов создаёт СВОЮ независимую
+## вспышку (не делят один узел), поэтому и повторные удары по одной и той же цели
+## (Гнев Бога Грома, Нескончаемый шторм), и удары по разным целям одновременно
+## (Молот молнии Тора по всем врагам) — у каждого своя отдельная анимация. Пока
+## вспышка не доиграет — бой на паузе (см. _adjust_attack_effect_count() выше).
+func _show_ability_attack_flash(ability: AbilityResource, target: Combatant) -> void:
+	if ability == null or ability.attack_effect_texture == null or target == null:
+		return
+	var visual = _find_visual_for_unit(target, hero_visuals)
+	if visual == null:
+		visual = _find_visual_for_unit(target, enemy_visuals)
+	if visual == null or not visual.has_method("show_attack_effect_flash"):
+		return
+	visual.show_attack_effect_flash(ability.attack_effect_texture, ability.attack_effect_scale)
+	_adjust_attack_effect_count(1)
+	await RealTimeWait.wait(self, ATTACK_FLASH_TOTAL_DURATION)
+	_adjust_attack_effect_count(-1)
+
+## Проигрывает звук И вспышку способности в момент, когда она реально бьёт по
+## target — удобный вызов для обычного одиночного удара. Для случаев вроде Молота
+## молнии Тора (один звук на всю серию, но вспышка на каждом враге) звук и вспышки
+## запускаются отдельно через _play_ability_attack_sfx()/_show_ability_attack_flash().
+func _play_ability_attack_effects(ability: AbilityResource, target: Combatant) -> void:
+	if ability == null:
+		return
+	_play_ability_attack_sfx(ability)
+	_show_ability_attack_flash(ability, target)
+
 func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityResource):
 	attacker.refresh_passive_auras()
 	if defender != null:
 		defender.refresh_passive_auras()
 	_show_ability_banner(ability.get_display_name())
+	_maybe_play_ability_voice_line(attacker, ability)
 	var log_lines: Array[String] = []
 	log_lines.append("%s использует «%s»." % [attacker.unit_name, ability.name])
 	var total_damage_dealt: int = 0
 	var voodoo_effect_snapshot: Array = _snapshot_active_effects()
 
-	# ═══ Сердце природы: каждый раз, когда Дуна применяет способность, бог с наименьшим
+	# ═══ Сердце природы: каждый раз, когда Дану применяет способность, бог с наименьшим
 	# HP в её команде восстанавливает 10% от макс. здоровья ═══
 	if attacker.has_item_effect("duna_heart_heal_lowest"):
 		var _dh_team = enemies_team if attacker.is_enemy else heroes_team
@@ -3138,6 +3508,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 					var _refl_miss_result = CombatCalculator.calculate_fixed_damage(target, attacker, 0.4)
 					if _refl_miss_result.is_hit:
 						var _refl_miss_hp_b = attacker.current_hp
+						_play_ability_attack_effects(target.active_stance, attacker)
 						attacker.take_damage(_refl_miss_result.final_damage)
 						log_lines.append("  → [Отражение] %s контратакует %s на %d урона. HP: %d → %d" % [target.unit_name, attacker.unit_name, _refl_miss_result.final_damage, _refl_miss_hp_b, attacker.current_hp])
 						if attacker.current_hp <= 0:
@@ -3207,11 +3578,11 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 						if _nm_bonus > 0:
 							final_damage += _nm_bonus
 							log_lines.append("  → [Кошмар] +%d урона за %d недостающего величия." % [_nm_bonus, _nm_missing])
-				# Суккуб: пассивка — -30% урона от богов (кроме Дуна/Моргана/Чернобог) к Суккубу
+				# Суккуб: пассивка — -30% урона от богов (кроме Дану/Моргана/Чернобог) к Суккубу
 				if target.special_effect_type == "succubus_god_resist" and not attacker.is_enemy:
-					# attacker — бог (герой). Список иммунных: Дуна, Моргана, Чернобог
+					# attacker — бог (герой). Список иммунных: Дану, Моргана, Чернобог
 					var _sr_name = attacker.unit_name
-					if _sr_name != "Дуна" and _sr_name != "Моргана Лефей" and _sr_name != "Моргана" and _sr_name != "Чернобог":
+					if _sr_name != "Дану" and _sr_name != "Моргана Лефей" and _sr_name != "Моргана" and _sr_name != "Чернобог":
 						final_damage = int(final_damage * 0.7)
 						log_lines.append("  → [Суккуб] -30%% урона от бога %s." % _sr_name)
 				# Асура: пассивка — если атака не критическая, урон по Асуре -50%
@@ -3346,6 +3717,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 				# Флаг крита для всплывающего числа (крупнее и полностью красное).
 				if is_crit:
 					target.pending_crit = true
+				_play_ability_attack_effects(ability, target)
 				target.take_damage(final_damage)
 				total_damage_dealt += final_damage
 				if final_damage > 0:
@@ -3395,6 +3767,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 					var _refl_result = CombatCalculator.calculate_fixed_damage(target, attacker, 0.4)
 					if _refl_result.is_hit:
 						var _refl_hp_b = attacker.current_hp
+						_play_ability_attack_effects(target.active_stance, attacker)
 						attacker.take_damage(_refl_result.final_damage)
 						log_lines.append("  → [Отражение] %s контратакует %s на %d урона. HP: %d → %d" % [target.unit_name, attacker.unit_name, _refl_result.final_damage, _refl_hp_b, attacker.current_hp])
 						if attacker.current_hp <= 0:
@@ -3417,7 +3790,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 									_vlink.take_damage(_vd_dmg)
 									log_lines.append("  → [Кукла вуду] %s получает %d урона (50%% от %s). HP: %d → %d" % [_vlink.unit_name, _vd_dmg, target.unit_name, _vd_hp_b, _vlink.current_hp])
 							break
-				# Дуна «Защита из корней»: атакующий получает % урона шипами (пока активен эффект root_thorns)
+				# Дану «Защита из корней»: атакующий получает % урона шипами (пока активен эффект root_thorns)
 				if final_damage > 0 and attacker.current_hp > 0:
 					for _rt_e in target.active_effects:
 						if Combatant._effect_get(_rt_e, "effect_id", "") == "root_thorns":
@@ -3465,7 +3838,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 						attacker.check_stance_interruption("stun")
 						_notify_stun_applied(attacker)
 						log_lines.append("  → [Тролль] %s не нанёс урона и оглушает себя (1 ход)." % attacker.unit_name)
-					# Дуна «Растительный яд»: союзник с баффом яда накладывает DoT 20% от урона ДУНЫ на 4 хода при атаке
+					# Дану «Растительный яд»: союзник с баффом яда накладывает DoT 20% от урона ДАНУ на 4 хода при атаке
 				if final_damage > 0 and target.current_hp > 0 and attacker.has_meta("plant_poison_attacker_dmg"):
 					var _pp_has = false
 					for _pp_e in attacker.active_effects:
@@ -3794,25 +4167,9 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 		if "condition" in ability and ability.condition == "OnKill" and target.current_hp <= 0:
 			effects._apply_effect_to_target(attacker, attacker, ability.condition_effect, ability)
 		
-		# ═══ Кощей: заряды жизни — при смерти восстановить 50% HP вместо гибели ═══
-		if target.current_hp <= 0 and target.special_effect_type == "koschei_life_charges" and target.life_charges > 0:
-			target.life_charges -= 1
-			target.current_hp = int(target.max_hp * 0.5)
-			target.active_effects.clear()
-			log_lines.append("  → [Кощей] %s теряет 1 заряд жизни (осталось: %d). HP: %d → %d" % [
-				target.unit_name, target.life_charges, 0, target.current_hp])
-		# ═══ Бессмертный: щит смерти — впервые при HP=0 восстановить полное HP ═══
-		elif target.current_hp <= 0 and target.special_effect_type == "immortal_death_shield":
-			var _imm_used = false
-			for _eff in target.active_effects:
-				if Combatant._effect_get(_eff, "effect_id", "") == "immortal_shield_used":
-					_imm_used = true
-					break
-			if not _imm_used:
-				target.current_hp = target.max_hp
-				target.active_effects.clear()
-				target.active_effects.append({"stat": "trigger_marker", "value": 0, "duration": -1, "effect_id": "immortal_shield_used"})
-				log_lines.append("  → [Щит смерти] %s: восстанавливает полное HP (%d) вместо гибели!" % [target.unit_name, target.current_hp])
+		# Примечание: щиты "Кощей: заряды жизни" и "Бессмертный: щит смерти" теперь
+		# проверяются прямо в Combatant.take_damage(), ДО died.emit() — см. звук/лог
+		# по сигналам koschei_life_shield_triggered/immortal_death_shield_triggered.
 		if target.current_hp <= 0:
 			log_lines.append("  → %s повержен!" % target.unit_name)
 			target.killed_by = attacker
@@ -4548,7 +4905,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 					for line in log_lines:
 						_log_combat(line)
 					return
-		# ═══ Дуна: «Торжество жизни» — полное лечение цели + баффы ═══
+		# ═══ Дану: «Торжество жизни» — полное лечение цели + баффы ═══
 		if ability.ability_marker == "duna_life_celebration" and target.current_hp > 0:
 			if attacker.special_effect_type == "duna_heal_damage":
 				_duna_turn_heal += maxi(0, target.max_hp - target.current_hp)
@@ -4562,7 +4919,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 			log_lines.append("  → [Торжество жизни] %s: полное HP, +10 урона/удачи/брони навсегда." % target.unit_name)
 			_update_all_visuals()
 
-		# ═══ Дуна: «Поглощение жизни» — лечение 50% от нанесённого урона ═══
+		# ═══ Дану: «Поглощение жизни» — лечение 50% от нанесённого урона ═══
 		if ability.ability_marker == "duna_life_steal" and target.current_hp > 0:
 			var heal = int(total_damage_dealt * 0.5)
 			if heal > 0:
@@ -4613,13 +4970,13 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 			if _koa_ext > 0:
 				log_lines.append("  → [Король Асгарда] %s: продлено %d бафф(ов) урона на 1 ход." % [attacker.unit_name, _koa_ext])
 
-		# ═══ Дуна: «Растительный яд» — союзник наносит доп. DoT 20% на 4 хода (3 хода эффект) ═══
+		# ═══ Дану: «Растительный яд» — союзник наносит доп. DoT 20% на 4 хода (3 хода эффект) ═══
 		if ability.ability_marker == "duna_plant_poison" and target.current_hp > 0:
 			target.set_meta("plant_poison_attacker_dmg", attacker.damage)
 			target.active_effects.append({"stat": "trigger_marker", "value": 0, "duration": 3, "effect_id": "plant_poison_buff", "source_ability": "Растительный яд"})
 			log_lines.append("  → [Растительный яд] %s теперь накладывает периодический урон при атаке (3 хода)." % target.unit_name)
 
-		# ═══ Дуна: «Защита из корней» — союзник +20% брони, атакующие получают 40% урона (3 хода) ═══
+		# ═══ Дану: «Защита из корней» — союзник +20% брони, атакующие получают 40% урона (3 хода) ═══
 		if ability.ability_marker == "duna_root_protection" and target.current_hp > 0:
 			var _rp_bonus = int(target.base_armor * 0.2)
 			var _rp_cast_duration = _compute_effect_duration(attacker, target, 3, false)
@@ -4867,7 +5224,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 			effects._dispel_effects(attacker, "buff")
 			var _it_bonus = _it_count * 10
 			if _it_bonus > 0:
-				var _it_duration = _compute_effect_duration(attacker, attacker, 2, false)
+				var _it_duration = _compute_effect_duration(attacker, attacker, 1, false)
 				effects._apply_buff_to_unit(attacker, "damage", _it_bonus, _it_duration, "virgo_innocent_touch", "Невинное касание")
 			log_lines.append("  → [Невинное касание] %s теряет %d бафф(ов), +%d урона." % [attacker.unit_name, _it_count, _it_bonus])
 
@@ -4988,6 +5345,10 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 	if ability.is_stance:
 		attacker.enter_stance(ability)
 		log_lines.append("  → %s входит в стойку: %s." % [attacker.unit_name, ability.name])
+		# Гном кузнец: «Ковать железо» не наносит урона, поэтому единственный момент
+		# для звука/вспышки удара молотом — сам вход в стойку (удар по наковальне).
+		if ability.stance_effect_type == "smith_forge":
+			_play_ability_attack_effects(ability, attacker)
 		# Новичок: «Я только учусь» — +30 уклонения, пока активна стойка
 		if ability.stance_effect_type == "novice_training":
 			attacker.apply_stat_change("evasion", 30)
@@ -5048,7 +5409,7 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 		# Один: «Предвидеть» — все союзники +20 уклонения и +15 удачи на 1 ход (стойка, обновляется каждый ход)
 		elif ability.stance_effect_type == "odin_foresight":
 			_refresh_odin_foresight_aura(attacker)
-		# Дуна: «В гармонии с природой» — назад 1, союзники иммунны к дебаффам
+		# Дану: «В гармонии с природой» — назад 1, союзники иммунны к дебаффам
 		elif ability.stance_effect_type == "duna_harmony":
 			_apply_shift_effect(attacker, 1, _is_player_hero(attacker))
 			var _hteam = heroes_team if not attacker.is_enemy else enemies_team
@@ -5131,6 +5492,12 @@ func _use_ability(attacker: Combatant, defender: Combatant, ability: AbilityReso
 	for line in log_lines:
 		_log_combat(line)
 
+## Async: пауза THUNDER_WRATH_HIT_GAP_SEC между каждым из 5 ударов, чтобы они били
+## по очереди, а не все разом одним кадром — каждый удар получает свою собственную
+## анимацию (см. CombatantVisual.show_attack_effect_flash), но без паузы все 5
+## отрисовывались бы визуально в один и тот же момент времени.
+const THUNDER_WRATH_HIT_GAP_SEC := 0.5
+
 func _trigger_thunder_wrath(attacker: Combatant):
 	var enemies = _get_living_team_members(enemies_team if _is_player_hero(attacker) else heroes_team)
 	if enemies.is_empty():
@@ -5146,7 +5513,14 @@ func _trigger_thunder_wrath(attacker: Combatant):
 		var dmg_result = CombatCalculator.calculate_fixed_damage(attacker, target, 0.3)
 		if not dmg_result.is_hit:
 			_log_combat("  [Удар %d] → Промах по %s." % [i + 1, target.unit_name])
+			if i < 4:
+				# ignore_time_scale=true — иначе этот таймер сам встаёт на паузу,
+				# которую держит звук/вспышка предыдущего удара (Engine.time_scale=0
+				# пока _active_attack_effects > 0), и следующий удар откладывается
+				# на секунды вместо задуманных THUNDER_WRATH_HIT_GAP_SEC.
+				await RealTimeWait.wait(self, THUNDER_WRATH_HIT_GAP_SEC)
 			continue
+		_play_ability_attack_effects(attacker.active_stance, target)
 		_deal_damage(target, dmg_result.final_damage, dmg_result.is_crit)
 		var crit_text = " (крит!)" if dmg_result.is_crit else ""
 		_log_combat("  [Удар %d] → %s получает %d урона%s. HP: %d → %d" % [
@@ -5157,6 +5531,9 @@ func _trigger_thunder_wrath(attacker: Combatant):
 			_on_unit_killed(target)
 			var team = heroes_team if target.is_enemy == false else enemies_team
 			_compact_team(team)
+		_update_all_visuals()
+		if i < 4:
+			await RealTimeWait.wait(self, THUNDER_WRATH_HIT_GAP_SEC)
 	_update_all_visuals()
 
 func _trigger_indigo_hunt_stance(attacker: Combatant):
@@ -5338,6 +5715,7 @@ func _trigger_loki_ragnarok(attacker: Combatant):
 		_log_combat("🔥 [Локи] Рагнарек! Двойной крит, но целей нет.")
 		return
 	_log_combat("🔥 [Локи] Рагнарек! Все враги получают урон, крит x2!")
+	_maybe_play_ability_voice_line(attacker, attacker.active_stance)
 	for target in enemies:
 		if _check_battle_end():
 			return
@@ -5567,9 +5945,13 @@ func _should_trigger_thor_hammer_of_lightning(attacker: Combatant, ability: Abil
 func _trigger_thor_hammer_of_lightning(attacker: Combatant, log_lines: Array[String]) -> void:
 	var enemy_team: Array = enemies_team if not attacker.is_enemy else heroes_team
 	var pure_damage: int = maxi(1, int(attacker.damage * 0.05))
+	# Один звук молнии на весь проц (не на каждого врага), но вспышка — на КАЖДОМ
+	# враге, все одновременно (без паузы между ними, в отличие от Гнева Бога Грома).
+	_play_ability_attack_sfx(attacker.ultimate_ability)
 	for enemy in enemy_team.duplicate():
 		if enemy == null or enemy.current_hp <= 0:
 			continue
+		_show_ability_attack_flash(attacker.ultimate_ability, enemy)
 		var hp_before: int = enemy.current_hp
 		enemy.take_damage(pure_damage)
 		log_lines.append("  → [Hammer_of_lightning] %s получает %d чистого урона (%d → %d)." % [enemy.unit_name, pure_damage, hp_before, enemy.current_hp])
@@ -5608,7 +5990,10 @@ func _trigger_storm_marks(attacker: Combatant):
 		var dmg_result = CombatCalculator.calculate_fixed_damage(attacker, target, 0.6)
 		if not dmg_result.is_hit:
 			_log_combat("  [Молния %d] → Промах по %s." % [i + 1, target.unit_name])
+			if i < mark_count - 1:
+				await RealTimeWait.wait(self, THUNDER_WRATH_HIT_GAP_SEC)
 			continue
+		_play_ability_attack_effects(attacker.ultimate_ability, target)
 		_deal_damage(target, dmg_result.final_damage, dmg_result.is_crit)
 		var crit_text = " (крит!)" if dmg_result.is_crit else ""
 		_log_combat("  [Молния %d] → %s получает %d урона%s. HP: %d → %d" % [
@@ -5619,6 +6004,11 @@ func _trigger_storm_marks(attacker: Combatant):
 			_on_unit_killed(target)
 			var team = heroes_team if target.is_enemy == false else enemies_team
 			_compact_team(team)
+		_update_all_visuals()
+		# Та же пауза между ударами, что и у Гнева Бога Грома (THUNDER_WRATH_HIT_GAP_SEC) —
+		# без неё все удары этой способности тоже били бы визуально одновременно.
+		if i < mark_count - 1:
+			await RealTimeWait.wait(self, THUNDER_WRATH_HIT_GAP_SEC)
 	_update_all_visuals()
 
 # ═══ Система позиционных марок перенесена в battle_marks.gd (класс BattleMarks) ═══
@@ -5961,6 +6351,25 @@ func _on_unit_died(unit: Combatant) -> void:
 func _on_phoenix_shield_triggered(unit: Combatant) -> void:
 	_log_combat("🔥 [Перо феникса] %s: гибель предотвращена, здоровье полностью восстановлено!" % unit.unit_name)
 	_update_all_visuals()
+
+func _on_koschei_life_shield_triggered(unit: Combatant) -> void:
+	_log_combat("💀 [Кощей] %s теряет 1 заряд жизни (осталось: %d). HP восстановлено до %d." % [unit.unit_name, unit.life_charges, unit.current_hp])
+	_update_all_visuals()
+
+func _on_immortal_death_shield_triggered(unit: Combatant) -> void:
+	_log_combat("🛡 [Щит смерти] %s: восстанавливает полное HP (%d) вместо гибели!" % [unit.unit_name, unit.current_hp])
+	_update_all_visuals()
+
+## Стойки, чей эффект наложен не только на самого юнита, а на всю его команду —
+## при прерывании/окончании стойки эффект нужно снять со всех, не только с юнита,
+## у которого была стойка (combatant.gd::break_stance() снимает только свои эффекты).
+func _on_unit_stance_broken(stance_effect_type: String, unit: Combatant) -> void:
+	if stance_effect_type == "duna_harmony":
+		var team: Array = enemies_team if unit.is_enemy else heroes_team
+		for ally in team:
+			if ally:
+				ally._strip_effects_by_source("В гармонии с природой")
+		_update_all_visuals()
 
 func _show_miss_popup(unit: Combatant) -> void:
 	if unit == null:
@@ -6391,6 +6800,7 @@ func _apply_death_fading() -> void:
 		if res == null or res.is_dead:
 			continue
 		res.add_forgetting(2.0)
+		MissionState.add_hero_forgetting_gained(hero_path, 2.0)
 		if res.is_dead:
 			if not CombatManager.mission_dead_heroes.has(hero_path):
 				CombatManager.mission_dead_heroes.append(hero_path)
@@ -6659,11 +7069,75 @@ func _on_unit_hovered(unit: Combatant):
 	if _pinned_hover_unit != null:
 		return
 	_show_unit_info_panel(unit)
+	_update_ability_target_preview(unit)
 
 ## Обработчик ухода курсора с юнита
 func _on_unit_unhovered():
 	if _hover_info_panel and _pinned_hover_unit == null:
 		_hover_info_panel.hide()
+	_clear_ability_target_preview()
+
+## Предпросмотр цели способности при наведении: для ВСЕХ юнитов, которые реально
+## получат эффект выбранной способности (с учётом All_Enemies/All_Allies и
+## extra_targets_count — не только тот, на кого наведён курсор), показывает шанс
+## попадания и (если способность наносит урон) запускает мигание той части HP-
+## полоски, которая пропадёт при попадании. Намеренно игнорирует случайные эффекты
+## перенаправления атаки (метка невинности/сатир/провокация) — превью показывает
+## НАМЕРЕННУЮ цель игрока, а не то, что может произойти после случайного ролла.
+func _update_ability_target_preview(hovered: Combatant) -> void:
+	_clear_ability_target_preview()
+	if not waiting_for_target or selected_ability == null or active_unit == null:
+		return
+	if hovered == null or hovered.current_hp <= 0:
+		return
+	if selected_ability.target_type == "Self" or selected_ability.target_type == "Position":
+		return
+	if not _can_user_target_unit(active_unit, hovered, selected_ability):
+		return
+	var deals_damage: bool = selected_ability.damage_modifier > 0 and selected_ability.stance_effect_type != "filibuster_double_hit" and selected_ability.stance_effect_type != "bombardment_stance"
+	for target_value in _resolve_preview_targets(selected_ability, active_unit, hovered):
+		var target: Combatant = target_value as Combatant
+		if target == null or target.current_hp <= 0:
+			continue
+		var enemy_side: bool = target.is_enemy != active_unit.is_enemy
+		if not deals_damage and not enemy_side:
+			continue
+		var vis = _find_visual_for_unit(target, hero_visuals)
+		if vis == null:
+			vis = _find_visual_for_unit(target, enemy_visuals)
+		if vis == null or not vis.has_method("show_target_preview"):
+			continue
+		var hit_chance: float = 1.0
+		if not (deals_damage and active_unit.has_item_effect("baal_eye_never_miss")):
+			hit_chance = CombatCalculator.get_hit_chance(active_unit.accuracy, target.evasion)
+		var predicted_damage: int = 0
+		if deals_damage:
+			predicted_damage = CombatCalculator.preview_ability_damage(active_unit, target, selected_ability)
+		vis.show_target_preview(hit_chance, predicted_damage)
+		_preview_active_visuals.append(vis)
+
+func _clear_ability_target_preview() -> void:
+	for vis in _preview_active_visuals:
+		if is_instance_valid(vis) and vis.has_method("clear_target_preview"):
+			vis.clear_target_preview()
+	_preview_active_visuals.clear()
+
+## Разрешение целей способности для превью — та же логика, что в _use_ability()
+## (Self/All_Enemies/All_Allies/одиночная цель + extra_targets_count), но БЕЗ
+## случайных эффектов перенаправления (см. комментарий у _update_ability_target_preview).
+func _resolve_preview_targets(ability: AbilityResource, attacker: Combatant, defender: Combatant) -> Array:
+	if ability.target_type == "All_Enemies" or ability.target_type == "All_Allies":
+		return _get_all_targets(ability, attacker)
+	var targets: Array = [defender]
+	if ability.extra_targets_count > 0:
+		var team = enemies_team if defender.is_enemy else heroes_team
+		for i in range(ability.extra_targets_count):
+			var next_pos = defender.position_index + i + 1
+			for unit in team:
+				if unit and unit.position_index == next_pos and unit.current_hp > 0:
+					targets.append(unit)
+					break
+	return targets
 
 ## Формирует BBCode-текст с полной информацией о юните
 func _get_unit_hover_text(unit: Combatant) -> String:
@@ -6997,6 +7471,8 @@ func _update_spell_ui():
 
 ## Обработка клика по кнопке заклинания
 func _on_spell_clicked(spell_index: int):
+	if _is_battle_paused():
+		return
 	if spell_index < 0 or spell_index >= available_spells.size():
 		return
 	var spell: SpellResource = available_spells[spell_index]
@@ -7066,10 +7542,11 @@ func _apply_spell_to_target(target: Combatant, spell: SpellResource):
 			call_deferred("_restart_battle_from_spell")
 		elif effect == "periodic_damage":
 			var _spell_dot_duration = _compute_effect_duration(active_unit, target, duration, true)
-			target.active_effects.append({"stat": "periodic_damage", "value": val, "duration": _spell_dot_duration, "source_ability": spell.spell_name})
-			_log_combat("⚡ %s: %s получает %d периодического урона на %d ход(ов)." % [spell.spell_name, target.unit_name, val, _spell_dot_duration])
+			var _spell_dot_val = int(round(val * (1.0 + active_unit.get_periodic_damage_bonus_percent() / 100.0)))
+			target.active_effects.append({"stat": "periodic_damage", "value": _spell_dot_val, "duration": _spell_dot_duration, "source_ability": spell.spell_name})
+			_log_combat("⚡ %s: %s получает %d периодического урона на %d ход(ов)." % [spell.spell_name, target.unit_name, _spell_dot_val, _spell_dot_duration])
 		elif effect == "periodic_damage_percent":
-			var _pct_dot_val = int(target.max_hp * val / 100.0)
+			var _pct_dot_val = int(round(int(target.max_hp * val / 100.0) * (1.0 + active_unit.get_periodic_damage_bonus_percent() / 100.0)))
 			var _pct_dot_duration = _compute_effect_duration(active_unit, target, duration, true)
 			if _pct_dot_val > 0:
 				target.active_effects.append({"stat": "periodic_damage", "value": _pct_dot_val, "duration": _pct_dot_duration, "source_ability": spell.spell_name})

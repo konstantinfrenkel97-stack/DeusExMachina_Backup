@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AbilityResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+name = "Шторм щупалец"
+description = "Четыре щупальца одновременно бьют по всей линии врагов. 55% урона каждой цели."
+damage_modifier = 0.55
+majesty_gain = 15
+target_type = "Enemy"
+extra_targets_count = 3
+ability_marker = "kraken_storm_of_tentacles"
+usable_from_positions = Array[bool]([false, false, true, true])
+targetable_positions = Array[bool]([true, true, true, true])
+metadata/_custom_type_script = "uid://bthajoj5kgfln"

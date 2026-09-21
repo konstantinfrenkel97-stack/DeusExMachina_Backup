@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Клинок востока"
-description = "+20% урона, если щит смерти ещё не использован."
+description = ""
 damage_modifier = 1.0
 majesty_gain = 0
 ability_marker = "immortal_eastern_blade"

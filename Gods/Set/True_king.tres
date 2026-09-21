@@ -1,12 +1,27 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://settrkg0001"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_tk"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Set/12_bow.mp3" id="3_a1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Set/13_kneel_peasant.mp3" id="4_a2"]
+
+[sub_resource type="Resource" id="voice_king_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_a1")
+text = "Склонись!"
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_king_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_a2")
+text = "На колени, смерд!"
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_tk")
 icon_path = "uid://bewjldtx3ca6n"
 name = "Настоящий король"
-description = "Стойка: Сет отходит назад. Пока стойка активна, он перехватывает величие союзников; союзник лечится на 10% HP и получает +10 брони на 2 хода."
+description = "Стойка: Сет отходит назад и перехватывает величие союзников."
 damage_modifier = 0.0
 majesty_gain = 10
 target_type = "Self"
@@ -17,4 +32,5 @@ effect_values = Dictionary[String, int]({
 stance_duration_type = "UntilNextTurn"
 is_stance = true
 stance_effect_type = "set_true_king"
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_king_1"), SubResource("voice_king_2")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

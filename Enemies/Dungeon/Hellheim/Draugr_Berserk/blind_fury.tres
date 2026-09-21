@@ -2,10 +2,13 @@
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_bf"]
 
+[ext_resource type="Texture2D" path="res://Ability_pics/Claws.png" id="anim_fx"]
+[ext_resource type="AudioStream" path="res://Sounds/hammer_hit_flesh.wav" id="anim_sfx"]
+
 [resource]
 script = ExtResource("1_bf")
 name = "Слепая ярость"
-description = "Наносит 80% урона; сам теряет 40 точности на 1 ход.."
+description = "Наносит 80% урона по 2 целям; сам теряет 40 точности на 1 ход."
 damage_modifier = 0.8
 majesty_gain = 0
 extra_targets_count = 1
@@ -18,4 +21,6 @@ effect_durations = Dictionary[String, int]({
 })
 usable_from_positions = Array[bool]([true, false, false, false])
 targetable_positions = Array[bool]([true, true, false, false])
+attack_effect_texture = ExtResource("anim_fx")
+attack_sfx = ExtResource("anim_sfx")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

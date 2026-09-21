@@ -1,6 +1,21 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://drvx7u0p1trty"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Samdi/07_one_two_three.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Samdi/08_danse_macabre.mp3" id="4_v2"]
+
+[sub_resource type="Resource" id="voice_dance_puppet_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "Раз, два, три."
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_dance_puppet_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Пляска смерти."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_ab")
@@ -18,4 +33,5 @@ effect_durations = Dictionary[String, int]({
 "target_debuff_evasion": 2
 })
 usable_from_positions = Array[bool]([false, false, true, true])
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_dance_puppet_1"), SubResource("voice_dance_puppet_2")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

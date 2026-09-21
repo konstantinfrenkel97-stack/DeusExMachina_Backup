@@ -5,8 +5,29 @@ extends Control
 @onready var body_label: RichTextLabel = $Panel/Margin/Scroll/VBox/BodyText
 @onready var choices_container: VBoxContainer = $Panel/Margin/Scroll/VBox/Choices
 @onready var back_button: Button = $BackButton
+@onready var location_background: TextureRect = $LocationBackground
 
 const BATTLE_SETUP_SCRIPT := preload("res://battle_setup.gd")
+# location_id (MissionResource.LOCATION_IDS) → полноэкранный растянутый фон сцены,
+# те же картинки, что уже использует Doors/mission_choice_screen.gd (LOCATION_BACKGROUNDS,
+# только тот словарь ключуется русским названием локации, а не location_id).
+const LOCATION_BACKGROUND_PATHS := {
+	"helheim": "res://Mission_choice_background/Helheim_mission_choice_background.png",
+	"hell": "res://Mission_choice_background/hell_mission_choice_background.png",
+	"tunnels": "res://Mission_choice_background/Tunnels_mission_choice_background.png",
+	"clouds": "res://Mission_choice_background/clouds_mission_choice_background.png",
+	"stars": "res://Mission_choice_background/Stars_mission_choice_background.png",
+	"mountains": "res://Mission_choice_background/Peaks_mission_choice_background.png",
+	"arena": "res://Mission_choice_background/Arena_mission_choice_background.png",
+	"castle": "res://Mission_choice_background/Castle_mission_choice_background.png",
+	"desert": "res://Mission_choice_background/Desert_mission_choice_background.png",
+	"depths": "res://Mission_choice_background/Deep_mission_choice_background.png",
+	"island": "res://Mission_choice_background/islands_mission_choice_background.png",
+	"ships": "res://Mission_choice_background/Ships_mission_choice_background.png",
+	"jungle": "res://Mission_choice_background/Jungle_mission_choice_background.png",
+	"garden": "res://Mission_choice_background/Garden_mission_choice_background.png",
+	"swamp": "res://Mission_choice_background/Marsh_mission_choice_background.png",
+}
 const MISSION_HERO_PORTRAIT_SIZE := Vector2(84, 84)
 const MISSION_HERO_HP_BAR_HEIGHT := 6.0
 const MISSION_HERO_MAJESTY_BAR_HEIGHT := 5.0
@@ -23,10 +44,14 @@ var _pending_finish_return_path: String = ""
 ## Взводится в _apply_outcome_mission_effects(), если счётчик отдыха только что
 ## пересёк свой порог провала — читается сразу после в _apply_outcome_effects().
 var _rest_counter_forced_failure: bool = false
+var help: CampaignHelp = null
+var _heroes_row_wrapper: HBoxContainer = null
 
 func _ready() -> void:
+	help = CampaignHelp.new(self)
 	back_button.pressed.connect(_on_back_pressed)
 	body_label.bbcode_enabled = true
+	_update_location_background()
 	_prepare_layout()
 	_build_mission_heroes_row()
 	# Бой (последний в миссии) только что решил её исход — сразу показываем экран
@@ -44,7 +69,15 @@ func _ready() -> void:
 func _prepare_layout() -> void:
 	image_rect.custom_minimum_size = Vector2(0, 120)
 	image_rect.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	body_label.custom_minimum_size = Vector2(0, 360)
+	# fit_content=true + scroll_active=false: раньше у BodyText было СВОЁ внутреннее
+	# скроллирование (независимое от внешнего Scroll), плюс фиксированный пол высоты
+	# 360px — из-за этого общее содержимое почти всегда "не помещалось" и внешний
+	# скролл включался, даже когда сам текст сцены был короткий. Теперь высота
+	# BodyText считается по фактическому тексту, а решение "скроллить или нет"
+	# принимает только один, внешний ScrollContainer (см. SCROLL_MODE_AUTO ниже).
+	body_label.custom_minimum_size = Vector2(0, 0)
+	body_label.fit_content = true
+	body_label.scroll_active = false
 	body_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	choices_container.size_flags_vertical = Control.SIZE_SHRINK_END
 	# Портреты отряда раньше добавлялись последним элементом ВНУТРИ прокручиваемого
@@ -60,6 +93,12 @@ func _prepare_layout() -> void:
 	margin.add_child(wrapper)
 	wrapper.add_child(scroll)
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	# AUTO — полоса прокрутки скрыта, если весь текст помещается без прокрутки,
+	# и появляется сама, если текста больше, чем видно (иначе игрок не всегда
+	# замечает, что текст обрезан и его нужно докрутить).
+	var scroll_container := scroll as ScrollContainer
+	if scroll_container != null:
+		scroll_container.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	_heroes_row_parent = wrapper
 	# Кнопки выбора точно так же обрезало прокруткой снизу при длинном тексте
 	# сцены — выносим их из прокручиваемого VBox в обёртку отдельным, всегда
@@ -69,14 +108,26 @@ func _prepare_layout() -> void:
 
 func _build_mission_heroes_row() -> void:
 	if _heroes_row == null:
+		_heroes_row_wrapper = HBoxContainer.new()
+		_heroes_row_wrapper.name = "MissionHeroesWrapper"
+		_heroes_row_wrapper.add_theme_constant_override("separation", 12)
+		_heroes_row_parent.add_child(_heroes_row_wrapper)
+		_heroes_row_parent.move_child(_heroes_row_wrapper, 0)
+
+		# Круглая золотая кнопка "?" слева от портретов богов — та же подсказка,
+		# что и на других экранах (см. Campaign/campaign_help.gd).
+		var help_btn := HelpButtonFactory.create()
+		help_btn.pressed.connect(func(): help.show_topics())
+		_heroes_row_wrapper.add_child(help_btn)
+
 		_heroes_row = HBoxContainer.new()
 		_heroes_row.name = "MissionHeroes"
 		_heroes_row.alignment = BoxContainer.ALIGNMENT_CENTER
 		_heroes_row.add_theme_constant_override("separation", 10)
 		_heroes_row.custom_minimum_size = Vector2(0, MISSION_HERO_PORTRAIT_SIZE.y + MISSION_HERO_HP_BAR_HEIGHT + MISSION_HERO_BAR_GAP + MISSION_HERO_MAJESTY_BAR_HEIGHT + 4.0)
 		_heroes_row.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-		_heroes_row_parent.add_child(_heroes_row)
-		_heroes_row_parent.move_child(_heroes_row, 0)
+		_heroes_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_heroes_row_wrapper.add_child(_heroes_row)
 	for child in _heroes_row.get_children():
 		child.queue_free()
 	_mission_hp_bars.clear()
@@ -347,7 +398,7 @@ func _apply_outcome_mission_effects(outcome) -> void:
 		MissionState.mission_flags[set_flag] = true
 	var heal_percent: int = int(_res_prop(outcome, "hero_heal_percent", 0))
 	if heal_percent != 0:
-		CombatManager.pending_mission_hero_heal_percent += heal_percent
+		_apply_team_mission_heal_percent(heal_percent)
 	var forgetting_delta: float = float(_res_prop(outcome, "hero_forgetting_delta", 0.0))
 	if forgetting_delta != 0.0:
 		_apply_forgetting_to_mission_heroes(forgetting_delta)
@@ -362,6 +413,9 @@ func _apply_outcome_mission_effects(outcome) -> void:
 	var team_hp_delta: int = int(_res_prop(outcome, "hero_hp_percent_delta", 0))
 	if team_hp_delta != 0:
 		_apply_team_mission_hero_hp_delta(team_hp_delta)
+	var team_hp_flat_delta: int = int(_res_prop(outcome, "hero_hp_flat_delta", 0))
+	if team_hp_flat_delta != 0:
+		_apply_team_mission_hero_hp_flat_delta(team_hp_flat_delta)
 	var fantasy_delta: int = int(_res_prop(outcome, "fantasy_delta", 0))
 	if fantasy_delta != 0:
 		CombatManager.pending_mission_fantasy_delta += fantasy_delta
@@ -378,6 +432,12 @@ func _apply_outcome_mission_effects(outcome) -> void:
 	var perm_debuff_accuracy: int = int(_res_prop(outcome, "permanent_enemy_debuff_accuracy", 0))
 	if perm_debuff_unit != "" and perm_debuff_accuracy != 0:
 		CampaignState.add_permanent_enemy_accuracy_debuff(perm_debuff_unit, perm_debuff_accuracy)
+	var perm_crit_target: Resource = _res_prop(outcome, "permanent_god_crit_bonus_target", null) as Resource
+	var perm_crit_amount: float = float(_res_prop(outcome, "permanent_god_crit_bonus_amount", 0.0))
+	if perm_crit_target != null and perm_crit_amount != 0.0:
+		var perm_crit_path: String = str(_res_prop(perm_crit_target, "resource_path", ""))
+		if perm_crit_path != "":
+			CampaignState.add_permanent_god_crit_bonus(perm_crit_path, perm_crit_amount)
 	var immediate_target_god: Resource = _res_prop(outcome, "target_god_immediate", null) as Resource
 	if immediate_target_god != null:
 		var immediate_target_path: String = str(_res_prop(immediate_target_god, "resource_path", ""))
@@ -407,6 +467,8 @@ func _apply_outcome_mission_effects(outcome) -> void:
 			CombatManager.mission_strongest_hero_buffs.append(buff)
 	if bool(_res_prop(outcome, "skip_helheim_fog_first_round", false)):
 		CombatManager.pending_helheim_skip_fog_rounds += 1
+	if bool(_res_prop(outcome, "grant_desert_immunity_next_battle", false)):
+		CombatManager.pending_desert_immunity = true
 	var check_difficulty_delta: int = int(_res_prop(outcome, "next_check_difficulty_delta", 0))
 	if check_difficulty_delta != 0:
 		MissionState.pending_check_difficulty_delta += check_difficulty_delta
@@ -434,12 +496,20 @@ func _apply_outcome_mission_effects(outcome) -> void:
 	var nemesis_majesty: int = int(_res_prop(outcome, "nemesis_buff_majesty", 0))
 	var nemesis_stat_entry: Resource = _res_prop(outcome, "nemesis_buff_stat", null) as Resource
 	var nemesis_location_id: String = str(_res_prop(outcome, "nemesis_buff_location_id", "")).strip_edges()
-	if nemesis_god != null and nemesis_location_id != "" and (nemesis_majesty != 0 or nemesis_stat_entry != null):
-		var nemesis_god_path: String = str(_res_prop(nemesis_god, "resource_path", ""))
-		if nemesis_god_path != "":
-			var nemesis_buff_stat: int = int(nemesis_stat_entry.stat) if nemesis_stat_entry != null else -1
-			var nemesis_buff_value: int = int(nemesis_stat_entry.value) if nemesis_stat_entry != null else 0
-			CampaignState.add_pending_nemesis_buff(nemesis_location_id, nemesis_god_path, nemesis_majesty, nemesis_buff_stat, nemesis_buff_value)
+	var nemesis_all_heroes: bool = bool(_res_prop(outcome, "nemesis_buff_all_heroes", false))
+	if nemesis_location_id != "" and (nemesis_majesty != 0 or nemesis_stat_entry != null):
+		var nemesis_buff_stat: int = int(nemesis_stat_entry.stat) if nemesis_stat_entry != null else -1
+		var nemesis_buff_value: int = int(nemesis_stat_entry.value) if nemesis_stat_entry != null else 0
+		var nemesis_buff_duration: int = int(nemesis_stat_entry.duration) if nemesis_stat_entry != null else -1
+		if nemesis_all_heroes:
+			for hero_path_value in MissionState.selected_heroes:
+				var hero_path: String = str(hero_path_value).strip_edges()
+				if hero_path != "":
+					CampaignState.add_pending_nemesis_buff(nemesis_location_id, hero_path, nemesis_majesty, nemesis_buff_stat, nemesis_buff_value, nemesis_buff_duration)
+		elif nemesis_god != null:
+			var nemesis_god_path: String = str(_res_prop(nemesis_god, "resource_path", ""))
+			if nemesis_god_path != "":
+				CampaignState.add_pending_nemesis_buff(nemesis_location_id, nemesis_god_path, nemesis_majesty, nemesis_buff_stat, nemesis_buff_value, nemesis_buff_duration)
 	_apply_rest_counter_effects(outcome)
 
 ## Счётчик отдыха (см. MissionOutcome — поля rest_counter_*). Порядок важен: сперва
@@ -486,9 +556,32 @@ func _apply_random_mission_hero_hp_delta(percent_delta: int) -> void:
 		delta = 1 if percent_delta > 0 else -1
 	CampaignState.set_god_current_hp(target_path, CampaignState.get_god_current_hp(target_path) + delta, max_hp)
 
+## Немедленно лечит/ранит ВСЮ команду миссии на percent% от max HP каждого (см.
+## MissionOutcome.hero_heal_percent) — исходы вроде "Передышка"/"Подлатать раны" без
+## приложенного боя. Раньше это откладывалось до следующего боя
+## (CombatManager.pending_mission_hero_heal_percent + battle_scene.gd), из-за чего
+## полоска HP на экране миссии не менялась сразу после выбора, а если следующего боя
+## в миссии больше не было — эффект вообще пропадал бесследно. Камень с мордочкой
+## (см. Items/Weapons/Rare/stone_face.tres) даёт +2% — как и было задумано, это
+## "вне-боевое" лечение.
+func _apply_team_mission_heal_percent(percent: int) -> void:
+	for hero_path in CombatManager.mission_heroes:
+		var path: String = str(hero_path).strip_edges()
+		if path == "" or CombatManager.mission_dead_heroes.has(path):
+			continue
+		if CampaignState.get_god_current_hp(path) <= 0:
+			continue
+		var effective_percent := percent
+		if CampaignState.god_has_item_effect(path, "stone_face_bonus_heal"):
+			effective_percent += 2
+		var max_hp: int = CampaignState.get_god_max_hp(path)
+		var delta: int = int(round(float(max_hp) * float(effective_percent) / 100.0))
+		if delta == 0:
+			delta = 1 if effective_percent > 0 else -1
+		CampaignState.set_god_current_hp(path, CampaignState.get_god_current_hp(path) + delta, max_hp)
+
 ## Немедленно меняет HP ВСЕХ живых богов миссии на percent_delta% от их max HP каждого
-## (см. MissionOutcome.hero_hp_percent_delta). В отличие от hero_heal_percent — не ждёт
-## следующего боя, применяется сразу (напр. ожог от лавы вне боя).
+## (см. MissionOutcome.hero_hp_percent_delta). Применяется сразу (напр. ожог от лавы вне боя).
 func _apply_team_mission_hero_hp_delta(percent_delta: int) -> void:
 	for hero_path in CombatManager.mission_heroes:
 		var path: String = str(hero_path).strip_edges()
@@ -502,6 +595,18 @@ func _apply_team_mission_hero_hp_delta(percent_delta: int) -> void:
 			delta = 1 if percent_delta > 0 else -1
 		CampaignState.set_god_current_hp(path, CampaignState.get_god_current_hp(path) + delta, max_hp)
 
+## Как _apply_team_mission_hero_hp_delta(), но ФИКСИРОВАННЫМ числом очков HP на
+## каждого бога, а не в процентах (см. MissionOutcome.hero_hp_flat_delta).
+func _apply_team_mission_hero_hp_flat_delta(flat_delta: int) -> void:
+	for hero_path in CombatManager.mission_heroes:
+		var path: String = str(hero_path).strip_edges()
+		if path == "" or CombatManager.mission_dead_heroes.has(path):
+			continue
+		if CampaignState.get_god_current_hp(path) <= 0:
+			continue
+		var max_hp: int = CampaignState.get_god_max_hp(path)
+		CampaignState.set_god_current_hp(path, CampaignState.get_god_current_hp(path) + flat_delta, max_hp)
+
 ## Немедленно меняет уровень забвения у всех живых богов миссии (см.
 ## MissionOutcome.hero_forgetting_delta). Не привязано к следующему бою —
 ## применяется сразу, чтобы работать и когда миссия оканчивается поражением.
@@ -511,6 +616,7 @@ func _apply_forgetting_to_mission_heroes(amount: float) -> void:
 		if clean_path == "" or CampaignState.is_god_dead(clean_path):
 			continue
 		CampaignState.add_god_forgetting(clean_path, amount)
+		MissionState.add_hero_forgetting_gained(clean_path, amount)
 
 ## Баффы одному случайному живому богу отряда миссии на весь оставшийся отряд миссии
 ## (см. MissionOutcome.target_random_hero_buffs). Если preferred_god задан и он есть
@@ -581,6 +687,7 @@ func _apply_forgetting_to_selected_heroes() -> void:
 		if CampaignState.is_god_dead(hero_path):
 			continue
 		CampaignState.add_god_forgetting(hero_path, 0.5)
+		MissionState.add_hero_forgetting_gained(hero_path, 0.5)
 
 func _prepare_legacy_direct_battle(formation) -> void:
 	CombatManager.selected_heroes = ["", "", "", ""]
@@ -621,6 +728,21 @@ func _handle_legacy(choice) -> void:
 		get_tree().reload_current_scene()
 		return
 	_advance_or_finish_mission()
+## Полноэкранный растянутый фон текущей локации миссии — виден на протяжении всей
+## сцены (текст, выборы), не только конкретной картинки внутри панели. Пусто/
+## неизвестная локация ("home"/"book"/"") — фон-картинки нет, остаётся тёмная
+## подложка Background (ColorRect) как и раньше.
+func _update_location_background() -> void:
+	var location_id := ""
+	if MissionState.current_mission != null:
+		location_id = MissionState.current_mission.get_location_id()
+	var bg_path: String = str(LOCATION_BACKGROUND_PATHS.get(location_id, ""))
+	if bg_path != "" and ResourceLoader.exists(bg_path):
+		location_background.texture = load(bg_path)
+		location_background.visible = true
+	else:
+		location_background.visible = false
+
 func _apply_mission_location() -> void:
 	if MissionState.current_mission != null:
 		CombatManager.pending_location_id = MissionState.current_mission.get_location_id()
@@ -692,7 +814,7 @@ func _show_mission_result_banner(victory: bool) -> void:
 	img.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	if ResourceLoader.exists(banner_path):
 		img.texture = load(banner_path) as Texture2D
-	img.custom_minimum_size = Vector2(760, 500)
+	img.custom_minimum_size = Vector2(760, 500) / 1.5
 	img.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
 	img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	col.add_child(img)
@@ -810,9 +932,9 @@ func _populate_mission_stats_summary(content: VBoxContainer) -> void:
 
 	for hero_path in hero_paths:
 		var entry: Dictionary = MissionState.hero_battle_stats.get(hero_path, {})
-		_add_hero_stats_row(content, hero_path, int(entry.get("dealt", 0)), int(entry.get("taken", 0)), int(entry.get("healed", 0)), max_dealt, max_taken, max_healed)
+		_add_hero_stats_row(content, hero_path, int(entry.get("dealt", 0)), int(entry.get("taken", 0)), int(entry.get("healed", 0)), max_dealt, max_taken, max_healed, float(entry.get("forgetting", 0.0)))
 
-func _add_hero_stats_row(content: VBoxContainer, hero_path: String, dealt: int, taken: int, healed: int, max_dealt: int, max_taken: int, max_healed: int) -> void:
+func _add_hero_stats_row(content: VBoxContainer, hero_path: String, dealt: int, taken: int, healed: int, max_dealt: int, max_taken: int, max_healed: int, forgetting_gained: float = 0.0) -> void:
 	var god := CampaignState.load_character_resource(hero_path)
 
 	var row := HBoxContainer.new()
@@ -843,6 +965,19 @@ func _add_hero_stats_row(content: VBoxContainer, hero_path: String, dealt: int, 
 	_add_stat_bar(bars_col, "Урон нанесён", dealt, max_dealt, Color(0.95, 0.72, 0.15))
 	_add_stat_bar(bars_col, "Урон получен", taken, max_taken, Color(0.85, 0.25, 0.2))
 	_add_stat_bar(bars_col, "Исцелено", healed, max_healed, Color(0.3, 0.8, 0.35))
+	if forgetting_gained > 0.0:
+		var forgetting_label := Label.new()
+		forgetting_label.text = "Забвение: +%s" % _format_forgetting_amount(forgetting_gained)
+		forgetting_label.add_theme_font_size_override("font_size", 14)
+		forgetting_label.add_theme_color_override("font_color", Color(0.85, 0.55, 0.55))
+		bars_col.add_child(forgetting_label)
+
+## "2" вместо "2.0", "2.5" как есть — забвение копится и полуцелыми шагами (0.5 за
+## переход между боями), и целыми (2.0 за смерть/сдачу), незачем всегда показывать ".0".
+func _format_forgetting_amount(amount: float) -> String:
+	if is_equal_approx(amount, roundf(amount)):
+		return str(int(round(amount)))
+	return "%.1f" % amount
 
 func _add_stat_bar(parent: VBoxContainer, label_text: String, value: int, max_value: int, fill_color: Color) -> void:
 	var row := HBoxContainer.new()
@@ -1079,6 +1214,7 @@ func _complete_mission_return() -> void:
 	var return_path := _pending_finish_return_path.strip_edges()
 	if return_path == "":
 		return_path = "res://Campaign/campaign_screen.tscn"
+	MusicManager.stop_mission()
 	MissionState.clear_mission_run()
 	CombatManager.reset_mission()
 	get_tree().change_scene_to_file(return_path)

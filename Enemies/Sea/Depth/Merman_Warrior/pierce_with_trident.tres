@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
 
+[ext_resource type="Texture2D" path="res://Ability_pics/trident-wound-blue.png" id="anim_fx"]
+[ext_resource type="AudioStream" path="res://Sounds/spear_air_whoosh.wav" id="anim_sfx"]
+
 [resource]
 script = ExtResource("1_ab")
 name = "Пронзить трезубцем"
@@ -18,4 +21,6 @@ effect_durations = Dictionary[String, int]({
 })
 usable_from_positions = Array[bool]([true, true, true, true])
 targetable_positions = Array[bool]([true, true, false, false])
+attack_effect_texture = ExtResource("anim_fx")
+attack_sfx = ExtResource("anim_sfx")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

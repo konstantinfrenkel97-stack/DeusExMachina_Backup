@@ -6,7 +6,8 @@
 majesty_gain = 0
 script = ExtResource("1_ab")
 name = "Жестокость"
-description = "Стойка: все юниты на поле боя получают +10 урона и -10 брони на 1 ход."
+description = ""
+damage_modifier = 0.0
 target_type = "Self"
 usable_from_positions = Array[bool]([true, true, true, true])
 targetable_positions = Array[bool]([false, false, false, false])

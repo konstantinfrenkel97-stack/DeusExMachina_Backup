@@ -198,14 +198,17 @@ func _location_desert():
 	var hero_dmg = 10 if sun_glory else 5
 	if sun_glory:
 		_scene._log_combat("☀ [Пустыня] Слава солнцу: герои получают удвоенный зной (%d)." % hero_dmg)
-	for hero in _scene.heroes_team:
-		if hero and hero.current_hp > 0:
-			var hp_before = hero.current_hp
-			var actual_hero_dmg = int(min(hero_dmg, hero.current_hp - 1))
-			if actual_hero_dmg > 0:
-				hero.current_hp = maxi(hero.current_hp - actual_hero_dmg, 1)
-				hero.damage_taken.emit(actual_hero_dmg)
-			_scene._log_combat("☀ [Пустыня] %s получает %d чистого урона. HP: %d → %d" % [hero.unit_name, actual_hero_dmg, hp_before, hero.current_hp])
+	if _scene.desert_immune_this_battle:
+		_scene._log_combat("☀ [Пустыня] Отряд защищён от зноя — запасы воды из оазиса.")
+	else:
+		for hero in _scene.heroes_team:
+			if hero and hero.current_hp > 0:
+				var hp_before = hero.current_hp
+				var actual_hero_dmg = int(min(hero_dmg, hero.current_hp - 1))
+				if actual_hero_dmg > 0:
+					hero.current_hp = maxi(hero.current_hp - actual_hero_dmg, 1)
+					hero.damage_taken.emit(actual_hero_dmg)
+				_scene._log_combat("☀ [Пустыня] %s получает %d чистого урона. HP: %d → %d" % [hero.unit_name, actual_hero_dmg, hp_before, hero.current_hp])
 	if not ra_protects_enemies:
 		for enemy in _scene.enemies_team:
 			if enemy and enemy.current_hp > 0:

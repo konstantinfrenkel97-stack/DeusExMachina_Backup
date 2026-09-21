@@ -10,12 +10,23 @@ const GRID_CELL_COUNT := GRID_COLUMNS * GRID_ROWS
 const DEFAULT_RETURN_SCENE_PATH := "res://main_menu.tscn"
 const PANEL_PADDING := 8.0
 const HEADER_HEIGHT := 64.0
-const REQUIRED_HEIGHT := 18.0
+const REQUIRED_HEIGHT := 28.0
 const BUTTON_SIZE := Vector2(132, 32)
 const SLOT_GAP := 8.0
 const GRID_GAP := 8.0
 const SLOTS_TOP := 98.0
-const GRID_TOP_GAP := 10.0
+const GRID_TOP_GAP := 34.0
+# Позиция (hero_index, 0-3) → иконка роли, показывается картинкой над
+# соответствующим квадратом слота (см. _build_prep_panel()/_layout_prep_panel()).
+# Pos1 (hero_index 0) — ближняя линия, Pos4 (hero_index 3) — дальняя.
+const SLOT_ROLE_ICON_PATHS := [
+	"res://Icons/Formation/shield.png",
+	"res://Icons/Formation/sword.png",
+	"res://Icons/Formation/staff.png",
+	"res://Icons/Formation/bow.png",
+]
+const SLOT_ROLE_ICON_SIZE := 66.0
+const SLOT_ROLE_ICON_GAP := 8.0
 
 @onready var title_label: Label = $Title
 @onready var grid: GridContainer = $Scroll/Grid
@@ -39,9 +50,24 @@ var _start_button: Button = null
 var _required_label: Label = null
 var _required_god_path: String = ""
 var _show_mission_list: bool = false
+# Мигающая подсветка приоритетных позиций выбранного/перетаскиваемого бога
+# (CharacterResource.priority_positions) — см. _begin_drag()/_clear_drag().
+var _priority_blink_overlays: Array[Panel] = [null, null, null, null]
+var _priority_blink_tweens: Array[Tween] = []
+# Маленькие иконки роли (щит/меч/посох/лук) под каждым слотом — см. SLOT_ROLE_ICON_PATHS.
+var _slot_role_icons: Array[TextureRect] = [null, null, null, null]
+var help: CampaignHelp = null
+var _help_button: Button = null
+var _required_portrait: TextureRect = null
 
 func _ready() -> void:
+	help = CampaignHelp.new(self)
 	back_button.pressed.connect(_on_back_pressed)
+	# _prep_panel (MOUSE_FILTER_STOP, почти во весь экран) добавляется в дерево ПОЗЖЕ
+	# back_button и без z_index перехватывал бы клики по нему — back_button лежит
+	# визуально поверх/внутри панели (см. _layout_prep_panel), но не является её
+	# ребёнком, поэтому по умолчанию проигрывает панели порядок хит-теста.
+	back_button.z_index = 10
 	title_label.add_theme_font_size_override("font_size", 18)
 	title_label.offset_top = 8
 	title_label.offset_bottom = 42
@@ -201,6 +227,7 @@ func _load_and_open_mission(path: String) -> void:
 		return
 	title_label.text = Localization.text_from(mission, "mission_name_key", "mission_name", mission.mission_name)
 	_required_god_path = mission.get_required_god_path()
+	MusicManager.play_mission_non_battle(mission.get_location_id())
 	_build_buttons()
 func _open_mission_prep(scene) -> void:
 	_selected_scene = scene
@@ -245,9 +272,23 @@ func _build_prep_panel(scene) -> void:
 
 	_required_label = Label.new()
 	_required_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_required_label.add_theme_font_size_override("font_size", _canvas_font_size(14))
+	_required_label.add_theme_font_size_override("font_size", _canvas_font_size(22))
+	_required_label.add_theme_color_override("font_color", CampaignTheme.ACCENT)
 	_required_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_prep_root.add_child(_required_label)
+
+	_required_portrait = TextureRect.new()
+	_required_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_required_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_required_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_required_portrait.visible = false
+	_prep_root.add_child(_required_portrait)
+
+	# _prep_root пересоздаётся целиком при каждом открытии подготовки (см. _open_mission_prep) —
+	# кнопку помощи тоже создаём заново, а не пытаемся переиспользовать старую ссылку.
+	_help_button = HelpButtonFactory.create(_canvas_value(HelpButtonFactory.DIAMETER))
+	_help_button.pressed.connect(func(): help.show_topics())
+	_prep_root.add_child(_help_button)
 
 	_start_button = Button.new()
 	_start_button.text = "Вперед"
@@ -266,12 +307,25 @@ func _build_prep_panel(scene) -> void:
 	# боя), а не порядком слева направо, поэтому дальше по коду ничего менять не нужно.
 	_slot_buttons.clear()
 	_slot_buttons.resize(4)
+	_slot_role_icons.resize(4)
+	# Старые оверлеи/твины указывали на узлы прошлого _prep_root (уже свободен, если
+	# игрок отменил и открыл подготовку заново) — сбрасываем, иначе _ensure_priority_
+	# blink_overlay() посчитает их валидными и попытается работать с висячей ссылкой.
+	_stop_priority_position_blink()
+	_priority_blink_overlays = [null, null, null, null]
 	for visual_index in range(4):
 		var hero_index := 3 - visual_index
 		var slot := _make_square_button(true)
 		slot.gui_input.connect(_on_slot_gui_input.bind(hero_index))
 		_prep_root.add_child(slot)
 		_slot_buttons[hero_index] = slot
+		var role_icon := TextureRect.new()
+		role_icon.texture = load(SLOT_ROLE_ICON_PATHS[hero_index])
+		role_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		role_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		role_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		_prep_root.add_child(role_icon)
+		_slot_role_icons[hero_index] = role_icon
 
 	_god_buttons.clear()
 	_god_button_paths.clear()
@@ -309,8 +363,24 @@ func _layout_prep_panel() -> void:
 	_prep_text.size = Vector2(max(_canvas_value(180.0), body_width), header_height)
 	_start_button.position = Vector2(panel_size.x - panel_padding - button_size.x, panel_padding)
 	_start_button.size = button_size
-	_required_label.position = Vector2(panel_padding, panel_padding + header_height + _canvas_value(4.0))
-	_required_label.size = Vector2(content_width, required_height)
+	var required_row_y: float = panel_padding + header_height + _canvas_value(4.0)
+	# Ширина метки — по фактическому тексту ("Нужен: <имя>"), а не фиксированная
+	# константа: имена богов сильно отличаются по длине (ср. "Тор" и "Чернобог"),
+	# фиксированная ширина либо обрезала бы длинные, либо оставляла лишний зазор
+	# перед портретом у коротких.
+	var required_font := _required_label.get_theme_font("font")
+	var required_font_size := _required_label.get_theme_font_size("font_size")
+	var required_text_width: float = required_font.get_string_size(_required_label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, required_font_size).x if required_font != null else 0.0
+	var required_label_width: float = min(max(required_text_width, 1.0), content_width)
+	_required_label.position = Vector2(panel_padding, required_row_y)
+	_required_label.size = Vector2(required_label_width, required_height)
+	if _required_portrait != null:
+		var portrait_size: float = required_height + _canvas_value(10.0)
+		_required_portrait.size = Vector2(portrait_size, portrait_size)
+		_required_portrait.position = Vector2(
+			panel_padding + required_label_width + _canvas_value(8.0),
+			required_row_y - _canvas_value(5.0)
+		)
 	# «Назад» — обычно отдельная плавающая кнопка над рамкой панели подготовки;
 	# пока рамка открыта, переносим её внутрь, к левому краю, на ту же высоту,
 	# что и «Вперёд» справа (panel_padding от верхнего края панели).
@@ -318,15 +388,31 @@ func _layout_prep_panel() -> void:
 
 	var slot_row_width: float = slot_size.x * 4.0 + slot_gap * 3.0
 	var cards_row_width: float = card_size.x * float(GRID_COLUMNS) + grid_gap * float(GRID_COLUMNS - 1)
-	var square_block_height: float = slot_size.y + grid_top_gap + card_size.y * float(GRID_ROWS) + grid_gap * float(GRID_ROWS - 1)
+	var role_icon_size: float = _canvas_value(SLOT_ROLE_ICON_SIZE)
+	var role_icon_gap: float = _canvas_value(SLOT_ROLE_ICON_GAP)
+	var square_block_height: float = role_icon_size + role_icon_gap + slot_size.y + grid_top_gap + card_size.y * float(GRID_ROWS) + grid_gap * float(GRID_ROWS - 1)
 	var text_bottom: float = panel_padding + header_height + required_height + _canvas_value(12.0)
-	var slots_y: float = max(text_bottom, panel_size.y - square_block_height - panel_padding)
+	var icons_y: float = max(text_bottom, panel_size.y - square_block_height - panel_padding)
+	var slots_y: float = icons_y + role_icon_size + role_icon_gap
 	var slot_start_x: float = float(floor((panel_size.x - slot_row_width) * 0.5))
+	if _help_button != null:
+		var help_diameter: float = _help_button.size.x
+		_help_button.position = Vector2(
+			max(panel_padding, slot_start_x - help_diameter - _canvas_value(16.0)),
+			slots_y + (slot_size.y - help_diameter) * 0.5
+		)
 	for hero_index in range(_slot_buttons.size()):
 		var slot: Button = _slot_buttons[hero_index]
 		var visual_index := 3 - hero_index
 		slot.position = Vector2(slot_start_x + visual_index * (slot_size.x + slot_gap), slots_y)
 		slot.size = slot_size
+		var role_icon: TextureRect = _slot_role_icons[hero_index]
+		if role_icon != null:
+			role_icon.size = Vector2(role_icon_size, role_icon_size)
+			role_icon.position = Vector2(
+				slot.position.x + (slot_size.x - role_icon_size) * 0.5,
+				icons_y
+			)
 
 	var cards_start_x: float = float(floor((panel_size.x - cards_row_width) * 0.5))
 	var cards_start_y: float = slots_y + slot_size.y + grid_top_gap
@@ -486,6 +572,7 @@ func _begin_drag(god_path: String, source_slot: int) -> void:
 	_drag_preview.modulate.a = 0.75
 	add_child(_drag_preview)
 	_drag_preview.global_position = get_global_mouse_position() - _drag_preview.size * 0.5
+	_start_priority_position_blink(god_path)
 
 func _drop_drag_at_mouse() -> void:
 	var slot_index := _slot_at_mouse()
@@ -507,6 +594,60 @@ func _clear_drag() -> void:
 	if _drag_preview != null:
 		_drag_preview.queue_free()
 		_drag_preview = null
+	_stop_priority_position_blink()
+
+## Пока выбран/перетаскивается бог с непустым priority_positions — слоты этих
+## позиций (hero_index = position - 1, см. комментарий в _build_slots()) мигают
+## белым, подсказывая куда его лучше поставить.
+func _start_priority_position_blink(god_path: String) -> void:
+	_stop_priority_position_blink()
+	var res := CampaignState.load_character_resource(god_path) as CharacterResource
+	if res == null:
+		return
+	for pos in res.priority_positions:
+		var hero_index: int = int(pos) - 1
+		if hero_index < 0 or hero_index >= _slot_buttons.size():
+			continue
+		var overlay := _ensure_priority_blink_overlay(hero_index)
+		overlay.visible = true
+		overlay.modulate.a = 0.0
+		var t := create_tween()
+		t.set_loops()
+		t.tween_property(overlay, "modulate:a", 0.75, 0.5).set_trans(Tween.TRANS_SINE)
+		t.tween_property(overlay, "modulate:a", 0.0, 0.5).set_trans(Tween.TRANS_SINE)
+		_priority_blink_tweens.append(t)
+
+func _stop_priority_position_blink() -> void:
+	for t in _priority_blink_tweens:
+		if t != null and t.is_valid():
+			t.kill()
+	_priority_blink_tweens.clear()
+	for overlay in _priority_blink_overlays:
+		if overlay != null:
+			overlay.visible = false
+			overlay.modulate.a = 0.0
+
+## Panel (не ColorRect) со скруглёнными углами — те же 6px, что и у самого слота
+## (см. _apply_square_style), иначе прямоугольная подсветка торчала бы за пределы
+## скруглённой рамки квадрата.
+func _ensure_priority_blink_overlay(hero_index: int) -> Panel:
+	if _priority_blink_overlays[hero_index] == null:
+		var overlay := Panel.new()
+		var style := StyleBoxFlat.new()
+		style.bg_color = Color(1, 1, 1, 1)
+		style.corner_radius_top_left = 6
+		style.corner_radius_top_right = 6
+		style.corner_radius_bottom_left = 6
+		style.corner_radius_bottom_right = 6
+		overlay.add_theme_stylebox_override("panel", style)
+		overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+		overlay.clip_contents = true
+		overlay.visible = false
+		overlay.z_index = 5
+		_slot_buttons[hero_index].add_child(overlay)
+		_priority_blink_overlays[hero_index] = overlay
+	return _priority_blink_overlays[hero_index]
 
 func _place_god_in_slot(god_path: String, target_slot: int, source_slot: int) -> void:
 	if target_slot < 0 or target_slot >= _selected_heroes.size() or god_path == "":
@@ -581,6 +722,13 @@ func _update_prep_ui() -> void:
 			_required_label.text = "Нужен: %s" % _get_god_name(_required_god_path)
 		else:
 			_required_label.text = ""
+	if _required_portrait != null:
+		if _required_god_path != "":
+			_required_portrait.texture = _load_face_texture(_required_god_path)
+			_required_portrait.visible = true
+		else:
+			_required_portrait.texture = null
+			_required_portrait.visible = false
 	if _start_button != null:
 		_start_button.disabled = not _can_start_mission()
 

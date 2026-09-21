@@ -1,11 +1,13 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://dunxppyh7rbgt"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_eswp2"]
+[ext_resource type="AudioStream" path="res://Sounds/hammer-hit-body.mp3" id="2_sfx"]
+[ext_resource type="Texture2D" path="res://Ability_pics/Crush.png" id="3_fx"]
 
 [resource]
 script = ExtResource("1_eswp2")
 name = "Ковать железо"
-description = "Стойка: кузнец готовит жетон ковки для последующего усиления союзника."
+description = ""
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"
@@ -14,4 +16,7 @@ targetable_positions = Array[bool]([false, false, false, false])
 stance_duration_type = "UntilNextTurn"
 is_stance = true
 stance_effect_type = "smith_forge"
+attack_sfx = ExtResource("2_sfx")
+attack_sfx_max_length = 0.025
+attack_effect_texture = ExtResource("3_fx")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

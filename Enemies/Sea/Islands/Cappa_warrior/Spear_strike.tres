@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_23gqy")
 name = "Удар копья"
-description = "1.0 урона. Накладывает на цель периодический урон."
+description = ""
 damage_modifier = 1.0
 majesty_gain = 0
 ability_marker = "kappa_spear_strike"

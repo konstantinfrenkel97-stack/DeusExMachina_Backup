@@ -3,6 +3,9 @@
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
 [ext_resource type="Texture2D" uid="uid://cprxy16dbviwq" path="res://Enemies/Sky/Clouds/Griffin/dive_icon.png" id="1_es2c5"]
 
+[ext_resource type="Texture2D" path="res://Ability_pics/Claws.png" id="anim_fx"]
+[ext_resource type="AudioStream" path="res://Sounds/hammer_hit_flesh.wav" id="anim_sfx"]
+
 [resource]
 script = ExtResource("1_ab")
 name = "Пикировать"
@@ -11,4 +14,6 @@ damage_modifier = 0.0
 majesty_gain = 0
 ability_marker = "griffin_dive"
 mark_icon = ExtResource("1_es2c5")
+attack_effect_texture = ExtResource("anim_fx")
+attack_sfx = ExtResource("anim_sfx")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

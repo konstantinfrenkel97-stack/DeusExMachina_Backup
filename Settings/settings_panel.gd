@@ -67,6 +67,12 @@ func _ready() -> void:
 	_add_battle_speed_row(vbox)
 	_add_language_row(vbox)
 
+	_add_section_label(vbox, "Обучение")
+	# Инвертировано: чекбокс показывает "показывать подсказки", а хранится
+	# CampaignState.tutorial_disabled — так его можно снова включить после того, как
+	# игрок отключил все подсказки кнопкой "Убрать подсказки" в справке (кнопка "?").
+	_add_checkbox_row(vbox, "Показывать обучающие подсказки", not CampaignState.tutorial_disabled, func(pressed: bool): CampaignState.tutorial_disabled = not pressed)
+
 	var close_btn := Button.new()
 	close_btn.text = "Закрыть"
 	close_btn.custom_minimum_size = Vector2(0, 48)

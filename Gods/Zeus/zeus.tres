@@ -11,6 +11,8 @@
 [resource]
 script = ExtResource("3_f44iw")
 unit_name = "Зевс"
+role_description = "Боец дальнего боя, с низким здоровьем но очень большим уроном"
+priority_positions = Array[int]([3, 4])
 sprite_path = "res://Gods/Zeus/Zeus.png"
 face_sprite = "res://Gods/Zeus/Zeus_Face.png"
 battle_sprite_scale_percent = 150.0

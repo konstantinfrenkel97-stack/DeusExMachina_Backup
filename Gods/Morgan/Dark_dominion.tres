@@ -6,7 +6,7 @@
 script = ExtResource("1_dd")
 icon_path = "uid://blfkbwtfaca8w"
 name = "Власть тьмы"
-description = "Все враги получают периодический урон на 5 ходов: 3% максимального здоровья за каждый дебафф на цели."
+description = ""
 damage_modifier = 0.0
 majesty_gain = 0
 majesty_cost = 100

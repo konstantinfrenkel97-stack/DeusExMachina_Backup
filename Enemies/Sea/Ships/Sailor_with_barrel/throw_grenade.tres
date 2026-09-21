@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_tg")
 name = "Метнуть гранату"
-description = "Наносит 70% урона."
+description = "Наносит 70% урона по 2 целям."
 damage_modifier = 0.7
 majesty_gain = 0
 extra_targets_count = 1

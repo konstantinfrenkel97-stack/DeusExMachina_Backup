@@ -11,6 +11,8 @@
 [resource]
 script = ExtResource("2_f5u2r")
 unit_name = "Сет"
+role_description = "Универсал, с возможностью использовать чужие способности"
+priority_positions = Array[int]([2, 3])
 sprite_path = "res://Gods/Set/Set.png"
 face_sprite = "res://Gods/Set/Set_Face.png"
 battle_sprite_scale_percent = 93.0

@@ -59,6 +59,7 @@ script = ExtResource("2_choice")
 choice_id = "chosen_world"
 choice_text = "Выбранный мир"
 next_line_id = "chosen_world_1"
+required_mission_path = "res://Missions/Jungle/welcome_to_jungle.tres"
 
 [sub_resource type="Resource" id="Resource_shiva_line_10"]
 script = ExtResource("1_line")

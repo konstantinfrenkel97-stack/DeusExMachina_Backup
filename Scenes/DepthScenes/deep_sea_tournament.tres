@@ -1,0 +1,175 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Depth/Triton/Triton.tres" id="triton"]
+[ext_resource type="Resource" path="res://Gods/Poseidon/Poseidon.tres" id="poseidon"]
+[ext_resource type="Resource" path="res://Items/Weapons/Rare/coral_cup.tres" id="coral_cup"]
+
+[sub_resource type="Resource" id="form_triton_quad"]
+script = ExtResource("formation_script")
+formation_name = "Тритон х 4"
+pos1 = ExtResource("triton")
+pos2 = ExtResource("triton")
+pos3 = ExtResource("triton")
+pos4 = ExtResource("triton")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_base"]
+script = ExtResource("battle_script")
+formation = SubResource("form_triton_quad")
+location_id = "depths"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="reward_coral_cup"]
+script = ExtResource("reward_script")
+kind = 0
+resource = ExtResource("coral_cup")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_accept"]
+script = ExtResource("outcome_script")
+result_text = "Вы отмахиваетесь от назойливого оратора и выходите на ристалище. Течение бьет вам в спину. Команда тритонов встает с другой стороны. За их спинами вы видите коралловый кубок. Пусть вас и втянули в этот балаган против воли, но свой приз вы отсюда заберете.
+Тритон на трибунах гудит в свой рог и обе команды срываются с места."
+battle = SubResource("battle_base")
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_coral_cup")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_accept"]
+script = ExtResource("choice_script")
+choice_text = "Принять вызов"
+outcome = SubResource("out_accept")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_evasion"]
+script = ExtResource("stat_check_script")
+stat = 3
+stat_label = "Уклонение"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_decline_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы стоите на своем и твердо говорите, что участвовать не будете. Публика называет вас трусами, а тритоны демонстративно поворачиваются спиной и бьют хвостами в вашем направлении. Вы уплываете с арены, слыша в спину:
+«ЛЕГКАЯ ПОБЕДА ДЛЯ МОРСКОГО НАРОДА!!! ЭТИ ВОЗДУХОДЫШАЩИЕ ОБЕЗЬЯНЫ ЗАБОЯЛИСЬ ДАЖЕ ВЫЙТИ НА ПЛОЩАДКУ!!!»
+Но вам все равно, вы поступили так, как сами посчитали нужным."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="buff_hero_luck_down"]
+script = ExtResource("buff_script")
+stat = 1
+value = -5
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="buff_enemy_luck_up"]
+script = ExtResource("buff_script")
+stat = 1
+value = 5
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_decline_failure"]
+script = ExtResource("outcome_script")
+result_text = "Вы стоите на своем и твердо говорите, что участвовать не будете. Публика называет вас трусами. А команда тритонов подплывает туда где идет спор.
+«Выходите на поле, если не сыкло!»
+Вы твердо отказываетесь.
+«Че, так страшно? Вы оскорбляете турнир своим поведением!»
+Вы продолжаете стоять на своем. Тритоны, которые изначально хотели вас подразнить начинают все больше распаляться от вашего спокойствия. Наконец один из них толкает бога в грудь.
+«Дерись со мной, обезьяна!»
+Вы беретесь за оружие. Есть передел тому, что можно вытерпеть."
+battle = SubResource("battle_base")
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_luck_down")])
+enemy_buffs = Array[ExtResource("buff_script")]([SubResource("buff_enemy_luck_up")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_decline"]
+script = ExtResource("choice_script")
+choice_text = "Отказаться от участия"
+stat_check = SubResource("check_evasion")
+success_outcome = SubResource("out_decline_success")
+failure_outcome = SubResource("out_decline_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_attack"]
+script = ExtResource("stat_check_script")
+stat = 0
+stat_label = "Атака"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="buff_poseidon_attack"]
+script = ExtResource("buff_script")
+stat = 0
+value = 10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="buff_enemy_stun"]
+script = ExtResource("buff_script")
+stat = 7
+value = 0
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_summon_success"]
+script = ExtResource("outcome_script")
+result_text = "«Давайте я попробую.»
+Посейдон выходит один на ристалище, вы встаете у него за спиной. Бог морей поднимает руку и проводит по диагонали сбоку у себя над головой. Потом еще и еще, словно он кого-то невидимого гладит. Арена замерла в тишине. Вы смотрите не отрываясь. Постепенно вода у него под рукой словно уплотняется, приобретает форму. Потоки формируют гриву, которую он гладит сильной рукой, потом шею, потом голову и круп. Прямо перед вами из воды формируется здоровенная лошадь. Посейдон оборачивается к вам.
+«Я, кстати, еще и бог коней. Вы знали? Потому что…»
+Он внезапно запинается, будто смутившись.
+«Ну набегающие волны, они как несущиеся кони, и поэтому я бог коней, и даже как-то с Афиной…»
+Вы молча смотрите на него. Его смущение почему-то передалось вам, а ваше смущение еще больше усилило его, он отворачивается и вскакивает на спину водяного коня. Звучит горн.
+Бог моря срывается с места, тритоны ему на встречу, вы пытаетесь успевать. Посейдон замахивается и колет трезубцем в гущу врагов. Все четыре тритона хватают трезубец руками и пытаются остановить. Они упираются в дно ногами, и яростно бьют хвостами. Вы видите как надуваются мышцы на руке бога, он склоняется вперед. И тритоны разлетаются, не выдержав его мощного удара. Их тела бьются о дно, но горн не звучит, значит бой еще не окончен. Вы добегаете до своего сокомандника и все вместе летите на противников."
+battle = SubResource("battle_base")
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_coral_cup")])
+target_god = ExtResource("poseidon")
+target_buffs = Array[ExtResource("buff_script")]([SubResource("buff_poseidon_attack")])
+enemy_buffs = Array[ExtResource("buff_script")]([SubResource("buff_enemy_stun")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_summon_failure"]
+script = ExtResource("outcome_script")
+result_text = "«Давайте я попробую.»
+Посейдон выходит один на ристалище, вы встаете у него за спиной. Бог морей поднимает руку и проводит по диагонали сбоку у себя над головой. Потом еще и еще, словно он кого-то невидимого гладит. Арена замерла в тишине. Вы смотрите не отрываясь. Постепенно вода у него под рукой словно уплотняется, приобретает форму. Потоки формируют гриву, которую он гладит сильной рукой, потом шею, потом голову и круп. Прямо перед вами из воды формируется здоровенная лошадь. Посейдон оборачивается к вам.
+«Я, кстати, еще и бог коней. Вы знали? Потому что…»
+Он внезапно запинается, будто смутившись.
+«Ну набегающие волны, они как несущиеся кони, и поэтому я бог коней, и даже как-то с Афиной…»
+Вы молча смотрите на него. Его смущение почему-то передалось вам, а ваше смущение еще больше усилило его, он отворачивается и вскакивает на спину водяного коня. Звучит горн.
+Бог моря срывается с места, тритоны ему на встречу, вы пытаетесь успевать. Посейдон замахивается и колет трезубцем в гущу врагов. Все четыре тритона хватают трезубец руками и пытаются остановить. Они упираются в дно ногами, и яростно бьют хвостами.
+
+Русалы смогли остановить натиск бога моря, но в этот момент вы добегаете до своего сокомандника и бросаетесь в бой."
+battle = SubResource("battle_base")
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_coral_cup")])
+target_god = ExtResource("poseidon")
+target_buffs = Array[ExtResource("buff_script")]([SubResource("buff_poseidon_attack")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_summon"]
+script = ExtResource("choice_script")
+choice_text = "Призвать морского скакуна"
+required_god = ExtResource("poseidon")
+stat_check = SubResource("check_attack")
+success_outcome = SubResource("out_summon_success")
+failure_outcome = SubResource("out_summon_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Глубоководный турнир"
+body_text = "Ведомые течением, вы приплываете к глубоководной арене. Что нетипично - такое крупное и громоздкое сооружение не просто затонуло, а было возведено русалками. Вы заплываете внутрь. Быстро становится понятно почему именно это место было выбрано для строительства. Два противонаправленных потока встречаются, и лаская друг друга текут параллельно. Идеальное место для ристалища.
+
+Прямо сейчас вы видите как схлестываются две команды. Русалы, привязанные к странного вида седлам на спинах огромных морских коньков, сталкиваются с командой тритонов - могучих русалов с конскими ногами. Тритоны хватают противников за копья и затаскивая на свою половину, ударяют о землю. На трибунах ревет морской народ. Вы слышите оглушительный рев горна прямо под ухом. Оказывается прямо рядом с вами находился еще один тритон. Он громогласно объявляет.
+«УЖЕ ПЯТАЯ ПОБЕДА ПОДРЯД ДЛЯ КОНЕЙ ГЛУБОКОВОДЬЯ. СМОЖЕТ ЛИ КТО-ТО ИХ ОСТАНОВИТЬ В ПОГОНЕ ЗА КОРАЛЛОВЫМ КУБКОМ?»
+Команда тритонов рисуется перед публикой, играя мощными мышцами. Вы замечаете на пьедестале кубок, удивительная работа, жесткие кораллы переплетены словно гибкие ветви, вы любуетесь удивительной работой, и объявляющий пользуется моментом.
+«СЕГОДНЯ У НАС КОМАНДА С ПОВЕРХНОСТИ!!! ЧЕТЫРЕХРУКИЕ ПОТОМКИ ОБЕЗЬЯН ГОТОВЫ БРОСИТЬ ВЫЗОВ МОРСКОМУ НАРОДУ!!! ВЫХОДИТЕ ЖЕ НА АРЕНУ, КОЛЬ НЕ ХОТИТЕ ПОСРАМИТЬ ВСЮ НАДВОДНУЮ ПОВЕРХНОСТЬ!»
+Вы пытаетесь отбрехаться, говоря что пришли только посмотреть. Команда тритонов начинает делать оскорбительные жесты в вашу сторону, а публика гудит."
+choices = Array[ExtResource("choice_script")]([SubResource("choice_accept"), SubResource("choice_decline"), SubResource("choice_summon")])
+metadata/_custom_type_script = ExtResource("scene_script")

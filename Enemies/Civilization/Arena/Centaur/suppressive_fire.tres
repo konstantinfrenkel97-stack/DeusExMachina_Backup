@@ -2,10 +2,13 @@
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
 
+[ext_resource type="Texture2D" path="res://Ability_pics/Arrow.png" id="anim_fx"]
+[ext_resource type="AudioStream" path="res://Sounds/spear_air_whoosh.wav" id="anim_sfx"]
+
 [resource]
 script = ExtResource("1_ab")
 name = "Подавляющий обстрел"
-description = "Стойка. Когда враг использует любое действие — получает 0.6 урона."
+description = ""
 damage_modifier = 0.0
 majesty_gain = 0
 ability_marker = "centaur_suppressive_fire"
@@ -15,4 +18,6 @@ stance_effect_type = "centaur_suppressive_fire"
 stance_duration_type = "UntilNextTurn"
 usable_from_positions = Array[bool]([false, true, true, false])
 targetable_positions = Array[bool]([false, false, false, false])
+attack_effect_texture = ExtResource("anim_fx")
+attack_sfx = ExtResource("anim_sfx")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

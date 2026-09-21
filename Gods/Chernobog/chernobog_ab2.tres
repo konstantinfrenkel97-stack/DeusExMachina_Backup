@@ -2,6 +2,21 @@
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
 [ext_resource type="Texture2D" uid="uid://c56mg0qwsa2u6" path="res://Gods/Chernobog/Endless_horror_icon.png" id="1_bjvrg"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Chernobog/05_scary.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Chernobog/06_lonely.mp3" id="4_v2"]
+
+[sub_resource type="Resource" id="voice_endless_horror_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "Страшно…"
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_endless_horror_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Одиноко…"
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_ab")
@@ -16,4 +31,5 @@ mark_type_int = 2
 mark_duration = 3
 mark_effect_type = "chernobog_endless_horror"
 mark_icon = ExtResource("1_bjvrg")
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_endless_horror_1"), SubResource("voice_endless_horror_2")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

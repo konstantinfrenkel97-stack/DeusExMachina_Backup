@@ -1,6 +1,21 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://thdkywrkqad6"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Shiva/01_ora_ora_ora_ora.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Shiva/02_punch_punch_punch.mp3" id="4_v2"]
+
+[sub_resource type="Resource" id="voice_shiva_ab1_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "Ора ора ора ора!"
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_shiva_ab1_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Удар! Удар! Удар!"
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_ab")
@@ -12,4 +27,5 @@ majesty_gain = 15
 usable_from_positions = Array[bool]([true, true, false, false])
 targetable_positions = Array[bool]([true, true, true, false])
 ability_marker = "shiva_fist_flurry"
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_shiva_ab1_1"), SubResource("voice_shiva_ab1_2")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

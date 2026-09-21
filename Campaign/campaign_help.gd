@@ -29,7 +29,13 @@ func topics() -> Dictionary:
 		"Бой": "Бой идет по очереди хода. Выберите способность или заклинание, затем цель, если она нужна. Правая кнопка мыши отменяет текущий выбор.",
 		"Способности": "Способности имеют позиции применения, цели, стоимость величия и эффекты. Наведение показывает подробное описание.",
 		"Заклинания": "Заклинания тратят фантазию. Часть заклинаний зависит от выбранной локации.",
-		"Эффекты": "Баффы, дебаффы, стойки и уникальные метки отображаются иконками возле персонажа. Наведение на иконку показывает подробности."
+		"Эффекты": "Баффы, дебаффы, стойки и уникальные метки отображаются иконками возле персонажа. Наведение на иконку показывает подробности.",
+		"Создание богов": TutorialTexts.GOD_CREATION_HINT,
+		"Комнаты кампании": "\n\n".join(TutorialTexts.room_hints()),
+		"Обучение бою": "\n\n".join(TutorialTexts.battle_intro_hints() + TutorialTexts.battle_targeting_hints()),
+		"Локации": TutorialTexts.LOCATION_PROPERTIES_HINT,
+		TutorialTexts.REQUIRED_GOD_HELP_TITLE: TutorialTexts.REQUIRED_GOD_HELP_TEXT,
+		TutorialTexts.POSITION_PRIORITY_HELP_TITLE: TutorialTexts.POSITION_PRIORITY_HELP_TEXT,
 	}
 
 
@@ -53,6 +59,13 @@ func show_topics() -> void:
 		btn.add_theme_font_size_override("font_size", 24)
 		btn.pressed.connect(show_topic.bind(str(topic_name), str(topics()[topic_name])))
 		root.add_child(btn)
+
+	var disable_btn := Button.new()
+	disable_btn.text = "Убрать подсказки"
+	disable_btn.custom_minimum_size = Vector2(640, 58)
+	disable_btn.add_theme_font_size_override("font_size", 24)
+	disable_btn.pressed.connect(_confirm_disable_tutorial)
+	root.add_child(disable_btn)
 
 	var back_btn := Button.new()
 	back_btn.text = "Назад"
@@ -119,6 +132,59 @@ func _make_root(panel: PanelContainer) -> VBoxContainer:
 	root.custom_minimum_size = Vector2(840, 560)
 	panel.add_child(root)
 	return root
+
+
+## "Убрать подсказки" — требует подтверждения (см. тот же приём в Scripts/tutorial_hint.gd
+## ::_on_disable_pressed), и предупреждает, что подсказки можно вернуть в Настройках.
+func _confirm_disable_tutorial() -> void:
+	var confirm_root := ColorRect.new()
+	confirm_root.color = Color(0.0, 0.0, 0.0, 0.5)
+	confirm_root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	confirm_root.mouse_filter = Control.MOUSE_FILTER_STOP
+	confirm_root.z_index = 2100
+	_scene.add_child(confirm_root)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	confirm_root.add_child(center)
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(460, 0)
+	center.add_child(panel)
+
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 16)
+	panel.add_child(vb)
+
+	var msg := Label.new()
+	msg.text = "Отключить все обучающие подсказки? Включить их обратно можно в Настройках."
+	msg.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	msg.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	msg.add_theme_font_size_override("font_size", 18)
+	vb.add_child(msg)
+
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 12)
+	vb.add_child(row)
+
+	var cancel_btn := Button.new()
+	cancel_btn.text = "Отмена"
+	cancel_btn.custom_minimum_size = Vector2(160, 46)
+	cancel_btn.add_theme_font_size_override("font_size", 16)
+	cancel_btn.pressed.connect(func(): confirm_root.queue_free())
+	row.add_child(cancel_btn)
+
+	var yes_btn := Button.new()
+	yes_btn.text = "Да, отключить"
+	yes_btn.custom_minimum_size = Vector2(160, 46)
+	yes_btn.add_theme_font_size_override("font_size", 16)
+	yes_btn.pressed.connect(func():
+		CampaignState.tutorial_disabled = true
+		confirm_root.queue_free()
+	)
+	row.add_child(yes_btn)
 
 
 func handle_back() -> bool:

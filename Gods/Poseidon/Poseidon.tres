@@ -11,6 +11,8 @@
 [resource]
 script = ExtResource("2_n5l4j")
 unit_name = "Посейдон"
+role_description = "Танк, который хорошо восстанавливает здоровье и контролирует противника"
+priority_positions = Array[int]([1, 2])
 sprite_path = "res://Gods/Poseidon/Poseidon.png"
 face_sprite = "res://Gods/Poseidon/Poseidon_Face.png"
 battle_sprite_scale_percent = 105.0

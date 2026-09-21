@@ -11,6 +11,8 @@
 [resource]
 script = ExtResource("2_idbeb")
 unit_name = "Тор"
+role_description = "Передовой воин с большим уроном и возможностью восстанавливать свое здоровье"
+priority_positions = Array[int]([1, 2])
 sprite_path = "res://Gods/Thor/Thor.png"
 face_sprite = "res://Gods/Thor/Thor_Face.png"
 dialogue_sprite_scale_percent = 102.0

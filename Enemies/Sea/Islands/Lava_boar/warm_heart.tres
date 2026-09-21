@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Горячее сердце"
-description = "Стойка. В начале следующего раунда восстанавливает 10% HP. Увеличивает урон от пассивки на 5%."
+description = ""
 damage_modifier = 0.0
 majesty_gain = 0
 ability_marker = "lava_boar_warm_heart"

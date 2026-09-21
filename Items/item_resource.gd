@@ -52,6 +52,9 @@ enum Rarity {
 @export var bonus_crit_chance: float = 0.0
 # Величие.
 @export var bonus_majesty: int = 0
+# Периодический урон, наносимый владельцем (яды/поджоги/кровотечения и т.п.), в %
+# (0 = не меняет, 20 = +20% к величине каждого тика периодического урона).
+@export var bonus_periodic_damage_percent: float = 0.0
 
 # ─── Пассивная регенерация в бою ───────────────────────────────
 
@@ -124,6 +127,8 @@ func get_bonuses_text() -> String:
 		parts.append("Удача %s%.0f%%" % ["+" if bonus_crit_chance > 0 else "", bonus_crit_chance * 100])
 	if bonus_majesty != 0:
 		parts.append("Величие %s%d" % ["+" if bonus_majesty > 0 else "", bonus_majesty])
+	if bonus_periodic_damage_percent != 0.0:
+		parts.append("Периодический урон %s%.0f%%" % ["+" if bonus_periodic_damage_percent > 0 else "", bonus_periodic_damage_percent])
 	if fantasy_regen_per_turn != 0:
 		parts.append("Фантазия %s%d/ход" % ["+" if fantasy_regen_per_turn > 0 else "", fantasy_regen_per_turn])
 	if majesty_regen_per_turn != 0:

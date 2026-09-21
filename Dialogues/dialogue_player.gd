@@ -15,6 +15,9 @@ const CHOICES_PANEL_WIDTH := 680.0
 const CHOICE_BUTTON_HEIGHT := 54.0
 const CHOICE_BUTTON_FONT_SIZE := 22
 const _CURSOR_TEXTURE := preload("res://Icons/Cursor/cursor.png")
+## Второй участник диалога (тот, кто говорил раньше) не исчезает, а тускнеет —
+## остаётся виден на своей стороне экрана, пока снова не заговорит.
+const SECONDARY_SPEAKER_DIM_COLOR := Color(0.40, 0.40, 0.46, 0.88)
 
 @onready var close_button: Button = $CloseButton
 @onready var portrait_anchor: Control = $PortraitAnchor
@@ -31,6 +34,19 @@ var _current_index: int = -1
 var _speaker_registry: DialogueSpeakerRegistry = null
 var _choices_center: Control = null
 
+# ─── Второй портрет (тускнеющий участник) ───────────────────────────────────
+var _secondary_portrait_anchor: Control = null
+var _secondary_portrait_rect: TextureRect = null
+# Последний спрайт/масштаб, показанный на каждой стороне экрана (false = левая,
+# true = зеркальная/правая) — Dictionary[bool, Dictionary], чтобы при переключении
+# говорящего можно было показать тускло того, кто говорил на другой стороне раньше.
+var _side_portraits: Dictionary = {}
+
+# ─── Журнал реплик ───────────────────────────────────────────────────────────
+var _history: Array[Dictionary] = []
+var _log_button: Button = null
+var _log_overlay: Control = null
+
 func _ready() -> void:
 	_load_speaker_registry()
 	close_button.pressed.connect(_finish_dialogue)
@@ -42,7 +58,32 @@ func _ready() -> void:
 	portrait_anchor.clip_contents = true
 	portrait_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	portrait_rect.stretch_mode = TextureRect.STRETCH_SCALE
+	_setup_secondary_portrait()
 	_setup_choices_overlay()
+	_setup_log_button()
+
+func _setup_secondary_portrait() -> void:
+	_secondary_portrait_anchor = Control.new()
+	_secondary_portrait_anchor.name = "SecondaryPortraitAnchor"
+	_secondary_portrait_anchor.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_secondary_portrait_anchor.clip_contents = true
+	_secondary_portrait_anchor.visible = false
+	add_child(_secondary_portrait_anchor)
+	move_child(_secondary_portrait_anchor, 1)
+	_secondary_portrait_rect = TextureRect.new()
+	_secondary_portrait_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_secondary_portrait_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_secondary_portrait_rect.stretch_mode = TextureRect.STRETCH_SCALE
+	_secondary_portrait_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_secondary_portrait_anchor.add_child(_secondary_portrait_rect)
+
+func _setup_log_button() -> void:
+	_log_button = Button.new()
+	_log_button.text = "Журнал"
+	_log_button.position = Vector2(close_button.offset_right + 16.0, close_button.offset_top)
+	_log_button.size = Vector2(140.0, close_button.offset_bottom - close_button.offset_top)
+	_log_button.pressed.connect(_show_log)
+	add_child(_log_button)
 
 func _setup_choices_overlay() -> void:
 	var old_parent: Node = choices_container.get_parent()
@@ -73,6 +114,9 @@ func _load_speaker_registry() -> void:
 func start_dialogue(dialogue) -> void:
 	if _root_dialogue == null:
 		_root_dialogue = dialogue
+		_side_portraits = {}
+		if _secondary_portrait_anchor != null:
+			_secondary_portrait_anchor.visible = false
 	_dialogue = dialogue
 	_current_index = dialogue.get_start_index() if dialogue != null else -1
 	_show_current_line()
@@ -80,8 +124,12 @@ func start_dialogue(dialogue) -> void:
 func _input(event: InputEvent) -> void:
 	if not visible or _dialogue == null:
 		return
+	if _log_overlay != null and is_instance_valid(_log_overlay):
+		return
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		if close_button.get_global_rect().has_point(event.position):
+			return
+		if _log_button != null and _log_button.get_global_rect().has_point(event.position):
 			return
 		if _can_advance_current_line():
 			_advance()
@@ -89,6 +137,11 @@ func _input(event: InputEvent) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible or _dialogue == null:
+		return
+	if _log_overlay != null and is_instance_valid(_log_overlay):
+		if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
+			_close_log()
+			get_viewport().set_input_as_handled()
 		return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_ESCAPE:
@@ -116,24 +169,37 @@ func _show_current_line() -> void:
 	speaker_label.text = speaker_name if speaker_name != "" else SPEAKER_PLACEHOLDER
 	speaker_label.visible = true
 	body_label.text = Localization.t(str(line.get("text_key")), line.text)
+	if body_label.text.strip_edges() != "":
+		_history.append({"speaker": speaker_name, "text": body_label.text})
 	if line_sprite != null:
 		portrait_rect.texture = line_sprite
+		portrait_rect.modulate = Color.WHITE
 		portrait_rect.flip_h = is_mirrored
-		_apply_mirrored_edge_hide(is_mirrored)
-		_update_portrait_geometry(line_sprite, is_mirrored, portrait_scale_percent, portrait_y_offset_percent)
+		_apply_mirrored_edge_hide(portrait_rect, is_mirrored)
+		_update_portrait_geometry(portrait_anchor, portrait_rect, line_sprite, is_mirrored, portrait_scale_percent, portrait_y_offset_percent)
 		portrait_anchor.visible = true
+		_side_portraits[is_mirrored] = {"sprite": line_sprite, "scale_percent": portrait_scale_percent, "y_offset_percent": portrait_y_offset_percent}
+		_update_secondary_portrait(is_mirrored)
 	else:
 		portrait_rect.texture = null
 		portrait_rect.flip_h = false
-		_apply_mirrored_edge_hide(false)
+		_apply_mirrored_edge_hide(portrait_rect, false)
 		portrait_anchor.visible = false
+		if _secondary_portrait_anchor != null:
+			_secondary_portrait_anchor.visible = false
+	var dialogue_id := _get_dialogue_id()
 	for choice in line.choices:
 		if choice == null:
+			continue
+		var required_mission_path: String = str(choice.get("required_mission_path"))
+		if required_mission_path != "" and not CampaignState.is_mission_completed(required_mission_path):
 			continue
 		var button := Button.new()
 		button.text = Localization.t(str(choice.get("choice_text_key")), choice.choice_text)
 		button.custom_minimum_size = Vector2(CHOICES_PANEL_WIDTH, CHOICE_BUTTON_HEIGHT)
 		button.add_theme_font_size_override("font_size", CHOICE_BUTTON_FONT_SIZE)
+		if CampaignState.is_dialogue_choice_read(dialogue_id, choice.choice_id):
+			button.modulate.a = 0.5
 		button.pressed.connect(_on_choice_pressed.bind(choice))
 		button.mouse_entered.connect(_on_choice_button_mouse_entered)
 		button.mouse_exited.connect(_on_choice_button_mouse_exited)
@@ -202,13 +268,13 @@ func _get_effective_portrait_y_offset_percent(profile: DialogueSpeakerProfile) -
 func _apply_line_layout(is_mirrored: bool) -> void:
 	speaker_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT if is_mirrored else HORIZONTAL_ALIGNMENT_LEFT
 
-func _apply_mirrored_edge_hide(is_mirrored: bool) -> void:
-	portrait_rect.offset_top = 0.0
-	portrait_rect.offset_right = 0.0
-	portrait_rect.offset_bottom = 0.0
-	portrait_rect.offset_left = -MIRRORED_EDGE_HIDE if is_mirrored else 0.0
+func _apply_mirrored_edge_hide(rect: TextureRect, is_mirrored: bool) -> void:
+	rect.offset_top = 0.0
+	rect.offset_right = 0.0
+	rect.offset_bottom = 0.0
+	rect.offset_left = -MIRRORED_EDGE_HIDE if is_mirrored else 0.0
 
-func _update_portrait_geometry(texture: Texture2D, is_mirrored: bool, scale_percent: float, y_offset_percent: float = 0.0) -> void:
+func _update_portrait_geometry(anchor: Control, rect: TextureRect, texture: Texture2D, is_mirrored: bool, scale_percent: float, y_offset_percent: float = 0.0) -> void:
 	if texture == null:
 		return
 	var tex_size := texture.get_size()
@@ -223,17 +289,35 @@ func _update_portrait_geometry(texture: Texture2D, is_mirrored: bool, scale_perc
 	# Положительный % поднимает портрет вверх — как и battle_sprite_y_offset_percent в бою.
 	bottom_edge -= target_height * (y_offset_percent / 100.0)
 	var top_edge: float = bottom_edge - target_height
-	portrait_anchor.anchor_left = 0.0
-	portrait_anchor.anchor_top = 0.0
-	portrait_anchor.anchor_right = 0.0
-	portrait_anchor.anchor_bottom = 0.0
+	anchor.anchor_left = 0.0
+	anchor.anchor_top = 0.0
+	anchor.anchor_right = 0.0
+	anchor.anchor_bottom = 0.0
 	var left := -PORTRAIT_SIDE_OVERHANG
 	if is_mirrored:
 		left = viewport_size.x - target_width + PORTRAIT_SIDE_OVERHANG
-	portrait_anchor.offset_left = left
-	portrait_anchor.offset_top = top_edge
-	portrait_anchor.offset_right = left + target_width
-	portrait_anchor.offset_bottom = bottom_edge
+	anchor.offset_left = left
+	anchor.offset_top = top_edge
+	anchor.offset_right = left + target_width
+	anchor.offset_bottom = bottom_edge
+
+## Показывает тускло того, кто говорил на ПРОТИВОПОЛОЖНОЙ стороне экрана последним —
+## чтобы при переключении говорящего собеседник не исчезал полностью (см. _side_portraits).
+func _update_secondary_portrait(active_mirrored: bool) -> void:
+	if _secondary_portrait_anchor == null or _secondary_portrait_rect == null:
+		return
+	var other_mirrored := not active_mirrored
+	var state: Dictionary = _side_portraits.get(other_mirrored, {})
+	var sprite: Texture2D = state.get("sprite")
+	if sprite == null:
+		_secondary_portrait_anchor.visible = false
+		return
+	_secondary_portrait_rect.texture = sprite
+	_secondary_portrait_rect.modulate = SECONDARY_SPEAKER_DIM_COLOR
+	_secondary_portrait_rect.flip_h = other_mirrored
+	_apply_mirrored_edge_hide(_secondary_portrait_rect, other_mirrored)
+	_update_portrait_geometry(_secondary_portrait_anchor, _secondary_portrait_rect, sprite, other_mirrored, float(state.get("scale_percent", 100.0)), float(state.get("y_offset_percent", 0.0)))
+	_secondary_portrait_anchor.visible = true
 
 func _on_text_gui_input(event: InputEvent) -> void:
 	if not _can_advance_current_line():
@@ -310,7 +394,91 @@ func _clear_choices() -> void:
 	for child in choices_container.get_children():
 		child.queue_free()
 
+## Журнал реплик — как в визуальных новеллах: список всего сказанного за этот
+## диалог (_history), можно открыть в любой момент и прочитать заново, не теряя
+## текущее место в разговоре. Закрывается кликом по фону, кнопкой или ESC.
+func _show_log() -> void:
+	_close_log()
+	_log_overlay = ColorRect.new()
+	_log_overlay.name = "DialogueLog"
+	_log_overlay.color = Color(0.0, 0.0, 0.0, 0.72)
+	_log_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_log_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	_log_overlay.z_index = 50
+	_log_overlay.gui_input.connect(_on_log_background_input)
+	add_child(_log_overlay)
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(900, 560)
+	panel.set_anchors_preset(Control.PRESET_CENTER)
+	panel.position = Vector2(-450, -280)
+	panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	_log_overlay.add_child(panel)
+
+	var root := VBoxContainer.new()
+	root.add_theme_constant_override("separation", 14)
+	panel.add_child(root)
+
+	var title := Label.new()
+	title.text = "Журнал реплик"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 30)
+	root.add_child(title)
+
+	var scroll := ScrollContainer.new()
+	scroll.custom_minimum_size = Vector2(860, 420)
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	root.add_child(scroll)
+
+	var list := VBoxContainer.new()
+	list.add_theme_constant_override("separation", 16)
+	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(list)
+
+	if _history.is_empty():
+		var empty_label := Label.new()
+		empty_label.text = "Пока ничего не сказано."
+		empty_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		list.add_child(empty_label)
+	else:
+		for entry in _history:
+			var entry_box := VBoxContainer.new()
+			entry_box.add_theme_constant_override("separation", 2)
+			var speaker_l := Label.new()
+			speaker_l.text = str(entry.get("speaker", ""))
+			speaker_l.add_theme_font_size_override("font_size", 20)
+			speaker_l.add_theme_color_override("font_color", Color(0.83, 0.72, 0.45, 1.0))
+			entry_box.add_child(speaker_l)
+			var text_l := RichTextLabel.new()
+			text_l.bbcode_enabled = false
+			text_l.fit_content = true
+			text_l.scroll_active = false
+			text_l.text = str(entry.get("text", ""))
+			text_l.add_theme_font_size_override("normal_font_size", 18)
+			entry_box.add_child(text_l)
+			list.add_child(entry_box)
+
+	var close_btn := Button.new()
+	close_btn.text = "Закрыть"
+	close_btn.custom_minimum_size = Vector2(200, 50)
+	close_btn.add_theme_font_size_override("font_size", 20)
+	close_btn.pressed.connect(_close_log)
+	root.add_child(close_btn)
+
+	await get_tree().process_frame
+	scroll.scroll_vertical = int(list.size.y)
+
+func _on_log_background_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		_close_log()
+
+func _close_log() -> void:
+	if _log_overlay != null and is_instance_valid(_log_overlay):
+		_log_overlay.queue_free()
+	_log_overlay = null
+
 func _finish_dialogue() -> void:
+	_close_log()
 	if _root_dialogue != null and _dialogue != _root_dialogue and bool(_root_dialogue.loop_to_root_when_finished):
 		start_dialogue(_root_dialogue)
 		return

@@ -60,6 +60,7 @@ script = ExtResource("2_choice")
 choice_id = "chosen_world"
 choice_text = "Выбранный мир"
 next_line_id = "chosen_world_1"
+required_mission_path = "res://Missions/Clouds/welcome_to_clouds.tres"
 
 [sub_resource type="Resource" id="Resource_cb_L4"]
 script = ExtResource("1_line")

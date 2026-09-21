@@ -13,6 +13,13 @@ class_name CharacterResource
 @export_range(-100.0, 100.0, 1.0) var dialogue_sprite_y_offset_percent: float = 0.0 # Positive values move the dialogue portrait upward.
 @export var campaign_dialogue_path: String = "" # Путь к диалогу бога в кампании.
 
+# Краткая ролевая подсказка на личной странице бога (Campaign/campaign_screen.gd::
+# _build_god_center_column) — только для богов игрока, у врагов не используется.
+@export_multiline var role_description: String = ""
+# Приоритетные позиции в отряде (1-4, как боевые Pos1-4) — подсвечиваются
+# мигающими белым слотами при выборе этого бога в Missions/mission_select.gd.
+@export var priority_positions: Array[int] = []
+
 @export_group("Levels")
 @export_range(1, 6, 1) var god_level: int = 1
 @export var level_bonuses: Array[Resource] = []
@@ -68,6 +75,13 @@ class_name CharacterResource
 # "jotun_fog"                  — пока жив, шанс туманного раунда удваивается (30%→60%)
 # "indigo_fog_evasion"         — в туманный раунд получает +25 уклонения
 @export var special_effect_type: String = ""
+
+# Озвученные фразы (см. VoiceLineResource) для срабатывания "щита смерти" этого бога
+# (special_effect_type == "koschei_life_charges"/"immortal_death_shield" и т.п.) — не
+# привязаны к конкретной способности, поэтому живут на самом персонаже. В отличие от
+# AbilityResource.voice_lines (30% шанс при применении способности), звучат со 100%
+# шансом при самом срабатывании щита — см. battle_scene.gd::_use_ability.
+@export var death_shield_voice_lines: Array[VoiceLineResource] = []
 
 # Если true — юнит занимает 2 позиции. Ограничивает макс. число юнитов в команде.
 # Иммунен к отталкиванию/притягиванию. Марки на обеих позициях действуют одновременно.

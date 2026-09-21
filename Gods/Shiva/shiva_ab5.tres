@@ -1,12 +1,27 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://c3plcqqia2vs6"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Shiva/09_creation_and_destruction.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Shiva/10_the_circle_is_complete.mp3" id="4_v2"]
+
+[sub_resource type="Resource" id="voice_shiva_ab5_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "Созидание и разрушение."
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_shiva_ab5_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Круг замкнулся."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_ab")
 icon_path = "uid://bktq5a75cbqh8"
 name = "Цикл разрушения"
-description = "При действии противника — 0.7 урона. Крит — повтор. Вперед 2"
+description = ""
 damage_modifier = 0.0
 majesty_gain = 0
 majesty_cost = 100
@@ -14,4 +29,5 @@ target_type = "All_Enemies"
 usable_from_positions = Array[bool]([false, true, true, false])
 is_stance = true
 stance_effect_type = "shiva_destruction_cycle"
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_shiva_ab5_1"), SubResource("voice_shiva_ab5_2")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

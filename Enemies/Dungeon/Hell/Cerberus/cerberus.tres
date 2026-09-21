@@ -10,6 +10,8 @@
 [resource]
 script = ExtResource("2_cr")
 unit_name = "Цербер"
+is_nemesis = true
+nemesis_order = 1
 max_hp = 49
 damage = 18
 armor = 6

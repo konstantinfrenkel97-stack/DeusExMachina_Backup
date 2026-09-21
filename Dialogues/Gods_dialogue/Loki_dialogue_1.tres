@@ -37,6 +37,24 @@ choice_id = "open_door"
 choice_text = "Открыть дверь"
 next_line_id = "d1"
 
+[sub_resource type="Resource" id="Resource_c141"]
+script = ExtResource("2_choice")
+choice_id = "c_odin"
+choice_text = "Одину"
+next_line_id = "o1"
+
+[sub_resource type="Resource" id="Resource_c142"]
+script = ExtResource("2_choice")
+choice_id = "c_thor"
+choice_text = "Тору"
+next_line_id = "t1"
+
+[sub_resource type="Resource" id="Resource_c143"]
+script = ExtResource("2_choice")
+choice_id = "c_back1"
+choice_text = "Вернуться к вопросам"
+next_line_id = "hub"
+
 [sub_resource type="Resource" id="Resource_hub"]
 script = ExtResource("1_line")
 line_id = "hub"
@@ -159,24 +177,6 @@ script = ExtResource("1_line")
 line_id = "d16"
 speaker_name = "Локи"
 text = "Эхх."
-next_line_id = "hub"
-
-[sub_resource type="Resource" id="Resource_c141"]
-script = ExtResource("2_choice")
-choice_id = "c_odin"
-choice_text = "Одину"
-next_line_id = "o1"
-
-[sub_resource type="Resource" id="Resource_c142"]
-script = ExtResource("2_choice")
-choice_id = "c_thor"
-choice_text = "Тору"
-next_line_id = "t1"
-
-[sub_resource type="Resource" id="Resource_c143"]
-script = ExtResource("2_choice")
-choice_id = "c_back1"
-choice_text = "Вернуться к вопросам"
 next_line_id = "hub"
 
 [sub_resource type="Resource" id="Resource_h145"]

@@ -11,6 +11,8 @@
 [resource]
 script = ExtResource("2_3tih1")
 unit_name = "Осирис"
+role_description = "Поддержка сильно увеличивающий прирост величия"
+priority_positions = Array[int]([2, 3])
 sprite_path = "res://Gods/Osiris/Osiris.png"
 face_sprite = "res://Gods/Osiris/Osiris_Face.png"
 battle_sprite_scale_percent = 109.0

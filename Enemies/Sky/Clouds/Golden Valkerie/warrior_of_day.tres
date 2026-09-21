@@ -5,7 +5,8 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Воин дня"
-description = "Стойка: +10 уклонения пока активна. В начале следующего раунда: +10 макс. HP (навсегда), +10 брони и +10 уклонения на 3 хода."
+description = ""
+damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"
 is_stance = true

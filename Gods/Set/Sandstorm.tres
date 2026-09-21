@@ -1,6 +1,21 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://setsndw0001"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_sw"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Set/10_sand_in_your_eye.mp3" id="3_a1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Set/11_something_in_your_eye.mp3" id="4_a2"]
+
+[sub_resource type="Resource" id="voice_sand_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_a1")
+text = "Хочу насыпать песка тебе в глаза."
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_sand_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_a2")
+text = "Ой, у тебя что-то в глазу."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_sw")
@@ -19,4 +34,5 @@ effect_durations = Dictionary[String, int]({
 })
 usable_from_positions = Array[bool]([false, true, true, false])
 targetable_positions = Array[bool]([true, true, false, false])
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_sand_1"), SubResource("voice_sand_2")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

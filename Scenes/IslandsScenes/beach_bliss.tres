@@ -1,17 +1,19 @@
-[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3 uid="uid://d4gtl5hfosid2"]
 
-[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="1_scene"]
-[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="2_choice"]
-[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="3_outcome"]
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="1_scene"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="2_choice"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="2_nhvd4"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="3_outcome"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="4_u10sk"]
 
 [sub_resource type="Resource" id="out_a"]
 script = ExtResource("3_outcome")
 result_text = "Мир никуда от вас не денется. Отдохнем еще немного."
+restart_current_scene = true
 hero_heal_percent = 5
 rest_counter_delta = 1
 rest_counter_fail_threshold = 6
 rest_counter_fail_dialogue_path = "res://Dialogues/Instructions/Myth_beach_oversleep.tres"
-restart_current_scene = true
 metadata/_custom_type_script = ExtResource("3_outcome")
 
 [sub_resource type="Resource" id="choice_a"]

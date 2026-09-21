@@ -1,6 +1,21 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://ccgbm2o4tw5ko"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_7unyo"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Thor/09_im_not_drunk_you_drunk.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Thor/10_oh_a_squirrel.mp3" id="4_v2"]
+
+[sub_resource type="Resource" id="voice_drink_some_ale_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "Это не я пьян, это ты пьян!"
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_drink_some_ale_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Ой, белка!"
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_7unyo")
@@ -15,4 +30,5 @@ effect_types = Array[String](["self_heal_percent", "self_dispel_debuffs"])
 effect_values = Dictionary[String, int]({
 "self_heal_percent": 40
 })
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_drink_some_ale_1"), SubResource("voice_drink_some_ale_2")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

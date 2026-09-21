@@ -1,12 +1,27 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://lokirgn0001"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_rg"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Loki/01_ragnarok.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Loki/02_destruction.mp3" id="4_v2"]
+
+[sub_resource type="Resource" id="voice_ragnarok_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "РАГНАРЁК!"
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_ragnarok_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Разрушение."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_rg")
 icon_path = "uid://djv2ueh55mtsm"
 name = "Рагнарек"
-description = "Стойка: в начале следующего хода все враги получают 50% урона, а текущая удача Локи удваивается на 1 ход."
+description = ""
 damage_modifier = 0.0
 majesty_gain = 0
 majesty_cost = 100
@@ -14,4 +29,5 @@ target_type = "Self"
 stance_duration_type = "UntilNextTurn"
 is_stance = true
 stance_effect_type = "loki_ragnarok"
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_ragnarok_1"), SubResource("voice_ragnarok_2")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

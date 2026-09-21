@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
 
+[ext_resource type="Texture2D" path="res://Ability_pics/Crush.png" id="anim_fx"]
+[ext_resource type="AudioStream" path="res://Sounds/hammer-hit-body.mp3" id="anim_sfx"]
+
 [resource]
 script = ExtResource("1_ab")
 name = "Наказание"
@@ -12,4 +15,7 @@ ability_marker = "mentor_punishment"
 target_type = "Enemy"
 usable_from_positions = Array[bool]([true, false, false, false])
 targetable_positions = Array[bool]([true, true, false, false])
+attack_effect_texture = ExtResource("anim_fx")
+attack_sfx = ExtResource("anim_sfx")
+attack_sfx_max_length = 0.025
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

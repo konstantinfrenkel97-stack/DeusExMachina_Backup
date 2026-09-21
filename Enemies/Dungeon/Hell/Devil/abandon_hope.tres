@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Оставь надежду"
-description = "Стойка. Противники не могут получать баффы. При попытке получить бафф — получают 0,15 урона и теряют 10 величия."
+description = ""
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"

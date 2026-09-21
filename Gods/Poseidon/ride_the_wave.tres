@@ -1,6 +1,21 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://5pa5a16f441v"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Poseidon/07_hiya.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Poseidon/08_one_with_the_waves.mp3" id="4_v2"]
+
+[sub_resource type="Resource" id="voice_ride_the_wave_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "Хийяяя!"
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_ride_the_wave_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Слился с волнами."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_ab")
@@ -21,4 +36,5 @@ effect_durations = Dictionary[String, int]({
 "self_push_forward": 0
 })
 usable_from_positions = Array[bool]([false, false, true, true])
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_ride_the_wave_1"), SubResource("voice_ride_the_wave_2")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

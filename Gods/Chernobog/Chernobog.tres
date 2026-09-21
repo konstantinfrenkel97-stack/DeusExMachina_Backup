@@ -11,6 +11,8 @@
 [resource]
 script = ExtResource("2_osbk1")
 unit_name = "Чернобог"
+role_description = "Передовой воин с высоким здоровье и уроном, но неспособный получать помощь от союзников"
+priority_positions = Array[int]([1, 2])
 sprite_path = "res://Gods/Chernobog/Chernobog.png"
 face_sprite = "res://Gods/Chernobog/Chernobog_face.png"
 battle_sprite_scale_percent = 132.0

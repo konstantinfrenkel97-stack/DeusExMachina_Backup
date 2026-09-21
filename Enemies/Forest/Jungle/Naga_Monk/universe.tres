@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Часть вселенной"
-description = "Стойка. Каждый раз когда союзник получает бафф, он получает 7 удачи на 1 ход и восстанавливает 7% здоровья."
+description = ""
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"

@@ -1,0 +1,236 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Islands/Crab_collector/crab_collector.tres" id="crab"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Islands/Cappa_warrior/cappa_warrior.tres" id="kappa"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Islands/Medusa/medusa.tres" id="medusa"]
+[ext_resource type="Resource" path="res://Gods/Susanoo/Susanoo.tres" id="susanoo"]
+[ext_resource type="Resource" path="res://Items/Trinkets/Rare/petrified_snake.tres" id="petrified_snake"]
+
+[sub_resource type="Resource" id="form_stone_garden"]
+script = ExtResource("formation_script")
+formation_name = "Краб коллектор — Краб коллектор — Воин каппа — Медуза"
+pos1 = ExtResource("crab")
+pos2 = ExtResource("crab")
+pos3 = ExtResource("kappa")
+pos4 = ExtResource("medusa")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_base"]
+script = ExtResource("battle_script")
+formation = SubResource("form_stone_garden")
+location_id = "island"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+stat_label = "Удача"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="buff_medusa_initiative_down"]
+script = ExtResource("buff_script")
+stat = 6
+value = -3
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_medusa_initiative_down"]
+script = ExtResource("unit_modifier_script")
+target_position = 4
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_medusa_initiative_down")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v1_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_stone_garden")
+location_id = "island"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_medusa_initiative_down")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_topple_success"]
+script = ExtResource("outcome_script")
+result_text = "Ситуация опасная, но вам приходит идея как застать медузу врасплох. Пока трое подходят к медузе, один бросается и толкает статую. Падая, та задевает другую статую, а та следующую создавая эффект домино. С грохотом пугающий сад камней начинает рушиться.
+«Неееееееет! Что вы наделалиииии?!»
+Визг медузы разносится над морем, и в этот момент вы на нее бросаетесь."
+battle = SubResource("battle_v1_success")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_topple_failure"]
+script = ExtResource("outcome_script")
+result_text = "Ситуация опасная, но вам приходит идея как застать медузу врасплох. Пока трое подходят к медузе, один бросается и толкает статую. Та падает в песок, подняв облачка пыли. Весь отряд и медуза в растерянности смотрят на совершенный вандализм.
+«Ах ты ублюдок» - злобно зашипела медуза.
+Вы успешно уронили статую."
+battle = SubResource("battle_base")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_topple"]
+script = ExtResource("choice_script")
+choice_text = "Толкнуть статую, чтобы отвлечь ее"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_topple_success")
+failure_outcome = SubResource("out_topple_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_evasion"]
+script = ExtResource("stat_check_script")
+stat = 3
+stat_label = "Уклонение"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="reward_petrified_snake"]
+script = ExtResource("reward_script")
+kind = 0
+resource = ExtResource("petrified_snake")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_flatter_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы начинаете нахваливать ее пугающие творения. Поначалу она также угрожающе шествует в вашу сторону. Но постепенно, под потоком комплементов, замедляется и останавливается, смущенно сжимая руки перед собой.
+«Ну слушайте… Я… Я так тронута…»
+«Люди часто пытаются обмануть меня и заговорить зубы. Говорят, что им нравится мое творчество, чтобы потом напасть.»
+«Но с вами, я чувствую искренность. Вам правда, правда нравится!»
+Она тихонько всхлипывает.
+«Я знала, что однажды мои дары оценят. Я знала, что найдется тот, кто увидит ту красоту что вижу я… Оценит мой гений.»
+Она разворачивается и уходит. Но вскоре возвращается, держа в руке каменную змею. Без сомнений, когда-то она была живой.
+«Возьмите это и идите. Ступайте, расскажите всем о том что увидели. Пусть приходят. Пусть все приобщаться к истинной красоте!»
+Вы берете каменную змею, и оставляете медузу с ее жертвами, чувствуя что легко отделались."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_petrified_snake")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="buff_medusa_accuracy_up"]
+script = ExtResource("buff_script")
+stat = 2
+value = 10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_medusa_accuracy_up"]
+script = ExtResource("unit_modifier_script")
+target_position = 4
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_medusa_accuracy_up")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v2_failure"]
+script = ExtResource("battle_script")
+formation = SubResource("form_stone_garden")
+location_id = "island"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_medusa_accuracy_up")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_flatter_failure"]
+script = ExtResource("outcome_script")
+result_text = "Вы начинаете нахваливать пугающие творения. Медуза продолжает угрожающе двигаться к вам, грациозно ставя одну ногу перед другой.
+«О, вам правда так нравится? М?»
+Она подходит и немного наклоняет голову, пытаясь заглянуть вам в лицо. Она стоит совсем близко.
+«Почему бы вам не посмотреть мне в глаза? Тогда вы сможете стать частью этого сада, который вам так нравится.»
+Вы не видите ее глаз, но видите, как рот растянулся в улыбке, обнажившей острые клыки."
+battle = SubResource("battle_v2_failure")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_flatter"]
+script = ExtResource("choice_script")
+choice_text = "Заговорить ей зубы"
+stat_check = SubResource("check_evasion")
+success_outcome = SubResource("out_flatter_success")
+failure_outcome = SubResource("out_flatter_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("stat_check_script")
+stat = 4
+stat_label = "Точность"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="buff_medusa_stun"]
+script = ExtResource("buff_script")
+stat = 7
+value = 0
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_medusa_stun"]
+script = ExtResource("unit_modifier_script")
+target_position = 4
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_medusa_stun")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v3_success"]
+script = ExtResource("battle_script")
+formation = SubResource("form_stone_garden")
+location_id = "island"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_medusa_stun")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_reflect_success"]
+script = ExtResource("outcome_script")
+result_text = "Вперед выходит Сусаноо.
+«Я слышал о твоих невероятных умениях, медуза.»
+Та замедляет шаг, но продолжает грациозно приближаться.
+«Неужели?»
+«Да» - голос Сусаноо звучит расслабленно. – «Я и сам считаюсь непревзойденным мастером в своей области.»
+«О, и что же за область?» - она начала угрожающе шипеть.
+«Искусство меча. Хочешь проверить, что быстрее? Мой меч или твой взгляд?» - вы видите как Сусаноо улыбается, опустив голову.
+«Высокомерный глупец…»
+Сусаноо поднимает голову, медуза резко поворачивает лицо прямо к нему, чтобы заглянуть в глаза…
+И превращается в камень. Поперек глаз Сусаноо держит лезвие катаны. В ее блестящей, словно зеркальной поверхности отражаются статуи. Меч действительно оказался быстрее взгляда."
+battle = SubResource("battle_v3_success")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="buff_susanoo_stun"]
+script = ExtResource("buff_script")
+stat = 7
+value = 0
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_reflect_failure"]
+script = ExtResource("outcome_script")
+result_text = "Вперед выходит Сусаноо.
+«Я слышал о твоих невероятных умениях, медуза.»
+Та замедляет шаг, но продолжает грациозно приближаться.
+«Неужели?»
+«Да» - голос Сусаноо звучит расслабленно. – «Я и сам считаюсь непревзойденным мастером в своей области.»
+«О, и что же за область?» - она начала угрожающе шипеть.
+«Искусство меча. Хочешь проверить, что быстрее? Мой меч или твой взгляд?» - вы видите как Сусаноо улыбается, опустив голову.
+«Высокомерный глупец…»
+Сусаноо поднимает голову, медуза резко поворачивает лицо прямо к нему, чтобы заглянуть в глаза…
+И бог превращается в камень. Кажется даже медуза не ожидала такого исхода. Отойдя от первого шока, вы бросаетесь в атаку. Похоже меч не смог опередить взгляд."
+battle = SubResource("battle_base")
+target_god = ExtResource("susanoo")
+target_buffs = Array[ExtResource("buff_script")]([SubResource("buff_susanoo_stun")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_reflect"]
+script = ExtResource("choice_script")
+choice_text = "Отразить ее взгляд"
+required_god = ExtResource("susanoo")
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_reflect_success")
+failure_outcome = SubResource("out_reflect_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Каменный сад"
+body_text = "Перед вашим взором появляется зрелище столь же прекрасное сколь и пугающее. Сад из безупречных каменных статуй. Мужчины и женщины. Люди, монстры и животные. Серые фигуры, выражающие самые разные эмоции от страха до восхищения. Вы чувствуете неловкость и давящую тревогу. Слишком они натуральны, и слишком недвижны.
+Вы слышите шуршание песка. Оборачиваетесь на звук, и едва успеваете опустить глаза. Что вы успеваете увидеть – женский силуэт с перепончатыми крыльями и змеями в волосах. Чешуйчатая кожа переливается радужным цветов на солнце. К счастью, вы достаточно хорошо знаете легенды о медузе, чтобы не смотреть ей в глаза. Не стать частью каменного сада. Вы стараетесь смотреть на ее ноги, когда та лениво и вальяжно направляется к вам, по пути проводя пальцем по гладкой поверхности статуй.
+«Вам нравится?»
+Вы отвечаете молчанием.
+«Видели ли вы что-либо более прекрасное? Разве они не безупречны?»
+Она подходит все ближе и ближе. Вы слышите жадное шипение змей в волосах. Боги сжимают оружие.
+«Скажите… Вы хотите стать бессмертными?»"
+choices = Array[ExtResource("choice_script")]([SubResource("choice_topple"), SubResource("choice_flatter"), SubResource("choice_reflect")])
+metadata/_custom_type_script = ExtResource("scene_script")

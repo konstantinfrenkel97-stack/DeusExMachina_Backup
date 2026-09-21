@@ -115,7 +115,7 @@ func _hero_stats_entry(hero_path: String) -> Dictionary:
 	if clean_path == "":
 		return {}
 	if not hero_battle_stats.has(clean_path):
-		hero_battle_stats[clean_path] = {"dealt": 0, "taken": 0, "healed": 0}
+		hero_battle_stats[clean_path] = {"dealt": 0, "taken": 0, "healed": 0, "forgetting": 0.0}
 	return hero_battle_stats[clean_path]
 
 func add_hero_damage_dealt(hero_path: String, amount: int) -> void:
@@ -141,6 +141,18 @@ func add_hero_damage_healed(hero_path: String, amount: int) -> void:
 	if entry.is_empty():
 		return
 	entry["healed"] = int(entry.get("healed", 0)) + amount
+
+## Прирост забвения за миссию, по каждому богу (для итогового экрана статистики —
+## см. mission_scene.gd::_add_hero_stats_row()). Копится из всех источников: 0.5 за
+## каждый небоевой переход между боями, hero_forgetting_delta сцен, смерть в бою
+## (battle_scene.gd::_apply_death_fading), сдача (battle_scene.gd::_do_surrender).
+func add_hero_forgetting_gained(hero_path: String, amount: float) -> void:
+	if amount <= 0.0:
+		return
+	var entry := _hero_stats_entry(hero_path)
+	if entry.is_empty():
+		return
+	entry["forgetting"] = float(entry.get("forgetting", 0.0)) + amount
 
 func set_current_scene(scene_res: MissionSceneResource) -> void:
 	current_scene = scene_res

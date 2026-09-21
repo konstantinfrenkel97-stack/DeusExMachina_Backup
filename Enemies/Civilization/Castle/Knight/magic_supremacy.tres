@@ -5,7 +5,8 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Сила превыше магии"
-description = "Стойка: +15 брони, пока активна. Стоимость всех заклинаний возрастает на 2. Продвигается вперёд на 1."
+description = ""
+damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"
 is_stance = true

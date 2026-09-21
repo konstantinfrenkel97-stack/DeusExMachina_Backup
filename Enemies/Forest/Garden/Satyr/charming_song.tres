@@ -5,7 +5,8 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Чарующая песня"
-description = "Стойка. Все противники теряют 5 атаки (эффект растёт на 5 каждый раунд)."
+description = ""
+damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"
 is_stance = true

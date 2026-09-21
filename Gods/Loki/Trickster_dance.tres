@@ -1,15 +1,31 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://lokidnc0001"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_td"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Loki/11_laugh.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Loki/12_reason_is_a_cage.mp3" id="4_v2"]
+
+[sub_resource type="Resource" id="voice_trickster_dance_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "*смеётся*"
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_trickster_dance_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Разум — это клетка."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_td")
 icon_path = "uid://bspjqgt5ueke0"
 name = "Танец бога обмана"
-description = "Локи получает +30 уклонения на 1 ход, продвигается вперёд, враги теряют по 10 удачи на 2 хода, а Локи получает +10 удачи за каждого врага на 2 хода."
+description = ""
 damage_modifier = 0.0
 majesty_gain = 25
 target_type = "Self"
 usable_from_positions = Array[bool]([false, true, true, false])
 ability_marker = "loki_trickster_dance"
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_trickster_dance_1"), SubResource("voice_trickster_dance_2")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

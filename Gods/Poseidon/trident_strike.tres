@@ -1,6 +1,21 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://co2i5oquvlv7g"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Poseidon/03_one_strike_three_holes.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Poseidon/04_for_my_family.mp3" id="4_v2"]
+
+[sub_resource type="Resource" id="voice_trident_strike_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "Один удар — три дыры."
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_trident_strike_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "За мою семью."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_ab")
@@ -11,4 +26,5 @@ majesty_gain = 15
 usable_from_positions = Array[bool]([true, true, false, false])
 targetable_positions = Array[bool]([true, true, false, false])
 ability_marker = "poseidon_trident_strike"
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_trident_strike_1"), SubResource("voice_trident_strike_2")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

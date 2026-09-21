@@ -2,10 +2,13 @@
 
 [ext_resource type="Script" path="res://ability_resource.gd" id="1_ab"]
 
+[ext_resource type="Texture2D" path="res://Ability_pics/Bite.png" id="anim_fx"]
+[ext_resource type="AudioStream" path="res://Sounds/hammer_hit_flesh.wav" id="anim_sfx"]
+
 [resource]
 script = ExtResource("1_ab")
 name = "Засада"
-description = "Стойка: наносит 150% урона следующему врагу, совершившему действие."
+description = ""
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"
@@ -15,3 +18,5 @@ stance_duration_type = "UntilNextTurn"
 effect_types = Array[String]([])
 usable_from_positions = Array[bool]([false, false, true, true])
 targetable_positions = Array[bool]([false, false, false, false])
+attack_effect_texture = ExtResource("anim_fx")
+attack_sfx = ExtResource("anim_sfx")

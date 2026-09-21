@@ -92,7 +92,7 @@ func _apply_effect_to_target(attacker: Combatant, target: Combatant, effect: Str
 		if effect.contains("debuff") or effect == "stun" or effect == "periodic_damage" or effect == "dispel_buffs":
 			return "%s: иммунен к дебаффам." % target.unit_name
 
-	# Дуна: «В гармонии с природой» — союзники иммунны к дебаффам (эффект отменяется, лёгкое исцеление)
+	# Дану: «В гармонии с природой» — союзники иммунны к дебаффам (эффект отменяется, лёгкое исцеление)
 	if effect.contains("debuff") or effect == "stun" or effect == "periodic_damage" or effect == "dispel_buffs":
 		for _dh_e in target.active_effects:
 			if Combatant._effect_get(_dh_e, "effect_id", "") == "duna_harmony_immune":
@@ -126,11 +126,12 @@ func _apply_effect_to_target(attacker: Combatant, target: Combatant, effect: Str
 
 	elif effect == "periodic_damage":
 		var pd_duration = _scene._compute_effect_duration(attacker, target, duration, true)
-		var dot_effect = {"stat": "periodic_damage", "value": val, "duration": pd_duration, "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name}
+		var pd_val = int(round(val * (1.0 + attacker.get_periodic_damage_bonus_percent() / 100.0)))
+		var dot_effect = {"stat": "periodic_damage", "value": pd_val, "duration": pd_duration, "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name}
 		target.active_effects.append(dot_effect)
 		# Мучитель: пассивка — при наложении DoT союзником даёт регенерацию всем Мучителям в команде
-		_apply_tormentor_regen(attacker, val, pd_duration)
-		return "%s получает периодический урон (%d) на %d ход(ов)." % [target.unit_name, val, pd_duration]
+		_apply_tormentor_regen(attacker, pd_val, pd_duration)
+		return "%s получает периодический урон (%d) на %d ход(ов)." % [target.unit_name, pd_val, pd_duration]
 
 	elif effect == "target_root":
 		# Леший «Ни шагу»: цель не может передвигаться N ходов
@@ -467,7 +468,7 @@ func _apply_buff_to_unit(target: Combatant, stat: String, value: int, duration: 
 			if _ds_u != null and _ds_u.current_hp > 0 and _ds_u != target and _ds_u.special_effect_type == "dwarf_smith_ally_buff":
 				_ds_u.apply_stat_change("armor", 5)
 				_ds_u.active_effects.append({"stat": "armor", "value": 5, "duration": 2, "effect_id": "dwarf_smith_ally_buff", "source_ability": "Пассивка гнома-кузнеца"})
-	# Дуна: «В гармонии с природой» — союзники иммунны к дебаффам
+	# Дану: «В гармонии с природой» — союзники иммунны к дебаффам
 	if not is_buff and value < 0:
 		for eff in target.active_effects:
 			if eff.get("effect_id", "") == "duna_harmony_immune":

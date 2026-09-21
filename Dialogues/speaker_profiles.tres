@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Dialogues/dialogue_speaker_profile.gd" id="1_profile"]
 [ext_resource type="Script" path="res://Dialogues/dialogue_speaker_registry.gd" id="2_registry"]
 [ext_resource type="Resource" path="res://Gods/Chernobog/Chernobog.tres" id="3_chernobog"]
-[ext_resource type="Resource" path="res://Gods/Duna/Duna.tres" id="4_duna"]
+[ext_resource type="Resource" path="res://Gods/Danu/Danu.tres" id="4_duna"]
 [ext_resource type="Resource" path="res://Gods/Hades/Hades.tres" id="5_hades"]
 [ext_resource type="Resource" path="res://Gods/Koschei/Koschei.tres" id="6_koschei"]
 [ext_resource type="Resource" path="res://Gods/Loki/Loki.tres" id="7_loki"]
@@ -32,8 +32,8 @@ metadata/_custom_type_script = "res://Dialogues/dialogue_speaker_profile.gd"
 
 [sub_resource type="Resource" id="Profile_1"]
 script = ExtResource("1_profile")
-speaker_name = "Дуна"
-default_sprite_path = "res://Gods/Duna/Duna.png"
+speaker_name = "Дану"
+default_sprite_path = "res://Gods/Danu/Danu.png"
 default_mirror_layout = true
 auto_fill_sprite = true
 auto_fill_layout = true

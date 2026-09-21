@@ -10,6 +10,17 @@ signal healed(amount: int)
 signal died
 ## Перо феникса: сработал одноразовый щит от смерти (для боевого лога).
 signal phoenix_feather_shield_triggered
+## Кощей: сработал щит заряда жизни (для боевого лога) — см. take_damage().
+signal koschei_life_shield_triggered
+## Бессмертный: сработал одноразовый щит смерти (для боевого лога) — см. take_damage().
+signal immortal_death_shield_triggered
+## Озвученная фраза при применении способности (см. AbilityResource.voice_lines) —
+## CombatantVisual слушает это, чтобы проиграть звук и показать облачко диалога.
+signal voice_line_used(text: String, audio: AudioStream)
+## Стойка прервалась/закончилась (см. break_stance()). battle_scene.gd слушает это для
+## стоек, чьи эффекты нужно снять со ВСЕЙ команды, не только с самого юнита (напр.
+## "В гармонии с природой" — иммунитет получают все союзники, не только Дану).
+signal stance_broken(stance_effect_type: String)
 
 
 var unit_name: String
@@ -37,6 +48,7 @@ var has_waited_this_round: bool = false
 var has_acted_this_round: bool = false
 var round_wait_stamp: int = -1
 var special_effect_type: String = ""
+var death_shield_voice_lines: Array[VoiceLineResource] = []
 var god_level: int = 1
 var is_large: bool = false
 var is_boss: bool = false
@@ -108,6 +120,7 @@ func _init(resource: CharacterResource):
 	ultimate_ability = resource.ultimate_ability
 	original_ultimate_ability = resource.ultimate_ability
 	special_effect_type = resource.special_effect_type
+	death_shield_voice_lines = resource.death_shield_voice_lines
 	is_large = resource.is_large
 	is_boss = resource.is_boss
 	is_nemesis = resource.is_nemesis
@@ -133,6 +146,10 @@ func _init(resource: CharacterResource):
 	# Экипировка (оружие/броня/безделушка) — применяется последней и не зависит
 	# от "забвения": сила предмета не тускнеет от того, что бога подзабыли.
 	_apply_equipment_bonuses()
+	# Постоянный бонус удачи из сюжетных исходов (CampaignState.permanent_god_crit_bonus) —
+	# личная черта бога, а не снаряжение/уровень, поэтому тоже не зависит от забвения.
+	if not is_enemy:
+		base_crit_chance += float(CampaignState.permanent_god_crit_bonus.get(source_resource_path, 0.0))
 
 func _apply_level_bonuses(bonuses: Dictionary) -> void:
 	if bonuses.is_empty():
@@ -170,6 +187,15 @@ func _apply_equipment_bonuses() -> void:
 		base_evasion += item.bonus_evasion
 		base_crit_chance += item.bonus_crit_chance
 		current_majesty += item.bonus_majesty
+
+## Суммирует бонус % к периодическому урону (яды/поджоги и т.п.) со всех экипированных
+## предметов (ItemResource.bonus_periodic_damage_percent) — читается живьём при наложении
+## каждого тика, а не запекается в статы (см. battle_effects.gd/_apply_spell_to_target).
+func get_periodic_damage_bonus_percent() -> float:
+	var total := 0.0
+	for item in get_equipped_items():
+		total += item.bonus_periodic_damage_percent
+	return total
 
 ## Возвращает список экипированных предметов (без null-слотов).
 ## Общая точка входа для любой пассивной логики предметов (регенерация, будущие эффекты).
@@ -341,14 +367,43 @@ func take_damage(amount: int):
 	if amount > 0:
 		damage_taken.emit(amount)
 	if _was_alive and current_hp <= 0:
+		# Все "щит вместо смерти" эффекты проверяются прямо здесь, ДО died.emit() —
+		# died — это не просто уведомление, battle_scene.gd синхронно обрабатывает его
+		# как настоящую смерть (уносит визуал со сцены, чистит очередь ходов и т.п.).
+		# Если проверить эти щиты позже (например, в вызывающем коде после take_damage),
+		# died уже успеет выстрелить и юнит будет выглядеть мёртвым, даже если HP тут же
+		# восстановится — щит "спасёт" данные, но не спасёт то, что игрок увидит на экране.
+		#
 		# Перо феникса: один раз за бой погибель заменяется полным восстановлением HP.
-		# Проверяется прямо здесь (а не в конкретном месте нанесения урона), чтобы щит
-		# защищал от любого источника смерти — включая собственный урон предмета в начале хода.
 		if has_item_effect("phoenix_feather") and not phoenix_feather_shield_used:
 			phoenix_feather_shield_used = true
 			current_hp = max_hp
 			phoenix_feather_shield_triggered.emit()
 			return
+		# Кощей: заряды жизни — при смерти восстановить 50% HP вместо гибели, пока есть заряды.
+		if special_effect_type == "koschei_life_charges" and life_charges > 0:
+			life_charges -= 1
+			current_hp = int(max_hp * 0.5)
+			active_effects.clear()
+			koschei_life_shield_triggered.emit()
+			if not death_shield_voice_lines.is_empty():
+				var _shield_voice_line: VoiceLineResource = death_shield_voice_lines[randi() % death_shield_voice_lines.size()]
+				if _shield_voice_line != null and _shield_voice_line.audio != null:
+					voice_line_used.emit(_shield_voice_line.text, _shield_voice_line.audio)
+			return
+		# Бессмертный: щит смерти — впервые при HP=0 восстановить полное HP (одноразово за бой).
+		if special_effect_type == "immortal_death_shield":
+			var _immortal_shield_used := false
+			for _eff in active_effects:
+				if _effect_get(_eff, "effect_id", "") == "immortal_shield_used":
+					_immortal_shield_used = true
+					break
+			if not _immortal_shield_used:
+				current_hp = max_hp
+				active_effects.clear()
+				active_effects.append({"stat": "trigger_marker", "value": 0, "duration": -1, "effect_id": "immortal_shield_used"})
+				immortal_death_shield_triggered.emit()
+				return
 		died.emit()
 ## Немезиды (is_nemesis) — единственные враги, которые копят и тратят величие, как герои;
 ## обычные враги величия не имеют (см. "Отличительная особенность немезисов — у них есть величие").
@@ -465,10 +520,16 @@ func enter_stance(stance: AbilityResource):
 	# Ð—Ð´ÐµÑÑŒ Ð¼Ð¾Ð¶Ð½Ð¾ Ð¸ÑÐ¿ÑƒÑÐºÐ°Ñ‚ÑŒ ÑÐ¸Ð³Ð½Ð°Ð», Ñ‡Ñ‚Ð¾Ð±Ñ‹ UI Ð¾Ð±Ð½Ð¾Ð²Ð¸Ð»ÑÑ (Ð¸ÐºÐ¾Ð½ÐºÐ° ÑÑ‚Ð¾Ð¹ÐºÐ¸)
 
 func break_stance():
+	var broken_effect_type := active_stance.stance_effect_type if active_stance != null else ""
 	# «Неубиваемый» Кощея: броня и метка провокации действуют только пока активна стойка.
-	if active_stance != null and active_stance.stance_effect_type == "koschei_immortal":
+	if broken_effect_type == "koschei_immortal":
 		_strip_effects_by_source("Неубиваемый")
+	# «Грациозная осанка» единорога: броня и уклонение действуют только пока активна стойка.
+	elif broken_effect_type == "unicorn_grace":
+		_strip_effects_by_source("Грациозная осанка")
 	active_stance = null
+	if broken_effect_type != "":
+		stance_broken.emit(broken_effect_type)
 
 ## Снимает все активные эффекты с указанным source_ability (с реверсом стат-модификаторов).
 func _strip_effects_by_source(source: String) -> void:

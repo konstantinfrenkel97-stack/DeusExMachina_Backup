@@ -1,15 +1,38 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://setusur0001"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_us"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Set/01_eu_is_that_a_big_spell.mp3" id="3_a1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Set/02_ill_take_that.mp3" id="4_a2"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Set/03_yeah_thanks_for_nothing.mp3" id="5_a3"]
+
+[sub_resource type="Resource" id="voice_usurp_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_a1")
+text = "Фу, и это твоё великое заклинание?"
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_usurp_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_a2")
+text = "Я это заберу!"
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_usurp_3"]
+script = ExtResource("2_vl")
+audio = ExtResource("5_a3")
+text = "Ну спасибо, весьма помог."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_us")
 icon_path = "uid://bbr5cwp2ahjw1"
 name = "Узурпировать"
-description = "Выберите другого живого союзника. Сет заменяет свою ультимативную способность на ульту выбранного союзника. После применения скопированной ульты снова получает «Узурпировать»."
+description = "Выберите другого живого союзника — Сет временно перенимает его ультимативную способность."
 damage_modifier = 0.0
 majesty_gain = 0
 majesty_cost = 100
 target_type = "Ally"
 ability_marker = "set_usurp"
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_usurp_1"), SubResource("voice_usurp_2"), SubResource("voice_usurp_3")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

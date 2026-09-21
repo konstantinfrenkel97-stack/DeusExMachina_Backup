@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
 
+[ext_resource type="Texture2D" path="res://Ability_pics/dark_skull.png" id="anim_fx"]
+[ext_resource type="AudioStream" path="res://Ability_pics/scream_sound.wav" id="anim_sfx"]
+
 [resource]
 script = ExtResource("1_ab")
 name = "Удар хаоса"
@@ -13,4 +16,6 @@ extra_targets_count = 1
 ability_marker = "asura_chaos_strike"
 usable_from_positions = Array[bool]([true, true, true, false])
 targetable_positions = Array[bool]([true, true, true, false])
+attack_effect_texture = ExtResource("anim_fx")
+attack_sfx = ExtResource("anim_sfx")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

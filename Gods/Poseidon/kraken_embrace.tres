@@ -1,6 +1,21 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://dc0kpm7nyu684"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Poseidon/05_where_are_you_going.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Poseidon/06_just_stay_put.mp3" id="4_v2"]
+
+[sub_resource type="Resource" id="voice_kraken_embrace_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "Куда собрался?"
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_kraken_embrace_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Просто стой на месте."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_ab")
@@ -20,4 +35,5 @@ effect_durations = Dictionary[String, int]({
 })
 usable_from_positions = Array[bool]([false, true, true, false])
 targetable_positions = Array[bool]([true, false, false, false])
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_kraken_embrace_1"), SubResource("voice_kraken_embrace_2")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

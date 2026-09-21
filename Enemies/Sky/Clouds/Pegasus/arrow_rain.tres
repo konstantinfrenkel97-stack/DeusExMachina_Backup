@@ -2,10 +2,14 @@
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
 
+[ext_resource type="Texture2D" path="res://Ability_pics/Arrow.png" id="anim_fx"]
+[ext_resource type="AudioStream" path="res://Sounds/spear_air_whoosh.wav" id="anim_sfx"]
+
 [resource]
 script = ExtResource("1_ab")
 name = "Дождь стрел"
-description = "Стойка: назад 1. В начале следующего раунда наносит 0,8 урона всем врагам."
+description = "Наносит 0,8 урона всем врагам."
+damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"
 is_stance = true
@@ -14,4 +18,6 @@ stance_duration_type = "UntilNextTurn"
 effect_types = Array[String](["self_push_back"])
 effect_values = {"self_push_back": 1}
 usable_from_positions = Array[bool]([true, true, false, false])
+attack_effect_texture = ExtResource("anim_fx")
+attack_sfx = ExtResource("anim_sfx")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

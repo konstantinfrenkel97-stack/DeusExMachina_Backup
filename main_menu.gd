@@ -15,6 +15,7 @@ const MENU_BTN_PRESSED_COLOR := Color(0.045, 0.034, 0.018, 1.0)
 var _dialog_overlay: Control
 
 func _ready() -> void:
+	$MusicPlayer.finished.connect(func(): $MusicPlayer.play())
 	var menu = $Center/VBoxContainer
 	for btn in menu.get_children():
 		btn.custom_minimum_size = Vector2(254, 58)

@@ -1,6 +1,23 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://bkjn1is03ucu8"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_4aoc6"]
+[ext_resource type="AudioStream" path="res://Sounds/sword-slash_NkdUSLZ.mp3" id="2_sfx"]
+[ext_resource type="Texture2D" path="res://Ability_pics/Blue_slash.png" id="3_fx"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="4_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Osiris/01_glorious_strike.mp3" id="5_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Osiris/02_out_of_my_sight.mp3" id="6_v2"]
+
+[sub_resource type="Resource" id="voice_golden_khopesh_1"]
+script = ExtResource("4_vl")
+audio = ExtResource("5_v1")
+text = "Славный удар!"
+metadata/_custom_type_script = ExtResource("4_vl")
+
+[sub_resource type="Resource" id="voice_golden_khopesh_2"]
+script = ExtResource("4_vl")
+audio = ExtResource("6_v2")
+text = "Прочь с глаз моих!"
+metadata/_custom_type_script = ExtResource("4_vl")
 
 [resource]
 script = ExtResource("1_4aoc6")
@@ -10,4 +27,7 @@ description = "Наносит обычный урон и даёт 50 велич�
 majesty_gain = 50
 usable_from_positions = Array[bool]([true, true, true, false])
 targetable_positions = Array[bool]([true, true, false, false])
+voice_lines = Array[ExtResource("4_vl")]([SubResource("voice_golden_khopesh_1"), SubResource("voice_golden_khopesh_2")])
+attack_sfx = ExtResource("2_sfx")
+attack_effect_texture = ExtResource("3_fx")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

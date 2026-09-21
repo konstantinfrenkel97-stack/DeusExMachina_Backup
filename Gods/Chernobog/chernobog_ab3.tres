@@ -1,6 +1,21 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://b4muk03kncl1h"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Chernobog/07_hurts.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Chernobog/08_pain.mp3" id="4_v2"]
+
+[sub_resource type="Resource" id="voice_i_am_pain_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "Больно…"
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_i_am_pain_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Боль…"
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_ab")
@@ -12,4 +27,5 @@ majesty_gain = 15
 usable_from_positions = Array[bool]([true, true, true, false])
 targetable_positions = Array[bool]([true, true, true, false])
 ability_marker = "chernobog_i_am_pain"
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_i_am_pain_1"), SubResource("voice_i_am_pain_2")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

@@ -1,6 +1,23 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://da8bias0db1d8"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="AudioStream" path="res://Sounds/sword-slash_NkdUSLZ.mp3" id="2_sfx"]
+[ext_resource type="Texture2D" path="res://Ability_pics/red_slash.png" id="3_fx"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="4_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Odin/03_the_king_and_the_warrior.mp3" id="5_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Odin/04_stay_away_from_my_children.mp3" id="6_v2"]
+
+[sub_resource type="Resource" id="voice_king_of_asgard_1"]
+script = ExtResource("4_vl")
+audio = ExtResource("5_v1")
+text = "Король и воин."
+metadata/_custom_type_script = ExtResource("4_vl")
+
+[sub_resource type="Resource" id="voice_king_of_asgard_2"]
+script = ExtResource("4_vl")
+audio = ExtResource("6_v2")
+text = "Держись подальше от моих детей!"
+metadata/_custom_type_script = ExtResource("4_vl")
 
 [resource]
 script = ExtResource("1_ab")
@@ -18,4 +35,7 @@ effect_durations = Dictionary[String, int]({
 usable_from_positions = Array[bool]([true, true, false, false])
 targetable_positions = Array[bool]([true, true, false, false])
 ability_marker = "odin_king_of_asgard"
+voice_lines = Array[ExtResource("4_vl")]([SubResource("voice_king_of_asgard_1"), SubResource("voice_king_of_asgard_2")])
+attack_sfx = ExtResource("2_sfx")
+attack_effect_texture = ExtResource("3_fx")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

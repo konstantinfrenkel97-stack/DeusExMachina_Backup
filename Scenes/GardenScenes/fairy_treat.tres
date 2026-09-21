@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="MissionSceneResource" format=3]
 
 [ext_resource type="Resource" path="res://Enemies/Forest/Garden/Flower_fairy/flower_fairy.tres" id="ext_flower_fairy"]
-[ext_resource type="Resource" path="res://Gods/Duna/Duna.tres" id="ext_duna"]
+[ext_resource type="Resource" path="res://Gods/Danu/Danu.tres" id="ext_duna"]
 [ext_resource type="Resource" path="res://Scenes/GardenScenes/fairy_gift_tasted_success.tres" id="ext_next_success"]
 [ext_resource type="Resource" path="res://Scenes/GardenScenes/fairy_gift_tasted_failure.tres" id="ext_next_failure"]
 [ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
@@ -74,7 +74,7 @@ metadata/_custom_type_script = ExtResource("buff_script")
 
 [sub_resource type="Resource" id="out_v3"]
 script = ExtResource("outcome_script")
-result_text = "Дуна хмурится, глядя на фей. «Это неправильно... Природа не должна поступать так с детьми.» Она не решается вмешаться прямо сейчас, но вы видите, как в ней разгорается гнев — гнев, который однажды выплеснется на того, кто в ответе за всё это."
+result_text = "Дану хмурится, глядя на фей. «Это неправильно... Природа не должна поступать так с детьми.» Она не решается вмешаться прямо сейчас, но вы видите, как в ней разгорается гнев — гнев, который однажды выплеснется на того, кто в ответе за всё это."
 nemesis_buff_god = ExtResource("ext_duna")
 nemesis_buff_stat = SubResource("buff_duna_regen3")
 nemesis_buff_location_id = "garden"

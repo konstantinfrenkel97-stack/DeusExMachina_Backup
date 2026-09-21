@@ -61,6 +61,7 @@ script = ExtResource("2_choice")
 choice_id = "chosen_world"
 choice_text = "Выбранный мир"
 next_line_id = "chosen_world_1"
+required_mission_path = "res://Missions/Marsh/welcome_to_swamp.tres"
 
 [sub_resource type="Resource" id="Resource_k004"]
 script = ExtResource("1_line")
@@ -234,7 +235,7 @@ next_line_id = "Koschei_choices_1"
 [sub_resource type="Resource" id="Resource_c006"]
 script = ExtResource("2_choice")
 choice_id = "opinion_duna"
-choice_text = "Дуна"
+choice_text = "Дану"
 next_line_id = "opinion_duna_1"
 
 [sub_resource type="Resource" id="Resource_c007"]
@@ -255,7 +256,7 @@ choices = Array[ExtResource("2_choice")]([SubResource("Resource_c006"), SubResou
 script = ExtResource("1_line")
 line_id = "opinion_duna_1"
 speaker_name = "Лена"
-text = "... Дуне."
+text = "... Дану."
 sprite = ExtResource("3_7458m")
 next_line_id = "opinion_duna_2"
 
@@ -263,7 +264,7 @@ next_line_id = "opinion_duna_2"
 script = ExtResource("1_line")
 line_id = "opinion_duna_2"
 speaker_name = "Кощей"
-text = "О Дуна! Прекрасная дева."
+text = "О Дану! Прекрасная дева."
 next_line_id = "opinion_duna_3"
 
 [sub_resource type="Resource" id="Resource_k030"]
@@ -407,7 +408,7 @@ next_line_id = "opinion_duna_22"
 script = ExtResource("1_line")
 line_id = "opinion_duna_22"
 speaker_name = "Кощей"
-text = "Я бессмертный, что мне мнение какой-то Дуны."
+text = "Я бессмертный, что мне мнение какой-то Дану."
 next_line_id = "opinion_duna_23"
 
 [sub_resource type="Resource" id="Resource_k050"]

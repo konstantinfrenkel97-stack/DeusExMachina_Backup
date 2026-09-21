@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Поднять щиты"
-description = "Стойка. +20 брони, пока активна. При атаке по вам — 0.6 ответного урона атакующему."
+description = ""
 damage_modifier = 0.0
 majesty_gain = 0
 ability_marker = "hoplite_raise_shields"

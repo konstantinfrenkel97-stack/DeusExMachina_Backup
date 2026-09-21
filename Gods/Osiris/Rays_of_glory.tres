@@ -2,6 +2,28 @@
 
 [ext_resource type="Texture2D" uid="uid://ydufhkj0y0cj" path="res://Gods/Osiris/Rays_of_glory_icon.png" id="1_epdkh"]
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_rg"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Osiris/08_bask_in_my_glory.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Osiris/09_a_royal_favor.mp3" id="4_v2"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Osiris/10_you_should_be_grateful.mp3" id="5_v3"]
+
+[sub_resource type="Resource" id="voice_rays_of_glory_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "Купайся в моей славе."
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_rays_of_glory_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Королевская милость."
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_rays_of_glory_3"]
+script = ExtResource("2_vl")
+audio = ExtResource("5_v3")
+text = "Ты должен быть благодарен."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_rg")
@@ -17,4 +39,5 @@ mark_effect_type = "ally_buff_evasion"
 mark_effect_value = 10
 mark_effect_duration = 2
 mark_icon = ExtResource("1_epdkh")
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_rays_of_glory_1"), SubResource("voice_rays_of_glory_2"), SubResource("voice_rays_of_glory_3")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

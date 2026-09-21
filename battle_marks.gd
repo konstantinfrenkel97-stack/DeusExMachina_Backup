@@ -217,7 +217,7 @@ func apply_mark_to_unit(mark: Dictionary, target: Combatant, is_placement: bool 
 			target.active_effects.append({"stat": "damage", "value": -_mc_val, "duration": -1, "effect_id": _mc_id, "source_ability": "Древнее проклятие"})
 			target.active_effects.append({"stat": "armor", "value": -_mc_val, "duration": -1, "effect_id": _mc_id, "source_ability": "Древнее проклятие"})
 		_scene._log_combat("%s %s: древнее проклятие (-%d урона, -%d брони) до конца боя." % [log_prefix, target.unit_name, int(mark["effect_value"]), int(mark["effect_value"])])
-	# Дуна: «Защита из корней» (безопасность — марочный вариант, если марка размещена на союзнике)
+	# Дану: «Защита из корней» (безопасность — марочный вариант, если марка размещена на союзнике)
 	elif mark["effect_type"] == "root_protection":
 		var _rp_bonus = int(target.base_armor * 0.2)
 		target.armor_modifier += _rp_bonus

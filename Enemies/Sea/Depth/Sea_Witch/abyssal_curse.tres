@@ -3,6 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://byolleryw0tus" path="res://Enemies/Sea/Depth/Sea_Witch/Curse_of_the_deep_icon.png" id="1_7s12u"]
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
 
+[ext_resource type="Texture2D" path="res://Ability_pics/dark_skull.png" id="anim_fx"]
+[ext_resource type="AudioStream" path="res://Ability_pics/scream_sound.wav" id="anim_sfx"]
+
 [resource]
 script = ExtResource("1_ab")
 name = "Глубоководное проклятие"
@@ -11,4 +14,6 @@ damage_modifier = 0.0
 majesty_gain = 0
 ability_marker = "seawitch_curse"
 mark_icon = ExtResource("1_7s12u")
+attack_effect_texture = ExtResource("anim_fx")
+attack_sfx = ExtResource("anim_sfx")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

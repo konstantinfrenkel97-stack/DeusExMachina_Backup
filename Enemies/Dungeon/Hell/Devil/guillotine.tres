@@ -3,6 +3,9 @@
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
 [ext_resource type="Texture2D" path="res://icons/debuff_icon.png" id="2_mark"]
 
+[ext_resource type="Texture2D" path="res://Ability_pics/red_slash.png" id="anim_fx"]
+[ext_resource type="AudioStream" path="res://Sounds/sword-slash_NkdUSLZ.mp3" id="anim_sfx"]
+
 [resource]
 script = ExtResource("1_ab")
 name = "Адская гильотина"
@@ -17,4 +20,6 @@ mark_type_int = 1
 mark_position = 0
 mark_target_team = "enemy"
 mark_icon = ExtResource("2_mark")
+attack_effect_texture = ExtResource("anim_fx")
+attack_sfx = ExtResource("anim_sfx")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

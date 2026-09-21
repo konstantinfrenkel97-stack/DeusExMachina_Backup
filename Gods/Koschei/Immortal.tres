@@ -1,12 +1,20 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://kchimrt0001"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_im"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Koschei/Test_ypur_luck.mp3" id="3_a1"]
+
+[sub_resource type="Resource" id="voice_test_luck"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_a1")
+text = "Испытай удачу."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_im")
 icon_path = "uid://f3n573womnnd"
 name = "Неубиваемый"
-description = "Стойка: Кощей продвигается вперёд, получает +30 брони и метку провокации на 1 ход."
+description = ""
 damage_modifier = 0.0
 target_type = "Self"
 effect_types = Array[String](["self_push_forward", "self_buff_armor", "self_provocation_mark"])
@@ -22,4 +30,5 @@ usable_from_positions = Array[bool]([true, true, true, false])
 stance_duration_type = "UntilNextTurn"
 is_stance = true
 stance_effect_type = "koschei_immortal"
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_test_luck")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

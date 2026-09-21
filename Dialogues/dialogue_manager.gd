@@ -108,6 +108,7 @@ func _on_dialogue_closed(dialogue_id: String) -> void:
 	emit_signal("dialogue_finished", dialogue_id)
 
 func _on_dialogue_choice_selected(dialogue_id: String, choice_id: String) -> void:
+	CampaignState.mark_dialogue_choice_read(dialogue_id, choice_id)
 	emit_signal("dialogue_choice_selected", dialogue_id, choice_id)
 
 func _dialogue_id(dialogue) -> String:

@@ -1,0 +1,163 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Peaks/Oni_sorcerer/oni_sorcerer.tres" id="oni"]
+
+[sub_resource type="Resource" id="form_oni_pair"]
+script = ExtResource("formation_script")
+formation_name = "Красный Они — Красный Они"
+pos1 = ExtResource("oni")
+pos2 = ExtResource("oni")
+pos3 = null
+pos4 = null
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="mod_one_oni_hurt"]
+script = ExtResource("unit_modifier_script")
+target_position = 1
+hp_percent = 90
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_base"]
+script = ExtResource("battle_script")
+formation = SubResource("form_oni_pair")
+location_id = "mountains"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_one_oni_hurt")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="buff_oni_accuracy"]
+script = ExtResource("buff_script")
+stat = 2
+value = 15
+duration = 2
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="mod_all_oni_accuracy"]
+script = ExtResource("unit_modifier_script")
+target_position = 0
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_oni_accuracy")])
+metadata/_custom_type_script = ExtResource("unit_modifier_script")
+
+[sub_resource type="Resource" id="battle_v1_failure"]
+script = ExtResource("battle_script")
+formation = SubResource("form_oni_pair")
+location_id = "mountains"
+enemy_modifiers = Array[ExtResource("unit_modifier_script")]([SubResource("mod_one_oni_hurt"), SubResource("mod_all_oni_accuracy")])
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="check_initiative"]
+script = ExtResource("stat_check_script")
+stat = 1
+stat_label = "Инициатива"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_leave_success"]
+script = ExtResource("outcome_script")
+result_text = "Потрясающее зрелище. Впрочем, тут становится жарковато во всех смыслах. За вашими спинами раздается рык и бушует пламя, а вы улепетываете пока бешеная парочка вас не заметила."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_leave_failure"]
+script = ExtResource("outcome_script")
+result_text = "Потрясающее зрелище. Впрочем, тут становится жарковато во всех смыслах. За вашими спинами раздается рык и бушует пламя. Вы оборачиваетесь и пересекаетесь глазами с одним из они. Тот останавливается и толкает второго указывая на вас. Не смотря на расстояние вы различаете голод на их демонических лицах.
+В несколько прыжков они догоняют вас, и оказываются сверху на скалах. Но вы не намерены давать чудищам второго шанса попрактиковаться в жарке мяса."
+battle = SubResource("battle_v1_failure")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_leave"]
+script = ExtResource("choice_script")
+choice_text = "Посмотрели и хватит, уходим отсюда"
+stat_check = SubResource("check_initiative")
+success_outcome = SubResource("out_leave_success")
+failure_outcome = SubResource("out_leave_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_hero_accuracy"]
+script = ExtResource("buff_script")
+stat = 2
+value = 10
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_attack"]
+script = ExtResource("outcome_script")
+result_text = "Вы пользуетесь раздором в рядах врага, чтобы сокрушить их одним ударом. Лица начинают обгорать как только вы приближаетесь, но вы неостановимо налетаете на спорящих и обрушиваете всю божественную мощь."
+battle = SubResource("battle_base")
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_accuracy")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_attack"]
+script = ExtResource("choice_script")
+choice_text = "Это наш шанс, атаковать противника"
+outcome = SubResource("out_attack")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+stat_label = "Удача"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="buff_hero_attack_next_battle"]
+script = ExtResource("buff_script")
+stat = 0
+value = 10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_cook_success"]
+script = ExtResource("outcome_script")
+result_text = "Одним небесам известно, что вами руководит, но вы выходите к дерущимся с открытыми руками. Кончики волос мгновенно начинают дымиться. Красные великаны замечают вас и останавливают перепалку.
+Вы объясняете им, что большая часть мяса еще можно спасти. Огонь покрыл коркой тушу только на поверхности и только с одной стороны. Вы можете показать им как безопасно пожарить тушу, не испортив продукт.
+
+Они переглядываются, и тихо переговариваются на своем рычащем языке. Наконец, оба садятся на корточки, готовые слушать вас. Вы показываете как срезать обгорелые куски, и организуете процесс жарки. Один великан равномерно посылает мягкие волны огня, второй поворачивает тушу. Вы стараетесь не думать о том, кем это существо было при жизни.
+
+Наконец мясо готово и красные гиганты недоверчиво впиваются в него зубами, и начинают мягко рычать от удовольствие. Они жадно поедают мясо, впрочем предлагая долю и вам, но вы отказываетесь. При всем абсурде вашей новой реальности, есть гуманоидов это пока слишком.
+
+Пока они едят, они о чем-то переговариваются, и когда они заканчивают, вы готовитесь идти, но один из великанов встает у вас на пути, второй блокирует отступление. Вы выхватываете оружие.
+
+Ничего не говоря, чудовища раскидывают руки. Толстые бусины с браслетов на их руках разделяются и начинают кружиться вокруг вас. Все быстрее и быстрее. Вы готовы броситься в атаку. Иероглифы на бусинах начинают полыхать, а потом и сами бусины превращаются в огненные шары. Вас окружает круговорот пламени. Хоть это и пугает, но по своему красиво.
+
+Вы начинаете чувствовать тепло. Оно идет откуда-то из груди. Все сильнее и сильнее. Оно разгорается и разгорается. Вы начинаете пританцовывать, вам хочется двигаться. Вы не чувствуете ни усталости ни боли, еще немного и вы сорветесь. Рванете прямо с стену огня. Как вдруг огонь гаснет. Снаружи, но не изнутри. Бусины потухают и возвращаются на руки владельцев. Оба они вскидывают руки и ревут устремив взгляд в небо. Вы ревете с ними в унисон, а эхо уносит ваш крик в горы, разнося над миром. Вы отправляетесь в путь, а пламя красных они полыхает у вас в груди."
+hero_heal_percent = 10
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_attack_next_battle")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_cook_failure"]
+script = ExtResource("outcome_script")
+result_text = "Одним небесам известно, что вами руководит, но вы выходите к дерущимся с открытыми руками. Кончики волос мгновенно начинают дымиться. Красные великаны замечают вас и останавливают перепалку.
+Вы объясняете им, что большая часть мяса еще можно спасти. Огонь покрыл коркой тушу только на поверхности и только с одной стороны. Вы можете показать им как безопасно пожарить тушу, не испортив продукт.
+
+Великаны переговариваются. Показывают руками то на обгоревшее тело, то на вас, наконец согласно кивают головами. Один из них подходит к вам и опускает голову.
+«Мы… лучше… сожррррррем… вас…» - рокочет он, пытаясь быть странно вежливым. Вы пожимаете плечами и достаете оружие."
+battle = SubResource("battle_base")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_cook"]
+script = ExtResource("choice_script")
+choice_text = "Научить они готовить мясо"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_cook_success")
+failure_outcome = SubResource("out_cook_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Горячие головы"
+body_text = "Вы чувствуете жар и видите оранжевый свет от огня. Прижавшись к скалам, вы скрытно ползете к источнику тепла, и наконец обнаруживаете. Из вашего укрытия, открывается следующая картина:
+
+Двое великанов Они, с красной кожей и лохматыми волосами поливают огнем чье-то тело. Разобрать невозможно, но похоже, при жизни это был гуманойд и довольно крупный, под стать великанам. Он лежит на камнях, а двое они поливают его волнами пламени из рук, при этом один выпускает заметно меньше огня чем второй. Вам приходит странное осознание - похоже они пытаются кого-то зажарить.
+
+Тот они что выпускал мало огня что-то говорит своему соседу, кивая головой в сторону тела, но их язык настолько рычащий, что вы не можете разобрать слова. Второй отрицательно качает головой, и увеличивает огненный напор. Первый что-то полукричит-полурычит своему собеседнику, а тот бурчит в ответ. Один толкает в плечо второго, и они оба встают, яростно рыча и жестикулируя. Вы с интересом наблюдаете.
+
+Их спор становится все жарче, и тот они что давал больше огня поворачивается к мясу и обрушивает на него сильнейший поток пламени. За несколько секунд, туша полностью обгорает до корки. Его собеседник смотрит открыв рот сначала на объект их готовки, потом на своего собеседника. Потом поднимает руки и выпускает струю пламени ему в лицо."
+choices = Array[ExtResource("choice_script")]([SubResource("choice_leave"), SubResource("choice_attack"), SubResource("choice_cook")])
+metadata/_custom_type_script = ExtResource("scene_script")

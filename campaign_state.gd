@@ -38,10 +38,43 @@ var before_first_battle_played: bool = false
 var first_battle_completed: bool = false
 var before_doors_played: bool = false
 
+## Флаги обучающей системы (см. battle_scene.gd/campaign_screen.gd). Одноразовые,
+## без отката назад — как и флаги вступления выше.
+var battle_tutorial_intro_shown: bool = false
+var battle_tutorial_targeting_shown: bool = false
+var room_hints_shown: bool = false
+var god_creation_hint_shown: bool = false
+## Отмечает, что подсказка "поговорите с богом" уже показана (после диалога
+## Before_doors) — ворота перестают мигать после этого момента, хотя формально
+## остаются заблокированы (клик всё ещё не ведёт на экран дверей) до тех пор,
+## пока какой-то бог реально не откроет дверь — см. opened_locations.
+var ask_a_god_hint_shown: bool = false
+## Кнопка "Отключить обучение" на любой подсказке — полностью выключает всю
+## обучающую систему (см. TutorialHint.present()). Одноразовое решение игрока,
+## без отдельного UI для повторного включения.
+var tutorial_disabled: bool = false
+## Локации (CombatManager.selected_location_id), в которых игрок уже бывал хотя
+## бы раз — для подсказки "у этой локации есть особые свойства" (один раз на
+## локацию). Не путать с opened_locations — там отображаемые имена локаций,
+## открытых через диалог с богом ("Открыть дверь"), а не факт визита.
+var visited_locations: Array[String] = []
+
 ## Локации, чью дверь уже открыл соответствующий бог (выбор "Открыть дверь" в его
 ## диалоге). Хранится как отображаемое имя локации — то же, что в
 ## Doors/doors.gd::LOCATIONS_CLOCKWISE / LOCATION_DOORS.
 var opened_locations: Array[String] = []
+
+## Прочитанные варианты диалога — ключ "<dialogue_id>:<choice_id>" (см.
+## DialoguePlayer._get_dialogue_id()). Наличие ключа = прочитано. Используется, чтобы
+## притушить уже прочитанный вариант в списке тем и погасить мигание кнопки диалога
+## бога (god_roster_slot.gd), когда для него не осталось непрочитанных доступных тем.
+var read_dialogue_choices: Dictionary = {}
+
+func is_dialogue_choice_read(dialogue_id: String, choice_id: String) -> bool:
+	return read_dialogue_choices.has(dialogue_id + ":" + choice_id)
+
+func mark_dialogue_choice_read(dialogue_id: String, choice_id: String) -> void:
+	read_dialogue_choices[dialogue_id + ":" + choice_id] = true
 
 ## Папка бога (Gods/<Folder>/...) → локация, которую он открывает.
 const GOD_FOLDER_TO_LOCATION := {
@@ -52,7 +85,7 @@ const GOD_FOLDER_TO_LOCATION := {
 	"Odin": "Звезды",
 	"Zeus": "Горы",
 	"Koschei": "Топь",
-	"Duna": "Сад",
+	"Danu": "Сад",
 	"Shiva": "Джунгли",
 	"Osiris": "Пустыня",
 	"Set": "Арена",
@@ -137,6 +170,7 @@ const LOCATION_NEMESIS_DIRS := {
 	"castle": "res://Nemesis/Civilization/Castle/",
 	"desert": "res://Nemesis/Civilization/Desert/",
 	"ships": "res://Nemesis/Sea/Ships/",
+	"depths": "res://Nemesis/Sea/Depth/",
 }
 
 ## Пути к CharacterResource побеждённых немезидов (бой выигран с ними во вражеской команде).
@@ -155,11 +189,26 @@ func add_permanent_enemy_accuracy_debuff(unit_name: String, amount: int) -> void
 		return
 	permanent_enemy_accuracy_debuffs[unit_name] = int(permanent_enemy_accuracy_debuffs.get(unit_name, 0)) + amount
 
+## Постоянный (на весь остаток игры) бонус удачи (crit_chance, доли от 1.0) конкретному
+## богу по его resource_path — напр. {"res://Gods/Zeus/Zeus.tres": 0.02}. Применяется при
+## создании Combatant для этого бога (см. combatant.gd::_init), так же, как бонусы
+## экипировки — не зависит от забвения. Копится при повторных наградах одному и тому же богу.
+var permanent_god_crit_bonus: Dictionary = {}
+
+## Добавляет постоянный бонус удачи конкретному богу (сложение с уже накопленным).
+## amount — доля от 1.0 (напр. 0.02 = +2% удачи).
+func add_permanent_god_crit_bonus(god_path: String, amount: float) -> void:
+	var clean_path: String = god_path.strip_edges()
+	if clean_path == "" or amount == 0.0:
+		return
+	permanent_god_crit_bonus[clean_path] = float(permanent_god_crit_bonus.get(clean_path, 0.0)) + amount
+
 ## Отложенные баффы "на бой с немезисом": срабатывают автоматически, когда отряд в
 ## следующий раз сразится с ближайшим непобеждённым немезидом указанной локации — не
 ## привязаны к конкретному следующему бою, ждут сколько нужно и переживают сохранение.
 ## Запись: {"location_id": String, "god_path": String, "majesty_delta": int,
-##          "buff_stat": int (BuffEntry.Stat, -1 = нет), "buff_value": int}.
+##          "buff_stat": int (BuffEntry.Stat, -1 = нет), "buff_value": int,
+##          "buff_duration": int (BuffEntry.duration, -1 = до конца боя, N = N ходов)}.
 var pending_nemesis_buffs: Array = []
 
 func is_nemesis_defeated(path: String) -> bool:
@@ -214,7 +263,7 @@ func get_next_nemesis_path(location_id: String) -> String:
 ## Регистрирует отложенный бафф (величие и/или характеристика по BuffEntry.Stat) для
 ## бога god_path на бой с ближайшим непобеждённым немезидом локации location_id
 ## (см. pending_nemesis_buffs). buff_stat = -1, если баффа характеристики нет.
-func add_pending_nemesis_buff(location_id: String, god_path: String, majesty_delta: int, buff_stat: int = -1, buff_value: int = 0) -> void:
+func add_pending_nemesis_buff(location_id: String, god_path: String, majesty_delta: int, buff_stat: int = -1, buff_value: int = 0, buff_duration: int = -1) -> void:
 	if location_id.strip_edges() == "" or god_path.strip_edges() == "":
 		return
 	if majesty_delta == 0 and buff_stat < 0:
@@ -225,6 +274,7 @@ func add_pending_nemesis_buff(location_id: String, god_path: String, majesty_del
 		"majesty_delta": majesty_delta,
 		"buff_stat": buff_stat,
 		"buff_value": buff_value,
+		"buff_duration": buff_duration,
 	})
 
 func open_location(location: String) -> void:
@@ -384,12 +434,21 @@ func reset_all() -> void:
 	before_first_battle_played = false
 	first_battle_completed = false
 	before_doors_played = false
+	battle_tutorial_intro_shown = false
+	battle_tutorial_targeting_shown = false
+	room_hints_shown = false
+	god_creation_hint_shown = false
+	ask_a_god_hint_shown = false
+	tutorial_disabled = false
+	visited_locations.clear()
 	opened_locations.clear()
+	read_dialogue_choices.clear()
 	clear_god_state_overrides()
 	reset_currency_amounts()
 	library_max_fantasy_bonus = 0
 	spell_upgrade_levels.clear()
 	permanent_enemy_accuracy_debuffs.clear()
+	permanent_god_crit_bonus.clear()
 	roster_changed.emit()
 
 func clear_god_state_overrides() -> void:
@@ -627,6 +686,67 @@ func load_character_resource(path: String) -> CharacterResource:
 		return null
 	var resource := loaded.duplicate(true) as CharacterResource
 	return apply_god_state(resource, path)
+
+## Есть ли у бога экипированный предмет с данным ItemResource.effect (см.
+## Combatant.has_item_effect() — то же самое, но вне боя, по пути к CharacterResource,
+## для немедленных эффектов сцен миссии типа "Подлатать раны").
+func god_has_item_effect(path: String, code: String) -> bool:
+	var res := load_character_resource(path)
+	if res == null:
+		return false
+	for item in [res.equipped_weapon, res.equipped_armor, res.equipped_trinket]:
+		if item != null and item.effect == code:
+			return true
+	return false
+
+const GOD_DIALOGUE_DIR := "res://Dialogues/Gods_dialogue"
+
+## Путь к диалогу бога — либо явное переопределение (CharacterResource.campaign_dialogue_path),
+## либо соглашение об именовании "<Папка>_dialogue_1.tres" в GOD_DIALOGUE_DIR.
+func dialogue_path_for_god(god_path: String) -> String:
+	if god_path.strip_edges() == "":
+		return ""
+	var god_res := load_character_resource(god_path)
+	if god_res != null:
+		var explicit_path: String = god_res.campaign_dialogue_path.strip_edges()
+		if explicit_path != "" and ResourceLoader.exists(explicit_path):
+			return explicit_path
+	var folder_name := god_path.get_base_dir().get_file().strip_edges()
+	if folder_name == "":
+		return ""
+	var dialogue_candidates: Array[String] = [
+		"%s/%s_dialogue_1.tres" % [GOD_DIALOGUE_DIR, folder_name],
+		"%s/%s_dialogue_1.tres" % [GOD_DIALOGUE_DIR, folder_name.to_lower()],
+	]
+	for candidate_path in dialogue_candidates:
+		if ResourceLoader.exists(candidate_path):
+			return candidate_path
+	return ""
+
+## Есть ли у бога хотя бы один непрочитанный вариант диалога, который уже доступен
+## (required_mission_path либо пуст, либо соответствующая миссия пройдена). Используется
+## для мигания кнопки диалога на портрете бога — см. god_roster_slot.gd.
+func has_unread_dialogue(god_path: String) -> bool:
+	var dialogue_path := dialogue_path_for_god(god_path)
+	if dialogue_path == "" or not ResourceLoader.exists(dialogue_path):
+		return false
+	var dialogue := load(dialogue_path) as DialogueResource
+	if dialogue == null:
+		return false
+	var dialogue_id: String = dialogue.dialogue_id.strip_edges()
+	if dialogue_id == "":
+		dialogue_id = dialogue.resource_path if dialogue.resource_path != "" else dialogue.dialogue_name
+	for line in dialogue.lines:
+		if line == null:
+			continue
+		for choice in line.choices:
+			if choice == null:
+				continue
+			if choice.required_mission_path != "" and not is_mission_completed(choice.required_mission_path):
+				continue
+			if not is_dialogue_choice_read(dialogue_id, choice.choice_id):
+				return true
+	return false
 
 func add_god_forgetting(path: String, amount: float) -> Dictionary:
 	var resource := load_character_resource(path)

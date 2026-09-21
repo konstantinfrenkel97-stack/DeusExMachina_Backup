@@ -2,10 +2,13 @@
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
 
+[ext_resource type="Texture2D" path="res://Ability_pics/Lightning.png" id="anim_fx"]
+[ext_resource type="AudioStream" path="res://Sounds/lightning-strike-cool.mp3" id="anim_sfx"]
+
 [resource]
 script = ExtResource("1_ab")
 name = "Нисхождение с небес"
-description = "0.8 урона. Цель теряет все баффы. +10% урона за каждый снятый бафф."
+description = ""
 damage_modifier = 0.8
 majesty_gain = 0
 effect_types = Array[String](["dispel_buffs"])
@@ -18,4 +21,7 @@ effect_durations = Dictionary[String, int]({
 usable_from_positions = Array[bool]([false, false, true, true])
 targetable_positions = Array[bool]([true, true, true, false])
 ability_marker = "kirin_heaven_descent"
+attack_effect_texture = ExtResource("anim_fx")
+attack_sfx = ExtResource("anim_sfx")
+attack_sfx_max_length = 2.0
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

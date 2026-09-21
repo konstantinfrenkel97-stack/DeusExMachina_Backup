@@ -1,0 +1,153 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Resource" path="res://Essence/essence_power.tres" id="essence_power"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Tormentor/Tormentor.tres" id="tormentor"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Tormented_soul/Tormented_soul.tres" id="tormented_soul"]
+
+[sub_resource type="Resource" id="form_tormentors_quad"]
+script = ExtResource("formation_script")
+formation_name = "Мучитель — мучитель — мучитель — мучитель"
+pos1 = ExtResource("tormentor")
+pos2 = ExtResource("tormentor")
+pos3 = ExtResource("tormentor")
+pos4 = ExtResource("tormentor")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_tormentors_quad"]
+script = ExtResource("battle_script")
+formation = SubResource("form_tormentors_quad")
+location_id = "hell"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="form_tormentors_souls"]
+script = ExtResource("formation_script")
+formation_name = "Мучитель — мучитель — душа — душа"
+pos1 = ExtResource("tormentor")
+pos2 = ExtResource("tormentor")
+pos3 = ExtResource("tormented_soul")
+pos4 = ExtResource("tormented_soul")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_tormentors_souls"]
+script = ExtResource("battle_script")
+formation = SubResource("form_tormentors_souls")
+location_id = "hell"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="reward_power"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_power")
+amount = 1
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("stat_check_script")
+stat = 4
+stat_label = "Точность"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="buff_initiative"]
+script = ExtResource("buff_script")
+stat = 6
+value = 3
+duration = 1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_dispute_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы говорите, что у вас есть право на защиту, и требуете выслушать ваши аргументы. Судья скидывает черную бровь.
+\"Право на защиту? У вас грешных душ, нет никаких прав! Вы попали сюда, значит уже виновны. На суде решается только то, как именно вы будете страдать.\"
+Он готовится сделать жест рукой, но вы вставляете, что попали сюда не после смерти, а по собственному желанию. И точно также можете уйти. Рука демона замирает.
+\"Да, серьезно? Перепроверить бумаги! Быстро!\"
+Маленький демон убегает в сторону, а судья раздраженно опускается в кресло. Вы же так и остаетесь стоять в центре комнаты. Вскоре возвращается бес, с какими-то бумагами. Судья их молча читает. Вы ждете. Он продолжает читать. Вы продолжаете ждать. Наконец он скидывает руки.
+\"Ну хорошо, вы можете выступить в свою защиту.\"
+Каждый из вас выступает с речью, приводя разные доводы. Что убитые вами были активными бойцами, что вы действовали в рамках своих национальных законов, что вы не умирали и это защищает вас от всяких законов, да что вы боги в конце концов.
+Судья слушает вас, и лицо его все мрачнеет и мрачнеет. Наконец он прерывает очередной ваш монолог.
+\"Ладно, просто уходите. Скука смертная вас слушать. Сколько часов я должен потратить на ваше мелкое разбирательство? Убирайтесь и не появляйтесь больше в моем зале суда!\"
+Вы выходите довольные. К спискам ваших подвигов прибавился неожиданный - вы защитили себя в суде."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_power")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_dispute_failure"]
+script = ExtResource("outcome_script")
+result_text = "Вы говорите, что у вас есть право на защиту, и требуете выслушать ваши аргументы. Судья скидывает черную бровь.
+\"Право на защиту? У вас грешных душ, нет никаких прав! Вы попали сюда, значит уже виновны. На суде решается только то, как именно вы будете страдать.\"
+Он готовится сделать жест рукой, но вы вставляете, что попали сюда не после смерти, а по собственному желанию. И точно также можете уйти. Рука демона замирает.
+\"О, вот как? Не умерли? Правила не распространяются? Хммм. О это было бы проблемой, мне бы пришлось вас отпустить, или как минимум выслушать. Жаль что эта информация не дошла до меня в официальном порядке.\"
+Демоны берутся за оружие и начинают наступать на вас.
+\"В следующий раз, подавайте заявление.\""
+battle = SubResource("battle_tormentors_quad")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_dispute"]
+script = ExtResource("choice_script")
+choice_text = "Оспорить приговор"
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("out_dispute_success")
+failure_outcome = SubResource("out_dispute_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="out_attack_first"]
+script = ExtResource("outcome_script")
+result_text = "Вы увидели достаточно и понимаете чем все кончится. Прежде чем демоны нанесут первый удар вы бросаетесь на них."
+battle = SubResource("battle_tormentors_quad")
+hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_initiative")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_attack_first"]
+script = ExtResource("choice_script")
+choice_text = "Атаковать первыми"
+outcome = SubResource("out_attack_first")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="out_accept_punishment"]
+script = ExtResource("outcome_script")
+result_text = "Ну чтож, вы решаете подчиниться решению суда и обречь себя на адские муки. Вы сами не можете сказать, что привело вас к такому решению.
+
+У вас забирают оружие и броню, уводят и пешком ведут в другое здание. Тут уже нет прохладного камня, только обжигающий обсидиан. Вас становится плохо еще по пути. Уши глушат крики обреченных, предвещая то, что предстоит вам. Вас заводят в комнату. На огне кипят 4 огромных котла. Внутри каждого, сквозь воду вы видите острые металлические шипы. Ужасающее зрелище. И вы должны туда войти. Собрав волю в кулак, вы вступаете в кипяток.
+
+И инстинктивно выпрыгиваете на ружу. Выдерживать эту боль буквально невозможно. С виноватым видом, что не смогли подчиниться решению суда, вы призываете свою оружие и доспехи и бормоча извинения бросаетесь на стражу"
+battle = SubResource("battle_tormentors_souls")
+hero_hp_percent_delta = -30
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_accept_punishment"]
+script = ExtResource("choice_script")
+choice_text = "Принять наказание"
+outcome = SubResource("out_accept_punishment")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Страшный суд"
+body_text = "К вам подходит пара демоном с трезубцами. Вы готовитесь дать бой, но те не проявляют агрессии. Своими рычащими голосами демоны обращаются к вам, и как будто даже пытаются быть вежливыми.
+\"Пройдемте с нами... Господа.\"
+Вы подозрительно перегоядываетесь и уточняете у демонов куда именно они хотят вас отвести.
+\"Вас ждут в суде.\"
+Это что-то новенькое. Вы идете за ними. Напряжённые демоны расслабились, когда вы последовали их указаниям. Видимо переживали что силы не равны.
+
+Вас заводят в высокое одиноко стоящее здание, окруженное рвом из шипов. Внутри, на удивление, прохладно. Похоже, что даже устойчивые к жару демоны предпочитают без надобности не жариться в адском пекле.
+
+Вас заводят в зал. У стены - постамент и высокое кресло. За ним сидит огромный демон с ветвистыми рогами. Посередине комнаты черный пруд. Вокруг него четыре стула. Также кресла стоят вдоль стен, на них сидят демоны. Тут полно стражи. Ваши провожающие указывают вам садиться на стулья у черного водоема, что вы и делаете.
+Рогатый демон опускает на вас желтые глаза и делает жест рукой.
+\"Пусть подсудимые опустят ноги в исповедальную воду.\"
+Ситуация начинает вас понемногу беспокоить, но все еще любопытно увидеть, что будет дальше. Вы подходите к водоему и по очереди опускаете туда ноги.
+
+Когда кожа касается черноты, в водной ряби вы видите образы. Фигуры ваших врагов, тех кого вы сразили. Вы видите пирушки, обманы, те моменты, которые вы бы не хотели вспоминать. Вал стыд.
+
+Демон за постаментом безразлично смотрит в черную воду.
+\"Ну все ясно, я готов вынести вердикт.\"
+Он привстает, и расправляет плечи.
+\"Именем закона вселенной и властью дарованной мне, я приговариваю вас четверых к вечности адских мук, через варку в шипастом котле третьей категории.\""
+choices = Array[ExtResource("choice_script")]([SubResource("choice_dispute"), SubResource("choice_attack_first"), SubResource("choice_accept_punishment")])
+metadata/_custom_type_script = ExtResource("scene_script")

@@ -1,6 +1,21 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://lokirpl0001"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_rp"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Loki/06_two_apocalypses_ahead_of_you.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Loki/07_oldest_trick_in_the_book.mp3" id="4_v2"]
+
+[sub_resource type="Resource" id="voice_replay_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "Я на два конца света впереди тебя."
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_replay_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Старый трюк, но верный."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_rp")
@@ -20,4 +35,5 @@ condition_effect = "target_periodic_damage"
 condition_effect_value = 15
 condition_effect_duration = 2
 ability_marker = "loki_replay"
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_replay_1"), SubResource("voice_replay_2")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

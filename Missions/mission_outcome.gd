@@ -44,6 +44,10 @@ class_name MissionOutcome
 # Одноразовое немедленное изменение HP ВСЕХ живых богов миссии, в процентах от max HP
 # (не привязано к следующему бою, в отличие от hero_heal_percent). Отрицательное — урон.
 @export var hero_hp_percent_delta: int = 0
+# То же самое, но ФИКСИРОВАННЫМ числом очков (а не в процентах) — напр. "боги теряют
+# 5 здоровья", в отличие от "боги теряют 5% здоровья". Складывается с hero_hp_percent_delta,
+# если заданы оба (редкий случай, обычно используется только одно из двух).
+@export var hero_hp_flat_delta: int = 0
 # Одноразовое изменение фантазии игрока в следующем бою.
 @export var fantasy_delta: int = 0
 # Немедленное изменение мыслей игрока в кампании. Отрицательное значение = цена выбора.
@@ -71,6 +75,10 @@ class_name MissionOutcome
 @export var target_buffs_until_mission_end: bool = false
 # Если true, следующий первый ход Хельхейма пройдет без тумана.
 @export var skip_helheim_fog_first_round: bool = false
+# Если true — весь отряд миссии получает иммунитет к урону локации "Пустыня"
+# (5/10 чистого урона в начале каждого раунда) на СЛЕДУЮЩИЙ БОЙ целиком, не на
+# один раунд (см. battle_locations.gd::_location_desert()).
+@export var grant_desert_immunity_next_battle: bool = false
 # Одноразовая скидка сложности для СЛЕДУЮЩЕЙ проверки характеристики в миссии (напр. "жульничество").
 @export var next_check_difficulty_delta: int = 0
 # Если true — миссия немедленно считается проваленной (без боя и наград), игрок
@@ -96,6 +104,11 @@ class_name MissionOutcome
 @export var permanent_enemy_debuff_unit_name: String = ""
 @export var permanent_enemy_debuff_accuracy: int = 0
 
+# Постоянный (на весь остаток игры) бонус удачи конкретному богу — напр. Зевс
+# получает +2% удачи навсегда после этого исхода. amount — доли от 1.0 (0.02 = +2%).
+@export var permanent_god_crit_bonus_target: CharacterResource
+@export var permanent_god_crit_bonus_amount: float = 0.0
+
 # Немедленные (не ждут следующего боя, в отличие от target_god/target_current_hp_percent_delta
 # /target_majesty_delta выше) HP/величие ОДНОМУ конкретному богу — для итогов без боя
 # (напр. "Тора придавило камнями, -50% здоровья", без последующей битвы в этой же сцене).
@@ -113,4 +126,8 @@ class_name MissionOutcome
 @export var nemesis_buff_majesty: int = 0
 @export var nemesis_buff_stat: BuffEntry
 @export var nemesis_buff_location_id: String = ""
+# Если true — nemesis_buff_majesty/nemesis_buff_stat применяются КАЖДОМУ живому герою
+# ТЕКУЩЕГО отряда миссии (на момент разрешения этого итога) по отдельности, а не
+# одному nemesis_buff_god (который в этом случае игнорируется).
+@export var nemesis_buff_all_heroes: bool = false
 @export_group("")

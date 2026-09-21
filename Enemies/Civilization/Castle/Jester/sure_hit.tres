@@ -6,6 +6,7 @@
 script = ExtResource("1_ab")
 name = "Бить наверняка"
 description = "Получает +30 точности на 2 хода."
+damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"
 ability_marker = "jester_sure_hit"

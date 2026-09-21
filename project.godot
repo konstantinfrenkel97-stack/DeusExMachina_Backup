@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Deus Ex Machina"
+config/name="Godmaker"
 run/main_scene="uid://bdxqnstomnqfw"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
@@ -25,6 +25,7 @@ Localization="*res://Localization/localization.gd"
 DialogueManager="*res://Dialogues/dialogue_manager.gd"
 GameSettings="*res://game_settings.gd"
 SceneTransition="*res://scene_transition.gd"
+MusicManager="*res://music_manager.gd"
 
 [display]
 

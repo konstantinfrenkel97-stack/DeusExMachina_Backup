@@ -1,0 +1,84 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Resource" path="res://Gods/Poseidon/Poseidon.tres" id="poseidon"]
+
+[sub_resource type="Resource" id="out_save_survivors"]
+script = ExtResource("outcome_script")
+result_text = "Возможно кого-то еще можно спасти. Вы бросаетесь к месту крушения. Все в крови, скоро здесь будут акулы. Выделитесь на две группы, двое ищут выживших, двое сооружают плот из остатков древесины.\n\nНесколько матросов выжили. Вы находите их, прячущимися в бочках. Им ужасно повезло пережить этот кошмар. Они трясутся, глаза бегают, губы бормочат неразборчивые фразы.\n\nВы сажаете их на плот, и указываете направление до ближайшей земли, надеясь что они сохранили достаточно рассудка, чтобы пережить путь до суши. Ускоряя плот чарами вы отправляете их в путь. Чьи-то жизни были спасеня. Если на то воля фортуны и капризного моря. Они не первые, и не последние кто пережил встречу с ужасом глубоководья.\n\nВам известен ваш Немезис."
+hero_majesty_delta = 10
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_save_survivors"]
+script = ExtResource("choice_script")
+choice_text = "Попытаться спасти членов команды"
+outcome = SubResource("out_save_survivors")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_accuracy_track"]
+script = ExtResource("stat_check_script")
+stat = 4
+stat_label = "Точность"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="buff_track_accuracy"]
+script = ExtResource("buff_script")
+stat = 2
+value = 5
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_track_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы устремляетесь вслед за Кракеном. Может догнать его и невозможно, но хотя бы узнать где его логово. Вам бьют в лицо волны от ударов его щупалец, но вы продолжаете погоню за телом что превращается в пятнышко, а потом в точку. Но вы видели как он опустился на дно. Кракена не догнать, вы его потеряли. Но хотя бы понимаете, где будете искать его в следующий раз.\n\nВам известен ваш Немезис."
+nemesis_buff_all_heroes = true
+nemesis_buff_stat = SubResource("buff_track_accuracy")
+nemesis_buff_location_id = "depths"
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_track_failure"]
+script = ExtResource("outcome_script")
+result_text = "Вы устремляетесь вслед за Кракеном. Может догнать его и невозможно, но хотя бы узнать где его логово. Вам бьют в лицо волны от ударов его щупалец, но вы продолжаете погоню, как вдруг, он превращается в черную тучу. Непонятно, что заставило его выпустить чернильное облако. Мог ли он вас заметить с такого расстояния? Но ведь смог же заметить корабль на поверхности. В любом случае, когда вы доплывааете до черного облака, оно уже рассеивается а гигантского монстра нигде не видно.\n\nВам известен ваш Немезис."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_track_kraken"]
+script = ExtResource("choice_script")
+choice_text = "Отследить чудище до его логова"
+stat_check = SubResource("check_accuracy_track")
+success_outcome = SubResource("out_track_success")
+failure_outcome = SubResource("out_track_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_poseidon_damage"]
+script = ExtResource("buff_script")
+stat = 0
+value = 10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_curse_kraken"]
+script = ExtResource("outcome_script")
+result_text = "Посейдон поднимает вверх трезубец, камни начинают светиться, его лицо яростно а глаза полыхают синим пламенем. Море замирает, замираете вы, замирают движения кракена, замирает само время.\nВ воде разносится единственный звук - голос владыки моря. Он гремит словно штормовая волна.\n\"Есть хищные рыбы что убивают для пропитания. Есть штормы и вулканы, что убивают ибо не наделены разумом. Есть люди и русалы что убивают для достижения цели.\"\n\"Но нет и не будет в море твари, что убивает ради развлечения. О Кракен, я призываю море в свидетели! Я проклинаю тебя, и объявляю течениям, скалам само толще водной, что не остановлюсь, пока не покончу с тобой и твоими злодеяниями!\"\n\"Да будет так!\"\nМоре приходит в движение. Течение ударяет вам в лицо, разлетаются в стороны стайки ярких рыб, а кракен исчезает в черном облаке чернил. На лице Посейдона суровое выражение.\n\"Скорее, есть еще шанс спасти кого-то из моряков.\"\n\nВам известен ваш Немезис."
+nemesis_buff_god = ExtResource("poseidon")
+nemesis_buff_stat = SubResource("buff_poseidon_damage")
+nemesis_buff_location_id = "depths"
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_curse_kraken"]
+script = ExtResource("choice_script")
+choice_text = "Само море проклянет Кракена"
+required_god = ExtResource("poseidon")
+outcome = SubResource("out_curse_kraken")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Ужас глубоководья"
+body_text = "Вы бывали на кораблях. Но смотреть на них из-под воды, совсем другое дело. Днища у них не очень то интересные, но можно уцепиться за киль и прокатиться, разрезая водную гладь. А можно ночью выглянуть из под поверхности воды, и смотреть как на палубе горят огни, суетятся матросы и кипит жизнь. Даже богам свойственны маленькие детские радости.\n\nВы качаетесь на волнах наблюдая за людьми. Вода стала для вас как родная стихия. Возможно поэтому, вы чувствуете ее неспокойное движение. Это не шторм. Что-то гигантское поднимается со дна. Вы кричите морякам, что движется опасность. Судя по их крикам, они вас слышат, но не видят. Матросы бегают по палубе. А море пенится.\n\nИз толщи воды, словно огромный змей поднимается черно щупальце, потом второе, третье, четвертое. Вы с ужасом смотрите как огромные отростки обхватывают корпус корабля. Одно обвивается вокруг мачты. Раздается жалобный скрип. Матросы в панике пытаются рубить и жечь щупальца, но не похоже что гигантское создание замечает их потуги. Доски скрипят, и вдруг, издав жалобный стон корабль трескается пополам. Вы видите как летят щепки, как люди падают в воду. Вы стремитесь на помощь, но на месте крушения начинается настоящее буйство. Черные щупальца бьют по остаткам палубы, по шлюпкам и по людям. Вода вздымается, вы ничего не можете разобрать, а волны отталкивают вас от этого хаоса. Черные плети смерти действуют яростно но методично, точно знач как лучше умертвить то что осталось от команды корабля. Внезапно, они уходят под воду. Все затихает. Нет даже человеческих криков.\n\nВы бросаетесь под воду и видите исполинскую тварь, которая ритмично рабоая щупальцами удаляется от вас и места крушения. Вам ее никак не догнать."
+choices = Array[ExtResource("choice_script")]([SubResource("choice_save_survivors"), SubResource("choice_track_kraken"), SubResource("choice_curse_kraken")])
+metadata/_custom_type_script = ExtResource("scene_script")

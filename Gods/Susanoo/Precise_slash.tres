@@ -2,6 +2,28 @@
 
 [ext_resource type="Texture2D" uid="uid://cuwfkeb8gq5xj" path="res://Gods/Susanoo/precise_slash_icon.png" id="1_awyks"]
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_hlr72"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Susanoo/06_nowhere_to_run.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Susanoo/07_my_blade_knows_your_name.mp3" id="4_v2"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Susanoo/08_you_are_already_dead.mp3" id="5_v3"]
+
+[sub_resource type="Resource" id="voice_precise_slash_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "Бежать некуда."
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_precise_slash_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Мой клинок знает твоё имя."
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_precise_slash_3"]
+script = ExtResource("2_vl")
+audio = ExtResource("5_v3")
+text = "Ты уже мёртв."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_hlr72")
@@ -20,4 +42,5 @@ ability_marker = "susanoo_calculated_strike"
 mark_type_int = 1
 mark_damage_percent = 140.0
 mark_icon = ExtResource("1_awyks")
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_precise_slash_1"), SubResource("voice_precise_slash_2"), SubResource("voice_precise_slash_3")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

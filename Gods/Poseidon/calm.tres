@@ -1,16 +1,32 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://bkifvdv30onb5"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Poseidon/09_not_a_ripple.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Poseidon/10_dont_move.mp3" id="4_v2"]
+
+[sub_resource type="Resource" id="voice_calm_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "Ни ряби."
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_calm_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Не двигайся!"
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_ab")
 icon_path = "uid://ryq5fipwogn"
 name = "Штиль"
-description = "Стойка. Если противник двигается, нанеси ему 70%% урона."
+description = ""
 damage_modifier = 0.0
 majesty_gain = 30
 target_type = "All_Enemies"
 usable_from_positions = Array[bool]([true, true, true, false])
 is_stance = true
 stance_effect_type = "poseidon_calm"
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_calm_1"), SubResource("voice_calm_2")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

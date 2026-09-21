@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Незабываемый"
-description = "Стойка. В начале следующего хода — получает щит от смерти."
+description = ""
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"

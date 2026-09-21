@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3]
+
+[ext_resource type="Script" path="res://Items/item_resource.gd" id="item_script"]
+
+[resource]
+script = ExtResource("item_script")
+metadata/_custom_type_script = ExtResource("item_script")
+item_name = "Коралловый кубок"
+item_type = 0
+rarity = 1
+description = "Редкое оружие. Даёт +6 атаки, а в начале боя владелец сразу получает +20 величия."
+bonus_damage = 6
+bonus_majesty = 20

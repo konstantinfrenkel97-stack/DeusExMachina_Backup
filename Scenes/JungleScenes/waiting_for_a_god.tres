@@ -1,0 +1,84 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" uid="uid://1x2q7ynihq6c" path="res://Essence/essence_power.tres" id="essence_power"]
+[ext_resource type="Resource" uid="uid://doa0m4p6r7bc" path="res://Gods/Shiva/Shiva.tres" id="shiva"]
+
+[sub_resource type="Resource" id="out_rest_in_shed"]
+script = ExtResource("outcome_script")
+result_text = "Судьба старушки печальна, но по своему она вдохновляет. Может когда-нибудь пророчество и сбудется, а даже если и нет, женщина так стара что нет смысла ее разубеждать. Правда может ее буквально погубить, и счастливей точно не сделает. Так вы размышляете, валяясь в сарае и восстанавливая силы."
+hero_heal_percent = 7
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_rest_in_shed"]
+script = ExtResource("choice_script")
+choice_text = "Отдохнуть в сарае"
+outcome = SubResource("out_rest_in_shed")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_accuracy_truth"]
+script = ExtResource("stat_check_script")
+stat = 4
+stat_label = "Точность"
+difficulty = 50
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="reward_power_essence"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_power")
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_truth_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы наклоняетесь к старушке, и жестами, криками и даже рисунками объясняете ей, что скорее всего ей повстречался уличный шарлатан. Что если бог не явился за все это время, то вряд ли есть смысл есть смысл ждать его теперь. Ее обманули, и она всю жизнь прожила в иллюзии.\n\nОна слушает вас внимательно, прикладывая все силы. Стараясь воспринять и переварить поток информации. И похоже ей удается. Лицо мрачнеет, по морщинам пробегают тени. Из улыбки пропадает солнечный свет. Она поднимает на вас голову - скелет обтянутый дряблой кожей. Ни жизни, ни смысла. Она словно стала старше на двадцать лет.\n\"Я знала… не могла поверить, но думаю знала… все неправда… все зря… вся моя жизнь.\"\nОна опускает голову и идет к своей хижине.\n\"Уходите. Здесь вам делать нечего…\"\nОна закрывает за собой дверь. Вы какое-то время просто стоите, глядя на обветшавшую хижину, после чего продолжаете путь. По крайней мере, правда победила."
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_power_essence")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_truth_failure"]
+script = ExtResource("outcome_script")
+result_text = "Вы наклоняетесь к старушке, и жестами, криками и даже рисунками объясняете ей, что скорее всего ей повстречался уличный шарлатан. Что если бог не явился за все это время, то вряд ли есть смысл есть смысл ждать его теперь. Ее обманули, и она всю жизнь прожила в иллюзии.\n\nОна слушает вас внимательно, прикладывая все силы. Стараясь воспринять и переварить поток информации. И похоже ей удается. Она перехватывает клюку, заносит и опускает на голову одному из богов.\n\"Пошли вон, богохульники! Обман! Все зря! Да как вы смеете говорить такие слова! Пошли вон!\"\nОна подбирает с земли камень и швыряет в вас. Вы торопитесь убраться восвояси.\n\"Моя миссия священна! Демоны! Обманщики! Только посмейте еще раз показаться мне на глаза, уж я вам покажу!\""
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_explain_truth"]
+script = ExtResource("choice_script")
+choice_text = "Объяснить что ее обманули"
+stat_check = SubResource("check_accuracy_truth")
+success_outcome = SubResource("out_truth_success")
+failure_outcome = SubResource("out_truth_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_shiva_regen"]
+script = ExtResource("buff_script")
+stat = 8
+value = 5
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_i_am_the_god"]
+script = ExtResource("outcome_script")
+result_text = "Шива выходит вперед и опускается на одно колено перед старушкой.\n\"Великий бог индийской земли это я, и я явился.\"\nОн говорит тихо, но похоже что женщина услышала его. Ее спина выпрямляется, руки дрожат а по щекам текут слезы.\n\"Я знала… Всегда знала… И так ждала *хнык* так ждала…\"\nШива мягко улыбается ей.\n\"Ой, чтоже это я! Я ведь вам приготовила угощение!\"\nОна с неожиданной прытью устремляется домой. Клюка падает и ударяется о камни дорожки. Вскоре выбегает, с полной тарелкой лесных ягод. Она протягивает их Шиве, но когда тот тянется чтобы взять одну, она отдергивает тарелку.\n\"Ох, но как же! А если ягоды горчат? Совсем не подумала старая!\"\nОна берет одну из ягод и надкусывает, после чего отбрасывает в сторону. После берет вторую и надкусив протягивает Шиве. Бог выглядит обомлевшим, на секунду вам даже кажется что он может отчитать старую женщину за такое поведение, но он принимает ягоду двумя руками и отправляет в рот.\n\"Твой дар, добрая женщина, я принимаю с благодарностью.\"\nБабушка улыбнулась и надкусила следующую ягоду. Так их ритуал и продолжался. Старушка надкусывала ягоды, часть выбрасывала, а часть передавала Шиве. Они тихо разговаривали делясь историями из своей жизни. Пока ягоды не кончились.\nТогда бабушка положила блюдо на землю, а сама села на скамейку у дороги.\n\"О величайший из богов? Вы не посидите со мной немного?\"\nЕе голос мягок и почти не слышен. Шива встает и садится рядом с ней, по пути взяв клюку. Старушка кладет руки на клюку и они вместе сидят в тишине. Ветер играет с их волосами, а солнце ласкает кожу. Бог и старая отшельница. Наконец она медленно и молча кладет голову на широкое синее плечо Шивы. Он поднимает одну из рук и опускает ее веки. На этом миссия отшельницы закончилась."
+target_god_immediate = ExtResource("shiva")
+target_god_immediate_hp_percent_delta = 1000
+target_god = ExtResource("shiva")
+target_buffs = Array[ExtResource("buff_script")]([SubResource("buff_shiva_regen")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_i_am_the_god"]
+script = ExtResource("choice_script")
+choice_text = "Я и есть тот бог!"
+required_god = ExtResource("shiva")
+outcome = SubResource("out_i_am_the_god")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "В ожидании бога"
+body_text = "Джунгли, джунгли, джунгли. Растения, земля, трава да звери - дикость. Но внезапно под вашими ногами песочек. Ровная дорожка из песка и камня. ведет через лес к маленькой хижине пристроившейся в корнях огромного древа. Любопытство ведет вас туда.\n\nДверь вам открывает древняя старушка. Сгорбленная, опираясь на клюку, она выходит к вам. Одежда такая же старая как она сама, но на лице сияет яркая улыбка. У нее не хватает примерно половины зубов.\n\"Кто вы есть путники? Токмо говорите погромче, я не очень хорошо слышу.\"\nВы представляетесь, но по выражению лица, понимаете, что она то ли не услышала, то ли не поняла. Отшельница отмахивается рукой.\n\"Да и не важно. Вам не стоит тут задерживаться. Ко мне в любой момент может прийти великое божество земли египетской. Еще девочкой мне было дано пророчество, что к этой хижине явится великий бог и я должна буду принять его. С тех пор я так и ухаживаю за этим двором, и угощение на готове.\"\n\"Я бы рада вас угостить, но он может явиться в любой момент. Боюсь как бы ваше присутствие не смутило его. Если хотите, можете отдохнуть в сарае.\"\nВы прикидываете в голове, что старушка должно быть ждет своего бога уже лет шестьдесят."
+choices = Array[ExtResource("choice_script")]([SubResource("choice_rest_in_shed"), SubResource("choice_explain_truth"), SubResource("choice_i_am_the_god")])
+metadata/_custom_type_script = ExtResource("scene_script")

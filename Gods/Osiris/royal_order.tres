@@ -1,6 +1,28 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://r5merae0tnqh"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_0ypsw"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Osiris/05_kill_that_for_me.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Osiris/06_i_command_you.mp3" id="4_v2"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Osiris/07_to_the_front_line.mp3" id="5_v3"]
+
+[sub_resource type="Resource" id="voice_royal_order_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "Убей это ради меня."
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_royal_order_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Я приказываю тебе."
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_royal_order_3"]
+script = ExtResource("2_vl")
+audio = ExtResource("5_v3")
+text = "На передовую!"
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_0ypsw")
@@ -20,4 +42,5 @@ effect_durations = Dictionary[String, int]({
 "ally_buff_accuracy": 2,
 "ally_buff_initiative": 2
 })
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_royal_order_1"), SubResource("voice_royal_order_2"), SubResource("voice_royal_order_3")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

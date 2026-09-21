@@ -19,6 +19,28 @@ const DOORS_SCENE := "res://Doors/doors.tscn"
 const MISSION_SELECT_SCENE := "res://Missions/mission_select.tscn"
 const WHITE_MASK_DIR := "res://Mission_choice_background - White/"
 
+# Путь к CharacterResource бога (MissionResource.get_required_god_path()) → путь к
+# короткому одностраничному диалогу "мы туда ещё не можем" — играется, если игрок
+# кликает по миссии локации, для которой не пройдена предыдущая миссия этой же
+# локации. Бог берётся из required_god самой заблокированной миссии (у всех миссий
+# одной локации required_god совпадает — это их "хозяин").
+const GOD_PATH_TO_LOCKED_DIALOGUE := {
+	"res://Gods/Odin/Odin.tres": "res://Dialogues/Mission_Dialogue/mission_locked_odin.tres",
+	"res://Gods/Set/Set.tres": "res://Dialogues/Mission_Dialogue/mission_locked_set.tres",
+	"res://Gods/Loki/Loki.tres": "res://Dialogues/Mission_Dialogue/mission_locked_loki.tres",
+	"res://Gods/Thor/thor.tres": "res://Dialogues/Mission_Dialogue/mission_locked_thor.tres",
+	"res://Gods/Osiris/Osiris.tres": "res://Dialogues/Mission_Dialogue/mission_locked_osiris.tres",
+	"res://Gods/Susanoo/Susanoo.tres": "res://Dialogues/Mission_Dialogue/mission_locked_susanoo.tres",
+	"res://Gods/Samdi/Samdi.tres": "res://Dialogues/Mission_Dialogue/mission_locked_samdi.tres",
+	"res://Gods/Shiva/Shiva.tres": "res://Dialogues/Mission_Dialogue/mission_locked_shiva.tres",
+	"res://Gods/Zeus/zeus.tres": "res://Dialogues/Mission_Dialogue/mission_locked_zeus.tres",
+	"res://Gods/Hades/Hades.tres": "res://Dialogues/Mission_Dialogue/mission_locked_hades.tres",
+	"res://Gods/Poseidon/Poseidon.tres": "res://Dialogues/Mission_Dialogue/mission_locked_poseidon.tres",
+	"res://Gods/Danu/Danu.tres": "res://Dialogues/Mission_Dialogue/mission_locked_danu.tres",
+	"res://Gods/Morgan/Morgan.tres": "res://Dialogues/Mission_Dialogue/mission_locked_morgan.tres",
+	"res://Gods/Koschei/Koschei.tres": "res://Dialogues/Mission_Dialogue/mission_locked_koschei.tres",
+}
+
 # Русское имя локации (как в Doors/doors.gd::LOCATIONS_CLOCKWISE) → фон выбора миссии.
 const LOCATION_BACKGROUNDS := {
 	"Хельхейм": "res://Mission_choice_background/Helheim_mission_choice_background.png",
@@ -58,6 +80,20 @@ func _ready() -> void:
 	_build_background()
 	_build_back_button()
 	call_deferred("_build_mission_click_regions")
+	_start_location_music()
+
+
+## "non_battle"-трек локации должен играть с момента, когда игрок вошёл в меню
+## выбора миссии — то есть с этого экрана, а не только с экрана подготовки отряда
+## (Missions/mission_select.gd), куда попадаешь позже, кликнув по конкретной миссии.
+func _start_location_music() -> void:
+	var welcome_path: String = str(CampaignState.LOCATION_TO_WELCOME_MISSION.get(MissionState.pending_location, ""))
+	if welcome_path == "" or not ResourceLoader.exists(welcome_path):
+		return
+	var mission := load(welcome_path) as MissionResource
+	if mission == null:
+		return
+	MusicManager.play_mission_non_battle(mission.get_location_id())
 
 
 func _build_background() -> void:
@@ -130,11 +166,14 @@ func _build_mission_click_regions() -> void:
 		var img_rect: Rect2 = region["rect"]
 		var screen_rect := _image_rect_to_screen_rect(img_rect, tex_size, control_size)
 		var mission_path := ""
+		var prereq_mission_path := ""
 		if i == welcome_index:
 			mission_path = welcome_mission_path
 		elif i == mission_2_index:
 			mission_path = mission_2_path
-		_add_click_region_button(screen_rect, region["bitmap"], mission_path)
+			# Вторая миссия локации недоступна, пока не пройдена приветственная.
+			prereq_mission_path = welcome_mission_path
+		_add_click_region_button(screen_rect, region["bitmap"], mission_path, prereq_mission_path)
 
 
 ## Выстраивает трафареты по порядку вдоль пути миссий локации: от нижнего левого
@@ -185,7 +224,7 @@ func _load_pixel_image(path: String) -> Image:
 	return img
 
 
-func _add_click_region_button(screen_rect: Rect2, mask: BitMap, mission_path: String) -> void:
+func _add_click_region_button(screen_rect: Rect2, mask: BitMap, mission_path: String, prereq_mission_path: String = "") -> void:
 	var btn := Button.new()
 	btn.set_script(load("res://Doors/mask_click_button.gd"))
 	btn.set("mask", mask)
@@ -196,19 +235,71 @@ func _add_click_region_button(screen_rect: Rect2, mask: BitMap, mission_path: St
 	btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	btn.focus_mode = Control.FOCUS_NONE
 	if mission_path != "":
-		btn.pressed.connect(_on_mission_region_pressed.bind(mission_path))
+		btn.pressed.connect(_on_mission_region_pressed.bind(mission_path, prereq_mission_path))
 	else:
 		btn.pressed.connect(_on_empty_region_pressed)
 	add_child(btn)
 
 
-func _on_mission_region_pressed(mission_path: String) -> void:
+## Клик по области миссии. Три исхода:
+## 1. Миссия уже пройдена — всплывающая подсказка, дальше не идём.
+## 2. Не пройдена предыдущая миссия локации (prereq_mission_path) — короткий диалог
+##    от бога-хозяина локации, миссия не запускается.
+## 3. Иначе — обычный переход к подготовке отряда, как раньше.
+func _on_mission_region_pressed(mission_path: String, prereq_mission_path: String = "") -> void:
 	if mission_path == "" or not ResourceLoader.exists(mission_path):
 		push_warning("Не найдена миссия: " + mission_path)
+		return
+	if CampaignState.is_mission_completed(mission_path):
+		_show_notification("Эта миссия уже пройдена.")
+		return
+	if prereq_mission_path != "" and not CampaignState.is_mission_completed(prereq_mission_path):
+		_play_mission_locked_dialogue(mission_path)
 		return
 	MissionState.requested_mission_path = mission_path
 	MissionState.return_scene_path = "res://Doors/mission_choice_screen.tscn"
 	get_tree().change_scene_to_file(MISSION_SELECT_SCENE)
+
+
+## Играет одностраничную реплику бога-хозяина локации ("мы ещё не можем туда пройти"),
+## бог берётся из required_god заблокированной миссии.
+func _play_mission_locked_dialogue(mission_path: String) -> void:
+	var mission := load(mission_path) as MissionResource
+	if mission == null:
+		return
+	var god_path := mission.get_required_god_path()
+	var dialogue_path: String = str(GOD_PATH_TO_LOCKED_DIALOGUE.get(god_path, ""))
+	if dialogue_path == "" or not ResourceLoader.exists(dialogue_path):
+		return
+	DialogueManager.show_dialogue_path(dialogue_path)
+
+
+## Короткое всплывающее сообщение по центру экрана (тот же приём, что и в
+## Campaign/campaign_screen.gd::_show_notification).
+func _show_notification(text: String) -> void:
+	var notif := Label.new()
+	notif.text = text
+	notif.set_anchors_preset(Control.PRESET_FULL_RECT)
+	notif.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	notif.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	notif.add_theme_font_size_override("font_size", 28)
+	notif.add_theme_color_override("font_color", Color(0.4, 0.9, 0.4))
+	notif.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.8))
+	notif.add_theme_constant_override("shadow_offset_x", 2)
+	notif.add_theme_constant_override("shadow_offset_y", 2)
+	var bg := PanelContainer.new()
+	bg.set_anchors_preset(Control.PRESET_CENTER)
+	bg.custom_minimum_size = Vector2(360, 70)
+	bg.modulate.a = 0.0
+	bg.z_index = 200
+	bg.add_child(notif)
+	add_child(bg)
+
+	var t := create_tween()
+	t.tween_property(bg, "modulate:a", 1.0, 0.2)
+	t.tween_interval(1.3)
+	t.tween_property(bg, "modulate:a", 0.0, 0.4)
+	t.tween_callback(bg.queue_free)
 
 
 func _on_empty_region_pressed() -> void:

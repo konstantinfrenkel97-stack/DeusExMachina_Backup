@@ -1,0 +1,79 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" uid="uid://bglbr7sxbyn23" path="res://Essence/essence_death.tres" id="essence_death"]
+[ext_resource type="Resource" uid="uid://lokigod00001" path="res://Gods/Loki/Loki.tres" id="loki"]
+
+[sub_resource type="Resource" id="reward_death_essence"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_death")
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_give_nails"]
+script = ExtResource("outcome_script")
+result_text = "Вы знаете что сейчас произойдет, и вы позволяете этому свершиться. Вы протягиваете руки и позволяете мертвецам зажать их в холодной хватке. Дальше самое худшее. Один за другим они начинают вырывать вам ногти.
+
+Скрипя зубами от боли, вы пытаетесь вспомнить какая причина заставила вас решить отдать ногти. А была ли причина? А вы ли это решили.
+
+Вам ужасно плохо, пальцы кровоточат. Мертвецы покачиваясь бредут к своему судну и присоединяют ваши ногти к бесконечной череде маленьких пластин. Вы чувствуете как боль в пальцах постепенно ослабевает. Точнее говоря, охлаждается. Ваши ногти теперь часть корабля мертвецов. Вы навсегда связаны с этим миром."
+hero_hp_percent_delta = -1
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_death_essence")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_give_nails"]
+script = ExtResource("choice_script")
+choice_text = "Отдать свои ногти"
+outcome = SubResource("out_give_nails")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="out_destroy_ship"]
+script = ExtResource("outcome_script")
+result_text = "Корабль из ногтей вызывает у вас отвращение. Не говоря уже о мертвецах что тянутся к вашим пальцам. Это мерзко и неправильно. Вы бросаетесь на строителей, они не сопротивляются. Покончив с мертвецами, вы бросаетесь на пугающее судно, обрушивая оружие и заклинания. Оно разлетается столпом пластинчатых чешуй, а вы бьете и бьете, пока постройка не превратилась в россыпь ногтей на черном камне.
+
+Когда вы отправляетесь дальше, прямо вам навстречу из тумана выходит драугр. Он вооружен, и вы хватаетесь за оружие. Но огонь в глазах живого трупа гаснет, он роняет оружие и покачиваясь идет к груде ногтей. Из тумана выходят еще тела, все они идут туда где когда-то было судно и начинают собирать его заново. Вы чувствуете холод и пустоту в груди. Вы смогли задержать строительство корабля, но похоже не в ваших силах его полностью остановить."
+hero_majesty_delta = 10
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_destroy_ship"]
+script = ExtResource("choice_script")
+choice_text = "Разрушить мерзкое строение"
+outcome = SubResource("out_destroy_ship")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="out_stop_construction"]
+script = ExtResource("outcome_script")
+result_text = "Локи выходит вперед и прямо смотрит на мертвецов. Те останавливаются.
+\"Достаточно. Прекращайте строительство.\"
+Мертвецы смотрят на него. На их мертвых лицах нет выражения, но застывшие позы создают у вас ощущение что драугры в ступоре.
+\"Я приказал вам построить этот корабль. И я же приказываю вам прекратить.\"
+Локи делает глубокий вдох, будто собирается сказать что-то очень важное. Что-то что очень тяжело изречь.
+\"Он мне больше не нужен.\"
+Драугры молча смотрят. Вы видите, как в их глазах начинает разгораться огонь. Они превращаются в тех обезумевших бойцов что вы привыкли видеть. Прежде чем они втянут вас в бой, вы скрываетесь в тумане. По пути вы спрашиваете Локи что это было. Он лишь пожимает плечами.
+\"Как-то я велел сделать мне таких кораблей. Один даже был достроен. Но больше они мне не нужны. Вот и все.\""
+permanent_god_crit_bonus_target = ExtResource("loki")
+permanent_god_crit_bonus_amount = 0.03
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_stop_construction"]
+script = ExtResource("choice_script")
+choice_text = "Остановить строительство"
+required_god = ExtResource("loki")
+outcome = SubResource("out_stop_construction")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Судно апокалипсиса"
+body_text = "Не вся нежить Хельхейма погружена в страдание и ярость. Есть и исключения, и вам попалось одно из них.
+
+Вы выходите на поляну свободную от тумана. Голое черное плато, в середине этого пространства какое-то странное сооружение. Выглядит как длинное корыто из серых чешуек. Вы какое-то время рассматриваете этот объект пытаясь понять его природу и назначение. По плато бродят драугры, они не нападают, и не похоже что видят вас.
+
+На черный камень выходит мертвец из тумана. В руке у него топор. По пылающим синим глазам вы понимаете, что он агрессивен. К нему подходит один из мирных драугров и протягивает руку. Не меняя выражения лица, драугр с топором кладет свою ладонь в протянутую руку. Проситель сжимает хват и начинает что-то делать с рукой драугра с топором, но вы не можете разобрать что именно. Когда он заканчивает, идет к постройке в середине, а воин возвращается обратно в туман. Мертвец дойдя до чешуйчатого корыта, приделывает что-то к краю и внезапно на вас находит понимание.
+
+Конструкция - выглядит как начатый каркас крупного корабля. А серые чешуйки из которых он собран - ногти мертвецов. Ваш шок словно привлекает внимание мертвецов, потому что четверо, вытянув вперед ладонь двигаются прямо к вам."
+choices = Array[ExtResource("choice_script")]([SubResource("choice_give_nails"), SubResource("choice_destroy_ship"), SubResource("choice_stop_construction")])
+metadata/_custom_type_script = ExtResource("scene_script")

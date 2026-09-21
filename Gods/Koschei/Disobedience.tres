@@ -1,14 +1,30 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://kchdiso0001"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_do"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Koschei/Disobedinece_.mp3" id="3_a1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Koschei/DISOBEDIENCE!.mp3" id="4_a2"]
+
+[sub_resource type="Resource" id="voice_disobedience_q"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_a1")
+text = "Непослушание?"
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_disobedience_shout"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_a2")
+text = "НЕПОСЛУШАНИЕ!"
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_do")
 icon_path = "uid://bosm54ksuf02l"
 name = "Непослушание"
-description = "Наносит урон. Дополнительно наносит урон от собственной брони Кощея: +1% урона за 1 броню."
+description = ""
 majesty_gain = 10
 usable_from_positions = Array[bool]([true, true, false, false])
 targetable_positions = Array[bool]([true, true, false, false])
 ability_marker = "koschei_disobedience"
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_disobedience_q"), SubResource("voice_disobedience_shout")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

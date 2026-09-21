@@ -1,6 +1,28 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://setsarc0001"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_sc"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Set/07_do_come_in.mp3" id="3_a1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Set/08_feel_at_home.mp3" id="4_a2"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Set/09_nothing_to_worry_about.mp3" id="5_a3"]
+
+[sub_resource type="Resource" id="voice_sarc_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_a1")
+text = "Прошу, заходи."
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_sarc_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_a2")
+text = "Чувствуй себя как дома."
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_sarc_3"]
+script = ExtResource("2_vl")
+audio = ExtResource("5_a3")
+text = "Тебе не о чем волноваться."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_sc")
@@ -12,4 +34,5 @@ majesty_gain = 15
 target_type = "Ally"
 usable_from_positions = Array[bool]([false, true, true, false])
 ability_marker = "set_sarcophagus"
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_sarc_1"), SubResource("voice_sarc_2"), SubResource("voice_sarc_3")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

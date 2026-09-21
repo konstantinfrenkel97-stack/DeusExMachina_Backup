@@ -11,6 +11,8 @@
 [resource]
 script = ExtResource("7_cr")
 unit_name = "Моргана"
+role_description = "Маг с уроном и усилением способностей Лены"
+priority_positions = Array[int]([3, 4])
 sprite_path = "res://Gods/Morgan/Morgana.png"
 face_sprite = "res://Gods/Morgan/Morgana_Face.png"
 dialogue_sprite_scale_percent = 104.0

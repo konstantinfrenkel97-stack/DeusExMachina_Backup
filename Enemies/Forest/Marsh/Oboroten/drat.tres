@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" path="res://ability_resource.gd" id="1_ab"]
 
+[ext_resource type="Texture2D" path="res://Ability_pics/Claws.png" id="anim_fx"]
+[ext_resource type="AudioStream" path="res://Sounds/hammer_hit_flesh.wav" id="anim_sfx"]
+
 [resource]
 script = ExtResource("1_ab")
 name = "Драть"
@@ -15,3 +18,5 @@ effect_values = Dictionary[String, int]({"target_debuff_armor": 20})
 effect_durations = Dictionary[String, int]({"target_debuff_armor": 2})
 usable_from_positions = Array[bool]([true, true, false, false])
 targetable_positions = Array[bool]([true, true, false, false])
+attack_effect_texture = ExtResource("anim_fx")
+attack_sfx = ExtResource("anim_sfx")

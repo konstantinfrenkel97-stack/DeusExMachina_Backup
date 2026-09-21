@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_qtwvj"]
 
+[ext_resource type="Texture2D" path="res://Ability_pics/Blue_slash.png" id="anim_fx"]
+[ext_resource type="AudioStream" path="res://Sounds/sword-slash_NkdUSLZ.mp3" id="anim_sfx"]
+
 [resource]
 script = ExtResource("1_qtwvj")
 name = "Метание топора"
@@ -9,4 +12,6 @@ description = "Наносит 100% урона."
 majesty_gain = 0
 usable_from_positions = Array[bool]([false, false, true, true])
 targetable_positions = Array[bool]([false, true, true, true])
+attack_effect_texture = ExtResource("anim_fx")
+attack_sfx = ExtResource("anim_sfx")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

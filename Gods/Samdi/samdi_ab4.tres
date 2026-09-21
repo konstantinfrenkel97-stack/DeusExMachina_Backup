@@ -1,6 +1,21 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://cjgnub32yctsa"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Samdi/05_louder.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Samdi/06_we_havent_even_started.mp3" id="4_v2"]
+
+[sub_resource type="Resource" id="voice_party_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "ГРОМЧЕ!"
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_party_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Мы ещё даже не начинали."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_ab")
@@ -11,4 +26,5 @@ damage_modifier = 0.0
 majesty_gain = 15
 target_type = "All_Allies"
 ability_marker = "samdi_party"
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_party_1"), SubResource("voice_party_2")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

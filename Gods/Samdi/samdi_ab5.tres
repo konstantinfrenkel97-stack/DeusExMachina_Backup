@@ -1,6 +1,21 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://c85kvbn6b7s1i"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Samdi/01_i_got_voodoo_i_got_hoodoo.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Samdi/02_oh_its_just_a_doll.mp3" id="4_v2"]
+
+[sub_resource type="Resource" id="voice_voodoo_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "У меня вуду, у меня худу."
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_voodoo_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "О, это же просто кукла."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_ab")
@@ -14,4 +29,5 @@ usable_from_positions = Array[bool]([false, true, true, true])
 targetable_positions = Array[bool]([true, true, true, false])
 ability_marker = "samdi_voodoo"
 mark_type_int = 0
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_voodoo_1"), SubResource("voice_voodoo_2")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

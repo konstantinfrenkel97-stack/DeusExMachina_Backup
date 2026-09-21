@@ -11,6 +11,8 @@
 [resource]
 script = ExtResource("2_ip6br")
 unit_name = "Самди"
+role_description = "Поддержка, специализирующийся на ослаблениях"
+priority_positions = Array[int]([3, 4])
 sprite_path = "res://Gods/Samdi/Samdi.png"
 face_sprite = "res://Gods/Samdi/Samdi_Face.png"
 dialogue_sprite_y_offset_percent = 11.0

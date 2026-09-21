@@ -18,6 +18,7 @@ var _bg: ColorRect
 var _portrait: TextureRect
 var _dialogue_button: Button
 var _hp_bar: ProgressBar
+var _dialogue_blink_tween: Tween = null
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
@@ -101,6 +102,29 @@ func set_god(path: String) -> void:
 func _process(_delta: float) -> void:
 	if god_path != "":
 		_refresh_hp_bar()
+	_update_dialogue_blink()
+
+## Мигание "💬" — два независимых повода:
+## 1) подсказка сходить поговорить с богом после того, как вылетела подсказка
+##    "поговорите с одним из богов" (CampaignState.ask_a_god_hint_shown), пока ни одна
+##    дверь ещё не открыта — гаснет, как только открывается первая дверь;
+## 2) у бога есть непрочитанный вариант диалога (CampaignState.has_unread_dialogue) —
+##    гаснет, как только все доступные варианты прочитаны, и включается заново, если
+##    появляется новый непрочитанный (например открылось новое условие).
+func _update_dialogue_blink() -> void:
+	var tutorial_blink: bool = CampaignState.ask_a_god_hint_shown and CampaignState.opened_locations.is_empty()
+	var unread_blink: bool = god_path != "" and CampaignState.has_unread_dialogue(god_path)
+	var should_blink: bool = god_path != "" and (tutorial_blink or unread_blink)
+	if should_blink and _dialogue_blink_tween == null:
+		_dialogue_blink_tween = create_tween()
+		_dialogue_blink_tween.set_loops()
+		_dialogue_blink_tween.tween_property(_dialogue_button, "modulate:a", 0.25, 0.5).set_trans(Tween.TRANS_SINE)
+		_dialogue_blink_tween.tween_property(_dialogue_button, "modulate:a", 1.0, 0.5).set_trans(Tween.TRANS_SINE)
+	elif not should_blink and _dialogue_blink_tween != null:
+		_dialogue_blink_tween.kill()
+		_dialogue_blink_tween = null
+		if _dialogue_button != null:
+			_dialogue_button.modulate.a = 1.0
 
 func _make_hp_bar() -> ProgressBar:
 	var bar := ProgressBar.new()

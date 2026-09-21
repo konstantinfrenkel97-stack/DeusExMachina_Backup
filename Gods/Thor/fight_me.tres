@@ -1,11 +1,26 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://k6d3oj5468j3"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_fight"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Thor/07_pick_on_someone_your_own_size.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Thor/08_stand_behind_me.mp3" id="4_v2"]
+
+[sub_resource type="Resource" id="voice_fight_me_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "Ищи себе ровню!"
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_fight_me_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Встань за мной!"
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_fight")
 icon_path = "uid://c26sexud8iwhx"
-name = "fight_me"
+name = "На меня!"
 description = "На 1 ход Тор получает метку провокации и лечится на 7% максимального здоровья каждый раз, когда его атакуют."
 damage_modifier = 0.0
 majesty_gain = 30
@@ -21,4 +36,5 @@ effect_durations = Dictionary[String, int]({
 })
 usable_from_positions = Array[bool]([true, true, true, false])
 ability_marker = "thor_fight_me"
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_fight_me_1"), SubResource("voice_fight_me_2")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

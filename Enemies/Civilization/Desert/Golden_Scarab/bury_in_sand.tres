@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_ab")
 name = "Зарыться в песок"
-description = "Стойка: +40% уклонения, случайный враг получает 0.4 урона и -15 точности на 1 ход."
+description = ""
 damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"

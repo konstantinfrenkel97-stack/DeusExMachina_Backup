@@ -3,6 +3,9 @@
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
 [ext_resource type="Texture2D" uid="uid://i1rj6w4opm1n" path="res://Enemies/Civilization/Castle/Inquisitor/Autodafe_icon.png" id="1_wmg0t"]
 
+[ext_resource type="Texture2D" path="res://Ability_pics/fire.png" id="anim_fx"]
+[ext_resource type="AudioStream" path="res://Sounds/cinematic-whoosh-fireball-sound-effect-hd.mp3" id="anim_sfx"]
+
 [resource]
 script = ExtResource("1_ab")
 name = "Аутодафе"
@@ -11,4 +14,7 @@ damage_modifier = 0.0
 majesty_gain = 0
 ability_marker = "inquisitor_auto_da_fe"
 mark_icon = ExtResource("1_wmg0t")
+attack_effect_texture = ExtResource("anim_fx")
+attack_sfx = ExtResource("anim_sfx")
+attack_sfx_max_length = 2.0
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

@@ -1,6 +1,28 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://cb8y21uwfuonv"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_s4dxo"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Osiris/11_one_true_king.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Osiris/12_rejoice_my_subjects.mp3" id="4_v2"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Osiris/13_by_the_glory_of_my_name.mp3" id="5_v3"]
+
+[sub_resource type="Resource" id="voice_king_of_kings_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "ЕДИНСТВЕННЫЙ ИСТИННЫЙ КОРОЛЬ!"
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_king_of_kings_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "РАДУЙТЕСЬ, ПОДДАННЫЕ!"
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_king_of_kings_3"]
+script = ExtResource("2_vl")
+audio = ExtResource("5_v3")
+text = "ВО СЛАВУ МОЕГО ИМЕНИ!"
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_s4dxo")
@@ -18,4 +40,5 @@ effect_values = Dictionary[String, int]({
 effect_durations = Dictionary[String, int]({
 "regeneration": 3
 })
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_king_of_kings_1"), SubResource("voice_king_of_kings_2"), SubResource("voice_king_of_kings_3")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

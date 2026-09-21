@@ -7,10 +7,34 @@
 [ext_resource type="Resource" uid="uid://kchndl0001" path="res://Gods/Koschei/Needle_tip.tres" id="5_nd"]
 [ext_resource type="Resource" uid="uid://kchgobk0001" path="res://Gods/Koschei/Go_back.tres" id="6_gb"]
 [ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="7_cr"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="8_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Koschei/Oooh_You_tried.mp3" id="9_a1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Koschei/Time_for_another_round.mp3" id="10_a2"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Koschei/Immortal_durachyo_immortal.mp3" id="11_a3"]
+
+[sub_resource type="Resource" id="voice_you_tried"]
+script = ExtResource("8_vl")
+audio = ExtResource("9_a1")
+text = "Оооо, ты попытался."
+metadata/_custom_type_script = ExtResource("8_vl")
+
+[sub_resource type="Resource" id="voice_another_round"]
+script = ExtResource("8_vl")
+audio = ExtResource("10_a2")
+text = "Время для нового раунда."
+metadata/_custom_type_script = ExtResource("8_vl")
+
+[sub_resource type="Resource" id="voice_immortal_fools"]
+script = ExtResource("8_vl")
+audio = ExtResource("11_a3")
+text = "Бессмертный, дурачьё, бессмертный."
+metadata/_custom_type_script = ExtResource("8_vl")
 
 [resource]
 script = ExtResource("7_cr")
 unit_name = "Кощей"
+role_description = "Танк с низким уроном, но огромной живучестью"
+priority_positions = Array[int]([1, 2])
 sprite_path = "res://Gods/Koschei/Koschei_2.png"
 face_sprite = "res://Gods/Koschei/Koshei_Face.png"
 battle_sprite_scale_percent = 124.0
@@ -24,6 +48,7 @@ accuracy = 80
 evasion = 0
 is_enemy = false
 special_effect_type = "koschei_life_charges"
+death_shield_voice_lines = Array[ExtResource("8_vl")]([SubResource("voice_you_tried"), SubResource("voice_another_round"), SubResource("voice_immortal_fools")])
 active_abilities = Array[ExtResource("1_ab")]([ExtResource("2_do"), ExtResource("3_im"), ExtResource("4_hg"), ExtResource("5_nd")])
 ultimate_ability = ExtResource("6_gb")
 metadata/_custom_type_script = "uid://briall6wwu3rx"

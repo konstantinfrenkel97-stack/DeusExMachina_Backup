@@ -2,15 +2,22 @@
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_bagde"]
 
+[ext_resource type="Texture2D" path="res://Ability_pics/Crush.png" id="anim_fx"]
+[ext_resource type="AudioStream" path="res://Sounds/hammer-hit-body.mp3" id="anim_sfx"]
+
 [resource]
 majesty_gain = 0
 script = ExtResource("1_bagde")
 name = "Обрушить потолок"
-description = "Стойка: в начале следующего хода обрушивает потолок."
+description = ""
+damage_modifier = 0.0
 target_type = "Self"
 usable_from_positions = Array[bool]([true, true, false, false])
 targetable_positions = Array[bool]([false, false, false, false])
 stance_duration_type = "UntilNextTurn"
 is_stance = true
 stance_effect_type = "giant_ceiling"
+attack_effect_texture = ExtResource("anim_fx")
+attack_sfx = ExtResource("anim_sfx")
+attack_sfx_max_length = 0.025
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

@@ -6,6 +6,7 @@
 script = ExtResource("1_ab")
 name = "В беде"
 description = "Стойка: накладывает на себя метку провокации и получает +20 уклонения, пока активна."
+damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"
 is_stance = true

@@ -29,7 +29,6 @@ script = ExtResource("1_line")
 line_id = "intro_3"
 speaker_name = "Один"
 text = "А? Да-да, конечно."
-sprite = ExtResource("3_e2r3i")
 next_line_id = "intro_4"
 
 [sub_resource type="Resource" id="Resource_odin_line_5"]
@@ -68,6 +67,7 @@ script = ExtResource("2_choice")
 choice_id = "chosen_world"
 choice_text = "Выбранный мир"
 next_line_id = "chosen_world_1"
+required_mission_path = "res://Missions/Stars/welcome_to_stars.tres"
 
 [sub_resource type="Resource" id="Resource_odin_line_11"]
 script = ExtResource("1_line")

@@ -12,13 +12,15 @@ var pending_location_id: String = ""
 var pending_enemy_modifiers: Array = []
 var pending_hero_modifiers: Array = []
 # Одноразовые эффекты сцен миссии, применяются в следующем бою после спавна отряда.
-var pending_mission_hero_heal_percent: int = 0
 var pending_mission_fantasy_delta: int = 0
 var pending_mission_hero_majesty_delta: int = 0
 var pending_mission_hero_buffs: Array = []
 var pending_mission_enemy_buffs: Array = []
 var pending_mission_target_effects: Array = []
 var pending_helheim_skip_fog_rounds: int = 0
+# Отряд получает иммунитет к урону локации "Пустыня" в следующем бою целиком
+# (см. MissionOutcome.grant_desert_immunity_next_battle).
+var pending_desert_immunity: bool = false
 # Заклинание «Ром» в следующем бою бьёт не только выбранную цель, но и всю её команду.
 var pending_rum_spell_whole_team: bool = false
 # Эффекты, которые держатся до конца миссии и применяются в каждом бою.
@@ -54,13 +56,13 @@ func reset_mission():
 	mission_dead_heroes = []
 	pending_enemy_modifiers = []
 	pending_hero_modifiers = []
-	pending_mission_hero_heal_percent = 0
 	pending_mission_fantasy_delta = 0
 	pending_mission_hero_majesty_delta = 0
 	pending_mission_hero_buffs = []
 	pending_mission_enemy_buffs = []
 	pending_mission_target_effects = []
 	pending_helheim_skip_fog_rounds = 0
+	pending_desert_immunity = false
 	pending_rum_spell_whole_team = false
 	mission_strongest_hero_buffs = []
 	mission_team_buffs = []
@@ -86,13 +88,13 @@ func clear_selection():
 	pending_location_id = ""
 	pending_enemy_modifiers = []
 	pending_hero_modifiers = []
-	pending_mission_hero_heal_percent = 0
 	pending_mission_fantasy_delta = 0
 	pending_mission_hero_majesty_delta = 0
 	pending_mission_hero_buffs = []
 	pending_mission_enemy_buffs = []
 	pending_mission_target_effects = []
 	pending_helheim_skip_fog_rounds = 0
+	pending_desert_immunity = false
 	pending_rum_spell_whole_team = false
 	mission_strongest_hero_buffs = []
 	mission_team_buffs = []

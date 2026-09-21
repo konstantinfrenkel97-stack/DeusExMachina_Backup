@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3]
+
+[ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_cr"]
+[ext_resource type="Resource" path="res://Nemesis/Sea/Depth/Kraken/tentacle_grip.tres" id="3_a1"]
+[ext_resource type="Resource" path="res://Nemesis/Sea/Depth/Kraken/storm_of_tentacles.tres" id="4_a2"]
+[ext_resource type="Resource" path="res://Nemesis/Sea/Depth/Kraken/ink_cloud.tres" id="5_ult"]
+
+[resource]
+script = ExtResource("2_cr")
+unit_name = "Кракен"
+max_hp = 150
+damage = 28
+armor = 40
+initiative = 3
+accuracy = 80
+evasion = 5
+danger_level = 10
+is_boss = true
+is_nemesis = true
+nemesis_order = 1
+sprite_path = "res://Nemesis/Sea/Depth/Kraken/Kraken.png"
+face_sprite = "res://Nemesis/Sea/Depth/Kraken/Kraken.png"
+active_abilities = Array[ExtResource("1_ab")]([ExtResource("3_a1"), ExtResource("4_a2")])
+ultimate_ability = ExtResource("5_ult")
+metadata/_custom_type_script = "uid://briall6wwu3rx"

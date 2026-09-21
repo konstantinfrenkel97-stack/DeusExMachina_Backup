@@ -1,0 +1,82 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Resource" uid="uid://lqbl08dy4pg1" path="res://Essence/essence_strength.tres" id="essence_strength"]
+
+[sub_resource type="Resource" id="out_mirage"]
+script = ExtResource("outcome_script")
+result_text = "Оазис совсем близко. Вы рветесь к нему, но сколько бы вы не месили горячий песок, островок зелени все не приближается. Разум находит объяснение, но вы не хотите его принимать. Рветесь и рветесь вперед, роняя пот на песок. Это не мираж, просто ошибка. Просто вы неверно оценили расстояние. Вы взбираетесь на следующую дюну. Оазис все на таком же расстоянии. Нет сомнения, что вы проделали огромный путь. Вы всматриваетесь и видите как дрожит зеленое пятно на желтом песке. Разум обманул вас. Жар нарисовал картинку красками надежды. Вы продолжаете путь. Горло горит еще сильнее чем до этого."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="check_luck_rest"]
+script = ExtResource("stat_check_script")
+stat = 5
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_rest_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы бросаетесь к оазису. Ваш мозг игнорирует все, кроме воды. Вы опускаетесь на колени у спасительной влаги и напиваетесь, насколько вмещает живот. После чего вы разбиваете лагерь в тени пальм и несколько часов отдыхаете, пьете воду, и наслаждаетесь тем, что можно не месить песок под палящим солнцем. Но время приходит, и вы отправляетесь в путь."
+hero_heal_percent = 20
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_rest"]
+script = ExtResource("choice_script")
+choice_text = "Отдохнуть как следует"
+stat_check = SubResource("check_luck_rest")
+success_outcome = SubResource("out_rest_success")
+failure_outcome = SubResource("out_mirage")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="check_luck_water"]
+script = ExtResource("stat_check_script")
+stat = 5
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_water_success"]
+script = ExtResource("outcome_script")
+result_text = "Вы бросаетесь к оазису. Ваш мозг игнорирует все, кроме воды. Вы опускаетесь на колени у спасительной влаги и напиваетесь, насколько вмещает живот.
+
+После чего, вы решаете больше не оказываться в ситуации мучающей жажды и до упора наполняете бурдюки водой, перед отправкой в дальнейший путь."
+hero_heal_percent = 10
+grant_desert_immunity_next_battle = true
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_water"]
+script = ExtResource("choice_script")
+choice_text = "Запастись водой"
+stat_check = SubResource("check_luck_water")
+success_outcome = SubResource("out_water_success")
+failure_outcome = SubResource("out_mirage")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="reward_strength_essence"]
+script = ExtResource("reward_script")
+kind = 1
+resource = ExtResource("essence_strength")
+metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="out_walk_around"]
+script = ExtResource("outcome_script")
+result_text = "Засады, миражи, яд. Чего только пустыня не может подбросить вам в этот милый оазис. Вы боги, вы воины, вы в состоянии справиться с маленьким дискомфортом. Хотя и очень хочется. Вы сжимаете зубы и стараетесь не смотреть на манящую зелень. Вы обходите оазис стороной, жаждущие, обгоревшие но очень сильные."
+hero_hp_percent_delta = -5
+rewards = Array[ExtResource("reward_script")]([SubResource("reward_strength_essence")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_walk_around"]
+script = ExtResource("choice_script")
+choice_text = "Мужественно обойти оазис"
+outcome = SubResource("out_walk_around")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Сад посреди пустыни"
+body_text = "Пустыня вам до боли надоела. Буквально до боли. Ваша кожа обгорела, обувь набита колючим песком, и хуже всего раздраженное, сухое горло которое ежесекундно просит воды. А вам нечем утолить жажду. В подобных размышлениях вас и застает оазис.
+
+За одной из дюнь открывается островок зелени. Голубое озеро в середине. Зеленые пальмы. Вы не можете поверить своим глазам. Конец ваших страданий близок."
+choices = Array[ExtResource("choice_script")]([SubResource("choice_rest"), SubResource("choice_water"), SubResource("choice_walk_around")])
+metadata/_custom_type_script = ExtResource("scene_script")

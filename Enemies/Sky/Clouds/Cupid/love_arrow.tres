@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
 
+[ext_resource type="Texture2D" path="res://Ability_pics/Kiss.png" id="anim_fx"]
+
 [resource]
 script = ExtResource("1_ab")
 name = "Стрела любви"
@@ -14,4 +16,5 @@ effect_values = {"target_debuff_damage": 40}
 effect_durations = {"target_debuff_damage": 1}
 usable_from_positions = Array[bool]([false, true, true, true])
 targetable_positions = Array[bool]([true, true, true, true])
+attack_effect_texture = ExtResource("anim_fx")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

@@ -126,5 +126,6 @@ func _on_location_selected(location: String) -> void:
 	if not CampaignState.is_location_opened(location):
 		print("Дверь ещё закрыта: ", location)
 		return
+	MusicManager.stop_campaign()
 	MissionState.pending_location = location
 	get_tree().change_scene_to_file(MISSION_CHOICE_SCENE)

@@ -11,6 +11,8 @@
 [resource]
 script = ExtResource("2_m3npq")
 unit_name = "Один"
+role_description = "Боец поддержки усиливающий всю команду, подходит"
+priority_positions = Array[int]([2, 3])
 sprite_path = "res://Gods/Odin/Odin.png"
 face_sprite = "res://Gods/Odin/Odin_Face.png"
 dialogue_sprite_y_offset_percent = 5.0

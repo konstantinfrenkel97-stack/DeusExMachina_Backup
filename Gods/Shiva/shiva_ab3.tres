@@ -1,6 +1,21 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://c6wpkcbxkdyck"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Shiva/03_king_of_destruction.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Shiva/04_thousand_lives_warrior.mp3" id="4_v2"]
+
+[sub_resource type="Resource" id="voice_shiva_ab3_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "Царь разрушения!"
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_shiva_ab3_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Воин тысячи жизней."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_ab")
@@ -12,4 +27,5 @@ majesty_gain = 30
 target_type = "Self"
 usable_from_positions = Array[bool]([false, false, true, true])
 ability_marker = "shiva_avatar"
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_shiva_ab3_1"), SubResource("voice_shiva_ab3_2")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

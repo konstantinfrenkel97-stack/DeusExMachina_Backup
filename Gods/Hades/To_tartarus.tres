@@ -1,6 +1,28 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://hadtotr0001"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_tt"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Hades/01_to_tartarus.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Hades/02_down_you_go.mp3" id="4_v2"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Hades/03_problem_solved.mp3" id="5_v3"]
+
+[sub_resource type="Resource" id="voice_to_tartarus_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "В Тартар."
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_to_tartarus_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Вниз пойдёшь."
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_to_tartarus_3"]
+script = ExtResource("2_vl")
+audio = ExtResource("5_v3")
+text = "Проблема решена."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_tt")
@@ -14,4 +36,5 @@ damage_type = "Pure"
 usable_from_positions = Array[bool]([true, true, true, false])
 targetable_positions = Array[bool]([true, true, true, false])
 ability_marker = "hades_to_tartarus"
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_to_tartarus_1"), SubResource("voice_to_tartarus_2"), SubResource("voice_to_tartarus_3")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

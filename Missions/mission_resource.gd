@@ -31,7 +31,7 @@ const LOCATION_IDS: Array[String] = [
 enum RequiredGod {
 	NONE,
 	CHERNOBOG,
-	DUNA,
+	DANU,
 	HADES,
 	KOSCHEI,
 	LOKI,
@@ -50,7 +50,7 @@ enum RequiredGod {
 const REQUIRED_GOD_PATHS: Array[String] = [
 	"",
 	"res://Gods/Chernobog/Chernobog.tres",
-	"res://Gods/Duna/Duna.tres",
+	"res://Gods/Danu/Danu.tres",
 	"res://Gods/Hades/Hades.tres",
 	"res://Gods/Koschei/Koschei.tres",
 	"res://Gods/Loki/Loki.tres",

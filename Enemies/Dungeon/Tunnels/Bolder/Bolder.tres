@@ -3,10 +3,13 @@
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_deo4c"]
 [ext_resource type="Script" uid="uid://briall6wwu3rx" path="res://character_resource.gd" id="2_kb7e8"]
 [ext_resource type="Script" uid="uid://b8rdmkfx76q66" path="res://Enemy_logic/boulder_logic.gd" id="3_ai"]
+[ext_resource type="Script" uid="uid://crd6rx0jyd7h2" path="res://voice_line_resource.gd" id="3_csl1v"]
 
 [resource]
 script = ExtResource("2_kb7e8")
 unit_name = "Валун"
+sprite_path = "res://Enemies/Dungeon/Tunnels/Bolder/Boulder.png"
+face_sprite = "res://Enemies/Dungeon/Tunnels/Bolder/Boulder_face.png"
 max_hp = 28
 damage = 0
 armor = 7

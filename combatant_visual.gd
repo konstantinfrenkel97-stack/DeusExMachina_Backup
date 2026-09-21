@@ -29,6 +29,41 @@ const TARGET_HIGHLIGHT_ENEMY_TEX := "res://UI/Red_highlight.png"
 # широкая версия с иначе расставленными "зубцами" под этот масштаб.
 const TARGET_HIGHLIGHT_ENEMY_TEX_WIDE := "res://UI/Red_highlight_wide.png"
 const TARGET_HIGHLIGHT_ALLY_TEX := "res://UI/Blue_highlight.png"
+# Предпросмотр цели способности при наведении (шанс попадания + мигание HP).
+const PREVIEW_LABEL_HEIGHT := 16.0
+const PREVIEW_LABEL_GAP := 2.0
+# Облачко диалога с озвученной фразой (см. show_voice_line) — над головой спрайта,
+# фиксированная ширина (как PREVIEW_LABEL выше — не подгоняется под длину текста).
+const VOICE_BUBBLE_WIDTH := 220.0
+const VOICE_BUBBLE_GAP_ABOVE_HEAD := 12.0
+const VOICE_BUBBLE_MIN_DURATION := 2.0
+const VOICE_BUBBLE_FADE_DURATION := 0.4
+## Хвостик — ближе к левому краю облака (не по центру), само облако из-за этого
+## смещено вправо относительно головы юнита. См. show_voice_line()/_ensure_voice_bubble().
+const VOICE_BUBBLE_TAIL_X_RATIO := 0.18
+## Минимальный отступ от края экрана при выравнивании облака внутрь видимой области.
+const VOICE_BUBBLE_SCREEN_MARGIN := 6.0
+## Текст и рамка облачка реплики — свои у каждого бога (фон при этом всегда чёрный).
+## Ключ — папка бога (Gods/<Folder>/...), как в CampaignState.GOD_FOLDER_TO_LOCATION.
+const VOICE_BUBBLE_GOD_COLORS := {
+	"Osiris": Color(1.0, 0.82, 0.0),      # Золотой
+	"Susanoo": Color(1.0, 0.15, 0.1),     # Ярко красный
+	"Odin": Color(0.75, 0.05, 0.2),       # Багряный
+	"Poseidon": Color(0.0, 0.65, 0.65),   # Цвет морской волны
+	"Zeus": Color(0.65, 0.82, 1.0),       # Бледно голубой
+	"Hades": Color(0.78, 0.78, 0.8),      # Бледно серый
+	"Chernobog": Color(1.0, 1.0, 1.0),    # Белый
+	"Koschei": Color(0.1, 0.75, 0.45),    # Изумрудный
+	"Danu": Color(0.6, 0.9, 0.25),        # Салатовый
+	"Samdi": Color(0.85, 0.1, 0.6),       # Ярко пурпурный
+	"Morgan": Color(0.75, 0.55, 0.9),     # Сиреневый
+	"Set": Color(0.55, 0.2, 0.9),         # Фиолетовый
+	"Shiva": Color(0.15, 0.45, 1.0),      # Ярко синий
+	"Loki": Color(0.58, 0.62, 0.95),       # Бледно синий (отличается от Зевса и Шивы)
+}
+# Вспышка эффекта способности (напр. молния Зевса, AbilityResource.attack_effect_texture)
+# поверх спрайта юнита, которого бьют — см. show_attack_effect_flash().
+const ATTACK_FLASH_FADE_DURATION := 0.25
 const EFFECT_ICON_PATHS := {
 	"buff": "res://icons/Buff_icon.png",
 	"debuff": "res://icons/debuff_icon.png",
@@ -65,6 +100,14 @@ var flash_sprite: Sprite2D = null
 var flash_tween: Tween = null
 var _outline: Line2D = null
 var _target_highlight: TextureRect = null
+var _preview_label: Label = null
+var _preview_overlay: ColorRect = null
+var _preview_tween: Tween = null
+var _voice_bubble: SpeechBubbleShape = null
+var _voice_bubble_margin: MarginContainer = null
+var _voice_bubble_label: RichTextLabel = null
+var _voice_audio_player: AudioStreamPlayer = null
+var _voice_hide_tween: Tween = null
 var _effect_icon_row: HBoxContainer = null
 var _sprite_opaque_bounds := Rect2()
 var _status_bar_width := 130.0
@@ -75,6 +118,15 @@ func _ready():
 	input_pickable = true
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
+	# RectangleShape2D_click в combatant_visual.tscn не помечен "Local to Scene" —
+	# Godot кэширует под-ресурсы .tscn и РАЗДЕЛЯЕТ их между ВСЕМИ инстансами сцены,
+	# если явно не задублировать. Из-за этого все юниты в бою (герои и враги) делили
+	# один и тот же RectangleShape2D: чей _apply_sprite_scale_keep_feet() отработал
+	# последним, тот и задавал .size хитбокса — сразу для ВСЕХ юнитов одновременно
+	# (позиция CollisionShape2D — своя у каждого узла, а вот размер самой Shape-фигуры
+	# был общим). Дублируем здесь, чтобы у каждого юнита была своя независимая форма.
+	if collision_shape != null and collision_shape.shape != null:
+		collision_shape.shape = collision_shape.shape.duplicate()
 
 func _on_mouse_entered():
 	if data:
@@ -90,6 +142,8 @@ func setup(combatant_data: Combatant):
 		data.damage_taken.connect(_on_damage_taken)
 	if not data.healed.is_connected(_on_healed):
 		data.healed.connect(_on_healed)
+	if not data.voice_line_used.is_connected(_on_voice_line_used):
+		data.voice_line_used.connect(_on_voice_line_used)
 	name_label.text = data.unit_name
 	name_label.visible = false
 	name_label.z_index = 10
@@ -307,6 +361,95 @@ func set_target_highlight(kind: String) -> void:
 		_target_highlight.texture = load(path)
 	_target_highlight.visible = true
 
+## Предпросмотр цели способности при наведении (см. battle_scene.gd::
+## _update_ability_target_preview) — вызывается для КАЖДОГО юнита, который
+## реально получит эффект выбранной способности, не только для того, на кого
+## наведён курсор (AoE-способности задевают сразу нескольких).
+## hit_chance — доля 0..1, всегда показывается текстом над юнитом.
+## predicted_damage > 0 — дополнительно запускает медленное белое мигание той
+## части HP-полоски, которая пропадёт при попадании (само число уже посчитано
+## БЕЗ крита, если он не гарантирован, и без периодического урона — см.
+## CombatCalculator.preview_ability_damage()).
+func show_target_preview(hit_chance: float, predicted_damage: int) -> void:
+	_ensure_preview_label()
+	_preview_label.text = "Шанс попадания: %d%%" % int(round(hit_chance * 100.0))
+	_preview_label.visible = true
+	var bar_width: float = hp_bar.size.x
+	# Текст с подписью шире, чем сам HP-бар (особенно у обычных юнитов, bar_width=130) —
+	# берём более широкую фиксированную ширину, но центрируем её на середине бара.
+	var label_width: float = maxf(bar_width, 190.0)
+	var bar_center_x: float = hp_bar.position.x + bar_width * 0.5
+	_preview_label.position = Vector2(bar_center_x - label_width * 0.5, hp_bar.position.y - EFFECT_ICON_HEIGHT - EFFECT_ICON_BAR_GAP - PREVIEW_LABEL_HEIGHT - PREVIEW_LABEL_GAP)
+	_preview_label.size = Vector2(label_width, PREVIEW_LABEL_HEIGHT)
+
+	if predicted_damage > 0 and data != null and data.max_hp > 0:
+		_ensure_preview_overlay()
+		var bar_height: float = hp_bar.size.y
+		var fraction_end: float = clampf(float(data.current_hp) / float(data.max_hp), 0.0, 1.0)
+		var fraction_start: float = clampf(float(data.current_hp - predicted_damage) / float(data.max_hp), 0.0, 1.0)
+		var seg_left: float = bar_width * fraction_start
+		var seg_right: float = bar_width * fraction_end
+		_preview_overlay.position = Vector2(hp_bar.position.x + seg_left, hp_bar.position.y)
+		_preview_overlay.size = Vector2(maxf(0.0, seg_right - seg_left), bar_height)
+		_preview_overlay.visible = seg_right > seg_left
+		if _preview_overlay.visible:
+			_start_preview_blink()
+		else:
+			_stop_preview_blink()
+	elif _preview_overlay != null:
+		_preview_overlay.visible = false
+		_stop_preview_blink()
+
+## Скрывает предпросмотр (наведение ушло с цели / выбор цели завершён/отменён).
+func clear_target_preview() -> void:
+	if _preview_label != null:
+		_preview_label.visible = false
+	if _preview_overlay != null:
+		_preview_overlay.visible = false
+	_stop_preview_blink()
+
+func _ensure_preview_label() -> void:
+	if _preview_label != null:
+		return
+	_preview_label = Label.new()
+	_preview_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_preview_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_preview_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_preview_label.add_theme_font_size_override("font_size", 13)
+	_preview_label.add_theme_color_override("font_color", Color(1.0, 0.85, 0.3, 1.0))
+	_preview_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+	_preview_label.add_theme_constant_override("outline_size", 3)
+	_preview_label.z_index = 14
+	_preview_label.visible = false
+	add_child(_preview_label)
+
+func _ensure_preview_overlay() -> void:
+	if _preview_overlay != null:
+		return
+	_preview_overlay = ColorRect.new()
+	_preview_overlay.color = Color(1, 1, 1, 1)
+	_preview_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_preview_overlay.z_index = 11
+	_preview_overlay.visible = false
+	add_child(_preview_overlay)
+
+## Медленное мигание (0.6с туда, 0.6с обратно, по кругу) — пока предпросмотр активен.
+func _start_preview_blink() -> void:
+	if _preview_overlay == null:
+		return
+	if _preview_tween != null and _preview_tween.is_valid():
+		return
+	_preview_overlay.modulate.a = 0.15
+	_preview_tween = create_tween()
+	_preview_tween.set_loops()
+	_preview_tween.tween_property(_preview_overlay, "modulate:a", 0.85, 0.6).set_trans(Tween.TRANS_SINE)
+	_preview_tween.tween_property(_preview_overlay, "modulate:a", 0.15, 0.6).set_trans(Tween.TRANS_SINE)
+
+func _stop_preview_blink() -> void:
+	if _preview_tween != null and _preview_tween.is_valid():
+		_preview_tween.kill()
+	_preview_tween = null
+
 func _ensure_effect_icon_row(bar_width: float, hp_y: float) -> void:
 	if _effect_icon_row == null:
 		_effect_icon_row = HBoxContainer.new()
@@ -420,10 +563,13 @@ func _format_stance_tooltip_line(stance: AbilityResource) -> String:
 	var details := "Стойка: %s" % stance.name
 	if stance.stance_effect_type != "":
 		var description := DataTables.get_stance_effect_description(stance.stance_effect_type)
+		# Пусто в общей таблице — не редкость (часть способностей полностью описывает
+		# себя в собственном description, без дублирующего автотекста). Тогда просто
+		# показываем этот собственный текст способности вместо служебного stance_effect_type.
+		if description == "":
+			description = stance.get_display_description().strip_edges()
 		if description != "":
 			details += "\n%s" % description
-		else:
-			details += "\nЭффект: %s" % stance.stance_effect_type
 	if stance.stance_duration_type != "":
 		details += "\nДлительность: %s" % _stance_duration_text(stance.stance_duration_type)
 	return details
@@ -502,7 +648,7 @@ func flash_damage():
 		flash_tween.kill()
 	flash_sprite.modulate = Color(1, 0, 0, 0)
 	flash_tween = create_tween()
-	flash_tween.tween_property(flash_sprite, "modulate:a", 0.5, 0.05)
+	flash_tween.tween_property(flash_sprite, "modulate:a", 0.75, 0.05)
 	flash_tween.tween_interval(0.3)
 	flash_tween.tween_property(flash_sprite, "modulate:a", 0.0, 0.05)
 
@@ -591,12 +737,20 @@ func _apply_sprite_scale_keep_feet(new_scale: Vector2, update_collision: bool = 
 	if data != null:
 		resource_vertical_offset = -bounds.size.y * absf(sprite.scale.y) * (data.battle_sprite_y_offset_percent / 100.0)
 	sprite.position = Vector2(0, SPRITE_FEET_Y - opaque_bottom_from_center * absf(sprite.scale.y) + osiris_set_vertical_offset + resource_vertical_offset)
+	# Хитбокс — не по непрозрачным пикселям спрайта (тонкие силуэты/просветы давали
+	# мёртвые зоны, курсор часто "не ловил" юнита), а сплошной прямоугольник во всю
+	# зону НАД HP-баром: от верха спрайта (полный габарит текстуры, БЕЗ обрезки по
+	# прозрачности) до HP_BAR_Y, шириной с сам HP-бар. Раньше здесь по ошибке было
+	# [0, HP_BAR_Y] — это кусок НИЖЕ середины спрайта (почти под ногами), а не вся
+	# его высота.
 	if update_collision and collision_shape != null:
-		var opaque_center_from_texture_center := bounds.position + bounds.size * 0.5 - texture_size * 0.5
-		collision_shape.position = sprite.position + Vector2(opaque_center_from_texture_center.x * sprite.scale.x, opaque_center_from_texture_center.y * sprite.scale.y)
+		var bar_width: float = 260.0 if (data != null and data.is_large) else 130.0
+		var sprite_top_y: float = sprite.position.y - texture_size.y * absf(sprite.scale.y) * 0.5
+		var height: float = maxf(1.0, HP_BAR_Y - sprite_top_y)
 		var shape := collision_shape.shape as RectangleShape2D
 		if shape:
-			shape.size = Vector2(bounds.size.x * absf(sprite.scale.x), bounds.size.y * absf(sprite.scale.y))
+			shape.size = Vector2(bar_width, height)
+		collision_shape.position = Vector2(0, (sprite_top_y + HP_BAR_Y) * 0.5)
 	if flash_sprite != null:
 		flash_sprite.scale = sprite.scale
 		flash_sprite.position = sprite.position
@@ -675,3 +829,148 @@ func show_floating_number(amount: int, kind: String) -> void:
 	t.tween_property(lbl, "position:y", start_y - 60.0, 1.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	t.parallel().tween_property(lbl, "modulate:a", 0.0, 0.7).set_delay(0.8)
 	t.tween_callback(lbl.queue_free)
+
+func _on_voice_line_used(text: String, audio: AudioStream) -> void:
+	show_voice_line(text, audio)
+
+## Проигрывает озвученную фразу (AbilityResource.voice_lines) и показывает облачко
+## диалога с её текстом над головой спрайта (та же позиция "над головой", что и
+## у show_floating_number: низ спрайта на SPRITE_FEET_Y, вверх на высоту текстуры).
+func show_voice_line(text: String, audio: AudioStream) -> void:
+	_ensure_voice_bubble()
+	_ensure_voice_audio_player()
+	if _voice_hide_tween != null and _voice_hide_tween.is_valid():
+		_voice_hide_tween.kill()
+	_voice_bubble_label.text = text
+	_voice_bubble.modulate.a = 1.0
+	_voice_bubble.visible = true
+	# Ждём кадр разметки: MarginContainer/RichTextLabel с fit_content пересчитывают
+	# размер только на следующем кадре — без этого позиция ниже использует старую
+	# (или нулевую) высоту и облачко на миг залезает на спрайт/съезжает вниз.
+	await get_tree().process_frame
+	_voice_bubble.size = _voice_bubble_margin.size
+	var tex_h := 180.0
+	if sprite.texture:
+		tex_h = sprite.texture.get_size().y * sprite.scale.y
+	var head_y := SPRITE_FEET_Y - tex_h
+	# Хвостик стоит у левого края облака (VOICE_BUBBLE_TAIL_X_RATIO), поэтому облако
+	# сдвинуто вправо относительно головы ровно настолько, чтобы хвостик остался над
+	# головой юнита (там же, где раньше был центр облака).
+	_voice_bubble.position = Vector2(-_voice_bubble.size.x * VOICE_BUBBLE_TAIL_X_RATIO, head_y - VOICE_BUBBLE_GAP_ABOVE_HEAD - _voice_bubble.size.y)
+	_clamp_voice_bubble_to_screen()
+	if audio != null:
+		_voice_audio_player.stream = audio
+		_voice_audio_player.play()
+	var duration := VOICE_BUBBLE_MIN_DURATION
+	if audio != null:
+		duration = maxf(VOICE_BUBBLE_MIN_DURATION, audio.get_length())
+	_voice_hide_tween = create_tween()
+	_voice_hide_tween.tween_interval(duration)
+	_voice_hide_tween.tween_property(_voice_bubble, "modulate:a", 0.0, VOICE_BUBBLE_FADE_DURATION)
+	_voice_hide_tween.tween_callback(func(): _voice_bubble.visible = false)
+
+## Сдвигает облако по горизонтали так, чтобы оно целиком помещалось в видимую
+## область экрана — иначе у юнитов на крайних позициях (особенно позиция 4,
+## ближе всего к правому краю) облако с текстом могло вылезти за экран.
+func _clamp_voice_bubble_to_screen() -> void:
+	var viewport_size: Vector2 = get_viewport().get_visible_rect().size
+	var global_left: float = _voice_bubble.global_position.x
+	var global_right: float = global_left + _voice_bubble.size.x
+	var overflow_right: float = global_right - (viewport_size.x - VOICE_BUBBLE_SCREEN_MARGIN)
+	if overflow_right > 0.0:
+		_voice_bubble.position.x -= overflow_right
+		global_left = _voice_bubble.global_position.x
+	if global_left < VOICE_BUBBLE_SCREEN_MARGIN:
+		_voice_bubble.position.x += VOICE_BUBBLE_SCREEN_MARGIN - global_left
+
+func _ensure_voice_bubble() -> void:
+	if _voice_bubble != null:
+		return
+	var bubble_color := _get_voice_bubble_color()
+	# Настоящее облачко диалога (скруглённый прямоугольник + хвостик), а не просто
+	# прямоугольник — см. Scripts/speech_bubble_shape.gd. Само рисование фона/рамки
+	# вынесено в SpeechBubbleShape; текст внутри раскладывает обычный MarginContainer.
+	_voice_bubble = SpeechBubbleShape.new()
+	_voice_bubble.z_as_relative = false
+	_voice_bubble.z_index = 1000
+	_voice_bubble.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_voice_bubble.fill_color = Color(0.0, 0.0, 0.0, 0.9)
+	_voice_bubble.border_color = bubble_color
+	_voice_bubble.border_width = 2.0
+	_voice_bubble.corner_radius = 10.0
+	_voice_bubble.tail_width = 18.0
+	_voice_bubble.tail_height = 12.0
+	_voice_bubble.tail_x_ratio = VOICE_BUBBLE_TAIL_X_RATIO
+	_voice_bubble_margin = MarginContainer.new()
+	_voice_bubble_margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_voice_bubble_margin.add_theme_constant_override("margin_left", 10)
+	_voice_bubble_margin.add_theme_constant_override("margin_right", 10)
+	_voice_bubble_margin.add_theme_constant_override("margin_top", 6)
+	_voice_bubble_margin.add_theme_constant_override("margin_bottom", 6)
+	_voice_bubble.add_child(_voice_bubble_margin)
+	_voice_bubble_label = RichTextLabel.new()
+	_voice_bubble_label.bbcode_enabled = false
+	_voice_bubble_label.fit_content = true
+	_voice_bubble_label.scroll_active = false
+	_voice_bubble_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_voice_bubble_label.custom_minimum_size = Vector2(VOICE_BUBBLE_WIDTH - 20.0, 0)
+	_voice_bubble_label.add_theme_font_size_override("normal_font_size", 15)
+	_voice_bubble_label.add_theme_color_override("default_color", bubble_color)
+	_voice_bubble_margin.add_child(_voice_bubble_label)
+	_voice_bubble.visible = false
+	add_child(_voice_bubble)
+
+## Цвет текста/рамки облачка реплики для текущего юнита (см. VOICE_BUBBLE_GOD_COLORS).
+## Белый — по умолчанию, для врагов и богов без своего цвета в списке.
+func _get_voice_bubble_color() -> Color:
+	if data == null or data.source_resource_path == "":
+		return Color(1, 1, 1, 1)
+	var folder := data.source_resource_path.get_base_dir().get_file()
+	return VOICE_BUBBLE_GOD_COLORS.get(folder, Color(1, 1, 1, 1))
+
+func _ensure_voice_audio_player() -> void:
+	if _voice_audio_player != null:
+		return
+	_voice_audio_player = AudioStreamPlayer.new()
+	add_child(_voice_audio_player)
+
+## Вспышка эффекта способности (напр. молния Зевса) поверх спрайта ЭТОГО юнита —
+## плавно проявляется за ATTACK_FLASH_FADE_DURATION, потом так же плавно исчезает.
+## Вызывается battle_scene.gd на визуале ЦЕЛИ удара, а не атакующего. Каждый вызов
+## создаёт СВОЙ независимый узел и сам его удаляет по завершении — так несколько
+## ударов подряд по одной и той же цели (Гнев Бога Грома, Нескончаемый шторм) каждый
+## получает отдельную, самостоятельную анимацию, а не делят один и тот же узел/твин
+## (что обрывало бы предыдущую вспышку при следующем ударе). Размер — по реальной
+## (непрозрачной) высоте спрайта цели, как у обычных вражеских спрайтов, умноженной
+## на scale_mult (AbilityResource.attack_effect_scale — по умолчанию 1.0, у молнии
+## Зевса 2.0, крупнее для лучшей читаемости). Высокий z_index (как у
+## show_floating_number) — рисуется поверх любых спрайтов на поле.
+func show_attack_effect_flash(texture: Texture2D, scale_mult: float = 1.0) -> void:
+	if texture == null:
+		return
+	var flash := TextureRect.new()
+	flash.z_as_relative = false
+	flash.z_index = 1001
+	flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# EXPAND_IGNORE_SIZE — иначе TextureRect игнорирует .size и всегда рисует
+	# картинку в её родном (огромном, до масштабирования) размере текстуры.
+	flash.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	flash.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	flash.texture = texture
+	add_child(flash)
+	var tex_h: float = _get_scaled_opaque_height()
+	if tex_h <= 0.0:
+		tex_h = 180.0
+	tex_h *= maxf(0.01, scale_mult)
+	var tex_w: float = tex_h * (float(texture.get_width()) / float(maxi(1, texture.get_height())))
+	flash.size = Vector2(tex_w, tex_h)
+	flash.position = Vector2(-tex_w * 0.5, SPRITE_FEET_Y - tex_h)
+	flash.modulate.a = 0.0
+	var tween := create_tween()
+	# Бой стоит на паузе (Engine.time_scale=0), пока эта же вспышка не доиграет —
+	# см. battle_scene.gd::_adjust_attack_effect_count(). Без ignore_time_scale твин
+	# застрял бы на середине своей же собственной паузы и никогда бы не закончился.
+	tween.set_ignore_time_scale(true)
+	tween.tween_property(flash, "modulate:a", 1.0, ATTACK_FLASH_FADE_DURATION)
+	tween.tween_property(flash, "modulate:a", 0.0, ATTACK_FLASH_FADE_DURATION)
+	tween.tween_callback(flash.queue_free)

@@ -75,6 +75,7 @@ script = ExtResource("2_jhc6r")
 choice_id = "chosen_world"
 choice_text = "Выбранный мир"
 next_line_id = "chosen_world_1"
+required_mission_path = "res://Missions/Desert/welcome_to_desert.tres"
 
 [sub_resource type="Resource" id="Resource_7gdbg"]
 script = ExtResource("1_q2cd5")

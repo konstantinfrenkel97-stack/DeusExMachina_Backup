@@ -11,6 +11,8 @@
 [resource]
 script = ExtResource("7_cr")
 unit_name = "Сусаноо"
+role_description = "Мобильный убийца с небольшим здоровьем, но очень высоким уроном"
+priority_positions = Array[int]([1, 2])
 sprite_path = "res://Gods/Susanoo/Susanoo.png"
 face_sprite = "res://Gods/Susanoo/Susanoo_face.png"
 campaign_dialogue_path = "res://Dialogues/Gods_dialogue/Susanoo_dialogue_1.tres"

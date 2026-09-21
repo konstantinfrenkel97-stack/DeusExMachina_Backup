@@ -2,14 +2,20 @@
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
 
+[ext_resource type="Texture2D" path="res://Ability_pics/Blue_slash.png" id="anim_fx"]
+[ext_resource type="AudioStream" path="res://Sounds/sword-slash_NkdUSLZ.mp3" id="anim_sfx"]
+
 [resource]
 script = ExtResource("1_ab")
 name = "Смертельный удар"
 description = "Стойка: в начале следующего хода атакует случайного врага, нанося 60% его текущего здоровья."
+damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"
 is_stance = true
 stance_effect_type = "jester_deadly_strike"
 stance_duration_type = "UntilNextTurn"
 usable_from_positions = Array[bool]([false, false, true, true])
+attack_effect_texture = ExtResource("anim_fx")
+attack_sfx = ExtResource("anim_sfx")
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

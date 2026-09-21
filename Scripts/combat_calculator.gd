@@ -4,10 +4,16 @@
 class_name CombatCalculator
 
 
+## Шанс попадания (точность vs уклонение), как доля 0.1..1.0 — без броска кубика.
+## Вынесено из check_hit(), чтобы UI мог показать игроку тот же процент, который
+## реально используется при разрешении атаки (предпросмотр цели при наведении).
+static func get_hit_chance(attacker_accuracy: int, target_evasion: int) -> float:
+	return clampf(float(attacker_accuracy - target_evasion) / 100.0, 0.1, 1.0)
+
+
 ## Проверка попадания (точность vs уклонение).
 static func check_hit(attacker_accuracy: int, target_evasion: int) -> bool:
-	var hit_chance := clampf(float(attacker_accuracy - target_evasion) / 100.0, 0.1, 1.0)
-	return randf() <= hit_chance
+	return randf() <= get_hit_chance(attacker_accuracy, target_evasion)
 
 
 ## Проверка критического удара.
@@ -19,7 +25,7 @@ static func check_crit(crit_chance: float) -> bool:
 static func apply_armor(raw_damage: int, armor_percent: int) -> int:
 	if raw_damage <= 0:
 		return 0
-	var reduction := clampf(float(armor_percent) / 100.0, 0.0, 0.95)
+	var reduction := clampf(float(armor_percent) / 100.0, 0.0, 1.0)
 	return maxi(0, int(raw_damage * (1.0 - reduction)))
 
 
@@ -83,6 +89,54 @@ static func calculate_ability_damage(attacker: Combatant, target: Combatant, abi
 		"raw_damage": raw_damage, "final_damage": final_damage,
 		"hp_before": hp_before
 	}
+
+
+## Детерминированный предпросмотр урона способности по цели — для UI при наведении
+## на цель (ДО того, как игрок подтвердил атаку). В отличие от calculate_ability_damage:
+## — НЕ бросает попадание (вызывающий сам решает, показывать урон только «в случае
+##   попадания», см. get_hit_chance());
+## — считает крит гарантированным ТОЛЬКО если attacker.crit_chance >= 1.0 (100%),
+##   иначе крит не учитывается вовсе — по умолчанию превью консервативное и
+##   воспроизводимое, а не случайный ролл.
+## Прочая математика (позиционный бонус, множитель боя, броня и т.п.) — как в
+## calculate_ability_damage, чтобы число на экране совпадало с реальным исходом
+## некритического попадания.
+static func preview_ability_damage(attacker: Combatant, target: Combatant, ability: AbilityResource) -> int:
+	var base_dmg := attacker.damage * ability.damage_modifier
+	var target_pos_for_modifier := target.position_index
+	if target.is_large and attacker.special_effect_type == "zeus_position_bonus":
+		var back_pos := target.position_index + 1
+		if ability.targetable_positions.size() > back_pos and ability.targetable_positions[back_pos]:
+			target_pos_for_modifier = back_pos
+	var position_bonus := attacker.get_damage_modifier(target_pos_for_modifier)
+	var total_damage := int(base_dmg * position_bonus)
+
+	if attacker.special_effect_type == "nanau_bloodlust":
+		for e in target.active_effects:
+			if Combatant._effect_get(e, "stat", "") == "periodic_damage":
+				total_damage = int(total_damage * 1.5)
+				break
+
+	if target.is_boss and attacker.has_item_effect("parricide_scythe_boss_damage"):
+		total_damage = int(total_damage * 1.2)
+
+	var battle_dmg_mult := CombatManager.get_damage_multiplier()
+	if battle_dmg_mult != 1.0:
+		total_damage = int(total_damage * battle_dmg_mult)
+
+	var is_crit := attacker.crit_chance >= 1.0
+	var crit_mult := CombatManager.get_crit_multiplier() if is_crit else 1.0
+	var raw_damage := int(total_damage * crit_mult)
+
+	var _crit_ignores_armor := is_crit and attacker.has_item_effect("loki_pure_crit")
+	var final_damage := raw_damage
+	if ability.damage_type == "Physical" and not CombatManager.is_armor_ignored() and not _crit_ignores_armor:
+		var _eff_armor := target.armor
+		if attacker.special_effect_type == "giant_armor_pierce":
+			_eff_armor = int(target.armor * 0.5)
+		final_damage = apply_armor(raw_damage, _eff_armor)
+
+	return final_damage
 
 
 ## Расчёт фиксированного удара (для пассивок: thunder_wrath, storm_marks).

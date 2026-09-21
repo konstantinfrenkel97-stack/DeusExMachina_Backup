@@ -6,6 +6,7 @@
 script = ExtResource("1_ab")
 name = "Кара с небес"
 description = "Назад 1. Получаю +10 точности и +10 удачи до конца боя."
+damage_modifier = 0.0
 majesty_gain = 0
 ability_marker = "pegasus_judgment"
 target_type = "Self"

@@ -11,6 +11,8 @@
 [resource]
 script = ExtResource("7_cr")
 unit_name = "Локи"
+role_description = "Убийца с высоким уклонением, сильным критом и ослаблениями"
+priority_positions = Array[int]([2, 3])
 sprite_path = "res://Gods/Loki/Loki.png"
 face_sprite = "res://Gods/Loki/Loki_Face.png"
 battle_sprite_scale_percent = 88.0

@@ -1,13 +1,29 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://hadslct0001"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_sc"]
+[ext_resource type="Script" path="res://voice_line_resource.gd" id="2_vl"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Hades/04_get_over_here.mp3" id="3_v1"]
+[ext_resource type="AudioStream" path="res://Sounds/Voices/Hades/05_stay_in_line.mp3" id="4_v2"]
+
+[sub_resource type="Resource" id="voice_soul_catcher_1"]
+script = ExtResource("2_vl")
+audio = ExtResource("3_v1")
+text = "Иди сюда."
+metadata/_custom_type_script = ExtResource("2_vl")
+
+[sub_resource type="Resource" id="voice_soul_catcher_2"]
+script = ExtResource("2_vl")
+audio = ExtResource("4_v2")
+text = "Стой в строю."
+metadata/_custom_type_script = ExtResource("2_vl")
 
 [resource]
 script = ExtResource("1_sc")
 icon_path = "uid://cs5kg8xp3gsye"
 name = "Ловец душ"
-description = "Союзник восстанавливает 15% максимального здоровья. Тратит 15 фантазии."
+description = ""
 damage_modifier = 0.0
 target_type = "Ally"
 ability_marker = "hades_soul_catcher"
+voice_lines = Array[ExtResource("2_vl")]([SubResource("voice_soul_catcher_1"), SubResource("voice_soul_catcher_2")])
 metadata/_custom_type_script = "uid://bthajoj5kgfln"

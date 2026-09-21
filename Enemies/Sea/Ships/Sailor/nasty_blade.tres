@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_nb")
 name = "Подлая заточка"
-description = "Наносит 100% урона."
+description = "Наносит 100% урона. При промахе получает 15 уклонения на 2 хода."
 damage_modifier = 1.0
 majesty_gain = 0
 condition = "OnMiss"

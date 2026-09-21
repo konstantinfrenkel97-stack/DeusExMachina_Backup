@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3]
+
+[ext_resource type="Script" path="res://Items/item_resource.gd" id="item_script"]
+
+[resource]
+script = ExtResource("item_script")
+metadata/_custom_type_script = ExtResource("item_script")
+item_name = "Друидическое зелье силы"
+item_type = 2
+rarity = 1
+description = "Редкая безделушка. В начале боя даёт носителю +20 атаки на первый раунд."
+effect = "druidic_potion_of_strength"

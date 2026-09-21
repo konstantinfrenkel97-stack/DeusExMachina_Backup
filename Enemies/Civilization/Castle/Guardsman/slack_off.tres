@@ -6,6 +6,7 @@
 script = ExtResource("1_ab")
 name = "Отлынивать"
 description = "Восстанавливает 15% HP и получает +15 уклонения на 2 хода."
+damage_modifier = 0.0
 majesty_gain = 0
 target_type = "Self"
 effect_types = Array[String](["self_heal_percent", "self_buff_evasion"])

@@ -1,9 +1,13 @@
 [gd_resource type="Resource" script_class="AbilityResource" format=3 uid="uid://ks338o1m3bii"]
 
 [ext_resource type="Script" uid="uid://bthajoj5kgfln" path="res://ability_resource.gd" id="1_ab"]
+[ext_resource type="Texture2D" path="res://Ability_pics/Serpent_bite.png" id="2_fx"]
+[ext_resource type="AudioStream" path="res://Sounds/hammer_hit_flesh.wav" id="3_sfx"]
 
 [resource]
 script = ExtResource("1_ab")
+attack_effect_texture = ExtResource("2_fx")
+attack_sfx = ExtResource("3_sfx")
 name = "Змеиный укус"
 description = "0.3 урона. Цель получает периодический урон (30) на 4 хода."
 damage_modifier = 0.3
