@@ -31,6 +31,9 @@ var combat_log_expanded_default: bool = false
 # Множитель скорости боя (Engine.time_scale, включается только в battle_scene.gd).
 var battle_speed: float = 1.0
 const BATTLE_SPEED_OPTIONS: Array[float] = [1.0, 1.5, 2.0]
+# Обучающие подсказки — глобальная настройка игрока, а не часть сохранения: переживает
+# «Новую игру» и загрузку (см. CampaignState.tutorial_disabled — это её инвертированный вид).
+var tutorial_hints_enabled: bool = true
 
 # ── Язык (см. Localization autoload — реально переключает TranslationServer) ──
 var language: String = "ru"
@@ -79,6 +82,7 @@ func _load() -> void:
 	confirm_before_surrender = bool(cfg.get_value("gameplay", "confirm_before_surrender", confirm_before_surrender))
 	combat_log_expanded_default = bool(cfg.get_value("gameplay", "combat_log_expanded_default", combat_log_expanded_default))
 	battle_speed = float(cfg.get_value("gameplay", "battle_speed", battle_speed))
+	tutorial_hints_enabled = bool(cfg.get_value("gameplay", "tutorial_hints_enabled", tutorial_hints_enabled))
 	language = str(cfg.get_value("language", "value", language))
 
 
@@ -96,6 +100,7 @@ func _save() -> void:
 	cfg.set_value("gameplay", "confirm_before_surrender", confirm_before_surrender)
 	cfg.set_value("gameplay", "combat_log_expanded_default", combat_log_expanded_default)
 	cfg.set_value("gameplay", "battle_speed", battle_speed)
+	cfg.set_value("gameplay", "tutorial_hints_enabled", tutorial_hints_enabled)
 	cfg.set_value("language", "value", language)
 	cfg.save(SETTINGS_PATH)
 
@@ -241,6 +246,11 @@ func set_confirm_before_surrender(value: bool) -> void:
 
 func set_combat_log_expanded_default(value: bool) -> void:
 	combat_log_expanded_default = value
+	_changed()
+
+
+func set_tutorial_hints_enabled(value: bool) -> void:
+	tutorial_hints_enabled = value
 	_changed()
 
 

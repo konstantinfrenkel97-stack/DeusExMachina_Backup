@@ -165,6 +165,9 @@ var _enemies_died_this_round: bool = false       # Замок: Рыцарь «О
 func _ready():
 	randomize()
 	Engine.time_scale = GameSettings.battle_speed
+	# Смена скорости боя через «Настройки» прямо во время боя применяется сразу
+	# (с учётом паузы: во время вспышки/звука удара time_scale остаётся 0).
+	GameSettings.settings_changed.connect(_refresh_battle_pause_time_scale)
 	_combat_log_collapsed = not GameSettings.combat_log_expanded_default
 	# Бесконечная библиотека — "Читать книги" даёт постоянный бонус к максимальной фантазии.
 	max_fantasy += CampaignState.library_max_fantasy_bonus
@@ -299,6 +302,8 @@ func _adjust_attack_effect_count(delta: int) -> void:
 ## Возвращает глобальную скорость движка к норме при выходе из боя (см. GameSettings.battle_speed
 ## в _ready()) — иначе она "утекала" бы в меню и другие экраны после боя/сдачи.
 func _exit_tree() -> void:
+	if GameSettings.settings_changed.is_connected(_refresh_battle_pause_time_scale):
+		GameSettings.settings_changed.disconnect(_refresh_battle_pause_time_scale)
 	Engine.time_scale = 1.0
 	# Безусловно (не только для миссий) — если это был не миссионный бой, у
 	# MusicManager просто нечего возобновлять, вызов тогда ничего не делает.

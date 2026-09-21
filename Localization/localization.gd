@@ -56,6 +56,20 @@ func set_language(locale: String) -> void:
 	TranslationServer.set_locale(current_locale)
 	language_changed.emit(current_locale)
 
+## Языки, для которых в game.csv есть хотя бы один перевод (русский — всегда, это исходный
+## текст игры). Пока таблица пуста, выбор языка в настройках скрыт: без переводов
+## переключение ничего бы не меняло.
+func get_available_locales() -> Array[String]:
+	var out: Array[String] = [DEFAULT_LOCALE]
+	for locale: String in SUPPORTED_LOCALES:
+		if locale == DEFAULT_LOCALE:
+			continue
+		for entry_value: Variant in _translations.values():
+			if entry_value is Dictionary and str((entry_value as Dictionary).get(locale, "")).strip_edges() != "":
+				out.append(locale)
+				break
+	return out
+
 func t(key: String, fallback: String = "") -> String:
 	var clean_key: String = key.strip_edges()
 	if clean_key == "":

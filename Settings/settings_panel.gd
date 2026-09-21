@@ -81,10 +81,9 @@ func _ready() -> void:
 	_add_battle_speed_row(game_tab)
 	_add_checkbox_row(game_tab, "Подтверждать сдачу боя", GameSettings.confirm_before_surrender, GameSettings.set_confirm_before_surrender)
 	_add_checkbox_row(game_tab, "Боевой лог развёрнут по умолчанию", GameSettings.combat_log_expanded_default, GameSettings.set_combat_log_expanded_default)
-	# Инвертировано: чекбокс показывает "показывать подсказки", а хранится
-	# CampaignState.tutorial_disabled — так его можно снова включить после того, как
-	# игрок отключил все подсказки кнопкой "Убрать подсказки" в справке (кнопка "?").
-	_add_checkbox_row(game_tab, "Показывать обучающие подсказки", not CampaignState.tutorial_disabled, func(pressed: bool): CampaignState.tutorial_disabled = not pressed)
+	# Глобальная настройка: её же выключает кнопка "Убрать подсказки" в справке (кнопка "?"),
+	# а здесь подсказки можно снова включить.
+	_add_checkbox_row(game_tab, "Показывать обучающие подсказки", GameSettings.tutorial_hints_enabled, GameSettings.set_tutorial_hints_enabled)
 
 	var buttons := HBoxContainer.new()
 	buttons.add_theme_constant_override("separation", 12)
@@ -290,6 +289,10 @@ func _add_max_fps_row(vbox: VBoxContainer) -> void:
 
 
 func _add_language_row(vbox: VBoxContainer) -> void:
+	# Показываем только языки, для которых есть переводы (см. Localization.get_available_locales).
+	var available: Array[String] = Localization.get_available_locales()
+	if available.size() < 2:
+		return
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 12)
 	vbox.add_child(row)
@@ -302,14 +305,17 @@ func _add_language_row(vbox: VBoxContainer) -> void:
 	var option := OptionButton.new()
 	option.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var current_index := 0
-	for i in range(LANGUAGE_OPTIONS.size()):
-		var entry: Array = LANGUAGE_OPTIONS[i]
+	var shown_locales: Array[String] = []
+	for entry: Array in LANGUAGE_OPTIONS:
+		if not available.has(str(entry[0])):
+			continue
 		option.add_item(str(entry[1]))
 		if str(entry[0]) == GameSettings.language:
-			current_index = i
+			current_index = shown_locales.size()
+		shown_locales.append(str(entry[0]))
 	option.selected = current_index
 	option.item_selected.connect(func(index: int):
-		GameSettings.set_language(str(LANGUAGE_OPTIONS[index][0]))
+		GameSettings.set_language(shown_locales[index])
 	)
 	row.add_child(option)
 

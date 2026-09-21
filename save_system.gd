@@ -111,7 +111,6 @@ func _collect_state() -> Dictionary:
 		"room_hints_shown": CampaignState.room_hints_shown,
 		"god_creation_hint_shown": CampaignState.god_creation_hint_shown,
 		"ask_a_god_hint_shown": CampaignState.ask_a_god_hint_shown,
-		"tutorial_disabled": CampaignState.tutorial_disabled,
 		"visited_locations": CampaignState.visited_locations.duplicate(),
 		"defeated_nemeses": CampaignState.defeated_nemeses.duplicate(),
 		"pending_nemesis_buffs": CampaignState.pending_nemesis_buffs.duplicate(true),
@@ -167,7 +166,6 @@ func _apply_state(data: Dictionary) -> void:
 	CampaignState.room_hints_shown = bool(campaign.get("room_hints_shown", false))
 	CampaignState.god_creation_hint_shown = bool(campaign.get("god_creation_hint_shown", false))
 	CampaignState.ask_a_god_hint_shown = bool(campaign.get("ask_a_god_hint_shown", false))
-	CampaignState.tutorial_disabled = bool(campaign.get("tutorial_disabled", false))
 	CampaignState.visited_locations = _to_string_array(campaign.get("visited_locations", []))
 	CampaignState.defeated_nemeses = _to_string_array(campaign.get("defeated_nemeses", []))
 	var loaded_nemesis_buffs: Variant = campaign.get("pending_nemesis_buffs", [])

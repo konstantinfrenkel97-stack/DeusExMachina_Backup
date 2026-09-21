@@ -50,9 +50,15 @@ var god_creation_hint_shown: bool = false
 ## пока какой-то бог реально не откроет дверь — см. opened_locations.
 var ask_a_god_hint_shown: bool = false
 ## Кнопка "Отключить обучение" на любой подсказке — полностью выключает всю
-## обучающую систему (см. TutorialHint.present()). Одноразовое решение игрока,
-## без отдельного UI для повторного включения.
-var tutorial_disabled: bool = false
+## обучающую систему (см. TutorialHint.present()). Это глобальная настройка игрока
+## (GameSettings.tutorial_hints_enabled, переключается и в «Настройках»), поэтому здесь
+## только инвертированный вид без собственного хранилища: не сбрасывается «Новой игрой»
+## и не зависит от того, какое сохранение загружено.
+var tutorial_disabled: bool:
+	get:
+		return not GameSettings.tutorial_hints_enabled
+	set(value):
+		GameSettings.set_tutorial_hints_enabled(not value)
 ## Локации (CombatManager.selected_location_id), в которых игрок уже бывал хотя
 ## бы раз — для подсказки "у этой локации есть особые свойства" (один раз на
 ## локацию). Не путать с opened_locations — там отображаемые имена локаций,
@@ -463,7 +469,6 @@ func reset_all() -> void:
 	room_hints_shown = false
 	god_creation_hint_shown = false
 	ask_a_god_hint_shown = false
-	tutorial_disabled = false
 	visited_locations.clear()
 	opened_locations.clear()
 	read_dialogue_choices.clear()
