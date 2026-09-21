@@ -31,6 +31,10 @@ class_name CharacterResource
 @export var damage: int = 20
 @export var armor: int = 5
 @export var initiative: int = 3
+## Сколько ходов юнит совершает за раунд (по умолчанию 1). Все ходы идут подряд по одной
+## инициативе; каждый — полноценный ход (триггеры начала/конца хода срабатывают на каждом),
+## а в полоске очереди у юнита столько портретов, сколько у него ходов.
+@export_range(1, 8) var actions_per_round: int = 1
 @export var accuracy: int = 90
 @export var evasion: int = 10
 @export var crit_chance: float = 0.05

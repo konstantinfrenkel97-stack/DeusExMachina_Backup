@@ -1878,18 +1878,38 @@ func _start_new_round():
 	
 	call_deferred("_next_turn")
 
+## Строит очередь ходов раунда. Юнит с несколькими ходами (actions_per_round > 1) стоит в
+## очереди столько раз, сколько ходов ему осталось, — все копии подряд по одной инициативе.
+## Юнит, чей ход идёт прямо сейчас (turn_open), уже вынут из очереди — его текущий ход
+## не считается, чтобы пересборка очереди посреди хода (призыв и т.п.) не добавила лишний.
 func _build_turn_order():
 	turn_order.clear()
+	var _queue_units: Array = []
+	var _queue_index: Dictionary = {}
 	for u in heroes_team + enemies_team:
 		if u and u.current_hp > 0:
+			_queue_index[u] = _queue_units.size()
+			_queue_units.append(u)
+	# При равной инициативе — порядок команд; заодно копии одного юнита всегда идут подряд.
+	_queue_units.sort_custom(func(a, b):
+		if a.initiative != b.initiative:
+			return a.initiative > b.initiative
+		return _queue_index[a] < _queue_index[b]
+	)
+	for u in _queue_units:
+		var copies: int = u.remaining_actions() - (1 if (u.turn_open and u == active_unit) else 0)
+		for _i in range(maxi(copies, 0)):
 			turn_order.append(u)
-	turn_order.sort_custom(func(a, b): return a.initiative > b.initiative)
 
 func _recalculate_turn_order():
 	_build_turn_order()
 	turn_order = turn_order.filter(func(u): return not u.has_acted_this_round)
 
 var _duna_turn_heal: int = 0
+# Номер текущего хода (растёт с каждым ходом любого юнита). Асинхронный ход врага сверяет его
+# после паузы: у юнита с несколькими ходами за раунд «устаревший» вызов завершения прошлого
+# хода иначе закрыл бы его следующий ход раньше времени.
+var _turn_serial: int = 0
 
 func _next_turn():
 	if waiting_for_player or not battle_running:
@@ -1909,6 +1929,8 @@ func _next_turn():
 		return
 	
 	active_unit = turn_order.pop_front()
+	active_unit.turn_open = true
+	_turn_serial += 1
 	_duna_turn_heal = 0
 	
 	if active_unit.current_hp <= 0:
@@ -2198,8 +2220,9 @@ func _run_enemy_turn(monster: Combatant) -> void:
 		_use_ability(monster, decision.target, _used_ability)
 	else:
 		_log_combat("%s не нашёл подходящего действия и пропускает ход." % monster.unit_name)
+	var _serial_at_start: int = _turn_serial
 	await get_tree().create_timer(ENEMY_TURN_DELAY_SEC).timeout
-	if not battle_running:
+	if not battle_running or _serial_at_start != _turn_serial:
 		return
 	_finish_unit_turn(monster)
 
@@ -2434,10 +2457,12 @@ func _update_turn_order_display():
 	for child in _turn_order_row.get_children():
 		child.queue_free()
 	# Порядок: текущий ходящий первым, затем оставшиеся (живые, ещё не ходившие).
-	if active_unit != null and active_unit.current_hp > 0 and not active_unit.has_acted_this_round:
+	if active_unit != null and active_unit.current_hp > 0 and active_unit.turn_open and not active_unit.has_acted_this_round:
 		_add_turn_portrait(active_unit, true)
+	# Юнит с несколькими ходами повторяется в полосе столько раз, сколько ходов у него осталось
+	# (в том числе ближайшие ходы того, кто ходит сейчас).
 	for u in turn_order:
-		if u != null and u.current_hp > 0 and not u.has_acted_this_round and u != active_unit:
+		if u != null and u.current_hp > 0 and not u.has_acted_this_round:
 			_add_turn_portrait(u, false)
 
 ## Добавляет один портрет юнита в полосу очереди (лицо; запасной — спрайт/имя).
@@ -2593,7 +2618,10 @@ func _on_skip_turn_pressed():
 
 func _defer_active_unit_turn():
 	var unit = active_unit
-	turn_order.erase(unit)
+	# Ход отложен, а не завершён: его место занимает копия в очереди ниже, поэтому turn_open
+	# снимаем (иначе пересборка очереди «съела» бы один ход). Из очереди самого юнита здесь
+	# ничего не удаляем: у юнита с несколькими ходами там лежат его СЛЕДУЮЩИЕ ходы.
+	unit.turn_open = false
 	unit.wait_action()
 	unit.round_wait_stamp = wait_counter
 	wait_counter += 1
@@ -2867,7 +2895,7 @@ func _finish_unit_turn(unit: Combatant):
 	# Идемпотентность: если для этого юнита ход уже завершался в этом раунде (гонка
 	# между ожидающей AI-корутиной и случайным повторным кликом — см. баг-репорт про
 	# "боги ходят сами"), повторный вызов не должен снова тикать эффекты/двигать очередь.
-	if unit.has_acted_this_round:
+	if unit.has_acted_this_round or not unit.turn_open:
 		return
 	unit.tick_effects()
 	if unit.current_hp <= 0:
@@ -2901,7 +2929,12 @@ func _finish_unit_turn(unit: Combatant):
 			_log_combat("🌿 [Дану] %s восстановила %d HP за ход → +%d урона на %d хода." % [unit.unit_name, _duna_turn_heal, _dh_buff, _dh_duration])
 		_duna_turn_heal = 0
 	_update_all_visuals()
-	unit.has_acted_this_round = true
+	# Ход завершён; has_acted_this_round ставится только после последнего хода раунда
+	# (у обычного юнита с одним ходом — сразу, как и раньше).
+	unit.actions_taken_this_round += 1
+	unit.turn_open = false
+	if unit.actions_taken_this_round >= unit.actions_per_round:
+		unit.has_acted_this_round = true
 	waiting_for_player = false
 	waiting_for_target = false
 	_waiting_for_spell_target = false
@@ -6665,7 +6698,7 @@ func _on_unit_killed(victim: Combatant, log_lines: Array = []):
 	# Арт погибшего убирается со сцены, чтобы он не перекрывал живых юнитов.
 	_remove_visual_for_unit(victim)
 	# Убираем погибшего из очереди ходов и обновляем полосу.
-	turn_order.erase(victim)
+	turn_order = turn_order.filter(func(u): return u != victim)
 	_update_turn_order_display()
 
 ## Проверяет, есть ли живой юнит с указанной пассивкой в команде
