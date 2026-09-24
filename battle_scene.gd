@@ -319,6 +319,7 @@ func _apply_pending_mission_modifiers() -> void:
 	_apply_modifier_list(CombatManager.pending_hero_modifiers, heroes_team)
 	_apply_pending_mission_party_effects()
 	_apply_pending_nemesis_buffs()
+	_apply_pending_nemesis_enemy_effects()
 	_apply_battle_start_item_effects()
 	_rum_spell_whole_team_active = CombatManager.pending_rum_spell_whole_team
 	CombatManager.pending_rum_spell_whole_team = false
@@ -371,6 +372,67 @@ func _apply_pending_nemesis_buffs() -> void:
 		consumed.append(entry)
 	for entry in consumed:
 		CampaignState.pending_nemesis_buffs.erase(entry)
+
+
+## Немезис: отложенные эффекты на ВРАЖЕСКУЮ сторону боя (CampaignState.pending_nemesis_enemy_effects)
+## — в отличие от _apply_pending_nemesis_buffs() выше (баффует своего бога), эти трогают самого
+## немезида и его свиту. Срабатывает один раз, сразу после спавна врагов, до первого раунда.
+func _apply_pending_nemesis_enemy_effects() -> void:
+	if CampaignState.pending_nemesis_enemy_effects.is_empty():
+		return
+	var location_id: String = CombatManager.selected_location_id
+	if location_id == "":
+		return
+	var next_nemesis_path := CampaignState.get_next_nemesis_path(location_id)
+	if next_nemesis_path == "":
+		return
+	var nemesis_unit: Combatant = null
+	for enemy in enemies_team:
+		if enemy != null and enemy.source_resource_path == next_nemesis_path:
+			nemesis_unit = enemy
+			break
+	if nemesis_unit == null:
+		return
+	var consumed: Array = []
+	var cursed_targets: Array = []  # чтобы несколько «вуду»-исходов не выбрали одну и ту же цель
+	for entry_value in CampaignState.pending_nemesis_enemy_effects:
+		if not (entry_value is Dictionary):
+			continue
+		var entry: Dictionary = entry_value
+		if str(entry.get("location_id", "")) != location_id:
+			continue
+		var kind: String = str(entry.get("kind", ""))
+		var value: float = float(entry.get("value", 0.0))
+		match kind:
+			"nemesis_hp_percent":
+				if nemesis_unit.current_hp > 0:
+					var _nhp_dmg: int = int(nemesis_unit.max_hp * value / 100.0)
+					if _nhp_dmg > 0:
+						var _nhp_before: int = nemesis_unit.current_hp
+						nemesis_unit.take_damage(_nhp_dmg)
+						_log_combat("⚡ [Немезис] %s теряет %d HP (%d%%) ещё до начала боя. HP: %d → %d" % [nemesis_unit.unit_name, _nhp_dmg, int(value), _nhp_before, nemesis_unit.current_hp])
+			"others_hp_percent":
+				for other in enemies_team:
+					if other != null and other != nemesis_unit and other.current_hp > 0:
+						var _ohp_dmg: int = int(other.max_hp * value / 100.0)
+						if _ohp_dmg > 0:
+							var _ohp_before: int = other.current_hp
+							other.take_damage(_ohp_dmg)
+							_log_combat("⚡ [Немезис] %s теряет %d HP (%d%%) ещё до начала боя. HP: %d → %d" % [other.unit_name, _ohp_dmg, int(value), _ohp_before, other.current_hp])
+			"voodoo_curse_random_except_nemesis":
+				var candidates: Array = []
+				for other in enemies_team:
+					if other != null and other != nemesis_unit and other.current_hp > 0 and not cursed_targets.has(other):
+						candidates.append(other)
+				if not candidates.is_empty() and nemesis_unit.current_hp > 0:
+					var chosen: Combatant = candidates.pick_random()
+					cursed_targets.append(chosen)
+					marks.apply_voodoo_mark(nemesis_unit, chosen, 1)
+		consumed.append(entry)
+	for entry in consumed:
+		CampaignState.pending_nemesis_enemy_effects.erase(entry)
+	if not consumed.is_empty():
+		_update_all_visuals()
 
 
 ## Друидическое зелье силы (Items/Trinkets/Rare/druidic_potion_of_strength.tres):

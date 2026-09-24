@@ -519,6 +519,16 @@ func _apply_outcome_mission_effects(outcome) -> void:
 			var nemesis_god_path: String = str(_res_prop(nemesis_god, "resource_path", ""))
 			if nemesis_god_path != "":
 				CampaignState.add_pending_nemesis_buff(nemesis_location_id, nemesis_god_path, nemesis_majesty, nemesis_buff_stat, nemesis_buff_value, nemesis_buff_duration)
+	var nemesis_enemy_hp_pct: int = int(_res_prop(outcome, "nemesis_enemy_hp_percent", 0))
+	var nemesis_others_hp_pct: int = int(_res_prop(outcome, "nemesis_others_hp_percent", 0))
+	var nemesis_voodoo_curse: bool = bool(_res_prop(outcome, "nemesis_voodoo_curse_random", false))
+	if nemesis_location_id != "":
+		if nemesis_enemy_hp_pct != 0:
+			CampaignState.add_pending_nemesis_enemy_effect(nemesis_location_id, "nemesis_hp_percent", nemesis_enemy_hp_pct)
+		if nemesis_others_hp_pct != 0:
+			CampaignState.add_pending_nemesis_enemy_effect(nemesis_location_id, "others_hp_percent", nemesis_others_hp_pct)
+		if nemesis_voodoo_curse:
+			CampaignState.add_pending_nemesis_enemy_effect(nemesis_location_id, "voodoo_curse_random_except_nemesis")
 	_apply_rest_counter_effects(outcome)
 
 ## Счётчик отдыха (см. MissionOutcome — поля rest_counter_*). Порядок важен: сперва

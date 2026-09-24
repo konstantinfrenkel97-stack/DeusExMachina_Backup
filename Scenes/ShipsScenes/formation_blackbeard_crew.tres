@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="FormationResource" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="1_fr"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Ships/Filibuster/filibuster.tres" id="2_fil"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Ships/Sailor/sailor.tres" id="3_sailor"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Ships/Sailor_with_barrel/sailor_with_barrel.tres" id="4_barrel"]
+
+[resource]
+script = ExtResource("1_fr")
+formation_name = "Флибустьер — матрос — матрос с бочкой"
+pos1 = ExtResource("2_fil")
+pos2 = ExtResource("3_sailor")
+pos3 = ExtResource("4_barrel")
+pos4 = null

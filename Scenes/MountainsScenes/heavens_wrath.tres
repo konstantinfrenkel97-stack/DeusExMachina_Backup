@@ -1,0 +1,141 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="s_scene"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="s_choice"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="s_outcome"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="s_reward"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="s_check"]
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="s_battle"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="s_formation"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="s_buff"]
+[ext_resource type="Resource" path="res://Gods/Zeus/Zeus.tres" id="r_zeus"]
+
+[sub_resource type="Resource" id="check_1"]
+script = ExtResource("s_check")
+stat = 3
+stat_label = "Уклонение"
+metadata/_custom_type_script = ExtResource("s_check")
+
+[sub_resource type="Resource" id="outcome_2"]
+script = ExtResource("s_outcome")
+result_text = "Гром становится все яростнее.
+\"ЗЕВС! ЗЕВС! ЗЕВС!\"
+Голубой свет молний бушует в черноте туч и обрисовывает силуэт - согнутый человек, держащий на плечах шар невероятной величины, вам даже не видно верхний конец шара, он исчезает в облаках.
+
+Но у вас нет времени разглядывать удивительную картину, вы ныряете за каменный выступ и в этот момент у вас над головами с треском проносится голубая молния. Знакомая. Прямо такая как у Зевса. Кто-то, силуэт в облаках завладел его силой. И он видел вас, он знает вас. И едва ли его можно назвать дружелюбным.
+
+Вам известен ваш Немезис."
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="outcome_3"]
+script = ExtResource("s_outcome")
+result_text = "Гром становится все яростнее.
+\"ЗЕВС! ЗЕВС! ЗЕВС!\"
+Голубой свет молний бушует в черноте туч и обрисовывает силуэт - согнутый человек, держащий на плечах шар невероятной величины, вам даже не видно верхний конец шара, он исчезает в облаках.
+
+Лишь на секунду ваш взгляд задержался, и этого времени хватило. В вас с треском ударяет молния. Голубая, обжигающая, знакомая. Молния Зевса. Кожа чернеет. Будь на вашем месте смертный, его бы мгновенно убило.
+
+Вы приходите в себя и прячетесь за каменный выступ. Фигура с шаром на плечах что многократно больше его самого, овладевший магией Зевса. Он знает вас, и он вас атаковал. Путешествие по горам только что стало гораздо опаснее.
+
+Вам известен ваш Немезис."
+hero_hp_percent_delta = -5
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_4"]
+script = ExtResource("s_choice")
+choice_text = "Убираться отсюда подобру-поздорову"
+stat_check = SubResource("check_1")
+success_outcome = SubResource("outcome_2")
+failure_outcome = SubResource("outcome_3")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="check_5"]
+script = ExtResource("s_check")
+stat = 4
+stat_label = "Точность"
+difficulty = 70
+metadata/_custom_type_script = ExtResource("s_check")
+
+[sub_resource type="Resource" id="outcome_6"]
+script = ExtResource("s_outcome")
+result_text = "Гром становится все яростнее.
+\"ЗЕВС! ЗЕВС! ЗЕВС!\"
+Голубой свет молний бушует в черноте туч и обрисовывает силуэт - согнутый человек, держащий на плечах шар невероятной величины, вам даже не видно верхний конец шара, он исчезает в облаках.
+
+Вы не дожидаетесь пока он обрушит на вас очередную молнию и первыми швыряете заклинание в середину туч. В тот же момент, на вас обрушивается молния. Трескучая, голубая, знакомая. Молния Зевса. Едва придя в себя вы прячетесь за каменный выступ, а у вас над головами пролетает еще одна молния. Потом еще и еще. Что же до вашей атаки, то вы не уверены, достигла ли она вообще своей цели. И не похоже что сможете узнать.
+
+Но одно вам точно известно - у вас появился враг, и враг очень опасный.
+
+Вам известен ваш Немезис."
+hero_hp_percent_delta = -5
+nemesis_enemy_hp_percent = 2
+nemesis_buff_location_id = "mountains"
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="outcome_7"]
+script = ExtResource("s_outcome")
+result_text = "Гром становится все яростнее.
+\"ЗЕВС! ЗЕВС! ЗЕВС!\"
+Голубой свет молний бушует в черноте туч и обрисовывает силуэт - согнутый человек, держащий на плечах шар невероятной величины, вам даже не видно верхний конец шара, он исчезает в облаках.
+
+Вы не дожидаетесь пока он обрушит на вас очередную молнию и первыми швыряете заклинание в середину туч. В тот же момент, на вас обрушивается молния. Трескучая, голубая, знакомая. Молния Зевса. Едва придя в себя вы прячетесь за каменный выступ, а у вас над головами пролетает еще одна молния. Потом еще и еще. Что же до вашей атаки, то вы не уверены, достигла ли она вообще своей цели. И не похоже что сможете узнать.
+
+Но одно вам точно известно - у вас появился враг, и враг очень опасный.
+
+Вам известен ваш Немезис."
+hero_hp_percent_delta = -5
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_8"]
+script = ExtResource("s_choice")
+choice_text = "Метнуть заклинание в тучу"
+stat_check = SubResource("check_5")
+success_outcome = SubResource("outcome_6")
+failure_outcome = SubResource("outcome_7")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="buff_9"]
+script = ExtResource("s_buff")
+stat = 0
+value = 3
+duration = -1
+metadata/_custom_type_script = ExtResource("s_buff")
+
+[sub_resource type="Resource" id="outcome_10"]
+script = ExtResource("s_outcome")
+result_text = "Зевс выходит вперед. Голубой огонь молний разгорается внутри чёрной синевы туч. Вы видите силуэт. Огромный человек согнутый под весом гигантской сферы. Куда больше его самого, вы даже не видите где она заканчивается. С такого расстояния вы не можете знать, но чувствуете - он смотрит на вас.
+\"Атлант...\"
+\"ЗЕВС!\"
+С треском молния летит из туч в Зевса. Он выставляет руку и ловит голубой луч. Молния бьется и извивается. Гром ударяет вам по барабанным перепонкам. Вы закрываете глаза и зажимаете уши.
+
+Когда открываете - перед вами Зевс. Его рука почернела, в ней он сжимает молнию, мерно мерцающую. \"Не может быть...\"
+Никогда вы не видели владыку Олимпа настолько пораженным. Он смотрит на вас, а на лице его растерянность. Он моргает два раза, и улыбка беззаботности прячет тревогу.
+\"Кто бы мог подумать а? Ну пошли дальше, только давайте между нами и им будет гора, а то я так без рук останусь.\"
+Вы продолжаете путь, Зевс смеется и шутит, но в его шутках сквозит напряжение, и ни один раз он украдкой бросает взгляд туда где вьются тучи.
+
+Вам известен ваш Немезис."
+nemesis_buff_god = ExtResource("r_zeus")
+nemesis_buff_stat = SubResource("buff_9")
+nemesis_buff_location_id = "mountains"
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_11"]
+script = ExtResource("s_choice")
+choice_text = "Поймать молнию"
+required_god = ExtResource("r_zeus")
+outcome = SubResource("outcome_10")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[resource]
+script = ExtResource("s_scene")
+scene_title = "Гнев небес"
+body_text = "Странное погодное явление. Забравшись на вершину одной из гор и оглядывая окрестности, вы видите пик окруженный грозовыми облаками. Темно-синие, почти черные. Они бурлят светом молнии и звуком грома. Вы садитесь отдохнуть. И наблюдаете за странной горой. Нигде больше вы не видите таких густых туч. Тут явно замешана какая-то магия.
+
+А рокот становится громче. Вам даже кажется что в нем слышится какое-то слово. Знакомое слово. Вы вслушиваетесь. Рокот звучит странно. Там действительно слово. Оно повторяется из раза в раз, из-за чего гром звучит так однообразно, что ненормальность происходящего вызывает тревогу. Слово... Вам нужно разобрать одно слово.
+\"ЗЕВС\"
+Из чёрных облаков вылетает молния и ударяет в камень прямо у ваших ног. Черное обугленное пятно, и трещина похожая на цветок.
+\"ЗЕВС. ЗЕВС. ЗЕВС.\"
+Еще одна молния ударяет в землю перед вами. В этот раз еще ближе.
+\"ЗЕВС.\""
+choices = Array[ExtResource("s_choice")]([SubResource("choice_4"), SubResource("choice_8"), SubResource("choice_11")])
+metadata/_custom_type_script = ExtResource("s_scene")

@@ -178,6 +178,7 @@ const LOCATION_NEMESIS_DIRS := {
 	"ships": "res://Nemesis/Sea/Ships/",
 	"depths": "res://Nemesis/Sea/Depth/",
 	"island": "res://Nemesis/Sea/Islands/",
+	"mountains": "res://Nemesis/Sky/Peaks/",
 }
 
 ## Пути к CharacterResource побеждённых немезидов (бой выигран с ними во вражеской команде).
@@ -306,6 +307,29 @@ func add_pending_nemesis_buff(location_id: String, god_path: String, majesty_del
 		"buff_stat": buff_stat,
 		"buff_value": buff_value,
 		"buff_duration": buff_duration,
+	})
+
+## Отложенные эффекты на ВРАЖЕСКУЮ сторону боя с немезисом (в отличие от pending_nemesis_buffs
+## выше, которые баффают своего бога) — применяются ОДИН раз в начале боя с ближайшим
+## непобеждённым немезидом указанной локации (см. battle_scene.gd::_apply_pending_nemesis_enemy_effects),
+## сразу после спавна врагов, и снимаются из очереди. Ждут сколько нужно, переживают сохранение —
+## как и pending_nemesis_buffs.
+## Запись: {"location_id": String, "kind": String, "value": float}.
+## kind:
+##  - "nemesis_hp_percent": сам немезид теряет value% максимального HP перед боем (чистый урон).
+##  - "others_hp_percent": все враги КРОМЕ немезида теряют value% максимального HP перед боем.
+##  - "voodoo_curse_random_except_nemesis": случайный живой враг (не немезид) получает метку
+##    «Кукла вуду» на 1 ход (см. battle_marks.gd::apply_voodoo_mark). Если в очереди несколько
+##    таких записей для одного боя, каждая выбирает СВОЮ, ещё не выбранную цель.
+var pending_nemesis_enemy_effects: Array = []
+
+func add_pending_nemesis_enemy_effect(location_id: String, kind: String, value: float = 0.0) -> void:
+	if location_id.strip_edges() == "" or kind == "":
+		return
+	pending_nemesis_enemy_effects.append({
+		"location_id": location_id.strip_edges(),
+		"kind": kind,
+		"value": value,
 	})
 
 func open_location(location: String) -> void:
