@@ -35,6 +35,21 @@ const BATTLE_SPEED_OPTIONS: Array[float] = [1.0, 1.5, 2.0]
 # «Новую игру» и загрузку (см. CampaignState.tutorial_disabled — это её инвертированный вид).
 var tutorial_hints_enabled: bool = true
 
+# ── Реплики богов в бою (см. battle_scene.gd::_maybe_play_ability_voice_line) ──
+# Базовый шанс, что при обычном (не первом, не ультимативном) применении способности
+# прозвучит одна из её озвученных фраз. Первое применение способности богом за бой и
+# сама ультимативная способность всегда озвучены (100%), независимо от этой настройки.
+enum VoiceLineFrequency { RARE, NORMAL, OFTEN }
+const VOICE_LINE_FREQUENCY_CHANCE := {
+	VoiceLineFrequency.RARE: 0.15,
+	VoiceLineFrequency.NORMAL: 0.3,
+	VoiceLineFrequency.OFTEN: 0.5,
+}
+var voice_line_frequency: int = VoiceLineFrequency.NORMAL
+
+func voice_line_base_chance() -> float:
+	return float(VOICE_LINE_FREQUENCY_CHANCE.get(voice_line_frequency, 0.3))
+
 # ── Язык (см. Localization autoload — реально переключает TranslationServer) ──
 var language: String = "ru"
 
@@ -83,6 +98,7 @@ func _load() -> void:
 	combat_log_expanded_default = bool(cfg.get_value("gameplay", "combat_log_expanded_default", combat_log_expanded_default))
 	battle_speed = float(cfg.get_value("gameplay", "battle_speed", battle_speed))
 	tutorial_hints_enabled = bool(cfg.get_value("gameplay", "tutorial_hints_enabled", tutorial_hints_enabled))
+	voice_line_frequency = clampi(int(cfg.get_value("gameplay", "voice_line_frequency", voice_line_frequency)), 0, VoiceLineFrequency.OFTEN)
 	language = str(cfg.get_value("language", "value", language))
 
 
@@ -101,6 +117,7 @@ func _save() -> void:
 	cfg.set_value("gameplay", "combat_log_expanded_default", combat_log_expanded_default)
 	cfg.set_value("gameplay", "battle_speed", battle_speed)
 	cfg.set_value("gameplay", "tutorial_hints_enabled", tutorial_hints_enabled)
+	cfg.set_value("gameplay", "voice_line_frequency", voice_line_frequency)
 	cfg.set_value("language", "value", language)
 	cfg.save(SETTINGS_PATH)
 
@@ -232,6 +249,7 @@ func reset_to_defaults() -> void:
 	confirm_before_surrender = true
 	combat_log_expanded_default = false
 	battle_speed = 1.0
+	voice_line_frequency = VoiceLineFrequency.NORMAL
 	_apply_audio()
 	_apply_fullscreen()
 	_apply_vsync()
@@ -251,6 +269,11 @@ func set_combat_log_expanded_default(value: bool) -> void:
 
 func set_tutorial_hints_enabled(value: bool) -> void:
 	tutorial_hints_enabled = value
+	_changed()
+
+
+func set_voice_line_frequency(value: int) -> void:
+	voice_line_frequency = clampi(value, 0, VoiceLineFrequency.OFTEN)
 	_changed()
 
 

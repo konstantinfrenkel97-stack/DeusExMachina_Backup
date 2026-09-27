@@ -65,6 +65,7 @@ func _ready() -> void:
 	_music_slider = _add_slider_row(sound_tab, "Музыка", GameSettings.music_volume, GameSettings.set_music_volume)
 	_sfx_slider = _add_slider_row(sound_tab, "Звуковые эффекты", GameSettings.sfx_volume, GameSettings.set_sfx_volume)
 	_voice_slider = _add_slider_row(sound_tab, "Голоса богов", GameSettings.voice_volume, GameSettings.set_voice_volume)
+	_add_voice_line_frequency_row(sound_tab)
 
 	var video_tab := _add_tab(tabs, "Графика")
 	_window_size_row = _add_window_size_row(video_tab)
@@ -225,6 +226,31 @@ func _add_battle_speed_row(vbox: VBoxContainer) -> void:
 	option.selected = current_index
 	option.item_selected.connect(func(index: int):
 		GameSettings.set_battle_speed(GameSettings.BATTLE_SPEED_OPTIONS[index])
+	)
+	row.add_child(option)
+
+
+## Частота реплик богов в бою (см. GameSettings.voice_line_frequency). Первое применение
+## способности за бой и ультимативные способности всегда озвучены — эта настройка влияет
+## только на ОБЫЧНЫЕ повторные применения.
+func _add_voice_line_frequency_row(vbox: VBoxContainer) -> void:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 12)
+	vbox.add_child(row)
+
+	var label := Label.new()
+	label.text = "Частота реплик"
+	label.custom_minimum_size = Vector2(200, 0)
+	row.add_child(label)
+
+	var option := OptionButton.new()
+	option.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var labels := ["Редко", "Обычно", "Часто"]
+	for i in range(labels.size()):
+		option.add_item(labels[i])
+	option.selected = GameSettings.voice_line_frequency
+	option.item_selected.connect(func(index: int):
+		GameSettings.set_voice_line_frequency(index)
 	)
 	row.add_child(option)
 

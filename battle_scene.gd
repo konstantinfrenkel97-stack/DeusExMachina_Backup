@@ -5,10 +5,10 @@ const STAT_ICON_TOOLTIP_BUTTON_SCRIPT := preload("res://stat_icon_tooltip_button
 const UNIT_DISPLAY = preload("res://unit_display.tscn")
 const ENEMY_TURN_DELAY_SEC = 1.2
 const HERO_TO_ENEMY_TURN_DELAY_SEC = 0.5
-## Шанс, что при применении способности прозвучит одна из AbilityResource.voice_lines.
-## ВРЕМЕННО 1.0 (100%) для тестирования по просьбе — вернуть на 0.3 (30%), когда
-## тестирование фраз будет закончено.
-const VOICE_LINE_CHANCE := 0.3
+## Базовый шанс, что при ОБЫЧНОМ (не первом, не ультимативном) применении способности
+## прозвучит одна из AbilityResource.voice_lines — настраивается игроком, см.
+## GameSettings.voice_line_base_chance()/voice_line_frequency и _maybe_play_ability_voice_line().
+const VOICE_LINE_REPEAT_COOLDOWN_ROUNDS := 2
 const MAX_LOG_LINES = 80
 const ABILITY_ICON_BUTTON_SIZE := Vector2(58.0, 58.0)
 const BOTTOM_UI_MARGIN := 12.0
@@ -3318,9 +3318,18 @@ func _get_ai_decision(monster: Combatant) -> Dictionary:
 #  ИСПОЛЬЗОВАНИЕ СПОСОБНОСТЕЙ
 # ══════════════════════════════════════════════
 
-## С шансом VOICE_LINE_CHANCE проигрывает случайную фразу из ability.voice_lines —
-## только для богов игрока (не для врагов). Сам звук/облачко над головой рисует
-## CombatantVisual, подписанный на Combatant.voice_line_used (см. combatant_visual.gd).
+## Проигрывает одну из ability.voice_lines для бога-игрока (не для врагов). Правила:
+## - ПЕРВОЕ применение конкретной способности этим богом в этом бою — всегда (100%),
+##   игрок должен хотя бы раз услышать реплику новой способности;
+## - ультимативная способность — всегда (100%);
+## - иначе — базовый шанс из настроек (GameSettings.voice_line_base_chance(): редко 15%,
+##   обычно 30%, часто 50%);
+## - одна и та же фраза не повторяется чаще, чем раз в VOICE_LINE_REPEAT_COOLDOWN_ROUNDS
+##   раундов — если в пуле способности есть другие варианты, выбирается один из них;
+## - НИКОГДА две реплики не звучат одновременно по всей команде богов: пока предыдущая
+##   ещё не доиграла (оценка по реальной длительности трека, _voice_line_busy_until_msec),
+##   новая не запускается вовсе (не встаёт в очередь — просто эта конкретная попытка молчит).
+## Само облачко/звук рисует CombatantVisual, подписанный на Combatant.voice_line_used.
 func _maybe_play_ability_voice_line(attacker: Combatant, ability: AbilityResource) -> void:
 	if attacker.is_enemy or ability.voice_lines.is_empty():
 		return
@@ -3328,11 +3337,41 @@ func _maybe_play_ability_voice_line(attacker: Combatant, ability: AbilityResourc
 	# а не при входе в стойку — иначе она проигрывалась бы за ход до самой атаки.
 	if ability.stance_effect_type == "loki_ragnarok":
 		return
-	if randf() >= VOICE_LINE_CHANCE:
+	if Time.get_ticks_msec() < _voice_line_busy_until_msec:
 		return
-	var voice_line: VoiceLineResource = ability.voice_lines[randi() % ability.voice_lines.size()]
-	if voice_line != null and voice_line.audio != null:
-		attacker.voice_line_used.emit(voice_line.text, voice_line.audio)
+
+	var cast_key: String = "%d|%d" % [attacker.get_instance_id(), ability.get_instance_id()]
+	var is_first_cast: bool = not _voice_line_first_cast_seen.has(cast_key)
+	var is_ultimate: bool = ability == attacker.ultimate_ability
+	if not (is_first_cast or is_ultimate) and randf() >= GameSettings.voice_line_base_chance():
+		return
+
+	# Избегаем фразы, звучавшей от этого бога совсем недавно, если в пуле есть другая.
+	var candidates: Array[VoiceLineResource] = ability.voice_lines.duplicate()
+	if candidates.size() > 1:
+		var fresh: Array[VoiceLineResource] = []
+		for vl in candidates:
+			var line_key: String = "%d|%s" % [attacker.get_instance_id(), vl.text]
+			var last_round: int = int(_voice_line_last_round.get(line_key, -VOICE_LINE_REPEAT_COOLDOWN_ROUNDS))
+			if current_round - last_round >= VOICE_LINE_REPEAT_COOLDOWN_ROUNDS:
+				fresh.append(vl)
+		if not fresh.is_empty():
+			candidates = fresh
+	var voice_line: VoiceLineResource = candidates[randi() % candidates.size()]
+	if voice_line == null or voice_line.audio == null:
+		return
+
+	_voice_line_first_cast_seen[cast_key] = true
+	_voice_line_last_round["%d|%s" % [attacker.get_instance_id(), voice_line.text]] = current_round
+	var length_sec: float = voice_line.audio.get_length()
+	_voice_line_busy_until_msec = Time.get_ticks_msec() + int(maxf(length_sec, 0.6) * 1000.0)
+	attacker.voice_line_used.emit(voice_line.text, voice_line.audio)
+
+# Состояние анти-повтора реплик — живёт только на время этого боя (сцена пересоздаётся
+# на каждый бой), см. _maybe_play_ability_voice_line().
+var _voice_line_first_cast_seen: Dictionary = {}
+var _voice_line_last_round: Dictionary = {}
+var _voice_line_busy_until_msec: int = 0
 
 const ATTACK_SFX_PLAYER_POOL_SIZE := 6
 var _attack_sfx_players: Array[AudioStreamPlayer] = []
@@ -3357,9 +3396,9 @@ const ATTACK_FLASH_TOTAL_DURATION := 0.5
 ## снижает его примерно до громкости речи (голос играет как есть, без затухания —
 ## см. CombatantVisual._voice_audio_player). Если у способности есть озвученные
 ## фразы — звук анимации приглушается ещё на 30% (линейно) сверху, на случай если
-## реплика сейчас прозвучит (см. _maybe_play_ability_voice_line; вероятность —
-## VOICE_LINE_CHANCE, сейчас 30% — приглушение приблизительное, не привязано
-## к результату конкретного броска).
+## реплика сейчас прозвучит (см. _maybe_play_ability_voice_line; шанс настраивается
+## игроком через GameSettings.voice_line_base_chance() — приглушение приблизительное,
+## не привязано к результату конкретного броска).
 const ATTACK_SFX_VOLUME_SCALE := 0.5
 const ATTACK_SFX_VOLUME_SCALE_WITH_VOICE := 0.7
 
