@@ -7089,6 +7089,12 @@ func _return_to_mission_after_defeat() -> void:
 ## бог полностью восстанавливает здоровье и остаётся доступен для следующих
 ## боёв этой же миссии. Если добил до предела — окончательно погиб, недоступен
 ## до конца миссии (как и раньше).
+## Хранится ИСКЛЮЧИТЕЛЬНО через CampaignState._god_state_overrides (см.
+## CampaignState.add_god_forgetting) — то же хранилище, что и SaveSystem, а не запись
+## поверх исходного .tres бога: тот файл — общий шаблон для ВСЕХ партий этого бога
+## в игре, и `ResourceSaver.save()` в экспортированной сборке по res:// либо не
+## сработает (packed pck на большинстве платформ доступен только на чтение), либо в
+## редакторе необратимо испортит сам ассет забвением одной случайной партии.
 func _apply_death_fading() -> void:
 	for i in range(heroes_team.size()):
 		var hero = heroes_team[i]
@@ -7096,27 +7102,21 @@ func _apply_death_fading() -> void:
 			continue
 		if i >= CombatManager.selected_heroes.size():
 			continue
-		var hero_path = CombatManager.selected_heroes[i]
-		if hero_path.strip_edges() == "":
+		var hero_path: String = str(CombatManager.selected_heroes[i]).strip_edges()
+		if hero_path == "" or CampaignState.is_god_dead(hero_path):
 			continue
-		var res = load(hero_path) as CharacterResource
-		if res == null or res.is_dead:
-			continue
-		res.add_forgetting(2.0)
+		var state: Dictionary = CampaignState.add_god_forgetting(hero_path, 2.0)
 		MissionState.add_hero_forgetting_gained(hero_path, 2.0)
-		if res.is_dead:
+		var is_dead: bool = bool(state.get("is_dead", false))
+		if is_dead:
 			if not CombatManager.mission_dead_heroes.has(hero_path):
 				CombatManager.mission_dead_heroes.append(hero_path)
 		else:
 			CampaignState.set_god_current_hp(hero_path, CampaignState.get_god_max_hp(hero_path))
-		var err = ResourceSaver.save(res, hero_path)
-		if err != OK:
-			print("[Смерть] Ошибка сохранения %s: %s" % [hero_path, err])
-		else:
-			print("[Смерть] %s → забвение %.1f%s" % [
-				res.unit_name, res.forgetting_level,
-				" (МЁРТВ)" if res.is_dead else ""
-			])
+		print("[Смерть] %s → забвение %.1f%s" % [
+			hero.unit_name, float(state.get("forgetting_level", 0.0)),
+			" (МЁРТВ)" if is_dead else ""
+		])
 
 ## _dispel_effects/_dispel_stat_debuffs перенесены в battle_effects.gd
 ## (см. effects._dispel_effects()/effects._dispel_stat_debuffs()).

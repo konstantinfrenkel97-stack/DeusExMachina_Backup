@@ -7589,12 +7589,13 @@ func _show_equip_picker(slot_type: int) -> void:
 	var needed_type: int = slot_type
 	var found_any := false
 	# Один и тот же артефакт может быть в сокровищнице несколько раз (см.
-	# CampaignState.add_item) — для экипировки достаточно одной карточки на путь.
-	var seen_paths: Dictionary = {}
-
+	# CampaignState.add_item) — считаем количество копий на путь, чтобы отличить
+	# "есть свободная копия" от "все копии уже на ком-то надеты".
+	var owned_counts: Dictionary = {}
 	for item_path in CampaignState.treasury:
-		if seen_paths.has(item_path):
-			continue
+		owned_counts[item_path] = int(owned_counts.get(item_path, 0)) + 1
+
+	for item_path in owned_counts.keys():
 		var item := load(item_path) as ItemResource
 		if item == null:
 			continue
@@ -7602,7 +7603,12 @@ func _show_equip_picker(slot_type: int) -> void:
 			continue
 		if item.restricted_god_path != "" and item.restricted_god_path != _current_god_path:
 			continue
-		seen_paths[item_path] = true
+		# Предмет нельзя надеть на двух богов одновременно: сколько копий владеем минус
+		# сколько уже надето на ДРУГИХ богов (свой же текущий слот в счёт не идёт —
+		# заново выбрать то, что уже на тебе, не должно "съедать" последнюю копию).
+		var available_copies: int = int(owned_counts[item_path]) - _count_item_equipped_elsewhere(item_path)
+		if available_copies <= 0:
+			continue
 		found_any = true
 		grid.add_child(_make_equip_picker_card(item, item_path))
 
@@ -7640,6 +7646,20 @@ func _show_equip_picker_item_info(item: ItemResource) -> void:
 	if _equip_picker_info_label == null or not is_instance_valid(_equip_picker_info_label):
 		return
 	_equip_picker_info_label.text = _item_info_bbcode(item)
+
+
+## Сколько других богов (не _current_god_path) уже держат item_path в каком-либо
+## из своих трёх слотов экипировки — см. _show_equip_picker().
+func _count_item_equipped_elsewhere(item_path: String) -> int:
+	var count := 0
+	for god_path in CampaignState.available_gods:
+		if god_path == _current_god_path:
+			continue
+		var state: Dictionary = CampaignState.get_god_state(god_path)
+		var equipment: Array = state.get("equipment_paths", [])
+		if equipment.has(item_path):
+			count += 1
+	return count
 
 
 func _close_equip_picker() -> void:

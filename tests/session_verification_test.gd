@@ -1,16 +1,21 @@
-extends SceneTree
+extends Node
 
 ## ════════════════════════════════════════════════════════════════
 ##  Автотест правок из сессии (Мумия, Водяной, Леший, Пушка,
 ##  Кикимора, Пегас, Оборотень, Топь, CombatCalculator, Флибустьер).
 ##
 ##  Запуск (из корня проекта, в PowerShell/cmd):
-##    Godot_v4.6.3-stable_win64_console.exe --headless --script res://tests/session_verification_test.gd
+##    Godot_v4.6.3-stable_win64_console.exe --headless --path . res://tests/session_verification_test.tscn
+##
+##  Именно так, через СЦЕНУ, а не "--script res://tests/session_verification_test.gd":
+##  в режиме "--script" движок выполняет только сам скрипт, не проходя обычную
+##  инициализацию проекта — автозагрузки (CombatManager, CampaignState и т.д.,
+##  project.godot::[autoload]) при этом не создаются, и любое обращение к ним
+##  падает с "Identifier not found" на этапе компиляции. Через .tscn движок
+##  запускается как обычно (автозагрузки поднимаются первыми), а эта сцена —
+##  просто корневая сцена проекта на время теста.
 ##
 ##  Результат печатается построчно PASS/FAIL и в самом конце — итог.
-##  Скрипт не требует GUT — использует тот же приём, что и уже
-##  существующие в проекте _test_marks.gd / _verify_mechs.gd
-##  (extends SceneTree, headless --script).
 ## ════════════════════════════════════════════════════════════════
 
 var _pass := 0
@@ -18,8 +23,8 @@ var _fail := 0
 var scene  # реальная инстанцированная battle_scene.tscn
 
 
-func _initialize() -> void:
-	_run_all()
+func _ready() -> void:
+	await _run_all()
 
 
 func _run_all() -> void:
@@ -45,8 +50,8 @@ func _run_all() -> void:
 
 	print("\n════════ 3. Инстанцирование battle_scene.tscn ════════")
 	scene = load("res://battle_scene.tscn").instantiate()
-	root.add_child(scene)
-	await create_timer(0.5).timeout
+	add_child(scene)
+	await get_tree().create_timer(0.5).timeout
 	_check("battle_scene.tscn инстанцирован", scene != null and scene.marks != null)
 
 	print("\n════════ 4. BattleMarks: Мумия «Древнее проклятие» / Водяной «Болотное царство» ════════")
@@ -74,7 +79,7 @@ func _run_all() -> void:
 	print("ИТОГО: PASS=%d  FAIL=%d" % [_pass, _fail])
 	print("РЕЗУЛЬТАТ: %s" % ("ALL_TESTS_PASSED" if _fail == 0 else "HAS_FAILURES"))
 	print("════════════════════════════════════\n")
-	quit(0 if _fail == 0 else 1)
+	get_tree().quit(0 if _fail == 0 else 1)
 
 
 # ────────────────────────────────────────────────────────────────
@@ -256,19 +261,33 @@ func _test_battle_marks() -> void:
 # ────────────────────────────────────────────────────────────────
 
 func _test_ai_logic() -> void:
-	# Мумия: не должна перекастовывать проклятие, если герой уже помечен
+	# Мумия: приоритетный ход "наложить проклятие" не должен срабатывать, если герой уже
+	# помечен — тогда решение падает в _random_usable (см. mummy_logic.gd). Сам _random_usable
+	# честно выбирает случайно среди ВСЕХ доступных способностей (включая проклятие — повторное
+	# наложение безвредно, идемпотентность уже проверена в разделе 4), поэтому единичный вызов
+	# ничего не докажет: если бы приоритетный путь ошибочно игнорировал "уже проклят",
+	# get_decision выбирал бы проклятие КАЖДЫЙ раз (100%); правильное поведение — только
+	# иногда, наравне со второй способностью. Проверяем это по серии вызовов.
 	var mummy := _new_combatant("Мумия-ИИ", 100, 30, 5, 80, 5, 0.05, "", true)
 	var curse_ab := _new_ability(1.0, false)
 	curse_ab.ability_marker = "mummy_ancient_curse"
 	curse_ab.name = "Древнее проклятие"
 	curse_ab.usable_from_positions = [true, true, true, true]
 	curse_ab.mark_type_int = 2
-	mummy.active_abilities = [curse_ab]
+	var plain_ab := _new_ability(1.0, false)
+	plain_ab.name = "Обычная атака"
+	plain_ab.usable_from_positions = [true, true, true, true]
+	mummy.active_abilities = [curse_ab, plain_ab]
 	var hero_cursed := _new_combatant("Герой (уже проклят)", 100, 20, 10, 80, 10, 0.05, "", false)
 	hero_cursed.active_effects.append({"stat": "damage", "value": -2, "duration": -1, "effect_id": "mummy_ancient_curse_mark"})
-	var decision := MummyLogic.get_decision(mummy, [hero_cursed])
-	_check("MummyLogic: не перекастовывает проклятие на уже проклятого героя (падает в random_usable)",
-		decision.is_empty() or decision.get("ability") != curse_ab)
+	var curse_picks := 0
+	var trials := 60
+	for i in range(trials):
+		var decision := MummyLogic.get_decision(mummy, [hero_cursed])
+		if not decision.is_empty() and decision.get("ability") == curse_ab:
+			curse_picks += 1
+	_check("MummyLogic: герой уже проклят -> приоритетный ход не форсирует проклятие (выбрано %d/%d раз, не все)" % [curse_picks, trials],
+		curse_picks < trials, "получено %d/%d — похоже, приоритетный ход срабатывает всегда" % [curse_picks, trials])
 
 	# Водяной: mark_active проверяется по effect_id "bolotnoe_tsarstvo_mark" на герое
 	var vod := _new_combatant("Водяной-ИИ", 100, 25, 5, 80, 5, 0.05, "", true)
@@ -296,21 +315,32 @@ func _test_ai_logic() -> void:
 # ────────────────────────────────────────────────────────────────
 
 func _test_cannon_position_damage() -> void:
+	# Пушка бьёт ПО ЦЕПОЧКЕ целей за одно применение (extra_targets_count), урон убывает
+	# вдоль цепочки: 150% / 120% / 90% / ... (см. Scripts/data_tables.gd::"cannon_position_damage"
+	# и battle_scene.gd — множитель maxf(0.3, 1.5 - 0.3 * target_idx) для target_idx = 0,1,2...
+	# внутри списка целей ЭТОГО применения, не по абсолютной позиции цели на поле).
 	var cannon := _new_combatant("Пушка", 100, 100, 0, 999, 0, 0.0, "cannon_position_damage", true)
 	cannon.position_index = 0
 	var ability := _new_ability(1.0, true, "Physical")  # never_miss -> детерминированный урон
+	ability.extra_targets_count = 2
 	scene.enemies_team = [cannon, null, null, null]
 
-	var expected := {0: 80, 1: 100, 2: 120, 3: 150}
-	for pos in expected.keys():
-		var target := _new_combatant("Цель на позиции %d" % (pos + 1), 999, 0, 0, 0, 0, 0.0, "", false)
-		target.position_index = pos
-		scene.heroes_team = [target, null, null, null]
-		var hp_before := target.current_hp
-		scene._use_ability(cannon, target, ability)
-		var dealt := hp_before - target.current_hp
-		_check("Пушка: позиция %d -> урон %d" % [pos + 1, expected[pos]], dealt == expected[pos],
-			"ожидалось %d, получено %d" % [expected[pos], dealt])
+	var t1 := _new_combatant("Цель 1 в цепочке", 999, 0, 0, 0, 0, 0.0, "", false)
+	t1.position_index = 0
+	var t2 := _new_combatant("Цель 2 в цепочке", 999, 0, 0, 0, 0, 0.0, "", false)
+	t2.position_index = 1
+	var t3 := _new_combatant("Цель 3 в цепочке", 999, 0, 0, 0, 0, 0.0, "", false)
+	t3.position_index = 2
+	scene.heroes_team = [t1, t2, t3, null]
+
+	var chain := [t1, t2, t3]
+	var expected := [150, 120, 90]
+	var hp_before: Array = chain.map(func(t): return t.current_hp)
+	scene._use_ability(cannon, t1, ability)
+	for i in range(chain.size()):
+		var dealt: int = hp_before[i] - chain[i].current_hp
+		_check("Пушка: цель %d по цепочке -> урон %d%% (%d)" % [i + 1, expected[i], expected[i]], dealt == expected[i],
+			"ожидалось %d, получено %d" % [expected[i], dealt])
 
 
 # ────────────────────────────────────────────────────────────────
@@ -330,7 +360,7 @@ func _test_kikimora_debuff_duration() -> void:
 	scene.enemies_team = [attacker_plain, null, null, null]
 	scene.heroes_team = [null, null, null, null]
 	var target1 := _new_combatant("Цель 1", 100, 20, 10, 80, 10, 0.05, "", false)
-	scene._apply_effect_to_target(attacker_plain, target1, "target_debuff_armor", ability)
+	scene.effects._apply_effect_to_target(attacker_plain, target1, "target_debuff_armor", ability)
 	var dur1 = target1.active_effects.back().get("duration", -99) if not target1.active_effects.is_empty() else -99
 	_check("Кикимора: без неё в команде длительность дебаффа = 2", dur1 == 2, "получено %s" % str(dur1))
 
@@ -339,7 +369,7 @@ func _test_kikimora_debuff_duration() -> void:
 	var attacker2 := _new_combatant("Атакующий (с Кикиморой)", 100, 20, 5, 80, 10, 0.05, "", true)
 	scene.enemies_team = [attacker2, kikimora, null, null]
 	var target2 := _new_combatant("Цель 2", 100, 20, 10, 80, 10, 0.05, "", false)
-	scene._apply_effect_to_target(attacker2, target2, "target_debuff_armor", ability)
+	scene.effects._apply_effect_to_target(attacker2, target2, "target_debuff_armor", ability)
 	var dur2 = target2.active_effects.back().get("duration", -99) if not target2.active_effects.is_empty() else -99
 	_check("Кикимора: с ней в команде атакующего длительность дебаффа = 3 (на 1 больше)", dur2 == 3, "получено %s" % str(dur2))
 
@@ -353,7 +383,7 @@ func _test_pegasus_ally_buff() -> void:
 	var ally := _new_combatant("Союзник Пегаса", 100, 15, 10, 80, 10, 0.05, "", false)
 	scene.heroes_team = [pegasus, ally, null, null]
 	var dmg_before := pegasus.damage
-	scene._check_pegasus_ally_buff(ally)
+	scene.effects._check_pegasus_ally_buff(ally)
 	_check("Пегас: получает +5 атаки при ЛЮБОМ баффе союзника", pegasus.damage == dmg_before + 5,
 		"было %d, стало %d" % [dmg_before, pegasus.damage])
 
@@ -389,14 +419,11 @@ func _test_swamp_location() -> void:
 	scene.heroes_team = [hero, null, null, null]
 	scene.enemies_team = [null, null, null, null]
 	scene._swamp_tracked_unit = null
-	scene._swamp_init_loss = 0
-	scene._swamp_armor_loss = 0
-	scene._swamp_evasion_loss = 0
 	scene._swamp_consecutive_rounds = 0
 
-	scene._location_swamp()
-	scene._location_swamp()
-	scene._location_swamp()
+	scene.locations._location_swamp()
+	scene.locations._location_swamp()
+	scene.locations._location_swamp()
 
 	var stack_entry = null
 	for e in hero.active_effects:
@@ -414,11 +441,8 @@ func _test_swamp_location() -> void:
 	scene.heroes_team = [hero2, null, null, null]
 	scene.enemies_team = [vodyanoy, null, null, null]
 	scene._swamp_tracked_unit = null
-	scene._swamp_init_loss = 0
-	scene._swamp_armor_loss = 0
-	scene._swamp_evasion_loss = 0
 	scene._swamp_consecutive_rounds = 0
-	scene._location_swamp()
-	scene._location_swamp()
-	scene._location_swamp()
+	scene.locations._location_swamp()
+	scene.locations._location_swamp()
+	scene.locations._location_swamp()
 	_check("Топь + Водяной: после 3 раундов подряд герой оглушён", hero2.is_stunned)

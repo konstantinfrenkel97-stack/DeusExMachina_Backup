@@ -280,20 +280,24 @@ func _choice_display_text(choice) -> String:
 
 
 func _stat_check_success_percent(stat_check: StatCheck) -> int:
-	var avg: float = stat_check.team_average(CampaignState.available_gods)
-	var stat_bonus: int = int(avg * stat_check.coefficient)
-	var needed_roll: int = int(stat_check.difficulty) - MissionState.pending_check_difficulty_delta - stat_bonus
-	var success_outcomes: int = 101 - needed_roll
-	var chance: float = clampf(float(success_outcomes) / 101.0, 0.0, 1.0)
-	return int(round(chance * 100.0))
+	var chance: float = stat_check.success_chance_percent(MissionState.selected_heroes, MissionState.pending_check_difficulty_delta)
+	return int(round(chance))
 
 
+## Бог, нужный для этого выбора, должен быть В ОТРЯДЕ ЭТОЙ МИССИИ (MissionState.selected_heroes),
+## а не просто где-то открыт в общем ростере игрока — иначе "уникальные" варианты оставались бы
+## доступны, даже если игрок не взял нужного бога на задание.
 func _is_choice_available(choice) -> bool:
 	var required_god = _res_prop(choice, "required_god", null)
 	if required_god == null:
 		return true
 	var god_path := str(_res_prop(required_god, "resource_path", ""))
-	return god_path == "" or CampaignState.available_gods.has(god_path)
+	if god_path == "":
+		return true
+	for hero_path in MissionState.selected_heroes:
+		if str(hero_path).strip_edges() == god_path:
+			return true
+	return false
 
 func _on_choice_pressed(choice) -> void:
 	if _res_prop(choice, "stat_check", null) != null or _res_prop(choice, "outcome", null) != null or _res_prop(choice, "success_outcome", null) != null or _res_prop(choice, "failure_outcome", null) != null:
@@ -305,11 +309,13 @@ func _on_choice_pressed(choice) -> void:
 func _pick_outcome(choice):
 	var stat_check = _res_prop(choice, "stat_check", null)
 	if stat_check != null:
-		var avg: float = stat_check.team_average(CampaignState.available_gods)
 		var difficulty_delta: int = MissionState.pending_check_difficulty_delta
 		MissionState.pending_check_difficulty_delta = 0
-		var success: bool = stat_check.is_success(avg, difficulty_delta)
-		print("[Миссия] Проверка %s: среднее %.1f -> %s" % [stat_check.display_stat(), avg, "УСПЕХ" if success else "ПРОВАЛ"])
+		# Именно отряд ЭТОЙ миссии (MissionState.selected_heroes), а не весь открытый ростер —
+		# иначе шанс считался бы по богам, которых игрок с собой даже не взял.
+		var chance: float = stat_check.success_chance_percent(MissionState.selected_heroes, difficulty_delta)
+		var success: bool = randf() * 100.0 < chance
+		print("[Миссия] Проверка %s: шанс %.0f%% -> %s" % [stat_check.display_stat(), chance, "УСПЕХ" if success else "ПРОВАЛ"])
 		return _res_prop(choice, "success_outcome", null) if success else _res_prop(choice, "failure_outcome", null)
 	var flag_outcomes = _res_prop(choice, "flag_outcomes", null)
 	if flag_outcomes is Dictionary and not flag_outcomes.is_empty():

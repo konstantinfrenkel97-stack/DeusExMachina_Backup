@@ -2,8 +2,18 @@ extends Resource
 class_name StatCheck
 
 ## Проверка характеристики миссии.
-## Бросок = случайное 0..100 + (средний стат команды × коэффициент).
-## УСПЕХ, если результат ≥ difficulty.
+##
+## Формула (см. success_chance_percent):
+##   team_score = normalized_average(отряд, stat)                 -- 0..1, средний стат
+##                                                                    команды к "практическому
+##                                                                    максимуму" этого стата
+##   team_score_bonus = team_score × coefficient × 100             -- в процентных пунктах
+##   difficulty_penalty = difficulty − difficulty_delta − 50       -- 50 = "стандартная"
+##                                                                    сложность, без штрафа/бонуса
+##   chance = clamp(50 + team_score_bonus − difficulty_penalty, 5%, 95%)
+## УСПЕХ, если случайное 0..100% < chance. Шанс никогда не бывает гарантированным (100%) или
+## невозможным (0%) — даже максимально прокачанный отряд может провалить проверку раз в 20, и
+## даже самый слабый отряд имеет шанс раз в 20 пройти сложнейшую.
 
 enum Stat { ATTACK, INITIATIVE, ARMOR, EVASION, ACCURACY, CRIT, MAX_HP }
 
@@ -11,13 +21,34 @@ enum Stat { ATTACK, INITIATIVE, ARMOR, EVASION, ACCURACY, CRIT, MAX_HP }
 @export var stat: Stat = Stat.ATTACK
 # Подпись для игрока («Атака», «Инициатива»). Пусто — берётся из stat.
 @export var stat_label: String = ""
-# Множитель вклада среднего стата команды. При 1.0 команда с типичной атакой/точностью
-# (60-90) гарантированно проходит любую проверку с difficulty=50 (0 + 60*1.0 >= 50 всегда).
-# 0.3 держит стат значимым, но не гарантированным: при среднем стате ~70 и difficulty=50
-# успех примерно в 70% случаев, а не в 100%.
+# Вес вклада нормализованного стата команды в шанс (в долях от 100 процентных пунктов).
+# При 1.0 полностью "прокачанный" по этому стату отряд (normalized_average = 1.0) добавляет
+# +100 п.п. (шанс тут же упрётся в потолок 95%). 0.3 — типичное значение: команда со
+# средним статом ~70% от потолка получает примерно +21 п.п.
 @export var coefficient: float = 0.3
-# Порог сложности. Чем выше — тем труднее пройти проверку.
+# Порог сложности. Чем выше — тем труднее пройти проверку. 50 — стандартная сложность
+# (не меняет базовый шанс 50%); значения выше 50 — специально усложнённые проверки
+# ("высокая сложность", напр. 70 = -20 п.п. к шансу).
 @export var difficulty: int = 50
+
+# "Практический максимум" для каждого стата — к нему приводится сырой team_average() перед
+# использованием в формуле (см. normalized_average). Не жёсткий потолок для самой
+# характеристики (юнит может быть и сильнее) — только точка отсчёта "сильная команда" для
+# ЭТОЙ проверки. Подобраны по типичному разбросу статов богов/врагов в игре.
+const STAT_NORMALIZATION_MAX := {
+	Stat.ATTACK: 100.0,
+	Stat.INITIATIVE: 15.0,
+	Stat.ARMOR: 100.0,
+	Stat.EVASION: 50.0,
+	Stat.ACCURACY: 100.0,
+	Stat.CRIT: 40.0,   # _stat_of() уже переводит crit_chance (0.05-0.3) в проценты (5-30)
+	Stat.MAX_HP: 200.0,
+}
+
+const BASE_CHANCE_PERCENT := 50.0
+const MIN_CHANCE_PERCENT := 5.0
+const MAX_CHANCE_PERCENT := 95.0
+const STANDARD_DIFFICULTY := 50
 
 
 ## Человекочитаемое название характеристики.
@@ -35,14 +66,23 @@ func display_stat() -> String:
 	return "?"
 
 
-## Собственно бросок: успех если rand(0..100) + средний_стат×коэфф ≥ difficulty − difficulty_delta.
-## difficulty_delta — одноразовая скидка сложности от эффектов миссии (не меняет сам ресурс).
-func is_success(avg_team_stat: float, difficulty_delta: int = 0) -> bool:
-	var roll := randi_range(0, 100) + int(avg_team_stat * coefficient)
-	return roll >= (difficulty - difficulty_delta)
+## Итоговый шанс успеха в процентах (0..100), уже с учётом одноразовой скидки сложности
+## эффектов миссии (difficulty_delta, см. MissionState.pending_check_difficulty_delta).
+## god_paths — пути (.tres) ИМЕННО отряда, участвующего в проверке (обычно
+## MissionState.selected_heroes) — НЕ весь открытый ростер игрока.
+func success_chance_percent(god_paths: Array, difficulty_delta: int = 0) -> float:
+	var team_score: float = normalized_average(god_paths)
+	var team_score_bonus: float = team_score * coefficient * 100.0
+	var difficulty_penalty: float = float(difficulty - difficulty_delta - STANDARD_DIFFICULTY)
+	return clampf(BASE_CHANCE_PERCENT + team_score_bonus - difficulty_penalty, MIN_CHANCE_PERCENT, MAX_CHANCE_PERCENT)
 
 
-## Среднее значение характеристики по команде (массив путей .tres богов).
+## Собственно бросок: успех с вероятностью success_chance_percent(god_paths, difficulty_delta).
+func is_success(god_paths: Array, difficulty_delta: int = 0) -> bool:
+	return randf() * 100.0 < success_chance_percent(god_paths, difficulty_delta)
+
+
+## Средний СЫРОЙ стат команды (массив путей .tres богов), без нормализации — см. normalized_average.
 func team_average(god_paths: Array) -> float:
 	var sum := 0.0
 	var n := 0
@@ -55,6 +95,14 @@ func team_average(god_paths: Array) -> float:
 		sum += _stat_of(g)
 		n += 1
 	return sum / float(n) if n > 0 else 0.0
+
+
+## team_average(), приведённый к 0..1 через STAT_NORMALIZATION_MAX (см. заголовок файла).
+func normalized_average(god_paths: Array) -> float:
+	var cap: float = float(STAT_NORMALIZATION_MAX.get(stat, 100.0))
+	if cap <= 0.0:
+		return 0.0
+	return clampf(team_average(god_paths) / cap, 0.0, 1.0)
 
 
 func _stat_of(g) -> float:
