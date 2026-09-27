@@ -34,11 +34,30 @@ func _ready() -> void:
 		btn.add_theme_color_override("font_pressed_color", Color(1.0, 0.86, 0.55, 1.0))
 		btn.add_theme_color_override("font_focus_color", Color(0.94, 0.91, 0.84, 1.0))
 	menu.add_theme_constant_override("separation", 1)
+	_add_build_info_label()
 	menu.get_node("NewGameButton").pressed.connect(_on_new_game_pressed)
 	menu.get_node("LoadButton").pressed.connect(_on_load_pressed)
 	menu.get_node("BattleButton").pressed.connect(_on_battle_button_pressed)
 	menu.get_node("SettingsButton").pressed.connect(_on_settings_button_pressed)
 	menu.get_node("ExitButton").pressed.connect(_on_exit_button_pressed)
+
+## Мелкая надпись версии/коммита в правом нижнем углу (см. Scripts/build_info.gd) —
+## чтобы по одному только .exe можно было понять, из какого коммита он собран,
+## и не путать раздаваемую сборку с текущим состоянием исходников.
+func _add_build_info_label() -> void:
+	var label := Label.new()
+	label.text = BuildInfo.label_text()
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.add_theme_font_size_override("font_size", 13)
+	label.add_theme_color_override("font_color", Color(1.0, 1.0, 1.0, 0.55))
+	label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.7))
+	label.add_theme_constant_override("outline_size", 3)
+	label.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	label.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	label.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	label.position -= Vector2(10, 8)
+	add_child(label)
+
 
 func _make_menu_btn_style(bg: Color) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
