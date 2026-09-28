@@ -100,6 +100,7 @@ var wait_counter: int = 0
 # Панель информации при наведении на юнита
 var _hover_info_panel: PanelContainer
 var _hover_label: RichTextLabel
+var _hover_label_scroll: ScrollContainer
 var _hover_content: HBoxContainer
 var _hover_ability_grid: GridContainer
 var _pinned_hover_unit: Combatant = null
@@ -7350,13 +7351,23 @@ func _setup_hover_info_panel():
 	_hover_content.add_theme_constant_override("separation", 10)
 	_hover_content.mouse_filter = Control.MOUSE_FILTER_PASS
 	_hover_info_panel.add_child(_hover_content)
+	# fit_content=true заставляет RichTextLabel расти под свой текст, игнорируя
+	# заданный size — при длинном описании (пассивка + стойка + бафы) панель
+	# вылезала за нижний край экрана. Оборачиваем в ScrollContainer: сам лейбл
+	# по-прежнему растёт под контент, но видимая область ограничена размером
+	# скролл-контейнера (задаётся в _position_hover_info_panel), а всё, что не
+	# влезло, доступно прокруткой, а не обрезкой за пределами экрана.
 	_hover_label = RichTextLabel.new()
 	_hover_label.bbcode_enabled = true
 	_hover_label.hint_underlined = false
 	_hover_label.scroll_following = false
 	_hover_label.fit_content = true
 	_hover_label.mouse_filter = Control.MOUSE_FILTER_STOP
-	_hover_content.add_child(_hover_label)
+	_hover_label_scroll = ScrollContainer.new()
+	_hover_label_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_hover_label_scroll.mouse_filter = Control.MOUSE_FILTER_STOP
+	_hover_label_scroll.add_child(_hover_label)
+	_hover_content.add_child(_hover_label_scroll)
 	_hover_ability_grid = GridContainer.new()
 	_hover_ability_grid.columns = 3
 	_hover_ability_grid.add_theme_constant_override("h_separation", int(ABILITY_BUTTON_GAP))
@@ -7394,9 +7405,12 @@ func _position_hover_info_panel() -> void:
 	if _hover_content != null:
 		_hover_content.custom_minimum_size = Vector2(content_width, content_height)
 		_hover_content.size = _hover_content.custom_minimum_size
+	var hover_label_width := maxf(260.0, content_width - ability_grid_width - 10.0)
+	if _hover_label_scroll != null:
+		_hover_label_scroll.custom_minimum_size = Vector2(hover_label_width, content_height)
+		_hover_label_scroll.size = _hover_label_scroll.custom_minimum_size
 	if _hover_label != null:
-		_hover_label.custom_minimum_size = Vector2(maxf(260.0, content_width - ability_grid_width - 10.0), content_height)
-		_hover_label.size = _hover_label.custom_minimum_size
+		_hover_label.custom_minimum_size = Vector2(hover_label_width, 0.0)
 	if _hover_ability_grid != null:
 		_hover_ability_grid.custom_minimum_size = Vector2(ability_grid_width, content_height)
 		_hover_ability_grid.size = _hover_ability_grid.custom_minimum_size

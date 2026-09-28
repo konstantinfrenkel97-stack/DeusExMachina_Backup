@@ -98,7 +98,6 @@ var _applied_sprite_y_offset_percent: float = 0.0
 var majesty_bar: ProgressBar = null
 var flash_sprite: Sprite2D = null
 var flash_tween: Tween = null
-var _outline: Line2D = null
 var _target_highlight: TextureRect = null
 var _preview_label: Label = null
 var _preview_overlay: ColorRect = null
@@ -199,29 +198,6 @@ func setup(combatant_data: Combatant):
 		_ensure_effect_icon_row(bar_width, hp_y)
 		_ensure_target_highlight(bar_width * TARGET_HIGHLIGHT_WIDTH_MULT, hp_y)
 
-		# ÃÅ¾ÃÂ±ÃÂ²ÃÂ¾ÃÂ´ÃÂºÃÂ° ÃÂ°ÃÂºÃ‘â€šÃÂ¸ÃÂ²ÃÂ½ÃÂ¾ÃÂ³ÃÂ¾ Ã‘Å½ÃÂ½ÃÂ¸Ã‘â€šÃÂ° (Ã‘â€¡ÃÂµÃÂ¹ Ã‘â€¦ÃÂ¾ÃÂ´): ÃÂ·ÃÂ¾ÃÂ»ÃÂ¾Ã‘â€šÃÂ°Ã‘Â Ã‘â‚¬ÃÂ°ÃÂ¼ÃÂºÃÂ° ÃÂ²ÃÂ¾ÃÂºÃ‘â‚¬Ã‘Æ’ÃÂ³ HP-ÃÂ±ÃÂ°Ã‘â‚¬ÃÂ°.
-		# ÃÂ¦ÃÂ²ÃÂµÃ‘â€š ÃÂ·ÃÂ°ÃÂ»ÃÂ¸ÃÂ²ÃÂºÃÂ¸ HP-ÃÂ±ÃÂ°Ã‘â‚¬ÃÂ° ÃÂÃâ€¢ ÃÂ¼ÃÂµÃÂ½Ã‘ÂÃÂµÃ‘â€šÃ‘ÂÃ‘Â. Ãâ€™ÃÂ¸ÃÂ´ÃÂ½ÃÂ° Ã‘â€šÃÂ¾ÃÂ»Ã‘Å’ÃÂºÃÂ¾ ÃÂ´ÃÂ»Ã‘Â Ã‘â€¦ÃÂ¾ÃÂ´Ã‘ÂÃ‘â€°ÃÂµÃÂ³ÃÂ¾ Ã‘Å½ÃÂ½ÃÂ¸Ã‘â€šÃÂ° (Ã‘ÂÃÂ¼. set_active).
-		var _ol_width = 4.0
-		var _ol_half_width = _ol_width * 0.5
-		var _ol_left = -bar_width * 0.5 - _ol_half_width
-		var _ol_right = bar_width * 0.5 + _ol_half_width
-		var _ol_top = hp_y - _ol_half_width
-		var _ol_bottom = hp_y + bar_h - _ol_half_width
-		_outline = Line2D.new()
-		_outline.width = _ol_width
-		_outline.default_color = Color(1.0, 0.85, 0.2, 1.0)
-		_outline.joint_mode = Line2D.LINE_JOINT_ROUND
-		_outline.z_index = 11
-		_outline.points = PackedVector2Array([
-			Vector2(_ol_left, _ol_top),
-			Vector2(_ol_right, _ol_top),
-			Vector2(_ol_right, _ol_bottom),
-			Vector2(_ol_left, _ol_bottom),
-			Vector2(_ol_left, _ol_top),
-		])
-		_outline.visible = false
-		add_child(_outline)
-
 		# HP text inside the health bar.
 		hp_label.position = Vector2(-bar_width * 0.5, hp_y)
 		hp_label.size = Vector2(bar_width, bar_h)
@@ -294,21 +270,7 @@ func _position_status_bars(hp_y: float) -> void:
 		majesty_bar.position = Vector2(-bar_width * 0.5, hp_y + bar_h)
 	_ensure_effect_icon_row(bar_width, hp_y)
 	_ensure_target_highlight(bar_width * TARGET_HIGHLIGHT_WIDTH_MULT, hp_y)
-	if _outline:
-		var line_width: float = _outline.width
-		var half_width: float = line_width * 0.5
-		var left: float = -bar_width * 0.5 - half_width
-		var right: float = bar_width * 0.5 + half_width
-		var top: float = hp_y - half_width
-		var bottom: float = hp_y + bar_h - half_width
-		_outline.points = PackedVector2Array([
-			Vector2(left, top),
-			Vector2(right, top),
-			Vector2(right, bottom),
-			Vector2(left, bottom),
-			Vector2(left, top),
-		])
-		
+
 func update_visuals():
 	if data == null:
 		return
@@ -755,10 +717,9 @@ func _apply_sprite_scale_keep_feet(new_scale: Vector2, update_collision: bool = 
 		flash_sprite.scale = sprite.scale
 		flash_sprite.position = sprite.position
 
-## ÃÅ¾ÃÂ±ÃÂ²ÃÂ¾ÃÂ´ÃÂºÃÂ° Ã‘ÂÃÂ¿Ã‘â‚¬ÃÂ°ÃÂ¹Ã‘â€šÃÂ° ÃÂ°ÃÂºÃ‘â€šÃÂ¸ÃÂ²ÃÂ½ÃÂ¾ÃÂ³ÃÂ¾ Ã‘Å½ÃÂ½ÃÂ¸Ã‘â€šÃÂ° (Ã‘â€¡ÃÂµÃÂ¹ Ã‘ÂÃÂµÃÂ¹Ã‘â€¡ÃÂ°Ã‘Â Ã‘â€¦ÃÂ¾ÃÂ´). ÃÂ¦ÃÂ²ÃÂµÃ‘â€š HP-ÃÂ±ÃÂ°Ã‘â‚¬ÃÂ° ÃÂÃâ€¢ ÃÂ¼ÃÂµÃÂ½Ã‘ÂÃÂµÃ‘â€šÃ‘ÂÃ‘Â.
+## Раньше подсвечивало активного юнита жёлтой рамкой вокруг HP-бара — убрано, мешало визуально (жёлтая линия между фоном и полосой величия).
 func set_active(active: bool) -> void:
-	if _outline:
-		_outline.visible = active
+	pass
 
 ## ÃÅ¸ÃÂ¾ÃÂ´Ã‘ÂÃÂ²ÃÂµÃ‘â€šÃÂºÃÂ° ÃÂ¿Ã‘â‚¬ÃÂ¸ ÃÂ½ÃÂ°ÃÂ²ÃÂµÃÂ´ÃÂµÃÂ½ÃÂ¸ÃÂ¸ ÃÂ½ÃÂ° ÃÂ¿ÃÂ¾Ã‘â‚¬Ã‘â€šÃ‘â‚¬ÃÂµÃ‘â€š Ã‘Å½ÃÂ½ÃÂ¸Ã‘â€šÃÂ° (ÃÂ½ÃÂ°ÃÂ¿Ã‘â‚¬ÃÂ¸ÃÂ¼ÃÂµÃ‘â‚¬, ÃÂ¸ÃÂ· ÃÂ¿ÃÂ¾ÃÂ»ÃÂ¾Ã‘ÂÃ‘â€¹ ÃÂ¾Ã‘â€¡ÃÂµÃ‘â‚¬ÃÂµÃÂ´ÃÂ¸ Ã‘â€¦ÃÂ¾ÃÂ´ÃÂ¾ÃÂ²):
 ## Ã‘ÂÃÂ¿Ã‘â‚¬ÃÂ°ÃÂ¹Ã‘â€š Ã‘ÂÃÂ»ÃÂµÃÂ³ÃÂºÃÂ° Ã‘Æ’ÃÂ²ÃÂµÃÂ»ÃÂ¸Ã‘â€¡ÃÂ¸ÃÂ²ÃÂ°ÃÂµÃ‘â€šÃ‘ÂÃ‘Â ÃÂ¸ ÃÂ¿ÃÂ¾Ã‘ÂÃÂ²ÃÂ»Ã‘ÂÃÂµÃ‘â€šÃ‘ÂÃ‘Â ÃÂ¸ÃÂ¼Ã‘Â Ã¢â‚¬â€ Ã‘â€¡Ã‘â€šÃÂ¾ÃÂ±Ã‘â€¹ ÃÂ±Ã‘â€¹ÃÂ»ÃÂ¾ ÃÂ²ÃÂ¸ÃÂ´ÃÂ½ÃÂ¾, ÃÂºÃÂ¾ÃÂ³ÃÂ¾ ÃÂ²Ã‘â€¹ÃÂ±Ã‘â‚¬ÃÂ°ÃÂ»ÃÂ¸.
