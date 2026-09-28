@@ -21,6 +21,13 @@ var pending_helheim_skip_fog_rounds: int = 0
 # Отряд получает иммунитет к урону локации "Пустыня" в следующем бою целиком
 # (см. MissionOutcome.grant_desert_immunity_next_battle).
 var pending_desert_immunity: bool = false
+# Отряд героев не получает эффект локации "Ад" в следующем бою целиком
+# (см. MissionOutcome.grant_hell_immunity_next_battle).
+var pending_hell_immunity: bool = false
+# Постоянный (до конца МИССИИ, применяется в каждом бою) бонус к восстановлению фантазии
+# в начале раунда — напр. MissionOutcome.mission_fantasy_regen_per_turn_bonus. Складывается
+# с обычной регенерацией от предметов (см. battle_scene.gd).
+var mission_fantasy_regen_per_turn: int = 0
 # Заклинание «Ром» в следующем бою бьёт не только выбранную цель, но и всю её команду.
 var pending_rum_spell_whole_team: bool = false
 # Эффекты, которые держатся до конца миссии и применяются в каждом бою.
@@ -63,6 +70,8 @@ func reset_mission():
 	pending_mission_target_effects = []
 	pending_helheim_skip_fog_rounds = 0
 	pending_desert_immunity = false
+	pending_hell_immunity = false
+	mission_fantasy_regen_per_turn = 0
 	pending_rum_spell_whole_team = false
 	mission_strongest_hero_buffs = []
 	mission_team_buffs = []
@@ -95,6 +104,8 @@ func clear_selection():
 	pending_mission_target_effects = []
 	pending_helheim_skip_fog_rounds = 0
 	pending_desert_immunity = false
+	pending_hell_immunity = false
+	mission_fantasy_regen_per_turn = 0
 	pending_rum_spell_whole_team = false
 	mission_strongest_hero_buffs = []
 	mission_team_buffs = []

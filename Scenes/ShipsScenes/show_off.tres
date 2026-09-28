@@ -1,0 +1,183 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="s_scene"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="s_choice"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="s_outcome"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="s_reward"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="s_check"]
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="s_battle"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="s_formation"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="s_buff"]
+[ext_resource type="Script" uid="uid://dutn5fch4d8b5" path="res://Missions/unit_modifier.gd" id="s_modifier"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Ships/Filibuster/filibuster.tres" id="r_fil"]
+[ext_resource type="Resource" path="res://Enemies/Sea/Ships/Sailor/sailor.tres" id="r_sailor"]
+[ext_resource type="Resource" path="res://Essence/essence_power.tres" id="r_power"]
+
+[sub_resource type="Resource" id="formation_1"]
+script = ExtResource("s_formation")
+formation_name = "Флибустьер — матрос — матрос"
+pos1 = ExtResource("r_fil")
+pos2 = ExtResource("r_sailor")
+pos3 = ExtResource("r_sailor")
+metadata/_custom_type_script = ExtResource("s_formation")
+
+[sub_resource type="Resource" id="battle_2"]
+script = ExtResource("s_battle")
+formation = SubResource("formation_1")
+location_id = "ships"
+metadata/_custom_type_script = ExtResource("s_battle")
+
+[sub_resource type="Resource" id="outcome_3"]
+script = ExtResource("s_outcome")
+result_text = "Вы вынимаете оружие и идете на моряка. Он беззаботно вращает пистолетом.
+\"Э... Че такое, а? Че серьезные такие? Это типа шутка, всекли?\"
+Вы встаете над ним, на ваших лицах написано что шутки кончились, но его рожа не теряет самодовольства.
+\"Я же в школах не учился, всего три шутки знаю. Вот две вы уже увидели.\"
+Пистолет замирает у него в руке. Дуло смотрит прямо на вас.
+\"А сейчас вылетит третья.\""
+hero_majesty_delta = -5
+battle = SubResource("battle_2")
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_4"]
+script = ExtResource("s_choice")
+choice_text = "Он ответит за оскорбление"
+outcome = SubResource("outcome_3")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="check_5"]
+script = ExtResource("s_check")
+stat = 5
+stat_label = "Удача"
+metadata/_custom_type_script = ExtResource("s_check")
+
+[sub_resource type="Resource" id="reward_6"]
+script = ExtResource("s_reward")
+kind = 1
+resource = ExtResource("r_power")
+metadata/_custom_type_script = ExtResource("s_reward")
+
+[sub_resource type="Resource" id="outcome_7"]
+script = ExtResource("s_outcome")
+result_text = "Вы идете к моряку с пистолетом. На его лице самодовольная, провокационная улыбка. Вы делаете вид, что его прикол вас не задел.
+\"Ты у нас трюкач? Давай и мы тебе трюк покажем.\"
+Столб волшебного света ударяет слева от него, флибустьер прыгает вправо, другой луч бьет вправо. Он вынужден отскочить, третий - в ноги, и пират прыгает. Начинается пляска со световым представлением, куда бы не дернулся выпендрежник, ваша магия заставляет его прыгать в противоположную сторону, и так снова и снова. Его движения походят на рывки куклы, чей мастер напился и трясет рукой держащей нити. Матросня радостно собирается на представление, аплодирует, улюлюкает и смеется. Им все равно над кем смеяться. Ваша же жертва больше не выглядит такой самоуверенной, с его лица на красную рубашку падает пот, он упрямо скалит зубы, смотрит на вас с ненавистью снова и снова прыгая от лучей магии. Но движения становятся все медленнее, наконец, он не разжимая зубов одними губами говорит.
+\"Хватит... Сдаюсь...\"
+Вы еще немного его мучаете и отпускаете. Он бессильный падает на палубу. Матросы стебутся над ним и выкрикивают похвалу вашим способностям. Вы же, ни на что не реагируя, возвращаетесь на свой ящик и погружаете ложку в суп."
+hero_majesty_delta = 5
+rewards = Array[ExtResource("s_reward")]([SubResource("reward_6")])
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="buff_8"]
+script = ExtResource("s_buff")
+stat = 5
+value = 6
+duration = -1
+metadata/_custom_type_script = ExtResource("s_buff")
+
+[sub_resource type="Resource" id="modifier_9"]
+script = ExtResource("s_modifier")
+target_position = 1
+buffs = Array[ExtResource("s_buff")]([SubResource("buff_8")])
+metadata/_custom_type_script = ExtResource("s_modifier")
+
+[sub_resource type="Resource" id="battle_10"]
+script = ExtResource("s_battle")
+formation = SubResource("formation_1")
+location_id = "ships"
+enemy_modifiers = Array[ExtResource("s_modifier")]([SubResource("modifier_9")])
+metadata/_custom_type_script = ExtResource("s_battle")
+
+[sub_resource type="Resource" id="outcome_11"]
+script = ExtResource("s_outcome")
+result_text = "Вы идете к моряку с пистолетом. На его лице самодовольная, провокационная улыбка. Вы делаете вид, что его прикол вас не задел.
+\"Ты у нас трюкач? Давай и мы тебе трюк покажем.\"
+Столб волшебного света ударяет слева от него, флибустьер прыгает вправо, отскакивает от ящика, и толкнув в полете одного из богов оказывается на середине палубы.
+\"Эй, эй, это что такое? Никак нападение на члена экипажа? Да еще из-за безобидной шутки? А ну бей их братва!\"
+С ревом матросы кидаются на вас. На лице флибустьера победная улыбка. Что-то вам подсказывает, что в эту игру он играет не в первый раз, и не в первый раз выигрывает."
+battle = SubResource("battle_10")
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_12"]
+script = ExtResource("s_choice")
+choice_text = "Показать ему собственный трюк"
+stat_check = SubResource("check_5")
+success_outcome = SubResource("outcome_7")
+failure_outcome = SubResource("outcome_11")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="check_13"]
+script = ExtResource("s_check")
+stat = 2
+stat_label = "Броня"
+metadata/_custom_type_script = ExtResource("s_check")
+
+[sub_resource type="Resource" id="outcome_14"]
+script = ExtResource("s_outcome")
+result_text = "Вы зажимаете монетку между зубов, как диск.
+\"Ну давай, покажи класс.\"
+Флибустьер не меняется в лице. Он лениво, будто его попросили об утомительной услуге, поднимается и встает напротив вашего отряда в расслабленной позе, неторопливо вращая пистолет на пальце.
+\"Дурында, а? Видали? Я ж даже если попаду, тебе просто зубы выбьет, и ты ими же и подавишься. Ха-ха-ха-ха! Давай, кончай дебил, нашел дурачка.\"
+Бог с монетой недвижим и прямо смотрит в лицо пирата. Тот с таким же расслаблено высокомерным лицом берет пистолет дулом вверх.
+\"Ну а уж как промахнусь и пуля в глаз войдет, а? Несчастный случай. И не прикопаешься потом. Все подтвердят что сам напросился.\"
+Он направляет пистолет в лицо бога вопросительно выгнув бровь.
+\"Я ведь это сделаю.\"
+Бог просто смотрит на него. Голосящие матросы умолкают. Как будто даже чайки умолкают. Улыбка сползает с лица стрелка. Брови сходятся на переносице. Он вытягивает руку и сосредоточенно смотрит вдоль ствола.
+
+. . .
+
+БАХ!
+
+Дзынь!
+
+Человеку выбило бы зубы. Но бог устоял. Во рту так и блестит золотистый кружок, а по середине блеклый серый шарик. Лицо флибустьера теряет сосредоточенность и становится спокойно безразличным. Он идет к своему оппоненту, на ходу убирая пистолет за пояс. Они оказываются лицом к лицу. Пират встает сбоку и берет бога за руку. Резко поднимает обе руки вверх.
+\"УАААААААААА!!!!\"
+\"УААААААААААА!!!\" вторят матросы.
+На вас бросаются, обнимают, валят, поливают ромом. Матросы орут. Где-то в отдали на них орет капитан. Такого ликования вам еще не доводилось видеть. У кого-то слезы на глазах. Другие моряки танцуют обнявшись. Из всей этой суматохи вы краем глаза замечаете одинокие плошки с моряцким супом. Так они и стоят на ящике, не дождавшись вас."
+hero_majesty_delta = 30
+highest_armor_hero_permanent_crit_bonus = 0.02
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="outcome_15"]
+script = ExtResource("s_outcome")
+result_text = "Вы зажимаете монетку между зубов, как диск.
+\"Ну давай, покажи класс.\"
+Флибустьер не меняется в лице. Он лениво, будто его попросили об утомительной услуге, поднимается и встает напротив вашего отряда в расслабленной позе, неторопливо вращая пистолет на пальце.
+\"Дурында, а? Видали? Я ж даже если попаду, тебе просто зубы выбьет, и ты ими же и подавишься. Ха-ха-ха-ха! Давай, кончай дебил, нашел дурачка.\"
+Бог с монетой недвижим и прямо смотрит в лицо пирата. Тот с таким же расслаблено высокомерным лицом берет пистолет дулом вверх.
+\"Ну а уж как промахнусь и пуля в глаз войдет, а? Несчастный случай. И не прикопаешься потом. Все подтвердят что сам напросился.\"
+Он направляет пистолет в лицо бога вопросительно выгнув бровь.
+\"Я ведь это сделаю.\"
+Бог просто смотрит на него. Голосящие матросы умолкают. Как будто даже чайки умолкают. Улыбка сползает с лица стрелка. Брови сходятся на переносице. Он вытягивает руку и сосредоточенно смотрит вдоль ствола.
+
+. . .
+
+БАХ!
+
+Дзынь!
+
+Голову бога откидывает назад и вбок. Кровь брызгает на палубу. Матросы начинают волноваться. Бог подносит руку к лицу, и на ладони у него оказывается золотой диск и свинцовый шарик. Половина лица в крови, щека полностью разодрана. Первым у него оказывается флибустьер в красной рубахе. Он прижимает белую марлю к ране. Бог шипит от боли, она пропитана спиртом.
+\"Ну, ну... Давай не хныкай, сам вызвался. Ну даешь.\"
+Команда вокруг в растерянности, они явно не понимают как реагировать на происходящее.
+\"Ну ладно ладно, это было смело, слышь меня? Смело и круто. Правда шрам останется, но хэй, посмотри на меня. Один другого краше, э?\""
+highest_armor_hero_hp_percent_delta = -3
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_16"]
+script = ExtResource("s_choice")
+choice_text = "Взять монетку в зубы. Ну попробуй!"
+stat_check = SubResource("check_13")
+success_outcome = SubResource("outcome_14")
+failure_outcome = SubResource("outcome_15")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[resource]
+script = ExtResource("s_scene")
+scene_title = "Показуха"
+body_text = "Вы идете себе по качающейся палубе. Команда приняла ваше присутствие и не нападает. Хоть немного покоя, вам дали выдали немного еды. Вы располагаетесь на верхней палубе, в одной руке миска в другой ложка, на коже свежий бриз, в ушах крики чаек, ну чем не жизнь? Только вы собираетесь погрузить ложку в водянистый супчик, как отскочив рикошетом от ящика, откуда-то из-за спины прилетает камешек и приземляется ровно посередине тарелки одного из богов. Вы с удивлением вынимаете камень, обычный камешек с камягистого берега. Матросы начинают заливаться смехом и хлопать в ладоши.
+
+Вы вскакиваете и пытаетесь найти глазами обидчика. Но все моряки ведут себя одинаково. Хмыкнув вы собираетесь сесть, но отскочив от палубы, на ваш ящик приземляется бутылка и повернувшись встает ровно дном. Вы едва успеваете остановиться и не сесть прямо на нее.
+
+Моряки угорают пуще прежнего, и в этот раз вам даже удается опознать виновного. Он сидит на одном из ящиков с парочкой матросов, на лице уверенная улыбка и шрамы, он не смеется а смотрит вам прямо в глаза. И вертит пистолет на пальце."
+choices = Array[ExtResource("s_choice")]([SubResource("choice_4"), SubResource("choice_12"), SubResource("choice_16")])
+metadata/_custom_type_script = ExtResource("s_scene")

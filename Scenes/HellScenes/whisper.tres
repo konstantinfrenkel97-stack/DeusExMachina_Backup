@@ -1,0 +1,105 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="s_scene"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="s_choice"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="s_outcome"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="s_reward"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="s_check"]
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="s_battle"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="s_formation"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="s_buff"]
+[ext_resource type="Script" uid="uid://dutn5fch4d8b5" path="res://Missions/unit_modifier.gd" id="s_modifier"]
+[ext_resource type="Resource" path="res://Gods/Hades/Hades.tres" id="r_hades"]
+
+[sub_resource type="Resource" id="check_1"]
+script = ExtResource("s_check")
+stat = 5
+stat_label = "Удача"
+metadata/_custom_type_script = ExtResource("s_check")
+
+[sub_resource type="Resource" id="outcome_2"]
+script = ExtResource("s_outcome")
+result_text = "Некрасивая сцена. Вы кричите друг на друга. Летят обвинения, всплывают старые забытые обиды, от крупных, до совсем мелочей.
+
+Вы не хотите слушать окружающих, вы хотите говорить. Хотите швырнуть в лицо свои чувства, сломить других чувством вины, показать как плохо они с вами обращались.
+
+И вы ловите себя на этом. Вы правда хотите этого? Хотите заставить свою команду страдать? И кем это сделает вас.
+
+На секунду вы все умолкаете. Снова ударяет голос в голове.
+\"Если сейчас отступить, тебя продавят, подчинят.\"
+Но вы вдруг осознаете, что не обязаны подчиняться этим голосам. Это просто речь, просто мысль. Но вы сами решаете что с ней делать. Чем больше вы сопротивляетесь, тем громче звучит голос, тем твёрже ваша воля, пока вы не разделяетесь на две отдельные сущности. То чего хочет тьма внутри и то чего хотите вы. И тогда вы ощущаете странную инородность, будто это не вы.
+
+Один за другим вы падаете на колени, у вас начинается кашляющий рефлекс. Тело начинает настойчиво удалять посторонний элемент из себя. Вы кашляете и кашляете, и из вашего рта выходят облачка черного пепла. Опадая на землю, они обращаются в змей и исчезают в обсидиановых щелях ада. И так пока вы полностью не очищаетесь. И тогда все становится ясно и просто. Вы не один страдали. Вы тоже одарены талантами с рождения. Ваша слава и ценность не меньше чем у других, да и не имеет это значение.
+
+Вы снова собираетесь на разговор, но в этот раз все иначе. Звучат мысли, чувства. Вы слушаете и слышите друг друга.
+
+В новый путь вы отправляетесь ближе и богаче чем были до этого."
+grant_hell_immunity_next_battle = true
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="outcome_3"]
+script = ExtResource("s_outcome")
+result_text = "Некрасивая сцена. Вы кричите друг на друга. Летят обвинения, всплывают старые забытые обиды, от крупных, до совсем мелочей.
+
+Вы не хотите слушать окружающих, вы хотите говорить. Хотите швырнуть в лицо свои чувства, сломить других чувством вины, показать как плохо они с вами обращались.
+
+Слова отскакивают друг от друга, обвинения порождают обвинения. Эмоции разгораются сильнее и сильнее, и тело уже не может держать их внутри. Свистит кулак в воздухе, и бог ударяет бога. Удар в ответ, один, другой. Начинается потасовка. То что не получается донести словами, вы впечатываете друг в друга кулаками.
+
+Драка идет долго, пока один из вас не замечает отряд врагов на горизонте, и вы поспешно меняете локацию. Побитые и не услышанные. Вам стало легче, но нет чувства что вы смогли выразить то что хотели. Пока что оно остается с вами, пусть голос в голове и становится тише."
+hero_hp_percent_delta = -5
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_4"]
+script = ExtResource("s_choice")
+choice_text = "Выяснить отношения"
+stat_check = SubResource("check_1")
+success_outcome = SubResource("outcome_2")
+failure_outcome = SubResource("outcome_3")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="buff_5"]
+script = ExtResource("s_buff")
+stat = 10
+value = -5
+duration = -1
+metadata/_custom_type_script = ExtResource("s_buff")
+
+[sub_resource type="Resource" id="outcome_6"]
+script = ExtResource("s_outcome")
+result_text = "Говорить нет толку. Они не услышат и не поймут. Никогда не понимали. Вы один старались, а им все равно. Бросая обиженные взгляды и надеясь что кто-то начнет разговор, дав вам повод сохранив внутреннее благородство облить собеседника желчью, вы продолжаете путь. Но никто не открывает рот. Что-то тяжелое оседает внутри. Оседает и гниет."
+hero_buffs = Array[ExtResource("s_buff")]([SubResource("buff_5")])
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_7"]
+script = ExtResource("s_choice")
+choice_text = "Промолчать"
+outcome = SubResource("outcome_6")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="outcome_8"]
+script = ExtResource("s_outcome")
+result_text = "\"Хочу кое что вам сказать.\"
+Тихий голос Аида звучит оглушительно громко, усиленный вашими эмоциями. Вы оборачиваетесь к нему, готовые выпустить клыки. Кто-то начал разговор, значит теперь вы не будете виноваты, если обольете его грязью.
+\"Прямо сейчас я ненавижу вас, и это нормально. Во время работы приходит множество чувств. И все они не важны. У нас есть задача, миссия. И мы должны ее успешно завершить. Можете кричать, молчать, мне все равно. Помните что у нас есть работа, и думайте о том, как завершить ее успешно. Все. Идем дальше.\"
+
+И он молча продолжил путь, вы пошли за ним, обдумывая слова. Вы не выразили того что на душе. Но сейчас вам этого и не особо хочется. Вы пришли сюда не просто так. Есть что-то что нужно сделать. Ваши мысли переключаются, и голос в голове отъезжает куда-то в даль."
+mission_fantasy_regen_per_turn_bonus = 2
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_9"]
+script = ExtResource("s_choice")
+choice_text = "Вы можете чувствовать что угодно, но продолжайте идти"
+required_god = ExtResource("r_hades")
+outcome = SubResource("outcome_8")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[resource]
+script = ExtResource("s_scene")
+scene_title = "Шёпот"
+body_text = "\"Они не проходили через то, через что прошел я.\"
+Никто не говорит этого вслух, но все думают. Брошенные украдкой взгляды. Тени пробегают между вами.
+\"Чем они заслужили такую славу? Я сделал гораздо больше.\"
+\"Я столько работал чтобы получить свою силу, а им она досталась даром.\"
+Постепенно шаг вашего отряда замедляется. Все больше и больше. Вы останавливаетесь, смотрите друг на друга исподлобья."
+choices = Array[ExtResource("s_choice")]([SubResource("choice_4"), SubResource("choice_7"), SubResource("choice_9")])
+metadata/_custom_type_script = ExtResource("s_scene")

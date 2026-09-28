@@ -85,6 +85,9 @@ func _location_helheim():
 func _location_hell():
 	if CombatManager.selected_location_id != "hell":
 		return
+	if _scene.hell_immune_this_battle:
+		_scene._log_combat("🔥 [Ад] Отряд не слышит нашёптывания ада в этот раз.")
+		return
 	for hero in _scene.heroes_team:
 		if hero and hero.current_hp > 0:
 			hero.modify_majesty(-5)

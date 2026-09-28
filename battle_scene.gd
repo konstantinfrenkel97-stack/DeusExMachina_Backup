@@ -122,6 +122,9 @@ var _rum_spell_whole_team_active: bool = false
 ## Если true (см. CombatManager.pending_desert_immunity) — отряд героев не получает
 ## урон локации "Пустыня" в этом бою целиком (см. battle_locations.gd::_location_desert()).
 var desert_immune_this_battle: bool = false
+## Если true (см. CombatManager.pending_hell_immunity) — отряд героев не получает
+## эффект локации "Ад" в этом бою целиком (см. battle_locations.gd::_location_hell()).
+var hell_immune_this_battle: bool = false
 
 # ═══ Баннер названия способности/заклинания (крупный текст сверху экрана) ═══
 var _ability_banner: Label
@@ -325,6 +328,8 @@ func _apply_pending_mission_modifiers() -> void:
 	CombatManager.pending_rum_spell_whole_team = false
 	desert_immune_this_battle = CombatManager.pending_desert_immunity
 	CombatManager.pending_desert_immunity = false
+	hell_immune_this_battle = CombatManager.pending_hell_immunity
+	CombatManager.pending_hell_immunity = false
 	CombatManager.pending_enemy_modifiers = []
 	CombatManager.pending_hero_modifiers = []
 
@@ -1799,6 +1804,8 @@ func _start_new_round():
 		if hero_it and hero_it.current_hp > 0:
 			for item_it in hero_it.get_equipped_items():
 				_item_fantasy_regen += item_it.fantasy_regen_per_turn
+	# Сюжетный бонус до конца миссии (см. MissionOutcome.mission_fantasy_regen_per_turn_bonus).
+	_item_fantasy_regen += CombatManager.mission_fantasy_regen_per_turn
 	if _item_fantasy_regen != 0:
 		var _fantasy_before: int = current_fantasy
 		current_fantasy = clampi(current_fantasy + _item_fantasy_regen, 0, max_fantasy)

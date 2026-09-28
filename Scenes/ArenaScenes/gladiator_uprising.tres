@@ -1,0 +1,206 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="s_scene"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="s_choice"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="s_outcome"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="s_reward"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="s_check"]
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="s_battle"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="s_formation"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="s_buff"]
+[ext_resource type="Script" uid="uid://dutn5fch4d8b5" path="res://Missions/unit_modifier.gd" id="s_modifier"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Arena/Gladiator/Gladiator.tres" id="r_gladiator"]
+[ext_resource type="Resource" path="res://Enemies/Civilization/Arena/Hoplite/Hoplite.tres" id="r_hoplite"]
+[ext_resource type="Resource" path="res://Essence/essence_chaos.tres" id="r_chaos"]
+
+[sub_resource type="Resource" id="formation_1"]
+script = ExtResource("s_formation")
+formation_name = "Гладиатор x4"
+pos1 = ExtResource("r_gladiator")
+pos2 = ExtResource("r_gladiator")
+pos3 = ExtResource("r_gladiator")
+pos4 = ExtResource("r_gladiator")
+metadata/_custom_type_script = ExtResource("s_formation")
+
+[sub_resource type="Resource" id="formation_2"]
+script = ExtResource("s_formation")
+formation_name = "Гоплит x3"
+pos1 = ExtResource("r_hoplite")
+pos2 = ExtResource("r_hoplite")
+pos3 = ExtResource("r_hoplite")
+metadata/_custom_type_script = ExtResource("s_formation")
+
+[sub_resource type="Resource" id="check_3"]
+script = ExtResource("s_check")
+stat = 3
+stat_label = "Уклонение"
+metadata/_custom_type_script = ExtResource("s_check")
+
+[sub_resource type="Resource" id="battle_4"]
+script = ExtResource("s_battle")
+formation = SubResource("formation_1")
+location_id = "arena"
+metadata/_custom_type_script = ExtResource("s_battle")
+
+[sub_resource type="Resource" id="outcome_5"]
+script = ExtResource("s_outcome")
+result_text = "Вы бросаетесь вслед за убийцами. В путаных коридорах арены шаги отдаются эхом, вскоре вы уже видите их. Они также замечают погоню, и начинают на бегу ронять интерьер, создавая для вас препятствия. Вы перепрыгиваете и продолжаете погоню. Кто-то кричит:
+\"Лови беглых рабов! Награда тому кто поймает!\"
+Вам под ноги летят дорогие вазы, бюсты, скамейки. Беглецы исчезают за углом. Вы ныряете, как навстречу вам летит резко открытая дверь. В последний момент успеваете вы уклонится. Из прохода выскакивают гладиаторы и бросаются на вас."
+thoughts_delta = 400
+battle = SubResource("battle_4")
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="buff_6"]
+script = ExtResource("s_buff")
+stat = 3
+value = -5
+duration = 1
+metadata/_custom_type_script = ExtResource("s_buff")
+
+[sub_resource type="Resource" id="battle_7"]
+script = ExtResource("s_battle")
+formation = SubResource("formation_1")
+location_id = "arena"
+metadata/_custom_type_script = ExtResource("s_battle")
+
+[sub_resource type="Resource" id="outcome_8"]
+script = ExtResource("s_outcome")
+result_text = "Вы бросаетесь вслед за убийцами. В путаных коридорах арены шаги отдаются эхом, вскоре вы уже видите их. Они также замечают погоню, и начинают на бегу ронять интерьер, создавая для вас препятствия. Вы перепрыгиваете и продолжаете погоню. Кто-то кричит:
+\"Лови беглых рабов! Награда тому кто поймает!\"
+Вам под ноги летят дорогие вазы, бюсты, скамейки. Беглецы исчезают за углом. Вы ныряете, как навстречу вам летит резко открытая дверь.
+
+Удар в лоб, первый бог что бежал теряет равновесие и отлетает на союзников. Из-за двери выскакивают гладиаторы и с оружием бросаются на вас."
+battle = SubResource("battle_7")
+hero_buffs = Array[ExtResource("s_buff")]([SubResource("buff_6")])
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_9"]
+script = ExtResource("s_choice")
+choice_text = "Погнаться за ними"
+stat_check = SubResource("check_3")
+success_outcome = SubResource("outcome_5")
+failure_outcome = SubResource("outcome_8")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="check_10"]
+script = ExtResource("s_check")
+stat = 5
+stat_label = "Удача"
+metadata/_custom_type_script = ExtResource("s_check")
+
+[sub_resource type="Resource" id="modifier_11"]
+script = ExtResource("s_modifier")
+target_position = 0
+hp_percent = 90
+metadata/_custom_type_script = ExtResource("s_modifier")
+
+[sub_resource type="Resource" id="battle_12"]
+script = ExtResource("s_battle")
+formation = SubResource("formation_1")
+location_id = "arena"
+enemy_modifiers = Array[ExtResource("s_modifier")]([SubResource("modifier_11")])
+metadata/_custom_type_script = ExtResource("s_battle")
+
+[sub_resource type="Resource" id="outcome_13"]
+script = ExtResource("s_outcome")
+result_text = "Вы начинаете кричать и звать стражу. Она появляется практически мгновенно. Вы объясняете произошедшее и они требуют отвести вас туда, куда скрылись убийцы.
+
+Вы бежите, стража за вами. Раздающийся эхом топот ног впереди - хорошая подсказка, вы не теряете направление. Поворот, один, второй, звук тише.
+
+Весь ваш отряд оказывается на перекрёстке. На вас налетают гладиаторы. Со всех сторон и куда больше, чем было в изначальной группе. Похоже вы оказались в эпицентре полноценного восстания. Стража встает в стену щитов и начинает колоть нападавших. Вы пользуетесь их помощью и обрушиваетесь на врага. Никаких правил, только битва насмерть."
+battle = SubResource("battle_12")
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="buff_14"]
+script = ExtResource("s_buff")
+stat = 7
+value = 1
+duration = 1
+metadata/_custom_type_script = ExtResource("s_buff")
+
+[sub_resource type="Resource" id="modifier_15"]
+script = ExtResource("s_modifier")
+target_position = 1
+buffs = Array[ExtResource("s_buff")]([SubResource("buff_14")])
+metadata/_custom_type_script = ExtResource("s_modifier")
+
+[sub_resource type="Resource" id="battle_16"]
+script = ExtResource("s_battle")
+formation = SubResource("formation_2")
+location_id = "arena"
+hero_modifiers = Array[ExtResource("s_modifier")]([SubResource("modifier_15")])
+metadata/_custom_type_script = ExtResource("s_battle")
+
+[sub_resource type="Resource" id="outcome_17"]
+script = ExtResource("s_outcome")
+result_text = "\"Не сопротивляйтесь, и никто не пострадает.\"
+Вы начинаете звать стражу. Она оказывается здесь через секунду. Вы объясняете им ситуацию, про восставших гладиаторов, показываете куда они побежали. Один из стражников берет бога за ту руку, которой он указывал направление побега, нацепляет на нее наручники, и быстро застегивает их на второй руке.
+\"Убийцы, ложитесь на пол! Ну, живо!\"
+Вы пытаетесь объяснить, что вы не убийцы, и они неправильно вас поняли, но не похоже что они вообще вас слышать. Тяжело выдохнув вы беретесь за оружие. Одна проблема за другой."
+battle = SubResource("battle_16")
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_18"]
+script = ExtResource("s_choice")
+choice_text = "Вызвать охрану"
+stat_check = SubResource("check_10")
+success_outcome = SubResource("outcome_13")
+failure_outcome = SubResource("outcome_17")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="check_19"]
+script = ExtResource("s_check")
+stat = 4
+stat_label = "Точность"
+metadata/_custom_type_script = ExtResource("s_check")
+
+[sub_resource type="Resource" id="reward_20"]
+script = ExtResource("s_reward")
+kind = 1
+resource = ExtResource("r_chaos")
+metadata/_custom_type_script = ExtResource("s_reward")
+
+[sub_resource type="Resource" id="outcome_21"]
+script = ExtResource("s_outcome")
+result_text = "Вы мгновенно понимаете ситуацию, и также быстро принимаете решение. Двое богов быстро оттаскивают тела в вашу раздевалку, двое же начинают плести чары. Часть крови уходит в камни, часть скрывается под иллюзией. Убедившись, что не оставили следов, ваш отряд воссоединяется в раздевалке, и совместно пускает в ход магию. Тела убитых исчезают.
+
+О морали вы подумаете позже. Группа гладиаторов решила бросить миру вызов и обрести свободу. В мелочи, но вы им помогли. Вот и все."
+rewards = Array[ExtResource("s_reward")]([SubResource("reward_20")])
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="battle_22"]
+script = ExtResource("s_battle")
+formation = SubResource("formation_2")
+location_id = "arena"
+metadata/_custom_type_script = ExtResource("s_battle")
+
+[sub_resource type="Resource" id="reward_23"]
+script = ExtResource("s_reward")
+kind = 1
+resource = ExtResource("r_chaos")
+metadata/_custom_type_script = ExtResource("s_reward")
+
+[sub_resource type="Resource" id="outcome_24"]
+script = ExtResource("s_outcome")
+result_text = "Вы мгновенно понимаете ситуацию, и также быстро принимаете решение. Вы хватаете тела и оттаскиваете в свою раздевалку. Тут вы начинаете пускать в ход божественные чары. Тела начинают помаленьку исчезать, когда к вам врываются несколько стражей арены. Они видят вас, видят тела, видят следы крови. Вас застали на месте преступления. Нечего доказывать и объяснять. Вы решили помочь гладиаторам обрести свободу, решили уничтожить тела. Но увы, тел будет больше чем планировалось."
+rewards = Array[ExtResource("s_reward")]([SubResource("reward_23")])
+battle = SubResource("battle_22")
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_25"]
+script = ExtResource("s_choice")
+choice_text = "Спрятать тела"
+stat_check = SubResource("check_19")
+success_outcome = SubResource("outcome_21")
+failure_outcome = SubResource("outcome_24")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[resource]
+script = ExtResource("s_scene")
+scene_title = "Восстание гладиатора"
+body_text = "Вы размялись, отдохнули и готовы к бою. Выходите из своей комнаты и встречаетесь с вашими соперниками. Цепочка из гладиаторов идет по коридору. Их руки скованы огромной цепью, соединяющей бойцов друг с другом. Они мрачно шагают опустив голову, тела покрыты шрамами от боев. Герои Арены. Рядом шагает лысоватый мужичок в чистой белой одежде. Он лениво оглядывается, когда слышит из-за спины шлепание сандалий. Прибегает молодой служка. В одной руке сверток с короткими мечами, в другой сложенные в рулоны сети с крюками. Вы ловите взгляд одного из гладиаторов. Обычно их черты тяжело разобрать под шлемом, но сейчас вам их видно. Чудовищно человеческие. Все происходит в одно мгновение. Последний по цепочке гладиатор выхватывает меч из связки и бросает переднему. Прежде чем вы успеваете вскрикнуть, хозяину перерезают горло, служке разбивают голову о камень. Вы бросаетесь к людям, но в вас швыряют тучное тело богатого человека.
+
+А гладиаторы уже высвободились из цепей. Видимо они были взломаны заранее. Бросив на вас молчаливый взгляд, они хватают оружие и убегают, оставляя вас одних на кровавом месте преступления."
+choices = Array[ExtResource("s_choice")]([SubResource("choice_9"), SubResource("choice_18"), SubResource("choice_25")])
+metadata/_custom_type_script = ExtResource("s_scene")

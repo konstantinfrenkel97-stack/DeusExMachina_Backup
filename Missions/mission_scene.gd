@@ -453,6 +453,20 @@ func _apply_outcome_mission_effects(outcome) -> void:
 	var story_flag_name: String = str(_res_prop(outcome, "set_story_flag", "")).strip_edges()
 	if story_flag_name != "":
 		CampaignState.set_story_flag(story_flag_name)
+	var ha_crit_bonus: float = float(_res_prop(outcome, "highest_armor_hero_permanent_crit_bonus", 0.0))
+	if ha_crit_bonus != 0.0:
+		var ha_path_1: String = _hero_with_highest_armor()
+		if ha_path_1 != "":
+			CampaignState.add_permanent_god_crit_bonus(ha_path_1, ha_crit_bonus)
+	var ha_hp_delta: int = int(_res_prop(outcome, "highest_armor_hero_hp_percent_delta", 0))
+	if ha_hp_delta != 0:
+		var ha_path_2: String = _hero_with_highest_armor()
+		if ha_path_2 != "":
+			var ha_max_hp: int = CampaignState.get_god_max_hp(ha_path_2)
+			var ha_hp_amount: int = int(round(float(ha_max_hp) * float(ha_hp_delta) / 100.0))
+			if ha_hp_amount == 0:
+				ha_hp_amount = 1 if ha_hp_delta > 0 else -1
+			CampaignState.set_god_current_hp(ha_path_2, CampaignState.get_god_current_hp(ha_path_2) + ha_hp_amount, ha_max_hp)
 	var immediate_target_god: Resource = _res_prop(outcome, "target_god_immediate", null) as Resource
 	if immediate_target_god != null:
 		var immediate_target_path: String = str(_res_prop(immediate_target_god, "resource_path", ""))
@@ -484,6 +498,11 @@ func _apply_outcome_mission_effects(outcome) -> void:
 		CombatManager.pending_helheim_skip_fog_rounds += 1
 	if bool(_res_prop(outcome, "grant_desert_immunity_next_battle", false)):
 		CombatManager.pending_desert_immunity = true
+	if bool(_res_prop(outcome, "grant_hell_immunity_next_battle", false)):
+		CombatManager.pending_hell_immunity = true
+	var fantasy_regen_bonus: int = int(_res_prop(outcome, "mission_fantasy_regen_per_turn_bonus", 0))
+	if fantasy_regen_bonus != 0:
+		CombatManager.mission_fantasy_regen_per_turn += fantasy_regen_bonus
 	var check_difficulty_delta: int = int(_res_prop(outcome, "next_check_difficulty_delta", 0))
 	if check_difficulty_delta != 0:
 		MissionState.pending_check_difficulty_delta += check_difficulty_delta
@@ -633,6 +652,25 @@ func _apply_team_mission_hero_hp_flat_delta(flat_delta: int) -> void:
 		CampaignState.set_god_current_hp(path, CampaignState.get_god_current_hp(path) + flat_delta, max_hp)
 
 ## Немедленно меняет уровень забвения у всех живых богов миссии (см.
+## Путь бога ТЕКУЩЕГО отряда миссии с наибольшей ТЕКУЩЕЙ бронёй (с учётом уровня,
+## экипировки и забвения — как она была бы у него в бою прямо сейчас). При равенстве —
+## первый по порядку в MissionState.selected_heroes. "" если в отряде никого живого нет.
+## См. MissionOutcome.highest_armor_hero_*.
+func _hero_with_highest_armor() -> String:
+	var best_path: String = ""
+	var best_armor: int = -1
+	for hero_path_value in MissionState.selected_heroes:
+		var hero_path: String = str(hero_path_value).strip_edges()
+		if hero_path == "" or CampaignState.is_god_dead(hero_path):
+			continue
+		var res: CharacterResource = CampaignState.load_character_resource(hero_path)
+		if res == null:
+			continue
+		if res.armor > best_armor:
+			best_armor = res.armor
+			best_path = hero_path
+	return best_path
+
 ## MissionOutcome.hero_forgetting_delta). Не привязано к следующему бою —
 ## применяется сразу, чтобы работать и когда миссия оканчивается поражением.
 func _apply_forgetting_to_mission_heroes(amount: float) -> void:
