@@ -7112,6 +7112,7 @@ func _mark_defeated_nemeses() -> void:
 
 func _return_to_mission_after_battle() -> void:
 	CombatManager.is_mission_battle = false
+	_apply_post_battle_outcome_effects()
 	if MissionState.advance_after_battle():
 		SceneTransition.change_scene_with_fade("res://Missions/mission_scene.tscn")
 		return
@@ -7121,14 +7122,45 @@ func _return_to_mission_after_battle() -> void:
 	MissionState.pending_mission_end_kind = MissionState.MissionEndKind.VICTORY
 	SceneTransition.change_scene_with_fade("res://Missions/mission_scene.tscn")
 
+## Постбоевые эффекты ИМЕННО этого боя (см. MissionOutcome.zero_hero_majesty_after_battle /
+## restore_hero_hp_to_pre_battle_after_battle, mission_scene.gd::_arm_post_battle_effects) —
+## только при победе (вызывается из _return_to_mission_after_battle), до перехода на next_scene.
+## Отдельная функция — чтобы её можно было проверить без реального перехода на сцену миссии.
+func _apply_post_battle_outcome_effects() -> void:
+	if CombatManager.pending_zero_hero_majesty_after_battle:
+		for hero_path_value in CombatManager.selected_heroes:
+			var hero_path: String = str(hero_path_value).strip_edges()
+			if hero_path != "":
+				MissionState.set_hero_majesty(hero_path, 0)
+		CombatManager.pending_zero_hero_majesty_after_battle = false
+	if CombatManager.pending_restore_hero_hp_after_battle:
+		for hero_path_value in CombatManager.selected_heroes:
+			var hero_path: String = str(hero_path_value).strip_edges()
+			if hero_path == "" or CampaignState.is_god_dead(hero_path):
+				continue
+			if CombatManager.hero_hp_snapshot_before_battle.has(hero_path):
+				CampaignState.set_god_current_hp(hero_path, int(CombatManager.hero_hp_snapshot_before_battle[hero_path]))
+		CombatManager.pending_restore_hero_hp_after_battle = false
+		CombatManager.hero_hp_snapshot_before_battle = {}
+
 ## Поражение в бою миссии: дальше сцены миссии не идут, независимо от того, был ли
 ## у боя next_scene_after_battle — экран поражения/наград/статистики покажет
 ## mission_scene.gd (см. MissionState.pending_mission_end_kind).
 func _return_to_mission_after_defeat() -> void:
 	CombatManager.is_mission_battle = false
-	MissionState.next_scene_after_battle = null
+	_clear_post_battle_outcome_effects()
 	MissionState.pending_mission_end_kind = MissionState.MissionEndKind.DEFEAT
 	SceneTransition.change_scene_with_fade("res://Missions/mission_scene.tscn")
+
+## Поражение не должно оставлять постбоевые эффекты ИМЕННО ЭТОГО боя (см.
+## _apply_post_battle_outcome_effects()) взведёнными — они относились к бою, который
+## теперь уже никогда не "выиграется". Отдельная функция — чтобы её можно было
+## проверить без реального перехода на сцену миссии.
+func _clear_post_battle_outcome_effects() -> void:
+	MissionState.next_scene_after_battle = null
+	CombatManager.pending_zero_hero_majesty_after_battle = false
+	CombatManager.pending_restore_hero_hp_after_battle = false
+	CombatManager.hero_hp_snapshot_before_battle = {}
 
 ## Начисляет ровно 2 полных уровня забвения каждому богу, погибшему в текущем
 ## бою миссии. Если это не привело к окончательной смерти (5.0 забвения) —

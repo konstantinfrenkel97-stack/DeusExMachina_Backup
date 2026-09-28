@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+
+[sub_resource type="Resource" id="out_come_around"]
+script = ExtResource("outcome_script")
+result_text = ""
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_continue"]
+script = ExtResource("choice_script")
+choice_text = "Прийти в себя"
+outcome = SubResource("out_come_around")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "После синего гриба"
+body_text = "Враги повержены, никого нет. Вы чувствуете немоту и тягость мыслей. Перед глазами двоятся дварфы с мотыгами. Они что-то говорят, но вы не понимаете что они от вас хотят. Наконец они перестают говорить и просто отводят вас к стенке, и сажают на пол. Через какое-то время вы окончательно трезвеете. Съесть галлюциногенный гриб и сражаться с воображаемыми врагами. Что за позор для божества."
+choices = Array[ExtResource("choice_script")]([SubResource("choice_continue")])
+metadata/_custom_type_script = ExtResource("scene_script")

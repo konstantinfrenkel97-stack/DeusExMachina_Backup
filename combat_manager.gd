@@ -28,6 +28,14 @@ var pending_hell_immunity: bool = false
 # в начале раунда — напр. MissionOutcome.mission_fantasy_regen_per_turn_bonus. Складывается
 # с обычной регенерацией от предметов (см. battle_scene.gd).
 var mission_fantasy_regen_per_turn: int = 0
+# Постбоевые эффекты ОДНОГО конкретного боя, запущенного из сцены миссии (см.
+# MissionOutcome.zero_hero_majesty_after_battle / restore_hero_hp_to_pre_battle_after_battle,
+# mission_scene.gd::_launch_battle, battle_scene.gd::_return_to_mission_after_battle).
+# Срабатывают только при ПОБЕДЕ — при поражении миссия и так заканчивается отдельным путём.
+var pending_zero_hero_majesty_after_battle: bool = false
+var pending_restore_hero_hp_after_battle: bool = false
+# Снимок HP героев ПЕРЕД этим боем (path -> HP), для pending_restore_hero_hp_after_battle.
+var hero_hp_snapshot_before_battle: Dictionary = {}
 # Заклинание «Ром» в следующем бою бьёт не только выбранную цель, но и всю её команду.
 var pending_rum_spell_whole_team: bool = false
 # Эффекты, которые держатся до конца миссии и применяются в каждом бою.
@@ -72,6 +80,9 @@ func reset_mission():
 	pending_desert_immunity = false
 	pending_hell_immunity = false
 	mission_fantasy_regen_per_turn = 0
+	pending_zero_hero_majesty_after_battle = false
+	pending_restore_hero_hp_after_battle = false
+	hero_hp_snapshot_before_battle = {}
 	pending_rum_spell_whole_team = false
 	mission_strongest_hero_buffs = []
 	mission_team_buffs = []
@@ -106,6 +117,9 @@ func clear_selection():
 	pending_desert_immunity = false
 	pending_hell_immunity = false
 	mission_fantasy_regen_per_turn = 0
+	pending_zero_hero_majesty_after_battle = false
+	pending_restore_hero_hp_after_battle = false
+	hero_hp_snapshot_before_battle = {}
 	pending_rum_spell_whole_team = false
 	mission_strongest_hero_buffs = []
 	mission_team_buffs = []

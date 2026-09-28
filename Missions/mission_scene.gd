@@ -391,7 +391,7 @@ func _apply_outcome_effects(outcome) -> void:
 	var battle = _res_prop(outcome, "battle", null)
 	if battle != null:
 		MissionState.next_scene_after_battle = next_scene
-		_launch_battle(battle)
+		_launch_battle(battle, outcome)
 		return
 	if next_scene != null:
 		MissionState.set_current_scene(next_scene)
@@ -709,9 +709,26 @@ func _apply_random_or_preferred_hero_buffs(buffs: Array, preferred_god) -> void:
 		"buffs": buffs,
 	})
 
-func _launch_battle(battle) -> void:
+func _launch_battle(battle, outcome = null) -> void:
 	_prepare_direct_battle(battle)
+	_arm_post_battle_effects(outcome)
 	SceneTransition.change_scene_with_fade("res://battle_scene.tscn")
+
+## Постбоевые эффекты ИМЕННО этого боя (см. MissionOutcome.zero_hero_majesty_after_battle /
+## restore_hero_hp_to_pre_battle_after_battle, battle_scene.gd::_return_to_mission_after_battle).
+## Снимок HP снимается уже ПОСЛЕ _prepare_direct_battle(), когда CombatManager.selected_heroes
+## точно заполнен реальным отрядом этого боя. Отдельная функция (не инлайн в _launch_battle) —
+## чтобы её можно было проверить без реального перехода на сцену боя.
+func _arm_post_battle_effects(outcome) -> void:
+	CombatManager.pending_zero_hero_majesty_after_battle = bool(_res_prop(outcome, "zero_hero_majesty_after_battle", false))
+	var restore_hp: bool = bool(_res_prop(outcome, "restore_hero_hp_to_pre_battle_after_battle", false))
+	CombatManager.pending_restore_hero_hp_after_battle = restore_hp
+	CombatManager.hero_hp_snapshot_before_battle = {}
+	if restore_hp:
+		for hero_path_value in CombatManager.selected_heroes:
+			var hero_path: String = str(hero_path_value).strip_edges()
+			if hero_path != "":
+				CombatManager.hero_hp_snapshot_before_battle[hero_path] = CampaignState.get_god_current_hp(hero_path)
 
 func _prepare_direct_battle(battle) -> void:
 	CombatManager.selected_heroes = ["", "", "", ""]

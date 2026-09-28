@@ -88,6 +88,16 @@ class_name MissionOutcome
 # mission_fantasy_regen_per_turn). Фантазия — общий ресурс отряда, не привязан к
 # конкретному богу технически, хотя по сюжету может подаваться как решение одного бога.
 @export var mission_fantasy_regen_per_turn_bonus: int = 0
+
+# Постбоевые эффекты ЭТОГО конкретного боя (только этот battle, не "следующий бой" вообще) —
+# срабатывают один раз, сразу после ПОБЕДЫ в нём, до перехода на next_scene (см.
+# CombatManager.pending_zero_hero_majesty_after_battle/pending_restore_hero_hp_after_battle,
+# battle_scene.gd::_return_to_mission_after_battle). При поражении не применяются.
+# Обнуляет банк величия (MissionState.hero_majesty) всех героев отряда после победы.
+@export var zero_hero_majesty_after_battle: bool = false
+# Возвращает HP каждого героя к значению, которое было ПЕРЕД началом именно этого боя —
+# независимо от того, что произошло во время самого боя.
+@export var restore_hero_hp_to_pre_battle_after_battle: bool = false
 # Одноразовая скидка сложности для СЛЕДУЮЩЕЙ проверки характеристики в миссии (напр. "жульничество").
 @export var next_check_difficulty_delta: int = 0
 # Если true — миссия немедленно считается проваленной (без боя и наград), игрок

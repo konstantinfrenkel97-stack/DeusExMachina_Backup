@@ -1,0 +1,83 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="s_scene"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="s_choice"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="s_outcome"]
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="s_battle"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="s_formation"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Tunnels/Dwarf_smith/dwarf_smith.tres" id="r_smith"]
+[ext_resource type="Resource" path="res://Enemies/Dungeon/Tunnels/Dwarf_shield/dwarf_shield.tres" id="r_shield"]
+[ext_resource type="Resource" path="res://Scenes/TunnelsScenes/after_blue_mushroom.tres" id="r_after_blue"]
+
+[sub_resource type="Resource" id="outcome_1"]
+script = ExtResource("s_outcome")
+result_text = "Вы срываете красный гриб, разламываете на 4 части и съедаете. Вкус... странный, но вроде съедобно.
+
+Вы падаете на колени, и вас рвет. Организм просто выпускает наружу все что вы поглотили, вы чувствуете как холодеют кончики пальцев. Все больше жидкости извергается изо рта. Вам кажется что уже ничего не осталось. Вам кажется вы сейчас умрете. И все же вы приходите в себя. Голова стучит, будто кто-то изнутри бьет по стенкам черепа. Глаза словно хотят выйти из орбит. Кончики пальцев болезненно колет. Прямо перед вами стоят и посмеиваются несколько дварфов с мотыгами.
+
+\"Ну чтож, хлопчики, ядовитый гриб да без обработки отведали? Вот, будет вам урок, как у честных работяг воровать. А ну пошли отсюда, долговязые!\""
+hero_hp_percent_delta = -5
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_2"]
+script = ExtResource("s_choice")
+choice_text = "Красный"
+outcome = SubResource("outcome_1")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="outcome_3"]
+script = ExtResource("s_outcome")
+result_text = "Вы срываете зеленый гриб, и разломив на несколько частей съедаете. Вам кажется что в тело ударила молния. Хочется скакать, хочется бежать и лететь. Хочется кричать. Вы набираете воздух в грудь, как слышите другой крик.
+\"Воры! Воры! Жрут грибы, черви проклятые! Гони их ребята!\"
+Вам не очень даются сложные мысли прямо сейчас, вы просто бежите от тех, кто бежит на вас."
+hero_hp_percent_delta = 5
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_4"]
+script = ExtResource("s_choice")
+choice_text = "Зеленый"
+outcome = SubResource("outcome_3")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="formation_5"]
+script = ExtResource("s_formation")
+formation_name = "Кузнец — кузнец — щитовик — щитовик"
+pos1 = ExtResource("r_smith")
+pos2 = ExtResource("r_smith")
+pos3 = ExtResource("r_shield")
+pos4 = ExtResource("r_shield")
+metadata/_custom_type_script = ExtResource("s_formation")
+
+[sub_resource type="Resource" id="battle_6"]
+script = ExtResource("s_battle")
+formation = SubResource("formation_5")
+location_id = "tunnels"
+metadata/_custom_type_script = ExtResource("s_battle")
+
+[sub_resource type="Resource" id="outcome_7"]
+script = ExtResource("s_outcome")
+result_text = "Синий - лучший цвет для гриба. Вы срываете, разламываете и отправляете в рот. Ничего не происходит, никаких новых ощущений.
+\"Я убью тебя, потому что короткий! Но длинная борода! Да!\"
+Вы смотрите наверх, прямо по воздуху, сверху вниз, на вас бежит отряд дварфов. А потолок это шляпка гриба, а вы стоите горизонтально. Они налетают на вас, и вы вынуждены прибегнуть к насилию, чтобы не стать грибом, иначе вас съест барашек."
+battle = SubResource("battle_6")
+next_scene = ExtResource("r_after_blue")
+zero_hero_majesty_after_battle = true
+restore_hero_hp_to_pre_battle_after_battle = true
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_8"]
+script = ExtResource("s_choice")
+choice_text = "Синий"
+outcome = SubResource("outcome_7")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[resource]
+script = ExtResource("s_scene")
+scene_title = "Грибы такие разные"
+body_text = "А чем питаются жители подземелья? Однообразные тоннели - прекрасная почва для самых разных разговоров. Охота. Под землей живут разные существа, зачастую опасные. Они могут иметь фермы на поверхности, возле входов в тоннели. Но там ведь не так много земли, а насколько вы можете судить, подземелье заселено довольно густо. Торговля? Пожалуй торговля. Тогда не удивительно, что дварфы так требовательны к добыче ценных металлов, для них это косвенным образом - вопрос выживания.
+
+Внезапно, ответ появляется прямо перед вами, в виде тяжелых деревянных дверей, вы никогда не видели, чтобы створки прилегали друг к другу так плотно. Отворив и войдя внутрь, вы попадаете в тускло освещенную пещеру с очень сырым воздухом. Под потолком светятся бледные грибочки, давая минимальное освещение, и в этом широком и влажном пространстве стройными рядами идут грядки, на которых растут высокие, самые разнообразные грибы. Между рядами вы видите кончики садовых инструментов, перемещающихся неторопливо. Самих садовников вы не видите, и они скорее всего не видят вас. Ну чтож, похоже выбора не остается. Вам нужно съесть гриб.
+
+Вопрос лишь в том, какого цвета."
+choices = Array[ExtResource("s_choice")]([SubResource("choice_2"), SubResource("choice_4"), SubResource("choice_8")])
+metadata/_custom_type_script = ExtResource("s_scene")
