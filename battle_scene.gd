@@ -7163,10 +7163,16 @@ func _clear_post_battle_outcome_effects() -> void:
 	CombatManager.hero_hp_snapshot_before_battle = {}
 
 ## Начисляет ровно 2 полных уровня забвения каждому богу, погибшему в текущем
-## бою миссии. Если это не привело к окончательной смерти (5.0 забвения) —
-## бог полностью восстанавливает здоровье и остаётся доступен для следующих
-## боёв этой же миссии. Если добил до предела — окончательно погиб, недоступен
-## до конца миссии (как и раньше).
+## бою миссии, и в ЛЮБОМ случае делает его недоступным до конца этой миссии
+## (CombatManager.mission_dead_heroes — несмотря на название, функционально это
+## список "не участвует в ОСТАВШИХСЯ боях текущей миссии", читается везде, где
+## собирается отряд на следующий бой — mission_scene.gd/battle_setup.gd).
+## Если добавленное забвение НЕ привело к окончательной смерти (5.0 — is_dead),
+## бог всё равно восстанавливает здоровье (чтобы не висеть "недобитым" до конца
+## кампании) — но в следующих боях ЭТОЙ миссии участвовать уже не будет, только
+## со следующей миссии. Если же добило до 5.0 — окончательно погиб, недоступен
+## и в будущих миссиях тоже (CampaignState.is_god_dead()), пока не воскрешён
+## отдельной механикой.
 ## Хранится ИСКЛЮЧИТЕЛЬНО через CampaignState._god_state_overrides (см.
 ## CampaignState.add_god_forgetting) — то же хранилище, что и SaveSystem, а не запись
 ## поверх исходного .tres бога: тот файл — общий шаблон для ВСЕХ партий этого бога
@@ -7186,10 +7192,9 @@ func _apply_death_fading() -> void:
 		var state: Dictionary = CampaignState.add_god_forgetting(hero_path, 2.0)
 		MissionState.add_hero_forgetting_gained(hero_path, 2.0)
 		var is_dead: bool = bool(state.get("is_dead", false))
-		if is_dead:
-			if not CombatManager.mission_dead_heroes.has(hero_path):
-				CombatManager.mission_dead_heroes.append(hero_path)
-		else:
+		if not CombatManager.mission_dead_heroes.has(hero_path):
+			CombatManager.mission_dead_heroes.append(hero_path)
+		if not is_dead:
 			CampaignState.set_god_current_hp(hero_path, CampaignState.get_god_max_hp(hero_path))
 		print("[Смерть] %s → забвение %.1f%s" % [
 			hero.unit_name, float(state.get("forgetting_level", 0.0)),

@@ -553,7 +553,12 @@ func _update_slot_button(button: Button, is_enemy: bool, index: int) -> void:
 		return
 	if not is_enemy and _is_mission_dead_slot(index):
 		var dead_path: String = CombatManager.mission_heroes[index]
-		label.text = "%s: %s" % ["Погиб", _get_name_from_resource(dead_path, "???")]
+		# "Погиб" — только если это окончательная смерть (5.0 забвения, CampaignState.is_god_dead);
+		# если бог погиб В БОЮ, но забвение не добило до предела, он воскрешён с полным HP и
+		# просто выбыл из ОСТАВШИХСЯ боёв этой миссии (см. battle_scene.gd::_apply_death_fading()) —
+		# вернётся уже со следующей миссии, так что ярлык не должен пугать игрока навсегда.
+		var status_word: String = "Погиб" if CampaignState.is_god_dead(dead_path) else "Выбыл до конца миссии"
+		label.text = "%s: %s" % [status_word, _get_name_from_resource(dead_path, "???")]
 		button.disabled = true
 		return
 	var path := selected_array[index]
