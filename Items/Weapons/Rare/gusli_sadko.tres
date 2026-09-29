@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3]
+
+[ext_resource type="Script" path="res://Items/item_resource.gd" id="item_script"]
+
+[resource]
+script = ExtResource("item_script")
+metadata/_custom_type_script = ExtResource("item_script")
+item_name = "Гусли Садко"
+item_type = 0
+rarity = 1
+description = "Редкое оружие. Гусли утонувшего музыканта, чья игра однажды свела с ума целый косяк русалок. Даёт +10 уклонения и +10 удачи."
+bonus_evasion = 10
+bonus_crit_chance = 0.10
