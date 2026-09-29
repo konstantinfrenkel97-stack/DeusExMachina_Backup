@@ -154,7 +154,6 @@ var effects: BattleEffects
 var _is_fog_round: bool = false                  # Хельхейм: текущий раунд туманный
 var _bg_sprite: Sprite2D = null                  # Узел бэкграунда (самый нижний слой)
 var _bottom_backdrop: ColorRect = null              # Область под полем боя (в цвет интерфейса)
-var _bottom_backdrop_border: ColorRect = null       # Золотая полоса-разделитель на верхнем крае
 var _swamp_tracked_unit: Combatant = null        # Топь: юнит на первой позиции
 var _swamp_consecutive_rounds: int = 0           # Топь: сколько ходов подряд юнит под эффектом локации (для пассивки Водяного)
 var _swamp_grace_unit: Combatant = null          # Топь/Утопленница: юнит покинул позицию 1, но дебафф ещё держится
@@ -1144,16 +1143,6 @@ func _create_bottom_backdrop() -> void:
 	_bottom_backdrop.color = Color(0.09, 0.11, 0.20, 1.0)
 	_bottom_backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_bottom_backdrop.z_index = -90
-	if _bottom_backdrop_border == null:
-		_bottom_backdrop_border = ColorRect.new()
-		_bottom_backdrop_border.name = "BottomBackdropBorder"
-	if _bottom_backdrop_border.get_parent() != self:
-		if _bottom_backdrop_border.get_parent():
-			_bottom_backdrop_border.get_parent().remove_child(_bottom_backdrop_border)
-		add_child(_bottom_backdrop_border)
-	_bottom_backdrop_border.color = Color(0.83, 0.72, 0.45, 1.0)
-	_bottom_backdrop_border.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_bottom_backdrop_border.z_index = -89
 	_position_bottom_backdrop()
 
 func _position_bottom_backdrop() -> void:
@@ -1163,9 +1152,6 @@ func _position_bottom_backdrop() -> void:
 	var frame_h: float = floor(vp_size.x * BACKGROUND_FRAME_RATIO)
 	_bottom_backdrop.position = Vector2(0.0, frame_h)
 	_bottom_backdrop.size = Vector2(vp_size.x, maxf(0.0, vp_size.y - frame_h))
-	if _bottom_backdrop_border != null:
-		_bottom_backdrop_border.position = Vector2(0.0, frame_h)
-		_bottom_backdrop_border.size = Vector2(vp_size.x, 2.0)
 
 func _on_viewport_size_changed() -> void:
 	_fit_background()
