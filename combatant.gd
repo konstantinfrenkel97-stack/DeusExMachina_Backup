@@ -406,6 +406,9 @@ func take_damage(amount: int):
 			life_charges -= 1
 			current_hp = int(max_hp * 0.5)
 			active_effects.clear()
+			# is_stunned сбрасывается только при истечении записи "stun" — а clear() эту запись
+			# стирает, и без явного сброса воскресший юнит пропускал бы все ходы до конца боя.
+			is_stunned = false
 			koschei_life_shield_triggered.emit()
 			if not death_shield_voice_lines.is_empty():
 				var _shield_voice_line: VoiceLineResource = death_shield_voice_lines[randi() % death_shield_voice_lines.size()]
@@ -422,6 +425,7 @@ func take_damage(amount: int):
 			if not _immortal_shield_used:
 				current_hp = max_hp
 				active_effects.clear()
+				is_stunned = false  # см. комментарий у зарядов Кощея выше
 				active_effects.append({"stat": "trigger_marker", "value": 0, "duration": -1, "effect_id": "immortal_shield_used"})
 				immortal_death_shield_triggered.emit()
 				return
