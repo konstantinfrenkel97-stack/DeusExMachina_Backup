@@ -7347,18 +7347,8 @@ func _format_ability_tooltip(ability: AbilityResource) -> String:
 		lines.append("Дополнительно:")
 		for extra_line in extra_lines:
 			lines.append("  • %s" % extra_line)
-	var pos_from: Array[String] = []
-	for i in range(ability.usable_from_positions.size()):
-		if ability.usable_from_positions[i]:
-			pos_from.append(str(i + 1))
-	if pos_from.size() > 0 and pos_from.size() < 4:
-		lines.append("Доступно с линий: %s" % " / ".join(pos_from))
-	var target_pos: Array[String] = []
-	for i in range(ability.targetable_positions.size()):
-		if ability.targetable_positions[i]:
-			target_pos.append(str(i + 1))
-	if target_pos.size() > 0:
-		lines.append("Цель на линиях: %s" % " / ".join(target_pos))
+	lines.append("")
+	lines.append_array(StatIconFormatter.ability_position_lines(ability, false))
 	return "\n".join(lines)
 func _build_god_center_column() -> Control:
 	var vb := VBoxContainer.new()
