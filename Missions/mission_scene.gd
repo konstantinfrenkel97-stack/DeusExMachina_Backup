@@ -363,6 +363,8 @@ func _outcome_rewards_text(outcome) -> String:
 				parts.append("%s x%d" % [display_name, int(reward.amount)])
 		else:
 			var display_name := reward.display_name() if reward.resource == null else _reward_display_name(reward.resource)
+			if reward.kind == Reward.Kind.ITEM and reward.amount > 1:
+				display_name += " x%d" % int(reward.amount)
 			parts.append(display_name)
 	if parts.is_empty():
 		return ""
@@ -1166,6 +1168,7 @@ func _on_mission_reward_continue_pressed() -> void:
 func _populate_reward_summary(content: VBoxContainer) -> void:
 	var currency_totals: Dictionary = {}
 	var item_paths: Array[String] = []
+	var item_counts: Dictionary = {}
 	var god_paths: Array[String] = []
 	for entry_value in MissionState.granted_rewards:
 		var entry := entry_value as Dictionary
@@ -1180,7 +1183,9 @@ func _populate_reward_summary(content: VBoxContainer) -> void:
 			Reward.Kind.ESSENCE, Reward.Kind.CURRENCY:
 				currency_totals[resource_path] = int(currency_totals.get(resource_path, 0)) + amount
 			Reward.Kind.ITEM:
-				item_paths.append(resource_path)
+				if not item_counts.has(resource_path):
+					item_paths.append(resource_path)
+				item_counts[resource_path] = int(item_counts.get(resource_path, 0)) + maxi(amount, 1)
 			Reward.Kind.GOD:
 				god_paths.append(resource_path)
 	if currency_totals.is_empty() and item_paths.is_empty() and god_paths.is_empty():
@@ -1196,7 +1201,8 @@ func _populate_reward_summary(content: VBoxContainer) -> void:
 		_add_reward_row(content, resource, int(currency_totals[path_value]), true)
 	for item_path in item_paths:
 		var item := load(item_path) as Resource
-		_add_reward_row(content, item, 1, false)
+		var item_count: int = int(item_counts[item_path])
+		_add_reward_row(content, item, item_count, item_count > 1)
 	for god_path in god_paths:
 		var god := CampaignState.load_character_resource(god_path)
 		_add_reward_row(content, god, 1, false)
@@ -1295,6 +1301,9 @@ func _complete_mission_return() -> void:
 	if return_path == "":
 		return_path = "res://Campaign/campaign_screen.tscn"
 	MusicManager.stop_mission()
+	# Расходуемые артефакты (Бочка пороха) сгорают у всех богов, отыгравших миссию.
+	for hero_path in MissionState.selected_heroes:
+		CampaignState.consume_single_mission_items(hero_path)
 	MissionState.clear_mission_run()
 	CombatManager.reset_mission()
 	get_tree().change_scene_to_file(return_path)

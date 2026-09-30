@@ -458,6 +458,27 @@ func add_item(path: String) -> void:
 func remove_item(path: String) -> void:
 	treasury.erase(path)
 
+## Сжигает расходуемые артефакты (ItemResource.single_mission_use), надетые на бога:
+## снимает со слота и убирает одну копию из сокровищницы. Вызывается в конце миссии
+## для всех богов отряда и при смерти бога в бою миссии. Возвращает названия сгоревших.
+func consume_single_mission_items(god_path: String) -> Array[String]:
+	var consumed: Array[String] = []
+	god_path = god_path.strip_edges()
+	if god_path == "":
+		return consumed
+	var equipment_paths := get_god_equipment_paths(god_path)
+	for slot in range(equipment_paths.size()):
+		var item_path: String = equipment_paths[slot]
+		if item_path == "" or not ResourceLoader.exists(item_path):
+			continue
+		var item := load(item_path) as ItemResource
+		if item == null or not item.single_mission_use:
+			continue
+		set_god_equipment_path(god_path, slot, "")
+		remove_item(item_path)
+		consumed.append(item.item_name)
+	return consumed
+
 ## Добавить миссию в список доступных (без дубликатов).
 func add_mission(path: String) -> void:
 	if path.strip_edges() != "" and not available_missions.has(path):

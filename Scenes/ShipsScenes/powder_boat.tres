@@ -97,12 +97,12 @@ metadata/_custom_type_script = ExtResource("battle_script")
 script = ExtResource("reward_script")
 kind = 0
 resource = ExtResource("ext_4")
-amount = 1
+amount = 3
 metadata/_custom_type_script = ExtResource("reward_script")
 
 [sub_resource type="Resource" id="sr_014"]
 script = ExtResource("outcome_script")
-result_text = "Вы аккуратно поднимаете бочки на борт — и не успеваете перевести дух, как на вас набрасывается экипаж: «Чужаки! Саботажники! Хотят нас подорвать!» В море ничего не бывает просто — но у вас теперь есть порох. Эффект: бой, вы получаете артефакт «Бочка пороха»."
+result_text = "Вы аккуратно поднимаете бочки на борт — и не успеваете перевести дух, как на вас набрасывается экипаж: «Чужаки! Саботажники! Хотят нас подорвать!» В море ничего не бывает просто — но у вас теперь есть порох. Эффект: бой, вы получаете артефакт «Бочка пороха» (3 шт.)."
 battle = SubResource("sr_012")
 rewards = [SubResource("sr_013")]
 metadata/_custom_type_script = ExtResource("outcome_script")

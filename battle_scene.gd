@@ -684,7 +684,8 @@ func _setup_help_button() -> void:
 	var btn := HelpButtonFactory.create()
 	btn.name = "HelpButton"
 	var vp := get_viewport().get_visible_rect().size
-	btn.position = Vector2(16.0, vp.y - HelpButtonFactory.DIAMETER - 16.0)
+	# Отступ снизу маленький: выше заканчивается ряд "Тактика/Пропуск хода" (~y=669 при 720).
+	btn.position = Vector2(16.0, vp.y - HelpButtonFactory.DIAMETER - 4.0)
 	btn.z_index = 200
 	btn.pressed.connect(_show_help_topics)
 	$BattleUI.add_child(btn)
@@ -7181,6 +7182,9 @@ func _apply_death_fading() -> void:
 		var is_dead: bool = bool(state.get("is_dead", false))
 		if not CombatManager.mission_dead_heroes.has(hero_path):
 			CombatManager.mission_dead_heroes.append(hero_path)
+		# Расходуемые артефакты сгорают сразу при смерти владельца в миссии.
+		for item_name in CampaignState.consume_single_mission_items(hero_path):
+			_log_combat("%s: «%s» сгорает вместе с гибелью владельца." % [hero.unit_name, item_name])
 		if not is_dead:
 			CampaignState.set_god_current_hp(hero_path, CampaignState.get_god_max_hp(hero_path))
 		print("[Смерть] %s → забвение %.1f%s" % [

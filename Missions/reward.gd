@@ -57,7 +57,8 @@ func grant_resolved(resolved_resource: Resource) -> void:
 	var path: String = resolved_resource.resource_path
 	match kind:
 		Kind.ITEM:
-			CampaignState.add_item(path)
+			for i in range(maxi(amount, 1)):
+				CampaignState.add_item(path)
 		Kind.ESSENCE, Kind.CURRENCY:
 			CampaignState.add_currency_amount(path, amount)
 		Kind.GOD:

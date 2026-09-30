@@ -83,6 +83,10 @@ enum Rarity {
 # "regen_aura"         — союзники рядом регенерируют HP
 @export var effect: String = ""
 
+# Расходуемый артефакт: надетый на бога, сгорает после конца миссии, в которой этот
+# бог участвовал, или сразу при его смерти в ней (см. CampaignState.consume_single_mission_items).
+@export var single_mission_use: bool = false
+
 
 ## Возвращает название типа по-русски.
 func get_type_name() -> String:
