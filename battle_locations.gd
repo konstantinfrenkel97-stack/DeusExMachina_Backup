@@ -17,10 +17,10 @@ class_name BattleLocations
 # Ссылка на сцену боя для доступа к командам и вспомогательным методам
 # (_log_combat, _check_battle_end, _compact_team, _on_unit_killed,
 #  _apply_buff_to_unit, _compute_effect_duration, _has_special_on_team и т.д.).
-var _scene  # намеренно без типа — динамическая диспетчеризация как в battle_marks.gd
+var _scene: BattleScene  # типизировано: парсер Godot проверяет каждое обращение к сцене
 
 
-func _init(scene) -> void:
+func _init(scene: BattleScene) -> void:
 	_scene = scene
 
 
@@ -30,13 +30,13 @@ func _location_helheim():
 	if CombatManager.selected_location_id != "helheim":
 		if _scene._is_fog_round:
 			_scene._is_fog_round = false
-			_scene._swap_background("")
+			_scene._hud._swap_background("")
 		return
 
 	# Восстанавливаем фон после предыдущего туманного раунда
 	if _scene._is_fog_round:
 		_scene._is_fog_round = false
-		_scene._swap_background("")
+		_scene._hud._swap_background("")
 
 	# Йотун: удваивает шанс тумана, пока жив хотя бы 1 йотун
 	if CombatManager.pending_helheim_skip_fog_rounds > 0:
@@ -56,7 +56,7 @@ func _location_helheim():
 		_scene._is_fog_round = true
 		# Сменить фон на туманный
 		if CombatManager.selected_fog_background != "":
-			_scene._swap_background(CombatManager.selected_fog_background)
+			_scene._hud._swap_background(CombatManager.selected_fog_background)
 		var fog_chance_text = " (шанс %d%% — живёт Йотун!)" % int(fog_chance * 100) if fog_chance > 0.30 else ""
 		_scene._log_combat("🌫 [Хельхейм] ТУМАННЫЙ РАУНД!%s Герои получают -20 к урону на этот ход." % fog_chance_text)
 		_scene._set_status("🌫 ТУМАННЫЙ РАУНД! Все герои получают -20 к урону.")
@@ -163,7 +163,7 @@ func _location_stars():
 func _apply_star_cell_buff(unit: Combatant, pos_index: int, duration: int):
 	if unit == null or unit.current_hp <= 0:
 		return
-	var _sc_duration = _scene._compute_effect_duration(unit, unit, duration, false)
+	var _sc_duration = _scene._abilities._compute_effect_duration(unit, unit, duration, false)
 	match pos_index:
 		0:
 			_scene.effects._apply_buff_to_unit(unit, "armor", 10, _sc_duration, "stars_bonus", "Звёзды")
@@ -243,7 +243,7 @@ func _location_depths_on_move(target: Combatant):
 		var _dep_eff = _apply_depths_effect_on_unit(target, 20, 0)
 		for line in _dep_eff:
 			_scene._log_combat(line)
-		if target.current_hp <= 0 and _scene._check_battle_end():
+		if target.current_hp <= 0 and _scene._outcome._check_battle_end():
 			return
 	else:
 		# Чётный: Спокойные воды — восстановление 10% HP
@@ -251,7 +251,7 @@ func _location_depths_on_move(target: Combatant):
 		var _dep_eff2 = _apply_depths_effect_on_unit(target, 0, _dep_heal)
 		for line in _dep_eff2:
 			_scene._log_combat(line)
-	_scene._update_all_visuals()
+	_scene._field._update_all_visuals()
 
 ## Применяет эффект Глубины к юниту с учётом пассивок (Русалка-волшебница инвертирует урон в лечение,
 ## Морская ведьма удваивает эффект). raw_dmg — чистый урон, heal — лечение.
@@ -275,9 +275,9 @@ func _apply_depths_effect_on_unit(target: Combatant, raw_dmg: int, heal: int) ->
 		lines.append("🌊 [Глубина] Бурные потоки: %s получает %d чистого урона при смене позиции%s. HP: %d → %d" % [target.unit_name, dmg, " (x2)" if doubled else "", hp_b, target.current_hp])
 		if target.current_hp <= 0:
 			lines.append("  → %s повержен водами Глубины!" % target.unit_name)
-			_scene._on_unit_killed(target)
+			_scene._unit_events._on_unit_killed(target)
 			var team = _scene.heroes_team if not target.is_enemy else _scene.enemies_team
-			_scene._compact_team(team)
+			_scene._field._compact_team(team)
 	else:
 		var h = heal * (2 if doubled else 1)
 		var hp_b = target.current_hp
@@ -403,10 +403,10 @@ func _location_swamp():
 					_vd_caster = _vd_u
 					break
 			first_hero.is_stunned = true
-			var _vd_stun_duration = _scene._compute_effect_duration(_vd_caster, first_hero, 1, true)
+			var _vd_stun_duration = _scene._abilities._compute_effect_duration(_vd_caster, first_hero, 1, true)
 			first_hero.active_effects.append({"stat": "stun", "value": 1, "duration": _vd_stun_duration, "source_ability": "Болотное царство (Водяной)"})
 			first_hero.check_stance_interruption("stun")
-			_scene._notify_stun_applied(first_hero)
+			_scene._passives._notify_stun_applied(first_hero)
 			_scene._log_combat("🌿 [Водяной] %s: 3 хода подряд под эффектом Топи — оглушён!" % first_hero.unit_name)
 		_scene._swamp_consecutive_rounds = 0
 

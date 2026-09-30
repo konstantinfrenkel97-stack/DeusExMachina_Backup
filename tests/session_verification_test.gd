@@ -336,7 +336,7 @@ func _test_cannon_position_damage() -> void:
 	var chain := [t1, t2, t3]
 	var expected := [150, 120, 90]
 	var hp_before: Array = chain.map(func(t): return t.current_hp)
-	scene._use_ability(cannon, t1, ability)
+	scene._abilities._use_ability(cannon, t1, ability)
 	for i in range(chain.size()):
 		var dealt: int = hp_before[i] - chain[i].current_hp
 		_check("Пушка: цель %d по цепочке -> урон %d%% (%d)" % [i + 1, expected[i], expected[i]], dealt == expected[i],
@@ -399,12 +399,12 @@ func _test_oboroten_round3() -> void:
 	var dmg_before := oboroten.damage
 	var eva_before := oboroten.evasion
 	var crit_before := oboroten.crit_chance
-	scene._apply_oboroten_round3_power()
+	scene._passives._apply_oboroten_round3_power()
 	_check("Оборотень: +30 урона/уклонения/удачи применяется",
 		oboroten.damage == dmg_before + 30 and oboroten.evasion == eva_before + 30 and absf(oboroten.crit_chance - (crit_before + 0.30)) < 0.001,
 		"damage=%d evasion=%d crit=%f" % [oboroten.damage, oboroten.evasion, oboroten.crit_chance])
 	# Повторный вызов не должен повторно применять бонус
-	scene._apply_oboroten_round3_power()
+	scene._passives._apply_oboroten_round3_power()
 	_check("Оборотень: повторный вызов НЕ дублирует бонус (идемпотентность)", oboroten.damage == dmg_before + 30,
 		"получено %d (ожидалось %d)" % [oboroten.damage, dmg_before + 30])
 

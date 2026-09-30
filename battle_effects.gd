@@ -21,10 +21,10 @@ class_name BattleEffects
 # (_log_combat, _update_all_visuals, _compute_effect_duration, _apply_shift_effect,
 #  _is_player_hero, _notify_stun_applied, _deal_damage, _on_unit_killed,
 #  _compact_team, _check_battle_end, _is_fog_round и т.д.).
-var _scene  # намеренно без типа — динамическая диспетчеризация как в battle_marks.gd
+var _scene: BattleScene  # типизировано: парсер Godot проверяет каждое обращение к сцене
 
 
-func _init(scene) -> void:
+func _init(scene: BattleScene) -> void:
 	_scene = scene
 
 
@@ -83,9 +83,9 @@ func _apply_effect_to_target(attacker: Combatant, target: Combatant, effect: Str
 	# Продление длительности пассивками (Один/Нага монах — баффы; Кикимора/Самди — дебаффы) —
 	# см. _compute_effect_duration, единая точка входа для всей этой логики.
 	if effect.contains("debuff"):
-		duration = _scene._compute_effect_duration(attacker, target, duration, true)
+		duration = _scene._abilities._compute_effect_duration(attacker, target, duration, true)
 	elif effect.contains("buff"):
-		duration = _scene._compute_effect_duration(attacker, target, duration, false)
+		duration = _scene._abilities._compute_effect_duration(attacker, target, duration, false)
 
 	# Сфинкс / Чёрная маска Чернобога: иммунитет ко всем дебаффам
 	if target.special_effect_type == "sphinx_debuff_immune" or target.has_item_effect("chernobog_debuff_immune"):
@@ -108,7 +108,7 @@ func _apply_effect_to_target(attacker: Combatant, target: Combatant, effect: Str
 		if mover.is_large and not attacker.is_large:
 			return "%s — слишком велик, чтобы его сдвинуть!" % mover.unit_name
 		var old_pos = mover.position_index
-		_scene._apply_shift_effect(mover, -val, _scene._is_player_hero(mover))
+		_scene._field._apply_shift_effect(mover, -val, _scene._is_player_hero(mover))
 		return "%s продвигается вперёд: линия %d → %d." % [mover.unit_name, old_pos + 1, mover.position_index + 1]
 	elif effect.ends_with("push_back"):
 		var mover = attacker if effect.begins_with("self_") else target
@@ -117,7 +117,7 @@ func _apply_effect_to_target(attacker: Combatant, target: Combatant, effect: Str
 		if mover.is_large and not attacker.is_large:
 			return "%s — слишком велик, чтобы его сдвинуть!" % mover.unit_name
 		var old_pos = mover.position_index
-		_scene._apply_shift_effect(mover, val, _scene._is_player_hero(mover))
+		_scene._field._apply_shift_effect(mover, val, _scene._is_player_hero(mover))
 		return "%s отталкивается назад: линия %d → %d." % [mover.unit_name, old_pos + 1, mover.position_index + 1]
 
 	elif effect.ends_with("pull_forward") or effect.ends_with("pull_porward"):
@@ -127,11 +127,11 @@ func _apply_effect_to_target(attacker: Combatant, target: Combatant, effect: Str
 		if mover.is_large and not attacker.is_large:
 			return "%s — слишком велик, чтобы его сдвинуть!" % mover.unit_name
 		var old_pos = mover.position_index
-		_scene._apply_shift_effect(mover, -val, _scene._is_player_hero(mover))
+		_scene._field._apply_shift_effect(mover, -val, _scene._is_player_hero(mover))
 		return "%s притягивается вперёд: линия %d → %d." % [mover.unit_name, old_pos + 1, mover.position_index + 1]
 
 	elif effect == "periodic_damage":
-		var pd_duration = _scene._compute_effect_duration(attacker, target, duration, true)
+		var pd_duration = _scene._abilities._compute_effect_duration(attacker, target, duration, true)
 		var pd_val = int(round(val * (1.0 + attacker.get_periodic_damage_bonus_percent() / 100.0)))
 		var dot_effect = {"stat": "periodic_damage", "value": pd_val, "duration": pd_duration, "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name}
 		target.active_effects.append(dot_effect)
@@ -141,17 +141,17 @@ func _apply_effect_to_target(attacker: Combatant, target: Combatant, effect: Str
 
 	elif effect == "target_root":
 		# Леший «Ни шагу»: цель не может передвигаться N ходов
-		var root_duration = _scene._compute_effect_duration(attacker, target, duration, true)
+		var root_duration = _scene._abilities._compute_effect_duration(attacker, target, duration, true)
 		target.active_effects.append({"stat": "rooted", "value": val, "duration": root_duration, "effect_id": "rooted", "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name})
 		return "%s опутан корнями и не может передвигаться %d ход(ов)." % [target.unit_name, root_duration]
 
 	elif effect == "stun":
 		target.is_stunned = true
-		var stun_duration = _scene._compute_effect_duration(attacker, target, duration, true)
+		var stun_duration = _scene._abilities._compute_effect_duration(attacker, target, duration, true)
 		var stun_effect = {"stat": "stun", "value": 1, "duration": stun_duration, "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name}
 		target.active_effects.append(stun_effect)
 		target.check_stance_interruption("stun")
-		_scene._notify_stun_applied(target)
+		_scene._passives._notify_stun_applied(target)
 		return "%s оглушён на %d ход(ов)." % [target.unit_name, stun_duration]
 
 	elif effect == "crit_stun":
@@ -160,10 +160,10 @@ func _apply_effect_to_target(attacker: Combatant, target: Combatant, effect: Str
 		if target.special_effect_type == "sphinx_debuff_immune" or target.has_item_effect("chernobog_debuff_immune"):
 			return "%s: иммунен к дебаффам." % target.unit_name
 		target.is_stunned = true
-		var cs_duration = _scene._compute_effect_duration(attacker, target, duration, true)
+		var cs_duration = _scene._abilities._compute_effect_duration(attacker, target, duration, true)
 		target.active_effects.append({"stat": "stun", "value": 1, "duration": cs_duration, "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name})
 		target.check_stance_interruption("stun")
-		_scene._notify_stun_applied(target)
+		_scene._passives._notify_stun_applied(target)
 		return "%s оглушён критическим ударом на %d ход(ов)." % [target.unit_name, cs_duration]
 
 	elif effect == "self_damage_hp_percent":
@@ -195,23 +195,23 @@ func _apply_effect_to_target(attacker: Combatant, target: Combatant, effect: Str
 		_dispel_effects(target, "all")
 		return "С %s сняты все эффекты." % target.unit_name
 	elif effect == "regeneration":
-		var regen_duration = _scene._compute_effect_duration(attacker, target, duration, false)
+		var regen_duration = _scene._abilities._compute_effect_duration(attacker, target, duration, false)
 		target.active_effects.append({"stat": "regeneration", "value": val, "duration": regen_duration, "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name})
 		return "%s получает регенерацию (%d HP) на %d ход(ов)." % [target.unit_name, val, regen_duration]
 	elif effect == "self_fog_accuracy":
 		if _scene._is_fog_round:
-			var fog_duration = _scene._compute_effect_duration(attacker, target, duration, false)
+			var fog_duration = _scene._abilities._compute_effect_duration(attacker, target, duration, false)
 			target.apply_stat_change("accuracy", val)
 			target.active_effects.append({"stat": "accuracy", "value": val, "duration": fog_duration, "effect_id": "self_fog_accuracy", "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name})
 			return "%s: +%d точности (туманный раунд)." % [target.unit_name, val]
 		return "%s: тумана нет, бонус точности не применяется." % target.unit_name
 	elif effect == "self_provocation_mark":
-		var prov_duration = _scene._compute_effect_duration(attacker, target, duration, false)
+		var prov_duration = _scene._abilities._compute_effect_duration(attacker, target, duration, false)
 		target.active_effects.append({"stat": "provocation_mark", "value": 1, "duration": prov_duration, "effect_id": "provocation_mark", "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name})
 		return "%s получает метку провокации на %d ход(ов)." % [target.unit_name, prov_duration]
 	elif effect == "self_thor_hammer_of_lightning":
 		_remove_effect_id(target, "thor_hammer_of_lightning")
-		var hol_mark_duration = _scene._compute_effect_duration(attacker, target, duration, false)
+		var hol_mark_duration = _scene._abilities._compute_effect_duration(attacker, target, duration, false)
 		# Мьёльнир: эффект ульты длится ещё на 1 ход дольше.
 		if attacker.has_item_effect("thor_mjolnir_extend_ult"):
 			hol_mark_duration += 1
@@ -220,7 +220,7 @@ func _apply_effect_to_target(attacker: Combatant, target: Combatant, effect: Str
 
 	elif effect == "self_thor_fight_me_heal":
 		_remove_effect_id(target, "thor_fight_me_heal")
-		var fmh_duration = _scene._compute_effect_duration(attacker, target, duration, false)
+		var fmh_duration = _scene._abilities._compute_effect_duration(attacker, target, duration, false)
 		target.active_effects.append({"stat": "trigger_marker", "value": 0, "duration": fmh_duration, "effect_id": "thor_fight_me_heal", "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name})
 		return "%s будет восстанавливать 7%% здоровья при атаках по нему." % target.unit_name
 
@@ -232,10 +232,10 @@ func _apply_effect_to_target(attacker: Combatant, target: Combatant, effect: Str
 		if randi() % 100 >= val:
 			return "%s: оглушение не сработало (шанс %d%%)." % [target.unit_name, val]
 		target.is_stunned = true
-		var sc_duration = _scene._compute_effect_duration(attacker, target, duration, true)
+		var sc_duration = _scene._abilities._compute_effect_duration(attacker, target, duration, true)
 		target.active_effects.append({"stat": "stun", "value": 1, "duration": sc_duration, "source_ability": ability.ability_marker if ability.ability_marker != "" else ability.name})
 		target.check_stance_interruption("stun")
-		_scene._notify_stun_applied(target)
+		_scene._passives._notify_stun_applied(target)
 		return "%s оглушён на %d ход(ов)." % [target.unit_name, sc_duration]
 
 	elif effect == "target_lose_majesty":
@@ -285,7 +285,7 @@ func _apply_effect_to_target(attacker: Combatant, target: Combatant, effect: Str
 			target.is_stunned = true
 			target.active_effects.append({"stat": "stun", "value": 1, "duration": 1, "source_ability": "medusa_curse_initiative"})
 			target.check_stance_interruption("stun")
-			_scene._notify_stun_applied(target)
+			_scene._passives._notify_stun_applied(target)
 			curse_note += " Суммарный дебафф инициативы достиг -5 → %s оглушён!" % target.unit_name
 		return curse_note
 
@@ -379,7 +379,7 @@ func _dispel_effects(target: Combatant, type: String):
 			target.active_effects.remove_at(i)
 		else:
 			i += 1
-	_scene._update_all_visuals()
+	_scene._field._update_all_visuals()
 
 ## Снимает с юнита все дебаффы указанного стата (например, "accuracy").
 ## Используется эффектом dispel_accuracy_debuffs (способность «Мотивация» Капитана).
@@ -394,7 +394,7 @@ func _dispel_stat_debuffs(target: Combatant, stat_name: String):
 			target.active_effects.remove_at(i)
 		else:
 			i += 1
-	_scene._update_all_visuals()
+	_scene._field._update_all_visuals()
 
 ## Краб-коллектор: перенос всех баффов с source на dest (без изменения длительности).
 func _steal_buffs_from_to(source: Combatant, dest: Combatant) -> String:
@@ -420,7 +420,7 @@ func _steal_buffs_from_to(source: Combatant, dest: Combatant) -> String:
 			stolen += 1
 		else:
 			i += 1
-	_scene._update_all_visuals()
+	_scene._field._update_all_visuals()
 	if stolen > 0:
 		return "%s крадёт %d бафф(ов) у %s." % [dest.unit_name, stolen, source.unit_name]
 	return "%s: нет баффов для кражи у %s." % [dest.unit_name, source.unit_name]
@@ -450,27 +450,27 @@ func _block_buff_for_hopeless_stance(target: Combatant) -> bool:
 			if u.active_stance.stance_effect_type == "chernobog_no_hope":
 				var d = CombatCalculator.calculate_fixed_damage(u, target, 0.8)
 				if d.is_hit:
-					_scene._deal_damage(target, d.final_damage, d.is_crit)
+					_scene._unit_events._deal_damage(target, d.final_damage, d.is_crit)
 					_scene._log_combat("  → [Надежды нет] %s не может получить бафф! Получает %d урона." % [target.unit_name, d.final_damage])
 					if target.current_hp <= 0:
 						_scene._log_combat("  → %s повержен эффектом «Надежды нет»!" % target.unit_name)
-						_scene._on_unit_killed(target)
-						_scene._compact_team(_scene.heroes_team if not target.is_enemy else _scene.enemies_team)
-						_scene._check_battle_end()
+						_scene._unit_events._on_unit_killed(target)
+						_scene._field._compact_team(_scene.heroes_team if not target.is_enemy else _scene.enemies_team)
+						_scene._outcome._check_battle_end()
 				else:
 					_scene._log_combat("  → [Надежды нет] %s не может получить бафф (промах)." % target.unit_name)
 				return true
 			elif u.active_stance.stance_effect_type == "devil_abandon_hope":
 				var dd = CombatCalculator.calculate_fixed_damage(u, target, 0.15)
 				if dd.is_hit:
-					_scene._deal_damage(target, dd.final_damage, dd.is_crit)
+					_scene._unit_events._deal_damage(target, dd.final_damage, dd.is_crit)
 				target.modify_majesty(-10)
 				_scene._log_combat("  → [Оставь надежду] %s не может получить бафф! Получает %d урона, -10 величия." % [target.unit_name, dd.final_damage])
 				if target.current_hp <= 0:
 					_scene._log_combat("  → %s повержен эффектом «Оставь надежду»!" % target.unit_name)
-					_scene._on_unit_killed(target)
-					_scene._compact_team(_scene.heroes_team if not target.is_enemy else _scene.enemies_team)
-					_scene._check_battle_end()
+					_scene._unit_events._on_unit_killed(target)
+					_scene._field._compact_team(_scene.heroes_team if not target.is_enemy else _scene.enemies_team)
+					_scene._outcome._check_battle_end()
 				return true
 	return false
 
