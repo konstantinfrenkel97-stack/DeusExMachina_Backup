@@ -21,6 +21,11 @@ signal roster_changed
 ## ресурсов сразу, а не только как побочный эффект других локальных действий.
 signal currency_changed
 
+## Сигнал: состояние бога (HP, забвение, уровень, экипировка...) изменилось — все
+## записи идут через set_god_state(). path == "" — сброшены состояния всех богов.
+## Слоты ростера обновляют полоску HP по нему, а не опросом каждый кадр.
+signal god_state_changed(path: String)
+
 var available_gods: Array[String] = []
 
 ## Сокровищница — собранные артефакты (пути к ItemResource .tres).
@@ -530,6 +535,7 @@ func reset_all() -> void:
 
 func clear_god_state_overrides() -> void:
 	_god_state_overrides.clear()
+	god_state_changed.emit("")
 
 func get_god_state(path: String) -> Dictionary:
 	if path.strip_edges() == "":
@@ -555,6 +561,7 @@ func set_god_state(path: String, forgetting_level: float, is_dead: bool, level: 
 		"current_hp": stored_hp,
 		"equipment_paths": stored_equipment_paths,
 	}
+	god_state_changed.emit(path)
 
 func is_god_dead(path: String) -> bool:
 	return bool(get_god_state(path).get("is_dead", false))
@@ -803,11 +810,18 @@ func dialogue_path_for_god(god_path: String) -> String:
 ## Есть ли у бога хотя бы один непрочитанный вариант диалога, который уже доступен
 ## (required_mission_path либо пуст, либо соответствующая миссия пройдена). Используется
 ## для мигания кнопки диалога на портрете бога — см. god_roster_slot.gd.
+## Диалоги держим в памяти: без живой ссылки load() каждый раз заново читает и
+## разбирает .tres с диска (~80 мс на бога), а проверка идёт регулярно для каждого
+## слота ростера — именно это опускало экран кампании до ~3 FPS.
+var _dialogue_cache: Dictionary = {}
+
 func has_unread_dialogue(god_path: String) -> bool:
 	var dialogue_path := dialogue_path_for_god(god_path)
 	if dialogue_path == "" or not ResourceLoader.exists(dialogue_path):
 		return false
-	var dialogue := load(dialogue_path) as DialogueResource
+	if not _dialogue_cache.has(dialogue_path):
+		_dialogue_cache[dialogue_path] = load(dialogue_path) as DialogueResource
+	var dialogue: DialogueResource = _dialogue_cache[dialogue_path]
 	if dialogue == null:
 		return false
 	var dialogue_id: String = dialogue.dialogue_id.strip_edges()

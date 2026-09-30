@@ -19,6 +19,9 @@ var _portrait: TextureRect
 var _dialogue_button: Button
 var _hp_bar: ProgressBar
 var _dialogue_blink_tween: Tween = null
+# Мигание "💬" проверяется не каждый кадр, а раз в DIALOGUE_BLINK_CHECK_INTERVAL секунд.
+const DIALOGUE_BLINK_CHECK_INTERVAL := 0.5
+var _dialogue_blink_check_left: float = 0.0
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
@@ -74,6 +77,7 @@ func _ready() -> void:
 	_dialogue_button.visible = false
 	_dialogue_button.pressed.connect(_on_dialogue_button_pressed)
 	add_child(_dialogue_button)
+	CampaignState.god_state_changed.connect(_on_god_state_changed)
 
 func set_god(path: String) -> void:
 	god_path = path
@@ -99,9 +103,16 @@ func set_god(path: String) -> void:
 	_dialogue_button.visible = true
 	_refresh_hp_bar()
 
-func _process(_delta: float) -> void:
-	if god_path != "":
+## HP обновляется по сигналу, а не опросом каждый кадр.
+func _on_god_state_changed(path: String) -> void:
+	if god_path != "" and (path == "" or path == god_path):
 		_refresh_hp_bar()
+
+func _process(delta: float) -> void:
+	_dialogue_blink_check_left -= delta
+	if _dialogue_blink_check_left > 0.0:
+		return
+	_dialogue_blink_check_left = DIALOGUE_BLINK_CHECK_INTERVAL
 	_update_dialogue_blink()
 
 ## Мигание "💬" — два независимых повода:
