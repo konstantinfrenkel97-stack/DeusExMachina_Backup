@@ -1,0 +1,154 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Flower_fairy/flower_fairy.tres" id="ext_flower_fairy"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Thorn_fairy/thorn_fairy.tres" id="ext_thorn_fairy"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Satyr/satyr.tres" id="ext_satyr"]
+[ext_resource type="Resource" path="res://Enemies/Forest/Garden/Druid/druid.tres" id="ext_druid"]
+[ext_resource type="Resource" path="res://Gods/Danu/Danu.tres" id="ext_danu"]
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+stat_label = "Удача"
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="out_v1_success"]
+script = ExtResource("outcome_script")
+result_text = "Нет ни одной причины вам не поесть. Вы садитесь за плоские камни, и вместе с лесными животными приступаете к трапезе. Блюда изобилуют сладким, видимо под вкус лесного народа. Подано очень красиво, еда украшена цветами, одним из самых популярных ингредиентов является мед.
+
+К вам сзади подходит друид.
+«Прошу меня простить, но что вы себе позволяете? Никто не смеет приступать к еде раньше королевской четы.»
+Вы отвечаете с набитым ртом, что все хорошо, с правящими супругами вы сами разберетесь, и раз вы уже начали, не будет преступлением и им поесть. Ответственность на вас.
+«Ответственность на них... Можем приступать... Ответственность на них...»
+Шепот разносится над поляной. Обитатели поляны смотрят на лакомства голодными глазами, а вы все продолжаете уплетать.
+«Ответственность на них...»
+Один за другим лесные жители садятся за стол. Начинают звучать шутки и песни, люди смеются, веселятся и радостно едят. Вы едите вместе с ними. Приторная фейская еда поднимает настроение и восполняет силы. Нежный аромат цветов, закатывающееся солнце, весёлая компания и вкусная еда. Вы прекрасно проводите время.
+
+Единственное что портит праздник это тень хозяев. Титания и Оберон. Вы чувствуете тревогу каждого за столом. Вот они появятся, прямо сейчас. Повелители фей, хозяева сада. Сегодня вы не встретились, но что-то вам подсказывает, что встреча неизбежна.
+
+Вам известен ваш Немезис."
+hero_hp_percent_delta = 10
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="form_feast"]
+script = ExtResource("formation_script")
+formation_name = "Фея лепестков — фея шипов — сатир — друид"
+pos1 = ExtResource("ext_flower_fairy")
+pos2 = ExtResource("ext_thorn_fairy")
+pos3 = ExtResource("ext_satyr")
+pos4 = ExtResource("ext_druid")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_v1_fail"]
+script = ExtResource("battle_script")
+formation = SubResource("form_feast")
+location_id = "garden"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_v1_fail"]
+script = ExtResource("outcome_script")
+result_text = "Нет ни одной причины вам не поесть. Вы садитесь за плоские камни, и вместе с лесными животными приступаете к трапезе. Блюда изобилуют сладким, видимо под вкус лесного народа. Подано очень красиво, еда украшена цветами, одним из самых популярных ингредиентов является мед.
+
+К вам сзади подходит друид.
+«Прошу меня простить, но что вы себе позволяете? Никто не смеет приступать к еде раньше королевской четы.»
+Вы отвечаете, что все нормально и нет никаких проблем. Друиды удивленно переглядываются.
+«Да нет, проблема есть. Вы нарушаете королевский этикет.»
+Вы отвечаете, что все в порядке, и не о чем беспокоиться, продолжая набивать рот.
+«Но так же нельзя...»
+Вы отвечаете друиду что льзя. Он обдумывает вашу аргументацию. И под конец находит ее недостаточной.
+«Именем Королевы Фей — защищайтесь!»
+Вы встаете из-за стола. Сладкая фейская еда восстановила ваши силы, жаль вы не смогли наслаждаться ей подольше.
+
+И еще, нет сомнений что ваша выходка достигнет их ушей. Титания и Оберон, властители фей. Те, с кем вам придется встретиться.
+
+Вам известен ваш Немезис."
+hero_hp_percent_delta = 10
+battle = SubResource("battle_v1_fail")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v1"]
+script = ExtResource("choice_script")
+choice_text = "Покушать с праздничного стола"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_v1_success")
+failure_outcome = SubResource("out_v1_fail")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_accuracy5"]
+script = ExtResource("buff_script")
+stat = 2
+value = 5
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="out_v2"]
+script = ExtResource("outcome_script")
+result_text = "Королева Титания и король Оберон. Поссорились и сорвали пир.
+
+Вы стараетесь навести справки. Подданные, которые обычно болтливы в отношении хозяев, проявляют тревогу. Они оглядываются, говорят шепотом. Словно боятся, что Титания выскочит прямо из кустов.
+
+Но что-то вам выяснить удалось. В сложном королевстве фей, эти правители устроили настоящий хаос. Они то ссорятся, то сходятся. И в моменты ссор, каждый улетает в свои владения, и куча фей должны успокаивать владык, выслушивать и соглашаться. Тем, кто не выказывает должного сочувствия, достается, и зачастую жестоко. Однажды королевская чета даже пошла войной друг на друга.
+
+Но хоть они и чудят, но обладают огромной мудростью и глубокими знаниями. Феи долго живут, и правителей меняют редко. Но все, кто участвует в мероприятии, сошлись в том, что более могущественных правителей чем эти, не знали земли великого Сада.
+
+Вы покидаете место в размышлениях. Разобщенные, но единые. Вздорные, но мудрые. Непредсказуемые, но могущественные. Какая противоречивая пара. Но в одном у вас нет сомнений. Вам не избежать встречи с королевской семьей. Нужно быть готовыми.
+
+Вам известен ваш Немезис."
+nemesis_buff_stat = SubResource("buff_accuracy5")
+nemesis_buff_location_id = "garden"
+nemesis_buff_all_heroes = true
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v2"]
+script = ExtResource("choice_script")
+choice_text = "Узнать побольше о королевской чете"
+outcome = SubResource("out_v2")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="out_v3"]
+script = ExtResource("outcome_script")
+result_text = "Дану медленно и торжественно проходит во главу стола. Разговоры постепенно затихают, глаза следуют за ней.
+
+Два плетеных трона расплетаются, пока она идет, и соединяются в один, более высокий. Богиня грациозно на него садится.
+«Как богиня, властвующая над всей природой и над фейским королевством, включая правящую чету, я торжественно объявляю пир открытым.» С этими словами она положила в рот ягоду голубики.
+
+Молчание стало еще более абсолютным. Как будто прямо на ваших глазах сорвался первый камень лавины государственного переворота. Богиня заявила себя правительницей сада, чей статус выше Титании и Оберона. Если присутствующие прикоснутся к еде, они признают иерархию власти. И это может быть изменой. Трое богов садятся за стол и также принимаются за еду. Но вот лесные жители мнутся. Простая лесная гулянка внезапно поставила их перед жестким выбором.
+«За богиню-мать!» — колокольчиковый звон фейского голоса пробил тишину.
+«Это предательство!» — ответил другой. Словно на море начался шторм. Толпа разделилась на две группы пополам. Они спорят и обвиняют друг друга в подлости и предательстве.
+«Довольно.»
+Дану медленно поднимает руку. Толпа замолкает.
+«Довольно.»
+Группы расходятся, одна уходит в лес, бросая обиженные взгляды. Другая с видом демонстративного торжества усаживается за каменный стол.
+
+Весёлая пирушка. Феи, сатиры и друиды смеются и общаются, иногда бросая взгляды на Дану. Она словно сияет, восседая на троне из сплетенных веток. Воплощение грациозной королевы. Но в глазах фей страх. Словно тень от огромных крыльев нависает над поляной.
+«Мы видим вас, мы знаем, что вы сделали, и не простим, не простим, не простим.»
+
+Вам известен ваш Немезис."
+nemesis_buff_god = ExtResource("ext_danu")
+nemesis_buff_majesty = 20
+nemesis_buff_location_id = "garden"
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_v3"]
+script = ExtResource("choice_script")
+choice_text = "Разрешить феям пировать"
+required_god = ExtResource("ext_danu")
+outcome = SubResource("out_v3")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Пир в лесу"
+body_text = "Лисичка пробегает мимо, держа в зубах крендель. Вроде и удивительно, но и привычно. Сверху на вас падает леденец, приходится отдирать от волос. По веткам скачет белка с горстью конфет.
+
+Вы идете по направлению, откуда бежали животные. Вскоре выходите на большую поляну, тут сложено вместе несколько плоских камней, образуя длинный стол. Земля усыпана розовыми цветами, во главе стола два кресла, сплетенные из ветвей. Столы богато уставлены разными угощениями, но кроме диких животных никто не обращает на них внимания. Тут сатиры, феи, друиды и прочие обитатели сада. Они разделены на группки и переговариваются. На вас никто не обращает внимания. Вы обращаетесь к друиду, сидящему в отдалении от остальных.
+«Ах, это? Пир, праздник у нас намечался. Почетные гости — королева Титания с мужем Обероном. Но вот, пришла новость, что они, похоже, не приедут, опять поссорились... А без почтенных гостей к еде притронуться нельзя, вот их и растаскивает зверье. Только вот кто знает, как на них фейская еда-то повлияет.»
+Вы благодарите старика и оставляете его предаваться скорбным размышлениям. Королевская чета капризно пропустила праздник, но никто не смеет прикоснуться к их еде. Титания и Оберон — владыки фей."
+choices = [SubResource("choice_v1"), SubResource("choice_v2"), SubResource("choice_v3")]
