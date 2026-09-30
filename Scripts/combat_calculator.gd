@@ -74,7 +74,7 @@ static func calculate_ability_damage(attacker: Combatant, target: Combatant, abi
 	var crit_mult := CombatManager.get_crit_multiplier() if is_crit else 1.0
 	var raw_damage := int(total_damage * crit_mult)
 
-	# Стрела из Амелы (Локи): критические удары наносят чистый урон (игнорируют броню).
+	# Стрела из Омелы (Локи): критические удары наносят чистый урон (игнорируют броню).
 	var _crit_ignores_armor := is_crit and attacker.has_item_effect("loki_pure_crit")
 
 	var final_damage := raw_damage

@@ -92,7 +92,7 @@ func _location_hell():
 		if hero and hero.current_hp > 0:
 			hero.modify_majesty(-5)
 	_scene.current_fantasy = maxi(_scene.current_fantasy - 5, 0)
-	_scene._log_combat("🔥 [Ад] Все боги теряют 5 величия. Игрок теряет 5 маны. Фантазия: %d/%d" % [_scene.current_fantasy, _scene.max_fantasy])
+	_scene._log_combat("🔥 [Ад] Все боги теряют 5 величия. Игрок теряет 5 фантазии. Фантазия: %d/%d" % [_scene.current_fantasy, _scene.max_fantasy])
 
 
 # ─── 3) ТОННЕЛИ ──────────────────────────────────────────────

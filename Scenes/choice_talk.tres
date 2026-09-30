@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("1_mc")
 choice_text = "Поговорить"
-effects = "Шаблон: +10 доверения, бой пропущен."
+effects = "Шаблон: +10 доверия, бой пропущен."
 launch_battle = false

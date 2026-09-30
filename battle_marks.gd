@@ -150,13 +150,13 @@ func apply_mark_to_unit(mark: Dictionary, target: Combatant, is_placement: bool 
 		# Осирис уже получает величие через обычный majesty_gain (place_mark) — сама марка даёт то же количество союзнику под ней.
 		target.modify_majesty(int(mark.get("majesty_gain", 15)))
 		_scene._log_combat("%s %s получает +%d уклонения и величие от Лучей славы на %d ход(ов)." % [log_prefix, target.unit_name, mark["effect_value"], _rg_duration])
-	# Дьявол: «Адская гильотина» — once-марка, наносит 1.0 урона + 0.5 уровней забыванья
+	# Дьявол: «Адская гильотина» — once-марка, наносит 1.0 урона + 0.5 уровней забвения
 	elif mark["effect_type"] == "devil_guillotine":
 		var _dg_dmg = caster.damage
 		var _dg_hp_b = target.current_hp
 		target.take_damage(_dg_dmg)
 		target.add_forget(0.5, "Адская гильотина")
-		_scene._log_combat("%s [Адская гильотина] %s получает %d урона и 0.5 уровней забыванья. HP: %d → %d" % [log_prefix, target.unit_name, _dg_dmg, _dg_hp_b, target.current_hp])
+		_scene._log_combat("%s [Адская гильотина] %s получает %d урона и 0.5 уровней забвения. HP: %d → %d" % [log_prefix, target.unit_name, _dg_dmg, _dg_hp_b, target.current_hp])
 		if target.current_hp <= 0:
 			_scene._log_combat("  → %s повержен гильотиной!" % target.unit_name)
 			_scene._on_unit_killed(target)

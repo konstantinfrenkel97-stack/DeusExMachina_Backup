@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_ir")
-item_name = "Стрела из Амелы"
+item_name = "Стрела из Омелы"
 item_type = 1
 rarity = 3
 icon = null

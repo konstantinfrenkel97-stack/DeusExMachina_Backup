@@ -810,7 +810,7 @@ next_line_id = "chosen_location_8"
 script = ExtResource("1_line")
 line_id = "chosen_location_8"
 speaker_name = "Самди"
-text = "Вот вот."
+text = "Вот-вот."
 next_line_id = "chosen_location_9"
 
 [sub_resource type="Resource" id="Resource_s111"]

@@ -147,7 +147,7 @@ next_line_id = "open_door_11"
 script = ExtResource("1_line")
 line_id = "open_door_11"
 speaker_name = "Кощей"
-text = "Это по началу кажется, что сплошная чаща и топь и орды нечисти."
+text = "Это поначалу кажется, что сплошная чаща и топь и орды нечисти."
 next_line_id = "open_door_12"
 
 [sub_resource type="Resource" id="Resource_k016"]
@@ -271,7 +271,7 @@ next_line_id = "opinion_duna_3"
 script = ExtResource("1_line")
 line_id = "opinion_duna_3"
 speaker_name = "Кощей"
-text = "Любо дорого смотреть."
+text = "Любо-дорого смотреть."
 next_line_id = "opinion_duna_4"
 
 [sub_resource type="Resource" id="Resource_k031"]
@@ -632,7 +632,7 @@ next_line_id = "Koschei_choices_1"
 script = ExtResource("1_line")
 line_id = "help_1"
 speaker_name = "Лена"
-text = "И все таки, огромное спасибо, за то что вы мне помогаете."
+text = "И всё-таки, огромное спасибо, за то что вы мне помогаете."
 next_line_id = "help_2"
 
 [sub_resource type="Resource" id="Resource_k082"]

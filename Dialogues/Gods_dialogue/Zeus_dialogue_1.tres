@@ -1007,7 +1007,7 @@ next_line_id = "chosen_world_20"
 script = ExtResource("1_line")
 line_id = "chosen_world_20"
 speaker_name = "Зевс"
-text = "Я помню его зево. Помню, как там исчезали мои братья."
+text = "Я помню его зев. Помню, как там исчезали мои братья."
 next_line_id = "chosen_world_21"
 
 [sub_resource type="Resource" id="Resource_zeus_line_142"]

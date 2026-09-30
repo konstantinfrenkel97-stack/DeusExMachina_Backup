@@ -28,7 +28,7 @@ metadata/_custom_type_script = ExtResource("2_vl")
 [resource]
 script = ExtResource("1_hlr72")
 icon_path = "uid://4n2f3wbm6ocu"
-name = "Расчитанный удар"
+name = "Рассчитанный удар"
 description = "Сусаноо отходит назад и ставит одноразовую метку: следующая атака по позиции наносит 140% урона и не промахивается."
 damage_modifier = 0.0
 majesty_gain = 15

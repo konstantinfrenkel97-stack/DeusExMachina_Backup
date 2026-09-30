@@ -7,7 +7,7 @@
 
 [resource]
 script = ExtResource("1_enmks")
-formation_name = "Берсерк_Берсерк_Юанши_Рейдер"
+formation_name = "Берсерк_Берсерк_Баньши_Рейдер"
 pos1 = ExtResource("1_kpbii")
 pos2 = ExtResource("1_kpbii")
 pos3 = ExtResource("2_xxoqe")

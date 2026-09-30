@@ -8,7 +8,7 @@
 
 [resource]
 script = ExtResource("2_cr")
-unit_name = "Стимфолийская птица"
+unit_name = "Стимфалийская птица"
 max_hp = 26
 damage = 10
 armor = 3
