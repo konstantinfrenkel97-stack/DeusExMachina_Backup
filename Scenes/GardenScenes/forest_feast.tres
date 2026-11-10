@@ -12,12 +12,20 @@
 [ext_resource type="Resource" path="res://Enemies/Forest/Garden/Satyr/satyr.tres" id="ext_satyr"]
 [ext_resource type="Resource" path="res://Enemies/Forest/Garden/Druid/druid.tres" id="ext_druid"]
 [ext_resource type="Resource" path="res://Gods/Danu/Danu.tres" id="ext_danu"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
 
 [sub_resource type="Resource" id="check_luck"]
 script = ExtResource("stat_check_script")
 stat = 5
 stat_label = "Удача"
 metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="mig_out_v1_success_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = 10
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
 
 [sub_resource type="Resource" id="out_v1_success"]
 script = ExtResource("outcome_script")
@@ -34,7 +42,7 @@ result_text = "Нет ни одной причины вам не поесть. �
 Единственное, что портит праздник, — это тень хозяев. Титания и Оберон. Вы чувствуете тревогу каждого за столом. Вот они появятся, прямо сейчас. Повелители фей, хозяева сада. Сегодня вы не встретились, но что-то вам подсказывает, что встреча неизбежна.
 
 Вам известен ваш Немезис."
-hero_hp_percent_delta = 10
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v1_success_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="form_feast"]
@@ -51,6 +59,12 @@ script = ExtResource("battle_script")
 formation = SubResource("form_feast")
 location_id = "garden"
 metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="mig_out_v1_fail_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = 10
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
 
 [sub_resource type="Resource" id="out_v1_fail"]
 script = ExtResource("outcome_script")
@@ -69,8 +83,8 @@ result_text = "Нет ни одной причины вам не поесть. �
 И еще: нет сомнений, что ваша выходка достигнет их ушей. Титания и Оберон, властители фей. Те, с кем вам придется встретиться.
 
 Вам известен ваш Немезис."
-hero_hp_percent_delta = 10
 battle = SubResource("battle_v1_fail")
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v1_fail_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_v1"]

@@ -5,6 +5,9 @@
 [ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
 [ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
 [ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
 
 [sub_resource type="Resource" id="check_attack"]
 script = ExtResource("stat_check_script")
@@ -18,10 +21,16 @@ script = ExtResource("outcome_script")
 result_text = "Великие боги не преклоняются перед обстоятельствами. Вы используете те способности, что в вашем распоряжении, и так или иначе вам удаётся перелететь через пропасть. Воистину, ничто не способно бросить вызов мощи богов."
 metadata/_custom_type_script = ExtResource("outcome_script")
 
+[sub_resource type="Resource" id="mig_out_gods_failure_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = -20
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
 [sub_resource type="Resource" id="out_gods_failure"]
 script = ExtResource("outcome_script")
 result_text = "Великие боги не преклоняются перед обстоятельствами. Вы используете те способности, что в вашем распоряжении, пытаясь перелететь через пропасть. Но, кажется, даже у божественных сил есть предел, и вы видите, как навстречу вам летит земная твердь. Вы проваливаетесь в пропасть."
-hero_hp_percent_delta = -20
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_gods_failure_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_gods"]
@@ -51,10 +60,15 @@ value = -5
 duration = -1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_out_detour_failure_1"]
+script = ExtResource("mig_fx_buff")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_detour_fail_attack")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="out_detour_failure"]
 script = ExtResource("outcome_script")
 result_text = "Вы решаете поискать способ перебраться через пропасть. Ищете и ищете, перебираетесь по горам, пока вас не настигает закатное солнце. Похоже, что простого пути нет, и вы просто потратили кучу сил. Вынуждены всё равно спускаться в пропасть и карабкаться наверх."
-hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_detour_fail_attack")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_detour_failure_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_detour"]
@@ -72,10 +86,15 @@ value = -5
 duration = 1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_out_climb_1"]
+script = ExtResource("mig_fx_buff")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_climb_attack")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="out_climb"]
 script = ExtResource("outcome_script")
 result_text = "Вы проявляете смирение и используете самый сложный, но самый надёжный вариант. Терпеливо спускаетесь в пропасть и поднимаетесь наверх. Это занимает у вас кучу времени и сил. Однако вы ничем не рисковали."
-hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_climb_attack")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_climb_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_climb"]

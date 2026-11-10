@@ -29,6 +29,18 @@ enum Duration {
 func apply() -> void:
 	if buffs.is_empty():
 		return
+	# TEAM (кроме PERMANENT) идёт тем же каналом, что и legacy hero_buffs: баффы получают ВСЕ
+	# бойцы команды героев в бою, а не только живые из mission_heroes (разница важна для
+	# призванных/сюжетных союзников) — поведение идентично старому полю.
+	if target == Target.TEAM and duration != Duration.PERMANENT:
+		for buff in buffs:
+			if buff == null:
+				continue
+			if duration == Duration.UNTIL_MISSION_END:
+				CombatManager.mission_team_buffs.append(buff)
+			else:
+				CombatManager.pending_mission_hero_buffs.append(buff)
+		return
 	for path in _resolve_target_paths():
 		match duration:
 			Duration.PERMANENT:

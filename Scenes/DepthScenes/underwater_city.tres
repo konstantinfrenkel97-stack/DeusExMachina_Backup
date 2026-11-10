@@ -11,6 +11,8 @@
 [ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
 [ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
 [ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
 
 [sub_resource type="Resource" id="form_merman_warriors"]
 script = ExtResource("formation_script")
@@ -72,12 +74,17 @@ value = 7
 duration = -1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_out_v2_1"]
+script = ExtResource("mig_fx_buff")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_luck7_next_battle")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="out_v2"]
 script = ExtResource("outcome_script")
 result_text = "Хотя вам и интересна культура подводного народа, вы решаете, что спускаться в незнакомый город — слишком рискованно. Вместо этого вы забираетесь на подводную скалу и оттуда рассматриваете поселение.
 Город выглядит на удивление обычно — вы много раз видели такие на поверхности. Немного поразмыслив, вы приходите к выводу, что город был затоплен, а не построен под водой. Однако с внешней стороны стен вы видите круглые домики, которые не похожи на знакомые вам. Видимо, там и живут русалы.
 Какое-то время вы созерцаете и обдумываете увиденное. После чего продолжаете путь, заряженные новой любовью к морю и миру."
-hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_luck7_next_battle")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v2_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_v2"]

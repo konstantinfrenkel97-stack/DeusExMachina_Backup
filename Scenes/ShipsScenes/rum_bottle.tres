@@ -5,6 +5,9 @@
 [ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
 [ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
 [ext_resource type="Resource" path="res://Gods/Samdi/Samdi.tres" id="samdi"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
+[ext_resource type="Script" path="res://Missions/Effects/enemy_buff_effect.gd" id="mig_fx_enemy"]
 
 [sub_resource type="Resource" id="out_take"]
 script = ExtResource("outcome_script")
@@ -32,11 +35,17 @@ value = -20
 duration = -1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_out_drink_1"]
+script = ExtResource("mig_fx_buff")
+target = 2
+preferred_god = ExtResource("samdi")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_drink_luck"), SubResource("buff_drink_accuracy")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="out_drink"]
 script = ExtResource("outcome_script")
 result_text = "О чём тут думать? Один из богов берёт бутылку, и весь отряд какое-то время смотрит, как бог её поглощает в одиночку. Наконец пустой сосуд летит за борт. На пошатывающихся ногах и с весёлым выражением лица, бог возвращается в ваш отряд."
-target_random_hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_drink_luck"), SubResource("buff_drink_accuracy")])
-target_random_hero_preferred_god = ExtResource("samdi")
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_drink_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_drink"]
@@ -59,6 +68,11 @@ value = -10
 duration = -1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_out_give_sailors_1"]
+script = ExtResource("mig_fx_enemy")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_sailors_accuracy"), SubResource("buff_sailors_damage")])
+metadata/_custom_type_script = ExtResource("mig_fx_enemy")
+
 [sub_resource type="Resource" id="out_give_sailors"]
 script = ExtResource("outcome_script")
 result_text = "Вы кликаете матросов, и когда они обращают на вас внимание, громко ставите бутылку на бочку, давая понять, что она принадлежит им. Матросы сбегаются к такому зрелищу. Бережно берут бутылку, передают из рук в руки, прижимают к щекам. У кого-то выступили слёзы. Они смотрят на вас с любовью и благодарностью.
@@ -66,7 +80,7 @@ result_text = "Вы кликаете матросов, и когда они об
 «Вы… хорошие люди. Наши пути могут пересечься, но знайте… Если придётся вас зарезать… Хмык… Будет очень стыдно это делать.»
 
 Вы принимаете пиратскую благодарность, как бы она ни была сформулирована."
-enemy_buffs = Array[ExtResource("buff_script")]([SubResource("buff_sailors_accuracy"), SubResource("buff_sailors_damage")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_give_sailors_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_give_sailors"]

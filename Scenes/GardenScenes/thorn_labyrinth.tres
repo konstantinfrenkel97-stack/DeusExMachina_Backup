@@ -8,6 +8,10 @@
 [ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
 [ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
 [ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
+[ext_resource type="Script" path="res://Missions/Effects/enemy_buff_effect.gd" id="mig_fx_enemy"]
 
 [sub_resource type="Resource" id="form_labyrinth"]
 script = ExtResource("formation_script")
@@ -32,14 +36,23 @@ formation = SubResource("form_labyrinth")
 location_id = "garden"
 metadata/_custom_type_script = ExtResource("battle_script")
 
+[sub_resource type="Resource" id="mig_out_v1_1"]
+script = ExtResource("mig_fx_buff")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_periodic_burn")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
+[sub_resource type="Resource" id="mig_out_v1_2"]
+script = ExtResource("mig_fx_enemy")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_periodic_burn")])
+metadata/_custom_type_script = ExtResource("mig_fx_enemy")
+
 [sub_resource type="Resource" id="out_v1"]
 script = ExtResource("outcome_script")
 result_text = "Запас терпения исчерпан. Вы плетёте чары и поджигаете кусты вокруг. Может, огонь и нанесёт урон вам самим, но больше никто не попадёт в этот проклятый лабиринт.
 
 Как только огонь занимается, вы слышите яростный, многоголосый перезвон колокольчиков. На вас налетает рой коричневых шипастых фей. Они яростно жестикулируют и словно кричат на своём колокольчиковом языке. Вы не сочувствуете их утрате."
 battle = SubResource("battle_v1")
-hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_periodic_burn")])
-enemy_buffs = Array[ExtResource("buff_script")]([SubResource("buff_periodic_burn")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v1_1"), SubResource("mig_out_v1_2")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_v1"]
@@ -59,13 +72,19 @@ formation = SubResource("form_labyrinth")
 location_id = "garden"
 metadata/_custom_type_script = ExtResource("battle_script")
 
+[sub_resource type="Resource" id="mig_out_v2_success_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = -3
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
 [sub_resource type="Resource" id="out_v2_success"]
 script = ExtResource("outcome_script")
 result_text = "Пусть стены и живые, и лабиринт просто хочет свести вас с ума, но есть один способ, против которого его трюки бессильны. Вы хватаетесь за шипастые ветки и ползёте наверх.
 Шипастые лозы туго переплетены, и хвататься за них тяжело, не говоря уже о боли. Но вы упрямо продвигаетесь наверх.
 Наконец лабиринт под вами. Ладони кровоточат, но вы больше не во власти проклятого лабиринта. Вы видите, как его границы раскинулись от горизонта до горизонта, и как в вашу сторону летит рой шипастых фей. Они что-то кричат на своём колокольчиковом языке. Похоже, ваши действия не попадают под их определение честной игры. Впрочем, это взаимно."
 battle = SubResource("battle_v2")
-hero_hp_percent_delta = -3
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v2_success_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="buff_evasion_minus10"]
@@ -75,6 +94,17 @@ value = -10
 duration = -1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_out_v2_fail_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = -3
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
+[sub_resource type="Resource" id="mig_out_v2_fail_2"]
+script = ExtResource("mig_fx_buff")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_evasion_minus10")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="out_v2_fail"]
 script = ExtResource("outcome_script")
 result_text = "Пусть стены и живые, и лабиринт просто хочет свести вас с ума, но есть один способ, против которого его трюки бессильны. Вы хватаетесь за шипастые ветки и ползёте наверх.
@@ -83,8 +113,7 @@ result_text = "Пусть стены и живые, и лабиринт прос
 Вы готовитесь встретить их ярость, когда ваша опора начинает гулять под ногами. Если лабиринт мог отращивать и убирать стены, что мешает ему делать это, пока вы на нём стоите?
 Но выбора нет, противник уже обрушивается на вас."
 battle = SubResource("battle_v2")
-hero_hp_percent_delta = -3
-hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_evasion_minus10")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v2_fail_1"), SubResource("mig_out_v2_fail_2")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_v2"]
@@ -127,13 +156,18 @@ formation = SubResource("form_labyrinth")
 location_id = "garden"
 metadata/_custom_type_script = ExtResource("battle_script")
 
+[sub_resource type="Resource" id="mig_out_v3_fail_1"]
+script = ExtResource("mig_fx_enemy")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_fairy_bonus_evasion"), SubResource("buff_fairy_bonus_armor")])
+metadata/_custom_type_script = ExtResource("mig_fx_enemy")
+
 [sub_resource type="Resource" id="out_v3_fail"]
 script = ExtResource("outcome_script")
 result_text = "Против другого противника этот план был бы полнейшей глупостью, но феи мыслят по другой логике. Как правило, это является проблемой, но сейчас может дать преимущество.
 Вы медленно оседаете на землю, застываете в недвижных позах и закрываете глаза. Никто бы не поверил, что вы просто легли и умерли. Но на феях может сработать.
 Вы лежите в темноте, слыша только своё едва заметное дыхание. И тут на вас нападает чесотка. Вы уже ощущали на себе этот фейский трюк. И вы знаете, что удержаться не получится. Вы вскакиваете, готовые к бою. Феи яростно кричат своими колокольчиковыми голосами. Лабиринт открывает стены, и они исчезают среди них. Вы бросаетесь туда, куда улетел их рой, но в боковых стенах открываются проходы, и враги атакуют оттуда, после чего снова исчезают. Вы сражаетесь против самого лабиринта."
 battle = SubResource("battle_v3_fail")
-enemy_buffs = Array[ExtResource("buff_script")]([SubResource("buff_fairy_bonus_evasion"), SubResource("buff_fairy_bonus_armor")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v3_fail_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_v3"]

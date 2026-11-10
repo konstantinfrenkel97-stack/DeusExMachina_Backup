@@ -13,6 +13,9 @@
 [ext_resource type="Resource" path="res://Gods/Hades/Hades.tres" id="hades"]
 [ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Cerberus/cerberus.tres" id="cerberus"]
 [ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Hellhound/hellhound.tres" id="hellhound"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
 
 [sub_resource type="Resource" id="form_cerberus_pack"]
 script = ExtResource("formation_script")
@@ -111,6 +114,14 @@ value = 10
 duration = -1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_out_tame_success_1"]
+script = ExtResource("mig_fx_buff")
+target = 1
+specific_god = ExtResource("hades")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_hades_accuracy")])
+duration = 1
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="out_tame_success"]
 script = ExtResource("outcome_script")
 result_text = "«Она напоминает мне… Одного друга.»
@@ -122,10 +133,15 @@ result_text = "«Она напоминает мне… Одного друга.�
 Вдали раздаётся вой. Собака неохотно отстраняется и медленно семенит в сторону, исчезая в дыму. Аид встаёт с земли.
 
 «Идём. Нас ещё ждут дела.»"
-target_god = ExtResource("hades")
-target_buffs = Array[ExtResource("buff_script")]([SubResource("buff_hades_accuracy")])
-target_buffs_until_mission_end = true
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_tame_success_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="mig_out_tame_failure_1"]
+script = ExtResource("mig_fx_hp")
+target = 1
+specific_god = ExtResource("hades")
+percent_delta = -10
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
 
 [sub_resource type="Resource" id="out_tame_failure"]
 script = ExtResource("outcome_script")
@@ -137,8 +153,7 @@ result_text = "«Она напоминает мне… Одного друга.�
 
 Из дыма выбегают ещё собаки. Из тени Аида начинают подниматься чёрные цепи. Его лицо выглядит ещё мрачнее, чем раньше."
 battle = SubResource("battle_pack_plain")
-target_god = ExtResource("hades")
-target_current_hp_percent_delta = -10
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_tame_failure_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_tame"]

@@ -8,6 +8,9 @@
 [ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
 [ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
 [ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_majesty_delta_effect.gd" id="mig_fx_maj"]
 
 [sub_resource type="Resource" id="sr_001"]
 script = ExtResource("outcome_script")
@@ -20,11 +23,18 @@ choice_text = "Оставить их"
 outcome = SubResource("sr_001")
 metadata/_custom_type_script = ExtResource("choice_script")
 
+[sub_resource type="Resource" id="mig_sr_003_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = 20
+immediate = true
+heal_item_bonus = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
 [sub_resource type="Resource" id="sr_003"]
 script = ExtResource("outcome_script")
 result_text = "Вы тратите силы материализации на создание новых волов. Долго они не просуществуют, но дотащат караван до города. Спасенные пляшут от радости. Вы едете с ними в тени фургонов, отдыхая и залечивая раны."
-hero_heal_percent = 20
 fantasy_delta = -400
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_sr_003_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="sr_004"]
@@ -40,11 +50,17 @@ resource = ExtResource("ext_1")
 amount = 150
 metadata/_custom_type_script = ExtResource("reward_script")
 
+[sub_resource type="Resource" id="mig_sr_008_1"]
+script = ExtResource("mig_fx_maj")
+delta = -30
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_maj")
+
 [sub_resource type="Resource" id="sr_008"]
 script = ExtResource("outcome_script")
 result_text = "Вы переворачиваете повозки и вскрываете тайники, но то ли плохо искали, то ли караван нищий — лишь жалкая горстка драгоценностей попадает вам в руки. «И стоило оно того?» — доносится шепот за спиной."
 rewards = Array[ExtResource("reward_script")]([SubResource("sr_007")])
-hero_majesty_delta = -30
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_sr_008_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="sr_009"]
@@ -59,11 +75,17 @@ resource = ExtResource("ext_1")
 amount = 600
 metadata/_custom_type_script = ExtResource("reward_script")
 
+[sub_resource type="Resource" id="mig_sr_006_1"]
+script = ExtResource("mig_fx_maj")
+delta = -30
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_maj")
+
 [sub_resource type="Resource" id="sr_006"]
 script = ExtResource("outcome_script")
 result_text = "Вы отмахиваетесь от просьб и идете к фургонам. Караванщики обрушивают проклятья, но вы вскрываете каждый тайник — и увесистый мешочек монет и драгоценностей оказывается в вашем владении."
 rewards = Array[ExtResource("reward_script")]([SubResource("sr_005")])
-hero_majesty_delta = -30
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_sr_006_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="sr_010"]
@@ -74,10 +96,16 @@ success_outcome = SubResource("sr_006")
 failure_outcome = SubResource("sr_008")
 metadata/_custom_type_script = ExtResource("choice_script")
 
+[sub_resource type="Resource" id="mig_sr_011_1"]
+script = ExtResource("mig_fx_maj")
+delta = 20
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_maj")
+
 [sub_resource type="Resource" id="sr_011"]
 script = ExtResource("outcome_script")
 result_text = "Осирис подлетает к каравану, золотые украшения начинают светиться, и караванщики падают ниц: «Смертные! Небеса услышали ваши мольбы и ниспослали меня! Высшей волею своей приказываю вам идти до ближайшего города — и добраться туда живыми!» Преисполненные благоговения, люди отправляются в путь."
-hero_majesty_delta = 20
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_sr_011_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="sr_012"]

@@ -37,26 +37,37 @@ func _resolve_target_paths() -> Array[String]:
 		if CampaignState.get_god_current_hp(path) <= 0:
 			continue
 		alive.append(path)
+	var result: Array[String] = []
 	match target:
 		Target.TEAM:
 			return alive
 		Target.SPECIFIC:
+			# Как и legacy target_god/target_god_immediate: достаточно, чтобы бог не был мёртв —
+			# НЕ обязательно быть в mission_heroes (сюжетный бог может получить эффект и вне отряда).
 			var specific_path: String = specific_god.resource_path if specific_god != null else ""
-			return [specific_path] if specific_path != "" and alive.has(specific_path) else []
+			if specific_path != "" and not CampaignState.is_god_dead(specific_path):
+				result.append(specific_path)
+			return result
 		Target.RANDOM:
 			if alive.is_empty():
-				return []
+				return result
 			var preferred_path: String = preferred_god.resource_path if preferred_god != null else ""
 			if preferred_path != "" and alive.has(preferred_path):
-				return [preferred_path]
-			return [alive[randi_range(0, alive.size() - 1)]]
+				result.append(preferred_path)
+			else:
+				result.append(alive[randi_range(0, alive.size() - 1)])
+			return result
 		Target.STRONGEST_ATTACK:
 			var best_attack_path: String = _pick_best_by_stat(alive, "damage")
-			return [best_attack_path] if best_attack_path != "" else []
+			if best_attack_path != "":
+				result.append(best_attack_path)
+			return result
 		Target.STRONGEST_ARMOR:
 			var best_armor_path: String = _pick_best_by_stat(alive, "armor")
-			return [best_armor_path] if best_armor_path != "" else []
-	return []
+			if best_armor_path != "":
+				result.append(best_armor_path)
+			return result
+	return result
 
 
 ## Возвращает путь живого бога из candidate_paths с наибольшим базовым значением

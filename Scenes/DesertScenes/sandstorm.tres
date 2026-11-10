@@ -10,6 +10,9 @@
 [ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
 [ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
 [ext_resource type="Script" uid="uid://dutn5fch4d8b5" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
 
 [sub_resource type="Resource" id="sr_001"]
 script = ExtResource("formation_script")
@@ -38,11 +41,16 @@ value = 10
 duration = 1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_sr_005_1"]
+script = ExtResource("mig_fx_buff")
+buffs = Array[ExtResource("buff_script")]([SubResource("sr_003"), SubResource("sr_004")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="sr_005"]
 script = ExtResource("outcome_script")
 result_text = "Бежать некуда — и вы становитесь ядром порядка в хаосе, встав кругом. Из бури на вас обрушиваются удары, но вы хотя бы можете прикрывать друг друга."
 battle = SubResource("sr_002")
-hero_buffs = Array[ExtResource("buff_script")]([SubResource("sr_003"), SubResource("sr_004")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_sr_005_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="sr_006"]
@@ -64,11 +72,16 @@ value = -10
 duration = 1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_sr_010_1"]
+script = ExtResource("mig_fx_buff")
+buffs = Array[ExtResource("buff_script")]([SubResource("sr_008"), SubResource("sr_009")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="sr_010"]
 script = ExtResource("outcome_script")
 result_text = "Черные тени следуют за вами по пятам, нанося хлесткие удары, а выхода все нет. Все, чего вы добились, — слом собственного построения."
 battle = SubResource("sr_002")
-hero_buffs = Array[ExtResource("buff_script")]([SubResource("sr_008"), SubResource("sr_009")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_sr_010_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="sr_011"]
@@ -96,12 +109,23 @@ stat = 2
 value = -15
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_sr_016_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = -10
+immediate = true
+heal_item_bonus = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
+[sub_resource type="Resource" id="mig_sr_016_2"]
+script = ExtResource("mig_fx_buff")
+buffs = Array[ExtResource("buff_script")]([SubResource("sr_015")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="sr_016"]
 script = ExtResource("outcome_script")
 result_text = "Пустыня сыграла с вами злую шутку: вместо скал под ногами лишь мягкий песок. На ногах кровоточат порезы, память подвела."
 battle = SubResource("sr_002")
-hero_heal_percent = -10
-hero_buffs = Array[ExtResource("buff_script")]([SubResource("sr_015")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_sr_016_1"), SubResource("mig_sr_016_2")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="sr_017"]
@@ -116,11 +140,16 @@ value = 5
 duration = 1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_sr_014_1"]
+script = ExtResource("mig_fx_buff")
+buffs = Array[ExtResource("buff_script")]([SubResource("sr_013")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="sr_014"]
 script = ExtResource("outcome_script")
 result_text = "Память не подводит: среди пыли вырастает тень скал, и ваш отряд занимает позицию в ущелье. Ветер все еще оглушает, но вы хотя бы видите врагов — фигуры в черном с серебряными масками."
 battle = SubResource("sr_002")
-hero_buffs = Array[ExtResource("buff_script")]([SubResource("sr_013")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_sr_014_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="sr_018"]

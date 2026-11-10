@@ -7,13 +7,22 @@
 [ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="4_reward"]
 [ext_resource type="Resource" uid="uid://d4gtl5hfosid2" path="res://Scenes/IslandsScenes/beach_bliss.tres" id="5_bliss"]
 [ext_resource type="Resource" path="res://Items/Weapons/Rare/stone_face.tres" id="6_stone"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
+
+[sub_resource type="Resource" id="mig_out_v1_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = 5
+immediate = true
+heal_item_bonus = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
 
 [sub_resource type="Resource" id="out_v1"]
 script = ExtResource("3_outcome")
 result_text = "Вы ложитесь на лежанки, откупориваете вино, улыбаетесь камню. Но ваши мысли настороже, вы притворяетесь, что отдыхаете, но ждете нападения. Но оно так и не наступает. Постепенно вы расслабляетесь.
 Солнце ласкает кожу, а море слух. Вы проваливаетесь в сон."
 next_scene = ExtResource("5_bliss")
-hero_heal_percent = 5
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v1_1")])
 metadata/_custom_type_script = ExtResource("3_outcome")
 
 [sub_resource type="Resource" id="choice_v1"]

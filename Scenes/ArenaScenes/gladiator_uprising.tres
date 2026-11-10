@@ -12,6 +12,8 @@
 [ext_resource type="Resource" path="res://Enemies/Civilization/Arena/Gladiator/Gladiator.tres" id="r_gladiator"]
 [ext_resource type="Resource" path="res://Enemies/Civilization/Arena/Hoplite/Hoplite.tres" id="r_hoplite"]
 [ext_resource type="Resource" path="res://Essence/essence_chaos.tres" id="r_chaos"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
 
 [sub_resource type="Resource" id="formation_1"]
 script = ExtResource("s_formation")
@@ -64,6 +66,11 @@ formation = SubResource("formation_1")
 location_id = "arena"
 metadata/_custom_type_script = ExtResource("s_battle")
 
+[sub_resource type="Resource" id="mig_outcome_8_1"]
+script = ExtResource("mig_fx_buff")
+buffs = Array[ExtResource("s_buff")]([SubResource("buff_6")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="outcome_8"]
 script = ExtResource("s_outcome")
 result_text = "Вы бросаетесь вслед за убийцами. В путаных коридорах арены шаги отдаются эхом, вскоре вы уже видите их. Они также замечают погоню и начинают на бегу ронять интерьер, создавая для вас препятствия. Вы перепрыгиваете и продолжаете погоню. Кто-то кричит:
@@ -72,7 +79,7 @@ result_text = "Вы бросаетесь вслед за убийцами. В п
 
 Удар в лоб: первый бог, что бежал, теряет равновесие и отлетает на союзников. Из-за двери выскакивают гладиаторы и с оружием бросаются на вас."
 battle = SubResource("battle_7")
-hero_buffs = Array[ExtResource("s_buff")]([SubResource("buff_6")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_outcome_8_1")])
 metadata/_custom_type_script = ExtResource("s_outcome")
 
 [sub_resource type="Resource" id="choice_9"]

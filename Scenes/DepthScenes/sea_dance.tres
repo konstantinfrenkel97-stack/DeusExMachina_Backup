@@ -8,6 +8,9 @@
 [ext_resource type="Resource" path="res://Gods/Poseidon/Poseidon.tres" id="god_poseidon"]
 [ext_resource type="Resource" path="res://Essence/essence_chaos.tres" id="res_essence_chaos"]
 [ext_resource type="Resource" path="res://Items/Weapons/Rare/gusli_sadko.tres" id="item_gusli_sadko"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_majesty_delta_effect.gd" id="mig_fx_maj"]
 
 [sub_resource type="Resource" id="reward_chaos_essence"]
 script = ExtResource("reward_script")
@@ -15,13 +18,19 @@ kind = 1
 resource = ExtResource("res_essence_chaos")
 metadata/_custom_type_script = ExtResource("reward_script")
 
+[sub_resource type="Resource" id="mig_out_v1_1"]
+script = ExtResource("mig_fx_maj")
+delta = -10
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_maj")
+
 [sub_resource type="Resource" id="out_v1"]
 script = ExtResource("outcome_script")
 result_text = "А что, если не делать ничего? Спасать его - как минимум сложно и опасно, а играет парень правда здорово. Вы начинаете танцевать. У музыканта отпадает челюсть от такого зрелища. Он с черной ненавистью смотрит на то, как вы двигаетесь в такт его музыке, и словно вам назло начинает играть быстрее. Но и вы начинаете танцевать более бодро. Этот ритм вам подвластен. Вы становитесь частью русалочьей стаи: танцуете, двигаетесь, извиваетесь, ловите ритм. Русалки вас подхватывают и вовлекают в танец. Вы словно все становитесь частью одного гигантского организма. Вы словно пчелы, роящиеся вокруг гнезда, в танце, известном вам одним. Музыка становится частью вас. Вы становитесь частью всего.
 
 Наконец безумная пляска вас отпускает. Никто не может танцевать бесконечно. Вы обращаете внимание, что и русалки тоже сменяются в этом танце. Вы получили, что вам причиталось от этого танца, оставляя незадачливого музыканта жертвой океана."
 rewards = [SubResource("reward_chaos_essence")]
-hero_majesty_delta = -10
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v1_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_v1"]
@@ -35,6 +44,12 @@ script = ExtResource("stat_check_script")
 stat = 3
 metadata/_custom_type_script = ExtResource("stat_check_script")
 
+[sub_resource type="Resource" id="mig_out_v2_success_1"]
+script = ExtResource("mig_fx_maj")
+delta = 10
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_maj")
+
 [sub_resource type="Resource" id="out_v2_success"]
 script = ExtResource("outcome_script")
 result_text = "Если музыка прервется, вас заметят сразу: кто-то должен остаться, чтобы вы могли вытащить гусляра. Как только одна из мелодий подходит к концу, один из богов вырывает инструмент и сразу же начинает играть. Вы же закрываете телами фигуру человека и уводите его в сторону. То ли русалы не заметили подмены, то ли им все равно, лишь бы кто-то играл.
@@ -46,8 +61,21 @@ result_text = "Если музыка прервется, вас заметят �
 Ваш спутник дожидается вас в одиночестве, сидя на камне. Рядом - разломанные гусли. С его слов, русалки быстро утратили интерес к его игре, и, поняв, что музыкант пропал, разбили гусли и уплыли.
 
 Ну что ж. Вы сделали доброе дело."
-hero_majesty_delta = 10
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v2_success_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="mig_out_v2_fail_1"]
+script = ExtResource("mig_fx_hp")
+target = 2
+percent_delta = -10
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
+[sub_resource type="Resource" id="mig_out_v2_fail_2"]
+script = ExtResource("mig_fx_maj")
+delta = 10
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_maj")
 
 [sub_resource type="Resource" id="out_v2_fail"]
 script = ExtResource("outcome_script")
@@ -60,8 +88,7 @@ result_text = "Если музыка прервется, вас заметят �
 Ваш спутник дожидается вас, распластанный на камнях. Рядом сломанные гусли. Как только русалы заметили подмену, они набросились на него и побили. Слишком много, чтобы одолеть одному, да и они не хотели убивать. Вы помогаете другу встать.
 
 Так или иначе, но вы сделали доброе дело."
-hero_majesty_delta = 10
-random_hero_hp_percent_delta = -10
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v2_fail_1"), SubResource("mig_out_v2_fail_2")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_v2"]
@@ -77,6 +104,13 @@ script = ExtResource("reward_script")
 kind = 0
 resource = ExtResource("item_gusli_sadko")
 metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="mig_out_v3_1"]
+script = ExtResource("mig_fx_maj")
+target = 1
+specific_god = ExtResource("god_poseidon")
+delta = 15
+metadata/_custom_type_script = ExtResource("mig_fx_maj")
 
 [sub_resource type="Resource" id="out_v3"]
 script = ExtResource("outcome_script")
@@ -99,9 +133,8 @@ result_text = "Музыку перебивает удар трезубца о д
 Он грозно смотрит на русалок.
 «А вы! Быстро отнесите его на сушу вместе с дарами! И не думайте больше принимать на свой счет жертвы, что вам не принадлежат!»
 Вскрикнув, русалки подхватили под мышки музыканта, другие схватили жемчуг и понеслись прочь. До вас донеслись только едва слышные слова благодарности."
-target_god = ExtResource("god_poseidon")
-target_majesty_delta = 15
 rewards = [SubResource("reward_gusli")]
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v3_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_v3"]

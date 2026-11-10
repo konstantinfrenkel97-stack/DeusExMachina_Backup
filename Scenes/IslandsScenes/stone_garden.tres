@@ -14,6 +14,8 @@
 [ext_resource type="Resource" path="res://Enemies/Sea/Islands/Medusa/medusa.tres" id="medusa"]
 [ext_resource type="Resource" path="res://Gods/Susanoo/Susanoo.tres" id="susanoo"]
 [ext_resource type="Resource" path="res://Items/Trinkets/Rare/petrified_snake.tres" id="petrified_snake"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
 
 [sub_resource type="Resource" id="form_stone_garden"]
 script = ExtResource("formation_script")
@@ -196,6 +198,13 @@ value = 0
 duration = 1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_out_reflect_failure_1"]
+script = ExtResource("mig_fx_buff")
+target = 1
+specific_god = ExtResource("susanoo")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_susanoo_stun")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="out_reflect_failure"]
 script = ExtResource("outcome_script")
 result_text = "Вперед выходит Сусаноо.
@@ -209,8 +218,7 @@ result_text = "Вперед выходит Сусаноо.
 Сусаноо поднимает голову, медуза резко поворачивает лицо прямо к нему, чтобы заглянуть в глаза…
 И бог превращается в камень. Кажется, даже медуза не ожидала такого исхода. Отойдя от первого шока, вы бросаетесь в атаку. Похоже, меч не смог опередить взгляд."
 battle = SubResource("battle_base")
-target_god = ExtResource("susanoo")
-target_buffs = Array[ExtResource("buff_script")]([SubResource("buff_susanoo_stun")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_reflect_failure_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_reflect"]

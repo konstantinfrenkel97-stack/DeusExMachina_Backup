@@ -13,6 +13,8 @@
 [ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="11_xjq68"]
 [ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="12_8gglv"]
 [ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="13_mhyrp"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
 
 [sub_resource type="Resource" id="form_chest_fail"]
 script = ExtResource("2_867g4")
@@ -98,10 +100,17 @@ stat = 6
 value = -1
 metadata/_custom_type_script = ExtResource("10_80tng")
 
+[sub_resource type="Resource" id="mig_out_take_1"]
+script = ExtResource("mig_fx_buff")
+target = 3
+buffs = Array[ExtResource("10_80tng")]([SubResource("buff_strongest_init_minus1")])
+duration = 1
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="out_take"]
 script = ExtResource("7_e2327")
 result_text = "Сильнейший из ваших богов берет сундук с собой, чтобы открыть в безопасной обстановке убежища. К сожалению, даже для бога сундучишко весьма тяжел. Драться с ним будет совсем несподручно. Персонаж с наибольшей атакой получает штраф 1 инициативы до конца миссии."
-strongest_hero_buffs = Array[ExtResource("10_80tng")]([SubResource("buff_strongest_init_minus1")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_take_1")])
 metadata/_custom_type_script = ExtResource("7_e2327")
 
 [sub_resource type="Resource" id="choice_take"]

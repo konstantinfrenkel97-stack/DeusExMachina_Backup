@@ -4,6 +4,9 @@
 [ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="choice_script"]
 [ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="outcome_script"]
 [ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
 
 [sub_resource type="Resource" id="out_admire"]
 script = ExtResource("outcome_script")
@@ -24,10 +27,15 @@ value = 10
 duration = 1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_out_rush_1"]
+script = ExtResource("mig_fx_buff")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_attack")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="out_rush"]
 script = ExtResource("outcome_script")
 result_text = "Вы отбрасываете любые сантименты — красота подождёт, враги не дремлют. Вместо отдыха вы настраиваете богов на предстоящий бой: в следующей битве они обрушатся на противника с удвоенной яростью."
-hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_attack")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_rush_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_rush"]
@@ -36,10 +44,17 @@ choice_text = "Нет времени на пустяки"
 outcome = SubResource("out_rush")
 metadata/_custom_type_script = ExtResource("choice_script")
 
+[sub_resource type="Resource" id="mig_out_rest_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = 5
+immediate = true
+heal_item_bonus = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
 [sub_resource type="Resource" id="out_rest"]
 script = ExtResource("outcome_script")
 result_text = "Вы устраиваете короткий привал. Пусть красота подождёт — сейчас важнее раны. Боги ненадолго переводят дух, и часть сил возвращается к ним прежде, чем вы продолжите путь."
-hero_heal_percent = 5
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_rest_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_rest"]

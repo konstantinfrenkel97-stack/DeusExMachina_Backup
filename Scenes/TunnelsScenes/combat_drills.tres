@@ -10,6 +10,9 @@
 [ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
 [ext_resource type="Resource" path="res://Enemies/Dungeon/Tunnels/Dwarf_shield/dwarf_shield.tres" id="enemy_shield"]
 [ext_resource type="Resource" path="res://Gods/Thor/thor.tres" id="thor"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_majesty_delta_effect.gd" id="mig_fx_maj"]
 
 [sub_resource type="Resource" id="form_shields"]
 script = ExtResource("formation_script")
@@ -83,11 +86,17 @@ result_text = "Дворфы пускаются в погоню, ломая ст�
 battle = SubResource("battle_vulnerable")
 metadata/_custom_type_script = ExtResource("outcome_script")
 
+[sub_resource type="Resource" id="mig_out_feint_fail_1"]
+script = ExtResource("mig_fx_maj")
+delta = -10
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_maj")
+
 [sub_resource type="Resource" id="out_feint_fail"]
 script = ExtResource("outcome_script")
 result_text = "Солдаты не попадаются на вашу уловку. Под их насмешками вы возвращаетесь и принимаете бой против стены щитов."
 battle = SubResource("battle_fortified")
-hero_majesty_delta = -10
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_feint_fail_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="out_thor_success"]
@@ -95,12 +104,18 @@ script = ExtResource("outcome_script")
 result_text = "Завороженные солдаты слушают мудрые нравоучения Тора. Какое-то время вы обучаете их известным вам командам. В конце они формируют две шеренги, и вы триумфально проходите дальше."
 metadata/_custom_type_script = ExtResource("outcome_script")
 
+[sub_resource type="Resource" id="mig_out_thor_fail_1"]
+script = ExtResource("mig_fx_buff")
+target = 1
+specific_god = ExtResource("thor")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_thor_damage_minus15")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="out_thor_fail"]
 script = ExtResource("outcome_script")
 result_text = "Тор показывает дворфам приемы, дает советы и указывает на ошибки, пока не появляется одышка, а на лице не выступает пот. Но солдаты лишь поднимают на смех запыхавшегося бога и снова встают в боевое построение."
 battle = SubResource("battle_fortified")
-target_god = ExtResource("thor")
-target_buffs = Array[ExtResource("buff_script")]([SubResource("buff_thor_damage_minus15")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_thor_fail_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="check_attack"]

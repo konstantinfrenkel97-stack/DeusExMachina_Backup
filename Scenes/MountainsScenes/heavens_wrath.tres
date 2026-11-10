@@ -9,6 +9,8 @@
 [ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="s_formation"]
 [ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="s_buff"]
 [ext_resource type="Resource" path="res://Gods/Zeus/Zeus.tres" id="r_zeus"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
 
 [sub_resource type="Resource" id="check_1"]
 script = ExtResource("s_check")
@@ -27,6 +29,12 @@ result_text = "Гром становится все яростнее.
 Вам известен ваш Немезис."
 metadata/_custom_type_script = ExtResource("s_outcome")
 
+[sub_resource type="Resource" id="mig_outcome_3_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = -5
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
 [sub_resource type="Resource" id="outcome_3"]
 script = ExtResource("s_outcome")
 result_text = "Гром становится все яростнее.
@@ -38,7 +46,7 @@ result_text = "Гром становится все яростнее.
 Вы приходите в себя и прячетесь за каменный выступ. Фигура с шаром на плечах, что многократно больше его самого, овладевшая магией Зевса. Он знает вас, и он вас атаковал. Путешествие по горам только что стало гораздо опаснее.
 
 Вам известен ваш Немезис."
-hero_hp_percent_delta = -5
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_outcome_3_1")])
 metadata/_custom_type_script = ExtResource("s_outcome")
 
 [sub_resource type="Resource" id="choice_4"]
@@ -56,6 +64,12 @@ stat_label = "Точность"
 difficulty = 70
 metadata/_custom_type_script = ExtResource("s_check")
 
+[sub_resource type="Resource" id="mig_outcome_6_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = -5
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
 [sub_resource type="Resource" id="outcome_6"]
 script = ExtResource("s_outcome")
 result_text = "Гром становится все яростнее.
@@ -67,10 +81,16 @@ result_text = "Гром становится все яростнее.
 Но одно вам точно известно - у вас появился враг, и враг очень опасный.
 
 Вам известен ваш Немезис."
-hero_hp_percent_delta = -5
 nemesis_enemy_hp_percent = 2
 nemesis_buff_location_id = "mountains"
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_outcome_6_1")])
 metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="mig_outcome_7_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = -5
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
 
 [sub_resource type="Resource" id="outcome_7"]
 script = ExtResource("s_outcome")
@@ -83,7 +103,7 @@ result_text = "Гром становится все яростнее.
 Но одно вам точно известно - у вас появился враг, и враг очень опасный.
 
 Вам известен ваш Немезис."
-hero_hp_percent_delta = -5
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_outcome_7_1")])
 metadata/_custom_type_script = ExtResource("s_outcome")
 
 [sub_resource type="Resource" id="choice_8"]

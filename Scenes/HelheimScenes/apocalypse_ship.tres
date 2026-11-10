@@ -6,12 +6,21 @@
 [ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="reward_script"]
 [ext_resource type="Resource" uid="uid://bglbr7sxbyn23" path="res://Essence/essence_death.tres" id="essence_death"]
 [ext_resource type="Resource" uid="uid://lokigod00001" path="res://Gods/Loki/Loki.tres" id="loki"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_majesty_delta_effect.gd" id="mig_fx_maj"]
 
 [sub_resource type="Resource" id="reward_death_essence"]
 script = ExtResource("reward_script")
 kind = 1
 resource = ExtResource("essence_death")
 metadata/_custom_type_script = ExtResource("reward_script")
+
+[sub_resource type="Resource" id="mig_out_give_nails_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = -1
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
 
 [sub_resource type="Resource" id="out_give_nails"]
 script = ExtResource("outcome_script")
@@ -20,8 +29,8 @@ result_text = "Вы знаете, что сейчас произойдет, и �
 Скрипя зубами от боли, вы пытаетесь вспомнить, какая причина заставила вас решить отдать ногти. А была ли причина? А вы ли это решили?
 
 Вам ужасно плохо, пальцы кровоточат. Мертвецы, покачиваясь, бредут к своему судну и присоединяют ваши ногти к бесконечной череде маленьких пластин. Вы чувствуете, как боль в пальцах постепенно ослабевает. Точнее говоря, охлаждается. Ваши ногти теперь часть корабля мертвецов. Вы навсегда связаны с этим миром."
-hero_hp_percent_delta = -1
 rewards = Array[ExtResource("reward_script")]([SubResource("reward_death_essence")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_give_nails_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_give_nails"]
@@ -30,12 +39,18 @@ choice_text = "Отдать свои ногти"
 outcome = SubResource("out_give_nails")
 metadata/_custom_type_script = ExtResource("choice_script")
 
+[sub_resource type="Resource" id="mig_out_destroy_ship_1"]
+script = ExtResource("mig_fx_maj")
+delta = 10
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_maj")
+
 [sub_resource type="Resource" id="out_destroy_ship"]
 script = ExtResource("outcome_script")
 result_text = "Корабль из ногтей вызывает у вас отвращение. Не говоря уже о мертвецах, что тянутся к вашим пальцам. Это мерзко и неправильно. Вы бросаетесь на строителей, они не сопротивляются. Покончив с мертвецами, вы бросаетесь на пугающее судно, обрушивая оружие и заклинания. Оно разлетается столпом пластинчатых чешуй, а вы бьете и бьете, пока постройка не превратится в россыпь ногтей на черном камне.
 
 Когда вы отправляетесь дальше, прямо вам навстречу из тумана выходит драугр. Он вооружен, и вы хватаетесь за оружие. Но огонь в глазах живого трупа гаснет, он роняет оружие и, покачиваясь, идет к груде ногтей. Из тумана выходят еще тела, все они идут туда, где когда-то было судно, и начинают собирать его заново. Вы чувствуете холод и пустоту в груди. Вы смогли задержать строительство корабля, но, похоже, не в ваших силах его полностью остановить."
-hero_majesty_delta = 10
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_destroy_ship_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_destroy_ship"]

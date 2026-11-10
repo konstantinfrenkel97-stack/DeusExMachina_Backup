@@ -12,6 +12,8 @@
 [ext_resource type="Resource" path="res://Gods/Zeus/zeus.tres" id="10_zeus"]
 [ext_resource type="Script" path="res://Missions/reward.gd" id="11_reward"]
 [ext_resource type="Resource" path="res://Items/Weapons/Rare/beautiful_stone.tres" id="12_stone"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
 
 [sub_resource type="Resource" id="form_one_cyclops"]
 script = ExtResource("8_formation")
@@ -114,6 +116,13 @@ kind = 0
 resource = ExtResource("12_stone")
 metadata/_custom_type_script = ExtResource("11_reward")
 
+[sub_resource type="Resource" id="mig_out_v3_success_1"]
+script = ExtResource("mig_fx_buff")
+target = 1
+specific_god = ExtResource("10_zeus")
+buffs = Array[ExtResource("6_buff")]([SubResource("buff_zeus_accuracy15")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="out_v3_success"]
 script = ExtResource("3_outcome")
 result_text = "«Хмм, а ведь я когда-то имел дело с циклопами. Может, и с этим смогу до чего договориться.»
@@ -127,10 +136,16 @@ result_text = "«Хмм, а ведь я когда-то имел дело с ц�
 Он медленно опускается на плато.
 «Хорошая разминка. Давно я не тренировался в меткости.»
 Его прерывает циклоп-метатель. Опустившись на одно колено перед соперником, он торжественно вручает приз победителю. Это камень. Вы замечаете, что этот камень довольно красивый. А еще огромный. Когда Зевс берет его в руки, мышцы вздуваются и покрываются жилами. Циклопы аплодируют. Ваш отряд присоединяется к аплодисментам."
-target_god = ExtResource("10_zeus")
-target_buffs = Array[ExtResource("6_buff")]([SubResource("buff_zeus_accuracy15")])
 rewards = Array[ExtResource("11_reward")]([SubResource("reward_beautiful_stone")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v3_success_1")])
 metadata/_custom_type_script = ExtResource("3_outcome")
+
+[sub_resource type="Resource" id="mig_out_v3_fail_1"]
+script = ExtResource("mig_fx_buff")
+target = 1
+specific_god = ExtResource("10_zeus")
+buffs = Array[ExtResource("6_buff")]([SubResource("buff_zeus_accuracy15")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
 
 [sub_resource type="Resource" id="out_v3_fail"]
 script = ExtResource("3_outcome")
@@ -143,8 +158,7 @@ result_text = "«Хмм, а ведь я когда-то имел дело с ц�
 «Хорош! Хорош!»
 Наконец он подходит к вам. По седым бровям стекают капли пота и электричества.
 «Хорошая разминка. Давно я не тренировался в меткости.»"
-target_god = ExtResource("10_zeus")
-target_buffs = Array[ExtResource("6_buff")]([SubResource("buff_zeus_accuracy15")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v3_fail_1")])
 metadata/_custom_type_script = ExtResource("3_outcome")
 
 [sub_resource type="Resource" id="choice_v3"]

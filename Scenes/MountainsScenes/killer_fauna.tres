@@ -9,6 +9,8 @@
 [ext_resource type="Script" path="res://Missions/stat_check.gd" id="7_statcheck"]
 [ext_resource type="Script" path="res://Missions/formation_resource.gd" id="8_formation"]
 [ext_resource type="Resource" path="res://Enemies/Sky/Peaks/Lernaean_lion/lernaean_lion.tres" id="9_lion"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
 
 [sub_resource type="Resource" id="form_lion_lion"]
 script = ExtResource("8_formation")
@@ -92,6 +94,13 @@ script = ExtResource("7_statcheck")
 stat = 3
 metadata/_custom_type_script = ExtResource("7_statcheck")
 
+[sub_resource type="Resource" id="mig_out_v3_success_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = 100
+immediate = true
+heal_item_bonus = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
 [sub_resource type="Resource" id="out_v3_success"]
 script = ExtResource("3_outcome")
 result_text = "Ваш отряд быстро выскакивает из-за скал и, схватив блеящее животное под мышку, поспешно укрывается. Не похоже, что львы вас заметили. Козел начинает мотать головой и издавать звуки. Он словно указывает носом в определенном направлении. Вы решаете довериться существу.
@@ -103,7 +112,7 @@ result_text = "Ваш отряд быстро выскакивает из-за �
 Команда пользуется возможностью и по очереди пьет из источника. Такая целебная сила вам редко встречалась. Все раны затянуты. И знал о ней какой-то козел.
 
 Освежившиеся и приободренные, вы готовы двигаться дальше."
-hero_heal_percent = 100
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v3_success_1")])
 metadata/_custom_type_script = ExtResource("3_outcome")
 
 [sub_resource type="Resource" id="battle_v3_fail"]
@@ -111,6 +120,13 @@ script = ExtResource("4_battle")
 formation = SubResource("form_lion_lion")
 location_id = "mountains"
 metadata/_custom_type_script = ExtResource("4_battle")
+
+[sub_resource type="Resource" id="mig_out_v3_fail_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = 100
+immediate = true
+heal_item_bonus = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
 
 [sub_resource type="Resource" id="out_v3_fail"]
 script = ExtResource("3_outcome")
@@ -122,7 +138,7 @@ result_text = "Ваш отряд быстро выскакивает из-за �
 
 Двое львов с окровавленными мордами мягко заходят в пещеру. Вблизи они еще более огромны. Вы видите, как двигаются плечи в готовности к прыжку, как слюна капает с окровавленных клыков. Они пришли забрать свою добычу."
 battle = SubResource("battle_v3_fail")
-hero_heal_percent = 100
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v3_fail_1")])
 metadata/_custom_type_script = ExtResource("3_outcome")
 
 [sub_resource type="Resource" id="choice_v3"]

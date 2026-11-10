@@ -10,6 +10,8 @@
 [ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
 [ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"][ext_resource type="Resource" path="res://Enemies/Forest/Marsh/Utoplennitsa/utoplennitsa.tres" id="utoplennitsa"]
 [ext_resource type="Resource" path="res://Essence/essence_death.tres" id="essence_death"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
 
 [sub_resource type="Resource" id="form_play"]
 script = ExtResource("formation_script")
@@ -79,11 +81,18 @@ result_text = "«Играем!» — единый выдох со всех ст�
 rewards = [SubResource("reward_death")]
 metadata/_custom_type_script = ExtResource("outcome_script")
 
+[sub_resource type="Resource" id="mig_out_tag_fail_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = -5
+immediate = true
+heal_item_bonus = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
 [sub_resource type="Resource" id="out_tag_fail"]
 script = ExtResource("outcome_script")
 result_text = "«Играем!» — единый выдох со всех сторон. Призраки начали резко нырять под воду. Вы побежали. Шлепки по воде резонировали с какофоническим смехом. Бледные руки вырывались из воды, хватали за одежду и ноги. Одного за другим вас утаскивают под воду. Легкие горят, а руки твердые, как железные кандалы, тянут дальше вниз. По воде разносится оглушающий высокий смех. Вы проиграли, и теперь умрете."
 rewards = [SubResource("reward_death")]
-hero_heal_percent = -5
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_tag_fail_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="out_hide_success"]

@@ -417,27 +417,11 @@ func _apply_outcome_mission_effects(outcome) -> void:
 	var set_flag: String = str(_res_prop(outcome, "set_mission_flag", ""))
 	if set_flag != "":
 		MissionState.mission_flags[set_flag] = true
-	var heal_percent: int = int(_res_prop(outcome, "hero_heal_percent", 0))
-	if heal_percent != 0:
-		_apply_team_mission_heal_percent(heal_percent)
 	var forgetting_delta: float = float(_res_prop(outcome, "hero_forgetting_delta", 0.0))
 	if forgetting_delta != 0.0:
 		_apply_forgetting_to_mission_heroes(forgetting_delta)
 	if bool(_res_prop(outcome, "rum_spell_whole_team_next_battle", false)):
 		CombatManager.pending_rum_spell_whole_team = true
-	var random_hero_buffs: Array = _array_prop(outcome, "target_random_hero_buffs")
-	if not random_hero_buffs.is_empty():
-		var random_hero_until_mission_end: bool = bool(_res_prop(outcome, "target_random_hero_buffs_until_mission_end", false))
-		_apply_random_or_preferred_hero_buffs(random_hero_buffs, _res_prop(outcome, "target_random_hero_preferred_god", null), random_hero_until_mission_end)
-	var random_hp_delta: int = int(_res_prop(outcome, "random_hero_hp_percent_delta", 0))
-	if random_hp_delta != 0:
-		_apply_random_mission_hero_hp_delta(random_hp_delta)
-	var team_hp_delta: int = int(_res_prop(outcome, "hero_hp_percent_delta", 0))
-	if team_hp_delta != 0:
-		_apply_team_mission_hero_hp_delta(team_hp_delta)
-	var team_hp_flat_delta: int = int(_res_prop(outcome, "hero_hp_flat_delta", 0))
-	if team_hp_flat_delta != 0:
-		_apply_team_mission_hero_hp_flat_delta(team_hp_flat_delta)
 	var fantasy_delta: int = int(_res_prop(outcome, "fantasy_delta", 0))
 	if fantasy_delta != 0:
 		CombatManager.pending_mission_fantasy_delta += fantasy_delta
@@ -447,9 +431,6 @@ func _apply_outcome_mission_effects(outcome) -> void:
 	var max_fantasy_bonus_delta: int = int(_res_prop(outcome, "max_fantasy_bonus_delta", 0))
 	if max_fantasy_bonus_delta != 0:
 		CampaignState.library_max_fantasy_bonus = maxi(0, CampaignState.library_max_fantasy_bonus + max_fantasy_bonus_delta)
-	var majesty_delta: int = int(_res_prop(outcome, "hero_majesty_delta", 0))
-	if majesty_delta != 0:
-		MissionState.add_majesty_to_selected_heroes(majesty_delta)
 	var perm_debuff_unit: String = str(_res_prop(outcome, "permanent_enemy_debuff_unit_name", ""))
 	var perm_debuff_accuracy: int = int(_res_prop(outcome, "permanent_enemy_debuff_accuracy", 0))
 	if perm_debuff_unit != "" and perm_debuff_accuracy != 0:
@@ -483,33 +464,6 @@ func _apply_outcome_mission_effects(outcome) -> void:
 			if ha_hp_amount == 0:
 				ha_hp_amount = 1 if ha_hp_delta > 0 else -1
 			CampaignState.set_god_current_hp(ha_path_2, CampaignState.get_god_current_hp(ha_path_2) + ha_hp_amount, ha_max_hp)
-	var immediate_target_god: Resource = _res_prop(outcome, "target_god_immediate", null) as Resource
-	if immediate_target_god != null:
-		var immediate_target_path: String = str(_res_prop(immediate_target_god, "resource_path", ""))
-		if immediate_target_path != "" and not CampaignState.is_god_dead(immediate_target_path):
-			var immediate_hp_delta: int = int(_res_prop(outcome, "target_god_immediate_hp_percent_delta", 0))
-			var immediate_majesty_delta: int = int(_res_prop(outcome, "target_god_immediate_majesty_delta", 0))
-			if immediate_hp_delta != 0:
-				var immediate_max_hp: int = CampaignState.get_god_max_hp(immediate_target_path)
-				var immediate_hp_amount: int = int(round(float(immediate_max_hp) * float(immediate_hp_delta) / 100.0))
-				if immediate_hp_amount == 0:
-					immediate_hp_amount = 1 if immediate_hp_delta > 0 else -1
-				CampaignState.set_god_current_hp(immediate_target_path, CampaignState.get_god_current_hp(immediate_target_path) + immediate_hp_amount, immediate_max_hp)
-			if immediate_majesty_delta != 0:
-				MissionState.add_hero_majesty(immediate_target_path, immediate_majesty_delta)
-	var hero_buffs_until_mission_end: bool = bool(_res_prop(outcome, "hero_buffs_until_mission_end", false))
-	for buff in _array_prop(outcome, "hero_buffs"):
-		if buff != null:
-			if hero_buffs_until_mission_end:
-				CombatManager.mission_team_buffs.append(buff)
-			else:
-				CombatManager.pending_mission_hero_buffs.append(buff)
-	for buff in _array_prop(outcome, "enemy_buffs"):
-		if buff != null:
-			CombatManager.pending_mission_enemy_buffs.append(buff)
-	for buff in _array_prop(outcome, "strongest_hero_buffs"):
-		if buff != null:
-			CombatManager.mission_strongest_hero_buffs.append(buff)
 	# Единая очередь иммунитетов локаций (CombatManager.pending_location_immunities) — эти
 	# четыре поля сохранены для совместимости со старыми сценами, но теперь внутри работают
 	# через тот же механизм, что и Reward.Kind.LOCATION_IMMUNITY (см. Missions/reward.gd).
@@ -527,26 +481,6 @@ func _apply_outcome_mission_effects(outcome) -> void:
 	var check_difficulty_delta: int = int(_res_prop(outcome, "next_check_difficulty_delta", 0))
 	if check_difficulty_delta != 0:
 		MissionState.pending_check_difficulty_delta += check_difficulty_delta
-	var target_god: Resource = _res_prop(outcome, "target_god", null) as Resource
-	if target_god != null:
-		var target_path: String = str(_res_prop(target_god, "resource_path", ""))
-		if target_path != "":
-			var target_buffs: Array = _array_prop(outcome, "target_buffs")
-			var target_buffs_until_mission_end: bool = bool(_res_prop(outcome, "target_buffs_until_mission_end", false))
-			var target_hp_delta: int = int(_res_prop(outcome, "target_current_hp_percent_delta", 0))
-			var target_majesty_delta: int = int(_res_prop(outcome, "target_majesty_delta", 0))
-			if target_hp_delta != 0 or target_majesty_delta != 0 or (not target_buffs_until_mission_end and target_buffs.size() > 0):
-				CombatManager.pending_mission_target_effects.append({
-					"resource_path": target_path,
-					"current_hp_percent_delta": target_hp_delta,
-					"majesty_delta": target_majesty_delta,
-					"buffs": ([] if target_buffs_until_mission_end else target_buffs)
-				})
-			if target_buffs_until_mission_end and target_buffs.size() > 0:
-				CombatManager.mission_target_buffs.append({
-					"resource_path": target_path,
-					"buffs": target_buffs
-				})
 	var nemesis_god: Resource = _res_prop(outcome, "nemesis_buff_god", null) as Resource
 	var nemesis_majesty: int = int(_res_prop(outcome, "nemesis_buff_majesty", 0))
 	var nemesis_stat_entry: Resource = _res_prop(outcome, "nemesis_buff_stat", null) as Resource
@@ -615,76 +549,6 @@ func _apply_rest_counter_effects(outcome) -> void:
 	elif bool(_res_prop(outcome, "rest_counter_reset", false)):
 		MissionState.rest_counter = 0
 
-func _apply_random_mission_hero_hp_delta(percent_delta: int) -> void:
-	var candidates: Array[String] = []
-	for hero_path in CombatManager.mission_heroes:
-		var path: String = str(hero_path).strip_edges()
-		if path == "" or CombatManager.mission_dead_heroes.has(path):
-			continue
-		if CampaignState.get_god_current_hp(path) <= 0:
-			continue
-		candidates.append(path)
-	if candidates.is_empty():
-		return
-	var target_path: String = candidates[randi_range(0, candidates.size() - 1)]
-	var max_hp: int = CampaignState.get_god_max_hp(target_path)
-	var delta: int = int(round(float(max_hp) * float(percent_delta) / 100.0))
-	if delta == 0:
-		delta = 1 if percent_delta > 0 else -1
-	CampaignState.set_god_current_hp(target_path, CampaignState.get_god_current_hp(target_path) + delta, max_hp)
-
-## Немедленно лечит/ранит ВСЮ команду миссии на percent% от max HP каждого (см.
-## MissionOutcome.hero_heal_percent) — исходы вроде "Передышка"/"Подлатать раны" без
-## приложенного боя. Раньше это откладывалось до следующего боя
-## (CombatManager.pending_mission_hero_heal_percent + battle_scene.gd), из-за чего
-## полоска HP на экране миссии не менялась сразу после выбора, а если следующего боя
-## в миссии больше не было — эффект вообще пропадал бесследно. Камень с мордочкой
-## (см. Items/Weapons/Rare/stone_face.tres) даёт +2% — как и было задумано, это
-## "вне-боевое" лечение.
-func _apply_team_mission_heal_percent(percent: int) -> void:
-	for hero_path in CombatManager.mission_heroes:
-		var path: String = str(hero_path).strip_edges()
-		if path == "" or CombatManager.mission_dead_heroes.has(path):
-			continue
-		if CampaignState.get_god_current_hp(path) <= 0:
-			continue
-		var effective_percent := percent
-		if CampaignState.god_has_item_effect(path, "stone_face_bonus_heal"):
-			effective_percent += 2
-		var max_hp: int = CampaignState.get_god_max_hp(path)
-		var delta: int = int(round(float(max_hp) * float(effective_percent) / 100.0))
-		if delta == 0:
-			delta = 1 if effective_percent > 0 else -1
-		CampaignState.set_god_current_hp(path, CampaignState.get_god_current_hp(path) + delta, max_hp)
-
-## Немедленно меняет HP ВСЕХ живых богов миссии на percent_delta% от их max HP каждого
-## (см. MissionOutcome.hero_hp_percent_delta). Применяется сразу (напр. ожог от лавы вне боя).
-func _apply_team_mission_hero_hp_delta(percent_delta: int) -> void:
-	for hero_path in CombatManager.mission_heroes:
-		var path: String = str(hero_path).strip_edges()
-		if path == "" or CombatManager.mission_dead_heroes.has(path):
-			continue
-		if CampaignState.get_god_current_hp(path) <= 0:
-			continue
-		var max_hp: int = CampaignState.get_god_max_hp(path)
-		var delta: int = int(round(float(max_hp) * float(percent_delta) / 100.0))
-		if delta == 0:
-			delta = 1 if percent_delta > 0 else -1
-		CampaignState.set_god_current_hp(path, CampaignState.get_god_current_hp(path) + delta, max_hp)
-
-## Как _apply_team_mission_hero_hp_delta(), но ФИКСИРОВАННЫМ числом очков HP на
-## каждого бога, а не в процентах (см. MissionOutcome.hero_hp_flat_delta).
-func _apply_team_mission_hero_hp_flat_delta(flat_delta: int) -> void:
-	for hero_path in CombatManager.mission_heroes:
-		var path: String = str(hero_path).strip_edges()
-		if path == "" or CombatManager.mission_dead_heroes.has(path):
-			continue
-		if CampaignState.get_god_current_hp(path) <= 0:
-			continue
-		var max_hp: int = CampaignState.get_god_max_hp(path)
-		CampaignState.set_god_current_hp(path, CampaignState.get_god_current_hp(path) + flat_delta, max_hp)
-
-## Немедленно меняет уровень забвения у всех живых богов миссии (см.
 ## Путь бога ТЕКУЩЕГО отряда миссии с наибольшей ТЕКУЩЕЙ бронёй (с учётом уровня,
 ## экипировки и забвения — как она была бы у него в бою прямо сейчас). При равенстве —
 ## первый по порядку в MissionState.selected_heroes. "" если в отряде никого живого нет.
@@ -704,6 +568,7 @@ func _hero_with_highest_armor() -> String:
 			best_path = hero_path
 	return best_path
 
+## Немедленно меняет уровень забвения у всех живых богов миссии (см.
 ## MissionOutcome.hero_forgetting_delta). Не привязано к следующему бою —
 ## применяется сразу, чтобы работать и когда миссия оканчивается поражением.
 func _apply_forgetting_to_mission_heroes(amount: float) -> void:
@@ -713,46 +578,6 @@ func _apply_forgetting_to_mission_heroes(amount: float) -> void:
 			continue
 		CampaignState.add_god_forgetting(clean_path, amount)
 		MissionState.add_hero_forgetting_gained(clean_path, amount)
-
-## Баффы одному случайному живому богу отряда миссии (см. MissionOutcome.target_random_hero_buffs).
-## Если preferred_god задан и он есть в отряде — выбирается именно он вместо случайного бога.
-## По умолчанию (until_mission_end = false) — одноразово, в СЛЕДУЮЩЕМ бою (как hero_buffs/
-## target_buffs: применяется через CombatManager.pending_mission_target_effects и сразу
-## очищается после первого же боя, см. Battle/battle_start.gd::_apply_pending_mission_party_effects).
-## Если until_mission_end = true — держится до конца миссии, применяется в каждом бою
-## (CombatManager.mission_target_buffs, не очищается между боями).
-func _apply_random_or_preferred_hero_buffs(buffs: Array, preferred_god, until_mission_end: bool = false) -> void:
-	if buffs.is_empty():
-		return
-	var candidates: Array[String] = []
-	for hero_path in CombatManager.mission_heroes:
-		var path: String = str(hero_path).strip_edges()
-		if path == "" or CombatManager.mission_dead_heroes.has(path):
-			continue
-		if CampaignState.get_god_current_hp(path) <= 0:
-			continue
-		candidates.append(path)
-	if candidates.is_empty():
-		return
-	var target_path: String = ""
-	if preferred_god != null:
-		var preferred_path: String = str(_res_prop(preferred_god, "resource_path", "")).strip_edges()
-		if preferred_path != "" and candidates.has(preferred_path):
-			target_path = preferred_path
-	if target_path == "":
-		target_path = candidates[randi_range(0, candidates.size() - 1)]
-	if until_mission_end:
-		CombatManager.mission_target_buffs.append({
-			"resource_path": target_path,
-			"buffs": buffs,
-		})
-	else:
-		CombatManager.pending_mission_target_effects.append({
-			"resource_path": target_path,
-			"current_hp_percent_delta": 0,
-			"majesty_delta": 0,
-			"buffs": buffs,
-		})
 
 func _launch_battle(battle, outcome = null) -> void:
 	_prepare_direct_battle(battle)

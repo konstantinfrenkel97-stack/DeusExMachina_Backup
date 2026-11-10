@@ -14,6 +14,8 @@
 [ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
 [ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
 [ext_resource type="Script" uid="uid://dutn5fch4d8b5" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
 
 [sub_resource type="Resource" id="sr_003"]
 script = ExtResource("unit_modifier_script")
@@ -95,11 +97,18 @@ formation = SubResource("sr_002")
 location_id = "hell"
 metadata/_custom_type_script = ExtResource("battle_script")
 
+[sub_resource type="Resource" id="mig_sr_016_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = -10
+immediate = true
+heal_item_bonus = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
 [sub_resource type="Resource" id="sr_016"]
 script = ExtResource("outcome_script")
 result_text = "Волна душ настигает вас. В голове звенит, один за другим боги падают на землю. Когда вы открываете глаза, вы не знаете, сколько времени прошло, но вам очень плохо, а на вас с яростью смотрят глаза рогатых тюремщиков."
 battle = SubResource("sr_008")
-hero_heal_percent = -10
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_sr_016_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="sr_017"]

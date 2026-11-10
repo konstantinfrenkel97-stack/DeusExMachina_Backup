@@ -14,6 +14,8 @@
 [ext_resource type="Resource" path="res://Gods/Poseidon/Poseidon.tres" id="god_poseidon"]
 [ext_resource type="Resource" path="res://Essence/essence_chaos.tres" id="res_essence_chaos"]
 [ext_resource type="Resource" path="res://Items/Trinkets/Unique/shiny_pearl.tres" id="item_shiny_pearl"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
 
 [sub_resource type="Resource" id="form_pearl"]
 script = ExtResource("formation_script")
@@ -76,12 +78,17 @@ value = 2
 duration = -1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_out_v2_success_1"]
+script = ExtResource("mig_fx_buff")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_init_plus2_next_battle")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="out_v2_success"]
 script = ExtResource("outcome_script")
 result_text = "Вы аккуратно отходите от раковины, жестами показывая русалке, что она может забрать жемчужину. Та с опаской, не отводя взгляд, подплывает к ракушке и аккуратно, двумя пальцами, вынимает сокровище и прячет в ладошке. После чего резко отплывает на безопасное расстояние. Вы провожаете ее взглядом. Ситуация, кажется, исчерпана.
 Но не похоже, что русалка так думает. Она выпускает жемчужину, та замирает в воде на уровне ее груди. Девушка делает несколько плавных жестов, рисуя ладонями круги вокруг блестящего шарика. Внезапно вы чувствуете, как вода начинает легче обтекать вашу кожу. Вы чувствуете себя естественнее, легче. Буквально как рыба в воде.
 Русалка прекращает колдовать и, робко помахав вам рукой, уплывает к своим соплеменникам."
-hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_init_plus2_next_battle")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v2_success_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="battle_v2_fail"]

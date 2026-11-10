@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
 [ext_resource type="Resource" path="res://Items/Trinkets/Common/frog_amulet.tres" id="item_frog_amulet"]
 [ext_resource type="Resource" path="res://Essence/thoughts.tres" id="thoughts"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
 
 [sub_resource type="Resource" id="out_leave"]
 script = ExtResource("outcome_script")
@@ -39,12 +41,19 @@ result_text = "Вы открыто выходите к волкам, те нач
 rewards = Array[ExtResource("reward_script")]([SubResource("reward_frog_amulet")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
+[sub_resource type="Resource" id="mig_out_talk_fail_1"]
+script = ExtResource("mig_fx_hp")
+target = 2
+percent_delta = -2
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
 [sub_resource type="Resource" id="out_talk_fail"]
 script = ExtResource("outcome_script")
 result_text = "Вы открыто выходите к волкам, те начинают громче рычать, но на лице мальчика выступает замешательство. Он медленно подходит к вам, неловко передвигаясь на четвереньках. Волки хватают его за руки, не давая приблизиться к опасности, но любопытство пересиливает, и вот он перед вами.
 Вы обращаетесь к нему. Спрашиваете имя, называете свое. Пытаетесь выяснить, понимает ли он вас и как он попал к волкам. Он смотрит на вас открытыми глазами и одними губами, не произнося звуков, повторяет то, что вы ему говорите. Потом начинает, коверкая звуки и порыкивая, пытаться повторить ваши имена. Видно, что он очень пытается, но неприученное тело не справляется с человеческой речью. Он видит непонимание на ваших лицах, и на широких глазах выступают слезы.
 Один из богов протягивает руку, чтобы его успокоить. Зрачки мальчика мгновенно сужаются, он бросается и кусает бога за руку. Остальной отряд бросается на помощь, но мальчик с окровавленными зубами отскочил в сторону, к своей стае, и, набрав в грудь воздуха, начал кричать на вас. Не рычать, как волк, и не ругаться, как человек. Он выл и рычал, голос менял высоту. Будто на языке, понятном ему одному, выражал свои чувства. Даже волки поджали хвосты. Вы поспешили уйти, но еще долго слышали над джунглями вой одинокого человека."
-random_hero_hp_percent_delta = -2
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_talk_fail_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_talk"]
@@ -79,12 +88,19 @@ result_text = "Неподалеку вы видели человеческую �
 rewards = Array[ExtResource("reward_script")]([SubResource("reward_thoughts_300")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
+[sub_resource type="Resource" id="mig_out_take_fail_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = -3
+immediate = true
+heal_item_bonus = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
 [sub_resource type="Resource" id="out_take_fail"]
 script = ExtResource("outcome_script")
 result_text = "Неподалеку вы видели человеческую деревню. Негоже мальчику расти в таких условиях, возможно, из него еще выйдет человек. Быстро переговорив, трое богов незаметно берутся за оружие, а один выходит вперед. В мгновение ока мальчик оказывается схвачен в охапку, а трое других богов оружием начали отгонять волков.
 Они бросались в безумном отчаянии, пытаясь высвободить мальчишку, который кусался и лягался.
 И вам пришлось отступить перед их напором. Искусанные и изодранные, вы выпускаете мальчишку, и он, яростно рыча, вместе с волками исчезает в зеленой чаще. Вы пытались. Вам не удалось."
-hero_heal_percent = -3
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_take_fail_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_take"]

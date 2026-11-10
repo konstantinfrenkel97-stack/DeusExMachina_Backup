@@ -12,6 +12,8 @@
 [ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
 [ext_resource type="Resource" path="res://Gods/Shiva/Shiva.tres" id="god_shiva"]
 [ext_resource type="Resource" path="res://Essence/essence_chaos.tres" id="essence_chaos"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
 
 [sub_resource type="Resource" id="form_nagas4"]
 script = ExtResource("formation_script")
@@ -159,6 +161,14 @@ resource = ExtResource("essence_chaos")
 amount = 1
 metadata/_custom_type_script = ExtResource("reward_script")
 
+[sub_resource type="Resource" id="mig_out_v3_success_1"]
+script = ExtResource("mig_fx_buff")
+target = 1
+specific_god = ExtResource("god_shiva")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_shiva_luck10_mission")])
+duration = 1
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="out_v3_success"]
 script = ExtResource("outcome_script")
 result_text = "Шива разгоняется и совершает огромный прыжок, отделившись от группы. Он несколько раз отталкивается от воздуха, как от земли, оставив на месте толчков маленькие облачка. В результате полета он оказывается в центре арены, окруженный нагами.
@@ -167,9 +177,7 @@ result_text = "Шива разгоняется и совершает огром�
 Наконец ритм становится тише, движения медленнее. Наги постепенно останавливаются. Шива и сам торжественно замирает, руки на барабане, в полном окружении.
 Вооруженные женщины сгибают хвосты и склоняются в почтительном поклоне. Бог кланяется в ответ. Смущенно отмахиваясь и широко улыбаясь, он возвращается к вам. Весь ваш отряд через что-то прошел."
 rewards = Array[ExtResource("reward_script")]([SubResource("reward_chaos_essence")])
-target_god = ExtResource("god_shiva")
-target_buffs = Array[ExtResource("buff_script")]([SubResource("buff_shiva_luck10_mission")])
-target_buffs_until_mission_end = true
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v3_success_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="battle_v3_fail"]
@@ -185,14 +193,20 @@ value = -15
 duration = 1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_out_v3_fail_1"]
+script = ExtResource("mig_fx_buff")
+target = 1
+specific_god = ExtResource("god_shiva")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_shiva_evasion_minus15_1turn")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="out_v3_fail"]
 script = ExtResource("outcome_script")
 result_text = "Шива разгоняется и совершает огромный прыжок, отделившись от группы. Он несколько раз отталкивается от воздуха, как от земли, оставив на месте толчков маленькие облачка. В результате полета он оказывается в центре арены, окруженный нагами.
 Те резко поворачиваются к нему. Он проводит ногой по вырезанному кругу. Они поднимают оружие. Он дважды ударяет себя ладонями по груди «Тум тум.»
 Наги на мгновение останавливаются в замешательстве, но сразу бросаются на бога. Он ловит ваш взгляд и жестами призывает поспешить на помощь. А чем бы ни был план, он привел только к тому, что бог оказался в окружении."
 battle = SubResource("battle_v3_fail")
-target_god = ExtResource("god_shiva")
-target_buffs = Array[ExtResource("buff_script")]([SubResource("buff_shiva_evasion_minus15_1turn")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v3_fail_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_v3"]

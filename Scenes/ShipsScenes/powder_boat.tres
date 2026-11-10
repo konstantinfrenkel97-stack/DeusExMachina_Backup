@@ -13,6 +13,8 @@
 [ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
 [ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
 [ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
 
 [sub_resource type="Resource" id="sr_001"]
 script = ExtResource("formation_script")
@@ -42,11 +44,18 @@ formation = SubResource("sr_001")
 location_id = "ships"
 metadata/_custom_type_script = ExtResource("battle_script")
 
+[sub_resource type="Resource" id="mig_sr_005_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = -20
+immediate = true
+heal_item_bonus = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
 [sub_resource type="Resource" id="sr_005"]
 script = ExtResource("outcome_script")
 result_text = "Вы выкладываете дорожку из пороха и зажигаете ее от огнива — и осознаете, что находитесь именно там, где сейчас произойдет взрыв. Невероятная скорость позволяет отскочить: взрыв задевает лишь краем. Но корабль начинает тонуть, и разъяренная команда уже бежит к вам."
 battle = SubResource("sr_004")
-hero_heal_percent = -20
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_sr_005_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="sr_006"]
@@ -55,11 +64,18 @@ formation = SubResource("sr_001")
 location_id = "ships"
 metadata/_custom_type_script = ExtResource("battle_script")
 
+[sub_resource type="Resource" id="mig_sr_007_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = -60
+immediate = true
+heal_item_bonus = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
 [sub_resource type="Resource" id="sr_007"]
 script = ExtResource("outcome_script")
 result_text = "Взрывная волна отшвыривает и опаляет вас, ударяя о борт судна. Вас, едва живых, заносит водой в пролом палубы — а матросы уже готовы преподать урок за саботаж."
 battle = SubResource("sr_006")
-hero_heal_percent = -60
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_sr_007_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="sr_008"]

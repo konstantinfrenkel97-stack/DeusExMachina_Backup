@@ -13,6 +13,9 @@
 [ext_resource type="Resource" path="res://Enemies/Forest/Garden/Druid/druid.tres" id="druid"]
 [ext_resource type="Resource" path="res://Enemies/Forest/Garden/Thorn_fairy/thorn_fairy.tres" id="thorn_fairy"]
 [ext_resource type="Resource" path="res://Items/Trinkets/Rare/druidic_potion_of_strength.tres" id="potion"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_majesty_delta_effect.gd" id="mig_fx_maj"]
 
 [sub_resource type="Resource" id="form_druids"]
 script = ExtResource("formation_script")
@@ -79,6 +82,11 @@ value = 20
 duration = 1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_out_ask_success_1"]
+script = ExtResource("mig_fx_buff")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_attack_next_battle")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="out_ask_success"]
 script = ExtResource("outcome_script")
 result_text = "Вы выходите к друидам открыто, убрав оружие и показывая открытые ладони. Они замерли и с подозрением смотрят на вас. Вы говорите, что просто проходили мимо, увидели пар и хотели узнать, что тут такое интересное.
@@ -91,7 +99,7 @@ result_text = "Вы выходите к друидам открыто, убра�
 «Ну как?» — с сомнением спрашивают друиды. Один из богов делает пробный прыжок и взлетает на пять метров. Другой одной рукой поднимает булыжник с земли. Друиды радостно обнимаются.
 
 Вскоре эффект зелья выветривается, но прежде чем разойтись, друиды угощают вас еще порцией зелья, и, добросердечно попрощавшись, вы отправляетесь в путь."
-hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_attack_next_battle")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_ask_success_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="out_ask_failure"]
@@ -148,6 +156,13 @@ success_outcome = SubResource("out_steal_success")
 failure_outcome = SubResource("out_steal_failure")
 metadata/_custom_type_script = ExtResource("choice_script")
 
+[sub_resource type="Resource" id="mig_out_goddess_1"]
+script = ExtResource("mig_fx_maj")
+target = 1
+specific_god = ExtResource("duna")
+delta = 15
+metadata/_custom_type_script = ExtResource("mig_fx_maj")
+
 [sub_resource type="Resource" id="out_goddess"]
 script = ExtResource("outcome_script")
 result_text = "«Ох, не люблю я это дело. Но, думаю, так будет лучше всего.»
@@ -165,9 +180,8 @@ result_text = "«Ох, не люблю я это дело. Но, думаю, т�
 
 Когда вы оказываетесь достаточно далеко, Дану устало поводит плечами и проводит рукой по волосам.
 «Ох, это было так смущающе. Думала, умру от стыда.»"
-target_god = ExtResource("duna")
-target_majesty_delta = 15
 rewards = Array[ExtResource("reward_script")]([SubResource("reward_potion")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_goddess_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_goddess"]

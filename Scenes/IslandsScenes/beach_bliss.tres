@@ -5,15 +5,24 @@
 [ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="2_nhvd4"]
 [ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="3_outcome"]
 [ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="4_u10sk"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
+
+[sub_resource type="Resource" id="mig_out_a_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = 5
+immediate = true
+heal_item_bonus = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
 
 [sub_resource type="Resource" id="out_a"]
 script = ExtResource("3_outcome")
 result_text = "Мир никуда от вас не денется. Отдохнем еще немного."
 restart_current_scene = true
-hero_heal_percent = 5
 rest_counter_delta = 1
 rest_counter_fail_threshold = 6
 rest_counter_fail_dialogue_path = "res://Dialogues/Instructions/Myth_beach_oversleep.tres"
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_a_1")])
 metadata/_custom_type_script = ExtResource("3_outcome")
 
 [sub_resource type="Resource" id="choice_a"]

@@ -11,6 +11,9 @@
 [ext_resource type="Resource" path="res://Enemies/Sea/Depth/Triton/Triton.tres" id="triton"]
 [ext_resource type="Resource" path="res://Gods/Poseidon/Poseidon.tres" id="poseidon"]
 [ext_resource type="Resource" path="res://Items/Weapons/Rare/coral_cup.tres" id="coral_cup"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
+[ext_resource type="Script" path="res://Missions/Effects/enemy_buff_effect.gd" id="mig_fx_enemy"]
 
 [sub_resource type="Resource" id="form_triton_quad"]
 script = ExtResource("formation_script")
@@ -76,6 +79,16 @@ value = 5
 duration = 1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_out_decline_failure_1"]
+script = ExtResource("mig_fx_buff")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_luck_down")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
+[sub_resource type="Resource" id="mig_out_decline_failure_2"]
+script = ExtResource("mig_fx_enemy")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_enemy_luck_up")])
+metadata/_custom_type_script = ExtResource("mig_fx_enemy")
+
 [sub_resource type="Resource" id="out_decline_failure"]
 script = ExtResource("outcome_script")
 result_text = "Вы стоите на своем и твердо говорите, что участвовать не будете. Публика называет вас трусами. А команда тритонов подплывает туда, где идет спор.
@@ -86,8 +99,7 @@ result_text = "Вы стоите на своем и твердо говорит�
 «Дерись со мной, обезьяна!»
 Вы беретесь за оружие. Есть предел тому, что можно вытерпеть."
 battle = SubResource("battle_base")
-hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_luck_down")])
-enemy_buffs = Array[ExtResource("buff_script")]([SubResource("buff_enemy_luck_up")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_decline_failure_1"), SubResource("mig_out_decline_failure_2")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_decline"]
@@ -119,6 +131,18 @@ value = 0
 duration = 1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_out_summon_success_1"]
+script = ExtResource("mig_fx_buff")
+target = 1
+specific_god = ExtResource("poseidon")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_poseidon_attack")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
+[sub_resource type="Resource" id="mig_out_summon_success_2"]
+script = ExtResource("mig_fx_enemy")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_enemy_stun")])
+metadata/_custom_type_script = ExtResource("mig_fx_enemy")
+
 [sub_resource type="Resource" id="out_summon_success"]
 script = ExtResource("outcome_script")
 result_text = "«Давайте я попробую.»
@@ -130,10 +154,15 @@ result_text = "«Давайте я попробую.»
 Бог моря срывается с места, тритоны ему навстречу, вы пытаетесь успевать. Посейдон замахивается и колет трезубцем в гущу врагов. Все четыре тритона хватают трезубец руками и пытаются остановить. Они упираются в дно ногами и яростно бьют хвостами. Вы видите, как надуваются мышцы на руке бога, он склоняется вперед. И тритоны разлетаются, не выдержав его мощного удара. Их тела бьются о дно, но горн не звучит, значит бой еще не окончен. Вы добегаете до своего сокомандника и все вместе летите на противников."
 battle = SubResource("battle_base")
 rewards = Array[ExtResource("reward_script")]([SubResource("reward_coral_cup")])
-target_god = ExtResource("poseidon")
-target_buffs = Array[ExtResource("buff_script")]([SubResource("buff_poseidon_attack")])
-enemy_buffs = Array[ExtResource("buff_script")]([SubResource("buff_enemy_stun")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_summon_success_1"), SubResource("mig_out_summon_success_2")])
 metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="mig_out_summon_failure_1"]
+script = ExtResource("mig_fx_buff")
+target = 1
+specific_god = ExtResource("poseidon")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_poseidon_attack")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
 
 [sub_resource type="Resource" id="out_summon_failure"]
 script = ExtResource("outcome_script")
@@ -148,8 +177,7 @@ result_text = "«Давайте я попробую.»
 Русалы смогли остановить натиск бога моря, но в этот момент вы добегаете до своего сокомандника и бросаетесь в бой."
 battle = SubResource("battle_base")
 rewards = Array[ExtResource("reward_script")]([SubResource("reward_coral_cup")])
-target_god = ExtResource("poseidon")
-target_buffs = Array[ExtResource("buff_script")]([SubResource("buff_poseidon_attack")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_summon_failure_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_summon"]

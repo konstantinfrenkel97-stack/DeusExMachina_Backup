@@ -13,6 +13,8 @@
 [ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
 [ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
 [ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
 
 [sub_resource type="Resource" id="sr_001"]
 script = ExtResource("formation_script")
@@ -57,11 +59,16 @@ value = -10
 duration = 1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_sr_007_1"]
+script = ExtResource("mig_fx_buff")
+buffs = Array[ExtResource("buff_script")]([SubResource("sr_006")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="sr_007"]
 script = ExtResource("outcome_script")
 result_text = "Водолей приближается все медленнее, потом не приближается вовсе — и наконец его фигура удаляется. Обессиленные, вы падаете на дорогу из света. Тогда водолей сам двигается к вам, и из звездной материи формируются идентичные фигуры."
 battle = SubResource("sr_004")
-hero_buffs = Array[ExtResource("buff_script")]([SubResource("sr_006")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_sr_007_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="sr_008"]
@@ -89,11 +96,16 @@ value = -15
 duration = 1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_sr_012_1"]
+script = ExtResource("mig_fx_buff")
+buffs = Array[ExtResource("buff_script")]([SubResource("sr_011")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="sr_012"]
 script = ExtResource("outcome_script")
 result_text = "Вы таращитесь на звезды, щупаете свет — и не находите ответа. Снова и снова. Кажется, скоро отряд сойдет с ума. В этот момент водолей поднимает амфору и сам идет к вам."
 battle = SubResource("sr_003")
-hero_buffs = Array[ExtResource("buff_script")]([SubResource("sr_011")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_sr_012_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="sr_013"]

@@ -10,6 +10,10 @@
 [ext_resource type="Resource" path="res://Gods/Shiva/Shiva.tres" id="shiva"]
 [ext_resource type="Resource" path="res://Enemies/Forest/Jungle/Rakshasa/rakshasa.tres" id="rakshasa"]
 [ext_resource type="Resource" path="res://Enemies/Forest/Jungle/Saru/Saru.tres" id="saru"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
+[ext_resource type="Script" path="res://Missions/Effects/enemy_buff_effect.gd" id="mig_fx_enemy"]
 
 [sub_resource type="Resource" id="form_base"]
 script = ExtResource("formation_script")
@@ -33,6 +37,12 @@ stat_label = "Уклонение"
 difficulty = 50
 metadata/_custom_type_script = ExtResource("stat_check_script")
 
+[sub_resource type="Resource" id="mig_out_patience_success_1"]
+script = ExtResource("mig_fx_hp")
+flat_delta = -5
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
 [sub_resource type="Resource" id="out_patience_success"]
 script = ExtResource("outcome_script")
 result_text = "Вы не дети малые, чтобы расстраиваться из-за череды неудач. Сегодня вам не везет, значит, повезет завтра. Боги вы или кто?
@@ -40,8 +50,14 @@ result_text = "Вы не дети малые, чтобы расстраиват�
 Вы продолжаете путь. Неудачи словно становятся все более жестокими. Вам попадаются ловушки охотников, вы не замечаете и наступаете на спящего крокодила, а один раз вас чуть не затаптывает стадо слонов.
 
 Но вы лишь смиренно переводите дыхание, не давая дурной удаче сломить вас, и продолжаете путь, пока внезапно не обнаруживаете, что все кончилось. Фрукты стали съедобными, кусты относительно безопасными. И пусть джунгли и остаются опасным местом, у вас больше нет чувства, что вас пытаются уничтожить."
-hero_hp_flat_delta = -5
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_patience_success_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="mig_out_patience_failure_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = -5
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
 
 [sub_resource type="Resource" id="out_patience_failure"]
 script = ExtResource("outcome_script")
@@ -57,7 +73,7 @@ result_text = "Вы не дети малые, чтобы расстраиват�
 «Открывать людям глаза на уродство мира - самое сладкое наслаждение.»
 Вы беретесь за оружие. У ваших уколов, порезов и ссадин впервые в жизни появилось лицо, и сейчас оно ответит за все."
 battle = SubResource("battle_base")
-hero_hp_percent_delta = -5
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_patience_failure_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_patience"]
@@ -82,6 +98,11 @@ value = -10
 duration = 1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_out_find_enemy_success_1"]
+script = ExtResource("mig_fx_enemy")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_enemy_evasion_down")])
+metadata/_custom_type_script = ExtResource("mig_fx_enemy")
+
 [sub_resource type="Resource" id="out_find_enemy_success"]
 script = ExtResource("outcome_script")
 result_text = "Вы не для того провели всю жизнь, сражаясь с мистическими тварями, чтобы просто решить, что вам не везет. Кто-то хочет сыграть с вами в игру, но вы не намерены подыгрывать.
@@ -90,7 +111,7 @@ result_text = "Вы не для того провели всю жизнь, ср�
 
 Делая вид, что продолжаете путь, вы резко срываетесь с места и летите прямо на врага. Те не успевают отреагировать. Со всей яростью, накопленной за день, вы обрушиваетесь на пару человекоподобных фигур с головами тигра. Те шипят и пытаются отбиваться волнистыми кинжалами."
 battle = SubResource("battle_base")
-enemy_buffs = Array[ExtResource("buff_script")]([SubResource("buff_enemy_evasion_down")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_find_enemy_success_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="out_find_enemy_failure"]
@@ -132,6 +153,20 @@ value = 7
 duration = -1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_out_harmony_1"]
+script = ExtResource("mig_fx_hp")
+target = 1
+specific_god = ExtResource("shiva")
+percent_delta = 7
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
+[sub_resource type="Resource" id="mig_out_harmony_2"]
+script = ExtResource("mig_fx_buff")
+target = 1
+specific_god = ExtResource("shiva")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_shiva_evasion"), SubResource("buff_shiva_luck")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="out_harmony"]
 script = ExtResource("outcome_script")
 result_text = "Шива успокаивает других богов.
@@ -143,9 +178,7 @@ result_text = "Шива успокаивает других богов.
 «Больше вам не спрятаться, я знаю вас. Я вижу вас. Выходите, демоны, и примите свою судьбу.»
 Он расправляет ноги и встает на землю. При этом остается на том же уровне. Высота, на которой парил бог, была идеальной. Из кустов на четвереньках выскакивают две фигуры в черном, с головами тигра. В руках у них острые кривые кинжалы."
 battle = SubResource("battle_base")
-target_god = ExtResource("shiva")
-target_current_hp_percent_delta = 7
-target_buffs = Array[ExtResource("buff_script")]([SubResource("buff_shiva_evasion"), SubResource("buff_shiva_luck")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_harmony_1"), SubResource("mig_out_harmony_2")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_harmony"]

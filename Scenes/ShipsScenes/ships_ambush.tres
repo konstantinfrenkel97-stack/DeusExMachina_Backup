@@ -9,6 +9,8 @@
 [ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="stat_check_script"]
 [ext_resource type="Resource" uid="uid://cmqj7k11hw817" path="res://Enemies/Sea/Ships/Sailor/sailor.tres" id="enemy_1"]
 [ext_resource type="Resource" uid="uid://037y8qro4ml8" path="res://Enemies/Sea/Ships/Sailor_with_barrel/sailor_with_barrel.tres" id="enemy_2"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
 
 [sub_resource type="Resource" id="form_ambush"]
 script = ExtResource("formation_script")
@@ -45,11 +47,16 @@ value = -10
 duration = -1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_out_fail_1"]
+script = ExtResource("mig_fx_buff")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_evasion_minus10"), SubResource("buff_initiative_minus10")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="out_fail"]
 script = ExtResource("outcome_script")
 result_text = "На вас бросаются со всех сторон. Вы в засаде, и нет времени вставать в построение. Уязвимые, вы стараетесь отбиваться с минимальным ущербом."
 battle = SubResource("battle_ambush")
-hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_evasion_minus10"), SubResource("buff_initiative_minus10")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_fail_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="check_initiative"]

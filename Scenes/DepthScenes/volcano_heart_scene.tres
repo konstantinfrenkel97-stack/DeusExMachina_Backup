@@ -8,6 +8,8 @@
 [ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
 [ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
 [ext_resource type="Script" path="res://Missions/reward.gd" id="reward_script"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
 
 [sub_resource type="Resource" id="check_initiative"]
 script = ExtResource("stat_check_script")
@@ -30,13 +32,19 @@ result_text = "Была не была — вы рвётесь вниз, к ис�
 rewards = Array[ExtResource("reward_script")]([SubResource("reward_volcano_heart")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
+[sub_resource type="Resource" id="mig_out_v1_fail_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = -30
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
 [sub_resource type="Resource" id="out_v1_fail"]
 script = ExtResource("outcome_script")
 result_text = "Была не была — вы рвётесь вниз, к источнику света.
 «Спасите меня... Скорее...»
 Вас обжигает жар, в ноздри забивается горячий пепел. Ближе к лаве находиться практически невыносимо — вы чувствуете, как понемногу обваривается кожа. Резко зацепив оружием светящийся кристалл, лежащий на каменном выступе, вы рвётесь наверх.
 И не успеваете. Вас обхватывает волна чёрного пепла. Вы в темноте, где ничего не видно, лёгкие горят. По спине и пяткам ударяют раскалённые камни, и вы чувствуете приближение огромного смертельного жара. Единственный путь наверх, единственная надежда — двигаться. Ваши тела горят. Лёгкие выжигаются, кожа плавится, и наконец дышать становится чуть легче. Потом ещё немного, но вы не останавливаетесь. Даже когда вы совсем перестаёте чувствовать жар, вы не останавливаетесь, пока не кончатся силы. Изнутри и снаружи — всё болит. Вы кашляете чёрной водой и смотрите вниз: там разлилась чёрно-оранжевая горячая смерть. Светящегося камня нет с вами. Видимо, он достался вулкану."
-hero_hp_percent_delta = -30
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v1_fail_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_v1"]
@@ -77,13 +85,19 @@ result_text = "Лезть в жерло вулкана — просто безу
 rewards = Array[ExtResource("reward_script")]([SubResource("reward_essence_nature")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
+[sub_resource type="Resource" id="mig_out_v3_fail_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = -5
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
 [sub_resource type="Resource" id="out_v3_fail"]
 script = ExtResource("outcome_script")
 result_text = "Лезть в жерло вулкана — просто безумие, но и пропустить такое невероятное событие тоже будет упущением. Вы отплываете в сторону и готовитесь наблюдать извержение. Голос до вас больше не доносится.
 Волна горячего пепла выходит, будто чёрный гейзер, летят огненные шары магмы — и все они летят на вас.
 Вы недооценили мощь вулкана и теперь вынуждены спасаться от его гнева. Вас поливает огненными стрелами, а вы ищете спасения в верхних слоях воды. Наконец, оказавшись в безопасности и потирая ожоги, вы смотрите вниз. Царственная магма идёт маршем по морскому дну. Огонь захватывает подводные земли. Вы с замиранием сердца наблюдаете эту картину. Мощь природы — сила, неподвластная никакой магии."
 rewards = Array[ExtResource("reward_script")]([SubResource("reward_essence_nature")])
-hero_hp_percent_delta = -5
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_v3_fail_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_v3"]

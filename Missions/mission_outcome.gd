@@ -36,56 +36,18 @@ class_name MissionOutcome
 # MissionState.mission_flags / MissionChoice.flag_outcomes). Флаги сбрасываются
 # при старте и при завершении миссии, другие миссии их не видят.
 @export var set_mission_flag: String = ""
-# Одноразовое лечение всего отряда в следующем бою, в процентах от максимального HP.
-@export var hero_heal_percent: int = 0
 # Одноразовое изменение уровня забвения всего отряда миссии (см. CharacterResource.forgetting_level),
 # применяется немедленно (не привязано к следующему бою). Положительное значение — усиливает забвение.
 @export var hero_forgetting_delta: float = 0.0
 # В следующем бою заклинание «Ром» (Spells/rum.tres) бьёт не только выбранную цель,
 # но и всю её команду (союзников или врагов — смотря кого выбрал игрок при касте).
 @export var rum_spell_whole_team_next_battle: bool = false
-# Баффы одному случайному живому богу отряда миссии. По умолчанию — одноразово, в
-# следующем бою (как hero_buffs/target_buffs). Если target_random_hero_buffs_until_mission_end
-# = true — держатся до конца миссии и применяются в каждом бою (как было раньше).
-# Если target_random_hero_preferred_god задан и он есть в отряде — выбирается именно он
-# вместо случайного бога (цель при этом всё равно считается "случайной" для игрока/текста).
-@export var target_random_hero_buffs: Array[BuffEntry] = []
-@export var target_random_hero_preferred_god: CharacterResource
-@export var target_random_hero_buffs_until_mission_end: bool = false
-# Одноразовое изменение HP одного случайного живого бога в миссии, в процентах от max HP.
-@export var random_hero_hp_percent_delta: int = 0
-# Одноразовое немедленное изменение HP ВСЕХ живых богов миссии, в процентах от max HP
-# (не привязано к следующему бою, в отличие от hero_heal_percent). Отрицательное — урон.
-@export var hero_hp_percent_delta: int = 0
-# То же самое, но ФИКСИРОВАННЫМ числом очков (а не в процентах) — напр. "боги теряют
-# 5 здоровья", в отличие от "боги теряют 5% здоровья". Складывается с hero_hp_percent_delta,
-# если заданы оба (редкий случай, обычно используется только одно из двух).
-@export var hero_hp_flat_delta: int = 0
 # Одноразовое изменение фантазии игрока в следующем бою.
 @export var fantasy_delta: int = 0
 # Немедленное изменение мыслей игрока в кампании. Отрицательное значение = цена выбора.
 @export var thoughts_delta: int = 0
 # Постоянное изменение максимума фантазии на всю кампанию.
 @export var max_fantasy_bonus_delta: int = 0
-# Одноразовое изменение величия всех живых богов в следующем бою.
-@export var hero_majesty_delta: int = 0
-# Постоянные до конца миссии баффы на героя с наибольшей атакой.
-@export var strongest_hero_buffs: Array[BuffEntry] = []
-# Баффы на весь отряд героев. По умолчанию — одноразово, в следующем бою.
-# Если hero_buffs_until_mission_end = true — держатся до конца миссии и применяются в каждом бою.
-@export var hero_buffs: Array[BuffEntry] = []
-@export var hero_buffs_until_mission_end: bool = false
-# Баффы/дебаффы на всех врагов в следующем бою (одноразово).
-@export var enemy_buffs: Array[BuffEntry] = []
-# Одноразовые эффекты на конкретного бога в следующем бою.
-@export var target_god: CharacterResource
-@export var target_current_hp_percent_delta: int = 0
-@export var target_majesty_delta: int = 0
-# Баффы на target_god. По умолчанию — одноразово, в следующем бою.
-# Если target_buffs_until_mission_end = true — держатся до конца миссии и применяются в каждом бою,
-# пока target_god жив (hp/majesty delta выше всегда применяются один раз, в следующем бою).
-@export var target_buffs: Array[BuffEntry] = []
-@export var target_buffs_until_mission_end: bool = false
 # Если true, следующий первый ход Хельхейма пройдет без тумана.
 @export var skip_helheim_fog_first_round: bool = false
 # Если true — весь отряд миссии получает иммунитет к урону локации "Пустыня"
@@ -154,12 +116,6 @@ class_name MissionOutcome
 # set_mission_flag) — см. CampaignState.story_flags, напр. "Откровенность Локи".
 @export var set_story_flag: String = ""
 
-# Немедленные (не ждут следующего боя, в отличие от target_god/target_current_hp_percent_delta
-# /target_majesty_delta выше) HP/величие ОДНОМУ конкретному богу — для итогов без боя
-# (напр. "Тора придавило камнями, -50% здоровья", без последующей битвы в этой же сцене).
-@export var target_god_immediate: CharacterResource
-@export var target_god_immediate_hp_percent_delta: int = 0
-@export var target_god_immediate_majesty_delta: int = 0
 
 # Немезис: отложенный бафф конкретному богу на бой с ближайшим непобеждённым
 # немезидом локации nemesis_buff_location_id (см. CampaignState.pending_nemesis_buffs;

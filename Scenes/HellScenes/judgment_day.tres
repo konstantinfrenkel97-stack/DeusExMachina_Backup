@@ -11,6 +11,9 @@
 [ext_resource type="Resource" path="res://Essence/essence_power.tres" id="essence_power"]
 [ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Tormentor/Tormentor.tres" id="tormentor"]
 [ext_resource type="Resource" path="res://Enemies/Dungeon/Hell/Tormented_soul/Tormented_soul.tres" id="tormented_soul"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
 
 [sub_resource type="Resource" id="form_tormentors_quad"]
 script = ExtResource("formation_script")
@@ -97,11 +100,16 @@ success_outcome = SubResource("out_dispute_success")
 failure_outcome = SubResource("out_dispute_failure")
 metadata/_custom_type_script = ExtResource("choice_script")
 
+[sub_resource type="Resource" id="mig_out_attack_first_1"]
+script = ExtResource("mig_fx_buff")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_initiative")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="out_attack_first"]
 script = ExtResource("outcome_script")
 result_text = "Вы увидели достаточно и понимаете, чем все кончится. Прежде чем демоны нанесут первый удар, вы бросаетесь на них."
 battle = SubResource("battle_tormentors_quad")
-hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_initiative")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_attack_first_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_attack_first"]
@@ -109,6 +117,12 @@ script = ExtResource("choice_script")
 choice_text = "Атаковать первыми"
 outcome = SubResource("out_attack_first")
 metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="mig_out_accept_punishment_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = -30
+immediate = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
 
 [sub_resource type="Resource" id="out_accept_punishment"]
 script = ExtResource("outcome_script")
@@ -118,7 +132,7 @@ result_text = "Ну что ж, вы решаете подчиниться реш
 
 И инстинктивно выпрыгиваете наружу. Выдерживать эту боль буквально невозможно. С виноватым видом, что не смогли подчиниться решению суда, вы призываете свое оружие и доспехи и, бормоча извинения, бросаетесь на стражу."
 battle = SubResource("battle_tormentors_souls")
-hero_hp_percent_delta = -30
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_accept_punishment_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_accept_punishment"]

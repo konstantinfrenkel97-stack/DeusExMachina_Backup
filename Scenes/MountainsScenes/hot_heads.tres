@@ -9,6 +9,9 @@
 [ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
 [ext_resource type="Script" path="res://Missions/unit_modifier.gd" id="unit_modifier_script"]
 [ext_resource type="Resource" path="res://Enemies/Sky/Peaks/Oni_sorcerer/oni_sorcerer.tres" id="oni"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mig_fx_base"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="mig_fx_buff"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_hp_delta_effect.gd" id="mig_fx_hp"]
 
 [sub_resource type="Resource" id="form_oni_pair"]
 script = ExtResource("formation_script")
@@ -86,11 +89,16 @@ value = 10
 duration = 1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_out_attack_1"]
+script = ExtResource("mig_fx_buff")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_accuracy")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="out_attack"]
 script = ExtResource("outcome_script")
 result_text = "Вы пользуетесь раздором в рядах врага, чтобы сокрушить их одним ударом. Лица начинают обгорать, как только вы приближаетесь, но вы неостановимо налетаете на спорящих и обрушиваете всю божественную мощь."
 battle = SubResource("battle_base")
-hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_accuracy")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_attack_1")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_attack"]
@@ -113,6 +121,18 @@ value = 10
 duration = -1
 metadata/_custom_type_script = ExtResource("buff_script")
 
+[sub_resource type="Resource" id="mig_out_cook_success_1"]
+script = ExtResource("mig_fx_hp")
+percent_delta = 10
+immediate = true
+heal_item_bonus = true
+metadata/_custom_type_script = ExtResource("mig_fx_hp")
+
+[sub_resource type="Resource" id="mig_out_cook_success_2"]
+script = ExtResource("mig_fx_buff")
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_attack_next_battle")])
+metadata/_custom_type_script = ExtResource("mig_fx_buff")
+
 [sub_resource type="Resource" id="out_cook_success"]
 script = ExtResource("outcome_script")
 result_text = "Одним небесам известно, что вами руководит, но вы выходите к дерущимся с открытыми руками. Кончики волос мгновенно начинают дымиться. Красные великаны замечают вас и останавливают перепалку.
@@ -127,8 +147,7 @@ result_text = "Одним небесам известно, что вами ру�
 Ничего не говоря, чудовища раскидывают руки. Толстые бусины с браслетов на их руках разделяются и начинают кружиться вокруг вас. Все быстрее и быстрее. Вы готовы броситься в атаку. Иероглифы на бусинах начинают полыхать, а потом и сами бусины превращаются в огненные шары. Вас окружает круговорот пламени. Хоть это и пугает, но по-своему красиво.
 
 Вы начинаете чувствовать тепло. Оно идет откуда-то из груди. Все сильнее и сильнее. Оно разгорается и разгорается. Вы начинаете пританцовывать, вам хочется двигаться. Вы не чувствуете ни усталости, ни боли, еще немного — и вы сорветесь. Рванете прямо в стену огня. Как вдруг огонь гаснет. Снаружи, но не изнутри. Бусины потухают и возвращаются на руки владельцев. Оба они вскидывают руки и ревут, устремив взгляд в небо. Вы ревете с ними в унисон, а эхо уносит ваш крик в горы, разнося над миром. Вы отправляетесь в путь, а пламя красных они полыхает у вас в груди."
-hero_heal_percent = 10
-hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_hero_attack_next_battle")])
+effects = Array[ExtResource("mig_fx_base")]([SubResource("mig_out_cook_success_1"), SubResource("mig_out_cook_success_2")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="out_cook_failure"]

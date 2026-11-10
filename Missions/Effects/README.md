@@ -4,8 +4,8 @@
 исхода выбора (баффы, изменение HP/величия и т.п.), взамен добавления очередного плоского
 поля в `MissionOutcome` на каждую комбинацию "кому / насколько долго".
 
-Применяются в `mission_scene.gd::_apply_effects()`, **после** всех старых (legacy) полей
-того же `MissionOutcome`. Диспетчер ничего не знает о конкретных видах эффектов — каждый сам
+Применяются в `mission_scene.gd::_apply_effects()`, **после** остальных (не перенесённых)
+полей того же `MissionOutcome`. Диспетчер ничего не знает о конкретных видах эффектов — каждый сам
 реализует `apply()`. Добавление нового вида эффекта = новый файл-наследник `MissionEffect`,
 без правок диспетчера.
 
@@ -15,7 +15,11 @@
 |---|---|---|
 | `HeroBuffEffect` | TEAM / SPECIFIC / RANDOM / STRONGEST_ATTACK / STRONGEST_ARMOR | `hero_buffs(+until_mission_end)`, `target_god+target_buffs(+until_mission_end)`, `target_random_hero_buffs(+preferred_god, +until_mission_end)`, `strongest_hero_buffs` |
 | `HeroHpDeltaEffect` | TEAM / SPECIFIC / RANDOM | `hero_heal_percent` (immediate=true + heal_item_bonus=true), `hero_hp_percent_delta`, `hero_hp_flat_delta`(только с `immediate=true`), `random_hero_hp_percent_delta`, `target_god+target_current_hp_percent_delta`, `target_god_immediate+target_god_immediate_hp_percent_delta` |
-| `HeroMajestyDeltaEffect` | TEAM / SPECIFIC / RANDOM | `hero_majesty_delta`, `target_god+target_majesty_delta` |
+| `HeroMajestyDeltaEffect` | TEAM / SPECIFIC / RANDOM | `hero_majesty_delta` (immediate=true), `target_god+target_majesty_delta`, `target_god_immediate+target_god_immediate_majesty_delta` (immediate=true) |
+| `EnemyBuffEffect` | — (всегда все враги, следующий бой) | `enemy_buffs` |
+
+**Все перечисленные в таблице старые поля УДАЛЕНЫ из `MissionOutcome` и из `mission_scene.gd`;
+все 107 сцен мигрированы на `effects`** (207 эффектов). Использовать старые имена больше нельзя.
 
 "Кому" (`target`) и "насколько долго" (`duration` на `HeroBuffEffect` / `immediate` на
 `HeroHpDeltaEffect`) — независимые настройки ОДНОГО эффекта, а не разные поля под каждую
@@ -33,11 +37,14 @@
 
 **Важно про тайминг** (дизайнерское решение): все варианты `target`, включая
 `STRONGEST_ATTACK`/`STRONGEST_ARMOR`, вычисляются В МОМЕНТ РАЗРЕШЕНИЯ ИСХОДА СЦЕНЫ (вызова
-`apply()`), а не в момент старта следующего боя. Старое поле `strongest_hero_buffs`
-вычисляло цель иначе — по живому `Combatant` в момент старта боя (с учётом уже применённых
-модификаторов) — это поведение сохранено как есть для старых сцен (не трогали), но новый
-`effects`-путь ему не обязан соответствовать по таймингу: это осознанное изменение, а не
-несогласованность.
+`apply()`), а не в момент старта следующего боя. Бывший `strongest_hero_buffs` (выбор по
+живому `Combatant` на старте боя) мигрирован в `STRONGEST_ATTACK` + `UNTIL_MISSION_END` — это
+осознанное изменение тайминга. `SPECIFIC` (как и legacy `target_god`) требует лишь, чтобы бог
+не был мёртв, но НЕ обязательно состоял в отряде миссии.
+
+`TEAM` + `ONE_BATTLE`/`UNTIL_MISSION_END` для `HeroBuffEffect` идёт тем же каналом, что и
+legacy `hero_buffs` (`pending_mission_hero_buffs` / `mission_team_buffs` — бьёт всех бойцов
+команды в бою), поэтому поведение идентично.
 
 ### HOW LONG: `duration` на `HeroBuffEffect`
 
@@ -79,8 +86,6 @@ Array[String]`, а не 4 разных булевых/целочисленных
 остальное использовалось точечно 1–2 раза и не выигрывает от обобщения, либо имеет другую
 природу (другой момент вычисления, другой канал применения):
 
-- **`target_god_immediate_majesty_delta`** — немедленное величие без боя; для величия такого
-  канала в движке никогда не было, расширять `pending_mission_target_effects` под это не стали.
 - **Немезис-эффекты** (`nemesis_buff_*`, `nemesis_enemy_*`) — откладываются до боя с конкретным
   немезидом локации, не до "следующего боя"; отдельная, более сложная система ожидания.
 - **Счётчик отдыха** (`rest_counter_*`), **узкие постоянные бонусы на всю игру**
@@ -92,38 +97,25 @@ Array[String]`, а не 4 разных булевых/целочисленных
   точечно, не дублируется под разные цели, переносить в отдельный класс эффекта сейчас не даёт
   выигрыша. Если какой-то из них обрастёт вариациями ("то же самое, но другому богу" / "то же
   самое, но на N боёв") — тогда и стоит выносить в `MissionEffect`.
-- **Баффы на врагов** (`enemy_buffs`) и **получение награды** (`rewards`) — пока не обёрнуты в
-  отдельные классы эффектов (`EnemyBuffEffect`/`GrantRewardEffect`), хотя это запланировано:
-  `enemy_buffs` всегда "все враги, следующий бой" (без вариативности цели — WHO тут не нужен),
-  `rewards` уже и так отдельный массив `MissionOutcome.rewards`, применяемый отдельным
-  пайплайном (см. выше про иммунитет локации) — обёртка в `MissionEffect` добавила бы
-  единообразия, но пока не выбирающая ничего не ломает.
+- **Получение награды** (`rewards`) — уже отдельный массив `MissionOutcome.rewards` со своим
+  пайплайном; обёртка в `MissionEffect` пока не нужна.
 
 Если нужного эффекта среди классов выше нет — используйте соответствующее поле
 `MissionOutcome` напрямую, как раньше. Это не ошибка и не "забыли перенести" — так и задумано.
 
-## Результат аудита сцен (legacy-поля группы A)
+## Миграция сцен (выполнена)
 
-Найдено 230 использований в 107 файлах `Scenes/**/*.tres`: `hero_buffs` 58, `hero_heal_percent` 37,
-`hero_majesty_delta` 35, `hero_hp_percent_delta` 23, `target_god` 19, `strongest_hero_buffs` 15,
-`target_buffs` 11, `target_god_immediate` 7, `target_majesty_delta` 6, `enemy_buffs` 6, остальные <5.
-Исправлено: `hero_heal_percent` и `hero_majesty_delta` в legacy применяются НЕМЕДЛЕННО (раньше в этом
-README было указано иначе — это была ошибка). Эффекты теперь это учитывают (`immediate`,
-`heal_item_bonus`). Ещё НЕ идентичны: `hero_buffs` (legacy бьёт всех `Combatant` команды в бою,
-эффект TEAM — только живых из `CombatManager.mission_heroes`).
+Скрипт переписал 107 файлов `Scenes/**/*.tres` (230 использований legacy-полей → 207 эффектов).
+Правила: `hero_heal_percent` → `HeroHpDeltaEffect(immediate, heal_item_bonus)`; `hero_hp_*` →
+`HeroHpDeltaEffect(TEAM, immediate)`; `random_hero_hp_percent_delta` → `RANDOM, immediate`;
+`hero_majesty_delta` → `HeroMajestyDeltaEffect(TEAM, immediate)`; `target_*` → `SPECIFIC`
+(+`UNTIL_MISSION_END` по флагу); `target_god_immediate*` → `SPECIFIC, immediate`;
+`hero_buffs` → `HeroBuffEffect(TEAM)`; `enemy_buffs` → `EnemyBuffEffect`;
+`strongest_hero_buffs` → `STRONGEST_ATTACK + UNTIL_MISSION_END`.
 
-## Что ЕЩЁ НЕ сделано (миграция существующих сцен)
-
-Группа "безопасно/стандартизировано" (`hero_buffs`, `target_buffs`, `target_random_hero_buffs`,
-`strongest_hero_buffs`, `hero_heal_percent`/`hero_hp_percent_delta`/`hero_hp_flat_delta`/
-`random_hero_hp_percent_delta`/`target_current_hp_percent_delta`/
-`target_god_immediate_hp_percent_delta`, `hero_majesty_delta`/`target_majesty_delta`) уже имеет
-эквивалент в `effects`, и правка старого применяющего кода в `mission_scene.gd` для НИХ
-разрешена — но сами legacy-поля из `MissionOutcome` и их применение в `mission_scene.gd` ЕЩЁ НЕ
-удалены, потому что сначала нужно найти и перенести все существующие использования этих полей
-среди ~170 файлов сцен (`Scenes/**/*.tres`) на новый `effects`, иначе удаление полей молча
-отключит эффект в этих сценах при загрузке. Это отдельная задача аудита/миграции, не сделанная
-в этом проходе.
+Проверка до удаления полей: headless-сравнение состояния (HP, величие, очереди баффов) для
+694 исходов — эмуляция старой логики на исходных сценах против `effects.apply()` на
+мигрированных — 0 расхождений (183 исхода с ненулевым эффектом).
 
 ## Как добавить новый вид эффекта
 
