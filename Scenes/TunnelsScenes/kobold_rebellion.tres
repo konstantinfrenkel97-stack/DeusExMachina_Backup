@@ -94,7 +94,7 @@ metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="out_wait"]
 script = ExtResource("outcome_script")
-result_text = "Льется кровь с обеих сторон, пока наконец один из кобольдов замечает вас и громко оповещает дерущихся. Перед лицом новой угрозы остатки охраны и повстанцев встают вместе, чтобы встретить новую угрозу."
+result_text = "Льется кровь с обеих сторон, пока наконец один из кобольдов не замечает вас и громко оповещает дерущихся. Перед лицом новой угрозы остатки охраны и повстанцев встают вместе, чтобы встретить новую угрозу."
 battle = SubResource("battle_wait")
 metadata/_custom_type_script = ExtResource("outcome_script")
 

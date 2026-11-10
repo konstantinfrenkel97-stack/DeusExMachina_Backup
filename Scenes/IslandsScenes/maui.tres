@@ -1,0 +1,122 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="s_scene"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="s_choice"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="s_outcome"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="s_reward"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="s_check"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="s_buff"]
+[ext_resource type="Resource" path="res://Items/Trinkets/Rare/maui_hook.tres" id="r_maui_hook"]
+
+[sub_resource type="Resource" id="check_luck_hard"]
+script = ExtResource("s_check")
+stat = 5
+stat_label = "Удача"
+difficulty = 70
+metadata/_custom_type_script = ExtResource("s_check")
+
+[sub_resource type="Resource" id="reward_hook"]
+script = ExtResource("s_reward")
+kind = 0
+resource = ExtResource("r_maui_hook")
+amount = 1
+metadata/_custom_type_script = ExtResource("s_reward")
+
+[sub_resource type="Resource" id="outcome_watch_success"]
+script = ExtResource("s_outcome")
+result_text = "Вы уговариваете гребцов подвести каноэ к Мауи в надежде увидеть, как он выуживает остров. Они безразлично пожимают плечами.
+«Мы вас предупредили.»
+Суда подходят к лодке рыбака. Огромный мускулистый мужчина с загорелой кожей, покрытый татуировками, сидит словно в трансе, сжимая удочку в руках. Вы не знаете, видно ли это простым людям, но божество просто источает голубой свет. Он наполнен им настолько, что, если бы полинезиец прямо сейчас бросился на вас, не факт, что вы бы одолели его вчетвером.
+
+Внезапно море начинает вздыматься. Идти огромными волнами. Гребцы хватаются за весла и стараются выровнять суда. Мауи остается недвижим, но вы видите, как еще сильнее набухают на его толстых руках железные мышцы. Удочка выгибается сильнее и сильнее, кажется, сейчас лопнет.
+
+И в этот момент вас уносят волны. Соленая вода обливает каноэ, закрывая видимость. Вас болтает и вращает, но краем глаза вы замечаете, как что-то массивное выходит из-под воды. Гребцы на пределе сил уводят лодки от появляющейся громадины. Вы помогаете как можете.
+
+И, как часто бывает на море, внезапно все заканчивается. Лодки возвращаются под управление, море успокаивается. Перед вами огромная поверхность суши. Пока что серая, каменная, но вы уверены, что вскоре она обрастет жизнью. Так вам подсказывает божественное чутье.
+«И давно вы на меня пялились, бездельники?»
+Грохочущий голос звучит у вас из-за спины. Мауи, сложив китообразные руки на груди, грозно смотрит на вас, но улыбка выдает веселье. Ваши гребцы мгновенно склоняются, насколько позволяют лодки, и на своем языке наперебой возносят молитвы. Вы объясняете, что подошли буквально за несколько минут до появления острова. Божество выгибает бровь.
+«Ничего себе, какие счастливчики! Ну вот, держите, раз уж сегодня удача вам так улыбается.»
+Он бросает вам маленький предмет. Вы с трудом ловите. Это оказывается маленький рыболовный крючок, сделанный из кости. Вы чувствуете наполняющую его божественную мощь.
+
+Пока вы изучали артефакт, Мауи раздавал благословения и, закончив, сел на весла. Вы не успеваете его отблагодарить, как его лодка уносится за горизонт."
+rewards = Array[ExtResource("s_reward")]([SubResource("reward_hook")])
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="buff_initiative_minus_2"]
+script = ExtResource("s_buff")
+stat = 6
+value = -2
+duration = -1
+metadata/_custom_type_script = ExtResource("s_buff")
+
+[sub_resource type="Resource" id="outcome_watch_failure"]
+script = ExtResource("s_outcome")
+result_text = "Вы уговариваете гребцов подвести каноэ к Мауи в надежде увидеть, как он выуживает остров. Они безразлично пожимают плечами.
+«Мы вас предупредили.»
+Суда подходят к лодке рыбака. Огромный мускулистый мужчина с загорелой кожей, покрытый татуировками, сидит словно в трансе, сжимая удочку в руках. Вы не знаете, видно ли это простым людям, но божество просто источает голубой свет. Он наполнен им настолько, что, если бы полинезиец прямо сейчас бросился на вас, не факт, что вы бы одолели его вчетвером.
+
+С замиранием сердца вы ждете, что сейчас произойдет. А потом еще ждете. И еще немного ждете. Ваши спутники сначала пользуются возможностью отдохнуть, потом терпеливо ждут, потом начинают злобно на вас поглядывать.
+«Слушайте, мы вас предупреждали, смотреть тут не на что, а нас сети ждут. Так что не обессудьте.»
+К этому моменту вам и самим давно стало скучно. Светящийся божественный великан быстро надоедает, если ничего не делает. Все, чего вы добились, — потеряли время и силы. Раздраженные, вы возобновляете путь."
+hero_buffs = Array[ExtResource("s_buff")]([SubResource("buff_initiative_minus_2")])
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_watch"]
+script = ExtResource("s_choice")
+choice_text = "Попытаться увидеть сотворение острова"
+stat_check = SubResource("check_luck_hard")
+success_outcome = SubResource("outcome_watch_success")
+failure_outcome = SubResource("outcome_watch_failure")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="outcome_hurry"]
+script = ExtResource("s_outcome")
+result_text = "Зрелище любопытное, но у вас есть миссия и нет времени. Вы просите гребцов прибавить ходу. Они удивленно смотрят на вас. К чему такая спешка? Но вы считаете по-другому.
+
+Вскоре вас высаживают на песчаный пляж. Солнце еще не село, можно еще достаточно пройти. На островах словно весь мир хочет заморозить время, остановить вас, отвлечь. Вы приняли жесткое решение — для вас нет ничего, кроме цели."
+grant_island_immunity_next_battle = true
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_hurry"]
+script = ExtResource("s_choice")
+choice_text = "Нельзя терять времени, нужно ускориться"
+outcome = SubResource("outcome_hurry")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="buff_accuracy_minus_7"]
+script = ExtResource("s_buff")
+stat = 2
+value = -7
+duration = -1
+metadata/_custom_type_script = ExtResource("s_buff")
+
+[sub_resource type="Resource" id="buff_evasion_minus_7"]
+script = ExtResource("s_buff")
+stat = 3
+value = -7
+duration = -1
+metadata/_custom_type_script = ExtResource("s_buff")
+
+[sub_resource type="Resource" id="outcome_relax"]
+script = ExtResource("s_outcome")
+result_text = "Раз местные говорят, что смотреть не на что, вы решаете не спорить. Раскидываетесь на лодках и наслаждаетесь неспешной качкой волн, запахом и звуком спокойного океана. У вас есть время побыть собой, отдаться власти чар этого места, что вы и делаете. Вас спускают на песок, когда уже темно. Вы благодарите своих спутников и отправляетесь дальше. Ваши тела восстановлены, но в голове сплошная жижа. Вы так расслаблены, вообще ничего не хочется делать. Остаётся надеяться, что вам не придется сейчас сражаться."
+hero_hp_percent_delta = 100
+hero_buffs = Array[ExtResource("s_buff")]([SubResource("buff_accuracy_minus_7"), SubResource("buff_evasion_minus_7")])
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_relax"]
+script = ExtResource("s_choice")
+choice_text = "Расслабиться и получать удовольствие от поездки"
+outcome = SubResource("outcome_relax")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[resource]
+script = ExtResource("s_scene")
+scene_title = "Мауи"
+body_text = "Острова — один из самых приятных миров, где вам приходится быть. И дело не только в расслабляющих песчаных пляжах, но и в спокойных переходах с острова на остров в узких каноэ островитян. Прямо сейчас три таких лодки везут ваш отряд через голубое зеркало океана. Старый остров исчез вдали, новый ещё даже не показался. Но аборигены спокойно гребут веслами, словно точно знают, куда идут.
+
+Тут вы замечаете чей-то силуэт. Лодка, а в ней рыбак. Само по себе это зрелище не привлекло бы внимания, если бы не едва заметная аура голубого света. Каждый бог в отряде заметил ее.
+«Это? Так то — Мауи. Наш великий бог. Видать, очередной остров выуживает.»
+«Не первый раз я его лицезрею, только ничего сильно интересного в этом нет. Я как-то два дня провел рядом, а он так и сидел с удочкой. Я ушёл, а когда вернулся через неделю, на том же месте был остров.»"
+choices = Array[ExtResource("s_choice")]([SubResource("choice_watch"), SubResource("choice_hurry"), SubResource("choice_relax")])
+metadata/_custom_type_script = ExtResource("s_scene")

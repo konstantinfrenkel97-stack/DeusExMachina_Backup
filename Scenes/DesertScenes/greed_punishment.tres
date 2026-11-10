@@ -54,7 +54,7 @@ metadata/_custom_type_script = ExtResource("choice_script")
 
 [sub_resource type="Resource" id="sr_009"]
 script = ExtResource("outcome_script")
-result_text = "Вы тащите вора к крипте, но мумия не намерена разбираться в нюансах: проклятие распространяется и на вас! Эффект: начинается бой."
+result_text = "Вы тащите вора к крипте, но мумия не намерена разбираться в нюансах: проклятие распространяется и на вас!"
 battle = SubResource("sr_002")
 metadata/_custom_type_script = ExtResource("outcome_script")
 
@@ -71,7 +71,7 @@ metadata/_custom_type_script = ExtResource("reward_script")
 
 [sub_resource type="Resource" id="sr_008"]
 script = ExtResource("outcome_script")
-result_text = "Вы связываете вора и оставляете его у входа в крипту — пусть мумия сама разбирается с тем, кто ее ограбил. Из глубины слышно шипение и хруст. Выполнив «правосудие», стражи сокровищницы пропускают вас дальше. Эффект: вы получаете 1000 мыслей из сокровищницы и пропускаете бой."
+result_text = "Вы связываете вора и оставляете его у входа в крипту — пусть мумия сама разбирается с тем, кто ее ограбил. Из глубины слышно шипение и хруст. Выполнив «правосудие», стражи сокровищницы пропускают вас дальше."
 rewards = Array[ExtResource("reward_script")]([SubResource("sr_007")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 

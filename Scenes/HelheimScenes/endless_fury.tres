@@ -171,7 +171,7 @@ metadata/_custom_type_script = ExtResource("reward_script")
 
 [sub_resource type="Resource" id="out_duel"]
 script = ExtResource("outcome_script")
-result_text = "Локи в одиночку выходит на плато, где безумствует берсерк. Боги замирают, замирает и окружающая нежить. Одинокий бог идет, широко расправив руки, ладони открыты. Драугр замечает врага, и, направляясь к нему, отрывает собственную руку с когтями, бросая оппоненту оружие. Вы получаете артефакт «Когти берсерка»."
+result_text = "Локи в одиночку выходит на плато, где безумствует берсерк. Боги замирают, замирает и окружающая нежить. Одинокий бог идет, широко расправив руки, ладони открыты. Драугр замечает врага и, направляясь к нему, отрывает собственную руку с когтями, бросая оппоненту оружие. Вы получаете артефакт «Когти берсерка»."
 battle = SubResource("battle_duel")
 rewards = Array[ExtResource("reward_script")]([SubResource("reward_berserker_claws")])
 metadata/_custom_type_script = ExtResource("outcome_script")

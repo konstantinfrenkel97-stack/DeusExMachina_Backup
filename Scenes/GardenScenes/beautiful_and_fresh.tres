@@ -1,0 +1,108 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="s_scene"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="s_choice"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="s_outcome"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="s_reward"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="s_check"]
+[ext_resource type="Resource" path="res://Essence/essence_nature.tres" id="r_essence_nature"]
+[ext_resource type="Resource" path="res://Gods/Danu/Danu.tres" id="r_danu"]
+
+[sub_resource type="Resource" id="outcome_pray"]
+script = ExtResource("s_outcome")
+result_text = "У сада мягкие, но одновременно жестокие порядки. Цветы мгновенно прячут все признаки смерти. Словно весь мир хочет выглядеть красивым ежесекундно.
+
+Вы позволяете ему быть таковым. Стоя у приторно красивого кустарника, вы обращаетесь к душе оленя, желая ей упокоиться и обрести мир.
+
+Он часть сада. По крайней мере, пока красив."
+hero_majesty_delta = 5
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_pray"]
+script = ExtResource("s_choice")
+choice_text = "Помолиться за покой"
+outcome = SubResource("outcome_pray")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="reward_nature"]
+script = ExtResource("s_reward")
+kind = 1
+resource = ExtResource("r_essence_nature")
+amount = 1
+metadata/_custom_type_script = ExtResource("s_reward")
+
+[sub_resource type="Resource" id="outcome_bury"]
+script = ExtResource("s_outcome")
+result_text = "Ну уж нет, вас такой вариант не устроит. Чтобы природа стыдливо прикрывала смерть кричащей красотой. Вы пальцами раздвигаете кустарник и зеленые стебли цветов. Они словно сопротивляются и не дают вам увидеть собственную наготу, но растения мало что могут против богов. Вы вырываете тело оленя. Оно еще хранит остатки тепла.
+
+Рядом с тем местом, где он скончался, вы начинаете рыть землю. Почва мягкая и податливая. Во все стороны летят клочья земли. Вы выкладываетесь, колени глубоко погружаются в грязь. Цветы вокруг закрывают бутоны, словно возмущенные неприглядным зрелищем.
+
+Наконец вам удается нарыть довольно крупную яму. Вы погружаете тело и засыпаете. Коричневая плешь на зелено-розовой поверхности холма выглядит откровенно уродливо. Но вас это не волнует, а точнее, даже радует. Почему-то тот факт, что цветам не удалось совершить свой, видимо, привычный ритуал, дает чувство злорадного торжества."
+rewards = Array[ExtResource("s_reward")]([SubResource("reward_nature")])
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_bury"]
+script = ExtResource("s_choice")
+choice_text = "Высвободить тело и предать земле"
+outcome = SubResource("outcome_bury")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("s_check")
+stat = 5
+stat_label = "Удача"
+metadata/_custom_type_script = ExtResource("s_check")
+
+[sub_resource type="Resource" id="outcome_revive_success"]
+script = ExtResource("s_outcome")
+result_text = "Дану ударяет босой ногой по траве.
+\"Разойтись.\"
+Цветы закачались, словно на ветру.
+Она снова топнула ногой.
+\"Я сказала: разойтись! Его еще можно спасти!\"
+К вашему удивлению, растения действительно начали двигаться. Медленно и словно недовольно, открывая серо-коричневый мех. Не дожидаясь, пока откроется все тело, Дану бросается к нему.
+
+Падая на колени перед оленем, она накладывает на него обе руки и закидывает голову. Волосы разлетаются, словно на ветру. Пальцы светятся зеленым и словно врастают в тушу. Из головы выходят зеленоватые линии света, они устремляются вверх и вбок, создавая широкую сеть. Волосы повторяют движение. Словно дерево, растущее корнями в небо. Вы видите, как через тело богини проходят потоки. Потоки чего-то теплого и светлого.
+
+И вдруг ее волосы опадают. Олень вскакивает и в несколько прыжков удаляется от вас. А Дану остается сидеть на коленях. На лице пот и спокойная улыбка. Глаза закрыты.
+\"Вот и хорошо\", — шепчет она.
+\"Вот и хорошо.\""
+permanent_god_max_hp_bonus_target = ExtResource("r_danu")
+permanent_god_max_hp_bonus_amount = 5
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="outcome_revive_failure"]
+script = ExtResource("s_outcome")
+result_text = "Дану ударяет босой ногой по траве.
+\"Разойтись.\"
+Цветы закачались, словно на ветру.
+Она снова топнула ногой.
+\"Я сказала: разойтись! Его еще можно спасти!\"
+К вашему удивлению, растения действительно начали двигаться. Медленно и словно недовольно, открывая серо-коричневый мех. Не дожидаясь, пока откроется все тело, Дану бросается к нему.
+
+Падая на колени перед оленем, она накладывает на него обе руки и закидывает голову. Волосы разлетаются, словно на ветру. Пальцы светятся зеленым и словно врастают в тушу. Из головы выходят зеленоватые линии света, они устремляются вверх и вбок, создавая широкую сеть. Волосы повторяют движение. Словно дерево, растущее корнями в небо. Вы видите, как через тело богини проходят потоки. Потоки чего-то теплого и светлого.
+
+Но вот волосы медленно опадают. Зеленый свет гаснет. Олень остается лежать. Цветы медленно начинают захватывать его тело. Дану остается какое-то время на коленях. Вы видите со спины, как вздымаются ее плечи от глубокого дыхания.
+
+Наконец она встает. На лице ничего, кроме царственного достоинства.
+\"Так тому и быть.\"
+Вы продолжаете путь."
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_revive"]
+script = ExtResource("s_choice")
+choice_text = "Вернуть животное к жизни"
+required_god = ExtResource("r_danu")
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("outcome_revive_success")
+failure_outcome = SubResource("outcome_revive_failure")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[resource]
+script = ExtResource("s_scene")
+scene_title = "Красиво, свежо и красиво"
+body_text = "Вы видите оленя издалека. Он стоит на холме, красивый и грациозный, словно иные животные в саду и не водятся. Но что-то странное в его силуэте. Как-то голова низко опущена. Как-то странно выгнуты ноги. Он падает.
+
+Вы спешите на холм и успеваете застать удивительную картину. Маленькие лозы цветов оплетают тело животного. Вы замечаете, что он довольно худ и шерсть местами белая, но непонятно, забрала ли его болезнь или старость. Но нет сомнений: олень точно мертв. Прямо на ваших глазах покров из разноцветных цветов наползает на тушу. Рядом с туловищем с невероятной скоростью вырастают зеленые кусты, а на них распускаются розовые бутоны. Не проходит и минуты, а мертвый олень оказывается полностью скрыт. Нет и следа. Только ярко распустившиеся цветы словно пытаются отвлечь на себя все внимание. Красивые и свежие."
+choices = Array[ExtResource("s_choice")]([SubResource("choice_pray"), SubResource("choice_bury"), SubResource("choice_revive")])
+metadata/_custom_type_script = ExtResource("s_scene")

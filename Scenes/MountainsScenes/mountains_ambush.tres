@@ -24,7 +24,7 @@ metadata/_custom_type_script = ExtResource("battle_script")
 
 [sub_resource type="Resource" id="out_success"]
 script = ExtResource("outcome_script")
-result_text = "Вас окружают, точнее говоря уже окружили. Вы в засаде. Не дожидаясь нападения, отряд встаёт спина к спине, готовый держать оборону. Враги не заставляют долго себя ждать."
+result_text = "Вас окружают, точнее говоря, уже окружили. Вы в засаде. Не дожидаясь нападения, отряд встаёт спина к спине, готовый держать оборону. Враги не заставляют долго себя ждать."
 battle = SubResource("battle_ambush")
 metadata/_custom_type_script = ExtResource("outcome_script")
 
@@ -44,7 +44,7 @@ metadata/_custom_type_script = ExtResource("buff_script")
 
 [sub_resource type="Resource" id="out_fail"]
 script = ExtResource("outcome_script")
-result_text = "На вас бросаются со всех сторон. Вы в засаде и нет времени вставать в построение. Уязвимые, вы стараетесь отбиваться с минимальным ущербом."
+result_text = "На вас бросаются со всех сторон. Вы в засаде, и нет времени вставать в построение. Уязвимые, вы стараетесь отбиваться с минимальным ущербом."
 battle = SubResource("battle_ambush")
 hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_evasion_minus10"), SubResource("buff_initiative_minus10")])
 metadata/_custom_type_script = ExtResource("outcome_script")

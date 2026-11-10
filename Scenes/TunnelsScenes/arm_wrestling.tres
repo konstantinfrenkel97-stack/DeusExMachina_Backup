@@ -90,21 +90,21 @@ metadata/_custom_type_script = ExtResource("reward_script")
 
 [sub_resource type="Resource" id="out_ambush"]
 script = ExtResource("outcome_script")
-result_text = "Соревнующиеся встречают недовольными воплями ваше нападение и порицают столь бесчестный поступок. Эффект сцены: в первый ход инициатива противников снижена до минимума; герои должны потерять 15 величия."
+result_text = "Соревнующиеся встречают недовольными воплями ваше нападение и порицают столь бесчестный поступок."
 battle = SubResource("battle_ambush")
 hero_majesty_delta = -15
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="out_wait"]
 script = ExtResource("outcome_script")
-result_text = "Вы дожидаетесь окончания состязания. Вся троица кивает вам в уважении за то, что вы почтили их соревнование. Эффект сцены: герои должны получить 15 величия; дворфы начинают бой с уменьшенным текущим здоровьем."
+result_text = "Вы дожидаетесь окончания состязания. Вся троица кивает вам в уважении за то, что вы почтили их соревнование."
 battle = SubResource("battle_wait")
 hero_majesty_delta = 15
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="out_thor_fail"]
 script = ExtResource("outcome_script")
-result_text = "Тор чувствует, как рука выворачивается из плеча. Великан оказался слишком силен и с наглой ухмылкой вбивает руку бога в черный металл наковальни. После того как он отпускает Тора, противники встают в боевую стойку. Эффект сцены: Тор должен потерять 30% текущего здоровья."
+result_text = "Тор чувствует, как рука выворачивается из плеча. Великан оказался слишком силен и с наглой ухмылкой вбивает руку бога в черный металл наковальни. После того как он отпускает Тора, противники встают в боевую стойку."
 battle = SubResource("battle_normal")
 target_god = ExtResource("thor")
 target_current_hp_percent_delta = -30

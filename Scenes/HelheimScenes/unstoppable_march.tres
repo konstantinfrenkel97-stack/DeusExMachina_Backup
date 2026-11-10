@@ -98,5 +98,5 @@ metadata/_custom_type_script = ExtResource("choice_script")
 [resource]
 script = ExtResource("scene_script")
 scene_title = "Неостановимый марш"
-body_text = "Вам повезло, поднявшись на каменистый холм, вы видите в низине отряд нежити. Позиция выгодна для вас, вы можете осыпать противников булыжниками, пока они пытаются до вас добраться. Редкая возможность."
+body_text = "Вам повезло: поднявшись на каменистый холм, вы видите в низине отряд нежити. Позиция выгодна для вас, вы можете осыпать противников булыжниками, пока они пытаются до вас добраться. Редкая возможность."
 choices = Array[ExtResource("choice_script")]([SubResource("choice_collapse"), SubResource("choice_high_ground")])

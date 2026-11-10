@@ -1,0 +1,128 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="s_scene"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="s_choice"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="s_outcome"]
+[ext_resource type="Script" uid="uid://fn4cj3u8rsvt" path="res://Missions/reward.gd" id="s_reward"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="s_check"]
+[ext_resource type="Script" uid="uid://dnsytfvxq1dxf" path="res://Missions/battle_config.gd" id="s_battle"]
+[ext_resource type="Script" uid="uid://c50het7soanc1" path="res://Missions/formation_resource.gd" id="s_formation"]
+[ext_resource type="Resource" uid="uid://uoq22rhxf1my" path="res://Enemies/Forest/Marsh/Utoplennitsa/utoplennitsa.tres" id="enemy_utoplennitsa"]
+[ext_resource type="Resource" uid="uid://bqpn7xwxwr3uw" path="res://Enemies/Forest/Marsh/Kikimora/kikimora.tres" id="enemy_kikimora"]
+[ext_resource type="Resource" uid="uid://dwx27l1dtt5j7" path="res://Enemies/Forest/Marsh/Vodyanoy/vodyanoy.tres" id="enemy_vodyanoy"]
+[ext_resource type="Resource" path="res://Essence/essence_strength.tres" id="r_essence_strength"]
+[ext_resource type="Resource" uid="uid://dmvh76qge87c8" path="res://Essence/thoughts.tres" id="r_thoughts"]
+
+[sub_resource type="Resource" id="formation_hunt"]
+script = ExtResource("s_formation")
+formation_name = "Утопленница - кикимора - кикимора - водяной"
+pos1 = ExtResource("enemy_utoplennitsa")
+pos2 = ExtResource("enemy_kikimora")
+pos3 = ExtResource("enemy_kikimora")
+pos4 = ExtResource("enemy_vodyanoy")
+metadata/_custom_type_script = ExtResource("s_formation")
+
+[sub_resource type="Resource" id="battle_hunt"]
+script = ExtResource("s_battle")
+formation = SubResource("formation_hunt")
+location_id = "swamp"
+metadata/_custom_type_script = ExtResource("s_battle")
+
+[sub_resource type="Resource" id="outcome_stop"]
+script = ExtResource("s_outcome")
+result_text = "Вы поднимаете ногу и резко опускаете на что-то живое. Что-то гибкое и склизкое начинает извиваться у вас под пятой. Пока вы здесь, никто не будет охотиться на людей. Склизкое выворачивается из-под вашей ноги.
+«Охота...»
+Болотная трава вокруг вас начинает двигаться. Вода закручивается в маленькие водовороты.
+«Охота... Охота... Охота...»
+Из воды поднимаются тени и бросаются на вас."
+battle = SubResource("battle_hunt")
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_stop"]
+script = ExtResource("s_choice")
+choice_text = "Мы вам не позволим"
+outcome = SubResource("outcome_stop")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="reward_strength"]
+script = ExtResource("s_reward")
+kind = 1
+resource = ExtResource("r_essence_strength")
+amount = 1
+metadata/_custom_type_script = ExtResource("s_reward")
+
+[sub_resource type="Resource" id="outcome_allow"]
+script = ExtResource("s_outcome")
+result_text = "Так тому и быть. В топи своя экосистема, и сейчас вы принимаете решение уважить их право. Даже если вам нелегко смотреть, как один за другим гаснут огни факелов."
+rewards = Array[ExtResource("s_reward")]([SubResource("reward_strength")])
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_allow"]
+script = ExtResource("s_choice")
+choice_text = "Охотиться — ваше право"
+outcome = SubResource("outcome_allow")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("s_check")
+stat = 5
+stat_label = "Удача"
+metadata/_custom_type_script = ExtResource("s_check")
+
+[sub_resource type="Resource" id="reward_thoughts_300"]
+script = ExtResource("s_reward")
+kind = 3
+resource = ExtResource("r_thoughts")
+amount = 300
+metadata/_custom_type_script = ExtResource("s_reward")
+
+[sub_resource type="Resource" id="reward_random_common"]
+script = ExtResource("s_reward")
+kind = 0
+use_random_item_rarity = true
+random_item_rarity = 0
+metadata/_custom_type_script = ExtResource("s_reward")
+
+[sub_resource type="Resource" id="outcome_share_success"]
+script = ExtResource("s_outcome")
+result_text = "Вы не вмешаетесь, но только если топь разделит свою добычу. Тела вам, вещи добычи — нам. Болото затихло, словно обдумывая ваши слова. А потом далекие огни факелов гаснут. Крик до вас не доносится.
+
+А потом из воды появляются руки и кладут мокрую кучу вещей у ваших ног. Вы с отвращением разбираете вашу кровавую добычу. Одежда изодрана когтями, но вам повезло. Вы находите предмет, который может быть полезен. Пять человек погибло страшной смертью, но зато вы получили предмет инвентаря."
+rewards = Array[ExtResource("s_reward")]([SubResource("reward_thoughts_300"), SubResource("reward_random_common")])
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="reward_thoughts_200"]
+script = ExtResource("s_reward")
+kind = 3
+resource = ExtResource("r_thoughts")
+amount = 200
+metadata/_custom_type_script = ExtResource("s_reward")
+
+[sub_resource type="Resource" id="outcome_share_failure"]
+script = ExtResource("s_outcome")
+result_text = "Вы не вмешаетесь, но только если топь разделит свою добычу. Тела вам, вещи добычи — нам. Болото затихло, словно обдумывая ваши слова. А потом далекие огни факелов гаснут. Крик до вас не доносится.
+
+А потом из воды появляются руки и кладут мокрую кучу вещей у ваших ног. Вы с отвращением разбираете вашу кровавую добычу. Одежда изодрана когтями, вымокла, и ничего, кроме обычных крестьянских предметов быта, вы не находите. Ваша добыча, мягко говоря, скудна, и ради этого вы позволили умереть пяти людям."
+rewards = Array[ExtResource("s_reward")]([SubResource("reward_thoughts_200")])
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_share"]
+script = ExtResource("s_choice")
+choice_text = "Разделите добычу с нами"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("outcome_share_success")
+failure_outcome = SubResource("outcome_share_failure")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[resource]
+script = ExtResource("s_scene")
+scene_title = "Идет охота на людей"
+body_text = "Впереди вы видите огни факелов. Небольшая группа людей скрыта в туманной дымке. Человек пять, не больше. Вы двигаетесь к ним. Топь очень опасна, нужно держаться вместе. Она действительно опасна.
+
+Вы чувствуете, как что-то касается ноги. Каждого из вас.
+«Добыча...»
+«Не подходите... Наше...»
+«Наша охота... Наша добыча...»
+Голоса идут из-под воды. Сбоку и изредка сверху. От тихого шепота до мерзкого скрипа. Факелы довольно близко, вы можете успеть."
+choices = Array[ExtResource("s_choice")]([SubResource("choice_stop"), SubResource("choice_allow"), SubResource("choice_share")])
+metadata/_custom_type_script = ExtResource("s_scene")

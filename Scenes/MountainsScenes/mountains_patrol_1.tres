@@ -104,7 +104,7 @@ metadata/_custom_type_script = ExtResource("battle_script")
 
 [sub_resource type="Resource" id="out_avoid_fail"]
 script = ExtResource("outcome_script")
-result_text = "Вы пытаетесь обойти отряд стороной, но один из патрульных замечает движение. Весь отряд бросается на вас. Вы не успеваете сформировать построение, и уязвимы перед их атаками."
+result_text = "Вы пытаетесь обойти отряд стороной, но один из патрульных замечает движение. Весь отряд бросается на вас. Вы не успеваете сформировать построение и уязвимы перед их атаками."
 battle = SubResource("battle_avoid_fail")
 metadata/_custom_type_script = ExtResource("outcome_script")
 
@@ -115,7 +115,7 @@ metadata/_custom_type_script = ExtResource("stat_check_script")
 
 [sub_resource type="Resource" id="out_avoid_success"]
 script = ExtResource("outcome_script")
-result_text = "Вы меняете маршрут, и крадетесь обходным путем, не выпуская вражеский отряд из поля зрения. Вскоре они удаляются прочь, а вы продолжаете путь."
+result_text = "Вы меняете маршрут и крадетесь обходным путем, не выпуская вражеский отряд из поля зрения. Вскоре они удаляются прочь, а вы продолжаете путь."
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_avoid"]

@@ -20,7 +20,8 @@ metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="out_gods_failure"]
 script = ExtResource("outcome_script")
-result_text = "Великие боги не преклоняются перед обстоятельствами. Вы используете те способности, что в вашем распоряжении, пытаясь перелететь через пропасть. Но кажется, даже у божественных сил есть предел, и вы видите, как навстречу вам летит земная твердь. Вы проваливаетесь в пропасть."
+result_text = "Великие боги не преклоняются перед обстоятельствами. Вы используете те способности, что в вашем распоряжении, пытаясь перелететь через пропасть. Но, кажется, даже у божественных сил есть предел, и вы видите, как навстречу вам летит земная твердь. Вы проваливаетесь в пропасть."
+hero_hp_percent_delta = -20
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_gods"]
@@ -52,7 +53,7 @@ metadata/_custom_type_script = ExtResource("buff_script")
 
 [sub_resource type="Resource" id="out_detour_failure"]
 script = ExtResource("outcome_script")
-result_text = "Вы решаете поискать способ перебраться через пропасть. Ищете и ищете, перебираетесь по горам, пока вас не настигнет закатное солнце. Похоже, что простого пути нет, и вы просто потратили кучу сил. Вынуждены всё равно спускаться в пропасть и карабкаться наверх."
+result_text = "Вы решаете поискать способ перебраться через пропасть. Ищете и ищете, перебираетесь по горам, пока вас не настигает закатное солнце. Похоже, что простого пути нет, и вы просто потратили кучу сил. Вынуждены всё равно спускаться в пропасть и карабкаться наверх."
 hero_buffs = Array[ExtResource("buff_script")]([SubResource("buff_detour_fail_attack")])
 metadata/_custom_type_script = ExtResource("outcome_script")
 

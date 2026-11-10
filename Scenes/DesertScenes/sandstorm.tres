@@ -40,7 +40,7 @@ metadata/_custom_type_script = ExtResource("buff_script")
 
 [sub_resource type="Resource" id="sr_005"]
 script = ExtResource("outcome_script")
-result_text = "Бежать некуда — и вы становитесь ядром порядка в хаосе, встав кругом. Из бури на вас обрушиваются удары, но вы хотя бы можете прикрывать друг друга. Эффект: у богов −15 точности на весь бой, +10 брони на 1 раунд."
+result_text = "Бежать некуда — и вы становитесь ядром порядка в хаосе, встав кругом. Из бури на вас обрушиваются удары, но вы хотя бы можете прикрывать друг друга."
 battle = SubResource("sr_002")
 hero_buffs = Array[ExtResource("buff_script")]([SubResource("sr_003"), SubResource("sr_004")])
 metadata/_custom_type_script = ExtResource("outcome_script")
@@ -66,7 +66,7 @@ metadata/_custom_type_script = ExtResource("buff_script")
 
 [sub_resource type="Resource" id="sr_010"]
 script = ExtResource("outcome_script")
-result_text = "Черные тени следуют за вами по пятам, нанося хлесткие удары, а выхода все нет. Все, чего вы добились, — слом собственного построения. Эффект: у богов −15 точности на весь бой и −10 уклонения на 1 раунд."
+result_text = "Черные тени следуют за вами по пятам, нанося хлесткие удары, а выхода все нет. Все, чего вы добились, — слом собственного построения."
 battle = SubResource("sr_002")
 hero_buffs = Array[ExtResource("buff_script")]([SubResource("sr_008"), SubResource("sr_009")])
 metadata/_custom_type_script = ExtResource("outcome_script")
@@ -98,7 +98,7 @@ metadata/_custom_type_script = ExtResource("buff_script")
 
 [sub_resource type="Resource" id="sr_016"]
 script = ExtResource("outcome_script")
-result_text = "Пустыня сыграла с вами злую шутку: вместо скал под ногами лишь мягкий песок. На ногах кровоточат порезы, память подвела. Эффект: у богов −15 точности на весь бой и −10% максимального здоровья."
+result_text = "Пустыня сыграла с вами злую шутку: вместо скал под ногами лишь мягкий песок. На ногах кровоточат порезы, память подвела."
 battle = SubResource("sr_002")
 hero_heal_percent = -10
 hero_buffs = Array[ExtResource("buff_script")]([SubResource("sr_015")])
@@ -118,7 +118,7 @@ metadata/_custom_type_script = ExtResource("buff_script")
 
 [sub_resource type="Resource" id="sr_014"]
 script = ExtResource("outcome_script")
-result_text = "Память не подводит: среди пыли вырастает тень скал, и ваш отряд занимает позицию в ущелье. Ветер все еще оглушает, но вы хотя бы видите врагов — фигуры в черном с серебряными масками. Эффект: у богов +5 брони на 1 раунд."
+result_text = "Память не подводит: среди пыли вырастает тень скал, и ваш отряд занимает позицию в ущелье. Ветер все еще оглушает, но вы хотя бы видите врагов — фигуры в черном с серебряными масками."
 battle = SubResource("sr_002")
 hero_buffs = Array[ExtResource("buff_script")]([SubResource("sr_013")])
 metadata/_custom_type_script = ExtResource("outcome_script")

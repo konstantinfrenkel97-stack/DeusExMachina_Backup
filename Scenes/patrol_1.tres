@@ -105,7 +105,7 @@ metadata/_custom_type_script = ExtResource("6_6pxpx")
 
 [sub_resource type="Resource" id="out_avoid_fail"]
 script = ExtResource("7_36yul")
-result_text = "Вы пытаетесь обойти отряд стороной, но один из патрульных замечает движение. Весь отряд бросается на вас. Вы не успеваете сформировать построение, и уязвимы перед их атаками."
+result_text = "Вы пытаетесь обойти отряд стороной, но один из патрульных замечает движение. Весь отряд бросается на вас. Вы не успеваете сформировать построение и уязвимы перед их атаками."
 battle = SubResource("battle_avoid_fail")
 metadata/_custom_type_script = ExtResource("7_36yul")
 
@@ -116,7 +116,7 @@ metadata/_custom_type_script = ExtResource("10_db4d2")
 
 [sub_resource type="Resource" id="out_avoid_success"]
 script = ExtResource("7_36yul")
-result_text = "Вы меняете маршрут, и крадетесь обходным путем, не выпуская вражеский отряд из поля зрения. Вскоре они удаляются прочь, а вы продолжаете путь."
+result_text = "Вы меняете маршрут и крадетесь обходным путем, не выпуская вражеский отряд из поля зрения. Вскоре они удаляются прочь, а вы продолжаете путь."
 metadata/_custom_type_script = ExtResource("7_36yul")
 
 [sub_resource type="Resource" id="choice_avoid"]
@@ -148,7 +148,5 @@ metadata/_custom_type_script = ExtResource("9_x8f3d")
 [resource]
 script = ExtResource("11_bbkgh")
 scene_title = "Патруль Хельхейма 1"
-body_text = "Построение - Джаггернаут - Рейдер - Рейдер
-
-Пробираясь через туман, скалы и заросли, вы обнаруживаете отряд нежити, бредущий через ущелье. Они вас пока не видят, и это дает преимущество."
+body_text = "Пробираясь через туман, скалы и заросли, вы обнаруживаете отряд нежити, бредущий через ущелье. Они вас пока не видят, и это дает преимущество."
 choices = Array[ExtResource("9_x8f3d")]([SubResource("choice_ambush"), SubResource("choice_avoid"), SubResource("choice_fair")])

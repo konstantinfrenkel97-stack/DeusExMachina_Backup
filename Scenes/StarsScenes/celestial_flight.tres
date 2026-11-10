@@ -1,0 +1,77 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="s_scene"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="s_choice"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="s_outcome"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="s_buff"]
+[ext_resource type="Resource" path="res://Gods/Odin/Odin.tres" id="r_odin"]
+
+[sub_resource type="Resource" id="buff_initiative"]
+script = ExtResource("s_buff")
+stat = 6
+value = 1
+duration = -1
+metadata/_custom_type_script = ExtResource("s_buff")
+
+[sub_resource type="Resource" id="outcome_goal"]
+script = ExtResource("s_outcome")
+result_text = "Теперь вы точно знаете: мир звезд не просто дает дорогу, он ведет вас. На встречу с двумя светилами, сплетенными в бесконечном танце. Вам не нужно объяснять, что это за тела. В мире, где вы находитесь, это могут быть только Луна и Солнце. Ваш шаг становится тверже и увереннее. Вы идете навстречу своей судьбе.
+
+Вам известен ваш Немезис."
+nemesis_buff_stat = SubResource("buff_initiative")
+nemesis_buff_location_id = "stars"
+nemesis_buff_all_heroes = true
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_goal"]
+script = ExtResource("s_choice")
+choice_text = "У нас есть цель"
+outcome = SubResource("outcome_goal")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="buff_odin_accuracy"]
+script = ExtResource("s_buff")
+stat = 2
+value = 5
+duration = -1
+metadata/_custom_type_script = ExtResource("s_buff")
+
+[sub_resource type="Resource" id="buff_odin_armor"]
+script = ExtResource("s_buff")
+stat = 4
+value = 5
+duration = -1
+metadata/_custom_type_script = ExtResource("s_buff")
+
+[sub_resource type="Resource" id="outcome_hurry"]
+script = ExtResource("s_outcome")
+result_text = "Команда воодушевлена. Безумный мир звездного неба обрел немного структуры. Движение обрело цель. Золотое и серебряное светило. Солнце и луна. Единственный, кто выглядит обеспокоенным, — это Один.
+\"Луна и Солнце... Луна и Солнце...\"
+\"Мир, где мы встречаем тех, кого знали до этого...\"
+Он поднимает на вас свой единственный глаз. В нем тревога, которую вы не привыкли видеть на лице отца богов.
+\"Вы должны ускориться... Если я правильно понимаю, что происходит... Может, есть надежда, что мы успеем...\"
+Он срывается с места и бежит вперед. С испуганным карканием взлетают его вороны и устремляются следом.
+\"Луна и Солнце. Мы можем успеть...\"
+
+Вам известен ваш Немезис."
+nemesis_buff_god = ExtResource("r_odin")
+nemesis_buff_stat = SubResource("buff_odin_accuracy")
+nemesis_buff_extra_stats = Array[ExtResource("s_buff")]([SubResource("buff_odin_armor")])
+nemesis_buff_location_id = "stars"
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_hurry"]
+script = ExtResource("s_choice")
+choice_text = "Мы должны поторопиться"
+required_god = ExtResource("r_odin")
+outcome = SubResource("outcome_hurry")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[resource]
+script = ExtResource("s_scene")
+scene_title = "Полет небесных тел"
+body_text = "Куда вы вообще идете? Вы двигаетесь по дороге из северного сияния, но куда она вас по итогу приведет? Ведет ли она вас вообще куда-то? Может, вы, сами того не замечая, делаете огромный круг?
+
+Словно в ответ на ваши сомнения, в небе зажглись две точки. Желто-оранжевая и бело-голубая. Они сначала просто горят и не выделяются среди других космических тел, но постепенно начинают двигаться, вращаясь друг вокруг друга. Их медленный танец, набирая скорость, движется в какую-то точку в черноте. Вы замечаете движение. Две точки оставляют за собой шлейф и ускоряются все сильнее, рисуя в черноте двуцветную спираль. Спираль летит все быстрее и быстрее и исчезает в черноте. Ровно там, куда ведет вас светящаяся дорога."
+choices = Array[ExtResource("s_choice")]([SubResource("choice_goal"), SubResource("choice_hurry")])
+metadata/_custom_type_script = ExtResource("s_scene")

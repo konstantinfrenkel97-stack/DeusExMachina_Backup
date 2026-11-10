@@ -51,7 +51,7 @@ metadata/_custom_type_script = ExtResource("reward_script")
 
 [sub_resource type="Resource" id="sr_006"]
 script = ExtResource("outcome_script")
-result_text = "Вы терпеливо ждете, пока цепочка хитинных спин не исчезнет. Увы — крабы вынесли все, включая ручки дверей. Лишь пара тайников, куда они не смогли добраться, дает скудную добычу. Эффект: вы избегаете боя и получаете 50 мыслей."
+result_text = "Вы терпеливо ждете, пока цепочка хитиновых спин не исчезнет. Увы — крабы вынесли все, включая ручки дверей. Лишь пара тайников, куда они не смогли добраться, дает скудную добычу."
 rewards = [SubResource("sr_005")]
 metadata/_custom_type_script = ExtResource("outcome_script")
 
@@ -70,7 +70,7 @@ metadata/_custom_type_script = ExtResource("reward_script")
 
 [sub_resource type="Resource" id="sr_009"]
 script = ExtResource("outcome_script")
-result_text = "Вы проскальзываете на судно мимо крабов и, вспоров пару тайников, забираете все ценное, что они не успели унести. Эффект: вы избегаете боя и получаете 700 мыслей."
+result_text = "Вы проскальзываете на судно мимо крабов и, вспоров пару тайников, забираете все ценное, что они не успели унести."
 rewards = [SubResource("sr_008")]
 metadata/_custom_type_script = ExtResource("outcome_script")
 
@@ -89,7 +89,7 @@ metadata/_custom_type_script = ExtResource("reward_script")
 
 [sub_resource type="Resource" id="sr_012"]
 script = ExtResource("outcome_script")
-result_text = "Крабы замечают грабителей первыми: по песку и воде к вам разворачивается целая армада золотых спин! Эффект: начинается бой, но добыча с судна — 700 мыслей — уже у вас."
+result_text = "Крабы замечают грабителей первыми: по песку и воде к вам разворачивается целая армада золотых спин!"
 battle = SubResource("sr_010")
 rewards = [SubResource("sr_011")]
 metadata/_custom_type_script = ExtResource("outcome_script")
@@ -116,7 +116,7 @@ metadata/_custom_type_script = ExtResource("reward_script")
 
 [sub_resource type="Resource" id="sr_016"]
 script = ExtResource("outcome_script")
-result_text = "Вы решаете не оставлять за спиной золотую орду. Заметив ваше приближение, крабы бросают добычу и выстраиваются в боевой порядок. Эффект: у противников −2 инициативы на 1 ход, вы получаете 300 мыслей с судна."
+result_text = "Вы решаете не оставлять за спиной золотую орду. Заметив ваше приближение, крабы бросают добычу и выстраиваются в боевой порядок."
 battle = SubResource("sr_004")
 rewards = [SubResource("sr_015")]
 metadata/_custom_type_script = ExtResource("outcome_script")

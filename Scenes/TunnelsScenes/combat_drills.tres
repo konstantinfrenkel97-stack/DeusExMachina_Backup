@@ -85,7 +85,7 @@ metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="out_feint_fail"]
 script = ExtResource("outcome_script")
-result_text = "Солдаты не попадаются на вашу уловку. Под их насмешками вы возвращаетесь и принимаете бой против стены щитов. Эффект сцены: герои должны потерять 10 величия."
+result_text = "Солдаты не попадаются на вашу уловку. Под их насмешками вы возвращаетесь и принимаете бой против стены щитов."
 battle = SubResource("battle_fortified")
 hero_majesty_delta = -10
 metadata/_custom_type_script = ExtResource("outcome_script")
@@ -97,7 +97,7 @@ metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="out_thor_fail"]
 script = ExtResource("outcome_script")
-result_text = "Тор показывает дворфам приемы, дает советы и указывает на ошибки, пока не появляется одышка, а на лице не выступает пот. Но солдаты лишь поднимают на смех запыхавшегося бога и снова встают в боевое построение. Эффект сцены: Тор должен потерять 15 атаки на 1 ход."
+result_text = "Тор показывает дворфам приемы, дает советы и указывает на ошибки, пока не появляется одышка, а на лице не выступает пот. Но солдаты лишь поднимают на смех запыхавшегося бога и снова встают в боевое построение."
 battle = SubResource("battle_fortified")
 target_god = ExtResource("thor")
 target_buffs = Array[ExtResource("buff_script")]([SubResource("buff_thor_damage_minus15")])

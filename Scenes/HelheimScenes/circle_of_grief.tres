@@ -71,7 +71,7 @@ metadata/_custom_type_script = ExtResource("battle_script")
 
 [sub_resource type="Resource" id="out_attack_success"]
 script = ExtResource("outcome_script")
-result_text = "Вы врываетесь в чарующий танец духов. Они поначалу не осознают, что происходит, пока ваше оружие рвет их тела. Но вскоре оборачиваются и обрушивают на вас весь свой гнев. Эффект сцены: противники должны быть оглушены в первый ход."
+result_text = "Вы врываетесь в чарующий танец духов. Они поначалу не осознают, что происходит, пока ваше оружие рвет их тела. Но вскоре оборачиваются и обрушивают на вас весь свой гнев."
 battle = SubResource("battle_attack_success")
 metadata/_custom_type_script = ExtResource("outcome_script")
 

@@ -25,7 +25,7 @@ metadata/_custom_type_script = ExtResource("2_choice")
 [sub_resource type="Resource" id="out_b"]
 script = ExtResource("3_outcome")
 result_text = "Ну ладно, еще работа ждет.
-Но манящий пляж словно привязал вас к себе, и уходя дальше вы чувствуете как вязкие ленты расслабления тянут назад. Жаль что у вас есть цель."
+Но манящий пляж словно привязал вас к себе, и, уходя дальше, вы чувствуете, как вязкие ленты расслабления тянут назад. Жаль, что у вас есть цель."
 apply_rest_counter_initiative_penalty = true
 metadata/_custom_type_script = ExtResource("3_outcome")
 

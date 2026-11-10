@@ -44,7 +44,7 @@ metadata/_custom_type_script = ExtResource("battle_script")
 
 [sub_resource type="Resource" id="sr_005"]
 script = ExtResource("outcome_script")
-result_text = "Вы выкладываете дорожку из пороха и зажигаете ее от огнива — и осознаете, что находитесь именно там, где сейчас произойдет взрыв. Невероятная скорость позволяет отскочить: взрыв задевает лишь краем. Но корабль начинает тонуть, и разъяренная команда уже бежит к вам. Эффект: бой, у богов −20% здоровья."
+result_text = "Вы выкладываете дорожку из пороха и зажигаете ее от огнива — и осознаете, что находитесь именно там, где сейчас произойдет взрыв. Невероятная скорость позволяет отскочить: взрыв задевает лишь краем. Но корабль начинает тонуть, и разъяренная команда уже бежит к вам."
 battle = SubResource("sr_004")
 hero_heal_percent = -20
 metadata/_custom_type_script = ExtResource("outcome_script")
@@ -57,7 +57,7 @@ metadata/_custom_type_script = ExtResource("battle_script")
 
 [sub_resource type="Resource" id="sr_007"]
 script = ExtResource("outcome_script")
-result_text = "Взрывная волна отшвыривает и опаляет вас, ударяя о борт судна. Вас, едва живых, заносит водой в пролом палубы — а матросы уже готовы преподать урок за саботаж. Эффект: бой, у богов −60% здоровья."
+result_text = "Взрывная волна отшвыривает и опаляет вас, ударяя о борт судна. Вас, едва живых, заносит водой в пролом палубы — а матросы уже готовы преподать урок за саботаж."
 battle = SubResource("sr_006")
 hero_heal_percent = -60
 metadata/_custom_type_script = ExtResource("outcome_script")
@@ -77,7 +77,7 @@ metadata/_custom_type_script = ExtResource("choice_script")
 
 [sub_resource type="Resource" id="sr_010"]
 script = ExtResource("outcome_script")
-result_text = "Вы берете длинный фитиль, грузитесь на лодку и ведете ее к скалам — за ними скрывается пиратское судно. Зажигаете фитиль, толкаете лодку и укрываетесь. Оглушительный взрыв! «Идиоты! Я велел подорвать тот корабль, а не наш!» Эффект: бой, у противников −50% здоровья."
+result_text = "Вы берете длинный фитиль, грузитесь на лодку и ведете ее к скалам — за ними скрывается пиратское судно. Зажигаете фитиль, толкаете лодку и укрываетесь. Оглушительный взрыв! «Идиоты! Я велел подорвать тот корабль, а не наш!»"
 battle = SubResource("sr_003")
 metadata/_custom_type_script = ExtResource("outcome_script")
 
@@ -102,7 +102,7 @@ metadata/_custom_type_script = ExtResource("reward_script")
 
 [sub_resource type="Resource" id="sr_014"]
 script = ExtResource("outcome_script")
-result_text = "Вы аккуратно поднимаете бочки на борт — и не успеваете перевести дух, как на вас набрасывается экипаж: «Чужаки! Саботажники! Хотят нас подорвать!» В море ничего не бывает просто — но у вас теперь есть порох. Эффект: бой, вы получаете артефакт «Бочка пороха» (3 шт.)."
+result_text = "Вы аккуратно поднимаете бочки на борт — и не успеваете перевести дух, как на вас набрасывается экипаж: «Чужаки! Саботажники! Хотят нас подорвать!» В море ничего не бывает просто — но у вас теперь есть порох."
 battle = SubResource("sr_012")
 rewards = [SubResource("sr_013")]
 metadata/_custom_type_script = ExtResource("outcome_script")
@@ -115,7 +115,7 @@ metadata/_custom_type_script = ExtResource("battle_script")
 
 [sub_resource type="Resource" id="sr_016"]
 script = ExtResource("outcome_script")
-result_text = "Из-за недостатка опыта вы раз за разом роняете бочки в воду — они становятся скользкими и поднять их еще тяжелее. «Эй, тут чужаки какой-то порох грузят! Вали их, ребята!» Эффект: обычный бой."
+result_text = "Из-за недостатка опыта вы раз за разом роняете бочки в воду — они становятся скользкими, и поднять их еще тяжелее. «Эй, тут чужаки какой-то порох грузят! Вали их, ребята!»"
 battle = SubResource("sr_015")
 metadata/_custom_type_script = ExtResource("outcome_script")
 

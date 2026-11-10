@@ -116,7 +116,7 @@ metadata/_custom_type_script = ExtResource("stat_check_script")
 
 [sub_resource type="Resource" id="out_avoid_success"]
 script = ExtResource("outcome_script")
-result_text = "Вы меняете маршрут, и крадетесь обходным путем, не выпуская вражеский отряд из поля зрения. Вскоре они удаляются прочь, а вы продолжаете путь."
+result_text = "Вы меняете маршрут и крадетесь обходным путем, не выпуская вражеский отряд из поля зрения. Вскоре они удаляются прочь, а вы продолжаете путь."
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="choice_avoid"]

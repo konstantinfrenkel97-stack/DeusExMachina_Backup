@@ -1,0 +1,185 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" uid="uid://dgj8xyl3mmptl" path="res://Missions/mission_scene_resource.gd" id="s_scene"]
+[ext_resource type="Script" uid="uid://djjvdhvrq6wkh" path="res://Missions/mission_choice.gd" id="s_choice"]
+[ext_resource type="Script" uid="uid://dvpdwqc5nh1vu" path="res://Missions/mission_outcome.gd" id="s_outcome"]
+[ext_resource type="Script" uid="uid://cbv7uofemtg3y" path="res://Missions/stat_check.gd" id="s_check"]
+[ext_resource type="Script" uid="uid://565su18o8um0" path="res://Missions/buff_entry.gd" id="s_buff"]
+[ext_resource type="Resource" path="res://Gods/Set/Set.tres" id="r_set"]
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("s_check")
+stat = 5
+stat_label = "Удача"
+metadata/_custom_type_script = ExtResource("s_check")
+
+[sub_resource type="Resource" id="buff_luck"]
+script = ExtResource("s_buff")
+stat = 1
+value = 5
+duration = -1
+metadata/_custom_type_script = ExtResource("s_buff")
+
+[sub_resource type="Resource" id="outcome_listen_success"]
+script = ExtResource("s_outcome")
+result_text = "Болтовня болельщиков может оказаться неожиданно полезной. Если вы продолжите продвигаться на арене, рано или поздно чемпион станет препятствием.
+\"Да ты гонишь? У него вообще из приколов только правый кулак да левый кулак.\"
+\"Пока что этого было достаточно.\"
+\"Да ты вообще видел, что сетовцы вытворяют? Они же вообще больные! У них там пески, шары какие-то волшебные летают.\"
+\"Ничего не работает против простой силы. Ты сам видел, как он дерется. Удары, может, и простые, только чем дольше идет бой, тем сильнее он становится.\"
+\"И че?!\"
+\"Ты знаешь, мне кажется, тебе стоит поработать над аргументацией.\"
+\"Я лучше пойду над мамкой твоей поработаю.\"
+\"...\"
+Они ушли. Было ли время потрачено зря? Вы узнали о способностях врага. Простые удары кулаками — в целом, для арены это ожидаемо. Но вот вторая часть вызывает беспокойство. Становится тем сильнее, чем дольше идет бой. У вас есть возможность подготовиться.
+
+Вам известен ваш Немезис."
+nemesis_buff_stat = SubResource("buff_luck")
+nemesis_buff_location_id = "arena"
+nemesis_buff_all_heroes = true
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="outcome_listen_failure"]
+script = ExtResource("s_outcome")
+result_text = "Болтовня болельщиков может оказаться неожиданно полезной. Если вы продолжите продвигаться на арене, рано или поздно чемпион станет препятствием.
+\"Ты, блин, урод. Ты вообще видел, что команда Великолепного Сета вытворяет? Да ты ниче не видел и только базаришь.\"
+\"Слушай, я понимаю, о чем ты говоришь...\"
+\"Да че ты нахрен понимаешь? Ты меня послушай.\"
+\"...\"
+\"Он, короче, делает песком так Шуууууу! А потом когтями Жах-жах! А потом такой А-ха-ха-ха-ха и выдает вообще чето нереальное! Понял теперь?\"
+\"Понял.\"
+\"Да ничего ты не понял.\"
+\"Ага, как скажешь.\"
+\"Не, я не закончу, пока ты не поймешь. Еще раз, сначала шууууу...\"
+Они удалились. Это было неинформативно и даже не очень-то лестно. Чемпион. Геракл. Знаменитый герой. Каков он? Нет сомнений, что, продолжая продвигаться по арене, вы рано или поздно пересечетесь с ним. Нужно подготовиться.
+
+Вам известен ваш Немезис."
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_listen"]
+script = ExtResource("s_choice")
+choice_text = "Слушать дальше"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("outcome_listen_success")
+failure_outcome = SubResource("outcome_listen_failure")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="buff_attack"]
+script = ExtResource("s_buff")
+stat = 0
+value = 4
+duration = -1
+metadata/_custom_type_script = ExtResource("s_buff")
+
+[sub_resource type="Resource" id="outcome_train"]
+script = ExtResource("s_outcome")
+result_text = "Геракл. Чемпион арены. Нет сомнений, что, продолжая сражаться, вы столкнетесь с ним. Непобедимый герой.
+
+Вы свое навоевали. Что в прошлой жизни, что в предыдущей. Привыкли полагаться на свою силу, испытанную против самых страшных врагов, но сейчас вас захватило что-то новое. Вас захватил дух арены. Вы сражаетесь не чтобы выжить, не чтобы одолеть страшное чудовище. А чтобы показать свою силу. Чтобы быть лучшим. Чтобы быть первым. Давно у вас не было желания потратить время на то, чтобы сделать вашу божественную силу еще больше. Но дух арены берет свое.
+
+Вы отправляетесь, чтобы укрепить тело, нарастить магию. Непобедимый чемпион Геракл, жди нас!
+
+Вам известен ваш Немезис."
+nemesis_buff_stat = SubResource("buff_attack")
+nemesis_buff_location_id = "arena"
+nemesis_buff_all_heroes = true
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_train"]
+script = ExtResource("s_choice")
+choice_text = "Усиленно тренироваться"
+outcome = SubResource("outcome_train")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[sub_resource type="Resource" id="check_accuracy"]
+script = ExtResource("s_check")
+stat = 4
+stat_label = "Точность"
+metadata/_custom_type_script = ExtResource("s_check")
+
+[sub_resource type="Resource" id="buff_hercules_armor"]
+script = ExtResource("s_buff")
+stat = 4
+value = -10
+duration = -1
+metadata/_custom_type_script = ExtResource("s_buff")
+
+[sub_resource type="Resource" id="outcome_gift_success"]
+script = ExtResource("s_outcome")
+result_text = "\"Ой-ой-ой, о чем это вы тут беседуете?\"
+Плавно, словно змея, из-за поворота выплыл Сет на троне. У обоих болельщиков мгновенно отвисла челюсть. Только у одного в глазах восхищение, а у другого — отвращение.
+\"Обсуждаете Геракла? Ооооооо, я ведь тоже его большой фанат. Он мое вдохновение! Только для встречи с ним я стал выступать на арене.\"
+Один из мужчин подозрительно поджал губы, у другого глаза пошли влагой.
+\"Это так невероятно... Такое уважение к традиции *хнык* я знал...\"
+\"Агааааа, и какая его победа тебе больше нравится?\"
+Сет широко улыбается.
+\"Но знаете, у меня есть маленькая проблемка. Совсем мелочь, но мне, как истинному поклоннику, она разбивает сердце.\"
+Он убирает руку за спинку трона и достает оттуда бутылку. Вы без понятия, когда она там появилась.
+\"Это вино перед смертью сделал мой отец, давний фанат чемпиона. Его посмертным желанием было, чтобы я передал бутылку господину Гераклу, но меня не подпускают. Говорят, это подозрительно: он не будет принимать подарки от соперника.\"
+Сет утирает пальцем глаз, смахивая несуществующую слезу. Один из болельщиков вытирает текущий нос, все лицо красное. Даже скептик кажется растроганным.
+\"Вы не окажете мне маленькую услугу? Не нужно говорить, что это от меня.\"
+Бог раздора передает бутылку, и плачущий поклонник принимает ее.
+\"Я сделаю, все сделаю. Даже если это будет стоить мне жизни. У-а-а-а-а-а-а-а!\"
+С бутылкой он убегает по коридору. Его друг спешит за ним, бросив на вас сомневающийся взгляд через плечо. Сет смотрит им вслед с доброй улыбкой.
+\"Вино отравлено?\"
+\"Разве есть необходимость спрашивать?\"
+
+Вам известен ваш Немезис."
+nemesis_buff_location_id = "arena"
+nemesis_enemy_buffs = Array[ExtResource("s_buff")]([SubResource("buff_hercules_armor")])
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="buff_hercules_attack"]
+script = ExtResource("s_buff")
+stat = 0
+value = 5
+duration = -1
+metadata/_custom_type_script = ExtResource("s_buff")
+
+[sub_resource type="Resource" id="outcome_gift_failure"]
+script = ExtResource("s_outcome")
+result_text = "\"Ой-ой-ой, о чем это вы тут беседуете?\"
+Плавно, словно змея, из-за поворота выплыл Сет на троне. У обоих болельщиков мгновенно отвисла челюсть. Только у одного в глазах восхищение, а у другого — отвращение.
+\"Обсуждаете Геракла? Ооооооо, я ведь тоже его большой фанат. Он мое вдохновение! Только для встречи с ним я стал выступать на арене.\"
+Один из мужчин подозрительно поджал губы, у другого глаза пошли влагой.
+\"Это так невероятно... Такое уважение к традиции *хнык* я знал...\"
+\"Агааааа, и какая его победа тебе больше нравится?\"
+Сет широко улыбается.
+\"Но знаете, у меня есть маленькая проблемка. Совсем мелочь, но мне, как истинному поклоннику, она разбивает сердце.\"
+Он убирает руку за спинку трона и достает оттуда бутылку. Вы без понятия, когда она там появилась.
+\"Это вино перед смертью сделал мой отец, давний фанат чемпиона. Его посмертным желанием было, чтобы я передал бутылку господину Гераклу, но меня не подпускают. Говорят, это подозрительно: он не будет принимать подарки от соперника.\"
+Сет утирает пальцем глаз, смахивая несуществующую слезу. Один из болельщиков вытирает текущий нос, все лицо красное. Но вот скептик выглядит еще более враждебным.
+\"Вы не окажете мне маленькую услугу? Не нужно говорить, что это от меня.\"
+Бог раздора передает бутылку, и плачущий поклонник тянет руки, но его опережает фанат Геракла.
+\"Я передам. Идем.\"
+Он твердым шагом двинулся в коридор, за ним, роняя сопли и слезы, рванул ваш фанат.
+Сет смотрит им вслед с доброй улыбкой.
+\"Вино отравлено?\"
+\"Разве есть необходимость спрашивать?\"
+
+Вам известен ваш Немезис."
+nemesis_buff_location_id = "arena"
+nemesis_enemy_buffs = Array[ExtResource("s_buff")]([SubResource("buff_hercules_attack")])
+metadata/_custom_type_script = ExtResource("s_outcome")
+
+[sub_resource type="Resource" id="choice_gift"]
+script = ExtResource("s_choice")
+choice_text = "Передайте чемпиону подарочек"
+required_god = ExtResource("r_set")
+stat_check = SubResource("check_accuracy")
+success_outcome = SubResource("outcome_gift_success")
+failure_outcome = SubResource("outcome_gift_failure")
+metadata/_custom_type_script = ExtResource("s_choice")
+
+[resource]
+script = ExtResource("s_scene")
+scene_title = "Претендент и фаворит"
+body_text = "\"Да вытрет он ноги об твоего Сета, слышишь.\"
+\"Да ты ваще не шаришь, че говоришь. Ты их бой один хоть видел?\"
+\"Ну, мне рассказали.\"
+\"Да я те ору, если кто и может Гераклу вообще чет сделать, то это Великолепный Сет. Я те ору, братан, эти морды — они вообще чокнутые.\"
+\"Ты чокнутый. Ну сам подумай. Сколько таких претендентов было до этого? А это Геракл. Ты понимаешь? Геракл! Стимфалийские птицы, лернейский лев. Он как пришел на арену, так и остался чемпионом. Ты понимаешь это? Вот какие-то выскочки с арены возьмут и победят величайшего героя человечества?\"
+
+Не похоже, что беседа, которую вы невольно подслушиваете, собирается прийти к какому-то осмысленному финалу. Но предмет разговора вас заинтересовал. Геракл, чемпион арены."
+choices = Array[ExtResource("s_choice")]([SubResource("choice_listen"), SubResource("choice_train"), SubResource("choice_gift")])
+metadata/_custom_type_script = ExtResource("s_scene")

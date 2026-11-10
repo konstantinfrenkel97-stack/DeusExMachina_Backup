@@ -10,7 +10,7 @@
 
 [sub_resource type="Resource" id="out_v1"]
 script = ExtResource("3_outcome")
-result_text = "Вы ложитесь на лежанки, откупориваете вино, улыбаетесь камню. Но ваши мысли настороже, вы притворяетесь что отдыхаете, но ждете нападения. Но оно так и не наступает. Постепенно вы расслабляетесь.
+result_text = "Вы ложитесь на лежанки, откупориваете вино, улыбаетесь камню. Но ваши мысли настороже, вы притворяетесь, что отдыхаете, но ждете нападения. Но оно так и не наступает. Постепенно вы расслабляетесь.
 Солнце ласкает кожу, а море слух. Вы проваливаетесь в сон."
 next_scene = ExtResource("5_bliss")
 hero_heal_percent = 5
@@ -18,13 +18,13 @@ metadata/_custom_type_script = ExtResource("3_outcome")
 
 [sub_resource type="Resource" id="choice_v1"]
 script = ExtResource("2_choice")
-choice_text = "Мир хочет чтобы мы отдохнули"
+choice_text = "Мир хочет, чтобы мы отдохнули"
 outcome = SubResource("out_v1")
 metadata/_custom_type_script = ExtResource("2_choice")
 
 [sub_resource type="Resource" id="out_v2"]
 script = ExtResource("3_outcome")
-result_text = "Это все крайне подозрительно. Вы минуете странное место, и продолжаете путь невзирая на усталость."
+result_text = "Это все крайне подозрительно. Вы минуете странное место и продолжаете путь, невзирая на усталость."
 metadata/_custom_type_script = ExtResource("3_outcome")
 
 [sub_resource type="Resource" id="choice_v2"]

@@ -38,7 +38,7 @@ metadata/_custom_type_script = ExtResource("reward_script")
 
 [sub_resource type="Resource" id="out_open_fail"]
 script = ExtResource("outcome_script")
-result_text = "Замок никак вам не поддается, один за другим боги пробуют, дают друг другу советы и лезут под руку. Когда, наконец, с щелчком открывается замок — вы замечаете, что окружены со всех сторон."
+result_text = "Замок никак вам не поддается: один за другим боги пробуют, дают друг другу советы и лезут под руку. Когда наконец с щелчком открывается замок, вы замечаете, что окружены со всех сторон."
 battle = SubResource("battle_chest_fail")
 rewards = Array[ExtResource("reward_script")]([SubResource("reward_thoughts_800")])
 metadata/_custom_type_script = ExtResource("outcome_script")
@@ -64,7 +64,7 @@ metadata/_custom_type_script = ExtResource("choice_script")
 
 [sub_resource type="Resource" id="out_break_fail"]
 script = ExtResource("outcome_script")
-result_text = "Сундук не поддается вашим ударам. Один за другим вы обрушиваете сокрушительные атаки, пока, наконец, сундук не разваливается в труху. К сожалению, та же судьба постигла содержимое: разбитый фарфор, погнутое золото, треснутые драгоценные камни. Воистину сила богов пугает."
+result_text = "Сундук не поддается вашим ударам. Один за другим вы обрушиваете сокрушительные атаки, пока наконец сундук не разваливается в труху. К сожалению, та же судьба постигла содержимое: разбитый фарфор, погнутое золото, треснутые драгоценные камни. Воистину сила богов пугает."
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="check_attack"]

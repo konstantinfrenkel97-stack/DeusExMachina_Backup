@@ -47,7 +47,7 @@ metadata/_custom_type_script = ExtResource("battle_script")
 
 [sub_resource type="Resource" id="out_v1_success"]
 script = ExtResource("outcome_script")
-result_text = "Вы пользуетесь ее отвлеченностью, и прорываетесь сквозь облако. Всадница вскрикивает, а ваше оружие уже в опасной близости от нее."
+result_text = "Вы пользуетесь ее отвлеченностью и прорываетесь сквозь облако. Всадница вскрикивает, а ваше оружие уже в опасной близости от нее."
 battle = SubResource("battle_v1_success")
 metadata/_custom_type_script = ExtResource("outcome_script")
 
@@ -165,5 +165,5 @@ metadata/_custom_type_script = ExtResource("choice_script")
 [resource]
 script = ExtResource("scene_script")
 scene_title = "Полет Пегаса"
-body_text = "Пробираясь сквозь облака, вы замечаете за белым холмом силуэт рыцаря на Пегасе, рядом с ней озорно пархают два купидона. Вы пока не замечены и можете расслышать ее бормотание:\n«Но он такой сильный и смелый. Наверняка он на меня даже не посмотрит...»"
+body_text = "Пробираясь сквозь облака, вы замечаете за белым холмом силуэт рыцаря на Пегасе, рядом с ней озорно порхают два купидона. Вы пока не замечены и можете расслышать ее бормотание:\n«Но он такой сильный и смелый. Наверняка он на меня даже не посмотрит...»"
 choices = [SubResource("choice_v1"), SubResource("choice_v2"), SubResource("choice_v3")]

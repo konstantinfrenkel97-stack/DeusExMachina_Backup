@@ -29,7 +29,7 @@ formation_name = "Поток водолея"
 pos1 = ExtResource("ext_2")
 pos2 = ExtResource("ext_2")
 pos3 = ExtResource("ext_2")
-pos4 = ExtResource("ext_2")
+pos4 = null
 metadata/_custom_type_script = ExtResource("formation_script")
 
 [sub_resource type="Resource" id="sr_003"]
@@ -59,7 +59,7 @@ metadata/_custom_type_script = ExtResource("buff_script")
 
 [sub_resource type="Resource" id="sr_007"]
 script = ExtResource("outcome_script")
-result_text = "Водолей приближается все медленнее, потом не приближается вовсе — и наконец его фигура удаляется. Обессиленные, вы падаете на дорогу из света. Тогда водолей сам двигается к вам, и из звездной материи формируются идентичные фигуры. Эффект: бой против четырех водолеев, у богов −10 атаки на 1 ход."
+result_text = "Водолей приближается все медленнее, потом не приближается вовсе — и наконец его фигура удаляется. Обессиленные, вы падаете на дорогу из света. Тогда водолей сам двигается к вам, и из звездной материи формируются идентичные фигуры."
 battle = SubResource("sr_004")
 hero_buffs = Array[ExtResource("buff_script")]([SubResource("sr_006")])
 metadata/_custom_type_script = ExtResource("outcome_script")
@@ -79,7 +79,7 @@ metadata/_custom_type_script = ExtResource("choice_script")
 
 [sub_resource type="Resource" id="sr_010"]
 script = ExtResource("outcome_script")
-result_text = "У дороги из света появляется ответвление — чем дольше вы идете, тем дальше оно растет. Вы отказываетесь участвовать в играх водолея, и он молча провожает вас взглядом. Эффект: вы избегаете боя."
+result_text = "У дороги из света появляется ответвление — чем дольше вы идете, тем дальше оно растет. Вы отказываетесь участвовать в играх водолея, и он молча провожает вас взглядом."
 metadata/_custom_type_script = ExtResource("outcome_script")
 
 [sub_resource type="Resource" id="sr_011"]
@@ -91,7 +91,7 @@ metadata/_custom_type_script = ExtResource("buff_script")
 
 [sub_resource type="Resource" id="sr_012"]
 script = ExtResource("outcome_script")
-result_text = "Вы таращитесь на звезды, щупаете свет — и не находите ответа. Снова и снова. Кажется, скоро отряд сойдет с ума. В этот момент водолей поднимает амфору и сам идет к вам. Эффект: бой, у богов −15 точности на 1 ход."
+result_text = "Вы таращитесь на звезды, щупаете свет — и не находите ответа. Снова и снова. Кажется, скоро отряд сойдет с ума. В этот момент водолей поднимает амфору и сам идет к вам."
 battle = SubResource("sr_003")
 hero_buffs = Array[ExtResource("buff_script")]([SubResource("sr_011")])
 metadata/_custom_type_script = ExtResource("outcome_script")
@@ -118,7 +118,7 @@ metadata/_custom_type_script = ExtResource("reward_script")
 
 [sub_resource type="Resource" id="sr_016"]
 script = ExtResource("outcome_script")
-result_text = "Один опускается на колено и, разведя руками свет, медленно шествует к водолею. Шаг за шагом вы становитесь ближе — и наконец бог встает напротив сущности. «Я прошел твое испытание, дух? Впрочем, я даже не узнаю, в чем оно заключалось. Но мне теперь есть над чем серьезно поразмыслить — за это я благодарен. А вот за что я не благодарен — так это за то, как сильно у меня болит спина!» В награду вы получаете «Осколок истины водолея» (в награду — 250 мыслей). После этого водолей принимает бой."
+result_text = "Один опускается на колено и, разведя руками свет, медленно шествует к водолею. Шаг за шагом вы становитесь ближе — и наконец бог встает напротив сущности. «Я прошел твое испытание, дух? Впрочем, я даже не узнаю, в чем оно заключалось. Но мне теперь есть над чем серьезно поразмыслить — за это я благодарен. А вот за что я не благодарен — так это за то, как сильно у меня болит спина!» В награду вы получаете «Осколок истины водолея» (250 мыслей). После этого водолей принимает бой."
 battle = SubResource("sr_003")
 rewards = [SubResource("sr_015")]
 metadata/_custom_type_script = ExtResource("outcome_script")
