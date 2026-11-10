@@ -379,6 +379,7 @@ func _apply_outcome_effects(outcome) -> void:
 		_grant_and_record_reward(reward)
 	_rest_counter_forced_failure = false
 	_apply_outcome_mission_effects(outcome)
+	_apply_effects(outcome)
 	if bool(_res_prop(outcome, "end_mission_as_failure", false)) or _rest_counter_forced_failure:
 		_finish_mission(false, true)
 		return
@@ -400,6 +401,18 @@ func _apply_outcome_effects(outcome) -> void:
 		get_tree().reload_current_scene()
 		return
 	_advance_or_finish_mission()
+## Новая структурированная система эффектов (см. Missions/Effects/mission_effect.gd).
+## Применяется ПОСЛЕ всех legacy-полей (_apply_outcome_mission_effects выше) — порядок не
+## важен на практике (эффекты не читают состояние друг друга), но так новые эффекты видно
+## последними в редакторе/логах при отладке. Сам диспетчер не знает НИЧЕГО о конкретных видах
+## эффектов — каждый сам решает, что ему делать, в своём apply(). Добавление нового вида
+## эффекта НЕ требует правки этой функции.
+func _apply_effects(outcome) -> void:
+	var effect_list: Array = _array_prop(outcome, "effects")
+	for effect in effect_list:
+		if effect is MissionEffect:
+			effect.apply()
+
 func _apply_outcome_mission_effects(outcome) -> void:
 	var set_flag: String = str(_res_prop(outcome, "set_mission_flag", ""))
 	if set_flag != "":
@@ -414,7 +427,8 @@ func _apply_outcome_mission_effects(outcome) -> void:
 		CombatManager.pending_rum_spell_whole_team = true
 	var random_hero_buffs: Array = _array_prop(outcome, "target_random_hero_buffs")
 	if not random_hero_buffs.is_empty():
-		_apply_random_or_preferred_hero_buffs(random_hero_buffs, _res_prop(outcome, "target_random_hero_preferred_god", null))
+		var random_hero_until_mission_end: bool = bool(_res_prop(outcome, "target_random_hero_buffs_until_mission_end", false))
+		_apply_random_or_preferred_hero_buffs(random_hero_buffs, _res_prop(outcome, "target_random_hero_preferred_god", null), random_hero_until_mission_end)
 	var random_hp_delta: int = int(_res_prop(outcome, "random_hero_hp_percent_delta", 0))
 	if random_hp_delta != 0:
 		_apply_random_mission_hero_hp_delta(random_hp_delta)
@@ -496,12 +510,17 @@ func _apply_outcome_mission_effects(outcome) -> void:
 	for buff in _array_prop(outcome, "strongest_hero_buffs"):
 		if buff != null:
 			CombatManager.mission_strongest_hero_buffs.append(buff)
+	# Единая очередь иммунитетов локаций (CombatManager.pending_location_immunities) — эти
+	# четыре поля сохранены для совместимости со старыми сценами, но теперь внутри работают
+	# через тот же механизм, что и Reward.Kind.LOCATION_IMMUNITY (см. Missions/reward.gd).
 	if bool(_res_prop(outcome, "skip_helheim_fog_first_round", false)):
-		CombatManager.pending_helheim_skip_fog_rounds += 1
+		CombatManager.pending_location_immunities.append("helheim_fog")
 	if bool(_res_prop(outcome, "grant_desert_immunity_next_battle", false)):
-		CombatManager.pending_desert_immunity = true
+		CombatManager.pending_location_immunities.append("desert")
 	if bool(_res_prop(outcome, "grant_hell_immunity_next_battle", false)):
-		CombatManager.pending_hell_immunity = true
+		CombatManager.pending_location_immunities.append("hell")
+	if bool(_res_prop(outcome, "grant_island_immunity_next_battle", false)):
+		CombatManager.pending_location_immunities.append("island")
 	var fantasy_regen_bonus: int = int(_res_prop(outcome, "mission_fantasy_regen_per_turn_bonus", 0))
 	if fantasy_regen_bonus != 0:
 		CombatManager.mission_fantasy_regen_per_turn += fantasy_regen_bonus
@@ -533,19 +552,27 @@ func _apply_outcome_mission_effects(outcome) -> void:
 	var nemesis_stat_entry: Resource = _res_prop(outcome, "nemesis_buff_stat", null) as Resource
 	var nemesis_location_id: String = str(_res_prop(outcome, "nemesis_buff_location_id", "")).strip_edges()
 	var nemesis_all_heroes: bool = bool(_res_prop(outcome, "nemesis_buff_all_heroes", false))
-	if nemesis_location_id != "" and (nemesis_majesty != 0 or nemesis_stat_entry != null):
-		var nemesis_buff_stat: int = int(nemesis_stat_entry.stat) if nemesis_stat_entry != null else -1
-		var nemesis_buff_value: int = int(nemesis_stat_entry.value) if nemesis_stat_entry != null else 0
-		var nemesis_buff_duration: int = int(nemesis_stat_entry.duration) if nemesis_stat_entry != null else -1
+	var nemesis_extra_stats: Array = _array_prop(outcome, "nemesis_buff_extra_stats")
+	if nemesis_location_id != "" and (nemesis_majesty != 0 or nemesis_stat_entry != null or not nemesis_extra_stats.is_empty()):
+		var nemesis_targets: Array[String] = []
 		if nemesis_all_heroes:
 			for hero_path_value in MissionState.selected_heroes:
 				var hero_path: String = str(hero_path_value).strip_edges()
 				if hero_path != "":
-					CampaignState.add_pending_nemesis_buff(nemesis_location_id, hero_path, nemesis_majesty, nemesis_buff_stat, nemesis_buff_value, nemesis_buff_duration)
+					nemesis_targets.append(hero_path)
 		elif nemesis_god != null:
 			var nemesis_god_path: String = str(_res_prop(nemesis_god, "resource_path", ""))
 			if nemesis_god_path != "":
-				CampaignState.add_pending_nemesis_buff(nemesis_location_id, nemesis_god_path, nemesis_majesty, nemesis_buff_stat, nemesis_buff_value, nemesis_buff_duration)
+				nemesis_targets.append(nemesis_god_path)
+		var nemesis_buff_stat: int = int(nemesis_stat_entry.stat) if nemesis_stat_entry != null else -1
+		var nemesis_buff_value: int = int(nemesis_stat_entry.value) if nemesis_stat_entry != null else 0
+		var nemesis_buff_duration: int = int(nemesis_stat_entry.duration) if nemesis_stat_entry != null else -1
+		for target_path in nemesis_targets:
+			CampaignState.add_pending_nemesis_buff(nemesis_location_id, target_path, nemesis_majesty, nemesis_buff_stat, nemesis_buff_value, nemesis_buff_duration)
+			for extra_value in nemesis_extra_stats:
+				var extra := extra_value as BuffEntry
+				if extra != null:
+					CampaignState.add_pending_nemesis_buff(nemesis_location_id, target_path, 0, int(extra.stat), int(extra.value), int(extra.duration))
 	var nemesis_enemy_hp_pct: int = int(_res_prop(outcome, "nemesis_enemy_hp_percent", 0))
 	var nemesis_others_hp_pct: int = int(_res_prop(outcome, "nemesis_others_hp_percent", 0))
 	var nemesis_voodoo_curse: bool = bool(_res_prop(outcome, "nemesis_voodoo_curse_random", false))
@@ -556,6 +583,10 @@ func _apply_outcome_mission_effects(outcome) -> void:
 			CampaignState.add_pending_nemesis_enemy_effect(nemesis_location_id, "others_hp_percent", nemesis_others_hp_pct)
 		if nemesis_voodoo_curse:
 			CampaignState.add_pending_nemesis_enemy_effect(nemesis_location_id, "voodoo_curse_random_except_nemesis")
+		for enemy_buff_value in _array_prop(outcome, "nemesis_enemy_buffs"):
+			var enemy_buff := enemy_buff_value as BuffEntry
+			if enemy_buff != null and enemy_buff.value != 0:
+				CampaignState.add_pending_nemesis_enemy_effect(nemesis_location_id, "nemesis_stat", enemy_buff.value, {"stat": int(enemy_buff.stat), "duration": int(enemy_buff.duration)})
 	_apply_rest_counter_effects(outcome)
 
 ## Счётчик отдыха (см. MissionOutcome — поля rest_counter_*). Порядок важен: сперва
@@ -683,10 +714,14 @@ func _apply_forgetting_to_mission_heroes(amount: float) -> void:
 		CampaignState.add_god_forgetting(clean_path, amount)
 		MissionState.add_hero_forgetting_gained(clean_path, amount)
 
-## Баффы одному случайному живому богу отряда миссии на весь оставшийся отряд миссии
-## (см. MissionOutcome.target_random_hero_buffs). Если preferred_god задан и он есть
-## в отряде — выбирается именно он вместо случайного бога.
-func _apply_random_or_preferred_hero_buffs(buffs: Array, preferred_god) -> void:
+## Баффы одному случайному живому богу отряда миссии (см. MissionOutcome.target_random_hero_buffs).
+## Если preferred_god задан и он есть в отряде — выбирается именно он вместо случайного бога.
+## По умолчанию (until_mission_end = false) — одноразово, в СЛЕДУЮЩЕМ бою (как hero_buffs/
+## target_buffs: применяется через CombatManager.pending_mission_target_effects и сразу
+## очищается после первого же боя, см. Battle/battle_start.gd::_apply_pending_mission_party_effects).
+## Если until_mission_end = true — держится до конца миссии, применяется в каждом бою
+## (CombatManager.mission_target_buffs, не очищается между боями).
+func _apply_random_or_preferred_hero_buffs(buffs: Array, preferred_god, until_mission_end: bool = false) -> void:
 	if buffs.is_empty():
 		return
 	var candidates: Array[String] = []
@@ -706,10 +741,18 @@ func _apply_random_or_preferred_hero_buffs(buffs: Array, preferred_god) -> void:
 			target_path = preferred_path
 	if target_path == "":
 		target_path = candidates[randi_range(0, candidates.size() - 1)]
-	CombatManager.mission_target_buffs.append({
-		"resource_path": target_path,
-		"buffs": buffs,
-	})
+	if until_mission_end:
+		CombatManager.mission_target_buffs.append({
+			"resource_path": target_path,
+			"buffs": buffs,
+		})
+	else:
+		CombatManager.pending_mission_target_effects.append({
+			"resource_path": target_path,
+			"current_hp_percent_delta": 0,
+			"majesty_delta": 0,
+			"buffs": buffs,
+		})
 
 func _launch_battle(battle, outcome = null) -> void:
 	_prepare_direct_battle(battle)
@@ -755,21 +798,28 @@ func _prepare_direct_battle(battle) -> void:
 		CombatManager.pending_location_id = location_id
 	BATTLE_SETUP_SCRIPT.apply_location_to_combat_manager(location_id)
 	CombatManager.is_mission_battle = true
-	_apply_forgetting_to_selected_heroes()
 
-## Вступительная миссия не должна наказывать забвением — это ознакомительный бой.
+## Забвение за миссию: +MISSION_FORGETTING каждому богу отряда ОДИН раз — когда миссия
+## заканчивается (победой, поражением или уходом), а не за каждый бой: «растёт на 0.5 за
+## каждую миссию» (character_resource.gd). Павшие в этой миссии (CombatManager.mission_dead_heroes)
+## его не получают — им уже начислено 2 за гибель (battle_outcome.gd::_apply_death_fading), и
+## миссию они заканчивают ровно с +2. Вступительная миссия — ознакомительная, без забвения.
+const MISSION_FORGETTING := 0.5
 const _FIRST_BATTLE_MISSION_PATH := "res://Missions/First_battle.tres"
+var _mission_end_forgetting_applied := false
 
-func _apply_forgetting_to_selected_heroes() -> void:
-	if MissionState.current_mission != null and MissionState.current_mission.resource_path == _FIRST_BATTLE_MISSION_PATH:
+func _apply_mission_end_forgetting() -> void:
+	if _mission_end_forgetting_applied:
 		return
-	for hero_path in CombatManager.selected_heroes:
-		if hero_path.strip_edges() == "":
+	_mission_end_forgetting_applied = true
+	if MissionState.current_mission == null or MissionState.current_mission.resource_path == _FIRST_BATTLE_MISSION_PATH:
+		return
+	for hero_path in MissionState.selected_heroes:
+		var clean_path: String = str(hero_path).strip_edges()
+		if clean_path == "" or CampaignState.is_god_dead(clean_path) or CombatManager.mission_dead_heroes.has(clean_path):
 			continue
-		if CampaignState.is_god_dead(hero_path):
-			continue
-		CampaignState.add_god_forgetting(hero_path, 0.5)
-		MissionState.add_hero_forgetting_gained(hero_path, 0.5)
+		CampaignState.add_god_forgetting(clean_path, MISSION_FORGETTING)
+		MissionState.add_hero_forgetting_gained(clean_path, MISSION_FORGETTING)
 
 func _prepare_legacy_direct_battle(formation) -> void:
 	CombatManager.selected_heroes = ["", "", "", ""]
@@ -783,7 +833,6 @@ func _prepare_legacy_direct_battle(formation) -> void:
 		for i in range(min(4, enemies.size())):
 			CombatManager.selected_enemies[i] = enemies[i]
 	BATTLE_SETUP_SCRIPT.apply_location_to_combat_manager(CombatManager.pending_location_id)
-	_apply_forgetting_to_selected_heroes()
 func _handle_legacy(choice) -> void:
 	var effects := str(_res_prop(choice, "effects", ""))
 	if effects.strip_edges() != "":
@@ -839,12 +888,14 @@ func _advance_or_finish_mission() -> void:
 ## завершения). show_summary=false — тихий выход без итоговых экранов (сейчас
 ## только при добровольном выходе из миссии кнопкой «Назад»).
 func _finish_mission(victory: bool = true, show_summary: bool = true) -> void:
+	_apply_mission_end_forgetting()
 	var return_path := MissionState.return_scene_path.strip_edges()
 	if return_path == "":
 		return_path = "res://Campaign/campaign_screen.tscn"
 	_pending_finish_return_path = return_path
 	if MissionState.current_mission != null:
 		var finished_mission_path := MissionState.current_mission.resource_path
+		MusicManager.on_mission_finished(finished_mission_path, victory)
 		MissionState.last_completed_mission_path = finished_mission_path
 		if victory and CampaignState.complete_mission(finished_mission_path):
 			MissionState.granted_rewards.append({
@@ -1055,7 +1106,7 @@ func _add_hero_stats_row(content: VBoxContainer, hero_path: String, dealt: int, 
 		bars_col.add_child(forgetting_label)
 
 ## "2" вместо "2.0", "2.5" как есть — забвение копится и полуцелыми шагами (0.5 за
-## переход между боями), и целыми (2.0 за смерть/сдачу), незачем всегда показывать ".0".
+## миссию), и целыми (2.0 за смерть/сдачу), незачем всегда показывать ".0".
 func _format_forgetting_amount(amount: float) -> String:
 	if is_equal_approx(amount, roundf(amount)):
 		return str(int(round(amount)))

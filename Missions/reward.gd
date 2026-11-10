@@ -1,9 +1,9 @@
 extends Resource
 class_name Reward
 
-## Награда за выбор в миссии: предмет / валюта / бог.
+## Награда за выбор в миссии: предмет / валюта / бог / иммунитет локации.
 
-enum Kind { ITEM, ESSENCE, GOD, CURRENCY }
+enum Kind { ITEM, ESSENCE, GOD, CURRENCY, LOCATION_IMMUNITY }
 
 @export var kind: Kind = Kind.ITEM
 # Ресурс награды: ItemResource / EssenceResource / ThoughtsResource / CharacterResource.
@@ -17,13 +17,21 @@ enum Kind { ITEM, ESSENCE, GOD, CURRENCY }
 @export var use_random_item_rarity: bool = false
 @export var random_item_rarity: ItemResource.Rarity = ItemResource.Rarity.COMMON
 @export_dir var random_item_root: String = "res://Items"
+# Только для Kind.LOCATION_IMMUNITY: какие теги иммунитета выдать (см.
+# CombatManager.pending_location_immunities) — "desert", "hell", "island", "helheim_fog".
+# Единая механика для всех 4 иммунитетов локаций, которые раньше были отдельными
+# булевыми полями MissionOutcome (grant_desert_immunity_next_battle и т.п.) — теперь это
+# просто одна из разновидностей стандартной награды, а не поле исхода сцены.
+@export var location_immunity_tags: Array[String] = []
 
 
-## Применяет награду: выдаёт предмет / добавляет валюту / открывает бога.
+## Применяет награду: выдаёт предмет / добавляет валюту / открывает бога / иммунитет локации.
 func grant() -> void:
 	grant_resolved(resolve_resource())
 
 func resolve_resource() -> Resource:
+	if kind == Kind.LOCATION_IMMUNITY:
+		return self  # у этого вида награды нет отдельного ресурса — self как непустая "заглушка"
 	if resource != null:
 		return resource
 	if kind == Kind.ITEM and (use_random_item_type or use_random_item_rarity):
@@ -31,6 +39,8 @@ func resolve_resource() -> Resource:
 	return null
 
 func display_name() -> String:
+	if kind == Kind.LOCATION_IMMUNITY:
+		return "Иммунитет локации (%s)" % ", ".join(location_immunity_tags)
 	if resource != null:
 		for prop in ["name", "item_name", "unit_name", "display_name"]:
 			var value: String = str(_resource_prop(resource, prop, "")).strip_edges()
@@ -52,6 +62,11 @@ func _resource_prop(res: Resource, prop_name: String, default_value = null):
 	return default_value
 
 func grant_resolved(resolved_resource: Resource) -> void:
+	if kind == Kind.LOCATION_IMMUNITY:
+		for tag in location_immunity_tags:
+			if tag != "":
+				CombatManager.pending_location_immunities.append(tag)
+		return
 	if resolved_resource == null:
 		return
 	var path: String = resolved_resource.resource_path

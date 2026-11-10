@@ -21,10 +21,19 @@ func _apply_pending_mission_modifiers() -> void:
 	_apply_battle_start_item_effects()
 	_scene._rum_spell_whole_team_active = CombatManager.pending_rum_spell_whole_team
 	CombatManager.pending_rum_spell_whole_team = false
-	_scene.desert_immune_this_battle = CombatManager.pending_desert_immunity
-	CombatManager.pending_desert_immunity = false
-	_scene.hell_immune_this_battle = CombatManager.pending_hell_immunity
-	CombatManager.pending_hell_immunity = false
+	# Иммунитеты локаций (единая очередь, см. CombatManager.pending_location_immunities).
+	# "desert"/"hell"/"island" расходуются целиком в начале КАЖДОГО следующего боя,
+	# независимо от его локации (как и раньше с отдельными pending_*_immunity). "helheim_fog"
+	# сюда не входит — он не привязан к старту боя и живёт в массиве до тех пор, пока его не
+	# заберёт battle_locations.gd::_location_helheim() в бою, где локация реально Хельхейм.
+	_scene.desert_immune_this_battle = CombatManager.pending_location_immunities.has("desert")
+	_scene.hell_immune_this_battle = CombatManager.pending_location_immunities.has("hell")
+	_scene.island_immune_this_battle = CombatManager.pending_location_immunities.has("island")
+	var _kept_immunities: Array[String] = []
+	for _tag in CombatManager.pending_location_immunities:
+		if _tag == "helheim_fog":
+			_kept_immunities.append(_tag)
+	CombatManager.pending_location_immunities = _kept_immunities
 	CombatManager.pending_enemy_modifiers = []
 	CombatManager.pending_hero_modifiers = []
 
@@ -127,6 +136,10 @@ func _apply_pending_nemesis_enemy_effects() -> void:
 					var chosen: Combatant = candidates.pick_random()
 					cursed_targets.append(chosen)
 					_scene.marks.apply_voodoo_mark(nemesis_unit, chosen, 1)
+			"nemesis_stat":
+				if nemesis_unit.current_hp > 0:
+					_apply_mission_buff({"stat": int(entry.get("stat", 0)), "value": int(value), "duration": int(entry.get("duration", -1))}, nemesis_unit)
+					_scene._log_combat("⚡ [Немезис] %s начинает бой с изменённой характеристикой (%+d)." % [nemesis_unit.unit_name, int(value)])
 		consumed.append(entry)
 	for entry in consumed:
 		CampaignState.pending_nemesis_enemy_effects.erase(entry)
@@ -199,6 +212,18 @@ func _apply_pending_mission_party_effects() -> void:
 		for buff in (entry_raw_buffs if entry_raw_buffs is Array else []):
 			if buff != null:
 				_apply_mission_buff(buff, entry_hero)
+	# Постоянные (на весь остаток игры) баффы конкретных богов — CampaignState.permanent_god_buffs
+	# (см. Missions/Effects/hero_buff_effect.gd, duration=PERMANENT). В отличие от
+	# mission_target_buffs/mission_team_buffs выше, НИКОГДА не очищаются здесь и не привязаны
+	# к текущей миссии — применяются в КАЖДОМ бою этого бога, пока игра не началась заново.
+	for god_path in CampaignState.permanent_god_buffs.keys():
+		var permanent_hero: Combatant = _find_hero_by_resource_path(str(god_path))
+		if permanent_hero == null or permanent_hero.current_hp <= 0:
+			continue
+		var permanent_buffs_raw = CampaignState.permanent_god_buffs[god_path]
+		for buff in (permanent_buffs_raw if permanent_buffs_raw is Array else []):
+			if buff != null:
+				_apply_mission_buff(buff, permanent_hero)
 	CombatManager.pending_mission_fantasy_delta = 0
 	CombatManager.pending_mission_hero_majesty_delta = 0
 	CombatManager.pending_mission_hero_buffs = []
@@ -312,6 +337,7 @@ func _apply_mission_buff(b, unit: Combatant) -> void:
 			effect_stat = "initiative"
 		7:
 			unit.is_stunned = true
+			unit.on_stun_applied()
 			effect_stat = "stun"
 		8:
 			effect_stat = "regeneration"

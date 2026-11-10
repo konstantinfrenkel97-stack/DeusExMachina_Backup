@@ -1,0 +1,157 @@
+[gd_resource type="Resource" script_class="MissionSceneResource" format=3]
+
+[ext_resource type="Script" path="res://Missions/mission_scene_resource.gd" id="scene_script"]
+[ext_resource type="Script" path="res://Missions/mission_choice.gd" id="choice_script"]
+[ext_resource type="Script" path="res://Missions/mission_outcome.gd" id="outcome_script"]
+[ext_resource type="Script" path="res://Missions/stat_check.gd" id="stat_check_script"]
+[ext_resource type="Script" path="res://Missions/buff_entry.gd" id="buff_script"]
+[ext_resource type="Script" path="res://Missions/formation_resource.gd" id="formation_script"]
+[ext_resource type="Script" path="res://Missions/battle_config.gd" id="battle_script"]
+[ext_resource type="Script" path="res://Missions/Effects/mission_effect.gd" id="mission_effect_script"]
+[ext_resource type="Script" path="res://Missions/Effects/hero_buff_effect.gd" id="hero_buff_effect_script"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Stars/Aries/aries.tres" id="aries"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Stars/Aquarius/aquarius.tres" id="aquarius"]
+[ext_resource type="Resource" path="res://Enemies/Sky/Stars/Virgo/virgo.tres" id="virgo"]
+
+[sub_resource type="Resource" id="check_luck"]
+script = ExtResource("stat_check_script")
+stat = 5
+stat_label = "Удача"
+metadata/_custom_type_script = ExtResource("stat_check_script")
+
+[sub_resource type="Resource" id="buff_random_damage"]
+script = ExtResource("buff_script")
+stat = 0
+value = 10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="buff_random_armor"]
+script = ExtResource("buff_script")
+stat = 4
+value = 10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="buff_random_evasion"]
+script = ExtResource("buff_script")
+stat = 3
+value = 10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="buff_random_accuracy"]
+script = ExtResource("buff_script")
+stat = 2
+value = 10
+duration = -1
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="form_aries_aries_aquarius_virgo"]
+script = ExtResource("formation_script")
+formation_name = "Овен-Овен-Водолей-Дева"
+pos1 = ExtResource("aries")
+pos2 = ExtResource("aries")
+pos3 = ExtResource("aquarius")
+pos4 = ExtResource("virgo")
+metadata/_custom_type_script = ExtResource("formation_script")
+
+[sub_resource type="Resource" id="battle_trial"]
+script = ExtResource("battle_script")
+formation = SubResource("form_aries_aries_aquarius_virgo")
+location_id = "stars"
+metadata/_custom_type_script = ExtResource("battle_script")
+
+[sub_resource type="Resource" id="out_leave"]
+script = ExtResource("outcome_script")
+result_text = "Раз созвездие на вас не реагирует можно скорее убраться, пока не началось очередное звездное испытание. Вы оставляете черную фигуру позади."
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_leave"]
+script = ExtResource("choice_script")
+choice_text = "Убраться от него подальше"
+outcome = SubResource("out_leave")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="effect_random_god_combat_buffs"]
+script = ExtResource("hero_buff_effect_script")
+target = 2
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_random_damage"), SubResource("buff_random_armor"), SubResource("buff_random_evasion"), SubResource("buff_random_accuracy")])
+duration = 0
+metadata/_custom_type_script = ExtResource("hero_buff_effect_script")
+
+[sub_resource type="Resource" id="out_stir_success"]
+script = ExtResource("outcome_script")
+result_text = "Один из богов подходит и берет созвездие за руку. Тот не реагирует, и продолжает идти. Вы идете рядом, держа его за руку. Немного неловко.
+
+Время словно тянется медленее пока вы идете замедлив шаг, в ритме созвездия, когда бог чувствует как что-то касается руки. Белая змея переползает по черной руке созвездия, и трется головой о божественную руку. Вы слышите голос в голове, похожий на далекий гул ветра в пещере.
+“Одиноко… Забыт…”
+Голова наполняется картинами, знанием, пониманием. Временами когда ты был. Когда о тебе помнили, ты был значим. И главное - у тебя был смысл. Наполняющая идея. Но теперь ее нет. Нет идеи. Теперь ты никто. И ты увядаешь. С каждым днем все меньше. Себя.
+Вы продолжаете идти в том же темпе. В тишине и одиночестве. Вы как можете стараетесь направить мысль через змею в созвездие. “Одиночество - тоже идея”. Созвездие останавливается. Вы тоже останавливаетесь.
+“Одиночество есть отсутствие всего - это не идея”. Его мысли внезапно стали гораздо четче.
+“Одиночество - это изоляция своего я. Наедине с собой открывается новое знание, и можно понять себя.”
+“Но я забыт…”
+“Но ты сам себя помнишь.”
+“Но если так…”
+Вы видите как на черной стеклянной коже созвездия одна за другой распускаются белые точки звезд. Пустота покрывается содержанием, ничто становится чем-то. Вы наблюдаете за россыпью звездной пыли. И наконец Появляются два белых глаза. Змея становится четкой, вы видите отдельные белые чешуйки. Она все еще соединена с рукой бога. Вы слышите голос.
+“Ну что, теперь испытание?”
+Бог мгновенно отрывает змею от руки и отскакивает к союзникам. Белые глаза созвездия сужаются, и он приподнимает голову словно смеется, после чего бредет в ту сторону откуда вы пришли. Вы же возобновляете путь, подивившись чудаку. Только на руке того кто общался со змееносцем теперь две белые точки."
+effects = Array[ExtResource("mission_effect_script")]([SubResource("effect_random_god_combat_buffs")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="out_stir_failure"]
+script = ExtResource("outcome_script")
+result_text = "Один из богов подходит и берет созвездие за руку. Тот не реагирует, и продолжает идти. Вы идете рядом, держа его за руку. Немного неловко.
+
+Время словно тянется медленнее пока вы идете замедлив шаг, в ритме созвездия, когда бог чувствует как что-то касается руки. Белая змея переползает по черной руке созвездия, и трется головой о божественную руку. Вы слышите голос в голове, похожий на далекий гул ветра в пещере.
+“Одиноко… Забыт…”
+Голова наполняется картинами, знанием, пониманием. Временами когда ты был. Когда о тебе помнили, ты был значим. И главное - у тебя был смысл. Наполняющая идея. Но теперь ее нет. Нет идеи. Теперь ты никто. И ты увядаешь. С каждым днем все меньше. Себя.
+Четыре белые линии прорезают небо и летят прямо в сторону черного силуэта. Бог отдергивает руку и отскакивает. Четыре созвездия в боевых позах встают вокруг змееносца и смотрят на вас. Словно животные защищающие слабое потомство. Вы пытаетесь разойтись миром, но не похоже что они намерены вас отпускать."
+battle = SubResource("battle_trial")
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_stir"]
+script = ExtResource("choice_script")
+choice_text = "Попытаться расшевелить созвездие"
+stat_check = SubResource("check_luck")
+success_outcome = SubResource("out_stir_success")
+failure_outcome = SubResource("out_stir_failure")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[sub_resource type="Resource" id="buff_team_evasion"]
+script = ExtResource("buff_script")
+stat = 3
+value = 12
+duration = 2
+metadata/_custom_type_script = ExtResource("buff_script")
+
+[sub_resource type="Resource" id="effect_team_evasion"]
+script = ExtResource("hero_buff_effect_script")
+target = 0
+buffs = Array[ExtResource("buff_script")]([SubResource("buff_team_evasion")])
+duration = 0
+metadata/_custom_type_script = ExtResource("hero_buff_effect_script")
+
+[sub_resource type="Resource" id="out_follow"]
+script = ExtResource("outcome_script")
+result_text = "Вы идете по дороге из зеленого света, а вокруг раскинулся бескрайний космос. Черная фигура бредет впереди, не оборачиваясь. Вы держитесь на расстоянии и не пытаетесь привлечь ее внимание.
+Вокруг — только звезды и тишина. Шаги ложатся на светящуюся дорогу один за другим. Постепенно каждый из вас замолкает и погружается в себя. Космос кажется таким огромным, что собственные мысли теряются в нем, а одиночество становится почти осязаемым.
+Но среди этой пустоты вы начинаете яснее чувствовать самих себя. Нет чужих голосов, нет необходимости отвечать или отвлекаться — только вы и ваш следующий шаг. В тишине каждый находит опору внутри себя. Движения становятся увереннее, а внимание обостряется.
+Вы продолжаете путь по зеленому свету. Созвездие остается впереди, не замечая вас. Когда оно наконец скрывается вдали, вы еще некоторое время идете молча."
+effects = Array[ExtResource("mission_effect_script")]([SubResource("effect_team_evasion")])
+metadata/_custom_type_script = ExtResource("outcome_script")
+
+[sub_resource type="Resource" id="choice_follow"]
+script = ExtResource("choice_script")
+choice_text = "Просто молча следовать рядом"
+outcome = SubResource("out_follow")
+metadata/_custom_type_script = ExtResource("choice_script")
+
+[resource]
+script = ExtResource("scene_script")
+scene_title = "Одинокое созвездие"
+body_text = "Вы бредете себе по дороге из зеленого света, наслаждаясь красотой и тишиной, когда внезапно ваши инстинкты сигнализируют об опасности. Впереди фигура, белое на черном. Созвездие. Вы готовитесь к бою и медленно приближаетесь к фигуре. Но он бредет от вас, не обращая внимания. Черный человек с чем-то белым обернутым вокруг шеи вместо шарфа. Вы приближаетесь ближе.
+
+Обычно силуэты созвездий покрыты россыпью звезд. Но его тело полностью черное, нет даже глаз. Белый “шарф” имеет размытые очертания, вы едва узнаете в нем змею. Он не реагирует на вас. Просто неторопливо переставляет одну ногу вперед другой."
+choices = Array[ExtResource("choice_script")]([SubResource("choice_leave"), SubResource("choice_stir"), SubResource("choice_follow")])
+metadata/_custom_type_script = ExtResource("scene_script")

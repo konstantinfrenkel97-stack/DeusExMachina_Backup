@@ -39,8 +39,8 @@ func _location_helheim():
 		_scene._hud._swap_background("")
 
 	# Йотун: удваивает шанс тумана, пока жив хотя бы 1 йотун
-	if CombatManager.pending_helheim_skip_fog_rounds > 0:
-		CombatManager.pending_helheim_skip_fog_rounds -= 1
+	if CombatManager.pending_location_immunities.has("helheim_fog"):
+		CombatManager.pending_location_immunities.erase("helheim_fog")  # снимает только 1 заряд
 		_scene._log_combat("[" + "Хельхейм" + "] " + "Туман не появляется в этот раунд.")
 		return
 
@@ -291,6 +291,9 @@ func _apply_depths_effect_on_unit(target: Combatant, raw_dmg: int, heal: int) ->
 func _location_island():
 	if CombatManager.selected_location_id != "island":
 		return
+	if _scene.island_immune_this_battle:
+		_scene._log_combat("🏝 [Остров] Отряд собран и не поддаётся неге островов в этот раз.")
+		return
 	for hero in _scene.heroes_team:
 		if hero and hero.current_hp > 0 and hero.initiative > 0:
 			hero.initiative = maxi(hero.initiative - 1, 0)
@@ -402,12 +405,12 @@ func _location_swamp():
 				if _vd_u and _vd_u.current_hp > 0 and _vd_u.special_effect_type == "vodyanoy_location_stun":
 					_vd_caster = _vd_u
 					break
-			first_hero.is_stunned = true
 			var _vd_stun_duration = _scene._abilities._compute_effect_duration(_vd_caster, first_hero, 1, true)
-			first_hero.active_effects.append({"stat": "stun", "value": 1, "duration": _vd_stun_duration, "source_ability": "Болотное царство (Водяной)"})
-			first_hero.check_stance_interruption("stun")
-			_scene._passives._notify_stun_applied(first_hero)
-			_scene._log_combat("🌿 [Водяной] %s: 3 хода подряд под эффектом Топи — оглушён!" % first_hero.unit_name)
+			if first_hero.apply_stun(_vd_stun_duration, "Болотное царство (Водяной)"):
+				_scene._passives._notify_stun_applied(first_hero)
+				_scene._log_combat("🌿 [Водяной] %s: 3 хода подряд под эффектом Топи — оглушён!" % first_hero.unit_name)
+			else:
+				_scene._log_combat("🌿 [Водяной] " + first_hero.stun_resisted_text())
 		_scene._swamp_consecutive_rounds = 0
 
 ## Возвращает value эффекта с данным effect_id на юните (0, если такого эффекта нет).

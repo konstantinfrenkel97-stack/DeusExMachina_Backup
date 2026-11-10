@@ -17,13 +17,20 @@ var pending_mission_hero_majesty_delta: int = 0
 var pending_mission_hero_buffs: Array = []
 var pending_mission_enemy_buffs: Array = []
 var pending_mission_target_effects: Array = []
-var pending_helheim_skip_fog_rounds: int = 0
-# Отряд получает иммунитет к урону локации "Пустыня" в следующем бою целиком
-# (см. MissionOutcome.grant_desert_immunity_next_battle).
-var pending_desert_immunity: bool = false
-# Отряд героев не получает эффект локации "Ад" в следующем бою целиком
-# (см. MissionOutcome.grant_hell_immunity_next_battle).
-var pending_hell_immunity: bool = false
+# Единая очередь иммунитетов локаций, выданных в миссии и ожидающих применения. Теги:
+# "desert"/"hell"/"island" — отряд не получает эффект соответствующей локации в СЛЕДУЮЩЕМ
+# бою целиком, независимо от того, в какой локации этот бой на самом деле произойдёт (как
+# и раньше с pending_desert_immunity/pending_hell_immunity/pending_island_immunity) —
+# расходуются (и очищаются из этого массива) при старте следующего боя, см.
+# Battle/battle_start.gd::_apply_pending_mission_modifiers(). "helheim_fog" — пропуск одного
+# туманного раунда Хельхейма; в отличие от трёх тегов выше НЕ расходуется при старте боя —
+# переживает бои не в Хельхейме и расходуется по одному заряду за туманный раунд (см.
+# battle_locations.gd::_location_helheim()); несколько зарядов копятся как несколько записей
+# тега в массиве. Источник: MissionOutcome.skip_helheim_fog_first_round/
+# grant_desert_immunity_next_battle/grant_hell_immunity_next_battle/
+# grant_island_immunity_next_battle (legacy, сохранены для старых сцен) и
+# Reward.Kind.LOCATION_IMMUNITY (новый, единообразный способ — см. Missions/reward.gd).
+var pending_location_immunities: Array[String] = []
 # Постоянный (до конца МИССИИ, применяется в каждом бою) бонус к восстановлению фантазии
 # в начале раунда — напр. MissionOutcome.mission_fantasy_regen_per_turn_bonus. Складывается
 # с обычной регенерацией от предметов (см. battle_scene.gd).
@@ -76,9 +83,7 @@ func reset_mission():
 	pending_mission_hero_buffs = []
 	pending_mission_enemy_buffs = []
 	pending_mission_target_effects = []
-	pending_helheim_skip_fog_rounds = 0
-	pending_desert_immunity = false
-	pending_hell_immunity = false
+	pending_location_immunities = []
 	mission_fantasy_regen_per_turn = 0
 	pending_zero_hero_majesty_after_battle = false
 	pending_restore_hero_hp_after_battle = false
@@ -113,9 +118,7 @@ func clear_selection():
 	pending_mission_hero_buffs = []
 	pending_mission_enemy_buffs = []
 	pending_mission_target_effects = []
-	pending_helheim_skip_fog_rounds = 0
-	pending_desert_immunity = false
-	pending_hell_immunity = false
+	pending_location_immunities = []
 	mission_fantasy_regen_per_turn = 0
 	pending_zero_hero_majesty_after_battle = false
 	pending_restore_hero_hp_after_battle = false

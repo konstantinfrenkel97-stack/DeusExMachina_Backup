@@ -54,6 +54,18 @@ var god_creation_hint_shown: bool = false
 ## остаются заблокированы (клик всё ещё не ведёт на экран дверей) до тех пор,
 ## пока какой-то бог реально не откроет дверь — см. opened_locations.
 var ask_a_god_hint_shown: bool = false
+## Обучение забвению (см. CampaignStory._check_forgetting_tutorial()):
+## 0 — ещё не было; 1 — какой-то бог впервые набрал полный уровень забвения, ждём
+## экрана кампании; 2 — диалог показан, всё кроме Колодца памяти заблокировано;
+## 3 — пройдено (игрок снял забвение в колодце). forgetting_tutorial_god_path — бог,
+## на котором оно сработало (его колодец выбирает сразу).
+const FORGETTING_TUTORIAL_NONE := 0
+const FORGETTING_TUTORIAL_PENDING := 1
+const FORGETTING_TUTORIAL_ACTIVE := 2
+const FORGETTING_TUTORIAL_DONE := 3
+const FORGETTING_TUTORIAL_THOUGHTS := 500
+var forgetting_tutorial_stage: int = FORGETTING_TUTORIAL_NONE
+var forgetting_tutorial_god_path: String = ""
 ## Кнопка "Отключить обучение" на любой подсказке — полностью выключает всю
 ## обучающую систему (см. TutorialHint.present()). Это глобальная настройка игрока
 ## (GameSettings.tutorial_hints_enabled, переключается и в «Настройках»), поэтому здесь
@@ -147,6 +159,25 @@ const LOCATION_TO_MISSION_2 := {
 	"Джунгли": "res://Missions/Jungle/jungle_mission_2.tres",
 }
 
+## Сколько миссий у каждой локации (линейка кнопок внизу экрана выбора миссии,
+## Doors/mission_choice_screen.gd): четыре обычных + пятая — бой с немезидом.
+const LOCATION_MISSION_COUNT := 5
+
+## Пути всех миссий локации по порядку: приветственная, вторая, третья и четвёртая
+## (по образцу второй: <…>_3.tres / <…>_4.tres) и бой с немезидом (<…>_nemesis.tres).
+## Миссий, которых ещё нет в проекте, путь всё равно возвращается — их создают под этим
+## именем; существование проверяет вызывающий (ResourceLoader.exists).
+func location_mission_paths(location: String) -> Array[String]:
+	var out: Array[String] = []
+	var welcome: String = str(LOCATION_TO_WELCOME_MISSION.get(location, ""))
+	var second: String = str(LOCATION_TO_MISSION_2.get(location, ""))
+	out.append(welcome)
+	out.append(second)
+	var base := second.trim_suffix("2.tres") if second.ends_with("2.tres") else ""
+	for suffix in ["3.tres", "4.tres", "nemesis.tres"]:
+		out.append(base + suffix if base != "" else "")
+	return out
+
 # ════════════════════════════════════════════════════════════
 #  Немезиды локаций
 # ════════════════════════════════════════════════════════════
@@ -226,6 +257,30 @@ func add_permanent_god_max_hp_bonus(god_path: String, amount: int) -> void:
 	if clean_path == "" or amount == 0:
 		return
 	permanent_god_max_hp_bonus[clean_path] = int(permanent_god_max_hp_bonus.get(clean_path, 0)) + amount
+
+## Постоянные (на весь остаток игры) баффы произвольного стата конкретному богу по его
+## resource_path — напр. {"res://Gods/Zeus/Zeus.tres": [BuffEntry(DAMAGE,+5,-1), ...]}.
+## В отличие от permanent_god_crit_bonus/permanent_god_max_hp_bonus выше (которые умеют
+## только крит и макс. HP и встроены прямо в combatant.gd::_init), это ОБЩИЙ канал для
+## любого BuffEntry.Stat — применяется в КАЖДОМ бою этого бога через тот же механизм
+## баффов миссии, что и mission_target_buffs (см. Battle/battle_start.gd
+## ::_apply_pending_mission_party_effects), только навсегда и не в CombatManager, а здесь,
+## в сохраняемом состоянии кампании. Источник: HeroBuffEffect с duration=PERMANENT
+## (см. Missions/Effects/hero_buff_effect.gd). Сохраняется/загружается через SaveSystem
+## как обычные словари (BuffEntry — Resource, напрямую в JSON не кладём, см. save_system.gd).
+var permanent_god_buffs: Dictionary = {}
+
+## Добавляет постоянные баффы конкретному богу (копится списком — повторная награда не
+## заменяет старые баффы, а добавляет новые к уже имеющимся).
+func add_permanent_god_buffs(god_path: String, buffs: Array) -> void:
+	var clean_path: String = god_path.strip_edges()
+	if clean_path == "" or buffs.is_empty():
+		return
+	var list: Array = permanent_god_buffs.get(clean_path, [])
+	for buff in buffs:
+		if buff != null:
+			list.append(buff)
+	permanent_god_buffs[clean_path] = list
 
 ## Постоянные сюжетные флаги кампании (в отличие от mission_flags не сбрасываются в конце
 ## миссии): имя флага -> true. Выставляются через MissionOutcome.set_story_flag, читаются
@@ -326,16 +381,20 @@ func add_pending_nemesis_buff(location_id: String, god_path: String, majesty_del
 ##  - "voodoo_curse_random_except_nemesis": случайный живой враг (не немезид) получает метку
 ##    «Кукла вуду» на 1 ход (см. battle_marks.gd::apply_voodoo_mark). Если в очереди несколько
 ##    таких записей для одного боя, каждая выбирает СВОЮ, ещё не выбранную цель.
+##  - "nemesis_stat": сам немезид получает бафф характеристики (поля "stat"/"duration" —
+##    как в BuffEntry, value — величина; отрицательная = дебафф).
 var pending_nemesis_enemy_effects: Array = []
 
-func add_pending_nemesis_enemy_effect(location_id: String, kind: String, value: float = 0.0) -> void:
+func add_pending_nemesis_enemy_effect(location_id: String, kind: String, value: float = 0.0, extra: Dictionary = {}) -> void:
 	if location_id.strip_edges() == "" or kind == "":
 		return
-	pending_nemesis_enemy_effects.append({
+	var entry := {
 		"location_id": location_id.strip_edges(),
 		"kind": kind,
 		"value": value,
-	})
+	}
+	entry.merge(extra)
+	pending_nemesis_enemy_effects.append(entry)
 
 func open_location(location: String) -> void:
 	var clean := location.strip_edges()
@@ -520,6 +579,8 @@ func reset_all() -> void:
 	room_hints_shown = false
 	god_creation_hint_shown = false
 	ask_a_god_hint_shown = false
+	forgetting_tutorial_stage = FORGETTING_TUTORIAL_NONE
+	forgetting_tutorial_god_path = ""
 	visited_locations.clear()
 	opened_locations.clear()
 	read_dialogue_choices.clear()
@@ -530,7 +591,11 @@ func reset_all() -> void:
 	permanent_enemy_accuracy_debuffs.clear()
 	permanent_god_crit_bonus.clear()
 	permanent_god_max_hp_bonus.clear()
+	permanent_god_buffs.clear()
 	story_flags.clear()
+	defeated_nemeses.clear()
+	pending_nemesis_buffs.clear()
+	pending_nemesis_enemy_effects.clear()
 	roster_changed.emit()
 
 func clear_god_state_overrides() -> void:
@@ -583,6 +648,8 @@ func get_god_max_hp(path: String) -> int:
 	for item in [resource.equipped_weapon, resource.equipped_armor, resource.equipped_trinket]:
 		if item != null:
 			max_value += item.bonus_max_hp
+	# Постоянный сюжетный бонус — тоже как в Combatant._init().
+	max_value += int(permanent_god_max_hp_bonus.get(path.strip_edges(), 0))
 	return maxi(1, max_value)
 
 func get_god_current_hp(path: String) -> int:
@@ -718,7 +785,7 @@ func get_god_ability_upgrade_error(path: String, ability_path: String, essence_p
 	if upgraded.size() >= get_god_upgrade_slots(path):
 		return "Нет свободного улучшения на текущем уровне"
 	if _is_ultimate_ability(resource, ability_path) and get_god_level(path) < ULTIMATE_UPGRADE_LEVEL:
-		return "Ультимативную способность можно улучшить только на 6 уровне"
+		return "Ультимативную способность можно улучшить только на 6-м уровне"
 	var allowed_essences := get_god_upgrade_essence_paths(path)
 	if allowed_essences.is_empty():
 		return "Не заданы эссенции для улучшения этого бога"
@@ -764,11 +831,16 @@ func apply_god_state(resource: CharacterResource, path_override: String = "") ->
 	_apply_equipment_to_resource(resource, state)
 	return resource
 
+const SOURCE_PATH_META := &"source_path"
+
 func load_character_resource(path: String) -> CharacterResource:
 	var loaded := load(path) as CharacterResource
 	if loaded == null:
 		return null
 	var resource := loaded.duplicate(true) as CharacterResource
+	# У дубликата resource_path пуст — запоминаем исходный путь, чтобы Combatant._init()
+	# уже при создании нашёл постоянные сюжетные бонусы бога (permanent_god_*).
+	resource.set_meta(SOURCE_PATH_META, path)
 	return apply_god_state(resource, path)
 
 ## Есть ли у бога экипированный предмет с данным ItemResource.effect (см.
@@ -853,6 +925,10 @@ func add_god_forgetting(path: String, amount: float) -> Dictionary:
 		_to_string_array(state.get("upgraded_abilities", [])),
 		_to_string_array(state.get("creation_essence_paths", []))
 	)
+	# Первый полный уровень забвения у кого-либо из богов запускает обучение колодцу.
+	if amount > 0.0 and forgetting_tutorial_stage == FORGETTING_TUTORIAL_NONE and resource.forgetting_level >= 1.0 and not resource.is_dead:
+		forgetting_tutorial_stage = FORGETTING_TUTORIAL_PENDING
+		forgetting_tutorial_god_path = path
 	return get_god_state(path)
 
 func collect_god_states(paths: Array[String]) -> Dictionary:

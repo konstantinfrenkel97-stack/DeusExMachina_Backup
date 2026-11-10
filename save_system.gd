@@ -12,7 +12,7 @@ extends Node
 
 const SAVE_DIR := "user://saves/"
 const SAVE_EXTENSION := ".json"
-const SAVE_VERSION := 3
+const SAVE_VERSION := 4
 
 
 # ════════════════════════════════════════════════════════════
@@ -111,6 +111,8 @@ func _collect_state() -> Dictionary:
 		"room_hints_shown": CampaignState.room_hints_shown,
 		"god_creation_hint_shown": CampaignState.god_creation_hint_shown,
 		"ask_a_god_hint_shown": CampaignState.ask_a_god_hint_shown,
+		"forgetting_tutorial_stage": CampaignState.forgetting_tutorial_stage,
+		"forgetting_tutorial_god_path": CampaignState.forgetting_tutorial_god_path,
 		"visited_locations": CampaignState.visited_locations.duplicate(),
 		"defeated_nemeses": CampaignState.defeated_nemeses.duplicate(),
 		"pending_nemesis_buffs": CampaignState.pending_nemesis_buffs.duplicate(true),
@@ -120,6 +122,7 @@ func _collect_state() -> Dictionary:
 		"permanent_enemy_accuracy_debuffs": CampaignState.permanent_enemy_accuracy_debuffs.duplicate(),
 		"permanent_god_crit_bonus": CampaignState.permanent_god_crit_bonus.duplicate(),
 		"permanent_god_max_hp_bonus": CampaignState.permanent_god_max_hp_bonus.duplicate(),
+		"permanent_god_buffs": _serialize_permanent_god_buffs(CampaignState.permanent_god_buffs),
 		"story_flags": CampaignState.story_flags.duplicate(),
 		"read_dialogue_choices": CampaignState.read_dialogue_choices.duplicate(),
 	}
@@ -167,6 +170,8 @@ func _apply_state(data: Dictionary) -> void:
 	CampaignState.room_hints_shown = bool(campaign.get("room_hints_shown", false))
 	CampaignState.god_creation_hint_shown = bool(campaign.get("god_creation_hint_shown", false))
 	CampaignState.ask_a_god_hint_shown = bool(campaign.get("ask_a_god_hint_shown", false))
+	CampaignState.forgetting_tutorial_stage = int(campaign.get("forgetting_tutorial_stage", CampaignState.FORGETTING_TUTORIAL_NONE))
+	CampaignState.forgetting_tutorial_god_path = str(campaign.get("forgetting_tutorial_god_path", ""))
 	CampaignState.visited_locations = _to_string_array(campaign.get("visited_locations", []))
 	CampaignState.defeated_nemeses = _to_string_array(campaign.get("defeated_nemeses", []))
 	var loaded_nemesis_buffs: Variant = campaign.get("pending_nemesis_buffs", [])
@@ -182,6 +187,7 @@ func _apply_state(data: Dictionary) -> void:
 	CampaignState.permanent_god_crit_bonus = (loaded_god_crit_bonus as Dictionary) if loaded_god_crit_bonus is Dictionary else {}
 	var loaded_god_max_hp_bonus: Variant = campaign.get("permanent_god_max_hp_bonus", {})
 	CampaignState.permanent_god_max_hp_bonus = (loaded_god_max_hp_bonus as Dictionary) if loaded_god_max_hp_bonus is Dictionary else {}
+	CampaignState.permanent_god_buffs = _deserialize_permanent_god_buffs(campaign.get("permanent_god_buffs", {}))
 	var loaded_story_flags: Variant = campaign.get("story_flags", {})
 	CampaignState.story_flags = (loaded_story_flags as Dictionary) if loaded_story_flags is Dictionary else {}
 	var loaded_read_dialogue_choices: Variant = campaign.get("read_dialogue_choices", {})
@@ -249,6 +255,50 @@ func _sanitize_slot_name(slot_name: String) -> String:
 	return safe
 
 
+## CampaignState.permanent_god_buffs — Dictionary[path, Array[BuffEntry]]. BuffEntry — это
+## Resource (со скриптом), JSON.stringify не умеет такое сериализовать осмысленно, поэтому
+## каждый BuffEntry превращается в простой словарь его экспортируемых полей.
+func _serialize_permanent_god_buffs(source: Dictionary) -> Dictionary:
+	var result := {}
+	for god_path in source.keys():
+		var buffs_out: Array = []
+		var buffs_in: Variant = source[god_path]
+		if buffs_in is Array:
+			for buff in buffs_in:
+				if buff is BuffEntry:
+					buffs_out.append({
+						"stat": int(buff.stat),
+						"value": int(buff.value),
+						"duration": int(buff.duration),
+						"percent_of_max_hp": bool(buff.percent_of_max_hp),
+					})
+		result[str(god_path)] = buffs_out
+	return result
+
+
+## Обратное действие к _serialize_permanent_god_buffs — восстанавливает BuffEntry-ресурсы
+## из простых словарей, прочитанных из JSON.
+func _deserialize_permanent_god_buffs(source: Variant) -> Dictionary:
+	var result := {}
+	if not (source is Dictionary):
+		return result
+	for god_path in (source as Dictionary).keys():
+		var buffs_out: Array = []
+		var buffs_in: Variant = source[god_path]
+		if buffs_in is Array:
+			for entry_value in buffs_in:
+				if entry_value is Dictionary:
+					var entry: Dictionary = entry_value
+					var buff := BuffEntry.new()
+					buff.stat = int(entry.get("stat", 0)) as BuffEntry.Stat
+					buff.value = int(entry.get("value", 0))
+					buff.duration = int(entry.get("duration", -1))
+					buff.percent_of_max_hp = bool(entry.get("percent_of_max_hp", false))
+					buffs_out.append(buff)
+		result[str(god_path)] = buffs_out
+	return result
+
+
 ## Преобразует массив (из JSON) в типизированный Array[String].
 func _to_string_array(arr: Variant) -> Array[String]:
 	var result: Array[String] = []
@@ -274,4 +324,10 @@ func _migrate_save_data(data: Variant) -> Variant:
 		normalized["campaign"] = campaign
 	if version < 3:
 		normalized["version"] = 3
+	if version < 4:
+		normalized["version"] = 4
+		var campaign4: Dictionary = normalized.get("campaign", {})
+		if not campaign4.has("permanent_god_buffs"):
+			campaign4["permanent_god_buffs"] = {}
+		normalized["campaign"] = campaign4
 	return normalized
