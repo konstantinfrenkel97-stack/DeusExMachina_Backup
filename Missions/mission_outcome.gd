@@ -21,6 +21,16 @@ class_name MissionOutcome
 # Награды: Array[Reward].
 @export var rewards: Array[Reward] = []
 
+# ─── Новая структурированная система эффектов (см. Missions/Effects/mission_effect.gd) ──
+# Список самостоятельных под-ресурсов-эффектов (HeroBuffEffect, HeroHpDeltaEffect,
+# HeroMajestyDeltaEffect, ...), каждый сам знает, как себя применить. Используйте для НОВЫХ
+# сцен вместо связок team_*/target_*/random_hero_* полей ниже — то же действие, но "кому"
+# и "насколько долго" выбираются настройками одного эффекта, а не именем поля.
+# Применяются ПОСЛЕ всех legacy-полей этого MissionOutcome (см. mission_scene.gd::_apply_effects()).
+# Не всё ещё перенесено сюда — см. Missions/Effects/README.md, что покрыто, а что
+# сознательно осталось ниже как legacy-поле.
+@export var effects: Array[MissionEffect] = []
+
 @export_group("Mission Effects")
 # Если не пусто — при разрешении этого итога выставляется флаг миссии (см.
 # MissionState.mission_flags / MissionChoice.flag_outcomes). Флаги сбрасываются
@@ -34,11 +44,14 @@ class_name MissionOutcome
 # В следующем бою заклинание «Ром» (Spells/rum.tres) бьёт не только выбранную цель,
 # но и всю её команду (союзников или врагов — смотря кого выбрал игрок при касте).
 @export var rum_spell_whole_team_next_battle: bool = false
-# Баффы одному случайному живому богу отряда миссии, до конца миссии (в каждом бою).
+# Баффы одному случайному живому богу отряда миссии. По умолчанию — одноразово, в
+# следующем бою (как hero_buffs/target_buffs). Если target_random_hero_buffs_until_mission_end
+# = true — держатся до конца миссии и применяются в каждом бою (как было раньше).
 # Если target_random_hero_preferred_god задан и он есть в отряде — выбирается именно он
-# вместо случайного бога.
+# вместо случайного бога (цель при этом всё равно считается "случайной" для игрока/текста).
 @export var target_random_hero_buffs: Array[BuffEntry] = []
 @export var target_random_hero_preferred_god: CharacterResource
+@export var target_random_hero_buffs_until_mission_end: bool = false
 # Одноразовое изменение HP одного случайного живого бога в миссии, в процентах от max HP.
 @export var random_hero_hp_percent_delta: int = 0
 # Одноразовое немедленное изменение HP ВСЕХ живых богов миссии, в процентах от max HP
@@ -83,6 +96,10 @@ class_name MissionOutcome
 # теряют величие, игрок не теряет фантазию) на СЛЕДУЮЩИЙ БОЙ целиком (см.
 # battle_locations.gd::_location_hell()).
 @export var grant_hell_immunity_next_battle: bool = false
+# Если true — весь отряд миссии получает иммунитет к эффекту локации "Острова" (герои не
+# теряют инициативу каждый раунд) на СЛЕДУЮЩИЙ БОЙ целиком (см.
+# battle_locations.gd::_location_island()).
+@export var grant_island_immunity_next_battle: bool = false
 # Постоянный (до конца МИССИИ, в каждом бою) бонус к восстановлению фантазии за ход —
 # напр. "Аид получает 2 восстановления фантазии до конца миссии" (см. CombatManager.
 # mission_fantasy_regen_per_turn). Фантазия — общий ресурс отряда, не привязан к
@@ -153,6 +170,9 @@ class_name MissionOutcome
 @export var nemesis_buff_god: CharacterResource
 @export var nemesis_buff_majesty: int = 0
 @export var nemesis_buff_stat: BuffEntry
+# Дополнительные баффы характеристик тем же целям, что и nemesis_buff_stat — когда
+# исход даёт сразу несколько (напр. "Один получает +5 точности и +5 брони").
+@export var nemesis_buff_extra_stats: Array[BuffEntry] = []
 @export var nemesis_buff_location_id: String = ""
 # Если true — nemesis_buff_majesty/nemesis_buff_stat применяются КАЖДОМУ живому герою
 # ТЕКУЩЕГО отряда миссии (на момент разрешения этого итога) по отдельности, а не
@@ -170,6 +190,8 @@ class_name MissionOutcome
 # Случайный живой враг (не немезид) получает метку «Кукла вуду» на 1 ход. Несколько таких
 # исходов, сработавших до одного и того же боя, каждый раз выбирают РАЗНУЮ цель.
 @export var nemesis_voodoo_curse_random: bool = false
+# Баффы/дебаффы самому немезиду на этот бой (напр. "Геракл теряет 10 брони").
+@export var nemesis_enemy_buffs: Array[BuffEntry] = []
 
 # Динамический выбор цели: применяется не к заранее заданному богу, а к тому, у кого на
 # момент разрешения этого исхода САМАЯ ВЫСОКАЯ броня в ТЕКУЩЕМ отряде миссии (с учётом
